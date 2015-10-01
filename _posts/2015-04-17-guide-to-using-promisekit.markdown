@@ -35,15 +35,16 @@ It's really flexible with promises.
 
 Pitfall: If returning **different types**, the return type must be explicitly `(^id)` (any type), not just `(^)` (no type).
 
-    myURLPromise.then(^id(NSURL *url){ 
-         if (url) {
-             return url; // Got my url, I'm done, return the value
-         }
-         else {
-             return myOtherURLPromise; // Not done, do some more work
-         }
-    }).then(^(NSURL *url){
-        // Do something with URL ...
-    });
-
+```objc
+myURLPromise.then(^id(NSURL *url){ 
+     if (url) {
+         return url; // Got my url, I'm done, return the value
+     }
+     else {
+         return myOtherURLPromise; // Not done, do some more work
+     }
+}).then(^(NSURL *url){
+    // Do something with URL ...
+});
+```
 
