@@ -5,8 +5,6 @@ gem 'github-pages'
 gem 'bourbon'
 gem 'jemoji'
 
-
- 
 group :jekyll_plugins do
 	gem 'octopress', '~> 3.0.11'
 	gem 'octopress-image-tag'
