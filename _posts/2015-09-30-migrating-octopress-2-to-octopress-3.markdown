@@ -7,7 +7,7 @@ categories: [Octopress]
 
 [Octopress 3.0 is coming](http://octopress.org/2015/01/15/octopress-3.0-is-coming/). It has been 9 months, but they have not officially released it yet.
 
-But you can actually use [Octopress 3.0](https://github.com/octopress/octopress).
+But you [can](https://www.justinrummel.com/migrating-from-octopress-2-to-octopress-3/) use [pre-released Octopress 3.0](https://github.com/octopress/octopress).
 
 <!-- more -->
 
@@ -70,3 +70,7 @@ That's about it for migration.
 
     # To create new post
     octopress new post "Awesome Tittle"
+
+
+## Themes
+
