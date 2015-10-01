@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Create Async Test with GHUnit</title>
+  <meta name="description" content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff. " />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Create Async Test with GHUnit" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff. " />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Create Async Test with GHUnit"/>
+  
+  <meta property="og:description" content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff. " />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2012/11/25/create-async-test-with-ghunit/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2012-11-25T01:44:00+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2012/11/25/create-async-test-with-ghunit/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Create Async Test with GHUnit</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2012-11-25T01:44:00+08:00">25 Nov 2012</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>One of the <a href="/2012/10/03/sentestingkit-does-not-support-wait-for-blocks">greatest</a> feature with GHUnit is that it supports unit tests that perform asynchronous stuff. </p>
+
+<p>The <a href="http://gabriel.github.com/gh-unit/docs/appledoc_include/guide_testing.html">ExampleAsyncTest</a> from GHUnit documentation provides a glimpse of what you need to do. However, it still lacks warning you on the <a href="http://stackoverflow.com/questions/7613761/why-does-a-false-assertion-in-async-test-in-ghunit-crash-the-app-instead-of-just">common pitfalls</a>.</p>
+
+<p>This is step by step of how you can use GHUnit async test:</p>
+
+<!-- more -->
+
+<h2>Subclass GHAsyncTestCase instead</h2>
+
+<p>Change the interface class to use <code>GHAsyncTestCase</code>.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@interface</span> <span class="nc">ExampleAsyncTest</span> : <span class="nc">GHAsyncTestCase</span> <span class="p">&#x7b;</span> <span class="p">&#x7d;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">@end</span></div></div></pre></div></figure>
+
+<h2>Prepare and wait</h2>
+
+<p>Setup the test method with the asynchronous/block call like this:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testAsync</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Prepare asynchronous action</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span> <span class="n">prepare</span><span class="p">];</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// The method call with block</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">static</span> <span class="bp">NSArray</span> <span class="o">*</span><span class="n">_objects</span><span class="p">;</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">Query</span> <span class="nl">findObjectsInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="n">objects</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// IMPORTANT: Do not call any assert here</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// If you want, do it after waitForStatus</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// GHAssertEquals(...) will crash!</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Instead, we assign to a static var for testing later</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">_objects</span> <span class="o">=</span> <span class="n">objects</span><span class="p">;</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Notify that block method has completed</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">notify</span><span class="p">:</span><span class="n">kGHUnitWaitStatusSuccess</span> <span class="nl">forSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">testObjectRelationships</span><span class="p">)];</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;];</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Wait for block to finish, or timeout</span>
+</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">waitForStatus</span><span class="p">:</span><span class="n">kGHUnitWaitStatusSuccess</span> <span class="nl">timeout</span><span class="p">:</span><span class="mf">10.0</span><span class="p">];</span>
+</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Do asserts here instead</span>
+</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">GHAssertEquals</span><span class="p">(</span><span class="mi">99U</span><span class="p">,</span> <span class="p">[</span><span class="n">_objects</span> <span class="n">count</span><span class="p">],</span> <span class="nb">nil</span><span class="p">);</span>
+</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<h2>Pitfall: Assert in block</h2>
+
+<p>It is <a href="http://stackoverflow.com/questions/7613761/why-does-a-false-assertion-in-async-test-in-ghunit-crash-the-app-instead-of-just">common</a> that you assert within the block. </p>
+
+<p>But that will just give the following exception when the test fails.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Terminating app due to uncaught exception &#39;GHTestFailureException&#39;, reason: ...
+</code></pre></div>
+<p>To make it work, you don&#39;t call any asserts within the block.</p>
+
+<p>Leave it until <code>waitForStatus</code> is unblocked.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Create+Async+Test+with+GHUnit&amp;url=http://samwize.com/2012/11/25/create-async-test-with-ghunit"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Create+Async+Test+with+GHUnit&amp;u=http://samwize.com/2012/11/25/create-async-test-with-ghunit"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

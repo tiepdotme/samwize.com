@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>A short Scala tutorial for Java Developers</title>
+  <meta name="description" content="This post is a tutorial guide for Java programmers who want to learn Scala. " />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="A short Scala tutorial for Java Developers" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="This post is a tutorial guide for Java programmers who want to learn Scala. " />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="A short Scala tutorial for Java Developers"/>
+  
+  <meta property="og:description" content="This post is a tutorial guide for Java programmers who want to learn Scala. " />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2012-10-07T21:10:00+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">A short Scala tutorial for Java Developers</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2012-10-07T21:10:00+08:00">07 Oct 2012</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>This post is a tutorial guide for Java programmers who want to learn <a href="http://www.scala-lang.org/">Scala</a>. </p>
+
+<p>I myself have programmed in Java for many years, yet jumping straight into Scala has made me clueless, and so I started to read some <a href="http://www.artima.com/scalazine/articles/steps.html">baby steps</a> to learn the new language.</p>
+
+<p>The following post is what I have learnt. </p>
+
+<!-- more -->
+
+<h2>Methods Declaration</h2>
+
+<p>We use an example of a max function to illustrate the different ways to declare a method.</p>
+
+<p>You do it like this, in a single line.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span></div></div></pre></div></figure>
+
+<p>Or, you can skip the return type (Int in this case) and let the compiler infer.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span></div></div></pre></div></figure>
+
+<p>If the method is more than a single line, you can wrap with curly braces.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">&#x7b;</span> 
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// More lines of code ..</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span> 
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<p>You might have already notice. The <code>return</code> keyword is actually optional in Scala.  If omitted, the last expression is the value that will be returned.</p>
+
+<p>To be verbose, you can specify the return type with the <code>return</code> keyword.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">&#x7b;</span> 
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span> 
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<h2>Method with 0 parameter is Special</h2>
+
+<p>If you have the following method</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="s">&quot;foo!&quot;</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>You may call it in 2 ways</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">foo</span><span class="o">()</span></div></div></pre></div></figure>
+
+<p>Or simply</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">foo</span></div></div></pre></div></figure>
+
+<p>However, there is a guideline when to use which style. If there is a side effect, you should use the parenthesis. In other words, a getter method can skip the parenthesis.</p>
+
+<h2>Method with 1 parameter is Special</h2>
+
+<p>Int has a method <code>to</code> that takes 1 parameter of Int to return a sequence.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mf">0.</span><span class="n">to</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>You can drop the . and ( ) and simplify to </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">0</span> <span class="n">to</span> <span class="mi">10</span></div></div></pre></div></figure>
+
+<p>This alone makes the Scala language beautiful in many ways.</p>
+
+<h2>Method names can contain .+*/</h2>
+
+<p>Surprisingly, Scala doesn&#39;t have operators, and therefore no operator overloading. </p>
+
+<p>But it can have a method name &#39;+&#39;. So an expression <code>1 + 2</code> is actually</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mf">1.</span><span class="o">+(</span><span class="mi">2</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>But since <em>Method with 1 parameter is Special</em> (read above), 1.+(2) can be simplified to </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span></div></div></pre></div></figure>
+
+<h2>val and var declarations</h2>
+
+<p>To declare a variable, </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="n">foo</span> <span class="k">=</span> <span class="mi">1</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">foo</span> <span class="k">=</span> <span class="mi">2</span></div></div></pre></div></figure>
+
+<p>To declare a value, which does not allow you to change/reassign,</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">val</span> <span class="n">foo</span> <span class="k">=</span> <span class="mi">1</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// foo = 2 is not possible</span></div></div></pre></div></figure>
+
+<p>Also, a semi-colon at the end of a line is optional.</p>
+
+<h2>Class constructor</h2>
+
+<p>The constructor is the class declaration itself, and any constructor parameters can be used in other methods</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// foo() uses color</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">color</span><span class="o">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="c1">// Usage</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Color</span><span class="o">(</span><span class="s">&quot;Blue&quot;</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">c</span><span class="o">.</span><span class="n">foo</span></div></div></pre></div></figure>
+
+<p>If you need to have some code in the constructor, you could write it right in the class body, right after the declaration.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="k">if</span> <span class="o">(</span><span class="n">color</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">throw</span> <span class="k">new</span> <span class="nc">NullPointerException</span><span class="o">(</span><span class="s">&quot;Color is null&quot;</span><span class="o">)</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">index</span> <span class="k">=</span> <span class="mi">0</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">color</span><span class="o">)</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<p>If you have multiple constructors, you can add them with <code>this</code> method. </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="k">def</span> <span class="k">this</span><span class="o">(</span><span class="n">color</span><span class="k">:</span><span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="k">this</span><span class="o">(</span><span class="n">color</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">color</span><span class="o">)</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="c1">// Usage</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Color</span><span class="o">(</span><span class="s">&quot;Blue&quot;</span><span class="o">)</span></div></div></pre></div></figure>
+
+<h2>Static/Singleton object</h2>
+
+<p>You cannot have static classes or variables in a class. </p>
+
+<p>Instead, if you want to add a static method, you have to use the <code>object</code> declaration, also known as Singleton objects.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">object</span> <span class="nc">Color</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">def</span> <span class="n">exclaim</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">s</span> <span class="o">+</span> <span class="s">&quot; color!&quot;</span><span class="o">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="c1">// Usage</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nc">Color</span><span class="o">.</span><span class="n">exclaim</span><span class="o">(</span><span class="s">&quot;Pink&quot;</span><span class="o">)</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Prints &quot;Pink color!&quot;</span></div></div></pre></div></figure>
+
+<p>You can also use the static method in the class method.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="nc">Color</span><span class="o">.</span><span class="n">exclaim</span><span class="o">(</span><span class="n">color</span><span class="o">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="k">object</span> <span class="nc">Color</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">def</span> <span class="n">exclaim</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">s</span> <span class="o">+</span> <span class="s">&quot; color!&quot;</span><span class="o">)</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<h2>Interface is traits</h2>
+
+<p>In Java, you have <code>Interface</code>. In Scala, you use <code>traits</code>. Moreover, you can have non-abstract methods in <code>traits</code>.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">trait</span> <span class="nc">Friendly</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">def</span> <span class="n">greet</span><span class="o">()</span> <span class="k">=</span> <span class="s">&quot;Hi&quot;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<p>To have a <code>class</code> implement the <code>traits</code>, you use the <code>extends</code> keyword. And if you need to override the method, you need to explicitly use <code>override def</code>. </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">Dog</span> <span class="k">extends</span> <span class="nc">Friendly</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">override</span> <span class="k">def</span> <span class="n">greet</span><span class="o">()</span> <span class="k">=</span> <span class="s">&quot;Woof&quot;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<p>Similar to Java, a class can extend 1 class and multiple traits.</p>
+
+<p>Another difference is that Scala can mix in traits at instantiation time. In the following, we create another trait and use the <code>with</code> keyword to instantiate a Dog with that trait.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">trait</span> <span class="nc">ExclamatoryGreeter</span> <span class="k">extends</span> <span class="nc">Friendly</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="k">override</span> <span class="k">def</span> <span class="n">greet</span><span class="o">()</span> <span class="k">=</span> <span class="k">super</span><span class="o">.</span><span class="n">greet</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;!&quot;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="c1">// Usage</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">val</span> <span class="n">pup</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Dog</span> <span class="k">with</span> <span class="nc">ExclamatoryGreeter</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">println</span><span class="o">(</span><span class="n">pup</span><span class="o">.</span><span class="n">greet</span><span class="o">())</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Prints &quot;Woof!&quot;</span></div></div></pre></div></figure>
+
+<h2>Array does not use subscript [ ]</h2>
+
+<p>To access an array, you use ( ) instead of [ ]. It is not a matter of symbol choice. Scala uses ( ) because an array is an object with methods.</p>
+
+<p>To access the 4th element of an array, you write</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">myArray</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>Behind the scene, it is in fact calling a method <code>apply</code>. </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">myArray</span><span class="o">.</span><span class="n">apply</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>Similarly, for setting an array element, you write</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">myArray</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="k">=</span> <span class="s">&quot;foo&quot;</span></div></div></pre></div></figure>
+
+<p>Which is interpreted as </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">myArray</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;foo&quot;</span><span class="o">)</span></div></div></pre></div></figure>
+
+<h2>Functions are first class constructs</h2>
+
+<p>Java is <em>imperative</em> style. Scala is <em>imperative</em>, but excels in <em>functional</em> style too.</p>
+
+<p>Being a functional language, functions are first class constructs. We use an example of printing <code>args</code>.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">arg</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span></div></div></pre></div></figure>
+
+<p>The <code>foreach</code> is being passed a function</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">arg</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>The above function has a few characteristics:</p>
+
+<ul>
+<li>It is an anonymous function (has no name)</li>
+<li>It get passed a single parameter named <code>arg</code> and the type is being inferred by compiler</li>
+<li>The main code is simply the <code>println</code></li>
+<li>Yeah, <code>=&gt;</code> is used, also call a right arrow</li>
+</ul>
+
+<p>A more complete example of an anonymous method with explicit parameter type</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// More code</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<p>As we said, functions are first class constructs, so you basically could assign it to a variable</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="n">add</span> <span class="k">=</span> <span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// More code</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+
+<p>Then use it</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">add</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// returns 5</span></div></div></pre></div></figure>
+
+<h2>for arg in args</h2>
+
+<p>This is how you use <code>for (arg in args)</code> </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">for</span> <span class="o">(</span><span class="n">arg</span> <span class="k">&lt;-</span> <span class="n">args</span><span class="o">)</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>Some characteristics:</p>
+
+<ul>
+<li>For each element in <code>args</code>, it is assigned to <code>arg</code> using <code>val (not</code>var`, so you can re-assign)</li>
+<li>Yeah, it is using a <code>&lt;-</code>, which you can interpret as &#39;in&#39;</li>
+<li>It is not a <code>&lt;=</code> because that would mean less-than-or-equal</li>
+</ul>
+
+<h2>Array, List, and Tuple</h2>
+
+<p>Much about immutability from Java is different in Scala.</p>
+
+<ul>
+<li>Array is mutable</li>
+<li>List is immutable</li>
+<li>Tuple is immutable, and can contain different types</li>
+</ul>
+
+<p>You can read more about <a href="http://www.scala-lang.org/api/current/scala/Array.html">Array</a> and <a href="http://www.scala-lang.org/api/current/scala/collection/immutable/List.html">List</a>. </p>
+
+<p>However, I would want to point out about Tuple, as that is never heard of in Java. In Java, when you want to return multiple objects, you will probably create a POJO (plain old java object) to contain the multiple objects. Using tuple, you can avoid POJO like classes. </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">val</span> <span class="n">color</span> <span class="k">=</span> <span class="o">(</span><span class="s">&quot;blue&quot;</span><span class="o">,</span> <span class="mi">258</span><span class="o">,</span> <span class="-Symbol">&#39;b</span><span class="err">&#39;</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>You can then access the tuple using a dot, underscore, and the one-based index of the element.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">println</span><span class="o">(</span><span class="n">color</span><span class="o">.</span><span class="n">_1</span><span class="o">)</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Prints blue</span></div></div></pre></div></figure>
+
+<h2>Set and Map</h2>
+
+<p>The way immutability works for Set and Map is different.</p>
+
+<p>To use a mutable Set, you import the mutable HashSet.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">import</span> <span class="nn">scala.collection.mutable.HashSet</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="k">val</span> <span class="n">colorSet</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">colorSet</span> <span class="o">+=</span> <span class="s">&quot;blue&quot;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">colorSet</span> <span class="o">+=</span> <span class="o">(</span><span class="s">&quot;red&quot;</span><span class="o">,</span> <span class="s">&quot;green&quot;</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>To use an immutable Set, you import the <em>immutable version</em>.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">import</span> <span class="nn">scala.collection.immutable.HashSet</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="k">val</span> <span class="n">colorSet</span> <span class="k">=</span> <span class="nc">HashSet</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">&quot;blue&quot;</span><span class="o">,</span> <span class="s">&quot;red&quot;</span><span class="o">,</span> <span class="s">&quot;green&quot;</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>Similarly for map, there is a mutable and immutable version. Let&#39;s take a look at just the mutable HashMap.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">import</span> <span class="nn">scala.collection.mutable.HashMap</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="k">val</span> <span class="n">colorMap</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">]</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">colorMap</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">&quot;Blue&quot;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">colorMap</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">&quot;Red&quot;</span></div></div></pre></div></figure>
+
+<p>The expression <code>1 -&gt; &quot;Blue&quot;</code> means <code>1.-&gt;(&quot;Blue&quot;)</code>. The method <code>-&gt;</code> is available for any object in Scala, and it returns a 2-element tuple. So basically a 2-element tuple of (Int, String) is added to colorMap.</p>
+
+<p>You might think the equivalent is</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">colorMap</span> <span class="o">+=</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;Blue&quot;</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>However, that would not work as <code>+=</code> method will interpret as you want to add 2 elements - a Int and a String - where in fact you want to add a tuple (Int, String). Hence you need to add ( ) for the tuple</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">colorMap</span> <span class="o">+=</span> <span class="o">((</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;Blue&quot;</span><span class="o">))</span></div></div></pre></div></figure>
+
+<p>You can also create Map with a shorthand</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">&quot;Blue&quot;</span><span class="o">,</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">&quot;Red&quot;</span><span class="o">,</span> <span class="mi">3</span> <span class="o">-&gt;</span> <span class="s">&quot;Green&quot;</span><span class="o">)</span></div></div></pre></div></figure>
+
+<p>Once again, that&#39;s same as</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;Blue&quot;</span><span class="o">),</span> <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;Red&quot;</span><span class="o">),</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;Green&quot;</span><span class="o">)</span> <span class="o">)</span></div></div></pre></div></figure>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=A+short+Scala+tutorial+for+Java+Developers&amp;url=http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=A+short+Scala+tutorial+for+Java+Developers&amp;u=http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

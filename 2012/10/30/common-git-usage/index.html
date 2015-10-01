@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Common Git Usage</title>
+  <meta name="description" content="I am never good at using Git." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Common Git Usage" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="I am never good at using Git." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Common Git Usage"/>
+  
+  <meta property="og:description" content="I am never good at using Git." />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2012/10/30/common-git-usage/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2012-10-30T21:35:00+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2012/10/30/common-git-usage/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Common Git Usage</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2012-10-30T21:35:00+08:00">30 Oct 2012</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>I am never good at using Git.</p>
+
+<p>But it&#39;s not my fault. Git has too many commands, and I am not a command line guy. That&#39;s why I usually use <a href="http://www.syntevo.com/smartgit/index.html">SmartGit</a>, a Git software with user interface that supports Mac.</p>
+
+<p>However, there are times when you have to run on the command line (eg. scripting or you just want to be <em>real fast</em>).</p>
+
+<p>These are my common use cases during development work flow. I don&#39;t cover <a href="http://ndpsoftware.com/git-cheatsheet.html">everything</a>, or advanced stuff.</p>
+
+<!-- more -->
+
+<h2>Push an existing repos to Github</h2>
+
+<p>Assuming you have a repos on github already, issue the following <a href="https://gist.github.com/868939">commands</a>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">cd existing_git_repo
+git remote add origin git@github.com:[user]/[reponame].git
+git push -u origin master
+</code></pre></div>
+<h2>Setup Github to remember password</h2>
+
+<p>The <a href="https://help.github.com/articles/set-up-git">instructions</a>. Basically,</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git config --global user.name &quot;Your Name Here&quot;
+git config --global user.email &quot;your_email@youremail.com&quot;
+</code></pre></div>
+<p>Then download and setup <code>git-credential-osxkeychain</code>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">curl -s -O http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain
+chmod u+x git-credential-osxkeychain
+</code></pre></div>
+<p>Issue a <code>which git</code> and note the path of git. Assuming it is <code>/usr/bin/git</code>, you have have to move to <code>/usr/bin/</code> (IMPORTANT: less the git part!).</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">sudo mv git-credential-osxkeychain /usr/bin/
+</code></pre></div>
+<h2>On Color Options</h2>
+
+<p>One of the most important <a href="http://git-scm.com/book/en/Customizing-Git-Git-Configuration">configuration</a></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git config --global color.ui true
+</code></pre></div>
+<p>With that, commands like <code>git diff</code> and <code>git log -p</code> looks better</p>
+
+<h2>What&#39;s changed</h2>
+
+<p>Sometimes, you want to see what are the changes in your working directory (compared to HEAD/the last commit).</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git diff somefile.py
+</code></pre></div>
+<p>Or you want to see what are the overall changes between the last 2 commits</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git whatchanged -n 1
+</code></pre></div>
+<p>Then the actual code changes</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"> git log -p somefile.py
+</code></pre></div>
+<h2>Added new files, Updated changes, or Deleted files</h2>
+
+<p>If you have added new files or updated tracked files</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git add .
+</code></pre></div>
+<p>If you have deleted files or updated tracked files</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git add -u
+</code></pre></div>
+<p>You could do both in a single step</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git add -A
+</code></pre></div>
+<h2>What are my remotes/branches</h2>
+
+<p>To know,</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">cat .git/config
+</code></pre></div>
+<p>Or you can <a href="http://gitref.org/remotes/">list</a> the remotes</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git remote -v
+</code></pre></div>
+<h2>Update your repos</h2>
+
+<p>It&#39;s a 2 step process. First you fetch the changes from a remote named <code>origin</code></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git fetch origin
+</code></pre></div>
+<p>Then you merge a branch <code>master</code> to local</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git merge origin/master
+</code></pre></div>
+<p>Or Simply</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git pull origin master
+</code></pre></div>
+<p>If <code>origin</code> is a default remote and &#39;master&#39; is default branch, you can drop it eg. <code>git pull</code>.</p>
+
+<h2>Fix merge conflicts</h2>
+
+<p>This always happen when you work in teams. A very <a href="http://stackoverflow.com/questions/161813/how-do-i-fix-merge-conflicts-in-git">commmon</a> question.</p>
+
+<p>It usually goes like this.. You tried to update</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git fetch
+git pull
+... not uptodate. Cannot merge.
+</code></pre></div>
+<p>So you commit your local changes</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git add .
+git commit -m &quot;some changes&quot;
+...
+Automatic merge failed; fix conflicts and then commit the result.
+</code></pre></div>
+<p>So you need to resolve the conflict</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git mergetool -y
+</code></pre></div>
+<p>At this point you use the GUI (eg FileMerge) to resolve the conflicts and save. Then you commit</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git add .
+git commit -m &quot;fixed conflicts&quot;
+git push
+</code></pre></div>
+<p>Done!</p>
+
+<h2>Revert a file during merge conflict</h2>
+
+<p>Say when you have a merge conflict, you know it should just take your file,</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout --ours filename.c
+</code></pre></div>
+<p>Or if you know yit should be their file,</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout --theirs filename.c
+</code></pre></div>
+<h2>Tagging</h2>
+
+<p>Useful when you want to <a href="http://git-scm.com/book/en/Git-Basics-Tagging">tag a version</a>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git tag -a v1.2
+</code></pre></div>
+<p>If you want to push to the tag, it works similarly like a branch.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git push origin v1.2
+</code></pre></div>
+<h2>Delete a commit that has been pushed</h2>
+
+<p>This is usually when you accidentally commit <a href="http://stackoverflow.com/questions/1338728/how-to-delete-a-git-commit">wrongly</a>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git log
+git reset --hard &lt;sha1-commit-id&gt;
+git push origin HEAD --force
+</code></pre></div>
+<h2>Github.com secret tricks</h2>
+
+<p>Read this <a href="https://github.com/tiimgreen/github-cheat-sheet">cheat sheet</a>. You will learn shortcut keys and referencing issues easily.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Common+Git+Usage&amp;url=http://samwize.com/2012/10/30/common-git-usage"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Common+Git+Usage&amp;u=http://samwize.com/2012/10/30/common-git-usage"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

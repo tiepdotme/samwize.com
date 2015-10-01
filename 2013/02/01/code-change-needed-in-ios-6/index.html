@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Code Change Needed in iOS 6</title>
+  <meta name="description" content="Some tips on your iOS code change needed for supporting iOS 6." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Code Change Needed in iOS 6" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="Some tips on your iOS code change needed for supporting iOS 6." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Code Change Needed in iOS 6"/>
+  
+  <meta property="og:description" content="Some tips on your iOS code change needed for supporting iOS 6." />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2013/02/01/code-change-needed-in-ios-6/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2013-02-01T00:03:00+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2013/02/01/code-change-needed-in-ios-6/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Code Change Needed in iOS 6</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2013-02-01T00:03:00+08:00">01 Feb 2013</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>Some tips on your iOS code change needed for supporting iOS 6.</p>
+
+<!-- more -->
+
+<h2>presentModalViewController</h2>
+
+<p>Starting from iOS 6, <code>UIViewController</code> deprecated this:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">- (void)presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated
+</code></pre></div>
+<p>Starting from iOS 5, the replacement is:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">- (void)presentViewController:(UIViewController *)viewControllerToPresent animated: (BOOL)flag completion:(void (^)(void))completion
+</code></pre></div>
+<p>If you <em>really</em> need to support the older iOS 4 and below, and mix in the new replacement, you would need to <a href="http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated">check</a> using <code>respondsToSelector</code>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">if ([self respondsToSelector:@selector(presentViewController:animated:completion:)])
+    [self presentViewController:navController animated:YES completion:nil];
+else
+    [self presentModalViewController:navController animated:YES];
+</code></pre></div>
+<h2>For older xib</h2>
+
+<h3>Tab Bar not working</h3>
+
+<p>If after adding support for iOS6 and your UITabBar is not working anymore eg. does not respond to taps, it could be due to the xib from an older project.</p>
+
+<p>You <a href="http://stackoverflow.com/a/12627117/242682">need</a> to set the <code>window</code> object of your main xib to <strong>Full Size at Launch</strong>.</p>
+
+<h3>Error: UIViewControllerHierarchyInconsistency</h3>
+
+<p>This is again due to an older project. </p>
+
+<p>You <a href="http://stackoverflow.com/questions/12434937/uiviewcontrollerhierarchyinconsistency-when-trying-to-present-a-modal-view-contr/12450770#12450770">need</a> to do this:</p>
+
+<ol>
+<li><p>Move main <strong>View</strong> out of <strong>View Controller</strong>:</p></li>
+<li><p>Delete <strong>View Controller</strong> from the XIB (it is not necessary since File&#39;s Owner should be of its Class already)</p></li>
+</ol>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Code+Change+Needed+in+iOS+6&amp;url=http://samwize.com/2013/02/01/code-change-needed-in-ios-6"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Code+Change+Needed+in+iOS+6&amp;u=http://samwize.com/2013/02/01/code-change-needed-in-ios-6"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

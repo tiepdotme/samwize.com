@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Everything about iOS Localization</title>
+  <meta name="description" content="Why localize your app" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Everything about iOS Localization" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="Why localize your app" />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Everything about iOS Localization"/>
+  
+  <meta property="og:description" content="Why localize your app" />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2014/04/10/everything-about-ios-localization/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2014-04-10T16:23:03+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2014/04/10/everything-about-ios-localization/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Everything about iOS Localization</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2014-04-10T16:23:03+08:00">10 Apr 2014</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <h2>Why localize your app</h2>
+
+<p>Because it can <a href="http://www.distimo.com/blog/2012_10_publication-the-impact-of-app-translations/">increase your app download by 128%</a>, according to Distimo report.</p>
+
+<p>It is a fact: <a href="http://exploredia.com/how-many-people-in-the-world-speak-english-2013/">English is only the third largest language</a> (after Chinese and Spanish). And there is around 1 billion people who speaks English.</p>
+
+<p>Don&#39;t ignore others.</p>
+
+<!-- more -->
+
+<h2>Start using NSLocalizedString</h2>
+
+<p>If you are using a string that will be displayed to your user, always use the macro <code>NSLocalizedString</code>.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">NSLocalizedString</span><span class="p">(</span><span class="s">@&quot;some string&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">)</span></div></div></pre></div></figure>
+
+<h2>Then genstring</h2>
+
+<p>Thereafter, you can easily extract all the string to a <code>.strings</code> file.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">find . -name &quot;*.m&quot; | xargs genstrings -o tmp
+</code></pre></div>
+<p>In your project, under Info &gt; Localizations, add a new language.</p>
+
+<p>Replace with the strings file generated.</p>
+
+<h2>Plural Support</h2>
+
+<p>New in <a href="https://developer.apple.com/library/Mac/releasenotes/Foundation/RN-Foundation/index.html">Foundation</a>, you can have a <code>.stringsdict</code> file alongside the <code>.strings</code>.</p>
+
+<p>Refer to the section on <strong>Localized Property List File</strong>.</p>
+
+<p>The dict looks like this:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span><span class="nt">&gt;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;dict&gt;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&lt;key&gt;</span>%d files are selected<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&lt;dict&gt;</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;key&gt;</span>NSStringLocalizedFormatKey<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;string&gt;</span>%#@num_files_are@ selected<span class="nt">&lt;/string&gt;</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;key&gt;</span>num_files_are<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;dict&gt;</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>NSStringFormatSpecTypeKey<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>NSStringPluralRuleType<span class="nt">&lt;/string&gt;</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>NSStringFormatValueTypeKey<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>d<span class="nt">&lt;/string&gt;</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>zero<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>No file is<span class="nt">&lt;/string&gt;</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>one<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>A file is<span class="nt">&lt;/string&gt;</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>other<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>%d files are<span class="nt">&lt;/string&gt;</span>
+</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;/dict&gt;</span>
+</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&lt;/dict&gt;</span>
+</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;/dict&gt;</span>
+</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;/plist&gt;</span></div></div></pre></div></figure>
+
+<h2>Upper/Lower Case</h2>
+
+<p>In NSString, you should use <code>uppercaseStringWithLocale:</code> and <code>lowercaseStringWithLocale:</code> methods instead.</p>
+
+<h2>Formatting Dates</h2>
+
+<p>In NSDateFormatter, you should use <code>dateFormatFromTemplate:options:locale:</code> instead.</p>
+
+<p>Refer to the <a href="https://developer.apple.com/library/mac/documentation/cocoa/Reference/Foundation/Classes/NSDateFormatter_Class/Reference/Reference.html#//apple_ref/occ/clm/NSDateFormatter/dateFormatFromTemplate:options:locale:">documentation</a>. Displaying dates is much harder than you think, with the punctuation and ordering all different.</p>
+
+<h2>The right locale</h2>
+
+<p>The current system locale is <code>[NSLocale currentLocale]</code>.</p>
+
+<p>But sometimes your app only is supporting certain locale, and you want the presentation to be consistent. In that case, you should use:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">localization</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">].</span><span class="n">preferredLocalizations</span><span class="p">.</span><span class="n">firstObject</span><span class="p">;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSLocale</span> <span class="o">*</span><span class="n">locale</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSLocale</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithLocaleIdentifier</span><span class="p">:</span><span class="n">localization</span><span class="p">];</span></div></div></pre></div></figure>
+
+<p>You might also want to know when the locale has changed.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>                                             <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">localeDidChange</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                 <span class="nl">name</span><span class="p">:</span><span class="n">NSCurrentLocaleDidChangeNotification</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                                               <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span></div></div></pre></div></figure>
+
+<h2>Test on Simulator</h2>
+
+<p>To test, you can go to Settings app in simulator to change the language.</p>
+
+<p>Or if you prefer faster way, you can set the launch arguments in Scheme &gt; Run &gt; Arguments, and add the following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-AppleLanguages (zh-Hans)
+</code></pre></div>
+<p>The above will start the simulator in Chinese Simplified. Edit the language accordingly such as es, ko, de</p>
+
+<h2>Third Party Services</h2>
+
+<p>There are mnay services that provides translations. Apple even has a <a href="https://developer.apple.com/internationalization/">list of vendors</a>.</p>
+
+<p>I recommend: <a href="http://www.oneskyapp.com">OneSky</a></p>
+
+<p>This is because:</p>
+
+<ul>
+<li><p>they have a free management tool that is the best (can even add screenshots)</p></li>
+<li><p>it&#39;s free to to use their crowdsource up to 5 collaborators</p></li>
+<li><p>their charge of 0.10 USD/word is comparable to others</p></li>
+</ul>
+
+<p>I would use OneSky to ask my friends and users to help in translation.</p>
+
+<h2>Google API</h2>
+
+<p>It&#39;s usually terrible to translate using Google API. They probably can only get 50% right.</p>
+
+<p>The other 50% is either grammatically wrong, or assumed wrong context.</p>
+
+<p>But if you still want to, you can use the <a href="https://developers.google.com/translate/v2/getting_started">REST API</a> at $20 per 1 million characters.</p>
+
+<p>Or use <a href="https://poeditor.com">poeditor</a> which comes with free 10,000 character.</p>
+
+<p>Or manually use the <a href="http://translate.google.com">Google Translate web</a> for free.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Everything+about+iOS+Localization&amp;url=http://samwize.com/2014/04/10/everything-about-ios-localization"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Everything+about+iOS+Localization&amp;u=http://samwize.com/2014/04/10/everything-about-ios-localization"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

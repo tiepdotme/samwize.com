@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Projects, Workspace, Embedded Framework and CocoaPods</title>
+  <meta name="description" content="There are a few ways to include a common library in an Xcode project." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Projects, Workspace, Embedded Framework and CocoaPods" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="There are a few ways to include a common library in an Xcode project." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Projects, Workspace, Embedded Framework and CocoaPods"/>
+  
+  <meta property="og:description" content="There are a few ways to include a common library in an Xcode project." />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2015/01/26/projects-workspace-embedded-framework-and-cocoapods/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2015-01-26T09:00:23+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2015/01/26/projects-workspace-embedded-framework-and-cocoapods/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Projects, Workspace, Embedded Framework and CocoaPods</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2015-01-26T09:00:23+08:00">26 Jan 2015</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>There are a few ways to include a common library in an Xcode project.</p>
+
+<p>For iOS 8, it became interesting when embedded/dynamic framework is made available for iOS. You can watch about &quot;modern framework&quot; in <a href="https://developer.apple.com/videos/wwdc/2014/?id=416">WWDC 2014</a>.</p>
+
+<p>This post is to clarify some of the concepts.</p>
+
+<!-- more -->
+
+<h1>Embedded/Dynamic Framework</h1>
+
+<p>Prior to iOS 8, developers can also create their own framework as <a href="http://www.raywenderlich.com/65964/create-a-framework-for-ios">static framework</a>.</p>
+
+<p>For iOS 8, dynamic framework is introduced because it would be needed for iOS Extension and Watch app. </p>
+
+<p>For example, you would have common code shared between the parent app and the Watch app (note: they are separately sandboxed). It is aptly to put these common code in a framework.</p>
+
+<p>If you were to be using static framework, then both the parent app and Watch will have to contain a copy of the static framework. There is redundancy.</p>
+
+<p>With dynamic framework, you will only need to have 1 copy and both the parent app and Watch app can use it.</p>
+
+<p>But this really should be called <a href="http://stackoverflow.com/questions/25080914/will-ios-8-support-dynamic-linking/26403330#26403330">embedded framework</a>, because the library can only be used by your own apps; that is your parent app, extensions, or watch apps.</p>
+
+<p>It cannot be used by other third party apps. Therefore it is <a href="https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/FrameworkBinding.html">not truly dynamic</a>.</p>
+
+<h1>Projects</h1>
+
+<p>We all starts a project with a <em>project</em>. </p>
+
+<p>A project can have multiple targets and frameworks. </p>
+
+<p>Yes, you create an embedded framework in your project.</p>
+
+<h1>Workspace</h1>
+
+<p>Then there is the concept of <em>workspace</em> in Xcode.</p>
+
+<p>Workspace is for handling multiple projects which are inter-related.</p>
+
+<h1>CocoaPods</h1>
+
+<p>If you have been using CocoaPods, you would be opening <em>workspace</em> instead of <em>project</em> because CocoaPods created workspace which contain 2 projects - your app and the pods project.</p>
+
+<p>However, CocoaPods is currently <a href="https://github.com/CocoaPods/CocoaPods/pull/2222">not playing well with embedded framework</a>.</p>
+
+<p>This is because your watch app has to include another copy of the pods, instead of sharing with the parent app. </p>
+
+<p>Conceptually, this can be solved by having the pods as an embedded framework. We have to wait for the CocoaPods maintainers to support the feature.</p>
+
+<h1>If not using CocoaPods..</h1>
+
+<p>Since CocoaPods is not playing well with embedded framework at the moment, this is what you can do if you want to using your common framework across multiple projects..</p>
+
+<p>Create your embedded framework as a project of it&#39;s own, and <code>git</code> it. </p>
+
+<p>Create your main application as a project of it&#39;s own. Then create a workspace and include this project.</p>
+
+<p>Using <code>git submodule</code>, add the embedded framwork project into the workspace directory. Then add the project into the workspace.</p>
+
+<p>With that, the workspace is setup with the 2 projects.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Projects%2C+Workspace%2C+Embedded+Framework+and+CocoaPods&amp;url=http://samwize.com/2015/01/26/projects-workspace-embedded-framework-and-cocoapods"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Projects%2C+Workspace%2C+Embedded+Framework+and+CocoaPods&amp;u=http://samwize.com/2015/01/26/projects-workspace-embedded-framework-and-cocoapods"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

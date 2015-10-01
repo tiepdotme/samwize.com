@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Copy and move sqlite database from device to simulator</title>
+  <meta name="description" content="There are times when you want to have the same database in both a device and a simulator. For my case, I have a photo application which takes photo using the camera. That cannot be nicely tested us..." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Copy and move sqlite database from device to simulator" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="There are times when you want to have the same database in both a device and a simulator. For my case, I have a photo application which takes photo using the camera. That cannot be nicely tested us..." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Copy and move sqlite database from device to simulator"/>
+  
+  <meta property="og:description" content="There are times when you want to have the same database in both a device and a simulator. For my case, I have a photo application which takes photo using the camera. That cannot be nicely tested us..." />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2014-03-28T08:54:08+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Copy and move sqlite database from device to simulator</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2014-03-28T08:54:08+08:00">28 Mar 2014</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>There are times when you want to have the same database in both a device and a simulator. For my case, I have a photo application which takes photo using the camera. That cannot be nicely tested using a simulator, hence I always test with a real iPhone.</p>
+
+<p>Then comes a time when I want to move the database to simulator, which is faster to run.</p>
+
+<p>This post explain the steps of copying over.</p>
+
+<!-- more -->
+
+<h2>1. Copy using iExplorer</h2>
+
+<p>I use the demo version of <a href="http://www.macroplant.com/iexplorer/">iExplorer</a> to explore the file system of my iPhone.</p>
+
+<p>Navigate to your app (eg MyApp), and the database is in:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/Library/Application Support/MyApp/
+</code></pre></div>
+<p>Copy the 3 database files (MyApp.sqlite, MyApp.sqlite-shm, MyApp.sqlite-wal), and if you use external storage, copy the folder (.MyApp_SUPPORT) too. Note that this folder is prefix with a <code>.</code>, hence it will be hidden in your file system.</p>
+
+<p>Make sure these database files are in your computer, as you need to copy them to your simulator.</p>
+
+<h2>2. Find out the path to your simulator</h2>
+
+<p>To know the path to your simulator, you can print a path directory in your app.</p>
+
+<p>For example, the code below I used print the full Document path (using <a href="https://github.com/nicklockwood/StandardPaths">StandardPaths library</a>):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">NSLog(@&quot;Doc Path: %@&quot;, [[NSFileManager defaultManager] publicDataPath]);
+</code></pre></div>
+<p>This is where my simulator is at:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/
+</code></pre></div>
+<h2>3. Copy the files over</h2>
+
+<p>Copy the database files from (1) to the simulator. Preserve the path, hence the files should be copied to the following:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/Library/Application Support/MyApp/
+</code></pre></div>
+<p>If you use Finder, you can copy the visible files easily. If you have external storage and the folder is hidden, you have to use the command line and <code>mv .MyApp_Support /to/the/simulator/path/above/</code>.</p>
+
+<p>That&#39;s it!</p>
+
+<p>You can now run on simulator, and it should have the same dataset.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Copy+and+move+sqlite+database+from+device+to+simulator&amp;url=http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Copy+and+move+sqlite+database+from+device+to+simulator&amp;u=http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Scala Tutorial (Part II)</title>
+  <meta name="description" content="This is a continuation to a short Scala tutorial and Scala+Play Development Guide." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Scala Tutorial (Part II)" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="This is a continuation to a short Scala tutorial and Scala+Play Development Guide." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Scala Tutorial (Part II)"/>
+  
+  <meta property="og:description" content="This is a continuation to a short Scala tutorial and Scala+Play Development Guide." />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2012/10/18/scala-tutorial-part-ii/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2012-10-18T22:14:00+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2012/10/18/scala-tutorial-part-ii/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Scala Tutorial (Part II)</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2012-10-18T22:14:00+08:00">18 Oct 2012</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>This is a continuation to <a href="/2012-10/07/a-short-scala-tutorial-for-java-developers">a short Scala tutorial</a> and <a href="2012/10/15/scala-plus-play-development-guide">Scala+Play Development Guide</a>.</p>
+
+<p>During the development of a project using Typesafe Stack (Scala + Akka + Play!), I learnt quite a few things about Scala and the Play framework.</p>
+
+<!-- more -->
+
+<h2>Switch case statements</h2>
+
+<p>You can do <a href="http://kerflyn.wordpress.com/2011/02/14/playing-with-scalas-pattern-matching/">switch statements</a> pattern matching. A simple <code>switch case</code> statement looks like this:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">n match {
+    case 0 =&gt; println(&quot;Zero&quot;)
+    case 1 =&gt; println(&quot;One&quot;)
+    case n =&gt; println(&quot;It is &quot; + n)
+}
+</code></pre></div>
+<h2>What is sealed trait</h2>
+
+<p>Use <a href="http://stackoverflow.com/questions/11203268/what-is-a-sealed-trait">sealed trait</a> as <code>enums</code></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">sealed trait Answer
+case object Yes extends Answer
+case object No extends Answer
+</code></pre></div>
+<p>Add a folder to classpath (for reading files). Don&#39;t have to put in src.</p>
+
+<p>In Eclipse, right click, Build Path &gt; Use As Source Folder</p>
+
+<p>Folder will be in classpath. Access using</p>
+
+<h2>Read a resource file in Scala Play! 2</h2>
+
+<p>Let&#39;s say you have a text file call <code>myfile.txt</code>. You should put in <code>/public</code> of your Play! project.</p>
+
+<p>You can read the file with the following <a href="http://stackoverflow.com/questions/12825644/how-to-read-a-file-in-scala-with-play-2-0">code</a>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">val is = Application.getClass().getResourceAsStream(&quot;/public/myfile.txt&quot;)    
+val src = scala.io.Source.Source.fromInputStream(is)
+val iter = src.getLine
+for (s &lt;- iter)
+    println(s)
+</code></pre></div>
+<h2>Accessing Global Object</h2>
+
+<p>If you have an object that is initiated once when the app starts, you can put it in the <code>Global</code> object. </p>
+
+<p>However, <code>Global</code> object is by default in a default package, and because it is in default package, it cannot be referenced/accessed by other packages.</p>
+
+<p>The <a href="http://stackoverflow.com/questions/10440864/play-2-0-scala-accessing-global-object">workaround</a> is to move your Global object into a specific package, and change the <code>application.conf</code> file to</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">global= my.packaged.Global
+</code></pre></div>
+<h2>Initializing a class</h2>
+
+<p>There is differences between</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">class Person(name:String)
+</code></pre></div>
+<p>and</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">class Person(val name:String)
+</code></pre></div>
+<p>In the later (with <code>val</code> in the constructor), you can access <code>person.name</code>. For former does not. Very subtle difference until when I create my first class.</p>
+
+<h2>Unit Testing with Specs</h2>
+
+<p>Write your unit tests with <a href="http://www.playframework.org/documentation/2.0/ScalaTest">specs2</a>.</p>
+
+<p>To run just 1 test:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">sbt test-only test.MySpec
+</code></pre></div>
+<h2>java.lang.OutOfMemoryError: PermGen space</h2>
+
+<p>When <code>sbt run</code>, sometimes you would run into the error</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">java.lang.OutOfMemoryError: PermGen space
+</code></pre></div>
+<p>To solve, you can</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">brew info sbt
+</code></pre></div>
+<p>to look for a clue. Changing to 512M helps.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">export SBT_OPTS=&quot;-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M&quot;
+</code></pre></div>
+<p>As much as you could googled, <a href="http://javarevisited.blogspot.sg/2011/09/javalangoutofmemoryerror-permgen-space.html">some</a> solutions do not work.</p>
+
+<h2>Split 1 line of code into multiple lines</h2>
+
+<p>Something so simple does not work as you normally do in Java. For example, this would not compile:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">val s = &quot;a&quot;
+    + &quot;b&quot;
+</code></pre></div>
+<p>This is because <code>+</code> is a method, and it needs to be on the same line as the member calling the method (that is &quot;a&quot;).</p>
+
+<p>Instead, this will work:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">val s = &quot;a&quot; +
+    &quot;b&quot;
+</code></pre></div>
+<p>Or you can use brackets..</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">val s = (&quot;a&quot;
+    + &quot;b&quot;)
+</code></pre></div>
+<p>The same goes for calling methods with dot notation. This will not work:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">myClass.someMethod
+    .anotherMethod
+</code></pre></div>
+<p>This will work:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">myClass.someMethod.
+    anotherMethod
+</code></pre></div>
+<h2>Play! asText is tricky</h2>
+
+<p><code>request.body.asText</code> is tricky. It could be None even when there is something.</p>
+
+<p>Let&#39;s same you POST some data, and you didn&#39;t specify <code>Content-Type: application/x-www-form-urlencoded</code>.</p>
+
+<p>Firstly, <code>request.body.asFormUrlEncoded</code> will be <code>None</code>. Okay, I understand that is because Play! is strict with missing content-type.</p>
+
+<p>However, <code>request.body.asText</code> will be <code>None</code> too!</p>
+
+<h2>A simple HTTP POST</h2>
+
+<p><a href="http://dispatch.databinder.net/">Dispatch</a> is the most popular HTTP library for Scala. However, to me, it is difficult to understand, <a href="http://www.flotsam.nl/dispatch-periodic-table.html">cryptic</a>, and with poor documentation.</p>
+
+<p>It took me a while to find a <a href="http://stackoverflow.com/questions/12342062/basic-usage-of-dispatch-0-9">basic use</a>, without using those crazy operators:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">val req = url(&quot;http://my.server.com/&quot;).POST.
+  setBody(&quot;yeah&quot;).
+  addQueryParameter(&quot;foo&quot;, &quot;true&quot;).
+  addHeader(&quot;Content-type&quot;, &quot;application/json&quot;)
+</code></pre></div>
+<p>Then gets back a response in blocking way.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">val response = Http(req)()
+val body = response.getResponseBody
+</code></pre></div>
+<p>HTTP should be that simple, and readable.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Scala+Tutorial+%28Part+II%29&amp;url=http://samwize.com/2012/10/18/scala-tutorial-part-ii"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Scala+Tutorial+%28Part+II%29&amp;u=http://samwize.com/2012/10/18/scala-tutorial-part-ii"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

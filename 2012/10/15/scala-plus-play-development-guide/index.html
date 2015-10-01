@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Scala + Play! Development Guide</title>
+  <meta name="description" content="This is a guide on using Typesafe Stack (basically on Scala + Play! Framework)." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Scala + Play! Development Guide" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="This is a guide on using Typesafe Stack (basically on Scala + Play! Framework)." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Scala + Play! Development Guide"/>
+  
+  <meta property="og:description" content="This is a guide on using Typesafe Stack (basically on Scala + Play! Framework)." />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2012/10/15/scala-plus-play-development-guide/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2012-10-15T16:02:00+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2012/10/15/scala-plus-play-development-guide/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Scala + Play! Development Guide</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2012-10-15T16:02:00+08:00">15 Oct 2012</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>This is a guide on using Typesafe Stack (basically on Scala + Play! Framework).</p>
+
+<p>It covers installation, start a project, setting up Eclipse and Git, then deploying to Heroku.</p>
+
+<!-- more -->
+
+<h2>Installation</h2>
+
+<p>Install the <a href="http://typesafe.com/stack/download">stack</a>. </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ brew install scala sbt maven giter8
+</code></pre></div>
+<p><code>sbt</code> is the <a href="http://typesafe.com/technology/sbt">Simple Build Tool</a> for managing Scala project. The sbt-version for this guide is 0.12.0.</p>
+
+<p><code>giter8</code> is for <a href="https://github.com/n8han/giter8">generating template projects</a>.</p>
+
+<p>If you have a 404 error when maven is being installed, you can <code>brew edit maven</code> and <a href="http://stackoverflow.com/questions/12757694/brew-install-maven-404-error">change the URL</a>.</p>
+
+<h2>Create a new project</h2>
+
+<p>Create a new project using <code>giter8</code> templates</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ g8 typesafehub/play-scala
+</code></pre></div>
+<h2>Run the project</h2>
+
+<p>Issue the 2 commands to run</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ sbt
+$ run
+</code></pre></div>
+<p>The web app will serve at http://localhost:9000/. </p>
+
+<p>You could as well issue a single command <code>sbt run</code>.</p>
+
+<h2>Run a console</h2>
+
+<p>You can also run a play console to do some testing.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ sbt console
+</code></pre></div>
+<p>In the console, you could call any piece of your code directly and conveniently test out stuff.</p>
+
+<h2>Setup Eclipse</h2>
+
+<p>In order to open the project using Eclipse, do a </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ sbt eclipsify
+</code></pre></div>
+<p>You would of course download the <a href="http://typesafe.com/stack/scala_ide_download">Scala IDE</a> (Eclipse). I would rename to <code>Eclipse-scala</code> and put in my Applications folder.</p>
+
+<p>Open Eclipse, go to File &gt; Import &gt; General/Existing Project and select the scala project. </p>
+
+<p>Important: Everytime you added libraries and dependencies to the project, you need to <code>sbt eclipsify</code> again.</p>
+
+<h2>Git setup, and .gitignore</h2>
+
+<p>These are the files to ignore; the content of <code>.gitignore</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">logs
+project/project
+project/target
+target
+tmp
+.history
+/.settings/
+/.target/
+/bin/
+/eclipse/
+/.project
+/.classpath
+/.cache
+/.DS_Store
+</code></pre></div>
+<p>Then do <code>git init</code> and your first commit!</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git init
+git add .
+git commit -m &quot;Initial Commit&quot;
+</code></pre></div>
+<h2>Scala</h2>
+
+<p>Before the next section on Play! Framework, make sure you are comfortable with Scala first. </p>
+
+<p>Even how much you about Scala being an easy to understand language, and much like Java, trust me. You need to read an introduction guide to Scala first.</p>
+
+<p>A good starting point would be a <a href="/2012/10/07/2012-10-07-a-short-scala-tutorial-for-java-developers/">Scala tutorial</a> from me (:</p>
+
+<h2>Play! Framework</h2>
+
+<p>It&#39;s time to start actual development of your app.</p>
+
+<p>However, I am going to cut short here, as this post is merely a short guide to get you started.</p>
+
+<p>Head over to <a href="http://scala.playframework.org/documentation/">Play! framework documentation</a> for a tutorial. (You may skip the setup portion, and start with the <a href="http://scala.playframework.org/documentation/2.0.4/ScalaActions">Action</a>)</p>
+
+<h2>Deploy to Heroku</h2>
+
+<p>Heroku supports Play! 2 and Scala. A <a href="https://github.com/playframework/Play20/wiki/ProductionHeroku">wiki</a> on how to deploy to Heroku is available.</p>
+
+<p>You would firstly need to <a href="http://heroku.com/signup">register</a> a Heroku account, and then install <a href="http://toolbelt.heroku.com/">Toolbelt</a>.</p>
+
+<p>You must have setup git as described in the previous section.</p>
+
+<p>Create a heroku app and push to the server</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">heroku create
+git push heroku master
+</code></pre></div>
+<p>It will take quite some time to setup the heroku server on the first push. So wait till it says finish, and off you go!</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Scala+%2B+Play%21+Development+Guide&amp;url=http://samwize.com/2012/10/15/scala-plus-play-development-guide"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Scala+%2B+Play%21+Development+Guide&amp;u=http://samwize.com/2012/10/15/scala-plus-play-development-guide"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

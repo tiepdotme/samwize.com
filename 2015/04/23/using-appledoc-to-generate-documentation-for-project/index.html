@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Using appledoc to generate documentation for project</title>
+  <meta name="description" content="It is good practise to generate documentation for your project." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Using appledoc to generate documentation for project" />
+    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    
+    <meta name="twitter:description"  content="It is good practise to generate documentation for your project." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Using appledoc to generate documentation for project"/>
+  
+  <meta property="og:description" content="It is good practise to generate documentation for your project." />
+  
+  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:url" content="http://samwize.com/2015/04/23/using-appledoc-to-generate-documentation-for-project/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2015-04-23T11:00:34+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2015/04/23/using-appledoc-to-generate-documentation-for-project/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-7a1c11aae49e1eeff73acf3894201c6a.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Using appledoc to generate documentation for project</h1>
+            <div class="cf post-meta-text">
+              Published on
+              <time datetime="2015-04-23T11:00:34+08:00">23 Apr 2015</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>It is good practise to generate documentation for your project.</p>
+
+<p><a href="https://github.com/tomaz/appledoc">appledoc</a> is a tool to help generating the HTML docs from your code.</p>
+
+<p>This is a guide on how to do it.</p>
+
+<!-- more -->
+
+<h2>Install VVDocumenter-Xcode</h2>
+
+<p>Firstly, install <a href="https://github.com/onevcat/VVDocumenter-Xcode">this Xcode plugin</a> to help you with generating Javadoc style by simply typing <code>///</code> (3 forward slashes). </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git clone https://github.com/onevcat/VVDocumenter-Xcode.git
+</code></pre></div>
+<p>Open the project and build.</p>
+
+<p>Restart Xcode.</p>
+
+<p>Typing <code>///</code> above a method should now generate the template for you to document on a method.</p>
+
+<h2>Install appledoc</h2>
+
+<p>Install <a href="https://github.com/tomaz/appledoc">appledoc</a> and build it.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git clone https://github.com/tomaz/appledoc.git
+sudo sh install-appledoc.sh
+</code></pre></div>
+<p>Note: <code>brew install appledoc</code> doesn&#39;t work with Yosemite as of April 2015, so git clone and build is the way to go.</p>
+
+<h2>Create a AppledocSettings.plist</h2>
+
+<p>You can refer to a <a href="https://github.com/tomaz/appledoc/wiki/appledoc-docs-examples-basic">basic use of appledoc</a> at this point, but a basic use would have a number of parameters to the command.</p>
+
+<p>It is better to create a plist to contain the parameters.</p>
+
+<p>The default plist for a project is <code>AppledocSettings.plist</code>.</p>
+
+<p>The plist for my project looks like this:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; 
+    &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+    &lt;key&gt;--project-name&lt;/key&gt;
+    &lt;string&gt;Jade&lt;/string&gt;
+    &lt;key&gt;--project-company&lt;/key&gt;
+    &lt;string&gt;Just2us&lt;/string&gt;
+    &lt;key&gt;--company-id&lt;/key&gt;
+    &lt;string&gt;com.justus&lt;/string&gt;
+
+    &lt;key&gt;--output&lt;/key&gt;
+    &lt;string&gt;Docs&lt;/string&gt;
+
+    &lt;key&gt;--create-docset&lt;/key&gt;
+    &lt;false/&gt;
+
+    &lt;key&gt;--ignore&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;Pods&lt;/string&gt;
+        &lt;string&gt;Libs&lt;/string&gt;
+        &lt;string&gt;JadeTests&lt;/string&gt;
+        &lt;string&gt;*.framework&lt;/string&gt;
+    &lt;/array&gt;
+
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre></div>
+<p>I have some basic information about the project and the company. Then I am generating the HTML in <code>Docs</code>, without docset, and ignoring some folders such as Pods, tests and frameworks.</p>
+
+<p>With that, in your project directory, run</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">appledoc .
+</code></pre></div>
+<p>That&#39;s it!</p>
+
+<p>The HTML will be in <code>Docs</code>.</p>
+
+<h2>Advanced</h2>
+
+<p>There are some <a href="https://github.com/tomaz/appledoc/wiki/appledoc-docs-examples-advanced">advanced commands</a> and good guide about publishing from <a href="http://www.cocoanetics.com/2011/11/amazing-apple-like-documentation/">Cocoanetics</a>.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Using+appledoc+to+generate+documentation+for+project&amp;url=http://samwize.com/2015/04/23/using-appledoc-to-generate-documentation-for-project"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Using+appledoc+to+generate+documentation+for+project&amp;u=http://samwize.com/2015/04/23/using-appledoc-to-generate-documentation-for-project"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+  </body>
+</html>

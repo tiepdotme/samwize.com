@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>@samwize</title>
+    <description>¯\_(ツ)_/¯
+</description>
+    <link>http://samwize.com/</link>
+    <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Fri, 02 Oct 2015 01:03:19 +0800</pubDate>
+    <lastBuildDate>Fri, 02 Oct 2015 01:03:19 +0800</lastBuildDate>
+    <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Migrating Octopress 2 to Octopress 3</title>
+        <description>&lt;p&gt;&lt;a href=&quot;http://octopress.org/2015/01/15/octopress-3.0-is-coming/&quot;&gt;Octopress 3.0 is coming&lt;/a&gt;. It has been 9 months, but they &lt;em&gt;still&lt;/em&gt; have not officially released it.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;However, you &lt;a href=&quot;https://www.justinrummel.com/migrating-from-octopress-2-to-octopress-3/&quot;&gt;can&lt;/a&gt; use &lt;a href=&quot;https://github.com/octopress/octopress&quot;&gt;pre-released Octopress 3.0&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This post is a guide to migrating an existing Octopress 2.0 website.&lt;/p&gt;
+
+&lt;h2&gt;Installing&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;mkdir mywebiste.com
+cd mywebiste.com
+touch Gemfile
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Edit the Gemfile as follows:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://rubygems.org&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;jekyll&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;github-pages&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;bourbon&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;group&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jekyll_plugins&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;~&amp;gt; 3.0.11&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-image-tag&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-video-tag&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-codeblock&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-quote-tag&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-codefence&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;14&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;In Octopress 2.0, octopress is a derivative of jekyll with more features. &lt;/p&gt;
+
+&lt;p&gt;In Octopress 3.0, octopress is merely a plugin to jekyll. And there are other plugins provided by octopress such as &lt;code&gt;codefence&lt;/code&gt; for &lt;a href=&quot;http://octopress.org/docs/plugins/backtick-codeblock/&quot;&gt;backtick code blocks&lt;/a&gt;. &lt;/p&gt;
+
+&lt;p&gt;Run &lt;code&gt;bundle install&lt;/code&gt; to install the gem.&lt;/p&gt;
+
+&lt;h2&gt;Setup a new website&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;octopress new mywebsite.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can now run: &lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cd mywebsite.com
+jekyll s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Plugins&lt;/h2&gt;
+
+&lt;p&gt;To activate the &lt;a href=&quot;http://jekyllrb.com/docs/plugins/&quot;&gt;jekyll plugins&lt;/a&gt;, edit &lt;code&gt;_config.yml&lt;/code&gt; and add this line:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;gems: [octopress-image-tag, octopress-video-tag, octopress-codeblock, octopress-quote-tag, octopress-codefence]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Migrating Your Posts&lt;/h2&gt;
+
+&lt;p&gt;Migrating octopress/jekyll is easy, because the source are your markdown files.&lt;/p&gt;
+
+&lt;p&gt;Copy all the markdown post in &lt;code&gt;_posts&lt;/code&gt; from your old Octopress to this new Octopress.&lt;/p&gt;
+
+&lt;h2&gt;Themes&lt;/h2&gt;
+
+&lt;p&gt;Jekyll themes are merely fork of Jekyll with custom html/css/etc.&lt;/p&gt;
+
+&lt;p&gt;For this website, I use &lt;a href=&quot;https://github.com/dirkfabisch/mediator&quot;&gt;mediator&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Download/Clone mediator, then copy &lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;_config.yml&lt;/li&gt;
+&lt;li&gt;_includes&lt;/li&gt;
+&lt;li&gt;_layouts&lt;/li&gt;
+&lt;li&gt;_sass&lt;/li&gt;
+&lt;li&gt;assets&lt;/li&gt;
+&lt;li&gt;css&lt;/li&gt;
+&lt;li&gt;feed.xml&lt;/li&gt;
+&lt;li&gt;index.html&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You will also need the merge the theme&amp;#39;s Gemfile to yours.&lt;/p&gt;
+
+&lt;h2&gt;Permalink&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# Octopress 2.0
+http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
+# Octopress 3.0 (or Jekyll)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;In &lt;code&gt;_config.yml&lt;/code&gt; add:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;permalink: /:year/:month/:day/:title/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        <pubDate>Wed, 30 Sep 2015 23:45:26 +0800</pubDate>
+        <link>http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/</guid>
+        
+        
+        <category>octopress</category>
+        
+      </item>
+    
+      <item>
+        <title>Fix npm/bower install with su</title>
+        <description>&lt;p&gt;You should not be using &lt;code&gt;su&lt;/code&gt; with &lt;code&gt;npm install&lt;/code&gt; or &lt;code&gt;bower install&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, we understand when you see errors such as &lt;strong&gt;npm ERR! Error: EACCES, mkdir ..&lt;/strong&gt;, you will relent to using your superadmin power..&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;In bower case, if you do, you will see warning message:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Since bower is a user command, there is no need to execute it with superuser permissions.
+If you&amp;#39;re having permission errors when using bower without sudo, please spend a few minutes learning more about how your system should work and make any necessary repairs.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://github.com/npm/npm/issues/5649&quot;&gt;fix&lt;/a&gt; is simple:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;sudo chown -R $USER:$GROUP ~/.npm
+sudo chown -R $USER:$GROUP ~/.config
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This makes the directory where npm and bower is using when installing packages to be given the correct permissions.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 07 Sep 2015 18:32:23 +0800</pubDate>
+        <link>http://samwize.com/2015/09/07/fix-npm-slash-bower-install-with-su/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/09/07/fix-npm-slash-bower-install-with-su/</guid>
+        
+        
+        <category>node</category>
+        
+      </item>
+    
+      <item>
+        <title>How to host a website on Github Pages</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://pages.github.com&quot;&gt;GitHub Pages&lt;/a&gt; provides FREE hosting of your (static) website.&lt;/p&gt;
+
+&lt;p&gt;This post is a guide on hosting your &amp;quot;project&amp;quot; repository with a custom domain.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2&gt;Your Local Repository&lt;/h2&gt;
+
+&lt;p&gt;Instead of a &lt;code&gt;master&lt;/code&gt; branch, rename it to &lt;code&gt;gh-pages&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;In your root, have a &lt;code&gt;CNAME&lt;/code&gt; file with the line &lt;code&gt;example.com&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Commit and push.&lt;/p&gt;
+
+&lt;h2&gt;GitHub Pages&lt;/h2&gt;
+
+&lt;p&gt;Create a new repository on GitHub for the project.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;git remote add origin https://github.com/yourusername/yourproject.git
+git push -u origin gh-pages
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;If you have an existing respository, create a new &lt;code&gt;gh-pages&lt;/code&gt; branch, and make sure it is your default branch in your repos settings.&lt;/p&gt;
+
+&lt;h2&gt;Configure Domain Name&lt;/h2&gt;
+
+&lt;p&gt;GitHub does provide an &lt;a href=&quot;https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/&quot;&gt;article&lt;/a&gt; on how you can do it, but it is very confusing.&lt;/p&gt;
+
+&lt;p&gt;As an illustration, this is my configuration using &lt;a href=&quot;http://www.namecheap.com/?aff=68466&quot;&gt;namecheap&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;@       192.30.252.153              A (Address)
+@       192.30.252.154              A (Address)
+www     yourusername.github.io.     CNAME (Alias)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note: The &lt;strong&gt;CNAME (Alias)&lt;/strong&gt; record is for the subdomain &lt;strong&gt;www&lt;/strong&gt;. It is pointing to your github username, not the project name. GitHub will determine which project it is for via the CNAME file.&lt;/p&gt;
+
+&lt;p&gt;Wait for the DNS changes to propagate.&lt;/p&gt;
+
+&lt;p&gt;Or check with &lt;code&gt;dig example.com +nostats +nocomments +nocmd&lt;/code&gt; if changes are propagated.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#39;s it. With GitHub Pages, you can host as many projects/websites as you want, for free!&lt;/p&gt;
+</description>
+        <pubDate>Wed, 02 Sep 2015 22:45:32 +0800</pubDate>
+        <link>http://samwize.com/2015/09/02/how-to-host-a-website-on-github-pages/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/09/02/how-to-host-a-website-on-github-pages/</guid>
+        
+        
+        <category>website</category>
+        
+        <category>github</category>
+        
+      </item>
+    
+      <item>
+        <title>Squashing Multiple Commits into One</title>
+        <description>&lt;p&gt;A good tip for developers using Git is to squash multiple commmits into one.&lt;/p&gt;
+
+&lt;p&gt;Why do that?&lt;/p&gt;
+
+&lt;p&gt;If you ever work on a task and had multiple commits because you want to be &lt;em&gt;safe&lt;/em&gt; and track the changes while work-in-progress, your commit history will be difficult to follow.&lt;/p&gt;
+
+&lt;p&gt;It will be hard (and waste of time) for code reviewer, or other developers, to go through multiple commits. There will be bound to be codes that you add, then remove or edit.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;To &lt;a href=&quot;http://ponyfoo.com/articles/git-github-hacks&quot;&gt;squash the last 5 commits&lt;/a&gt;, this is what you do:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;git reset HEAD~5
+git add .
+git commit -am &amp;quot;Here&amp;#39;s the bug fix that closes #28&amp;quot;
+git push --force
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;If you are using SourceTree, you can right click on the last commit before yours, select &amp;quot;Reset master to this commit&amp;quot;, using the mode &amp;quot;Mixed&amp;quot;. Then re-commit those changes again.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 22 Aug 2015 13:30:02 +0800</pubDate>
+        <link>http://samwize.com/2015/08/22/squashing-multiple-commits-into-one/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/08/22/squashing-multiple-commits-into-one/</guid>
+        
+        
+        <category>git</category>
+        
+      </item>
+    
+      <item>
+        <title>Reinstall Octopress on a new system</title>
+        <description>&lt;p&gt;Instructions for reinstalling an existing Octopress on a new system, using this website (samwize.com) as an example:&lt;/p&gt;
+
+&lt;!-- more --&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;git clone https://github.com/samwize/samwize.github.com samwize.com
+cd samwize.com
+git checkout source
+gem install bundler
+# Restore the themes
+git submodule update --init
+cd .themes/greyshade
+# Ensure custom remote https://github.com/samwize/greyshade is added
+git checkout -b master2 samwize/master2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        <pubDate>Thu, 13 Aug 2015 14:57:05 +0800</pubDate>
+        <link>http://samwize.com/2015/08/13/reinstall-octopress-on-a-new-system/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/08/13/reinstall-octopress-on-a-new-system/</guid>
+        
+        
+        <category>octopress</category>
+        
+      </item>
+    
+      <item>
+        <title>How to handle remote notification with background mode enabled</title>
+        <description>&lt;p&gt;iOS push notification has evolved greatly over the years, from a simple push with a alert string, to the now sophisticated system involving custom actions, localized string and background mode.&lt;/p&gt;
+
+&lt;p&gt;Reading the documentations &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/IPhoneOSClientImp.html&quot;&gt;here&lt;/a&gt;, &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/doc/uid/TP40006786-CH3-SW17&quot;&gt;here&lt;/a&gt; and &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html#//apple_ref/doc/uid/TP40007072-CH4-SW1&quot;&gt;here&lt;/a&gt;... provided clues everywhere on how it works.&lt;/p&gt;
+
+&lt;p&gt;This post is to explain what happens when a push reaches a device.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2&gt;Which delegate method is called?&lt;/h2&gt;
+
+&lt;p&gt;That is the question to answer when a push reaches a device.&lt;/p&gt;
+
+&lt;p&gt;Three possible callbacks:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;application:didFinishLaunchingWithOptions:&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;No callback&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;There are &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html#//apple_ref/doc/uid/TP40006786-CH3-SW17&quot;&gt;other callback methods in UIApplicationDelegate&lt;/a&gt;, but we leave omit them in this discussion unless it is needed. Specifically they are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;application:didReceiveRemoteNotification:&lt;/code&gt; - This is the original API when push notification service is launched (iOS 3.0), but now it is superceded by &lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; (iOS 7.0).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;application:handleActionWithIdentifier:forRemoteNotification:completionHandler:&lt;/code&gt; - This is for providing custom action that goes with a push notification (iOS 8.0). An advanced topic we shelf off for now.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;Configuring The Payload &amp;amp; Silent Push&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html&quot;&gt;push notification payload&lt;/a&gt; consists of:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;alert&lt;/code&gt; - the alert string and actions&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;badge&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sound&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;content-available&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The key &lt;code&gt;content-available&lt;/code&gt; is a new feature, and it is this key that makes &lt;em&gt;silent push&lt;/em&gt; possible.&lt;/p&gt;
+
+&lt;p&gt;To enable, you also have to add &lt;code&gt;remote-notifcation&lt;/code&gt; as your app &lt;code&gt;UIBackgroundModes&lt;/code&gt; as described &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html#//apple_ref/doc/uid/TP40007072-CH4-SW1&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is what happens when &lt;code&gt;content-available&lt;/code&gt; is in the payload:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If app is &lt;strong&gt;Suspended&lt;/strong&gt;, the system will bring it into &lt;strong&gt;Background&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;If app was killed by user, nothing happens and app remains in &lt;strong&gt;Not Running&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Read about &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/TheAppLifeCycle/TheAppLifeCycle.html&quot;&gt;app state changes&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;A potential is pitfall:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;You enable with &lt;code&gt;content-available=1&lt;/code&gt;. But, it is WRONG to disable with &lt;code&gt;content-available=0&lt;/code&gt;. To disable, you have to REMOVE the key in the payload.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2&gt;Playing out the Scenarios&lt;/h2&gt;
+
+&lt;p&gt;With &lt;code&gt;content-available&lt;/code&gt; enabled:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;App is in &lt;strong&gt;Foreground&lt;/strong&gt; 
+
+&lt;ul&gt;
+&lt;li&gt;No system alert shown&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; is called&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;App is in &lt;strong&gt;Background&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;System alert is shown&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; is called&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;App is in &lt;strong&gt;Suspended&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;App state changes to &lt;strong&gt;Background&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;System alert is shown&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; is called&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;App is &lt;strong&gt;Not Running&lt;/strong&gt; because killed by user
+
+&lt;ul&gt;
+&lt;li&gt;System alert is shown&lt;/li&gt;
+&lt;li&gt;No callback is called &lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;With &lt;code&gt;content-available&lt;/code&gt; disabled (key removed):&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;App is in &lt;strong&gt;Foreground&lt;/strong&gt; 
+
+&lt;ul&gt;
+&lt;li&gt;No system alert shown&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; is called&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;App is in &lt;strong&gt;Background&lt;/strong&gt; or &lt;strong&gt;Suspended&lt;/strong&gt; 
+
+&lt;ul&gt;
+&lt;li&gt;System alert is shown&lt;/li&gt;
+&lt;li&gt;No method is called, but when user tap on the push and the app is opened
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; is called&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;App is in &lt;strong&gt;Not Running&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;System alert is shown&lt;/li&gt;
+&lt;li&gt;No method is called, but when user tap on the push and the app is opened
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;application:didFinishLaunchingWithOptions:&lt;/code&gt; then &lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; are both called&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;If app is in &lt;strong&gt;Foreground&lt;/strong&gt;, the system will not show the alert and it is up to the app to display some UI after &lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; is called.&lt;/p&gt;
+
+&lt;p&gt;Enabling &lt;code&gt;content-available&lt;/code&gt; will put the app in &lt;strong&gt;Background&lt;/strong&gt; (unless app was killed by user) and then call &lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; immediately.&lt;/p&gt;
+
+&lt;p&gt;Whereas without &lt;code&gt;content-available&lt;/code&gt;, app will remain in &lt;strong&gt;Suspended&lt;/strong&gt;, and &lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt; is delayed until the app is opened.&lt;/p&gt;
+
+&lt;p&gt;Lastly, &lt;code&gt;application:didFinishLaunchingWithOptions:&lt;/code&gt; is called only when the app is &lt;strong&gt;Not Running&lt;/strong&gt;, and the user tap on the push alert. It will subsequently call &lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt;. Therefore, it is better to handle the push in &lt;code&gt;application:didReceiveRemoteNotification:fetchCompletionHandler:&lt;/code&gt;, as that covers all scenarios.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 07 Aug 2015 16:28:43 +0800</pubDate>
+        <link>http://samwize.com/2015/08/07/how-to-handle-remote-notification-with-background-mode-enabled/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/08/07/how-to-handle-remote-notification-with-background-mode-enabled/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
+    
+      <item>
+        <title>How to really clean your Xcode build</title>
+        <description>&lt;p&gt;There are times when you have weird Xcode build errors eg. you are absolutely sure &lt;em&gt;that the referenced object&lt;/em&gt; is in the project, yet Xcode could not find it.&lt;/p&gt;
+
+&lt;p&gt;Or compile errors such as &lt;code&gt;Include of non-modular header inside framework module&lt;/code&gt;, when you know the framework works very fine.&lt;/p&gt;
+
+&lt;p&gt;You can try clean (Cmd + Shift + K) and build.&lt;/p&gt;
+
+&lt;p&gt;But the &lt;strong&gt;real way to clean Xcode&lt;/strong&gt; is to delete folders in &lt;code&gt;~/Library/Developer/Xcode/DerivedData&lt;/code&gt;. Delete folders with your app name, and also &lt;code&gt;ModuleCache&lt;/code&gt;. That could well save your day.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 10 Jul 2015 14:43:38 +0800</pubDate>
+        <link>http://samwize.com/2015/07/10/how-to-really-clean-your-xcode-build/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/07/10/how-to-really-clean-your-xcode-build/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
+    
+      <item>
+        <title>Pitfall: Parse Circular Dependency Error and Bidirectional Relationship</title>
+        <description>&lt;p&gt;When you save a &lt;code&gt;PFObject&lt;/code&gt; and encounter the error &lt;code&gt;Found a circular dependency when saving&lt;/code&gt;, it could be due to you setting a bidirectional/inverse relationship.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;p&gt;Take this example:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// You have 2 Parse Class Teacher and Student&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;PFObject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// You try to set up the bidirectional relationship&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Upon save, the code will throw the exception &lt;code&gt;Found a circular dependency when saving&lt;/code&gt;. This is because &lt;a href=&quot;https://parse.com/questions/bidirectional-relationship-one-to-many&quot;&gt;bidirectional relationship is not supported&lt;/a&gt; on Parse.&lt;/p&gt;
+
+&lt;p&gt;The solution requires 3 steps:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Don&amp;#39;t set up any of the relationship, and save &lt;code&gt;teacher&lt;/code&gt; first. Saving will provide &lt;code&gt;teacher.objectId&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Then save &lt;code&gt;student&lt;/code&gt; with 1 directional relationship to &lt;code&gt;teacher&lt;/code&gt;. Saving will provide &lt;code&gt;student.objectId&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Then update &lt;code&gt;teacher&lt;/code&gt; with the relation to &lt;code&gt;student&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This takes 3 API requests to set up.&lt;/p&gt;
+
+&lt;p&gt;Not good, but workaround the limitation of Parse.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 24 Jun 2015 12:26:11 +0800</pubDate>
+        <link>http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
+    
+      <item>
+        <title>Guide on using OCMock</title>
+        <description>&lt;p&gt;&lt;a href=&quot;http://ocmock.org&quot;&gt;OCMock&lt;/a&gt; is a great framework for Objective-C (iOS or Mac OS) for test driven development.&lt;/p&gt;
+
+&lt;p&gt;It changes the behaviours of classes during testing.&lt;/p&gt;
+
+&lt;p&gt;This is a guide on how to use OCMock, and also raise some of the pitfalls.&lt;/p&gt;
+
+&lt;!-- more --&gt;
+
+&lt;h2&gt;1.  Mock an instance method&lt;/h2&gt;
+
+&lt;p&gt;If you have a class &lt;code&gt;MyClass&lt;/code&gt;, an instance &lt;code&gt;anObject&lt;/code&gt;, and an instance method &lt;code&gt;foo&lt;/code&gt;, you can change the return value of &lt;code&gt;foo&lt;/code&gt; during testing:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Create a mock for the class&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;myClassMock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OCMClassMock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MyClass&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Change the method&amp;#39;s behaviour for MyClass with a stub&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;myClassMock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andReturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// If you only want to stub for a specific value eg Force to return Apple for Green fruit&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;myClassMock&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;fruitWithColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;Green&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andReturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;Apple&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// If you want to return Apple for all fruits&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;myClassMock&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;fruitWithColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;OCMArg&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andReturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;Apple&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;2. Mock a class method&lt;/h2&gt;
+
+&lt;p&gt;Mocking a class method is exactly the same as mocking for instance method.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;myClassMock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OCMClassMock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MyClass&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;myClassMock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;classMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andReturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;3. Mock an object (Partial mock)&lt;/h2&gt;
+
+&lt;p&gt;If you have the instance &lt;code&gt;anObject&lt;/code&gt;, you can use &lt;code&gt;OCMPartialMock&lt;/code&gt; to create the mock. &lt;/p&gt;
+
+&lt;p&gt;This mock in effect is the same as mocking the class.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;kt&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;partialMock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OCMPartialMock&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;partialMock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andReturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Pitfall: You might assume partial mock applies to only that instance &lt;code&gt;anObject&lt;/code&gt;. That&amp;#39;s wrong. If you have &lt;code&gt;anotherObject2&lt;/code&gt;, it will be affected by whatever was mocked because partial mock actually mock the whole class.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anObject&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;// Will return @&amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anObject2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// Will return @&amp;quot;bar&amp;quot; too!&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;4. Stop mocking&lt;/h2&gt;
+
+&lt;p&gt;You can stop mocking to return to the real object and reset it&amp;#39;s behaviours.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anObject&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;// Will return @&amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anObject&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;stopMocking&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anObject2&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;// Will return as per normal&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;We use the example of partial mock, but you could call &lt;code&gt;[MyClass stopMocking]&lt;/code&gt; and it will have the same effects.&lt;/p&gt;
+
+&lt;h2&gt;5. Stub methods and chaining&lt;/h2&gt;
+
+&lt;p&gt;You can stub the methods with different actions: return object, return native values, throw, post notification, forward to real object or do nothing.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andReturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aMethodReturningABoolean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andReturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;YES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andThrow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anException&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andPost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aNotification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andForwardToRealObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andDo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;anInvocation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;You can also &lt;a href=&quot;http://ocmock.org/reference/#stubing-methods&quot;&gt;chain&lt;/a&gt; &lt;code&gt;andPost&lt;/code&gt; and &lt;code&gt;andReturn&lt;/code&gt; with other actions.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;OCMStub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mock&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someMethod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andPost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aNotification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;andReturn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;aValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;Limitations - Especially Core Data&lt;/h2&gt;
+
+&lt;p&gt;Not only those &lt;a href=&quot;http://ocmock.org/reference/#limitations&quot;&gt;listed&lt;/a&gt; on OCMock,
+but there are other limitations.&lt;/p&gt;
+
+&lt;p&gt;The most severe is that you cannot mock a &lt;code&gt;NSManagedObject&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;There is a way to &lt;a href=&quot;http://hackazach.net/code/2014/04/13/ios-testing-and-core-data/&quot;&gt;get around&lt;/a&gt; it, but it is better that you never, never mock Core Data.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 16 Jun 2015 22:31:33 +0800</pubDate>
+        <link>http://samwize.com/2015/06/16/guide-on-using-ocmock/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/06/16/guide-on-using-ocmock/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
+    
+      <item>
+        <title>How to download all WWDC 2015 PDF Slides Only</title>
+        <description>&lt;p&gt;Last year, I provided the script to &lt;a href=&quot;http://samwize.com/2014/06/06/download-all-wwdc-2014-pdf-slides-only/&quot;&gt;download all PDFs for WWDC 2014&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This year, for WWDC 2015, I have &lt;a href=&quot;https://github.com/samwize/wwdc-downloader&quot;&gt;forked ohoachuck&amp;#39;s wwdc-downloader&lt;/a&gt; to provide an option to download only the PDFs and sample codes.&lt;/p&gt;
+
+&lt;p&gt;To use, &lt;a href=&quot;https://github.com/samwize/wwdc-downloader&quot;&gt;download the script&lt;/a&gt; and run:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;./wwdcVideoPDFGet-curlVersion.sh -p
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        <pubDate>Sun, 14 Jun 2015 11:48:11 +0800</pubDate>
+        <link>http://samwize.com/2015/06/14/how-to-download-all-wwdc-2015-pdf-slides-only/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/06/14/how-to-download-all-wwdc-2015-pdf-slides-only/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
+    
+  </channel>
+</rss>
