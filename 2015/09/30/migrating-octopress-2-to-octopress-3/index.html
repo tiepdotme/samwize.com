@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Migrating Octopress 2 to Octopress 3</title>
-  <meta name="description" content="Octopress 3.0 is coming. It has been 9 months, but they still have not officially released it." />
+  <meta name="description" content="While Octopress 3.0 announced it is coming soon, it has been 9 months, but they still have not release officially." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -18,18 +18,18 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Migrating Octopress 2 to Octopress 3" />
-    <meta name="twitter:image" content="http://samwize.com/assets/icons/home.png" />
+    <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="Octopress 3.0 is coming. It has been 9 months, but they still have not officially released it." />
+    <meta name="twitter:description"  content="While Octopress 3.0 announced it is coming soon, it has been 9 months, but they still have not release officially." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Migrating Octopress 2 to Octopress 3"/>
   
-  <meta property="og:description" content="Octopress 3.0 is coming. It has been 9 months, but they still have not officially released it." />
+  <meta property="og:description" content="While Octopress 3.0 announced it is coming soon, it has been 9 months, but they still have not release officially." />
   
-  <meta property="og:image" content="http://samwize.com/assets/icons/home.png" />
+  <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-09-30T23:45:26+08:00">
@@ -57,8 +57,7 @@
           <div class="post-meta">
             <h1 class="post-title">Migrating Octopress 2 to Octopress 3</h1>
             <div class="cf post-meta-text">
-              Published on
-              <time datetime="2015-09-30T23:45:26+08:00">30 Sep 2015</time>
+              <time datetime="2015-09-30T23:45:26+08:00">30 September 2015</time>
               <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
@@ -72,65 +71,80 @@
             <span class="post-reading-time"></span> read
           </div>
           <a name="topofpage"></a>
-          <p><a href="http://octopress.org/2015/01/15/octopress-3.0-is-coming/">Octopress 3.0 is coming</a>. It has been 9 months, but they <em>still</em> have not officially released it.</p>
+          <p>While <a href="http://octopress.org/2015/01/15/octopress-3.0-is-coming/">Octopress 3.0 announced it is coming soon</a>, it has been 9 months, but they <em>still</em> have not release officially.</p>
 
-<!-- more -->
+<p>However, you can use <a href="https://github.com/octopress/octopress">pre-released Octopress 3.0</a>.</p>
 
-<p>However, you <a href="https://www.justinrummel.com/migrating-from-octopress-2-to-octopress-3/">can</a> use <a href="https://github.com/octopress/octopress">pre-released Octopress 3.0</a>.</p>
+<p>This post is a guide of my experience as I migrate this website from an existing Octopress 2.0 to the new Octopress 3.0 (with this <a href="https://github.com/dirkfabisch/mediator">Medium lookalike theme</a>).</p>
 
-<p>This post is a guide to migrating an existing Octopress 2.0 website.</p>
+<p>The older website has moved to <a href="http://o2.samwize.com">o2.samwize.com</a>.</p>
 
 <h2>Installing</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mkdir mywebiste.com
-cd mywebiste.com
+<div class="highlight"><pre><code class="language-text" data-lang="text">mkdir mywebsite.com
+cd mywebsite.com
 touch Gemfile
 </code></pre></div>
 <p>Edit the Gemfile as follows:</p>
 
 <figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;jekyll&#39;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;github-pages&#39;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;bourbon&#39;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">group</span> <span class="ss">:jekyll_plugins</span> <span class="k">do</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">gem</span> <span class="s1">&#39;octopress&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 3.0.11&#39;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">gem</span> <span class="s1">&#39;octopress-image-tag&#39;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">gem</span> <span class="s1">&#39;octopress-video-tag&#39;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">gem</span> <span class="s1">&#39;octopress-codeblock&#39;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">gem</span> <span class="s1">&#39;octopress-quote-tag&#39;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">gem</span> <span class="s1">&#39;octopress-codefence&#39;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span></div></div></pre></div></figure>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">gem</span> <span class="s1">&#39;jekyll&#39;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">gem</span> <span class="s1">&#39;github-pages&#39;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">gem</span> <span class="s1">&#39;bourbon&#39;</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">group</span> <span class="ss">:jekyll_plugins</span> <span class="k">do</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 3.0.11&#39;</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-image-tag&#39;</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-video-tag&#39;</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-codeblock&#39;</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-quote-tag&#39;</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-codefence&#39;</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-solarized&#39;</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-gist&#39;</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
 
-<p>In Octopress 2.0, octopress is a derivative of jekyll with more features. </p>
+<p>Octopress 2.0 is a derivative of jekyll with more features. </p>
 
-<p>In Octopress 3.0, octopress is merely a plugin to jekyll. And there are other plugins provided by octopress such as <code>codefence</code> for <a href="http://octopress.org/docs/plugins/backtick-codeblock/">backtick code blocks</a>. </p>
+<p>Octopress 3.0 is merely a plugin to jekyll -- which is a better design and plays well with the powerful jekyll. And there are other plugins provided by octopress such as <code>octopress-codefence</code> for <a href="http://octopress.org/docs/plugins/backtick-codeblock/">backtick code blocks</a>.</p>
 
-<p>Run <code>bundle install</code> to install the gem.</p>
+<p>Run <code>bundle install</code> to install the gems.</p>
 
 <h2>Setup a new website</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">octopress new mywebsite.com
+<div class="highlight"><pre><code class="language-text" data-lang="text"># In the directory mywebsite.com
+octopress new .
 </code></pre></div>
-<p>You can now run: </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd mywebsite.com
-jekyll s
+<p>With that, you can now run the website locally: </p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">bundle exec jekyll serve
 </code></pre></div>
+<p>Note: You need to prepend <code>bundle exec</code> so that the gems are used in this context.</p>
+
+<h2>Migrating Your Posts and etc</h2>
+
+<p>Migrating octopress/jekyll is rather easy, because the your pages and posts are your markdown files.</p>
+
+<ul>
+<li>Copy all the markdown post (<code>/source/_posts</code> to <code>/_posts</code>)</li>
+<li>Copy all the markdown pages</li>
+<li>Copy all the images eg. (<code>/source/images</code> to <code>/images</code>)</li>
+</ul>
+
 <h2>Plugins</h2>
 
-<p>To activate the <a href="http://jekyllrb.com/docs/plugins/">jekyll plugins</a>, edit <code>_config.yml</code> and add this line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">gems: [octopress-image-tag, octopress-video-tag, octopress-codeblock, octopress-quote-tag, octopress-codefence]
+<p>To activate the <a href="http://jekyllrb.com/docs/plugins/">jekyll plugins</a>, edit <code>_config.yml</code> and add the gems:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">gems: 
+  - octopress-image-tag
+  - octopress-video-tag
+  - octopress-codeblock
+  - octopress-quote-tag
+  - octopress-codefence
+  - octopress-solarized
+  - octopress-gist
 </code></pre></div>
-<h2>Migrating Your Posts</h2>
-
-<p>Migrating octopress/jekyll is easy, because the source are your markdown files.</p>
-
-<p>Copy all the markdown post in <code>_posts</code> from your old Octopress to this new Octopress.</p>
-
 <h2>Themes</h2>
 
 <p>Jekyll themes are merely fork of Jekyll with custom html/css/etc.</p>
 
 <p>For this website, I use <a href="https://github.com/dirkfabisch/mediator">mediator</a>.</p>
 
-<p>Download/Clone mediator, then copy </p>
+<p>Since we didn&#39;t start with a fork of a theme, we have to download/clone the theme, then copy (and replace) these:</p>
 
 <ul>
 <li>_config.yml</li>
@@ -143,15 +157,32 @@ jekyll s
 <li>index.html</li>
 </ul>
 
-<p>You will also need the merge the theme&#39;s Gemfile to yours.</p>
+<p>You might also need the merge the theme&#39;s Gemfile to yours, if the theme uses other gems.</p>
 
-<h2>Permalink</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Octopress 2.0
-http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
-# Octopress 3.0 (or Jekyll)
+<h2>Permalinks</h2>
+
+<p>The default jekyll permalink for each post is different from Octopress 2.0.</p>
+
+<p>In Octopress 2.0, it is:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
 </code></pre></div>
-<p>In <code>_config.yml</code> add:</p>
+<p>In Octopress 3.0 (or Jekyll), the <a href="http://jekyllrb.com/docs/permalinks/">default</a> is:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">http://samwize.com/some_category/2015/09/30/migrating-octopress-2-to-octopress-3.html
+</code></pre></div>
+<p>To change, edit <code>_config.yml</code> and add:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">permalink: /:year/:month/:day/:title/
+</code></pre></div>
+<h2>Github Pages</h2>
+
+<p>I host this website on Github Pages, for free. You can find out how to host it on <a href="http://samwize.com/2015/09/02/how-to-host-a-website-on-github-pages/">this post</a>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># To setup
+bundle exec octopress deploy init git
+</code></pre></div>
+<p>Then edit <code>_deploy.yml</code> with your github repos.</p>
+
+<p>You will also need to add the <code>CNAME</code> file with your domain name to <code>_site</code>.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># Then push and deploy with
+bundle exec octopress deploy
 </code></pre></div>
         </section>
         <footer class="post-footer">
@@ -174,10 +205,16 @@ http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
               
             
               
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Migrating+Octopress+2+to+Octopress+3&amp;url=http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
             
           </section>
         </footer>
         <div class="bottom-teaser cf">
+          <hr>
           <!-- Adsense-->
           <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
           <ins class="adsbygoogle"

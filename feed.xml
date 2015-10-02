@@ -6,71 +6,86 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 02 Oct 2015 01:03:19 +0800</pubDate>
-    <lastBuildDate>Fri, 02 Oct 2015 01:03:19 +0800</lastBuildDate>
+    <pubDate>Fri, 02 Oct 2015 15:17:11 +0800</pubDate>
+    <lastBuildDate>Fri, 02 Oct 2015 15:17:11 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
         <title>Migrating Octopress 2 to Octopress 3</title>
-        <description>&lt;p&gt;&lt;a href=&quot;http://octopress.org/2015/01/15/octopress-3.0-is-coming/&quot;&gt;Octopress 3.0 is coming&lt;/a&gt;. It has been 9 months, but they &lt;em&gt;still&lt;/em&gt; have not officially released it.&lt;/p&gt;
+        <description>&lt;p&gt;While &lt;a href=&quot;http://octopress.org/2015/01/15/octopress-3.0-is-coming/&quot;&gt;Octopress 3.0 announced it is coming soon&lt;/a&gt;, it has been 9 months, but they &lt;em&gt;still&lt;/em&gt; have not release officially.&lt;/p&gt;
 
-&lt;!-- more --&gt;
+&lt;p&gt;However, you can use &lt;a href=&quot;https://github.com/octopress/octopress&quot;&gt;pre-released Octopress 3.0&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;However, you &lt;a href=&quot;https://www.justinrummel.com/migrating-from-octopress-2-to-octopress-3/&quot;&gt;can&lt;/a&gt; use &lt;a href=&quot;https://github.com/octopress/octopress&quot;&gt;pre-released Octopress 3.0&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This post is a guide of my experience as I migrate this website from an existing Octopress 2.0 to the new Octopress 3.0 (with this &lt;a href=&quot;https://github.com/dirkfabisch/mediator&quot;&gt;Medium lookalike theme&lt;/a&gt;).&lt;/p&gt;
 
-&lt;p&gt;This post is a guide to migrating an existing Octopress 2.0 website.&lt;/p&gt;
+&lt;p&gt;The older website has moved to &lt;a href=&quot;http://o2.samwize.com&quot;&gt;o2.samwize.com&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2&gt;Installing&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;mkdir mywebiste.com
-cd mywebiste.com
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;mkdir mywebsite.com
+cd mywebsite.com
 touch Gemfile
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Edit the Gemfile as follows:&lt;/p&gt;
 
 &lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://rubygems.org&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;jekyll&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;github-pages&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;bourbon&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;group&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jekyll_plugins&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;~&amp;gt; 3.0.11&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-image-tag&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-video-tag&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-codeblock&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-quote-tag&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-codefence&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;14&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;jekyll&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;github-pages&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;bourbon&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jekyll_plugins&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;~&amp;gt; 3.0.11&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-image-tag&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-video-tag&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-codeblock&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-quote-tag&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-codefence&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;14&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-solarized&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;15&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-gist&amp;#39;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;16&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
 
-&lt;p&gt;In Octopress 2.0, octopress is a derivative of jekyll with more features. &lt;/p&gt;
+&lt;p&gt;Octopress 2.0 is a derivative of jekyll with more features. &lt;/p&gt;
 
-&lt;p&gt;In Octopress 3.0, octopress is merely a plugin to jekyll. And there are other plugins provided by octopress such as &lt;code&gt;codefence&lt;/code&gt; for &lt;a href=&quot;http://octopress.org/docs/plugins/backtick-codeblock/&quot;&gt;backtick code blocks&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;Octopress 3.0 is merely a plugin to jekyll -- which is a better design and plays well with the powerful jekyll. And there are other plugins provided by octopress such as &lt;code&gt;octopress-codefence&lt;/code&gt; for &lt;a href=&quot;http://octopress.org/docs/plugins/backtick-codeblock/&quot;&gt;backtick code blocks&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Run &lt;code&gt;bundle install&lt;/code&gt; to install the gem.&lt;/p&gt;
+&lt;p&gt;Run &lt;code&gt;bundle install&lt;/code&gt; to install the gems.&lt;/p&gt;
 
 &lt;h2&gt;Setup a new website&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;octopress new mywebsite.com
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# In the directory mywebsite.com
+octopress new .
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;You can now run: &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;cd mywebsite.com
-jekyll s
+&lt;p&gt;With that, you can now run the website locally: &lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;bundle exec jekyll serve
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note: You need to prepend &lt;code&gt;bundle exec&lt;/code&gt; so that the gems are used in this context.&lt;/p&gt;
+
+&lt;h2&gt;Migrating Your Posts and etc&lt;/h2&gt;
+
+&lt;p&gt;Migrating octopress/jekyll is rather easy, because the your pages and posts are your markdown files.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Copy all the markdown post (&lt;code&gt;/source/_posts&lt;/code&gt; to &lt;code&gt;/_posts&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;Copy all the markdown pages&lt;/li&gt;
+&lt;li&gt;Copy all the images eg. (&lt;code&gt;/source/images&lt;/code&gt; to &lt;code&gt;/images&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;h2&gt;Plugins&lt;/h2&gt;
 
-&lt;p&gt;To activate the &lt;a href=&quot;http://jekyllrb.com/docs/plugins/&quot;&gt;jekyll plugins&lt;/a&gt;, edit &lt;code&gt;_config.yml&lt;/code&gt; and add this line:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;gems: [octopress-image-tag, octopress-video-tag, octopress-codeblock, octopress-quote-tag, octopress-codefence]
+&lt;p&gt;To activate the &lt;a href=&quot;http://jekyllrb.com/docs/plugins/&quot;&gt;jekyll plugins&lt;/a&gt;, edit &lt;code&gt;_config.yml&lt;/code&gt; and add the gems:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;gems: 
+  - octopress-image-tag
+  - octopress-video-tag
+  - octopress-codeblock
+  - octopress-quote-tag
+  - octopress-codefence
+  - octopress-solarized
+  - octopress-gist
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;Migrating Your Posts&lt;/h2&gt;
-
-&lt;p&gt;Migrating octopress/jekyll is easy, because the source are your markdown files.&lt;/p&gt;
-
-&lt;p&gt;Copy all the markdown post in &lt;code&gt;_posts&lt;/code&gt; from your old Octopress to this new Octopress.&lt;/p&gt;
-
 &lt;h2&gt;Themes&lt;/h2&gt;
 
 &lt;p&gt;Jekyll themes are merely fork of Jekyll with custom html/css/etc.&lt;/p&gt;
 
 &lt;p&gt;For this website, I use &lt;a href=&quot;https://github.com/dirkfabisch/mediator&quot;&gt;mediator&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Download/Clone mediator, then copy &lt;/p&gt;
+&lt;p&gt;Since we didn&amp;#39;t start with a fork of a theme, we have to download/clone the theme, then copy (and replace) these:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;_config.yml&lt;/li&gt;
@@ -83,15 +98,32 @@ jekyll s
 &lt;li&gt;index.html&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;You will also need the merge the theme&amp;#39;s Gemfile to yours.&lt;/p&gt;
+&lt;p&gt;You might also need the merge the theme&amp;#39;s Gemfile to yours, if the theme uses other gems.&lt;/p&gt;
 
-&lt;h2&gt;Permalink&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# Octopress 2.0
-http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
-# Octopress 3.0 (or Jekyll)
+&lt;h2&gt;Permalinks&lt;/h2&gt;
+
+&lt;p&gt;The default jekyll permalink for each post is different from Octopress 2.0.&lt;/p&gt;
+
+&lt;p&gt;In Octopress 2.0, it is:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;In &lt;code&gt;_config.yml&lt;/code&gt; add:&lt;/p&gt;
+&lt;p&gt;In Octopress 3.0 (or Jekyll), the &lt;a href=&quot;http://jekyllrb.com/docs/permalinks/&quot;&gt;default&lt;/a&gt; is:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;http://samwize.com/some_category/2015/09/30/migrating-octopress-2-to-octopress-3.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To change, edit &lt;code&gt;_config.yml&lt;/code&gt; and add:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;permalink: /:year/:month/:day/:title/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Github Pages&lt;/h2&gt;
+
+&lt;p&gt;I host this website on Github Pages, for free. You can find out how to host it on &lt;a href=&quot;http://samwize.com/2015/09/02/how-to-host-a-website-on-github-pages/&quot;&gt;this post&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# To setup
+bundle exec octopress deploy init git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then edit &lt;code&gt;_deploy.yml&lt;/code&gt; with your github repos.&lt;/p&gt;
+
+&lt;p&gt;You will also need to add the &lt;code&gt;CNAME&lt;/code&gt; file with your domain name to &lt;code&gt;_site&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# Then push and deploy with
+bundle exec octopress deploy
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
         <pubDate>Wed, 30 Sep 2015 23:45:26 +0800</pubDate>
         <link>http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/</link>
