@@ -16,8 +16,7 @@
           <div class="post-meta">
             <h1 class="post-title">{{ page.title }}</h1>
             <div class="cf post-meta-text">
-              Published on
-              <time datetime="{{ page.date | date: "%F %R" }}">{{ page.date | date_to_string }}</time>
+              <time datetime="{{ page.date | date: "%F %R" }}">{{ page.date | date_to_long_string }}</time>
               <!-- , tagged on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}} -->
             </div>
             <div style="text-align:center">
@@ -30,8 +29,7 @@
           <div class="post-meta">
             <h1 class="post-title">{{ page.title }}</h1>
             <div class="cf post-meta-text">
-              Published on
-              <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_string }}</time>
+              <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_long_string }}</time>
               <!-- , tagged on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}} -->
             </div>
           </div>
@@ -60,6 +58,7 @@
           </section>
         </footer>
         <div class="bottom-teaser cf">
+          <hr>
           <!-- Adsense-->
           <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
           <ins class="adsbygoogle"
