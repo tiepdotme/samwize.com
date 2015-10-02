@@ -131,14 +131,14 @@ To change, edit `_config.yml` and add:
 I host this website on Github Pages, for free. You can find out how to host it on [this post](http://samwize.com/2015/09/02/how-to-host-a-website-on-github-pages/).
 
     # To setup
-    bundle exec octopress deploy init git
+    octopress deploy init git
 
 Then edit `_deploy.yml` with your github repos.
 
-You will also need to add the `CNAME` file with your domain name to `_site`.
+You will also need to add a `CNAME` file with your domain name in it in `/mywebsite.com`.
 
     # Then push and deploy with
-    bundle exec octopress deploy
+    octopress deploy
 
 
 
