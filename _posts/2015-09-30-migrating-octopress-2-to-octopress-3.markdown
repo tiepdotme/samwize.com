@@ -131,7 +131,7 @@ To change, edit `_config.yml` and add:
 I host this website on Github Pages, for free. You can find out how to host it on [this post](http://samwize.com/2015/09/02/how-to-host-a-website-on-github-pages/).
 
     # To setup
-    octopress deploy init git
+    bundle exec octopress deploy init git
 
 Then edit `_deploy.yml` with your github repos.
 
