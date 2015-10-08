@@ -6,9 +6,83 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 06 Oct 2015 10:24:45 +0800</pubDate>
-    <lastBuildDate>Tue, 06 Oct 2015 10:24:45 +0800</lastBuildDate>
+    <pubDate>Fri, 09 Oct 2015 01:35:20 +0800</pubDate>
+    <lastBuildDate>Fri, 09 Oct 2015 01:35:20 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Guide to Hosting Your Own Private Cocoapods Framework</title>
+        <description>&lt;p&gt;This is a guide to creating your own Private Cocoapods -- that is hosting your private &amp;quot;Specs&amp;quot; with your private library. &lt;/p&gt;
+
+&lt;p&gt;This is useful for projects that are not open-sourced.&lt;/p&gt;
+
+&lt;h2&gt;1. Setup Your Library&lt;/h2&gt;
+
+&lt;p&gt;Create your private library with &lt;a href=&quot;https://guides.cocoapods.org/making/using-pod-lib-create.html&quot;&gt;pod lib create&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;pod lib create MyLibrary
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The interactive prompt will help in setting up your library.&lt;/p&gt;
+
+&lt;p&gt;The following 2 folders are important:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pod - This is where you place your library&amp;#39;s classes and assets&lt;/li&gt;
+&lt;li&gt;Example - This is the generated Demo &amp;amp; Testing bundle&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When you open Xcode, you will find your library source under &lt;strong&gt;Pods &amp;gt; Development Pods &amp;gt; MyLibrary&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Development Pods are different from normal CocoaPods in that they are symlinked files, so making edits to them will change the original files, so you can work on your library from inside Xcode. When you add new/existing files to Pod/Classes or Pod/Assets or update your podspec, you should run &lt;code&gt;pod install&lt;/code&gt; or &lt;code&gt;pod update&lt;/code&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2&gt;2. Git Push Your Library&lt;/h2&gt;
+
+&lt;p&gt;Create your private repository for this library.&lt;/p&gt;
+
+&lt;p&gt;Then edit your Podspec file with the repos URL:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;s.source           = { :git =&amp;gt; &amp;quot;git@bitbucket.org:myorg/mylibrary.git&amp;quot;, :tag =&amp;gt; s.version.to_s }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You will need to commit, and tag the version (default starts with &amp;quot;0.1.0&amp;quot;).&lt;/p&gt;
+
+&lt;p&gt;Finally, &lt;code&gt;git push&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;3. Setup Your Specs Repo&lt;/h2&gt;
+
+&lt;p&gt;Now, you have to &lt;a href=&quot;https://guides.cocoapods.org/making/private-cocoapods&quot;&gt;create your private spec repo&lt;/a&gt;. This is like a &lt;a href=&quot;https://guides.cocoapods.org/making/getting-setup-with-trunk.html&quot;&gt;private trunk&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Create another private repository (this is different from step 2). &lt;/p&gt;
+
+&lt;p&gt;Then add this private repos to your system:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;pod repo add MySpecs git@bitbucket.org:myorg/myspecs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;4. Add your Podspec to Your Private Specs Repo&lt;/h2&gt;
+
+&lt;p&gt;Go back to your private library.&lt;/p&gt;
+
+&lt;p&gt;Push the podspec to your spec repo.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# Verify correctness of the podspec
+pod lib lint --verbose
+# Push the podspec
+pod repo push MySpecs MySwift.podspec --verbose
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;5. Using the Library&lt;/h2&gt;
+
+&lt;p&gt;The &lt;code&gt;Podfile&lt;/code&gt; must now contain the &lt;a href=&quot;https://guides.cocoapods.org/syntax/podfile.html#source&quot;&gt;source&lt;/a&gt;. We now have 2:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;source &amp;#39;git@bitbucket.org:myorg/myspecs&amp;#39;
+source &amp;#39;https://github.com/CocoaPods/Specs.git&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;That&amp;#39;s it. Add the library normally.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;pod &amp;#39;MyLibrary&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+        <pubDate>Fri, 09 Oct 2015 01:06:49 +0800</pubDate>
+        <link>http://samwize.com/2015/10/09/guide-to-hosting-your-own-private-cocoapods-framework/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/10/09/guide-to-hosting-your-own-private-cocoapods-framework/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
     
       <item>
         <title>Using Swift in Existing Objective-C Project</title>
@@ -25,16 +99,16 @@
 &lt;p&gt;In your project/target build settings, ensure:&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Defines Module&lt;/strong&gt; must be set to &lt;strong&gt;Yes&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Defines Module&lt;/strong&gt; set to &lt;strong&gt;Yes&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Module Name&lt;/strong&gt; does not include spaces&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;In your Objective-C file, to use the Swift code,&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;#import &amp;quot;YourModuleName-Swift.h&amp;quot;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;NOTE: The header &lt;code&gt;YourModuleName-Swift.h&lt;/code&gt; is not visible in your project. It is autogenerated by Xcode.&lt;/p&gt;
+&lt;p&gt;NOTE: The header &lt;code&gt;YourModuleName-Swift.h&lt;/code&gt; is NOT visible in your project. It is autogenerated by Xcode.&lt;/p&gt;
 
-&lt;p&gt;Your module name is the one in your build settings.&lt;/p&gt;
+&lt;p&gt;Your module name is the one found in your build settings.&lt;/p&gt;
 
 &lt;h2&gt;Steps to Using Objective-C in Swift&lt;/h2&gt;
 
@@ -45,6 +119,8 @@
 &lt;li&gt;The header is visible in Xcode&lt;/li&gt;
 &lt;li&gt;You don&amp;#39;t have to import the header in Swift&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;In this bridging header file, you have to manually add statements to import Objective-C header which you want to expose to Swift. &lt;/p&gt;
 </description>
         <pubDate>Tue, 06 Oct 2015 10:11:25 +0800</pubDate>
         <link>http://samwize.com/2015/10/06/using-swift-in-existing-objective-c-project/</link>
@@ -489,43 +565,6 @@ git checkout -b master2 samwize/master2
         <pubDate>Fri, 10 Jul 2015 14:43:38 +0800</pubDate>
         <link>http://samwize.com/2015/07/10/how-to-really-clean-your-xcode-build/</link>
         <guid isPermaLink="true">http://samwize.com/2015/07/10/how-to-really-clean-your-xcode-build/</guid>
-        
-        
-        <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>Pitfall: Parse Circular Dependency Error and Bidirectional Relationship</title>
-        <description>&lt;p&gt;When you save a &lt;code&gt;PFObject&lt;/code&gt; and encounter the error &lt;code&gt;Found a circular dependency when saving&lt;/code&gt;, it could be due to you setting a bidirectional/inverse relationship.&lt;/p&gt;
-
-&lt;!-- more --&gt;
-
-&lt;p&gt;Take this example:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// You have 2 Parse Class Teacher and Student&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;PFObject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// You try to set up the bidirectional relationship&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;student&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;teacher&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;Upon save, the code will throw the exception &lt;code&gt;Found a circular dependency when saving&lt;/code&gt;. This is because &lt;a href=&quot;https://parse.com/questions/bidirectional-relationship-one-to-many&quot;&gt;bidirectional relationship is not supported&lt;/a&gt; on Parse.&lt;/p&gt;
-
-&lt;p&gt;The solution requires 3 steps:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Don&amp;#39;t set up any of the relationship, and save &lt;code&gt;teacher&lt;/code&gt; first. Saving will provide &lt;code&gt;teacher.objectId&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Then save &lt;code&gt;student&lt;/code&gt; with 1 directional relationship to &lt;code&gt;teacher&lt;/code&gt;. Saving will provide &lt;code&gt;student.objectId&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Then update &lt;code&gt;teacher&lt;/code&gt; with the relation to &lt;code&gt;student&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This takes 3 API requests to set up.&lt;/p&gt;
-
-&lt;p&gt;Not good, but workaround the limitation of Parse.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 24 Jun 2015 12:26:11 +0800</pubDate>
-        <link>http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship/</link>
-        <guid isPermaLink="true">http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship/</guid>
         
         
         <category>ios</category>
