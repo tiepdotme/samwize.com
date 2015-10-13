@@ -7,7 +7,7 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>How to Create UIPageViewController in Storyboard (in Container View)</title>
+  <title>How to Create UIPageViewController in Storyboard</title>
   <meta name="description" content="Problem" />
 
   <meta name="HandheldFriendly" content="True" />
@@ -17,7 +17,7 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="How to Create UIPageViewController in Storyboard (in Container View)" />
+    <meta name="twitter:title" content="How to Create UIPageViewController in Storyboard" />
     <meta name="twitter:image" content="http://samwize.com" />
     
     <meta name="twitter:description"  content="Problem" />
@@ -25,7 +25,7 @@
   
   
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="How to Create UIPageViewController in Storyboard (in Container View)"/>
+  <meta property="og:title" content="How to Create UIPageViewController in Storyboard"/>
   
   <meta property="og:description" content="Problem" />
   
@@ -55,7 +55,7 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">How to Create UIPageViewController in Storyboard (in Container View)</h1>
+            <h1 class="post-title">How to Create UIPageViewController in Storyboard</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-10-13T12:37:57+08:00">13 October 2015</time>
               <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
@@ -98,12 +98,12 @@
 
 <p>This is a lacking feature of <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewControllerCatalog/Chapters/PageViewControllers.html">UIPageViewController</a>: it does not support segue to it&#39;s children, unlike <code>UINavigationViewController</code> or <code>UITabViewController</code>.</p>
 
-<p>Instead, you have to link them up in code.</p>
+<p>Instead, you can only link them up in code.</p>
 
-<p>The source code of the <code>UIPageViewController</code> class in swift:</p>
+<p>Here&#39;s the source code of the <code>UIPageViewController</code> class in swift:</p>
 
 <figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">import</span> <span class="n">UIKit</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nl">EditingFeedingPageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">,</span> <span class="bp">UIPageViewControllerDataSource</span><span class="p">,</span> <span class="bp">UIPageViewControllerDelegate</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nl">MyPageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">,</span> <span class="bp">UIPageViewControllerDataSource</span><span class="p">,</span> <span class="bp">UIPageViewControllerDelegate</span> <span class="p">&#x7b;</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="n">pages</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIViewController</span><span class="p">]()</span>
 </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">&#x7b;</span>
 </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
@@ -128,18 +128,22 @@
 </div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">presentationCountForPageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">&#x7b;</span>
 </div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">pages</span><span class="p">.</span><span class="n">count</span>
 </div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">presentationIndexForPageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="mi">0</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='42' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">presentationIndexForPageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="mi">0</span>
+</div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
 
-<p>The code basically setup the view controllers for the pages (by instantiating with the storyboard ID), then implement the datasource that tells which view controllers are in the pages.</p>
+<p>The code basically setup the view controllers for the pages by instantiating with the storyboard ID.</p>
+
+<p>Then it implement the datasource that tells which view controllers are in the pages.</p>
+
+<p>That&#39;s it. That&#39;s the only code needed.</p>
 
 <h3>Container View</h3>
 
 <p><a href="https://github.com/codepath/ios_guides/wiki/Container-View-Controllers">Container View</a> is a very nice feature to manage complex scenes with different views.</p>
 
-<p>When you add a container view to a scene, another sub-scene will be added. This sub-scene is embedded into the main scene, and the size will be the same as the container view added.</p>
+<p>When you add a container view to a scene, another sub-scene will be added. This sub-scene is embedded into the main scene, and the size will be the same as the container view.</p>
 
 <p>It is one of the coolest feature, introduced in iOS 5 that makes designing your storyboard much neater.</p>
 
@@ -150,14 +154,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+Create+UIPageViewController+in+Storyboard+%28in+Container+View%29&amp;url=http://samwize.com/2015/10/13/how-to-create-uipageviewcontroller-in-storyboard-in-container-view"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+Create+UIPageViewController+in+Storyboard&amp;url=http://samwize.com/2015/10/13/how-to-create-uipageviewcontroller-in-storyboard-in-container-view"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+Create+UIPageViewController+in+Storyboard+%28in+Container+View%29&amp;u=http://samwize.com/2015/10/13/how-to-create-uipageviewcontroller-in-storyboard-in-container-view"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+Create+UIPageViewController+in+Storyboard&amp;u=http://samwize.com/2015/10/13/how-to-create-uipageviewcontroller-in-storyboard-in-container-view"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -166,7 +170,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+Create+UIPageViewController+in+Storyboard+%28in+Container+View%29&amp;url=http://samwize.com/2015/10/13/how-to-create-uipageviewcontroller-in-storyboard-in-container-view"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+Create+UIPageViewController+in+Storyboard&amp;url=http://samwize.com/2015/10/13/how-to-create-uipageviewcontroller-in-storyboard-in-container-view"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>
