@@ -96,7 +96,7 @@
 
 <p>NOTE: Firstly, the segue to the pages are actually not needed. I created the show segue so that it is clearer that the <code>UIPageViewController</code> has 2 children/pages.</p>
 
-<p>This is a lacking feature of <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewControllerCatalog/Chapters/PageViewControllers.html">UIPageViewController</a>: it does not support segue to it&#39;s children, unlike <code>UINavigationViewController</code> or <code>UITabViewController</code>.</p>
+<p>This is a lacking feature of <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewControllerCatalog/Chapters/PageViewControllers.html">UIPageViewController</a>: it does not support segue to it&#39;s children, unlike <code>UINavigationController</code> or <code>UITabBarController</code>.</p>
 
 <p>Instead, you can only link them up in code.</p>
 
@@ -141,13 +141,15 @@
 
 <h3>Container View</h3>
 
-<p><a href="https://github.com/codepath/ios_guides/wiki/Container-View-Controllers">Container View</a> is a very nice feature to manage complex scenes with different views.</p>
+<p><a href="https://github.com/codepath/ios_guides/wiki/Container-View-Controllers">Container View</a> is a very nice feature to manage complex scene with multiple views.</p>
 
 <p>When you add a container view to a scene, another sub-scene will be added. This sub-scene is embedded into the main scene, and the size will be the same as the container view.</p>
 
 <p>It is one of the coolest feature, introduced in iOS 5 that makes designing your storyboard much neater.</p>
 
 <p>There&#39;s no code involved, just drag the container view.</p>
+
+<p>Just note that in the main scene view controller, you can access <code>childViewControllers</code> to get all container view controllers. In our case, there is only 1 <code>UIPageViewController</code> as the container view controller.</p>
 
         </section>
         <footer class="post-footer">
