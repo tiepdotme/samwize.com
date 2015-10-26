@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>How to Handle Units (Such as Mass & Length) Using HealthKit</title>
+  <meta name="description" content="If you use units and quantities in your app, HealthKit will be very useful." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="How to Handle Units (Such as Mass & Length) Using HealthKit" />
+    <meta name="twitter:image" content="http://samwize.com" />
+    
+    <meta name="twitter:description"  content="If you use units and quantities in your app, HealthKit will be very useful." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="How to Handle Units (Such as Mass & Length) Using HealthKit"/>
+  
+  <meta property="og:description" content="If you use units and quantities in your app, HealthKit will be very useful." />
+  
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2015/10/26/how-to-handle-units-such-as-mass-and-length-using-healthkit/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2015-10-26T11:20:18+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2015/10/26/how-to-handle-units-such-as-mass-and-length-using-healthkit/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-59b20639ef746bda2d14c7d70d30deb9.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">How to Handle Units (Such as Mass & Length) Using HealthKit</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2015-10-26T11:20:18+08:00">26 October 2015</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>If you use units and quantities in your app, <strong>HealthKit</strong> will be very useful.</p>
+
+<p>This guide will only show how to handle for <strong>length</strong>. But the same API works for mass, volume, time, energy etc (relevant to Health app).</p>
+
+<h2>HealthKit</h2>
+
+<p>There are 2 classes provided by HealthKit which you can use:</p>
+
+<ol>
+<li><a href="https://developer.apple.com/library/watchos/documentation/HealthKit/Reference/HKUnit_Class/index.html#//apple_ref/occ/clm/HKUnit/massFormatterUnitFromUnit:"><code>HKUnit</code></a></li>
+<li><a href="https://developer.apple.com/library/watchos/documentation/HealthKit/Reference/HKQuantity_Class/index.html#//apple_ref/occ/clm/HKQuantity/quantityWithUnit:doubleValue:"><code>HKQuantity</code></a></li>
+</ol>
+
+<p>For example, to represent <em>1.2345 meter</em>:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">meterUnit</span> <span class="o">=</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">meterUnit</span><span class="p">()</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">m</span> <span class="o">=</span> <span class="n">HKQuantity</span><span class="p">(</span><span class="nl">unit</span><span class="p">:</span> <span class="n">meterUnit</span><span class="p">,</span> <span class="nl">doubleValue</span><span class="p">:</span> <span class="mf">1.2345</span><span class="p">)</span></div></div></pre></div></figure>
+
+<p>It is a 2 step process. First to create the <code>meterUnit</code> (because, length could have unit as centimeter/foot/etc). Then create the quantity with the unit and the amount as a double.</p>
+
+<h2>Unit Conversions</h2>
+
+<p>With a <code>HKQuantity</code> object, you can get the amount:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Return 1.2345 (m)</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">m</span><span class="p">.</span><span class="n">doubleValueForUnit</span><span class="p">(</span><span class="n">meterUnit</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// In centimeter - create meter unit with the prefix .Centi</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">cmUnit</span> <span class="o">=</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">meterUnitWithMetricPrefix</span><span class="p">(.</span><span class="n">Centi</span><span class="p">)</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Return 123.45 (cm)</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">m</span><span class="p">.</span><span class="n">doubleValueForUnit</span><span class="p">(</span><span class="n">cmUnit</span><span class="p">)</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// In foot</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">footUnit</span> <span class="o">=</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">footUnit</span><span class="p">()</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Return 4.0501968503937 (feet)</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">m</span><span class="p">.</span><span class="n">doubleValueForUnit</span><span class="p">(</span><span class="n">footUnit</span><span class="p">)</span></div></div></pre></div></figure>
+
+<p>As you can see, you always have to provide the <code>HKUnit</code>, even if you created the quantity with the <code>meterUnit</code> at first. The nice thing is that unit conversions is provided by the framework.</p>
+
+<h2>Formatters</h2>
+
+<p>To display the unit and quantity, it is best to use a formatter.</p>
+
+<p>A formatter will take care of localization and stuff, which is complex for different part of the world.</p>
+
+<p>For length, we will use <code>NSLengthFormatter</code>. There are <a href="http://nshipster.com/nsformatter/">others</a> for mass, energy, etc. Not all formatters are provided at the moment eg. Volume formatter is missing.</p>
+
+<p>This is how you configure the formatter:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">formatter</span> <span class="o">=</span> <span class="n">NSLengthFormatter</span><span class="p">()</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">formatter</span><span class="p">.</span><span class="n">forPersonHeightUse</span> <span class="o">=</span> <span class="nb">true</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">formatter</span><span class="p">.</span><span class="n">unitStyle</span> <span class="o">=</span> <span class="p">.</span><span class="n">Medium</span></div></div></pre></div></figure>
+
+<p>With the formatter, you can get the string from a <code>HKQuantity</code> object:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="nl">lengthFormatterUnit</span><span class="p">:</span> <span class="n">NSLengthFormatterUnit</span> <span class="o">=</span> <span class="n">HKUnit</span><span class="p">.</span><span class="n">lengthFormatterUnitFromUnit</span><span class="p">(</span><span class="n">meterUnit</span><span class="p">)</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">value</span> <span class="o">=</span> <span class="n">m</span><span class="p">.</span><span class="n">doubleValueForUnit</span><span class="p">(</span><span class="n">meterUnit</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Returns &quot;1.2345 m&quot;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">formatter</span><span class="p">.</span><span class="n">stringFromValue</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nl">unit</span><span class="p">:</span> <span class="n">lengthFormatterUnit</span><span class="p">)</span></div></div></pre></div></figure>
+
+<p>Note: The first line of code is to get the <a href="https://developer.apple.com/library/watchos/documentation/Miscellaneous/Reference/NSLengthFormatter_Class/index.html#//apple_ref/c/tdef/NSLengthFormatterUnit"><code>NSLengthFormatterUnit</code></a>(another unit object from Foundation&#39;s NSLengthFormatter class) from <code>meterUnit</code> (HealthKit unit object). Don&#39;t be confused with the 2 unit classes.</p>
+
+<h2>Number Formatter</h2>
+
+<p>We have learnt how to print <em>1.2345 m</em>.</p>
+
+<p>But how do you print to eg. 2 decimal places, or 3 significant figures?</p>
+
+<p>You can can do so by configuring the <a href="https://developer.apple.com/library/watchos/documentation/Cocoa/Reference/Foundation/Classes/NSNumberFormatter_Class/index.html#//apple_ref/occ/instp/NSNumberFormatter/roundingIncrement"><code>NSNumberFormatter</code></a> which is a property of the <code>NSLengthFormatter</code>.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">formatter</span><span class="p">.</span><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">3</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">formatter</span><span class="p">.</span><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumFractionDigits</span> <span class="o">=</span> <span class="mi">3</span>     <span class="c1">// decimal places</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Returns &quot;1.23 m&quot;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">formatter</span><span class="p">.</span><span class="n">stringFromValue</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nl">unit</span><span class="p">:</span> <span class="n">lengthFormatterUnit</span><span class="p">)</span></div></div></pre></div></figure>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+Handle+Units+%28Such+as+Mass+%26+Length%29+Using+HealthKit&amp;url=http://samwize.com/2015/10/26/how-to-handle-units-such-as-mass-and-length-using-healthkit"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+Handle+Units+%28Such+as+Mass+%26+Length%29+Using+HealthKit&amp;u=http://samwize.com/2015/10/26/how-to-handle-units-such-as-mass-and-length-using-healthkit"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+Handle+Units+%28Such+as+Mass+%26+Length%29+Using+HealthKit&amp;url=http://samwize.com/2015/10/26/how-to-handle-units-such-as-mass-and-length-using-healthkit"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
