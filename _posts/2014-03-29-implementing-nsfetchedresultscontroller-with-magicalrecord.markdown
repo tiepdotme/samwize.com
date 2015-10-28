@@ -6,6 +6,8 @@ comments: true
 categories: [iOS]
 ---
 
+_UPDATED on Oct 2015: With the new awesome Swift, do check out [the new NSFetchedResultsController guide](/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/)._
+
 This is an adaptation of a [cheat sheet on iosdevblog.com](http://iosdevblog.com/tag/nsfetchedresultscontroller/).
 
 The original post provides the code to implement `NSFetchedResultsController`, but without [MagicalRecord](https://github.com/magicalpanda/MagicalRecord).
