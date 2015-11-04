@@ -157,6 +157,31 @@
 </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">stringFromNum</span><span class="p">(</span><span class="mf">0.123456789</span><span class="p">)</span>      <span class="c1">// &quot;0.1235&quot; (4 SF)</span>
 </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">stringFromNum</span><span class="p">(</span><span class="mf">9876.123456789</span><span class="p">)</span>   <span class="c1">// &quot;9876.12&quot; (2 DP)</span></div></div></pre></div></figure>
 
+<h2>Bug with usesSignificantDigits</h2>
+
+<p>It is not the end of the story. </p>
+
+<p>There is a <a href="http://www.openradar.me/18468186">serious bug</a> with <code>usesSignificantDigits</code>, and it is still not fixed since Sep 2014.</p>
+
+<p>Reproduce bug:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span> <span class="o">=</span> <span class="bp">NSNumberFormatter</span><span class="p">()</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">2</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="nb">false</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="mf">3.8765432</span><span class="p">)</span>  <span class="c1">// Expected &quot;4&quot; (0 DP), but printed &quot;3.9&quot; (2 SF)</span></div></div></pre></div></figure>
+
+<p>Solution:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span> <span class="o">=</span> <span class="bp">NSNumberFormatter</span><span class="p">()</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>    <span class="c1">// This is the WORKAROUND</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">2</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="nb">false</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="mf">3.8765432</span><span class="p">)</span></div></div></pre></div></figure>
+
+<p>As weird as it seems, using <code>stringFromNumber</code> once right after init-ing will set things correct!</p>
+
+<p>Not sure why, but that is a workaround..</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">
