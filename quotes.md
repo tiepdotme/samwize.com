@@ -5,6 +5,10 @@ permalink: /quotes/
 ---
 
 {% blockquote %}
+Do what Buddist do. Every morning, imagine a bird on your shoulder. Ask the bird: Am I going to die today?
+{% endblockquote %}
+
+{% blockquote %}
 It is harder to earn the first $100,000 than the next $5 million.
 {% endblockquote %}
 
