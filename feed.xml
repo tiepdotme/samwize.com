@@ -6,9 +6,88 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 04 Nov 2015 10:30:49 +0800</pubDate>
-    <lastBuildDate>Wed, 04 Nov 2015 10:30:49 +0800</lastBuildDate>
+    <pubDate>Sat, 07 Nov 2015 10:43:16 +0800</pubDate>
+    <lastBuildDate>Sat, 07 Nov 2015 10:43:16 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Guide to Customizing UITableView Section Header/Footer</title>
+        <description>&lt;p&gt;Using &lt;a href=&quot;https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UITableViewHeaderFooterView_class/index.html&quot;&gt;&lt;code&gt;UITableViewHeaderFooterView&lt;/code&gt;&lt;/a&gt; in Storyboard/Interface Builder is not easy because:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;It is not well documented&lt;/li&gt;
+&lt;li&gt;There are a number of ways&lt;/li&gt;
+&lt;li&gt;Things (iOS) change, and break..&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For example, this &lt;a href=&quot;http://stackoverflow.com/a/11396643/242682&quot;&gt;highest voted answer in 2012&lt;/a&gt; does not work well anymore (the section could disappear on reload).&lt;/p&gt;
+
+&lt;p&gt;As of writing, this guide is good for iOS 9.&lt;/p&gt;
+
+&lt;p&gt;And we will be using awesome swift code :)&lt;/p&gt;
+
+&lt;h2&gt;Step 1: Subclass UITableViewHeaderFooterView&lt;/h2&gt;
+
+&lt;p&gt;Add your custom class. We call it &lt;code&gt;TableSectionHeader&lt;/code&gt; and it has only a &lt;code&gt;UILabel&lt;/code&gt; in it. You will probably add other subviews/IBOutlets to it.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;TableSectionHeader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UITableViewHeaderFooterView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBOutlet&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;titleLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UILabel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;Step 2: Create the Nib&lt;/h2&gt;
+
+&lt;p&gt;Add a Nib (Add new &amp;gt; User Interface &amp;gt; View), and customize it as follows:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Change the class to &lt;code&gt;TableSectionHeader&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;In the &amp;quot;Table Section Header&amp;quot; view, make sure the &lt;strong&gt;background color is default&lt;/strong&gt;. This is to avoid the warning &lt;em&gt;Setting the background color on UITableViewHeaderFooterView has been deprecated&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Add a View. This is a container and MUST be there to contain all the other subviews.&lt;/li&gt;
+&lt;li&gt;Add the title &lt;code&gt;UILabel&lt;/code&gt;, and connect this to the IBOutlet in the class file. If you have other subviews/outlets, do the same.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/custom-table-section-header-nib.png&quot;  &gt;&lt;/p&gt;
+
+&lt;h2&gt;Step 3: Register the Nib&lt;/h2&gt;
+
+&lt;p&gt;In your view controller &lt;code&gt;viewDidLoad&lt;/code&gt;, you need to register the nib with a reuse identifier.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UINib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;nibName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;TableSectionHeader&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registerNib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;forHeaderFooterViewReuseIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;TableSectionHeader&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;Step 4: Implement viewForHeaderInSection&lt;/h2&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UITableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewForHeaderInSection&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Here, we use NSFetchedResultsController&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// And we simply use the section name as title&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;currSection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fetchedResultsController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sections&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;currSection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Dequeue with the reuse identifier&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dequeueReusableHeaderFooterViewWithIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;TableSectionHeader&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TableSectionHeader&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;titleLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;The gist is using &lt;code&gt;dequeueReusableHeaderFooterViewWithIdentifier&lt;/code&gt; to get back the header section cell. You can then configure the cell similarly to how you do it for normal row cells.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#39;s it!&lt;/p&gt;
+
+&lt;h2&gt;The Other Ways&lt;/h2&gt;
+
+&lt;p&gt;This guide is for using Storyboard/Interface Builder to create your custom header/footer.&lt;/p&gt;
+
+&lt;p&gt;If all you want is to change the background color and text color, then you could simply override &lt;code&gt;willDisplayHeaderView&lt;/code&gt; as described in &lt;a href=&quot;http://www.elicere.com/mobile/swift-blog-2-uitableview-section-header-color/&quot;&gt;elicere blog&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can also refer to &lt;a href=&quot;https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010139-Intro-DontLinkElementID_2&quot;&gt;Apple sample code&lt;/a&gt; (in Objective-C)&lt;/p&gt;
+</description>
+        <pubDate>Fri, 06 Nov 2015 17:41:30 +0800</pubDate>
+        <link>http://samwize.com/2015/11/06/guide-to-customizing-uitableview-section-header-footer/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/11/06/guide-to-customizing-uitableview-section-header-footer/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
     
       <item>
         <title>A Guide to NSNumberFormatter</title>
@@ -720,130 +799,6 @@ source &amp;#39;https://github.com/CocoaPods/Specs.git&amp;#39;
         <pubDate>Fri, 02 Oct 2015 16:20:27 +0800</pubDate>
         <link>http://samwize.com/2015/10/02/refresh-of-samwize-com-new-theme/</link>
         <guid isPermaLink="true">http://samwize.com/2015/10/02/refresh-of-samwize-com-new-theme/</guid>
-        
-        
-        <category>octopress</category>
-        
-      </item>
-    
-      <item>
-        <title>Migrating Octopress 2 to Octopress 3</title>
-        <description>&lt;p&gt;While &lt;a href=&quot;http://octopress.org/2015/01/15/octopress-3.0-is-coming/&quot;&gt;Octopress 3.0 announced it is coming soon&lt;/a&gt;, it has been 9 months, but they &lt;em&gt;still&lt;/em&gt; have not release officially.&lt;/p&gt;
-
-&lt;p&gt;However, you can use &lt;a href=&quot;https://github.com/octopress/octopress&quot;&gt;pre-released Octopress 3.0&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This post is a guide of my experience as I migrate this website from an existing Octopress 2.0 to the new Octopress 3.0 (with this &lt;a href=&quot;https://github.com/dirkfabisch/mediator&quot;&gt;Medium lookalike theme&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;The older website has moved to &lt;a href=&quot;http://o2.samwize.com&quot;&gt;o2.samwize.com&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Installing&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;mkdir mywebsite.com
-cd mywebsite.com
-touch Gemfile
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Edit the Gemfile as follows:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;source&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;https://rubygems.org&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;jekyll&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;github-pages&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;bourbon&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jekyll_plugins&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;~&amp;gt; 3.0.11&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-image-tag&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-video-tag&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-codeblock&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-quote-tag&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-codefence&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;14&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-solarized&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;15&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;octopress-gist&amp;#39;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;16&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;Octopress 2.0 is a derivative of jekyll with more features. &lt;/p&gt;
-
-&lt;p&gt;Octopress 3.0 is merely a plugin to jekyll -- which is a better design and plays well with the powerful jekyll. And there are other plugins provided by octopress such as &lt;code&gt;octopress-codefence&lt;/code&gt; for &lt;a href=&quot;http://octopress.org/docs/plugins/backtick-codeblock/&quot;&gt;backtick code blocks&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Run &lt;code&gt;bundle install&lt;/code&gt; to install the gems.&lt;/p&gt;
-
-&lt;h2&gt;Setup a new website&lt;/h2&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# In the directory mywebsite.com
-octopress new .
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;With that, you can now run the website locally: &lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;bundle exec jekyll serve
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Note: You need to prepend &lt;code&gt;bundle exec&lt;/code&gt; so that the gems are used in this context.&lt;/p&gt;
-
-&lt;h2&gt;Migrating Your Posts and etc&lt;/h2&gt;
-
-&lt;p&gt;Migrating octopress/jekyll is rather easy, because the your pages and posts are your markdown files.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Copy all the markdown post (&lt;code&gt;/source/_posts&lt;/code&gt; to &lt;code&gt;/_posts&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Copy all the markdown pages&lt;/li&gt;
-&lt;li&gt;Copy all the images eg. (&lt;code&gt;/source/images&lt;/code&gt; to &lt;code&gt;/images&lt;/code&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2&gt;Plugins&lt;/h2&gt;
-
-&lt;p&gt;To activate the &lt;a href=&quot;http://jekyllrb.com/docs/plugins/&quot;&gt;jekyll plugins&lt;/a&gt;, edit &lt;code&gt;_config.yml&lt;/code&gt; and add the gems:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;gems: 
-  - octopress-image-tag
-  - octopress-video-tag
-  - octopress-codeblock
-  - octopress-quote-tag
-  - octopress-codefence
-  - octopress-solarized
-  - octopress-gist
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;Themes&lt;/h2&gt;
-
-&lt;p&gt;Jekyll themes are merely fork of Jekyll with custom html/css/etc.&lt;/p&gt;
-
-&lt;p&gt;For this website, I use &lt;a href=&quot;https://github.com/dirkfabisch/mediator&quot;&gt;mediator&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Since we didn&amp;#39;t start with a fork of a theme, we have to download/clone the theme, then copy (and replace) these:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;_config.yml&lt;/li&gt;
-&lt;li&gt;_includes&lt;/li&gt;
-&lt;li&gt;_layouts&lt;/li&gt;
-&lt;li&gt;_sass&lt;/li&gt;
-&lt;li&gt;assets&lt;/li&gt;
-&lt;li&gt;css&lt;/li&gt;
-&lt;li&gt;feed.xml&lt;/li&gt;
-&lt;li&gt;index.html&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You might also need the merge the theme&amp;#39;s Gemfile to yours, if the theme uses other gems.&lt;/p&gt;
-
-&lt;h2&gt;Permalinks&lt;/h2&gt;
-
-&lt;p&gt;The default jekyll permalink for each post is different from Octopress 2.0.&lt;/p&gt;
-
-&lt;p&gt;In Octopress 2.0, it is:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;In Octopress 3.0 (or Jekyll), the &lt;a href=&quot;http://jekyllrb.com/docs/permalinks/&quot;&gt;default&lt;/a&gt; is:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;http://samwize.com/some_category/2015/09/30/migrating-octopress-2-to-octopress-3.html
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;To change, edit &lt;code&gt;_config.yml&lt;/code&gt; and add:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;permalink: /:year/:month/:day/:title/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;Github Pages&lt;/h2&gt;
-
-&lt;p&gt;I host this website on Github Pages, for free. You can find out how to host it on &lt;a href=&quot;http://samwize.com/2015/09/02/how-to-host-a-website-on-github-pages/&quot;&gt;this post&lt;/a&gt;.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# To setup
-bundle exec octopress deploy init git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;Then edit &lt;code&gt;_deploy.yml&lt;/code&gt; with your github repos.&lt;/p&gt;
-
-&lt;p&gt;You will also need to add a &lt;code&gt;CNAME&lt;/code&gt; file with your domain name in it in &lt;code&gt;/mywebsite.com&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# Then push and deploy with
-octopress deploy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
-        <pubDate>Wed, 30 Sep 2015 23:45:26 +0800</pubDate>
-        <link>http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/</link>
-        <guid isPermaLink="true">http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/</guid>
         
         
         <category>octopress</category>
