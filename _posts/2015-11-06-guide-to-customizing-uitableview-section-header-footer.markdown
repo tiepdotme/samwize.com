@@ -5,22 +5,84 @@ date: 2015-11-06T17:41:30+08:00
 categories: [iOS]
 ---
 
-Using `UITableViewHeaderFooterView` in Storyboard/Interface Builder is not easy.. Not well documented.
+Using [`UITableViewHeaderFooterView`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UITableViewHeaderFooterView_class/index.html) in Storyboard/Interface Builder is not easy because:
+
+- It is not well documented
+- There are a number of ways
+- Things (iOS) change, and break..
+
+For example, this [highest voted answer in 2012](http://stackoverflow.com/a/11396643/242682) does not work well anymore (the section could disappear on reload).
+
+As of writing, this guide is good for iOS 9.
+
+And we will be using awesome swift code :)
 
 
 
+## Step 1: Subclass UITableViewHeaderFooterView
 
-## The Easy Way
+Add your custom class. We call it `TableSectionHeader` and it has only a `UILabel` in it. You will probably add other subviews/IBOutlets to it.
 
-http://www.elicere.com/mobile/swift-blog-2-uitableview-section-header-color/
+```swift
+class TableSectionHeader: UITableViewHeaderFooterView {
+    @IBOutlet weak var titleLabel: UILabel!
+}
+```
 
-If all you want is to customize the background color and text.
+
+## Step 2: Create the Nib   
+
+Add a Nib (Add new > User Interface > View), and customize it as follows:
+
+- Change the class to `TableSectionHeader`
+- In the "Table Section Header" view, make sure the **background color is default**. This is to avoid the warning _Setting the background color on UITableViewHeaderFooterView has been deprecated_.
+- Add a View. This is a container and MUST be there to contain all the other subviews.
+- Add the title `UILabel`, and connect this to the IBOutlet in the class file. If you have other subviews/outlets, do the same.
+
+{%img /images/custom-table-section-header-nib.png %}
 
 
-## The Advanced Way
+## Step 3: Register the Nib
 
-http://stackoverflow.com/questions/17651880/uitableviewheaderfooterview-in-interfacebuilder/20073742#20073742
+In your view controller `viewDidLoad`, you need to register the nib with a reuse identifier.
 
-Sample code:
+```swift
+let nib = UINib(nibName: "TableSectionHeader", bundle: nil)
+tableView.registerNib(nib, forHeaderFooterViewReuseIdentifier: "TableSectionHeader")
+```
 
-https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010139-Intro-DontLinkElementID_2
+
+## Step 4: Implement viewForHeaderInSection
+
+```swift
+func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    // Here, we use NSFetchedResultsController
+    // And we simply use the section name as title
+    let currSection = fetchedResultsController.sections?[section]
+    let title = currSection!.name
+
+    // Dequeue with the reuse identifier
+    let cell = self.tableView.dequeueReusableHeaderFooterViewWithIdentifier("TableSectionHeader")
+    let header = cell as! TableSectionHeader
+    header.titleLabel.text = title
+
+    return cell
+}
+```
+
+The gist is using `dequeueReusableHeaderFooterViewWithIdentifier` to get back the header section cell. You can then configure the cell similarly to how you do it for normal row cells.
+
+That's it!
+
+
+
+## The Other Ways
+
+This guide is for using Storyboard/Interface Builder to create your custom header/footer.
+
+If all you want is to change the background color and text color, then you could simply override `willDisplayHeaderView` as described in [elicere blog](http://www.elicere.com/mobile/swift-blog-2-uitableview-section-header-color/).
+
+You can also refer to [Apple sample code](
+https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010139-Intro-DontLinkElementID_2) (in Objective-C)
+
+
