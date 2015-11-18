@@ -77,7 +77,19 @@
 
 <p>You can try clean (Cmd + Shift + K) and build.</p>
 
-<p>But the <strong>real way to clean Xcode</strong> is to delete folders in <code>~/Library/Developer/Xcode/DerivedData</code>. Delete folders with your app name, and also <code>ModuleCache</code>. That could well save your day.</p>
+<p>But the <strong>absolute way to clean Xcode</strong> is to delete folders in <code>~/Library/Developer/Xcode/DerivedData</code>. Delete the folders with your app name, and also <code>ModuleCache</code>. </p>
+
+<p>Or simply delete all:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">rm -rf ~/Library/Developer/Xcode/DerivedData/*
+</code></pre></div>
+<p>Purging DerivedData could well save your day.</p>
+
+<p>Well, it did save me on many occasions. Here is my list of weird errors/warnings that were &quot;solved&quot;:</p>
+
+<ul>
+<li><code>ignoring user defined runtime attribute</code> warning for my custom view that is <code>IBDesignable</code></li>
+<li><code>Include of non-modular header inside framework module</code></li>
+</ul>
 
         </section>
         <footer class="post-footer">
