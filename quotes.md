@@ -3,6 +3,9 @@ layout: page
 title: "Quotes to Remember"
 permalink: /quotes/
 ---
+{% blockquote %}
+The future is already here--it's just not evenly distributed.
+{% endblockquote %}
 
 {% blockquote %}
 Do what Buddist do. Every morning, imagine a bird on your shoulder. Ask the bird: Am I going to die today?
