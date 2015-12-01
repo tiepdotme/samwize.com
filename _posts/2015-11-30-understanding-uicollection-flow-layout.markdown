@@ -62,3 +62,11 @@ You could use it to control how many items on each line.
 Flow layout is provided out-of-the-box.
 
 You can create your own [custom layouts](https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/CreatingCustomLayouts/CreatingCustomLayouts.html#//apple_ref/doc/uid/TP40012334-CH5-SW21).
+
+
+[Steps](https://www.objc.io/issues/3-views/collection-view-layouts/):
+
+...
+
+NOTE: Usually we use autolayout constraints, but for the cell, you have to set the frame the traditional way. Just the cell. The views inside the cell is still using autolayout.
+
