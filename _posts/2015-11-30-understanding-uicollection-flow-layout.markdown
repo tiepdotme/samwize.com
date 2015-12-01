@@ -116,7 +116,7 @@ override func viewDidLayoutSubviews() {
 
     // Calculate the section inset for left and right. 
     // Setting this section inset will manipulate the items such that they will all be aligned horizontally center.
-    let inset = min(minItemSpacing, floor( (containerWidth - (n*itemWidth) - (n-1)*minItemSpacing) / 2 ) )
+    let inset = max(minItemSpacing, floor( (containerWidth - (n*itemWidth) - (n-1)*minItemSpacing) / 2 ) )
     layout.sectionInset = UIEdgeInsets(top: minItemSpacing, left: inset, bottom: minItemSpacing, right: inset)
 
     collectionView.collectionViewLayout = layout
