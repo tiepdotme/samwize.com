@@ -6,9 +6,95 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 01 Dec 2015 13:44:32 +0800</pubDate>
-    <lastBuildDate>Tue, 01 Dec 2015 13:44:32 +0800</lastBuildDate>
+    <pubDate>Wed, 02 Dec 2015 21:56:54 +0800</pubDate>
+    <lastBuildDate>Wed, 02 Dec 2015 21:56:54 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>The Buggy UISplitViewController</title>
+        <description>&lt;p&gt;When iOS 8 was released, &lt;code&gt;UISplitViewController&lt;/code&gt; has a big upgrade -- it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app.&lt;/p&gt;
+
+&lt;p&gt;NSHipster has a &lt;a href=&quot;https://www.google.com/search?client=safari&amp;amp;rls=en&amp;amp;q=uisplitviewcontroller+bug&amp;amp;ie=UTF-8&amp;amp;oe=UTF-8&quot;&gt;good guide&lt;/a&gt; to &lt;code&gt;UISplitViewController&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here, I only want to point out the horrible bugs.&lt;/p&gt;
+
+&lt;h2&gt;My Typical Setup&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/uisplitviewcontroller-setup.png&quot;  &gt;&lt;/p&gt;
+
+&lt;p&gt;My storyboard consists of:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;a master/primary view in a &lt;code&gt;UINavigationViewController&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;a detail/secondary view in a &lt;code&gt;UINavigationViewController&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;both have a &lt;code&gt;UITextField&lt;/code&gt; pinned to the bottom&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Not much code needed to demo the bugs. It&amp;#39;s all in the master &lt;code&gt;ViewController&lt;/code&gt; as such:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;ViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UISplitViewControllerDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;splitViewController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;c1&quot;&gt;// Display mode can be: AllVisible | PrimaryOverlay | etc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;c1&quot;&gt;// Set to .PrimaryOverlay, and the bugs will come&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;splitViewController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preferredDisplayMode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PrimaryOverlay&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;splitViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;splitViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UISplitViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collapseSecondaryViewController&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;secondaryViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ontoPrimaryViewController&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;primaryViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;14&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;c1&quot;&gt;// To show detail first for eg iPhone compact size&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;15&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;16&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;17&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;I tested in simulator and real devices, running the latest iOS 9.1.&lt;/p&gt;
+
+&lt;h2&gt;The BUGS&lt;/h2&gt;
+
+&lt;p&gt;When &lt;code&gt;preferredDisplayMode&lt;/code&gt; is set to &lt;code&gt;PrimaryOverlay&lt;/code&gt; (or &lt;code&gt;PrimaryHidden&lt;/code&gt; or &lt;code&gt;Automatic&lt;/code&gt;), 2 bugs will be introduced:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;In iPad, swipe from left edge on detail will not show master!&lt;/li&gt;
+&lt;li&gt;The controller view will auto adjust whenever keyboard is shown&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;iframe width=&quot;640&quot; height=&quot;480&quot; src=&quot;https://www.youtube.com/embed/vYGw9BCdyC4?rel=0&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;In fact, only by setting to &lt;code&gt;AllVisible&lt;/code&gt; then things work correctly.&lt;/p&gt;
+
+&lt;p&gt;Bug #1 - Not being able to swipe from left edge is irritating, but luckily you can still have &lt;code&gt;displayModeButtonItem&lt;/code&gt; that can be added to your navigation bar.&lt;/p&gt;
+
+&lt;p&gt;Bug #2 - auto adjusting your view is much more irritating. It looks like a &lt;em&gt;feature&lt;/em&gt; at first, because it will prevent keyboard from blocking your &lt;code&gt;UITextField&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, the behaviour is buggy in iPhone. By switching to landscape, then back to portrait (as shown in the video above), the view will not auto adjust now! Because of that, you can&amp;#39;t safely assume your view will be adjusted correctly. Neither can you add codes to prevent the keyboard from blocking other views. &lt;/p&gt;
+
+&lt;p&gt;What&amp;#39;s more, the animation is laggy..&lt;/p&gt;
+
+&lt;p&gt;Terribe. Terrible.&lt;/p&gt;
+
+&lt;h2&gt;Bonus Bug&lt;/h2&gt;
+
+&lt;p&gt;Actually, there could be a warning &lt;code&gt;Unbalanced calls to begin/end appearance transitions&lt;/code&gt; if you simply set &lt;code&gt;preferredDisplayMode&lt;/code&gt;. &lt;/p&gt;
+
+&lt;p&gt;You have to wrap it around a dispatch block..&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Why set the display mode in dispatch?&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;c1&quot;&gt;// It&amp;#39;s a workaround: http://stackoverflow.com/a/28440974/242682&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;dispatch_async&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dispatch_get_main_queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;            &lt;span class=&quot;c1&quot;&gt;// Display mode can be: AllVisible | PrimaryOverlay | etc&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;            &lt;span class=&quot;c1&quot;&gt;// The bugs coming from the mode .PrimaryOverlay&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;            &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;splitViewController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preferredDisplayMode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PrimaryOverlay&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;It&amp;#39;s a warning, but show how buggy &lt;code&gt;UISplitViewController&lt;/code&gt; is!&lt;/p&gt;
+</description>
+        <pubDate>Wed, 02 Dec 2015 18:18:54 +0800</pubDate>
+        <link>http://samwize.com/2015/12/02/the-buggy-uisplitviewcontroller/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/12/02/the-buggy-uisplitviewcontroller/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
     
       <item>
         <title>Understanding UICollection Flow Layout</title>
@@ -113,7 +199,7 @@
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;26&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;27&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;28&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Calculate the section inset for left and right. &lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;29&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Setting this section inset will manipulate the items such that they will all be aligned horizontally center.&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;30&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minItemSpacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;floor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;containerWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;itemWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minItemSpacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;30&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minItemSpacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;floor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;containerWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;itemWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minItemSpacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;31&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sectionInset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIEdgeInsets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;minItemSpacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;bottom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;minItemSpacing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;32&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;33&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;collectionViewLayout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;layout&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;34&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
@@ -861,53 +947,6 @@ source &amp;#39;https://github.com/CocoaPods/Specs.git&amp;#39;
         
         
         <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>Using Swift in Existing Objective-C Project</title>
-        <description>&lt;p&gt;The beauty of Swift is that you can mix both languages. Therefore in an existing Objective-C project, you can continue to work and update your app with new Swift code.&lt;/p&gt;
-
-&lt;p&gt;Apple doc explain how to &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html&quot;&gt;mix-and-match&lt;/a&gt;, but isn&amp;#39;t clear.&lt;/p&gt;
-
-&lt;h2&gt;Steps to Using Swift in Objective-C&lt;/h2&gt;
-
-&lt;p&gt;Add your swift file.&lt;/p&gt;
-
-&lt;p&gt;(Optional) When prompted to add bridging header, select yes if you want to use Objective-C in Swift (the other way round).&lt;/p&gt;
-
-&lt;p&gt;In your project/target build settings, ensure:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Defines Module&lt;/strong&gt; set to &lt;strong&gt;Yes&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Module Name&lt;/strong&gt; does not include spaces&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;In your Objective-C file, to use the Swift code,&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;#import &amp;quot;YourModuleName-Swift.h&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;NOTE: The header &lt;code&gt;YourModuleName-Swift.h&lt;/code&gt; is NOT visible in your project. It is autogenerated by Xcode.&lt;/p&gt;
-
-&lt;p&gt;Your module name is the one found in your build settings.&lt;/p&gt;
-
-&lt;h2&gt;Steps to Using Objective-C in Swift&lt;/h2&gt;
-
-&lt;p&gt;The other way round is similar, except:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;The header name is &lt;code&gt;YourModuleName-Bridging-Header.h&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;The header is visible in Xcode&lt;/li&gt;
-&lt;li&gt;You don&amp;#39;t have to import the header in Swift&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;In this bridging header file, you have to manually add statements to import Objective-C header which you want to expose to Swift. &lt;/p&gt;
-</description>
-        <pubDate>Tue, 06 Oct 2015 10:11:25 +0800</pubDate>
-        <link>http://samwize.com/2015/10/06/using-swift-in-existing-objective-c-project/</link>
-        <guid isPermaLink="true">http://samwize.com/2015/10/06/using-swift-in-existing-objective-c-project/</guid>
-        
-        
-        <category>swift</category>
         
       </item>
     
