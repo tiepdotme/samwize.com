@@ -6,9 +6,93 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 02 Dec 2015 21:56:54 +0800</pubDate>
-    <lastBuildDate>Wed, 02 Dec 2015 21:56:54 +0800</lastBuildDate>
+    <pubDate>Wed, 09 Dec 2015 14:14:51 +0800</pubDate>
+    <lastBuildDate>Wed, 09 Dec 2015 14:14:51 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Automate Screenshots Capture Using Snapshot (via Xcode UI Testing)</title>
+        <description>&lt;p&gt;Tools are &lt;a href=&quot;http://samwize.com/2015/01/29/fastlane-replacing-ui-screen-shooter-and-screenshot-uploader/&quot;&gt;evolving&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Fastlane &lt;a href=&quot;https://github.com/fastlane/snapshot&quot;&gt;snapshot&lt;/a&gt; now uses Xcode 7 most awesome feature - UI Testing!&lt;/p&gt;
+
+&lt;h2&gt;Xcode UI Testing&lt;/h2&gt;
+
+&lt;p&gt;If you are not familiar what this awesome feature from Xcode 7 is, then watch &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2015-406/&quot;&gt;WWDC 2015&lt;/a&gt; for a demo.&lt;/p&gt;
+
+&lt;p&gt;In short, developers can now:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;record UI interactions&lt;/li&gt;
+&lt;li&gt;replay and test&lt;/li&gt;
+&lt;li&gt;view test report which includes screenshots at every stage&lt;/li&gt;
+&lt;li&gt;view test report which includes code coverage too&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;How to use&lt;/h2&gt;
+
+&lt;p&gt;There is a good &lt;a href=&quot;http://masilotti.com/ui-testing-cheat-sheet/&quot;&gt;UI Testing Cheat Sheet and Example&lt;/a&gt; from masilotti.&lt;/p&gt;
+
+&lt;p&gt;More (and lengthy) details from &lt;a href=&quot;https://developer.apple.com/library/prerelease/ios/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/01-introduction.html&quot;&gt;Apple Doc&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Using with snapshot&lt;/h2&gt;
+
+&lt;p&gt;Setting up snapshot with a UI Test target is easy. The few steps are provided in it&amp;#39;s &lt;a href=&quot;https://github.com/fastlane/snapshot&quot;&gt;quick guide&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;What snapshot did not point (perhaps obvious) is this:&lt;/p&gt;
+
+&lt;p&gt;Snapshot will run &lt;strong&gt;every test case&lt;/strong&gt; in the UI test target. Therefore, you should have &lt;strong&gt;2 UI test targets&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;For full UI testing (if you need)&lt;/li&gt;
+&lt;li&gt;For snapshot to capture screenshots&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The test target for snapshot would suffice with 1 test case that walk through the important screens that you need to capture. Maybe 1, if you support only iPhone and not iPad/etc.&lt;/p&gt;
+
+&lt;h2&gt;Testing iPad vs iPhone&lt;/h2&gt;
+
+&lt;p&gt;Another caveat is that snapshot will run through all devices you specified in your &lt;code&gt;Snapfile&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;That means, your test case could fail if your iPhone interface is different from iPad interface.&lt;/p&gt;
+
+&lt;p&gt;To workaround, you should have 2 test cases in snapshot test target:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testSnapshotPhone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;currentDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userInterfaceIdiom&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Phone&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Capture screenshots for iPhone&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testSnapshotPad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;currentDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userInterfaceIdiom&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pad&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Capture screenshots for iPad&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;Prefill Database&lt;/h2&gt;
+
+&lt;p&gt;A common requirement when taking screenshots is to have a prefill database so that the screenshots are consistent.&lt;/p&gt;
+
+&lt;p&gt;You might think that can you clean up Core Data, then manually add objects in the test case &lt;code&gt;setUp()&lt;/code&gt; function. That won&amp;#39;t work.&lt;/p&gt;
+
+&lt;p&gt;This is because the test target is &lt;em&gt;not the same&lt;/em&gt; as app target.&lt;/p&gt;
+
+&lt;p&gt;You could use a backdoor, or simply provide a logic in your app to know when it is &lt;a href=&quot;https://github.com/fastlane/snapshot#launch-arguments&quot;&gt;run via snapshot&lt;/a&gt;:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinishLaunchingWithOptions&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;NSObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;standardUserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;boolForKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;FASTLANE_SNAPSHOT&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;c1&quot;&gt;// Prefill database&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+</description>
+        <pubDate>Wed, 09 Dec 2015 13:44:13 +0800</pubDate>
+        <link>http://samwize.com/2015/12/09/automate-screenshots-capture-using-snapshot-via-xcode-ui-testing/</link>
+        <guid isPermaLink="true">http://samwize.com/2015/12/09/automate-screenshots-capture-using-snapshot-via-xcode-ui-testing/</guid>
+        
+        
+        <category>ios</category>
+        
+        <category>tests</category>
+        
+      </item>
     
       <item>
         <title>The Buggy UISplitViewController</title>
@@ -870,80 +954,6 @@ Swift&amp;#39;s generics system allows T to be any type, including an array type
         <pubDate>Tue, 13 Oct 2015 12:37:57 +0800</pubDate>
         <link>http://samwize.com/2015/10/13/how-to-create-uipageviewcontroller-in-storyboard-in-container-view/</link>
         <guid isPermaLink="true">http://samwize.com/2015/10/13/how-to-create-uipageviewcontroller-in-storyboard-in-container-view/</guid>
-        
-        
-        <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>Guide to Hosting Your Own Private Cocoapods Framework</title>
-        <description>&lt;p&gt;This is a guide to creating your own Private Cocoapods -- that is hosting your private &amp;quot;Specs&amp;quot; with your private library. &lt;/p&gt;
-
-&lt;p&gt;This is useful for projects that are not open-sourced.&lt;/p&gt;
-
-&lt;h2&gt;1. Setup Your Library&lt;/h2&gt;
-
-&lt;p&gt;Create your private library with &lt;a href=&quot;https://guides.cocoapods.org/making/using-pod-lib-create.html&quot;&gt;pod lib create&lt;/a&gt;.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;pod lib create MyLibrary
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;The interactive prompt will help in setting up your library.&lt;/p&gt;
-
-&lt;p&gt;The following 2 folders are important:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Pod - This is where you place your library&amp;#39;s classes and assets&lt;/li&gt;
-&lt;li&gt;Example - This is the generated Demo &amp;amp; Testing bundle&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When you open Xcode, you will find your library source under &lt;strong&gt;Pods &amp;gt; Development Pods &amp;gt; MyLibrary&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Development Pods are different from normal CocoaPods in that they are symlinked files, so making edits to them will change the original files, so you can work on your library from inside Xcode. When you add new/existing files to Pod/Classes or Pod/Assets or update your podspec, you should run &lt;code&gt;pod install&lt;/code&gt; or &lt;code&gt;pod update&lt;/code&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2&gt;2. Git Push Your Library&lt;/h2&gt;
-
-&lt;p&gt;Create your private repository for this library.&lt;/p&gt;
-
-&lt;p&gt;Then edit your Podspec file with the repos URL:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;s.source           = { :git =&amp;gt; &amp;quot;git@bitbucket.org:myorg/mylibrary.git&amp;quot;, :tag =&amp;gt; s.version.to_s }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;You will need to commit, and tag the version (default starts with &amp;quot;0.1.0&amp;quot;).&lt;/p&gt;
-
-&lt;p&gt;Finally, &lt;code&gt;git push&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;3. Setup Your Specs Repo&lt;/h2&gt;
-
-&lt;p&gt;Now, you have to &lt;a href=&quot;https://guides.cocoapods.org/making/private-cocoapods&quot;&gt;create your private spec repo&lt;/a&gt;. This is like a &lt;a href=&quot;https://guides.cocoapods.org/making/getting-setup-with-trunk.html&quot;&gt;private trunk&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Create another private repository (this is different from step 2). &lt;/p&gt;
-
-&lt;p&gt;Then add this private repos to your system:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;pod repo add MySpecs git@bitbucket.org:myorg/myspecs
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;4. Add your Podspec to Your Private Specs Repo&lt;/h2&gt;
-
-&lt;p&gt;Go back to your private library.&lt;/p&gt;
-
-&lt;p&gt;Push the podspec to your spec repo.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# Verify correctness of the podspec
-pod lib lint --verbose
-# Push the podspec
-pod repo push MySpecs MySwift.podspec --verbose
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h2&gt;5. Using the Library&lt;/h2&gt;
-
-&lt;p&gt;The &lt;code&gt;Podfile&lt;/code&gt; must now contain the &lt;a href=&quot;https://guides.cocoapods.org/syntax/podfile.html#source&quot;&gt;source&lt;/a&gt;. We now have 2:&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;source &amp;#39;git@bitbucket.org:myorg/myspecs&amp;#39;
-source &amp;#39;https://github.com/CocoaPods/Specs.git&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;That&amp;#39;s it. Add the library normally.&lt;/p&gt;
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;pod &amp;#39;MyLibrary&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
-        <pubDate>Fri, 09 Oct 2015 01:06:49 +0800</pubDate>
-        <link>http://samwize.com/2015/10/09/guide-to-hosting-your-own-private-cocoapods-framework/</link>
-        <guid isPermaLink="true">http://samwize.com/2015/10/09/guide-to-hosting-your-own-private-cocoapods-framework/</guid>
         
         
         <category>ios</category>
