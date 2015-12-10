@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>What I Know About Provisioning Profile</title>
+  <meta name="description" content="All Apple developers have to face the mystical provisioning profile." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="What I Know About Provisioning Profile" />
+    <meta name="twitter:image" content="http://samwize.com" />
+    
+    <meta name="twitter:description"  content="All Apple developers have to face the mystical provisioning profile." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="What I Know About Provisioning Profile"/>
+  
+  <meta property="og:description" content="All Apple developers have to face the mystical provisioning profile." />
+  
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2015-12-10T12:04:26+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-59b20639ef746bda2d14c7d70d30deb9.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">What I Know About Provisioning Profile</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2015-12-10T12:04:26+08:00">10 December 2015</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>All Apple developers have to face the <a href="https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppStoreDistributionTutorial/CreatingYourTeamProvisioningProfile/CreatingYourTeamProvisioningProfile.html">mystical provisioning profile</a>.</p>
+
+<p>It is a complex creature that I dealed with frequently, ever since my first encounter with iOS development.</p>
+
+<p>I have never fully understood why/how a provisioning profile is needed when submiting an app. I am not an expert, but here I will provide a few things I know.</p>
+
+<h2>What is Provisioning Profile</h2>
+
+<p><a href="http://bigzaphod.tumblr.com/post/78574849549/provisioning">bigzaphod</a> wrote a good post. </p>
+
+<p>In short:</p>
+
+<blockquote>
+<p>Provisioning profiles are where the vasty majority of the confusion is. They represent a union of almost everything mentioned so far and act as a single solution that addresses several issues. The important thing to remember is that they exist to grant an iOS device permission to grant your app specific permissions.</p>
+</blockquote>
+
+<p>A provisioning profile includes <em>almost everything</em> -- App ID, Team ID, developer cert, entitlements, devices (for Adhoc).</p>
+
+<p>It is needed to securely sign your app. It works because Apple generates the provisioning profiles (signed by Apple&#39;s own private key), and you in turn sign your app with the provisioning profile.</p>
+
+<h2>Quick Look</h2>
+
+<p>A good tool is <a href="https://github.com/chockenberry/Provisioning">Provisioning</a>, which let you quick look the details of a <code>.mobileprovision</code> file.</p>
+
+<p>You get a better idea of what a profile contains.</p>
+
+<h2>Fastlane sigh</h2>
+
+<p>Working with provisioning profile is tedious because you have to manage a lot of profiles. </p>
+
+<p>Each app could require up to 3 types of profile -- Development, Adhoc and App Store Distribution.</p>
+
+<p>You need to download from Apple Developer Center, then install them.</p>
+
+<p>And they expire in one year, so you have to regenerate rather frequently.</p>
+
+<p><a href="https://github.com/fastlane/sigh"><code>sigh</code></a> takes care of that.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># Create an App Store Distribution profile, download and install
+sigh
+
+# For Adhoc
+sigh --adhoc
+
+# For Development
+sigh --development
+</code></pre></div>
+<p>You can also manage all profiles that were installed locally via <code>sigh manage</code>, and delete the expired one with <code>sigh manage -e</code>. It&#39;s handly when you have hundreds of profiles.</p>
+
+<blockquote>
+<p>Because you would rather spend your time building stuff than fighting provisioning</p>
+</blockquote>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=What+I+Know+About+Provisioning+Profile&amp;url=http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=What+I+Know+About+Provisioning+Profile&amp;u=http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=What+I+Know+About+Provisioning+Profile&amp;url=http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
