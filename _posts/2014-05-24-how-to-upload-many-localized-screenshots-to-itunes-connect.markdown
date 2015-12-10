@@ -49,6 +49,10 @@ You can add this to your .bash_profile, or just run in on your bash:
 
 For myself, I use [dotfiles](http://samwize.com/2014/01/12/getting-started-with-dotfiles/), hence I added the alias to my `~/dotfiles/.aliases`, and make sure my zsh [work nicely](http://samwize.com/2014/01/19/load-dotfiles-aliases-in-zsh/) with it.
 
+_UPDATE: In Xcode 7.2, the itms path is changed slightly:_
+
+    alias itms='`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter'
+
 
 # Screenshot Uploader
 
