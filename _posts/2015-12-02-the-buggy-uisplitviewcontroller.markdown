@@ -89,3 +89,31 @@ You have to wrap it around a dispatch block..
 ```
 
 It's a warning, but show how buggy `UISplitViewController` is!
+
+
+
+## UPDATE
+
+After conversing with an Apple engineer, here is what I knew.
+
+`preferredDisplayMode` is merely _your preferred more_. The actual mode depends on the device size class, as [stated in doc](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UISplitViewController_class/#//apple_ref/occ/instp/UISplitViewController/preferredDisplayMode).
+
+> Use this property to specify the display mode that you prefer to use. The split view controller makes every effort to adopt the interface you specify but may use a different type of interface if there is not enough space to support your preferred choice. If changing the value of this property leads to an actual change in the current display mode, the split view controller animates the resulting change.
+
+> Setting the value of this property to `UISplitViewControllerDisplayModeAutomatic` causes the split view controller to choose the most appropriate display mode for the currently available space. On iPad, this results in use of the mode `UISplitViewControllerDisplayModePrimaryOverlay` in portrait orientations and `UISplitViewControllerDisplayModeAllVisible` in landscape orientations. The default value of this property is `UISplitViewControllerDisplayModeAutomatic`.
+
+When you rotate to landscape (regular horizontally), the mode will change to `AllVisible` automatically. And even after you rotate to portrait, it will remain `AllVisible`!
+
+Hence, if you want it to be always `PrimaryOverlay`, then you have to set `preferredDisplayMode` every time there is a rotation:
+
+```swift
+    override func willAnimateRotationToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        self.splitViewController?.preferredDisplayMode = .PrimaryOverlay
+    }
+```
+
+Okay, got that.
+
+Now the last mystery is why would `PrimaryOverlay` cause the view to adjust when keyboard is shown?
+
+This is because in `PrimaryOverlay`, the master view is presented within a **popover**, and popovers will automatically adjust in response to keyboard..
