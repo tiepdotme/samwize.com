@@ -34,7 +34,8 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 ```
 
-In the example, I have only added [ctrlp](https://github.com/ctrlpvim/ctrlp.vim) for illustration.
+In the example, I have only added [ctrlp](https://github.com/ctrlpvim/ctrlp.vim) for illustration of a plugin to install. Add more as needed.
+
 
 You can now install with `:PluginInstall`.
 
