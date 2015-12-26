@@ -78,7 +78,7 @@ mv ruby-cli.rb bin/ruby-cli
 
 Next we create the file `ruby-cli.gemspec`.
 
-```
+```ruby
 Gem::Specification.new do |s|
   s.name = 'ruby-cli'
   s.version = '1.0.0'
