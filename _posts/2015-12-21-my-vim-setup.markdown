@@ -59,6 +59,9 @@ Add the plugin to `.zshrc`, and install with `:PluginInstall`.
 Remember to also change the [theme for iTerm2](https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized).
 
 
+## Agnoster/Powerline zsh theme
 
+While we are at theme, you might as well change your zsh theme to [Agnoster](https://gist.github.com/agnoster/3712874), a theme that is compatible with Solarized and good if you use git. Change your `.zshrc` theme to `agnoster`.
 
+You will need to install [powerline fonts](https://github.com/powerline/fonts), then change your iTerm non-ASCII font to eg Menso for Powerline.
 
