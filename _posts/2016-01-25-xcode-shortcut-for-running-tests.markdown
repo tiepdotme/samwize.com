@@ -11,4 +11,8 @@ categories: []
 | Run 1 test        | ctrl ⌥ ⌘ U                |
 | Re-run last       | ctrl ⌥ ⌘ G                |
 
+<br />
+
 Note: Run 1 test will run the test that your cursor is on.
+
+Of the 3, my favorite got to be re-run last tests `ctrl ⌥ ⌘ G`, because I re-run tests a lot while fixing things.
