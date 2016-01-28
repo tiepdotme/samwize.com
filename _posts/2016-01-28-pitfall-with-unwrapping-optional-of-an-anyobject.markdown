@@ -31,3 +31,9 @@ if let foo = json["foo"] as? String {
 }
 ```
 Now, you don't see the print!
+
+_UPDATE: An easier way is_
+
+```swift
+if let foo = json["foo"] ?? {
+```
