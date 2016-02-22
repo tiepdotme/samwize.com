@@ -5,7 +5,7 @@ date: 2016-02-03T15:34:44+08:00
 categories: [iOS]
 ---
 
-There are a few tutorials on on `UICollectionView` which you teach you to programatically create a header/footer view as a subclass of `UICollectionReusableView`.
+There are a few tutorials on on `UICollectionView` which you teach you to programmatically create a header/footer view as a subclass of `UICollectionReusableView`.
 
 I love to use storyboard, so this is a tutorial to provide the steps to adding a header view (footer is similar) to a `UICollectionView`.
 
@@ -13,7 +13,7 @@ I love to use storyboard, so this is a tutorial to provide the steps to adding a
 
 Select Collection View > Attributes Inspector > Enabled **Section Header**.
 
-Once that is enabled, a section view will appear, and you can drag your views to it. 
+Once that is enabled, a section view will appear, and you can drag your views to it.
 
 Select the header view, and set the **Identifier** (will be used next).
 
