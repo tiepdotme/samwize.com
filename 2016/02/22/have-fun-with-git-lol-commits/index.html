@@ -7,8 +7,8 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Pitfall: NSLayoutConstraint breaking in UICollectionView</title>
-  <meta name="description" content="I encountered a weird error when using UICollectionView, where the storyboard is using autolayout." />
+  <title>Have Fun With Git Lol Commits</title>
+  <meta name="description" content="lolcommits is a fun library that takes a photo/gif of you whenever you make a commit." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -17,24 +17,24 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Pitfall: NSLayoutConstraint breaking in UICollectionView" />
+    <meta name="twitter:title" content="Have Fun With Git Lol Commits" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="I encountered a weird error when using UICollectionView, where the storyboard is using autolayout." />
+    <meta name="twitter:description"  content="lolcommits is a fun library that takes a photo/gif of you whenever you make a commit." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Pitfall: NSLayoutConstraint breaking in UICollectionView"/>
+  <meta property="og:title" content="Have Fun With Git Lol Commits"/>
   
-  <meta property="og:description" content="I encountered a weird error when using UICollectionView, where the storyboard is using autolayout." />
+  <meta property="og:description" content="lolcommits is a fun library that takes a photo/gif of you whenever you make a commit." />
   
   <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/03/05/pitfall-nslayoutconstraint-breaking-in-uicollectionview/" >
+  <meta property="og:url" content="http://samwize.com/2016/02/22/have-fun-with-git-lol-commits/" >
   <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2015-03-05T00:28:31+08:00">
+  <meta property="article:published_time" content="2016-02-22T09:45:43+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/03/05/pitfall-nslayoutconstraint-breaking-in-uicollectionview/">
+  <link rel="canonical" href="http://samwize.com/2016/02/22/have-fun-with-git-lol-commits/">
 
   <link rel="shortcut icon" href="/assets/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -55,9 +55,9 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Pitfall: NSLayoutConstraint breaking in UICollectionView</h1>
+            <h1 class="post-title">Have Fun With Git Lol Commits</h1>
             <div class="cf post-meta-text">
-              <time datetime="2015-03-05T00:28:31+08:00">05 March 2015</time>
+              <time datetime="2016-02-22T09:45:43+08:00">22 February 2016</time>
               <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
@@ -71,56 +71,52 @@
             <span class="post-reading-time"></span> read
           </div>
           <a name="topofpage"></a>
-          <p>I encountered a weird error when using <code>UICollectionView</code>, where the storyboard is using autolayout.</p>
+          <p><a href="https://github.com/mroth/lolcommits">lolcommits</a> is a fun library that takes a photo/gif of you whenever you make a commit.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># Install
+brew install imagemagick
+gem install lolcommits
 
-<p>This is the error:</p>
+# To enable for a repository
+# cd to repos
+lolcommits --enable --delay=3
+</code></pre></div>
+<p>Note: Adding a delay helps to solve the problem of your webcam/isight camera adjusting to focus. If you didn&#39;t add a delay, you could see an all black photo!</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>Unable to simultaneously satisfy constraints.
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    Probably at least one of the constraints in the following list is one you don't want. Try this: (1) look at each constraint and try to figure out which you don't expect; (2) find the code that added the unwanted constraint or constraints and fix it. (Note: If you're seeing NSAutoresizingMaskLayoutConstraints that you don't understand, refer to the documentation for the UIView property translatesAutoresizingMaskIntoConstraints) 
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>(
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    "&lt;NSLayoutConstraint:0x7fda6411de70 H:[UIButton:0x7fda6411dc90(13)]>",
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    ...
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    "&lt;NSAutoresizingMaskLayoutConstraint:0x7fda61cf61e0 h=--& v=--& H:[UIView:0x7fda6411d500(50)]>"
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>)
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>Will attempt to recover by breaking constraint 
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>&lt;NSLayoutConstraint:0x7fda6411de70 H:[UIButton:0x7fda6411dc90(13)]></div></div></pre></div></figure>
+<p>The photo/gif are stored in <code>~/.lolcommits/yourproject/</code>.</p>
 
-<!-- more -->
+<h2>GIF</h2>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># To take gif, you need to install ffmpeg
+brew install ffmpeg --with-fdk-aac --with-ffplay --with-freetype --with-frei0r --with-libass --with-libvo-aacenc --with-libvorbis --with-libvpx --with-opencore-amr --with-openjpeg --with-opus --with-rtmpdump --with-schroedinger --with-speex --with-theora --with-tools
 
-<p>It doesn&#39;t crash as it is able to recover by breaking constraint.</p>
+#Then enable to animate (eg for 1 sec)
+lolcommits --enable --delay=3 --animate=1
+</code></pre></div>
+<h2>Enable for all projects</h2>
 
-<h2>It is weird becase:</h2>
+<p>For every project, you need to run <code>lolcommits --enable</code> so that it create a post commit hook.</p>
 
-<ul>
-<li><p>If I try to solve by breaking the constraint, it will not layout as I wanted</p></li>
-<li><p>I checked every constraints and they are valid and minimal; I need not remove any unwanted constraints</p></li>
-</ul>
+<p>But you could <a href="https://github.com/mroth/lolcommits/wiki/Enabling-Lolcommits-for-all-your-Git-Repositories">enable for all repos</a>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">mkdir -p ~/.git_template/hooks
+git config --global init.templatedir &#39;~/.git_template&#39;
+cp [path/to/lolcommit-enabled-repo]/.git/hooks/post-commit ~/.git_template/hooks/
+</code></pre></div>
+<p>Now, if you want to enable lolcommits for an existing repos, run <code>git init</code>.</p>
 
-<h2>Solution</h2>
-
-<p>The problem lies with the view cell.</p>
-
-<p>Somehow, the <code>contentView</code> must set <code>translatesAutoresizingMaskIntoConstraints</code> to <code>NO</code>.</p>
-
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">contentView</span> <span class="nl">setTranslatesAutoresizingMaskIntoConstraints</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span></div></div></pre></div></figure>
-
-<p>This will similarly apply to <code>UITableViewCell</code>.</p>
-
-<p>It seems like the content view cell must use auto resizing mask.</p>
+<p>For new repos, when you run <code>git init</code>, it will automatically get enabled.</p>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Pitfall%3A+NSLayoutConstraint+breaking+in+UICollectionView&amp;url=http://samwize.com/2015/03/05/pitfall-nslayoutconstraint-breaking-in-uicollectionview"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Have+Fun+With+Git+Lol+Commits&amp;url=http://samwize.com/2016/02/22/have-fun-with-git-lol-commits"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Pitfall%3A+NSLayoutConstraint+breaking+in+UICollectionView&amp;u=http://samwize.com/2015/03/05/pitfall-nslayoutconstraint-breaking-in-uicollectionview"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Have+Fun+With+Git+Lol+Commits&amp;u=http://samwize.com/2016/02/22/have-fun-with-git-lol-commits"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -129,7 +125,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Pitfall%3A+NSLayoutConstraint+breaking+in+UICollectionView&amp;url=http://samwize.com/2015/03/05/pitfall-nslayoutconstraint-breaking-in-uicollectionview"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Have+Fun+With+Git+Lol+Commits&amp;url=http://samwize.com/2016/02/22/have-fun-with-git-lol-commits"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

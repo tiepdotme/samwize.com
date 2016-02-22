@@ -6,13 +6,57 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 06 Feb 2016 22:21:07 +0800</pubDate>
-    <lastBuildDate>Sat, 06 Feb 2016 22:21:07 +0800</lastBuildDate>
+    <pubDate>Mon, 22 Feb 2016 10:28:29 +0800</pubDate>
+    <lastBuildDate>Mon, 22 Feb 2016 10:28:29 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
+        <title>Have Fun With Git Lol Commits</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/mroth/lolcommits&quot;&gt;lolcommits&lt;/a&gt; is a fun library that takes a photo/gif of you whenever you make a commit.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# Install
+brew install imagemagick
+gem install lolcommits
+
+# To enable for a repository
+# cd to repos
+lolcommits --enable --delay=3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Note: Adding a delay helps to solve the problem of your webcam/isight camera adjusting to focus. If you didn&amp;#39;t add a delay, you could see an all black photo!&lt;/p&gt;
+
+&lt;p&gt;The photo/gif are stored in &lt;code&gt;~/.lolcommits/yourproject/&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;GIF&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# To take gif, you need to install ffmpeg
+brew install ffmpeg --with-fdk-aac --with-ffplay --with-freetype --with-frei0r --with-libass --with-libvo-aacenc --with-libvorbis --with-libvpx --with-opencore-amr --with-openjpeg --with-opus --with-rtmpdump --with-schroedinger --with-speex --with-theora --with-tools
+
+#Then enable to animate (eg for 1 sec)
+lolcommits --enable --delay=3 --animate=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2&gt;Enable for all projects&lt;/h2&gt;
+
+&lt;p&gt;For every project, you need to run &lt;code&gt;lolcommits --enable&lt;/code&gt; so that it create a post commit hook.&lt;/p&gt;
+
+&lt;p&gt;But you could &lt;a href=&quot;https://github.com/mroth/lolcommits/wiki/Enabling-Lolcommits-for-all-your-Git-Repositories&quot;&gt;enable for all repos&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;mkdir -p ~/.git_template/hooks
+git config --global init.templatedir &amp;#39;~/.git_template&amp;#39;
+cp [path/to/lolcommit-enabled-repo]/.git/hooks/post-commit ~/.git_template/hooks/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now, if you want to enable lolcommits for an existing repos, run &lt;code&gt;git init&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For new repos, when you run &lt;code&gt;git init&lt;/code&gt;, it will automatically get enabled.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 22 Feb 2016 09:45:43 +0800</pubDate>
+        <link>http://samwize.com/2016/02/22/have-fun-with-git-lol-commits/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/02/22/have-fun-with-git-lol-commits/</guid>
+        
+        
+        <category>git</category>
+        
+      </item>
+    
+      <item>
         <title>Adding Header/Footer to UICollectionView Using Storyboard</title>
-        <description>&lt;p&gt;There are a few tutorials on on &lt;code&gt;UICollectionView&lt;/code&gt; which you teach you to programatically create a header/footer view as a subclass of &lt;code&gt;UICollectionReusableView&lt;/code&gt;.&lt;/p&gt;
+        <description>&lt;p&gt;There are a few tutorials on on &lt;code&gt;UICollectionView&lt;/code&gt; which you teach you to programmatically create a header/footer view as a subclass of &lt;code&gt;UICollectionReusableView&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;I love to use storyboard, so this is a tutorial to provide the steps to adding a header view (footer is similar) to a &lt;code&gt;UICollectionView&lt;/code&gt;.&lt;/p&gt;
 
@@ -20,7 +64,7 @@
 
 &lt;p&gt;Select Collection View &amp;gt; Attributes Inspector &amp;gt; Enabled &lt;strong&gt;Section Header&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;Once that is enabled, a section view will appear, and you can drag your views to it. &lt;/p&gt;
+&lt;p&gt;Once that is enabled, a section view will appear, and you can drag your views to it.&lt;/p&gt;
 
 &lt;p&gt;Select the header view, and set the &lt;strong&gt;Identifier&lt;/strong&gt; (will be used next).&lt;/p&gt;
 
@@ -624,85 +668,6 @@ sigh --development
         <pubDate>Mon, 30 Nov 2015 17:58:53 +0800</pubDate>
         <link>http://samwize.com/2015/11/30/understanding-uicollection-flow-layout/</link>
         <guid isPermaLink="true">http://samwize.com/2015/11/30/understanding-uicollection-flow-layout/</guid>
-        
-        
-        <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>Guide to Customizing UITableView Section Header/Footer</title>
-        <description>&lt;p&gt;Using &lt;a href=&quot;https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UITableViewHeaderFooterView_class/index.html&quot;&gt;&lt;code&gt;UITableViewHeaderFooterView&lt;/code&gt;&lt;/a&gt; in Storyboard/Interface Builder is not easy because:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;It is not well documented&lt;/li&gt;
-&lt;li&gt;There are a number of ways&lt;/li&gt;
-&lt;li&gt;Things (iOS) change, and break..&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;For example, this &lt;a href=&quot;http://stackoverflow.com/a/11396643/242682&quot;&gt;highest voted answer in 2012&lt;/a&gt; does not work well anymore (the section could disappear on reload).&lt;/p&gt;
-
-&lt;p&gt;As of writing, this guide is good for iOS 9.&lt;/p&gt;
-
-&lt;p&gt;And we will be using awesome swift code :)&lt;/p&gt;
-
-&lt;h2&gt;Step 1: Subclass UITableViewHeaderFooterView&lt;/h2&gt;
-
-&lt;p&gt;Add your custom class. We call it &lt;code&gt;TableSectionHeader&lt;/code&gt; and it has only a &lt;code&gt;UILabel&lt;/code&gt; in it. You will probably add other subviews/IBOutlets to it.&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;TableSectionHeader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UITableViewHeaderFooterView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBOutlet&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;titleLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UILabel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;h2&gt;Step 2: Create the Nib&lt;/h2&gt;
-
-&lt;p&gt;Add a Nib (Add new &amp;gt; User Interface &amp;gt; View), and customize it as follows:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Change the class to &lt;code&gt;TableSectionHeader&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;In the &amp;quot;Table Section Header&amp;quot; view, make sure the &lt;strong&gt;background color is default&lt;/strong&gt;. This is to avoid the warning &lt;em&gt;Setting the background color on UITableViewHeaderFooterView has been deprecated&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;Add a View. This is a container and MUST be there to contain all the other subviews.&lt;/li&gt;
-&lt;li&gt;Add the title &lt;code&gt;UILabel&lt;/code&gt;, and connect this to the IBOutlet in the class file. If you have other subviews/outlets, do the same.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/custom-table-section-header-nib.png&quot;  &gt;&lt;/p&gt;
-
-&lt;h2&gt;Step 3: Register the Nib&lt;/h2&gt;
-
-&lt;p&gt;In your view controller &lt;code&gt;viewDidLoad&lt;/code&gt;, you need to register the nib with a reuse identifier.&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nib&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UINib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;nibName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;TableSectionHeader&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;registerNib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;forHeaderFooterViewReuseIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;TableSectionHeader&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;h2&gt;Step 4: Implement viewForHeaderInSection&lt;/h2&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UITableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewForHeaderInSection&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Here, we use NSFetchedResultsController&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// And we simply use the section name as title&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;currSection&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fetchedResultsController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sections&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;currSection&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Dequeue with the reuse identifier&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dequeueReusableHeaderFooterViewWithIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;TableSectionHeader&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TableSectionHeader&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;titleLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;The gist is using &lt;code&gt;dequeueReusableHeaderFooterViewWithIdentifier&lt;/code&gt; to get back the header section cell. You can then configure the cell similarly to how you do it for normal row cells.&lt;/p&gt;
-
-&lt;p&gt;That&amp;#39;s it!&lt;/p&gt;
-
-&lt;h2&gt;The Other Ways&lt;/h2&gt;
-
-&lt;p&gt;This guide is for using Storyboard/Interface Builder to create your custom header/footer.&lt;/p&gt;
-
-&lt;p&gt;If all you want is to change the background color and text color, then you could simply override &lt;code&gt;willDisplayHeaderView&lt;/code&gt; as described in &lt;a href=&quot;http://www.elicere.com/mobile/swift-blog-2-uitableview-section-header-color/&quot;&gt;elicere blog&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;You can also refer to &lt;a href=&quot;https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010139-Intro-DontLinkElementID_2&quot;&gt;Apple sample code&lt;/a&gt; (in Objective-C)&lt;/p&gt;
-</description>
-        <pubDate>Fri, 06 Nov 2015 17:41:30 +0800</pubDate>
-        <link>http://samwize.com/2015/11/06/guide-to-customizing-uitableview-section-header-footer/</link>
-        <guid isPermaLink="true">http://samwize.com/2015/11/06/guide-to-customizing-uitableview-section-header-footer/</guid>
         
         
         <category>ios</category>
