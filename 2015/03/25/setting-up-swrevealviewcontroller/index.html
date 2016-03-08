@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Setting up SWRevealViewController</title>
+  <meta name="description" content="SWRevealViewController is a very well written iOS library by John Lluch." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Setting up SWRevealViewController" />
+    <meta name="twitter:image" content="http://samwize.com" />
+    
+    <meta name="twitter:description"  content="SWRevealViewController is a very well written iOS library by John Lluch." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Setting up SWRevealViewController"/>
+  
+  <meta property="og:description" content="SWRevealViewController is a very well written iOS library by John Lluch." />
+  
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2015/03/25/setting-up-swrevealviewcontroller/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2015-03-25T23:27:15+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2015/03/25/setting-up-swrevealviewcontroller/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-f4527367f560e85f669e135dcf794652.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Setting up SWRevealViewController</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2015-03-25T23:27:15+08:00">25 March 2015</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p><a href="https://github.com/John-Lluch/SWRevealViewController">SWRevealViewController</a> is a very well written iOS library by John Lluch.</p>
+
+<p>It is a UI component popularly known as the hamburger menu that slides in the sidebar. </p>
+
+<p>This post is all about my encounter with SWRevealViewController.</p>
+
+<!-- more -->
+
+<h2>Using Hamburger Menu</h2>
+
+<p>I was once very against the use of the Hamburger Menu.</p>
+
+<p>The hamburger is commonly placed on the top left corner, and that is where the thumb can&#39;t reach on an iPhone.</p>
+
+<p>But overtime, I felt the UI pattern can be used, if a swipe right gesture is provided.</p>
+
+<p>One of the most well implemented app is Slack.</p>
+
+<p>You can easily swipe right to show the channels, or swipe left to open a side menu.</p>
+
+<h2>How to setup SWRevealViewController</h2>
+
+<p>The <a href="https://github.com/John-Lluch/SWRevealViewController">github</a> has some information on using the API, and a sample app.</p>
+
+<p>But there ain&#39;t good steps.</p>
+
+<p>If you are integrating to your project, this is my step-by-step guide.</p>
+
+<ol>
+<li><p>Add <code>pod &#39;SWRevealViewController&#39;, &#39;~&gt; 2.3&#39;</code> to your <a href="http://cocoapods.org">pods</a></p></li>
+<li><p>Create a View Controller (VC) in your storyboard, and set the class to <code>SWRevealViewController</code>. This VC will be empty. </p></li>
+<li><p>Create a <code>Front VC</code> and a <code>Rear VC</code> in your storyboard. </p>
+
+<p>A &quot;Front VC&quot; is usually the content view controller, and you usually will have multiple of them, with one as the initial one. </p>
+
+<p>A &quot;Rear VC&quot; is usually a sidebar on the left of the &quot;Front VC&quot; when slided in.</p>
+
+<p>There is also a &quot;Right VC&quot;, which is sort of a &quot;Rear VC&quot; but on the right. We will omit this, but every API for Rear has one for Right.</p></li>
+<li><p>Create a segue from <code>SWRevealViewController</code> to <code>Front VC</code>, when prompted set to “reveal view controller set segue”, then set the segue identifier to <code>sw_front</code>.</p></li>
+<li><p>Create a segue from <code>SWRevealViewController</code> to <code>Rear VC</code>, when prompted set to “reveal view controller set segue”, then set the segue identifier to <code>sw_rear</code>.</p></li>
+<li><p>Add a button to Front VC with the name <code>sidebarButton</code></p></li>
+<li><p>The code for Front VC:</p></li>
+</ol>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">SWRevealViewController</span> <span class="o">*</span><span class="n">revealViewController</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="n">revealViewController</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">sidebarButton</span> <span class="nl">setTarget</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">];</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">sidebarButton</span> <span class="nl">setAction</span><span class="p">:</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">revealToggle</span><span class="p">:)];</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">.</span><span class="n">panGestureRecognizer</span><span class="p">];</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>That&#39;s all! You can try running and tap on the button to reveal the side bar, or swipe!</p>
+
+<p>Add the code similarly for Rear VC, for the menu item to reveal back to (another) Front VC.</p>
+
+<h2>More customization explained</h2>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Example sidebar is width 200</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">rearViewRevealWidth</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Cannot drag and see beyond width 200</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">rearViewRevealOverdraw</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>    
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Faster slide animation</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">toggleAnimationDuration</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Simply ease out. No Spring animation.</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">toggleAnimationType</span> <span class="o">=</span> <span class="n">SWRevealToggleAnimationTypeEaseOut</span><span class="p">;</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// More shadow</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">frontViewShadowRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span></div></div></pre></div></figure>
+
+<p>There are more, but above is what I find useful for customizing my UI. </p>
+
+<p>Check out <code>SWRevealViewController.h</code> for more.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Setting+up+SWRevealViewController&amp;url=http://samwize.com/2015/03/25/setting-up-swrevealviewcontroller"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Setting+up+SWRevealViewController&amp;u=http://samwize.com/2015/03/25/setting-up-swrevealviewcontroller"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Setting+up+SWRevealViewController&amp;url=http://samwize.com/2015/03/25/setting-up-swrevealviewcontroller"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
