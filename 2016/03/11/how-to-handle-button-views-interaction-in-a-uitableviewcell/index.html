@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>How to Handle Button/views Interaction in a UITableViewCell</title>
+  <meta name="description" content="We all know a cell is tapped wehn UITableViewDelegate method - tableView:didSelectRowAtIndexPath: - is called." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="How to Handle Button/views Interaction in a UITableViewCell" />
+    <meta name="twitter:image" content="http://samwize.com" />
+    
+    <meta name="twitter:description"  content="We all know a cell is tapped wehn UITableViewDelegate method - tableView:didSelectRowAtIndexPath: - is called." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="How to Handle Button/views Interaction in a UITableViewCell"/>
+  
+  <meta property="og:description" content="We all know a cell is tapped wehn UITableViewDelegate method - tableView:didSelectRowAtIndexPath: - is called." />
+  
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2016-03-11T20:47:15+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-1064eb8713b612b3a594d0a29c68c824.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">How to Handle Button/views Interaction in a UITableViewCell</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2016-03-11T20:47:15+08:00">11 March 2016</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>We all know a cell is tapped wehn <code>UITableViewDelegate</code> method - <code>tableView:didSelectRowAtIndexPath:</code> - is called.</p>
+
+<p>But what if you have a <code>UIButton</code> in the cell, and the user tap on the button? Or it could be any <code>UIView</code> that can be tapped on in the cell.</p>
+
+<p>In those cases, the buttons or views themselves will handle the touches, and <code>tableView:didSelectRowAtIndexPath:</code> will NOT be called.</p>
+
+<h2>Interacting with a <code>UIButton</code></h2>
+
+<p>To handle the interaction with a button, you can create the <code>IBAction</code> in your view controller as per normal (eg. drag the button action selector to your view controller).</p>
+
+<p>The trick is to get the <code>superview</code> of the button, which will be the cell, and then using <code>tableView.indexPathForCell(cell)</code> to get the index path.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">@</span><span class="kt">IBAction</span> <span class="k">func</span> <span class="n">tapOnButton</span><span class="p">(</span><span class="nl">sender</span><span class="p">:</span> <span class="bp">UIButton</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">cell</span> <span class="o">=</span> <span class="n">sender</span><span class="p">.</span><span class="n">superview</span> <span class="kt">as</span><span class="o">!</span> <span class="bp">UITableViewCell</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">indexPath</span> <span class="o">=</span> <span class="n">tableView</span><span class="p">.</span><span class="n">indexPathForCell</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>Note: This is assuming the button is contained directly in the cell. If the button is contained in another view, then the cell could be <code>sender.superview.superview</code>.</p>
+
+<h2>Alternate solutions</h2>
+
+<p>This problem is very common, and the <a href="http://stackoverflow.com/a/20655223/242682">&quot;accepted answer&quot;</a> in StackOverflow is one that set the tag of the button during <code>cellForRowAtIndexPath:</code>.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">button</span><span class="p">.</span><span class="n">tag</span> <span class="o">=</span> <span class="n">indexPath</span><span class="p">.</span><span class="n">row</span></div></div></pre></div></figure>
+
+<p>This &quot;misuse&quot; of a view tag means you may not use <code>viewWithTag:</code>, and secondly it could have bug when you delete/move cells (because <code>cellForRowAtIndexPath:</code> will not be called).</p>
+
+<p>Our solution above is simpler, except that you must make sure you know where is <code>UITableViewCell</code> as you travel upwards via <code>superview</code>.</p>
+
+<p>But the <a href="http://stackoverflow.com/a/24720704/242682">best answer</a> is to create your custom <code>UITableViewCell</code>, then have your <code>UIButton</code> delegate the call to your view controller. This requires more code, and a custom class, but is the most correct.</p>
+
+<h2>Interacting with any <code>UIView</code></h2>
+
+<p>If you are tapping on any other <code>UIView</code>, you could handle similarly.</p>
+
+<p>But in this case, you cannot add the <code>UIGestureRecognizer</code> to the view on storyboard.</p>
+
+<p>You have to create the gesture with code.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">tableView</span><span class="p">(</span><span class="nl">tableView</span><span class="p">:</span> <span class="bp">UITableView</span><span class="p">,</span> <span class="n">cellForRowAtIndexPath</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="bp">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UITableViewCell</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">tapGesture</span> <span class="o">=</span> <span class="bp">UITapGestureRecognizer</span><span class="p">(</span><span class="nl">target</span><span class="p">:</span> <span class="n">viewController</span><span class="p">,</span> <span class="nl">action</span><span class="p">:</span> <span class="s">&quot;tapThis:&quot;</span><span class="p">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">myView</span><span class="p">.</span><span class="n">addGestureRecognizer</span><span class="p">(</span><span class="n">tapGesture</span><span class="p">)</span></div></div></pre></div></figure>
+
+<p>To access the view in the selector action <code>tapThis:</code>, use <code>sender.view</code>. Again, make use of <code>superview</code> to find the cell.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+Handle+Button%2Fviews+Interaction+in+a+UITableViewCell&amp;url=http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+Handle+Button%2Fviews+Interaction+in+a+UITableViewCell&amp;u=http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+Handle+Button%2Fviews+Interaction+in+a+UITableViewCell&amp;url=http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
