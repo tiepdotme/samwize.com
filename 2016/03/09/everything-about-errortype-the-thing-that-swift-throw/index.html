@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-1064eb8713b612b3a594d0a29c68c824.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f4527367f560e85f669e135dcf794652.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -83,7 +83,9 @@
 
 <p>And it passes more information in <code>userInfo</code> as a dictionary.</p>
 
-<p>It works, but isn&#39;t cool</p>
+<p>It works, but isn&#39;t cool.</p>
+
+<p><em>A bit of History: In the very beginning (in MacOS, way before any iOS), there is <a href="https://www.bignerdranch.com/blog/error-handling-in-swift-2/">NSException</a> and try-catch in Objective-C, but eventually NSError took over.</em></p>
 
 <h2>ErrorType</h2>
 
@@ -95,26 +97,29 @@
 
 <p>That means you can make any of your type a <code>ErrorType</code>, and have it being throw around.</p>
 
-<p>It is said that subclass of <code>ErrorType</code> can be cast to <code>NSError</code>. It&#39;s true, because <code>NSError</code> has &quot;implemented&quot; the empty protocl. You can cast to <code>NSError</code>, but it only makes sense if you really know that is an <code>NSError</code>.</p>
+<p>It is said that subclass of <code>ErrorType</code> can be cast to <code>NSError</code>. It&#39;s true, because <code>NSError</code> has &quot;implemented&quot; the empty protocol. You can cast to <code>NSError</code> without any problem, but it don&#39;t help because you <a href="http://stackoverflow.com/a/31685457/242682">lose information</a>.</p>
+
+<p>If you choose to use <code>ErrorType</code>, forget about <code>NSError</code>. Unless the <code>NSError</code> comes from other frameworks/libraries, then you might want to handle and map to one of your custom <code>ErrorType</code> case. Or you can wrap the NSError in your custom <code>ErrorType</code> (see <code>.OtherNSError</code> below).</p>
 
 <h2>Custom ErrorType</h2>
 
-<p>Every app should have one (or more) custom <code>AppError</code> that subclass <code>ErrroType</code>.</p>
+<p>Every app should have one (or more) custom <code>AppError</code> that subclass <code>ErrorType</code>.</p>
 
-<p>It will be an enum, with different cases of errors.</p>
+<p>It will usually be an enum (but you can use <a href="https://realm.io/news/testing-swift-error-type/">class and struct</a> too, if you want), with different cases of errors, and init with different parameters (thanks to enum)!</p>
 
 <figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">enum</span> <span class="nl">AppError</span><span class="p">:</span> <span class="n">ErrorType</span><span class="p">,</span> <span class="n">CustomStringConvertible</span> <span class="p">&#x7b;</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">DivisionError</span>
 </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">NetworkError</span><span class="p">(</span><span class="nl">code</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span>
 </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">UnexpectedError</span><span class="p">(</span><span class="nl">message</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="nl">description</span><span class="p">:</span> <span class="n">String</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">switch</span> <span class="nb">self</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">...</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">OtherNSError</span><span class="p">(</span><span class="nl">nsError</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">)</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="nl">description</span><span class="p">:</span> <span class="n">String</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">switch</span> <span class="nb">self</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">...</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
 
-<p>You could also implement <code>CustomStringConvertible</code>, and return <code>description</code> accordingly for each error case.</p>
+<p>It will be good to implement <code>CustomStringConvertible</code>, and return <code>description</code> accordingly for each error case.</p>
 
 <h2>try-catch-throw</h2>
 
@@ -123,6 +128,24 @@
 <p><a href="http://alisoftware.github.io/2015/12/17/let-it-throw/"><img class="center" src="http://alisoftware.github.io/assets/frozen-throw-man.jpg"  ></a></p>
 
 <p><a href="http://alisoftware.github.io/2015/12/17/let-it-throw/">Let it throw, let it throw~</a></p>
+
+<h2>An Example</h2>
+
+<p>But I will provide an example using <a href="https://github.com/JohnSundell/Unbox">Unbox library</a> (a good JSON decoder) of how to catch it&#39;s <code>UnboxError</code> (their custom <code>ErrorType</code>):</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">do</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="n">catch</span> <span class="n">UnboxError</span><span class="p">.</span><span class="n">MissingKey</span><span class="p">(</span><span class="k">let</span> <span class="n">key</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Specific error case of a MissingKey</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;Missing Key&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="n">catch</span> <span class="k">let</span> <span class="n">error</span> <span class="kt">as</span> <span class="n">UnboxError</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Catch all other UnboxError</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Because UnboxError conforms to CustomStringConvertible, we can print `description`</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">description</span><span class="p">)</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="n">catch</span> <span class="k">let</span> <span class="n">error</span> <span class="kt">as</span> <span class="bp">NSError</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Warning: Cast to NSError (details will be lost). Not recommended.</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">)</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
 
 <h2>Handling throw in closures</h2>
 
