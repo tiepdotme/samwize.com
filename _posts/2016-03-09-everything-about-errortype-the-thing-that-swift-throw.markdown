@@ -33,7 +33,7 @@ And it does NOT have any method. It is an EMPTY PROTOCOL.
 
 That means you can make any of your type a `ErrorType`, and have it being throw around.
 
-It is said that subclass of `ErrorType` can be cast to `NSError`. It's true, because `NSError` has "implemented" the empty protocol. You can cast to `NSError` without any problem, but it don't help because you [lose information](http://stackoverflow.com/a/31685457/242682).
+Note: `ErrorType` can always be casted to `NSError`, [magically](https://realm.io/news/testing-swift-error-type/). You can cast to `NSError` without any problem, but it don't make much sense because you [lose almost all information](http://stackoverflow.com/a/31685457/242682) on the error.
 
 If you choose to use `ErrorType`, forget about `NSError`. Unless the `NSError` comes from other frameworks/libraries, then you might want to handle and map to one of your custom `ErrorType` case. Or you can wrap the NSError in your custom `ErrorType` (see `.OtherNSError` below).
 
@@ -96,7 +96,31 @@ do {
 
 There are 2 ways as discussed in [appventure.me](http://appventure.me/2015/06/19/swift-try-catch-asynchronous-closures/):
 
-1. Using `ResultType`
+1. Using `Result`
 2. Using inner closure that throws
 
-Using `ResultType` is simpler, and easier to read. It became popular as more developers use the `ResultType`, even though it is not in Swift standard library.
+Using `Result` is simpler, and easier to read. It became popular as more developers use the `Result`, even though it is NOT in Swift standard library. It is a simple concept, and you can find a couple of different `Result.swift` in Github.
+
+
+## Result Type
+
+`Result` is an enumeration that’s either a `.Success(value)` or a `.Failure(error)`, and is a common pattern among Swift programmers.
+
+Before Swift 2, it is a common way to deal with a result - either success or with error.
+
+In Swift 2, try-catch is Apple's endorsed way.
+
+But `Result` still is good and more composable eg. you can pass `Result` in a closure
+
+The concept of `Result` is very simple, and the shortest implementation is:
+
+```swift
+public enum Result<T, Error: ErrorType> {
+    case Success(T)
+    case Failure(Error)
+}
+```
+
+But you may want to refer to a [more complete implementation](https://github.com/antitypical/Result/blob/master/Result/Result.swift), which has more feature such as `dematerialize` to throw an error if it is a failure.
+
+Many frameworks, such as [Alamofire](https://github.com/Alamofire/Alamofire/blob/master/Source/Result.swift), will also write their own `Result` type. You cam probably write your own too.
