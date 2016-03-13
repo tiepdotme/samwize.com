@@ -6,8 +6,8 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 12 Mar 2016 10:45:59 +0800</pubDate>
-    <lastBuildDate>Sat, 12 Mar 2016 10:45:59 +0800</lastBuildDate>
+    <pubDate>Sun, 13 Mar 2016 09:59:42 +0800</pubDate>
+    <lastBuildDate>Sun, 13 Mar 2016 09:59:42 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -95,7 +95,7 @@
 
 &lt;p&gt;That means you can make any of your type a &lt;code&gt;ErrorType&lt;/code&gt;, and have it being throw around.&lt;/p&gt;
 
-&lt;p&gt;It is said that subclass of &lt;code&gt;ErrorType&lt;/code&gt; can be cast to &lt;code&gt;NSError&lt;/code&gt;. It&amp;#39;s true, because &lt;code&gt;NSError&lt;/code&gt; has &amp;quot;implemented&amp;quot; the empty protocol. You can cast to &lt;code&gt;NSError&lt;/code&gt; without any problem, but it don&amp;#39;t help because you &lt;a href=&quot;http://stackoverflow.com/a/31685457/242682&quot;&gt;lose information&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Note: &lt;code&gt;ErrorType&lt;/code&gt; can always be casted to &lt;code&gt;NSError&lt;/code&gt;, &lt;a href=&quot;https://realm.io/news/testing-swift-error-type/&quot;&gt;magically&lt;/a&gt;. You can cast to &lt;code&gt;NSError&lt;/code&gt; without any problem, but it don&amp;#39;t make much sense because you &lt;a href=&quot;http://stackoverflow.com/a/31685457/242682&quot;&gt;lose almost all information&lt;/a&gt; on the error.&lt;/p&gt;
 
 &lt;p&gt;If you choose to use &lt;code&gt;ErrorType&lt;/code&gt;, forget about &lt;code&gt;NSError&lt;/code&gt;. Unless the &lt;code&gt;NSError&lt;/code&gt; comes from other frameworks/libraries, then you might want to handle and map to one of your custom &lt;code&gt;ErrorType&lt;/code&gt; case. Or you can wrap the NSError in your custom &lt;code&gt;ErrorType&lt;/code&gt; (see &lt;code&gt;.OtherNSError&lt;/code&gt; below).&lt;/p&gt;
 
@@ -150,11 +150,32 @@
 &lt;p&gt;There are 2 ways as discussed in &lt;a href=&quot;http://appventure.me/2015/06/19/swift-try-catch-asynchronous-closures/&quot;&gt;appventure.me&lt;/a&gt;:&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li&gt;Using &lt;code&gt;ResultType&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Using &lt;code&gt;Result&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;Using inner closure that throws&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Using &lt;code&gt;ResultType&lt;/code&gt; is simpler, and easier to read. It became popular as more developers use the &lt;code&gt;ResultType&lt;/code&gt;, even though it is not in Swift standard library.&lt;/p&gt;
+&lt;p&gt;Using &lt;code&gt;Result&lt;/code&gt; is simpler, and easier to read. It became popular as more developers use the &lt;code&gt;Result&lt;/code&gt;, even though it is NOT in Swift standard library. It is a simple concept, and you can find a couple of different &lt;code&gt;Result.swift&lt;/code&gt; in Github.&lt;/p&gt;
+
+&lt;h2&gt;Result Type&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;Result&lt;/code&gt; is an enumeration that’s either a &lt;code&gt;.Success(value)&lt;/code&gt; or a &lt;code&gt;.Failure(error)&lt;/code&gt;, and is a common pattern among Swift programmers.&lt;/p&gt;
+
+&lt;p&gt;Before Swift 2, it is a common way to deal with a result - either success or with error.&lt;/p&gt;
+
+&lt;p&gt;In Swift 2, try-catch is Apple&amp;#39;s endorsed way.&lt;/p&gt;
+
+&lt;p&gt;But &lt;code&gt;Result&lt;/code&gt; still is good and more composable eg. you can pass &lt;code&gt;Result&lt;/code&gt; in a closure&lt;/p&gt;
+
+&lt;p&gt;The concept of &lt;code&gt;Result&lt;/code&gt; is very simple, and the shortest implementation is:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ErrorType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;But you may want to refer to a &lt;a href=&quot;https://github.com/antitypical/Result/blob/master/Result/Result.swift&quot;&gt;more complete implementation&lt;/a&gt;, which has more feature such as &lt;code&gt;dematerialize&lt;/code&gt; to throw an error if it is a failure.&lt;/p&gt;
+
+&lt;p&gt;Many frameworks, such as &lt;a href=&quot;https://github.com/Alamofire/Alamofire/blob/master/Source/Result.swift&quot;&gt;Alamofire&lt;/a&gt;, will also write their own &lt;code&gt;Result&lt;/code&gt; type. You cam probably write your own too.&lt;/p&gt;
 </description>
         <pubDate>Wed, 09 Mar 2016 22:24:15 +0800</pubDate>
         <link>http://samwize.com/2016/03/09/everything-about-errortype-the-thing-that-swift-throw/</link>

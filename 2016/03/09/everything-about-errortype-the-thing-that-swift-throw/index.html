@@ -97,7 +97,7 @@
 
 <p>That means you can make any of your type a <code>ErrorType</code>, and have it being throw around.</p>
 
-<p>It is said that subclass of <code>ErrorType</code> can be cast to <code>NSError</code>. It&#39;s true, because <code>NSError</code> has &quot;implemented&quot; the empty protocol. You can cast to <code>NSError</code> without any problem, but it don&#39;t help because you <a href="http://stackoverflow.com/a/31685457/242682">lose information</a>.</p>
+<p>Note: <code>ErrorType</code> can always be casted to <code>NSError</code>, <a href="https://realm.io/news/testing-swift-error-type/">magically</a>. You can cast to <code>NSError</code> without any problem, but it don&#39;t make much sense because you <a href="http://stackoverflow.com/a/31685457/242682">lose almost all information</a> on the error.</p>
 
 <p>If you choose to use <code>ErrorType</code>, forget about <code>NSError</code>. Unless the <code>NSError</code> comes from other frameworks/libraries, then you might want to handle and map to one of your custom <code>ErrorType</code> case. Or you can wrap the NSError in your custom <code>ErrorType</code> (see <code>.OtherNSError</code> below).</p>
 
@@ -152,11 +152,32 @@
 <p>There are 2 ways as discussed in <a href="http://appventure.me/2015/06/19/swift-try-catch-asynchronous-closures/">appventure.me</a>:</p>
 
 <ol>
-<li>Using <code>ResultType</code></li>
+<li>Using <code>Result</code></li>
 <li>Using inner closure that throws</li>
 </ol>
 
-<p>Using <code>ResultType</code> is simpler, and easier to read. It became popular as more developers use the <code>ResultType</code>, even though it is not in Swift standard library.</p>
+<p>Using <code>Result</code> is simpler, and easier to read. It became popular as more developers use the <code>Result</code>, even though it is NOT in Swift standard library. It is a simple concept, and you can find a couple of different <code>Result.swift</code> in Github.</p>
+
+<h2>Result Type</h2>
+
+<p><code>Result</code> is an enumeration that’s either a <code>.Success(value)</code> or a <code>.Failure(error)</code>, and is a common pattern among Swift programmers.</p>
+
+<p>Before Swift 2, it is a common way to deal with a result - either success or with error.</p>
+
+<p>In Swift 2, try-catch is Apple&#39;s endorsed way.</p>
+
+<p>But <code>Result</code> still is good and more composable eg. you can pass <code>Result</code> in a closure</p>
+
+<p>The concept of <code>Result</code> is very simple, and the shortest implementation is:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">public</span> <span class="k">enum</span> <span class="n">Result</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="nl">Error</span><span class="p">:</span> <span class="n">ErrorType</span><span class="o">&gt;</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">Success</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">Failure</span><span class="p">(</span><span class="n">Error</span><span class="p">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>But you may want to refer to a <a href="https://github.com/antitypical/Result/blob/master/Result/Result.swift">more complete implementation</a>, which has more feature such as <code>dematerialize</code> to throw an error if it is a failure.</p>
+
+<p>Many frameworks, such as <a href="https://github.com/Alamofire/Alamofire/blob/master/Source/Result.swift">Alamofire</a>, will also write their own <code>Result</code> type. You cam probably write your own too.</p>
 
         </section>
         <footer class="post-footer">
