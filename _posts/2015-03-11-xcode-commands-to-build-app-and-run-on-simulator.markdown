@@ -27,6 +27,8 @@ If you are using workspace, then you need to provide the scheme too:
 
     xcodebuild -workspace '/path/to/Awesome.xcworkspace' -scheme 'Awesome-Production' -arch i386  -sdk iphonesimulator8.2
 
+Or, more likely, you are using Xcode app (not commandline), then just build the app as per normal.
+
 The build will be created at **~/Library/Developer/Xcode/DerivedData**.
 
 So, if the build is successful, the app will be at **~/Library/Developer/Xcode/DerivedData/Awesome-dvxamtpiqakwogarovbwiagepzxj/Build/Products/Release-iphonesimulator/Awesome.app**. This path is needed in the next step.
@@ -34,12 +36,15 @@ So, if the build is successful, the app will be at **~/Library/Developer/Xcode/D
 
 ## Run on Simulator
 
-Use [ios-sim](https://github.com/phonegap/ios-sim) to help run on simulator. 
+Use [ios-sim](https://github.com/phonegap/ios-sim) to help run on simulator.
 
 Install it with `brew install ios-sim`.
 
 Then run:
 
-    ios-sim launch <path-to-app>
+    # First, find the device type
+    ios-sim showdevicetypes
+    # Example using iPhone 6 Plus
+    ios-sim launch --devicetypeid "iPhone-6-Plus, 9.2" /path/to/awesome.app
 
 That's it!
