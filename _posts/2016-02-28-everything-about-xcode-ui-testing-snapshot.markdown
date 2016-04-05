@@ -29,6 +29,8 @@ Note that **"back"** is an identifier, compared to **"Back"** the name in Englis
 
 You should NOT be using the accessibility name since that could be localized, so running in different languages would not work as expected.
 
+Pitfall: Some components such as `UIBarButtonItem` don't have the accessibility identifier field under identifier inspector. You could still add it as user defined runtime attributes as `accessibilityIdentifier` with type String.
+
 
 ## Selecting row in table view
 
