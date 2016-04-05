@@ -6,9 +6,195 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 13 Mar 2016 09:59:42 +0800</pubDate>
-    <lastBuildDate>Sun, 13 Mar 2016 09:59:42 +0800</lastBuildDate>
+    <pubDate>Tue, 05 Apr 2016 16:55:57 +0800</pubDate>
+    <lastBuildDate>Tue, 05 Apr 2016 16:55:57 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>About App Link (branch.io)</title>
+        <description>&lt;p&gt;App Link is, technically, not a link, but metadata (eg. &lt;code&gt;og:title&lt;/code&gt; and &lt;code&gt;og:url&lt;/code&gt;) on a webpage.&lt;/p&gt;
+
+&lt;p&gt;It is called an App Link, because the webpage (with a URL link) usually open/install the app.&lt;/p&gt;
+
+&lt;p&gt;It is pretty interesting to learn about App Link for iOS, and specifically, I wil be &lt;a href=&quot;https://bnc.lt/m/imsbo8Ilis&quot;&gt;introducing branch.io&lt;/a&gt;, which is a free deep linking service for both iOS and Android. And they claimed to be &lt;a href=&quot;https://branch.io/pricing/&quot;&gt;FREE forever&lt;/a&gt;!&lt;/p&gt;
+
+&lt;h2&gt;Who else provides App Links?&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developers.facebook.com/docs/applinks/ios&quot;&gt;Facebook&lt;/a&gt; and &lt;a href=&quot;https://developers.google.com/app-invites/&quot;&gt;Google&lt;/a&gt; has their own service to create app links.&lt;/p&gt;
+
+&lt;p&gt;But they both required the user to login to Facebook/Google, which is a big disadvantage.&lt;/p&gt;
+
+&lt;p&gt;On the other hand, branch.io is neutral, and is very focused in doing what they do best.&lt;/p&gt;
+
+&lt;h2&gt;Social Media Description&lt;/h2&gt;
+
+&lt;p&gt;If you have an app, but doesn&amp;#39;t have a website, branch.io will be a great help for you to generate a link which you can share on social media platforms.&lt;/p&gt;
+
+&lt;p&gt;Behind the scene, the link generates the &lt;a href=&quot;http://ogp.me&quot;&gt;open graph&lt;/a&gt; metadata which describes your app.&lt;/p&gt;
+
+&lt;h2&gt;App Link passes data over to app&lt;/h2&gt;
+
+&lt;p&gt;This feature is the biggest reason why you should use branch.io.&lt;/p&gt;
+
+&lt;p&gt;We all know that when a user install an app from the App Store, no data can be passed to the app. eg. You won&amp;#39;t know the source/url that resulted in the user downloadong the app.&lt;/p&gt;
+
+&lt;p&gt;branch.io solved this problem by using &lt;a href=&quot;https://blog.branch.io/deferred-deep-link-for-facebook-install-ads&quot;&gt;fingerprinting&lt;/a&gt;. In short, it identifies a user with &lt;strong&gt;IDFA&lt;/strong&gt;, then match it back after the app is installed. This is not perfect, but works 99%.&lt;/p&gt;
+
+&lt;h2&gt;Setting up branch.io&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://dev.branch.io/getting-started/sdk-integration-guide/guide/ios/&quot;&gt;SDK integration guide&lt;/a&gt; is good.&lt;/p&gt;
+
+&lt;p&gt;The part on &lt;a href=&quot;https://dev.branch.io/getting-started/universal-app-links/overview/&quot;&gt;Universal and App Links&lt;/a&gt; is required too. They also provided good explanation on &lt;a href=&quot;https://dev.branch.io/getting-started/universal-app-links/support/ios/#what-changed-in-ios-9-and-92&quot;&gt;what&amp;#39;s changed in iOS 9.2&lt;/a&gt;. In short, Apple does not seamlessly open the app starting with iOS 9.2. Rather, it shows an alert and require the user to explicitly confirm first.&lt;/p&gt;
+
+&lt;p&gt;The code needed in &lt;code&gt;AppDelegate&lt;/code&gt;:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinishLaunchingWithOptions&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;NSObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;Branch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;initSessionWithLaunchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;andRegisterDeepLinkHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;handleBranch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;openURL&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;sourceApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;annotation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;Branch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handleDeepLink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;continueUserActivity&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;userActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSUserActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;restorationHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Branch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;continueUserActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// This branch handler will run when:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;14&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// - App Start&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;15&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// - After `application:openURL:...`&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;16&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// - After `application:continueUserActivity:...`&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;17&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;18&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Note the params will be &amp;quot;consumed&amp;quot;. After the first run, on the subsequent, it will have `clicked_branch_link` false, `is_first_session` false&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;19&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;handleBranch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;NSObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSError&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;20&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;21&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Error: \(error)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;22&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;23&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Branch Params: \(params)&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;24&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Handle it&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;25&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Note: I am not very sure about this &lt;a href=&quot;https://dev.branch.io/getting-started/universal-app-links/advanced/ios/#how-to-handle-old-uri-paths-with-universal-links&quot;&gt;guide&lt;/a&gt;, which says to prevent &amp;quot;deep linked twice&amp;quot;. It has a flag, which is set to ignore in the entry point for iOS 8.x &lt;code&gt;application:openURL:...&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Handling Push&lt;/h2&gt;
+
+&lt;p&gt;Branch can also handle the push notification payload, with the branch link url in key &lt;code&gt;branch&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didReceiveRemoteNotification&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;NSObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;Branch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getInstance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handlePushNotification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+</description>
+        <pubDate>Tue, 05 Apr 2016 09:43:39 +0800</pubDate>
+        <link>http://samwize.com/2016/04/05/about-app-link-branch-io/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/04/05/about-app-link-branch-io/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
+    
+      <item>
+        <title>The bug with UICollectionView Content Offset</title>
+        <description>&lt;p&gt;I have covered a &lt;a href=&quot;http://samwize.com/2015/11/30/understanding-uicollection-flow-layout/&quot;&gt;few&lt;/a&gt; &lt;a href=&quot;http://samwize.com/2016/02/03/adding-header-footer-to-uicollectionview-using-storyboard/&quot;&gt;posts&lt;/a&gt; &lt;a href=&quot;http://samwize.com/2015/03/05/pitfall-nslayoutconstraint-breaking-in-uicollectionview/&quot;&gt;on&lt;/a&gt; using &lt;code&gt;UICollectionView&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This post is about a bug to do with the content offset that somehow get set incorrectly during creation of the layout. I have no solution to this bug.&lt;/p&gt;
+
+&lt;h2&gt;The Cause&lt;/h2&gt;
+
+&lt;p&gt;In iOS 7, the &lt;a href=&quot;https://devforums.apple.com/message/874718#874718&quot;&gt;behaviour changed&lt;/a&gt;, and &lt;code&gt;viewDidLayoutSubviews&lt;/code&gt; gets called every time that it loads a &lt;code&gt;UICollectionViewCell&lt;/code&gt;. &lt;/p&gt;
+
+&lt;p&gt;An effect of repeatedly calling &lt;code&gt;viewDidLayoutSubviews&lt;/code&gt; is that the collection view content offset will be &lt;em&gt;incorrectly set to something&lt;/em&gt; during one of the calls, causing the collection view to be &amp;quot;scrolled&amp;quot; to a wrong position.&lt;/p&gt;
+
+&lt;h2&gt;Where to create layout?&lt;/h2&gt;
+
+&lt;p&gt;The bug is triggered when layout is created. Exactly where the following code (lets refer to &lt;code&gt;setupLayout&lt;/code&gt;) is called matters.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setupLayout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Create your layout&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;layout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;collectionViewLayout&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;layout&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Is in &lt;code&gt;viewDidLoad&lt;/code&gt;? &lt;/p&gt;
+
+&lt;p&gt;Unfortunately, in &lt;code&gt;viewDidLoad&lt;/code&gt;, the &lt;strong&gt;collection view bounds are not ready yet&lt;/strong&gt;, so depending on your layout (if it needs to know the bounds), it might not be the correct place to set up your layout.&lt;/p&gt;
+
+&lt;p&gt;Placing it in &lt;code&gt;viewDidLayoutSubviews&lt;/code&gt; is a better choice, because the collection view is initialized and the bounds are now correct.&lt;/p&gt;
+
+&lt;h2&gt;The problem with &lt;code&gt;viewDidLayoutSubviews&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;When you create your layout in &lt;code&gt;viewDidLayoutSubviews&lt;/code&gt;, there will be the mentioned buggy behaviour whereby the collection view will somehow set it&amp;#39;s content offset, making the view scrolled slightly (down/right).&lt;/p&gt;
+
+&lt;p&gt;If you trace the code, &lt;code&gt;viewDidLayoutSubviews&lt;/code&gt; will be called twice or more, with one of the call changing the &lt;code&gt;contentOffset&lt;/code&gt; (eg y by 38pt).&lt;/p&gt;
+
+&lt;p&gt;To fix, make sure you create the layout only ONCE.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviewsForTheFirstTime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Make sure this is the first time, else return&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviewsForTheFirstTime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviewsForTheFirstTime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Create the layout&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;setupLayout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;But what when bounds change?&lt;/h2&gt;
+
+&lt;p&gt;Unfortunately, the above prevents layout from adjusting when the bounds change eg. device orientation rotated&lt;/p&gt;
+
+&lt;p&gt;This is because &lt;code&gt;viewDidLayoutSubviews&lt;/code&gt; is the place to adjust a collection view layout, because the new bounds (specifically the collection view bounds) would have been updated.&lt;/p&gt;
+
+&lt;p&gt;So, we are back to the problem:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;setting up layout in &lt;code&gt;viewDidLayoutSubviews&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;bug with content offset&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;A likely solution is to adjust the content offset for the first time the layout is created.&lt;/p&gt;
+
+&lt;p&gt;However, that don&amp;#39;t work, because the content offset might not be set on first time!&lt;/p&gt;
+
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;There is no solution I know of.&lt;/p&gt;
+
+&lt;p&gt;But depending on your situation, it could still work.&lt;/p&gt;
+
+&lt;p&gt;If your layout does NOT require information of the collection view bounds:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Set up in `viewDidLoad`&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;setupLayout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Otherwise, this code, but with the bug that the content offset will be off:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Set up in `viewDidLayoutSubviews`&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLayoutSubviews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;setupLayout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;If you don&amp;#39;t need to deal with bounds/orientation change, then you can put on a guard to make sure layout is created once only:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviewsForTheFirstTime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;kr&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;nb&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Make sure this is the first time, else return&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviewsForTheFirstTime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;viewDidLayoutSubviewsForTheFirstTime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Create the layout&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;setupLayout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+</description>
+        <pubDate>Mon, 04 Apr 2016 13:47:14 +0800</pubDate>
+        <link>http://samwize.com/2016/04/04/the-bug-to-do-with-uicollectionview-content-offset/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/04/04/the-bug-to-do-with-uicollectionview-content-offset/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
     
       <item>
         <title>How to Handle Button/views Interaction in a UITableViewCell</title>
@@ -498,6 +684,8 @@
 
 &lt;p&gt;You should NOT be using the accessibility name since that could be localized, so running in different languages would not work as expected.&lt;/p&gt;
 
+&lt;p&gt;Pitfall: Some components such as &lt;code&gt;UIBarButtonItem&lt;/code&gt; don&amp;#39;t have the accessibility identifier field under identifier inspector. You could still add it as user defined runtime attributes as &lt;code&gt;accessibilityIdentifier&lt;/code&gt; with type String.&lt;/p&gt;
+
 &lt;h2&gt;Selecting row in table view&lt;/h2&gt;
 
 &lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;cp&quot;&gt;# To select row 0&lt;/span&gt;
@@ -626,87 +814,6 @@ cp [path/to/lolcommit-enabled-repo]/.git/hooks/post-commit ~/.git_template/hooks
         
         
         <category>git</category>
-        
-      </item>
-    
-      <item>
-        <title>Adding Header/Footer to UICollectionView Using Storyboard</title>
-        <description>&lt;p&gt;There are a few tutorials on on &lt;code&gt;UICollectionView&lt;/code&gt; which you teach you to programmatically create a header/footer view as a subclass of &lt;code&gt;UICollectionReusableView&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;I love to use storyboard, so this is a tutorial to provide the steps to adding a header view (footer is similar) to a &lt;code&gt;UICollectionView&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;1. Add Header to Storyboard&lt;/h2&gt;
-
-&lt;p&gt;Select Collection View &amp;gt; Attributes Inspector &amp;gt; Enabled &lt;strong&gt;Section Header&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Once that is enabled, a section view will appear, and you can drag your views to it.&lt;/p&gt;
-
-&lt;p&gt;Select the header view, and set the &lt;strong&gt;Identifier&lt;/strong&gt; (will be used next).&lt;/p&gt;
-
-&lt;h2&gt;2. Implement UICollectionViewDataSource method &lt;code&gt;viewForSupplementaryElementOfKind&lt;/code&gt;&lt;/h2&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UICollectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewForSupplementaryElementOfKind&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;atIndexPath&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSIndexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UICollectionReusableView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headerView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dequeueReusableSupplementaryViewOfKind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;withReuseIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headerId&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;forIndexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;headerView&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;In the above method, &lt;code&gt;headerId&lt;/code&gt; is the header view identifier you set in storyboard.&lt;/p&gt;
-
-&lt;h2&gt;3. Set layout header size&lt;/h2&gt;
-
-&lt;p&gt;Lastly, and this is most often left out by developers, is that you still need to set the header view size in the layout.&lt;/p&gt;
-
-&lt;p&gt;Most would have thought that the header view size is that in the storyboard, but sadly, it is not (and the default size is 0)!&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;headerReferenceSize&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGSizeMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;&lt;code&gt;layout&lt;/code&gt; is the custom layout such as a &lt;code&gt;UICollectionViewFlowLayout&lt;/code&gt;, which you set to &lt;code&gt;collectionView.collectionViewLayout&lt;/code&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 03 Feb 2016 15:34:44 +0800</pubDate>
-        <link>http://samwize.com/2016/02/03/adding-header-footer-to-uicollectionview-using-storyboard/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/02/03/adding-header-footer-to-uicollectionview-using-storyboard/</guid>
-        
-        
-        <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>Pitfall With Unwrapping Optional of an AnyObject</title>
-        <description>&lt;p&gt;We all assume an &lt;strong&gt;if-let&lt;/strong&gt; way of unwrapping optional works as it is.&lt;/p&gt;
-
-&lt;p&gt;Example:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;y&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Should not see this since json[&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;] is nil!&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;In the above, we should not see the print statement since &lt;code&gt;json[&amp;quot;foo&amp;quot;]&lt;/code&gt; is nil.&lt;/p&gt;
-
-&lt;p&gt;Yet, we will see the print!&lt;/p&gt;
-
-&lt;p&gt;This is because &lt;a href=&quot;http://stackoverflow.com/a/28531068/242682&quot;&gt;AnyObject is evil&lt;/a&gt;. It will ruin things, run wild, and unpredictable.&lt;/p&gt;
-
-&lt;p&gt;To fix, you need to cast to the type that you know the unwrapped optional will be eg. String:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;x&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;y&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Should not see this since json[&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&amp;quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;] is nil!&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;Now, you don&amp;#39;t see the print!&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;UPDATE: An easier way is&lt;/em&gt;&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;json&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;??&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-</description>
-        <pubDate>Thu, 28 Jan 2016 16:09:17 +0800</pubDate>
-        <link>http://samwize.com/2016/01/28/pitfall-with-unwrapping-optional-of-an-anyobject/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/01/28/pitfall-with-unwrapping-optional-of-an-anyobject/</guid>
-        
-        
-        <category>ios</category>
         
       </item>
     

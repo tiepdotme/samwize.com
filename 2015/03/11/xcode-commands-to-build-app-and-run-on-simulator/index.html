@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-f4527367f560e85f669e135dcf794652.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-1064eb8713b612b3a594d0a29c68c824.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -88,18 +88,23 @@
 <p>If you are using workspace, then you need to provide the scheme too:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">xcodebuild -workspace &#39;/path/to/Awesome.xcworkspace&#39; -scheme &#39;Awesome-Production&#39; -arch i386  -sdk iphonesimulator8.2
 </code></pre></div>
+<p>Or, more likely, you are using Xcode app (not commandline), then just build the app as per normal.</p>
+
 <p>The build will be created at <strong>~/Library/Developer/Xcode/DerivedData</strong>.</p>
 
 <p>So, if the build is successful, the app will be at <strong>~/Library/Developer/Xcode/DerivedData/Awesome-dvxamtpiqakwogarovbwiagepzxj/Build/Products/Release-iphonesimulator/Awesome.app</strong>. This path is needed in the next step.</p>
 
 <h2>Run on Simulator</h2>
 
-<p>Use <a href="https://github.com/phonegap/ios-sim">ios-sim</a> to help run on simulator. </p>
+<p>Use <a href="https://github.com/phonegap/ios-sim">ios-sim</a> to help run on simulator.</p>
 
 <p>Install it with <code>brew install ios-sim</code>.</p>
 
 <p>Then run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">ios-sim launch &lt;path-to-app&gt;
+<div class="highlight"><pre><code class="language-text" data-lang="text"># First, find the device type
+ios-sim showdevicetypes
+# Example using iPhone 6 Plus
+ios-sim launch --devicetypeid &quot;iPhone-6-Plus, 9.2&quot; /path/to/awesome.app
 </code></pre></div>
 <p>That&#39;s it!</p>
 
