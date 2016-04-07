@@ -3,7 +3,6 @@ layout: post
 title: "Everything About UITableView and UITableViewCell"
 date: 2016-02-24T16:25:31+08:00
 categories: [iOS]
-published: false
 ---
 
 To configure `tableView`, you will typically set it's properties in `viewDidLoad`.
@@ -58,4 +57,12 @@ When device rotate, you should reload data so that the cells will reload.
 override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
     tableView.reloadData()
 }
+```
+
+## Using custom cell in nib 
+
+A [similar tutorial on using nib for UICollectionViewCell](/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard/) was written. `UITable` is smiliar.
+
+```swift
+tableView.registerNib(UINib(nibName: "MyCell", bundle: nil), forCellReuseIdentifier: "cell")
 ```

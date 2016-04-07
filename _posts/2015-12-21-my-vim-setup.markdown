@@ -3,7 +3,6 @@ layout: post
 title: "My Vim Setup"
 date: 2015-12-21T12:51:26+08:00
 categories: [vim]
-published: false 
 ---
 
 ## Install vim with +clipboard

@@ -72,7 +72,9 @@ Using an xib instead of constructing the cell in a storyboard is useful if you w
 
 This avoids duplicating the cells in different scenes/storyboards.
 
-To do that, create `MyCell.xib`, and create the views in the xib instead. Set the class name to `MyCell` and connect the IBOutlet. This step is very similar to how you do it in a storyboard in (2), except that you do it in the xib.
+To do that, create `MyCell.xib`, and create the views in the xib instead. The important step here is to delete the root view that is created automatically, and add a `UICollectionViewCell`.
+
+Then set the class name to `MyCell`, add your views and connect the IBOutlet. This step is very similar to how you do it in a storyboard in (2), except that you do it in the xib.
 
 In the storyboard, the collection view need not have cell. 
 
