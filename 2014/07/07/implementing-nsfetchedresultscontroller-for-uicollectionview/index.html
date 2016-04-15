@@ -166,6 +166,20 @@
 </div></div><div data-line='75' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;];</span>
 </div></div><div data-line='76' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
 
+<h2>Pitfall: fetchLimit</h2>
+
+<p>If you use <code>fetchLimit</code> when you <code>performFetch</code>, you might be thinking it will be &quot;honoured&quot; throughout the <code>NSFetchedResultsController</code> eg. if they is change in the data, it will still be limited</p>
+
+<p>Unfortunately, it <a href="http://stackoverflow.com/q/9022580/242682">does not</a> limit the number of records.</p>
+
+<p>A <a href="http://stackoverflow.com/a/9025638/242682">quick solution</a> is to <code>performFetch</code> again, whenever there is a change in content:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="nf">controllerDidChangeContent</span><span class="p">(</span><span class="nl">controller</span><span class="p">:</span> <span class="bp">NSFetchedResultsController</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">_</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="n">fetchedResultsController</span><span class="p">.</span><span class="n">performFetch</span><span class="p">()</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>Another <a href="http://stackoverflow.com/a/10837871/242682">solution</a> is to limit the number of cells to display in the <code>UICollectionViewDataSource</code> methods. (Disclaimer: I didn&#39;t have success with that, as the code produces &quot;CoreData: error: Serious application error... controllerDidChangeContent...&quot;, but the concept is correct)</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">
