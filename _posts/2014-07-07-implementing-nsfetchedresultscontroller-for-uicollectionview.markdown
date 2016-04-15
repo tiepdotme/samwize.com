@@ -108,4 +108,18 @@ In the 4 Crazy NSFetchedResultsControllerDelegate methods, you bascially add to 
 }
 ```
 
+## Pitfall: fetchLimit
 
+If you use `fetchLimit` when you `performFetch`, you might be thinking it will be "honoured" throughout the `NSFetchedResultsController` eg. if they is change in the data, it will still be limited
+
+Unfortunately, it [does not](http://stackoverflow.com/q/9022580/242682) limit the number of records.
+
+A [quick solution](http://stackoverflow.com/a/9025638/242682) is to `performFetch` again, whenever there is a change in content:
+
+```swift
+override func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    _ = try? fetchedResultsController.performFetch()
+}
+```
+
+Another [solution](http://stackoverflow.com/a/10837871/242682) is to limit the number of cells to display in the `UICollectionViewDataSource` methods. (Disclaimer: I didn't have success with that, as the code produces "CoreData: error: Serious application error... controllerDidChangeContent...", but the concept is correct)
