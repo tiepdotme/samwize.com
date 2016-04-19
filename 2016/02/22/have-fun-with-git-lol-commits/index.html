@@ -104,6 +104,9 @@ cp [path/to/lolcommit-enabled-repo]/.git/hooks/post-commit ~/.git_template/hooks
 
 <p>For new repos, when you run <code>git init</code>, it will automatically get enabled.</p>
 
+<h2>Create timelapse movie</h2>
+<div class="highlight"><pre><code class="language-text" data-lang="text">convert `find . -type f -name &quot;*.jpg&quot; -print0 | xargs -0 ls -tlr | awk &#39;{print $9}&#39;` timelapse.mpeg
+</code></pre></div>
         </section>
         <footer class="post-footer">
           <section class="share">
