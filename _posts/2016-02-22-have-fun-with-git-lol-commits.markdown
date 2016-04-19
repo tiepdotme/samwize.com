@@ -41,3 +41,9 @@ But you could [enable for all repos](https://github.com/mroth/lolcommits/wiki/En
 Now, if you want to enable lolcommits for an existing repos, run `git init`.
 
 For new repos, when you run `git init`, it will automatically get enabled.
+
+
+## Create timelapse movie
+
+    convert `find . -type f -name "*.jpg" -print0 | xargs -0 ls -tlr | awk '{print $9}'` timelapse.mpeg
+    
