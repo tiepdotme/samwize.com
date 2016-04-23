@@ -102,6 +102,14 @@ Or you can [list](http://gitref.org/remotes/) the remotes
 
 
 
+## Change remote url
+
+With the list of remotes, you can change to a new URL (http or ssh). Eg. Change `origin` remote to a ssh url:
+
+  git remote set-url origin git@github.com:USERNAME/REPOS.git
+
+
+
 ## Update your repos ##
 
 It's a 2 step process. First you fetch the changes from a remote named `origin`
@@ -117,9 +125,6 @@ Or Simply
 	git pull origin master
 
 If `origin` is a default remote and 'master' is default branch, you can drop it eg. `git pull`.
-
-
-
 
 
 
@@ -156,7 +161,6 @@ Done!
 
 
 
-
 ## Revert a file during merge conflict ##
 
 Say when you have a merge conflict, you know it should just take your file,
@@ -169,7 +173,6 @@ Or if you know yit should be their file,
 
 
 
-
 ## Tagging ##
 
 Useful when you want to [tag a version](http://git-scm.com/book/en/Git-Basics-Tagging).
@@ -179,7 +182,6 @@ Useful when you want to [tag a version](http://git-scm.com/book/en/Git-Basics-Ta
 If you want to push to the tag, it works similarly like a branch.
 
 	git push origin v1.2
-
 
 
 
