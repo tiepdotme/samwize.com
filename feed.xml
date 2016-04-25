@@ -6,9 +6,106 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 19 Apr 2016 17:15:50 +0800</pubDate>
-    <lastBuildDate>Tue, 19 Apr 2016 17:15:50 +0800</lastBuildDate>
+    <pubDate>Mon, 25 Apr 2016 17:39:20 +0800</pubDate>
+    <lastBuildDate>Mon, 25 Apr 2016 17:39:20 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Tutorial on Creating App Shortcut With 3D Touch</title>
+        <description>&lt;p&gt;With 3D Touch (or Force Touch), Apple adds a &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/&quot;&gt;new way of interacting&lt;/a&gt; with your app.&lt;/p&gt;
+
+&lt;p&gt;One of the new feature is having app shortcuts when you 3D touch the app icon.&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/Art/maps_directions_home_2x.png&quot; alt=&quot;&quot; title=&quot;Quick Actions as you 3D Touch&quot;&gt;&lt;/p&gt;
+
+&lt;h2&gt;Type of shortcuts&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Static - declared in &lt;code&gt;Info.plist&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Dynamic - created with &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIMutableApplicationShortcutItem_class/&quot;&gt;UIMutableApplicationShortcutItem&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can have up to 4 shortcuts. &lt;/p&gt;
+
+&lt;h2&gt;Creating Static Shortcut Item&lt;/h2&gt;
+
+&lt;p&gt;You add a &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/iPhoneOSKeys.html#//apple_ref/doc/uid/TP40009252-SW36&quot;&gt;UIApplicationShortcutItems array&lt;/a&gt; to &lt;code&gt;Info.plist&lt;/code&gt;, like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img class=&quot;center&quot; src=&quot;/images/UIApplicationShortcutItems-in-Info-plist.png&quot; alt=&quot;&quot; title=&quot;Info.plist&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;The title and subtitle strings are localized in &lt;code&gt;InfoPlist.strings&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Creating Dynamic Shortcut Item&lt;/h2&gt;
+
+&lt;p&gt;You create 1 or more &lt;code&gt;UIMutableApplicationShortcutItem&lt;/code&gt;, and set it to &lt;code&gt;UIApplication.sharedApplication().shortcutItems&lt;/code&gt;. &lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Creating a shortcut&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shortcut1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIMutableApplicationShortcutItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;      &lt;span class=&quot;nl&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;com.myapp.shortcut1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;      &lt;span class=&quot;nl&quot;&gt;localizedTitle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Shortcut 1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;      &lt;span class=&quot;nl&quot;&gt;localizedSubtitle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;      &lt;span class=&quot;nl&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIApplicationShortcutIcon&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;templateImageName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;myimage&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;      &lt;span class=&quot;nl&quot;&gt;userInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Set the shortcut items&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sharedApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shortcutItems&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shortcut1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shortcut2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Note: You can have up to 4 shortcuts, and the static shortcuts will be listed first.&lt;/p&gt;
+
+&lt;p&gt;In the example above, I used a custom icon image &amp;quot;myimage&amp;quot;. You can easily use system provided icons such as &lt;code&gt;UIApplicationShortcutIconType.Search&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can pass more information via &lt;code&gt;userInfo&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2&gt;Handling a Shortcut&lt;/h2&gt;
+
+&lt;p&gt;Unsurprisingly, you handle in your &lt;code&gt;UIApplicationDelegate&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// When app is already launched, performActionForShortcutItem will be called&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;performActionForShortcutItem&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;shortcutItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIApplicationShortcutItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;completionHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handleShortcut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shortcutItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// When app is launched as a result of the shortcut, `didFinishLaunchingWithOptions` will be called&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// If `launchOptions` has the shortcut item, then it need to return false &lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// so that `performActionForShortcutItem` will not be called (which will result in calling `handleShortcut` twice)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinishLaunchingWithOptions&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;NSObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shortcutItem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIApplicationLaunchOptionsShortcutItemKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIApplicationShortcutItem&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;handleShortcut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shortcutItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;14&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;15&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;16&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;17&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;18&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Our private handler&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;19&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;handleShortcut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;shortcutItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIApplicationShortcutItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;20&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shortcutItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;type&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;21&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;com.myapp.shortcut1&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;22&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;c1&quot;&gt;// Handle shortcut 1&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;23&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;com.myapp.shortcut2&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;24&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;c1&quot;&gt;// Handle shortcut 2&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;25&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; 
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;26&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;27&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;28&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;29&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;30&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;From the &lt;code&gt;UIApplicationShortcutItem&lt;/code&gt;, look for the &lt;code&gt;type&lt;/code&gt; of shortcut. You can get more details from the &lt;code&gt;userInfo&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;That&amp;#39;s it!&lt;/p&gt;
+
+&lt;h2&gt;Bonus: 3D Touch on Simulator&lt;/h2&gt;
+
+&lt;p&gt;You can perform 3D Touch on simulator if you have a trackpad that supports Force Touch.&lt;/p&gt;
+
+&lt;p&gt;Go to &lt;strong&gt;Hardware &amp;gt; Use Trackpad Force for 3D Touch&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Tap lightly on the trackpad, and the quick actions shortcuts will be shown.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 25 Apr 2016 17:02:59 +0800</pubDate>
+        <link>http://samwize.com/2016/04/25/tutorial-on-creating-app-shortcut-with-3d-touch/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/04/25/tutorial-on-creating-app-shortcut-with-3d-touch/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
     
       <item>
         <title>Pitfall: Core Graphics Drawing Blurry Lines</title>
@@ -788,86 +885,6 @@
         <pubDate>Thu, 03 Mar 2016 15:38:47 +0800</pubDate>
         <link>http://samwize.com/2016/03/03/everything-about-uiactivityviewcontroller/</link>
         <guid isPermaLink="true">http://samwize.com/2016/03/03/everything-about-uiactivityviewcontroller/</guid>
-        
-        
-        <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>Everything About Xcode UI Testing</title>
-        <description>&lt;p&gt;A previous post on using &lt;a href=&quot;http://samwize.com/2015/12/09/automate-screenshots-capture-using-snapshot-via-xcode-ui-testing/&quot;&gt;fastlane&amp;#39;s snapshot&lt;/a&gt; for automating screenshots capture provided some good tips.&lt;/p&gt;
-
-&lt;p&gt;This post focus on Xcode UI Testing (not snapshot), and is more comprehensive, as there could be weird buggy behaviours just on running the UI automation.&lt;/p&gt;
-
-&lt;h2&gt;Recording Interactions&lt;/h2&gt;
-
-&lt;p&gt;Xcode can generate code as you interact with your app. Start by creating a &lt;strong&gt;UI Testing target&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;The record button is disabled at first, because you need to successfully run test once. To do that, go to &lt;strong&gt;Product &amp;gt; Test&lt;/strong&gt;. Also ensure your test cases are listed in your app target scheme under Test.&lt;/p&gt;
-
-&lt;h2&gt;Use Accessibility Identifier&lt;/h2&gt;
-
-&lt;p&gt;The code generated by Xcode will try to refer to elements using &lt;strong&gt;Accessibility Identifier&lt;/strong&gt;, such as:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buttons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;back&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;Note that &lt;strong&gt;&amp;quot;back&amp;quot;&lt;/strong&gt; is an identifier, compared to &lt;strong&gt;&amp;quot;Back&amp;quot;&lt;/strong&gt; the name in English.&lt;/p&gt;
-
-&lt;p&gt;You should NOT be using the accessibility name since that could be localized, so running in different languages would not work as expected.&lt;/p&gt;
-
-&lt;p&gt;Pitfall: Some components such as &lt;code&gt;UIBarButtonItem&lt;/code&gt; don&amp;#39;t have the accessibility identifier field under identifier inspector. You could still add it as user defined runtime attributes as &lt;code&gt;accessibilityIdentifier&lt;/code&gt; with type String.&lt;/p&gt;
-
-&lt;h2&gt;Selecting row in table view&lt;/h2&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;cp&quot;&gt;# To select row 0&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cells&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;elementBoundByIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;h2&gt;Force Tap&lt;/h2&gt;
-
-&lt;p&gt;For strange (aka bugs), certain devices running certain languages might not be able to tap on an element, even if it should be tappable.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Assertion Failure: UI Testing Failure - Unable to find hit point for Button&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://forums.developer.apple.com/thread/24131&quot;&gt;solution&lt;/a&gt; is to force tap. When an element is un-tappable, get it&amp;#39;s coordinate, and make a tap.&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XCUIElement&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;forceTap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hittable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;            &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;coordinate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;XCUICoordinate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coordinateWithNormalizedOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CGVectorMake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;            &lt;span class=&quot;n&quot;&gt;coordinate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;  
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;For example, if the error is thrown when a button is &lt;code&gt;tap()&lt;/code&gt;, you can change to &lt;code&gt;forceTap()&lt;/code&gt;:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;buttons&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;back&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forceTap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;h2&gt;Sleep&lt;/h2&gt;
-
-&lt;p&gt;The way to sleep is using &lt;code&gt;sleep(durationInSeconds)&lt;/code&gt;. That simple.&lt;/p&gt;
-
-&lt;h2&gt;Testing iPad vs iPhone&lt;/h2&gt;
-
-&lt;p&gt;Most likely the UI for iPhone and iPad is different. To handle, you should have 2 test cases:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testSnapshotPhone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;currentDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userInterfaceIdiom&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Phone&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Capture screenshots for iPhone&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;testSnapshotPad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;currentDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userInterfaceIdiom&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pad&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Capture screenshots for iPad&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-</description>
-        <pubDate>Sun, 28 Feb 2016 23:05:42 +0800</pubDate>
-        <link>http://samwize.com/2016/02/28/everything-about-xcode-ui-testing-snapshot/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/02/28/everything-about-xcode-ui-testing-snapshot/</guid>
         
         
         <category>ios</category>
