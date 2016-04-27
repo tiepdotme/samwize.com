@@ -102,3 +102,10 @@ You can perform 3D Touch on simulator if you have a trackpad that supports Force
 Go to **Hardware > Use Trackpad Force for 3D Touch**.
 
 Tap lightly on the trackpad, and the quick actions shortcuts will be shown.
+
+
+## Bonus: Peek and Pop
+
+With 3D Touch, another feature you can implement is previewing a view controller.
+
+[Krakendev](http://krakendev.io/peek-pop/) has a comprehensive tutorial on that.
