@@ -6,8 +6,8 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 27 Apr 2016 16:12:57 +0800</pubDate>
-    <lastBuildDate>Wed, 27 Apr 2016 16:12:57 +0800</lastBuildDate>
+    <pubDate>Wed, 27 Apr 2016 16:22:42 +0800</pubDate>
+    <lastBuildDate>Wed, 27 Apr 2016 16:22:42 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -68,6 +68,18 @@
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;32&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;            &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userInteractionEnabled&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;true&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;33&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;p&quot;&gt;&amp;#x7d;)&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;34&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;A Lesson Learnt&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;http://stackoverflow.com/a/30620627/242682&quot;&gt;one of the answers&lt;/a&gt; (also swift code), the author uses CA transformation, instead of changing the frames.&lt;/p&gt;
+
+&lt;p&gt;That doesn&amp;#39;t work in some cases eg. triggered &lt;code&gt;animateToTab&lt;/code&gt; programmatically&lt;/p&gt;
+
+&lt;p&gt;I do not know the reason, but changing to frames work. &lt;/p&gt;
+
+&lt;p&gt;I suspect it is the same as the &lt;a href=&quot;http://blog.spacemanlabs.com/2012/08/premature-completion-an-embarrassing-problem/&quot;&gt;embarrassing problem&lt;/a&gt; whereby the animation completed prematuring, because iOS &amp;quot;don&amp;#39;t see any animation&amp;quot; to do. In the completion block, &lt;code&gt;finished&lt;/code&gt; will be false, which would mean the animation wasn&amp;#39;t completed.&lt;/p&gt;
+
+&lt;p&gt;Do you know why? ｢(ﾟ&amp;lt;ﾟ)ﾞ??&lt;/p&gt;
 </description>
         <pubDate>Wed, 27 Apr 2016 15:55:49 +0800</pubDate>
         <link>http://samwize.com/2016/04/27/making-tab-bar-slide-when-selected/</link>
