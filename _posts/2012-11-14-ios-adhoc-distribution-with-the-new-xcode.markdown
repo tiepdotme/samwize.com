@@ -61,6 +61,13 @@ Why?
 If you want Adhoc distributed apps to get push, you must send the push with `aps-production`. Adhoc is as good as production app, yet not on the App Store.
 
 
+## TestFlight ##
+
+As stated in the [technical note](https://developer.apple.com/library/ios/technotes/tn2407/_index.html#//apple_ref/doc/uid/DTS40014991-CH1-RECOMMENDED_WORKFLOWS-SUBMITTING_YOUR_APP_FOR_PUBLISHING_TO_TESTFLIGHT), TestFlight requires App Store Distribution provisioning profile.
+
+Which also means the push must use `aps-production`.
+
+
 ## Conclusion ##
 
 In the past, you need to create a new build configuration call "Adhoc". But that is no longer needed as you can select which cert to re-sign after archiving.
