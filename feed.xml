@@ -6,9 +6,113 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 05 May 2016 09:41:08 +0800</pubDate>
-    <lastBuildDate>Thu, 05 May 2016 09:41:08 +0800</lastBuildDate>
+    <pubDate>Fri, 06 May 2016 12:09:14 +0800</pubDate>
+    <lastBuildDate>Fri, 06 May 2016 12:09:14 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Dynamic Type to Adjust Text Sizes &amp; Fonts Automatically</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/TransitionGuide/AppearanceCustomization.html#//apple_ref/doc/uid/TP40013174-CH15-SW4&quot;&gt;iOS 7 introduces Dynamic Type&lt;/a&gt;, a way for users to change their preferred text size from iPhone/iPad global Settings.&lt;/p&gt;
+
+&lt;p&gt;To know your user preferred settings:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;bp&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sharedApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preferredContentSizeCategory&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Currently, there are &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/#//apple_ref/doc/constant_group/Content_Size_Category_Constants&quot;&gt;7 different &lt;code&gt;UIContentSizeCategory&lt;/code&gt; sizes&lt;/a&gt;, ranging from XS-XXXL.&lt;/p&gt;
+
+&lt;h2&gt;Text Styles&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/CustomTextProcessing/CustomTextProcessing.html#//apple_ref/doc/uid/TP40009542-CH4-SW65&quot;&gt;Text Styles&lt;/a&gt; are semantic descriptions.&lt;/p&gt;
+
+&lt;p&gt;There are a fixed number of descriptions, and currently in iOS 9, &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIFontDescriptor_Class/index.html#//apple_ref/doc/constant_group/Text_Styles&quot;&gt;10 styles are supported&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Title1, Title2, Title3&lt;/li&gt;
+&lt;li&gt;Headline, Subheadline&lt;/li&gt;
+&lt;li&gt;Body&lt;/li&gt;
+&lt;li&gt;Footnote&lt;/li&gt;
+&lt;li&gt;Caption1, Caption2&lt;/li&gt;
+&lt;li&gt;Callout&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This &lt;a href=&quot;http://stackoverflow.com/a/20510095/242682&quot;&gt;table&lt;/a&gt; shows the &lt;em&gt;actual font size&lt;/em&gt; when you combine your text style and your user preferred text size:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://i.stack.imgur.com/RiXd5.png&quot;  &gt;&lt;/p&gt;
+
+&lt;h2&gt;Font Descriptor&lt;/h2&gt;
+
+&lt;p&gt;Knowing what text style you want to use, you can then:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIFont_Class/index.html#//apple_ref/occ/clm/UIFont/preferredFontForTextStyle:&quot;&gt;Get the preferred UIFont&lt;/a&gt; &lt;code&gt;preferredFontForTextStyle:&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIFontDescriptor_Class/index.html#//apple_ref/occ/clm/UIFontDescriptor/preferredFontDescriptorWithTextStyle:&quot;&gt;Get the preferred UIFontDescriptor&lt;/a&gt; &lt;code&gt;preferredFontDescriptorWithTextStyle:&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We all (should) be familiar with &lt;code&gt;UIFont&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;What is this &lt;code&gt;UIFontDescriptor&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;UIFontDescriptor&lt;/code&gt; is introduced together with Dynamic Type in iOS 7, to provide a way to describe the attributes of a font, without actually creating a font object (which is more expensive).&lt;/p&gt;
+
+&lt;h2&gt;1. System Font using UIFont&lt;/h2&gt;
+
+&lt;p&gt;If you are okay with using the system font, then simply get the font with this 1 liner:&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;titleFont&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIFont&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preferredFontForTextStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIFontTextStyleTitle1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;h2&gt;2. Custom Font using UIFontDescriptor&lt;/h2&gt;
+
+&lt;p&gt;If you want a custom font, then you have to use the intermediary.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Get the preferred descriptor instead&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;titleDescriptor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIFontDescriptor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preferredFontDescriptorWithTextStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIFontTextStyleTitle1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Edit the trait and size, if needed&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;boldTitleDescriptor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;titleDescriptor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fontDescriptorWithSymbolicTraits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TraitBold&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Finally create the UIFont with the descriptor&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;titleFont&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIFont&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;descriptor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;boldTitleDescriptor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;While you can edit the font to make it bold and change the font size etc.. there is a &lt;strong&gt;pitfall&lt;/strong&gt;: You cannot change the font familiy or face.&lt;/p&gt;
+
+&lt;p&gt;To do that, you need to create &lt;code&gt;UIFontDescriptor&lt;/code&gt; from scratch.&lt;/p&gt;
+
+&lt;p&gt;You will probably want to &lt;a href=&quot;http://stackoverflow.com/a/20510095/242682&quot;&gt;scale your custom font&lt;/a&gt; by a certain amount. Or use a &lt;a href=&quot;http://useyourloaf.com/blog/scaling-dynamic-type-with-font-descriptors/&quot;&gt;helper&lt;/a&gt; method.&lt;/p&gt;
+
+&lt;h2&gt;3. Storyboard&lt;/h2&gt;
+
+&lt;p&gt;If you are using storyboard, you are limited to the system font. &lt;/p&gt;
+
+&lt;p&gt;Simply change Font &amp;gt; Text Style.&lt;/p&gt;
+
+&lt;p&gt;You will want to set the Minimum Font Scale (for UILabel). Do not use Minimum Font Size as that is deprecated.&lt;/p&gt;
+
+&lt;p&gt;As of Xcode 7.3, you cannot change the traits (eg. bold) from interface builder, but I belive the feature will come.&lt;/p&gt;
+
+&lt;h2&gt;Detecting Settings Changes&lt;/h2&gt;
+
+&lt;p&gt;When a user change his preferred text size in Settings, you need to listen to &lt;code&gt;UIContentSizeCategoryDidChangeNotification&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;bp&quot;&gt;NSNotificationCenter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;defaultCenter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addObserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;#&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;didChangePreferredContentSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UIContentSizeCategoryDidChangeNotification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;Then you need to update your views in your method &lt;code&gt;didChangePreferredContentSize&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You might want to use &lt;a href=&quot;https://github.com/bignerdranch/BNRDynamicTypeManager&quot;&gt;BNRDynamicTypeManager&lt;/a&gt; to &amp;quot;watch&amp;quot; over the views that need to be updated.&lt;/p&gt;
+
+&lt;h2&gt;Testing on Simulator&lt;/h2&gt;
+
+&lt;p&gt;Open Settings app, then go to &lt;strong&gt;General &amp;gt; Accessibility &amp;gt; Larger text&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, note that simulator running on iOS 9.3 has a &lt;a href=&quot;https://github.com/lionheart/openradar-mirror/issues/14563&quot;&gt;bug&lt;/a&gt;, so in some cases it might not work.&lt;/p&gt;
+
+&lt;p&gt;This is different from an actual device, which is under &lt;strong&gt;Display &amp;amp; Brightness &amp;gt; Text Size&lt;/strong&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 05 May 2016 13:55:03 +0800</pubDate>
+        <link>http://samwize.com/2016/05/05/dynamic-type-changes-text-sizes-and-fonts-automatically/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/05/05/dynamic-type-changes-text-sizes-and-fonts-automatically/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
     
       <item>
         <title>Integrating Static Library With Cocoapods Use_frameworks</title>
@@ -642,125 +746,6 @@
         <pubDate>Fri, 11 Mar 2016 20:47:15 +0800</pubDate>
         <link>http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell/</link>
         <guid isPermaLink="true">http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell/</guid>
-        
-        
-        <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>Everything About ErrorType - the Thing That Swift Throw</title>
-        <description>&lt;p&gt;&lt;code&gt;ErrorType&lt;/code&gt; is a big thing is Swift, changing the way how errors are handled.&lt;/p&gt;
-
-&lt;h2&gt;NSError is the Past&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class&quot;&gt;&lt;code&gt;NSError&lt;/code&gt;&lt;/a&gt; was the way how errors are encapsulated, and passed along in methods and blocks/closures.&lt;/p&gt;
-
-&lt;p&gt;But it was not a good design.&lt;/p&gt;
-
-&lt;p&gt;It differentiates the errors using &lt;code&gt;code&lt;/code&gt; (Int), and also &lt;code&gt;domain&lt;/code&gt; (String).&lt;/p&gt;
-
-&lt;p&gt;And it passes more information in &lt;code&gt;userInfo&lt;/code&gt; as a dictionary.&lt;/p&gt;
-
-&lt;p&gt;It works, but isn&amp;#39;t cool.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;A bit of History: In the very beginning (in MacOS, way before any iOS), there is &lt;a href=&quot;https://www.bignerdranch.com/blog/error-handling-in-swift-2/&quot;&gt;NSException&lt;/a&gt; and try-catch in Objective-C, but eventually NSError took over.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2&gt;ErrorType&lt;/h2&gt;
-
-&lt;p&gt;Then comes &lt;code&gt;ErrorType&lt;/code&gt; in Swift.&lt;/p&gt;
-
-&lt;p&gt;It is merely a &lt;code&gt;protocol&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;And it does NOT have any method. It is an EMPTY PROTOCOL.&lt;/p&gt;
-
-&lt;p&gt;That means you can make any of your type a &lt;code&gt;ErrorType&lt;/code&gt;, and have it being throw around.&lt;/p&gt;
-
-&lt;p&gt;Note: &lt;code&gt;ErrorType&lt;/code&gt; can always be casted to &lt;code&gt;NSError&lt;/code&gt;, &lt;a href=&quot;https://realm.io/news/testing-swift-error-type/&quot;&gt;magically&lt;/a&gt;. You can cast to &lt;code&gt;NSError&lt;/code&gt; without any problem, but it don&amp;#39;t make much sense because you &lt;a href=&quot;http://stackoverflow.com/a/31685457/242682&quot;&gt;lose almost all information&lt;/a&gt; on the error.&lt;/p&gt;
-
-&lt;p&gt;If you choose to use &lt;code&gt;ErrorType&lt;/code&gt;, forget about &lt;code&gt;NSError&lt;/code&gt;. Unless the &lt;code&gt;NSError&lt;/code&gt; comes from other frameworks/libraries, then you might want to handle and map to one of your custom &lt;code&gt;ErrorType&lt;/code&gt; case. Or you can wrap the NSError in your custom &lt;code&gt;ErrorType&lt;/code&gt; (see &lt;code&gt;.OtherNSError&lt;/code&gt; below).&lt;/p&gt;
-
-&lt;h2&gt;Custom ErrorType&lt;/h2&gt;
-
-&lt;p&gt;Every app should have one (or more) custom &lt;code&gt;AppError&lt;/code&gt; that subclass &lt;code&gt;ErrorType&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;It will usually be an enum (but you can use &lt;a href=&quot;https://realm.io/news/testing-swift-error-type/&quot;&gt;class and struct&lt;/a&gt; too, if you want), with different cases of errors, and init with different parameters (thanks to enum)!&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;AppError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ErrorType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CustomStringConvertible&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DivisionError&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NetworkError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UnexpectedError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;OtherNSError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;nsError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt; &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;It will be good to implement &lt;code&gt;CustomStringConvertible&lt;/code&gt;, and return &lt;code&gt;description&lt;/code&gt; accordingly for each error case.&lt;/p&gt;
-
-&lt;h2&gt;try-catch-throw&lt;/h2&gt;
-
-&lt;p&gt;I will not discuss more on how try-catch-throw works, because there are &lt;a href=&quot;https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/ErrorHandling.html&quot;&gt;many&lt;/a&gt;, and I love this version:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://alisoftware.github.io/2015/12/17/let-it-throw/&quot;&gt;&lt;img class=&quot;center&quot; src=&quot;http://alisoftware.github.io/assets/frozen-throw-man.jpg&quot;  &gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://alisoftware.github.io/2015/12/17/let-it-throw/&quot;&gt;Let it throw, let it throw~&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2&gt;An Example&lt;/h2&gt;
-
-&lt;p&gt;But I will provide an example using &lt;a href=&quot;https://github.com/JohnSundell/Unbox&quot;&gt;Unbox library&lt;/a&gt; (a good JSON decoder) of how to catch it&amp;#39;s &lt;code&gt;UnboxError&lt;/code&gt; (their custom &lt;code&gt;ErrorType&lt;/code&gt;):&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UnboxError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;MissingKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Specific error case of a MissingKey&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Missing Key&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UnboxError&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Catch all other UnboxError&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Because UnboxError conforms to CustomStringConvertible, we can print `description`&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSError&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;11&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;c1&quot;&gt;// Warning: Cast to NSError (details will be lost). Not recommended.&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;12&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;localizedDescription&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;13&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;h2&gt;Handling throw in closures&lt;/h2&gt;
-
-&lt;p&gt;There are 2 ways as discussed in &lt;a href=&quot;http://appventure.me/2015/06/19/swift-try-catch-asynchronous-closures/&quot;&gt;appventure.me&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Using &lt;code&gt;Result&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Using inner closure that throws&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Using &lt;code&gt;Result&lt;/code&gt; is simpler, and easier to read. It became popular as more developers use the &lt;code&gt;Result&lt;/code&gt;, even though it is NOT in Swift standard library. It is a simple concept, and you can find a couple of different &lt;code&gt;Result.swift&lt;/code&gt; in Github.&lt;/p&gt;
-
-&lt;h2&gt;Result Type&lt;/h2&gt;
-
-&lt;p&gt;&lt;code&gt;Result&lt;/code&gt; is an enumeration that’s either a &lt;code&gt;.Success(value)&lt;/code&gt; or a &lt;code&gt;.Failure(error)&lt;/code&gt;, and is a common pattern among Swift programmers.&lt;/p&gt;
-
-&lt;p&gt;Before Swift 2, it is a common way to deal with a result - either success or with error.&lt;/p&gt;
-
-&lt;p&gt;In Swift 2, try-catch is Apple&amp;#39;s endorsed way.&lt;/p&gt;
-
-&lt;p&gt;But &lt;code&gt;Result&lt;/code&gt; still is good and more composable eg. you can pass &lt;code&gt;Result&lt;/code&gt; in a closure&lt;/p&gt;
-
-&lt;p&gt;The concept of &lt;code&gt;Result&lt;/code&gt; is very simple, and the shortest implementation is:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ErrorType&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Failure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;But you may want to refer to a &lt;a href=&quot;https://github.com/antitypical/Result/blob/master/Result/Result.swift&quot;&gt;more complete implementation&lt;/a&gt;, which has more feature such as &lt;code&gt;dematerialize&lt;/code&gt; to throw an error if it is a failure.&lt;/p&gt;
-
-&lt;p&gt;Many frameworks, such as &lt;a href=&quot;https://github.com/Alamofire/Alamofire/blob/master/Source/Result.swift&quot;&gt;Alamofire&lt;/a&gt;, will also write their own &lt;code&gt;Result&lt;/code&gt; type. You cam probably write your own too.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 09 Mar 2016 22:24:15 +0800</pubDate>
-        <link>http://samwize.com/2016/03/09/everything-about-errortype-the-thing-that-swift-throw/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/03/09/everything-about-errortype-the-thing-that-swift-throw/</guid>
         
         
         <category>ios</category>
