@@ -6,7 +6,7 @@ comments: true
 categories: Node
 ---
 
-[Mocha](http://visionmedia.github.io/mocha/) is a simple yet wonderfully designed testing framework for Node.js.
+[Mocha](https://mochajs.org) is a simple yet wonderfully designed testing framework for Node.js.
 
 In agile development, developers write tests _before_ implementing a feature. When you are [discussing](http://redotheweb.com/2013/01/15/functional-testing-for-nodejs-using-mocha-and-zombie-js.html) a story for a feature, you should already be writing the test cases.
 
@@ -38,7 +38,7 @@ You can run your tests with:
 $ make test
 ```
 
-Another javascript library you should use together with mocha is [should.js](https://github.com/visionmedia/should.js).
+Another javascript library you should use together with mocha is [should.js](https://github.com/shouldjs/should.js).
 
 Should.js replaces `assert` library with more human-like language eg. `foo.should.be.exactly(5)`
 
