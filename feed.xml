@@ -6,9 +6,52 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 06 May 2016 12:09:14 +0800</pubDate>
-    <lastBuildDate>Fri, 06 May 2016 12:09:14 +0800</lastBuildDate>
+    <pubDate>Tue, 10 May 2016 17:03:50 +0800</pubDate>
+    <lastBuildDate>Tue, 10 May 2016 17:03:50 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Auto Adjust UITableViewCell Height</title>
+        <description>&lt;p&gt;If you use auto layout and support iOS 8, then you are in luck.&lt;/p&gt;
+
+&lt;p&gt;In the past, you will need to implement &lt;code&gt;tableView:heightForRowAtIndexPath:&lt;/code&gt; and caculate the height of your cell to return. It is a lot of code just to achieve the goal.&lt;/p&gt;
+
+&lt;p&gt;Now, it is just these &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html&quot;&gt;steps&lt;/a&gt;:&lt;/p&gt;
+
+&lt;h2&gt;Step 1. Set &lt;code&gt;rowHeight&lt;/code&gt;&lt;/h2&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rowHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UITableViewAutomaticDimension&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;c1&quot;&gt;// Similarly, you can set for header &amp;amp; footer&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sectionFooterHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;UITableViewAutomaticDimension&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;code&gt;UITableViewAutomaticDimension&lt;/code&gt; is a special value (a &lt;code&gt;CGFloat&lt;/code&gt;) that tells the cell to auto adjust it&amp;#39;s height.&lt;/p&gt;
+
+&lt;p&gt;You may even return it in &lt;code&gt;tableView:heightForRowAtIndexPath:&lt;/code&gt;, if you want a mix of auto and fixed height.&lt;/p&gt;
+
+&lt;h2&gt;Step 2. Set &lt;code&gt;estimatedRowHeight&lt;/code&gt;&lt;/h2&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;estimatedRowHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;85.0&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;p&gt;You will also need to set the &lt;code&gt;estimatedRowHeight&lt;/code&gt;. &lt;/p&gt;
+
+&lt;p&gt;If not, it will NOT work.&lt;/p&gt;
+
+&lt;p&gt;The estimated height is needed only for the purpose of calculating the scroll bar height.&lt;/p&gt;
+
+&lt;h2&gt;Step 3. Autolayout for the cells&lt;/h2&gt;
+
+&lt;p&gt;Set up autolayout constraints as per normal. &lt;/p&gt;
+
+&lt;p&gt;Make sure that the content view has the necessary contraints eg. the bottom is pinned to some view&lt;/p&gt;
+</description>
+        <pubDate>Tue, 10 May 2016 16:50:59 +0800</pubDate>
+        <link>http://samwize.com/2016/05/10/auto-adjust-uitableviewcell-height/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/05/10/auto-adjust-uitableviewcell-height/</guid>
+        
+        
+        <category>ios</category>
+        
+      </item>
     
       <item>
         <title>Dynamic Type to Adjust Text Sizes &amp; Fonts Automatically</title>
@@ -689,63 +732,6 @@
         <pubDate>Mon, 04 Apr 2016 13:47:14 +0800</pubDate>
         <link>http://samwize.com/2016/04/04/the-bug-to-do-with-uicollectionview-content-offset/</link>
         <guid isPermaLink="true">http://samwize.com/2016/04/04/the-bug-to-do-with-uicollectionview-content-offset/</guid>
-        
-        
-        <category>ios</category>
-        
-      </item>
-    
-      <item>
-        <title>How to Handle Button/views Interaction in a UITableViewCell</title>
-        <description>&lt;p&gt;We all know a cell is tapped wehn &lt;code&gt;UITableViewDelegate&lt;/code&gt; method - &lt;code&gt;tableView:didSelectRowAtIndexPath:&lt;/code&gt; - is called.&lt;/p&gt;
-
-&lt;p&gt;But what if you have a &lt;code&gt;UIButton&lt;/code&gt; in the cell, and the user tap on the button? Or it could be any &lt;code&gt;UIView&lt;/code&gt; that can be tapped on in the cell.&lt;/p&gt;
-
-&lt;p&gt;In those cases, the buttons or views themselves will handle the touches, and &lt;code&gt;tableView:didSelectRowAtIndexPath:&lt;/code&gt; will NOT be called.&lt;/p&gt;
-
-&lt;h2&gt;Interacting with a &lt;code&gt;UIButton&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;To handle the interaction with a button, you can create the &lt;code&gt;IBAction&lt;/code&gt; in your view controller as per normal (eg. drag the button action selector to your view controller).&lt;/p&gt;
-
-&lt;p&gt;The trick is to get the &lt;code&gt;superview&lt;/code&gt; of the button, which will be the cell, and then using &lt;code&gt;tableView.indexPathForCell(cell)&lt;/code&gt; to get the index path.&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;IBAction&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tapOnButton&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UIButton&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;superview&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;as&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UITableViewCell&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexPathForCell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;Note: This is assuming the button is contained directly in the cell. If the button is contained in another view, then the cell could be &lt;code&gt;sender.superview.superview&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Alternate solutions&lt;/h2&gt;
-
-&lt;p&gt;This problem is very common, and the &lt;a href=&quot;http://stackoverflow.com/a/20655223/242682&quot;&gt;&amp;quot;accepted answer&amp;quot;&lt;/a&gt; in StackOverflow is one that set the tag of the button during &lt;code&gt;cellForRowAtIndexPath:&lt;/code&gt;.&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tag&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;This &amp;quot;misuse&amp;quot; of a view tag means you may not use &lt;code&gt;viewWithTag:&lt;/code&gt;, and secondly it could have bug when you delete/move cells (because &lt;code&gt;cellForRowAtIndexPath:&lt;/code&gt; will not be called).&lt;/p&gt;
-
-&lt;p&gt;Our solution above is simpler, except that you must make sure you know where is &lt;code&gt;UITableViewCell&lt;/code&gt; as you travel upwards via &lt;code&gt;superview&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;But the &lt;a href=&quot;http://stackoverflow.com/a/24720704/242682&quot;&gt;best answer&lt;/a&gt; is to create your custom &lt;code&gt;UITableViewCell&lt;/code&gt;, then have your &lt;code&gt;UIButton&lt;/code&gt; delegate the call to your view controller. This requires more code, and a custom class, but is the most correct.&lt;/p&gt;
-
-&lt;h2&gt;Interacting with any &lt;code&gt;UIView&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;If you are tapping on any other &lt;code&gt;UIView&lt;/code&gt;, you could handle similarly.&lt;/p&gt;
-
-&lt;p&gt;But in this case, you cannot add the &lt;code&gt;UIGestureRecognizer&lt;/code&gt; to the view on storyboard.&lt;/p&gt;
-
-&lt;p&gt;You have to create the gesture with code.&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UITableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cellForRowAtIndexPath&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSIndexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UITableViewCell&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tapGesture&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;UITapGestureRecognizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;action&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;tapThis:&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;n&quot;&gt;myView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addGestureRecognizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tapGesture&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;To access the view in the selector action &lt;code&gt;tapThis:&lt;/code&gt;, use &lt;code&gt;sender.view&lt;/code&gt;. Again, make use of &lt;code&gt;superview&lt;/code&gt; to find the cell.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 11 Mar 2016 20:47:15 +0800</pubDate>
-        <link>http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/03/11/how-to-handle-button-views-interaction-in-a-uitableviewcell/</guid>
         
         
         <category>ios</category>
