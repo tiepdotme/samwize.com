@@ -29,3 +29,8 @@ To avoid prepend `bundle exec` all the time,
     # Or in a directory
     octopress new page _foo/bar.md
 
+
+## Others
+
+Our custom [solarized](https://github.com/samwize/solarized/) theme is used. Some of the css comes from solarized. The Gemfile points to our version.
+
