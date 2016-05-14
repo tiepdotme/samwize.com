@@ -9,10 +9,9 @@ group :jekyll_plugins do
 	gem 'octopress', '~> 3.0.11'
 	gem 'octopress-image-tag'
 	gem 'octopress-video-tag'
-	gem 'octopress-codeblock'
 	gem 'octopress-quote-tag'
  	gem 'octopress-codefence'
- 	gem 'octopress-solarized'
+	gem 'octopress-solarized', :git => 'https://github.com/samwize/solarized', :tag => 'v1.1.2z'
  	gem 'octopress-gist'
 end
 
