@@ -41,7 +41,7 @@ As an illustration, this is my configuration using [namecheap](http://www.namech
     @       192.30.252.154              A (Address)
     www     yourusername.github.io.     CNAME (Alias)
 
-Note: The **CNAME (Alias)** record is for the subdomain **www**. It is pointing to your github username, not the project name. GitHub will determine which project it is for via the CNAME file.
+Note: The **CNAME (Alias)** record is for the subdomain **www**, if you are configuring for a subdomain. If you configuring for a root doamin, then you can omit it. The CNAME is pointing to your github username, not the project name. GitHub will determine which project it is for via the CNAME file.
 
 Wait for the DNS changes to propagate.
 
