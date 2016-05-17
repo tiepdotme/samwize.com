@@ -88,3 +88,37 @@ func testSnapshotPad() {
     // Capture screenshots for iPad
 }
 ```
+
+## Launch Arguments & Environment Variables
+
+You could have an app launch with special behaviours, by passing launch arguments or environnment variables.
+
+These are 2 separate ways, but they are very similar. The key difference is that a launch argument is a string, and environnment variable is a key-value.
+
+But when using launch argument, you can still use it as a key-value eg. `-SPECIAL_FEATURE YES`.
+
+There are many [cool behaviours](http://nshipster.com/launch-arguments-and-environment-variables/) you can enable, such as `-NSDoubleLocalizedStrings YES` to make all strings double it's length, or `-AppleLanguages (fr)` to run in French.
+
+This is how you launch your app with custom argument in `setUp`:
+
+```swift
+override func setUp() {
+    super.setUp()
+    app = XCUIApplication()
+    app.launchArguments += ["-SPECIAL_FEATURE", "YES"]
+    app.launch()
+}
+```
+
+Then in your app, you can know if there is a launch argument with `NSUserDefaults`:
+
+```swift
+NSUserDefaults.standardUserDefaults().boolForKey("SPECIAL_FEATURE")
+```
+
+You may also use `NSProcessInfo.processInfo().arguments`. Using `NSUserDefaults` is more convenient since there is `boolForKey` and etc.
+
+For environment variables, you will use `app.launchEnvironment` and `NSProcessInfo.processInfo().environment` correspondingly.
+
+Note that `XCUIApplication` [is not a singleton](http://drekka.ghost.io/xcuiapplication-youre-probably-doing-it-wrong/)! So don't try to have multiple `XCUIApplication()` in your test case. Have 1 object variable `var app: XCUIApplication!` in your test case that is used in all methods.
+
