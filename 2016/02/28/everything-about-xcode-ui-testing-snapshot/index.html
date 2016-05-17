@@ -144,9 +144,9 @@
 
 <p>You could have an app launch with special behaviours, by passing launch arguments or environnment variables.</p>
 
-<p>These are 2 separate ways, but they are very similar. The key difference is that a launch argument is a string and environnment variable is a key-value.</p>
+<p>These are 2 separate ways, but they are very similar. The key difference is that a launch argument is a string, and environnment variable is a key-value.</p>
 
-<p>But when using launch argument, you can still keep it as a key-value such as <code>-SPECIAL_FEATURE YES</code>.</p>
+<p>But when using launch argument, you can still use it as a key-value eg. <code>-SPECIAL_FEATURE YES</code>.</p>
 
 <p>There are many <a href="http://nshipster.com/launch-arguments-and-environment-variables/">cool behaviours</a> you can enable, such as <code>-NSDoubleLocalizedStrings YES</code> to make all strings double it&#39;s length, or <code>-AppleLanguages (fr)</code> to run in French.</p>
 
@@ -163,11 +163,11 @@
 
 <figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">boolForKey</span><span class="p">(</span><span class="s">&quot;SPECIAL_FEATURE&quot;</span><span class="p">)</span></div></div></pre></div></figure>
 
-<p>You may also use <code>NSProcessInfo.processInfo().arguments</code>.</p>
+<p>You may also use <code>NSProcessInfo.processInfo().arguments</code>. Using <code>NSUserDefaults</code> is more convenient since there is <code>boolForKey</code> and etc.</p>
 
-<p>For environment variables, you will use <code>app.launchEnvironment</code> and <code>NSProcessInfo.processInfo().environment</code>.</p>
+<p>For environment variables, you will use <code>app.launchEnvironment</code> and <code>NSProcessInfo.processInfo().environment</code> correspondingly.</p>
 
-<p>Note that <code>XCUIApplication</code> <a href="http://drekka.ghost.io/xcuiapplication-youre-probably-doing-it-wrong/">is not a singleton</a>! So don&#39;t try to have multiple <code>XCUIApplication()</code> in your test case. Have 1 local variable in your test case that is used in all methods.</p>
+<p>Note that <code>XCUIApplication</code> <a href="http://drekka.ghost.io/xcuiapplication-youre-probably-doing-it-wrong/">is not a singleton</a>! So don&#39;t try to have multiple <code>XCUIApplication()</code> in your test case. Have 1 object variable <code>var app: XCUIApplication!</code> in your test case that is used in all methods.</p>
 
         </section>
         <footer class="post-footer">

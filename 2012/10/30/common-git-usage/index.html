@@ -182,14 +182,28 @@ git push
 </code></pre></div>
 <p>Done!</p>
 
-<h2>Revert a file during merge conflict</h2>
+<h2>Revert a file</h2>
 
-<p>Say when you have a merge conflict, you know it should just take your file,</p>
+<p>You can checkout a file to a particular commmit.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout &lt;sha1-commit-id&gt; filename.c
+</code></pre></div>
+<p>In the case when you have a merge conflict, and you know it should just take your file,</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git checkout --ours filename.c
 </code></pre></div>
-<p>Or if you know yit should be their file,</p>
+<p>Or if it should be their file,</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">git checkout --theirs filename.c
 </code></pre></div>
+<h2>Revert a commit</h2>
+
+<p>Using <code>revert</code> is for the case where you want to roll back a commmit. It affects a commit, not files.</p>
+
+<p>In many cases, we want to <a href="http://stackoverflow.com/q/215718/242682">revert 1 file</a>. To do that, read the previous section that uses <code>checkout</code> to a certain commit. </p>
+
+<p>For example, to revert to the fourth last commit:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git revert -n HEAD~3
+</code></pre></div>
+<p>The <code>-n</code> is <code>--no-commit</code>, which is not to create a new commit with the reverted changes.</p>
+
 <h2>Tagging</h2>
 
 <p>Useful when you want to <a href="http://git-scm.com/book/en/Git-Basics-Tagging">tag a version</a>.</p>
