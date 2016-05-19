@@ -98,6 +98,29 @@
 <figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp"># To select row 0</span>
 </div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">app</span><span class="p">.</span><span class="n">tables</span><span class="p">.</span><span class="n">cells</span><span class="p">.</span><span class="n">elementBoundByIndex</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">tap</span><span class="p">()</span></div></div></pre></div></figure>
 
+<h2>Tests if element exists</h2>
+
+<p>You can write logical statements and do something, only if certain element exists.</p>
+
+<p>To check if an element exists, simply use the <code>exists</code> property for a <code>XCUIElement</code>. </p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">if</span> <span class="n">app</span><span class="p">.</span><span class="n">buttons</span><span class="p">[</span><span class="s">&quot;back&quot;</span><span class="p">].</span><span class="n">exists</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">// Then do something</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<h2>Wait for an element to appear</h2>
+
+<p>Sometimes, it takes a while for an element to appear (and be &quot;existed&quot;).</p>
+
+<p>The following waits for 5 sec for the back button to appear.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">backButton</span> <span class="o">=</span> <span class="n">app</span><span class="p">.</span><span class="n">buttons</span><span class="p">[</span><span class="s">&quot;back&quot;</span><span class="p">]</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">exists</span> <span class="o">=</span> <span class="bp">NSPredicate</span><span class="p">(</span><span class="nl">format</span><span class="p">:</span> <span class="s">&quot;exists == true&quot;</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">expectationForPredicate</span><span class="p">(</span><span class="n">exists</span><span class="p">,</span> <span class="nl">evaluatedWithObject</span><span class="p">:</span> <span class="n">backButton</span><span class="p">,</span> <span class="nl">handler</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">waitForExpectationsWithTimeout</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nl">handler</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span></div></div></pre></div></figure>
+
+<p>Or use a <a href="http://averagepro.com/tag/xctest/">helper</a>.</p>
+
 <h2>Force Tap</h2>
 
 <p>For strange (aka bugs), certain devices running certain languages might not be able to tap on an element, even if it should be tappable.</p>
@@ -122,6 +145,14 @@
 <p>For example, if the error is thrown when a button is <code>tap()</code>, you can change to <code>forceTap()</code>:</p>
 
 <figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">app</span><span class="p">.</span><span class="n">buttons</span><span class="p">[</span><span class="s">&quot;back&quot;</span><span class="p">].</span><span class="n">forceTap</span><span class="p">()</span></div></div></pre></div></figure>
+
+<h2>XCUICoordinate</h2>
+
+<p>We have used <code>XCUICoordinate</code> above. It is slightly more advanced way of dealing element by their coordinates.</p>
+
+<p><code>XCUIElement.coordinateWithNormalizedOffset</code> creates a new coordinates, by multiplying with the normalized offset. That is, (0, 0) is the element bound origin, while (1,1) is the element bound bottom right. You can even create coordinates beyond the element rect with negative values, or more than 1.</p>
+
+<p><code>XCUICoordinate.coordinateWithOffset</code> creates a new coordinates, by adding a offset. This time, it is using absolute points.</p>
 
 <h2>Sleep</h2>
 
