@@ -40,6 +40,36 @@ app.tables.cells.elementBoundByIndex(0).tap()
 ```
 
 
+## Tests if element exists
+
+You can write logical statements and do something, only if certain element exists.
+
+To check if an element exists, simply use the `exists` property for a `XCUIElement`. 
+
+```swift
+if app.buttons["back"].exists {
+  // Then do something
+}
+```
+
+
+## Wait for an element to appear
+
+Sometimes, it takes a while for an element to appear (and be "existed").
+
+The following waits for 5 sec for the back button to appear.
+
+```swift
+let backButton = app.buttons["back"]
+let exists = NSPredicate(format: "exists == true")
+expectationForPredicate(exists, evaluatedWithObject: backButton, handler: nil)
+waitForExpectationsWithTimeout(5, handler: nil)
+```
+
+Or use a [helper](http://averagepro.com/tag/xctest/).
+
+
+
 ## Force Tap
 
 For strange (aka bugs), certain devices running certain languages might not be able to tap on an element, even if it should be tappable.
@@ -68,6 +98,15 @@ app.buttons["back"].forceTap()
 ```
 
 
+## XCUICoordinate
+
+We have used `XCUICoordinate` above. It is slightly more advanced way of dealing element by their coordinates.
+
+`XCUIElement.coordinateWithNormalizedOffset` creates a new coordinates, by multiplying with the normalized offset. That is, (0, 0) is the element bound origin, while (1,1) is the element bound bottom right. You can even create coordinates beyond the element rect with negative values, or more than 1.
+
+`XCUICoordinate.coordinateWithOffset` creates a new coordinates, by adding a offset. This time, it is using absolute points.
+
+
 ## Sleep
 
 The way to sleep is using `sleep(durationInSeconds)`. That simple.
@@ -88,3 +127,37 @@ func testSnapshotPad() {
     // Capture screenshots for iPad
 }
 ```
+
+## Launch Arguments & Environment Variables
+
+You could have an app launch with special behaviours, by passing launch arguments or environnment variables.
+
+These are 2 separate ways, but they are very similar. The key difference is that a launch argument is a string, and environnment variable is a key-value.
+
+But when using launch argument, you can still use it as a key-value eg. `-SPECIAL_FEATURE YES`.
+
+There are many [cool behaviours](http://nshipster.com/launch-arguments-and-environment-variables/) you can enable, such as `-NSDoubleLocalizedStrings YES` to make all strings double it's length, or `-AppleLanguages (fr)` to run in French.
+
+This is how you launch your app with custom argument in `setUp`:
+
+```swift
+override func setUp() {
+    super.setUp()
+    app = XCUIApplication()
+    app.launchArguments += ["-SPECIAL_FEATURE", "YES"]
+    app.launch()
+}
+```
+
+Then in your app, you can know if there is a launch argument with `NSUserDefaults`:
+
+```swift
+NSUserDefaults.standardUserDefaults().boolForKey("SPECIAL_FEATURE")
+```
+
+You may also use `NSProcessInfo.processInfo().arguments`. Using `NSUserDefaults` is more convenient since there is `boolForKey` and etc.
+
+For environment variables, you will use `app.launchEnvironment` and `NSProcessInfo.processInfo().environment` correspondingly.
+
+Note that `XCUIApplication` [is not a singleton](http://drekka.ghost.io/xcuiapplication-youre-probably-doing-it-wrong/)! So don't try to have multiple `XCUIApplication()` in your test case. Have 1 object variable `var app: XCUIApplication!` in your test case that is used in all methods.
+

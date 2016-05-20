@@ -161,16 +161,32 @@ Done!
 
 
 
-## Revert a file during merge conflict ##
+## Revert a file
 
-Say when you have a merge conflict, you know it should just take your file,
+You can checkout a file to a particular commmit.
+
+	git checkout <sha1-commit-id> filename.c
+
+In the case when you have a merge conflict, and you know it should just take your file,
 
 	git checkout --ours filename.c
 
-Or if you know yit should be their file,
+Or if it should be their file,
 
 	git checkout --theirs filename.c
 
+
+## Revert a commit
+
+Using `revert` is for the case where you want to roll back a commmit. It affects a commit, not files.
+
+In many cases, we want to [revert 1 file](http://stackoverflow.com/q/215718/242682). To do that, read the previous section that uses `checkout` to a certain commit. 
+
+For example, to revert to the fourth last commit:
+	
+	git revert -n HEAD~3
+
+The `-n` is `--no-commit`, which is not to create a new commit with the reverted changes.
 
 
 ## Tagging ##

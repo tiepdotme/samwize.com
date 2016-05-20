@@ -18,7 +18,7 @@ It is harder to earn the first $100,000 than the next $5 million.
 {% blockquote %}
 Don’t spend too long examining every rock. If it’s **really a diamond you’ll know**.
 {% endblockquote %}
-  
+
 {% blockquote %}
 **Use what talents you possess**: the woods would be very silent if no birds sang there except those that sang best
 {% endblockquote %}
@@ -59,6 +59,6 @@ Sometimes interesting opportunities arrive dressed as a huge pain in the ass.
 I don't know the key to success. But I know the key to failure is to satisfy everyone.
 {% endblockquote %}
 
-PS: The original copy at [Just2me.com](http://www.just2me.com/p/quotes.html)
+PS: The original copy at [Just2me.com](http://just2me.com/quotes)
 
 
