@@ -40,6 +40,36 @@ app.tables.cells.elementBoundByIndex(0).tap()
 ```
 
 
+## Tests if element exists
+
+You can write logical statements and do something, only if certain element exists.
+
+To check if an element exists, simply use the `exists` property for a `XCUIElement`. 
+
+```swift
+if app.buttons["back"].exists {
+  // Then do something
+}
+```
+
+
+## Wait for an element to appear
+
+Sometimes, it takes a while for an element to appear (and be "existed").
+
+The following waits for 5 sec for the back button to appear.
+
+```swift
+let backButton = app.buttons["back"]
+let exists = NSPredicate(format: "exists == true")
+expectationForPredicate(exists, evaluatedWithObject: backButton, handler: nil)
+waitForExpectationsWithTimeout(5, handler: nil)
+```
+
+Or use a [helper](http://averagepro.com/tag/xctest/).
+
+
+
 ## Force Tap
 
 For strange (aka bugs), certain devices running certain languages might not be able to tap on an element, even if it should be tappable.
@@ -66,6 +96,15 @@ For example, if the error is thrown when a button is `tap()`, you can change to 
 ```swift
 app.buttons["back"].forceTap()
 ```
+
+
+## XCUICoordinate
+
+We have used `XCUICoordinate` above. It is slightly more advanced way of dealing element by their coordinates.
+
+`XCUIElement.coordinateWithNormalizedOffset` creates a new coordinates, by multiplying with the normalized offset. That is, (0, 0) is the element bound origin, while (1,1) is the element bound bottom right. You can even create coordinates beyond the element rect with negative values, or more than 1.
+
+`XCUICoordinate.coordinateWithOffset` creates a new coordinates, by adding a offset. This time, it is using absolute points.
 
 
 ## Sleep
