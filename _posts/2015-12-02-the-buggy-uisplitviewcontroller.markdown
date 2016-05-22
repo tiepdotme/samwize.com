@@ -30,9 +30,9 @@ class ViewController: UIViewController, UISplitViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         splitViewController?.delegate = self
-        
+
         // Display mode can be: AllVisible | PrimaryOverlay | etc
         // Set to .PrimaryOverlay, and the bugs will come
         self.splitViewController?.preferredDisplayMode = .PrimaryOverlay
@@ -64,7 +64,7 @@ Bug #1 - Not being able to swipe from left edge is irritating, but luckily you c
 
 Bug #2 - auto adjusting your view is much more irritating. It looks like a _feature_ at first, because it will prevent keyboard from blocking your `UITextField`.
 
-However, the behaviour is buggy in iPhone. By switching to landscape, then back to portrait (as shown in the video above), the view will not auto adjust now! Because of that, you can't safely assume your view will be adjusted correctly. Neither can you add codes to prevent the keyboard from blocking other views. 
+However, the behaviour is buggy in iPhone. By switching to landscape, then back to portrait (as shown in the video above), the view will not auto adjust now! Because of that, you can't safely assume your view will be adjusted correctly. Neither can you add codes to prevent the keyboard from blocking other views.
 
 What's more, the animation is laggy..
 
@@ -74,7 +74,7 @@ Terribe. Terrible.
 
 ## Bonus Bug
 
-Actually, there could be a warning `Unbalanced calls to begin/end appearance transitions` if you simply set `preferredDisplayMode`. 
+Actually, there could be a warning `Unbalanced calls to begin/end appearance transitions` if you simply set `preferredDisplayMode`.
 
 You have to wrap it around a dispatch block..
 
@@ -96,7 +96,7 @@ It's a warning, but show how buggy `UISplitViewController` is!
 
 After conversing with an Apple engineer, here is what I knew.
 
-`preferredDisplayMode` is merely _your preferred more_. The actual mode depends on the device size class, as [stated in doc](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UISplitViewController_class/#//apple_ref/occ/instp/UISplitViewController/preferredDisplayMode).
+`preferredDisplayMode` is merely _your preferred mode_. The actual mode depends on the device size class, as [stated in doc](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UISplitViewController_class/#//apple_ref/occ/instp/UISplitViewController/preferredDisplayMode).
 
 > Use this property to specify the display mode that you prefer to use. The split view controller makes every effort to adopt the interface you specify but may use a different type of interface if there is not enough space to support your preferred choice. If changing the value of this property leads to an actual change in the current display mode, the split view controller animates the resulting change.
 
