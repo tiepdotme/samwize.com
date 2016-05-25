@@ -124,7 +124,7 @@
 
 <p>Bug #2 - auto adjusting your view is much more irritating. It looks like a <em>feature</em> at first, because it will prevent keyboard from blocking your <code>UITextField</code>.</p>
 
-<p>However, the behaviour is buggy in iPhone. By switching to landscape, then back to portrait (as shown in the video above), the view will not auto adjust now! Because of that, you can&#39;t safely assume your view will be adjusted correctly. Neither can you add codes to prevent the keyboard from blocking other views. </p>
+<p>However, the behaviour is buggy in iPhone. By switching to landscape, then back to portrait (as shown in the video above), the view will not auto adjust now! Because of that, you can&#39;t safely assume your view will be adjusted correctly. Neither can you add codes to prevent the keyboard from blocking other views.</p>
 
 <p>What&#39;s more, the animation is laggy..</p>
 
@@ -132,7 +132,7 @@
 
 <h2>Bonus Bug</h2>
 
-<p>Actually, there could be a warning <code>Unbalanced calls to begin/end appearance transitions</code> if you simply set <code>preferredDisplayMode</code>. </p>
+<p>Actually, there could be a warning <code>Unbalanced calls to begin/end appearance transitions</code> if you simply set <code>preferredDisplayMode</code>.</p>
 
 <p>You have to wrap it around a dispatch block..</p>
 
@@ -150,7 +150,7 @@
 
 <p>After conversing with an Apple engineer, here is what I knew.</p>
 
-<p><code>preferredDisplayMode</code> is merely <em>your preferred more</em>. The actual mode depends on the device size class, as <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UISplitViewController_class/#//apple_ref/occ/instp/UISplitViewController/preferredDisplayMode">stated in doc</a>.</p>
+<p><code>preferredDisplayMode</code> is merely <em>your preferred mode</em>. The actual mode depends on the device size class, as <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UISplitViewController_class/#//apple_ref/occ/instp/UISplitViewController/preferredDisplayMode">stated in doc</a>.</p>
 
 <blockquote>
 <p>Use this property to specify the display mode that you prefer to use. The split view controller makes every effort to adopt the interface you specify but may use a different type of interface if there is not enough space to support your preferred choice. If changing the value of this property leads to an actual change in the current display mode, the split view controller animates the resulting change.</p>
