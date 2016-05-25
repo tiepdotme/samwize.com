@@ -49,6 +49,7 @@ Taking a step further, @neonichu created [cato](https://github.com/neonichu/cato
 
     #!/usr/bin/env cato 1.2
 
+There is also [swiftenv](https://github.com/kylef/swiftenv), another Swift Version Manager, which is more popular likely because it has much similarities to [pyenv](https://github.com/yyuu/pyenv).
 
 
 ## Dependency Manager
