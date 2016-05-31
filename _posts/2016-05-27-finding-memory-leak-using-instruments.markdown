@@ -2,7 +2,7 @@
 layout: post
 title: "Finding Memory Leak Using Instruments"
 date: 2016-05-27T16:19:55+08:00
-categories: [iOS]
+categories: [iOS, Instruments]
 ---
 
 Often, developers do not put much effort into finding memory leak. While technology like ARC and Swift has helped to prevent us from creating memory leak, it is still unavoidable.
