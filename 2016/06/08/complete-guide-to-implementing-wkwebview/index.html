@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Complete Guide to Implementing WKWebView</title>
+  <meta name="description" content="Using web view is not new. We had UIWebView for many years." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Complete Guide to Implementing WKWebView" />
+    <meta name="twitter:image" content="http://samwize.com" />
+    
+    <meta name="twitter:description"  content="Using web view is not new. We had UIWebView for many years." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Complete Guide to Implementing WKWebView"/>
+  
+  <meta property="og:description" content="Using web view is not new. We had UIWebView for many years." />
+  
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2016-06-08T10:38:53+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Complete Guide to Implementing WKWebView</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2016-06-08T10:38:53+08:00">08 June 2016</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          <p>Using web view is not new. We had <code>UIWebView</code> for many years.</p>
+
+<p>Then came <code>WKWebView</code> in iOS 8, and we had to re-learn some stuff.</p>
+
+<p>This is a complete guide (in Swift!) to implementing your view controller that has a <code>WKWebView</code>, for the purpose of (duh) displaying webpages.</p>
+
+<p>It is not as simple as I thought it would be, with a couple of lessons I learnt along the way.</p>
+
+<h2>Setting up with Interface Builder</h2>
+
+<p>Currently (as of Xcode 7.3.1), you cannot add a <code>WKWebView</code> to your scene directly. There is a web view component in Object Library, but that is for the old <code>UIWebView</code>.</p>
+
+<p>I am sure the component will be added someday, but for now, you have to setup in your code.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nl">MyWebViewController</span><span class="p">:</span> <span class="bp">UIViewController</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="nl">webView</span><span class="p">:</span> <span class="n">WKWebView</span><span class="o">!</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Create WKWebView in code, because IB cannot add a WKWebView directly</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">webView</span> <span class="o">=</span> <span class="n">WKWebView</span><span class="p">()</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">webView</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="nb">false</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">view</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">webView</span><span class="p">)</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">view</span><span class="p">.</span><span class="n">addConstraints</span><span class="p">(</span><span class="bp">NSLayoutConstraint</span><span class="p">.</span><span class="n">constraintsWithVisualFormat</span><span class="p">(</span><span class="s">&quot;|-[webView]-|&quot;</span><span class="p">,</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nl">options</span><span class="p">:</span> <span class="n">NSLayoutFormatOptions</span><span class="p">(</span><span class="nl">rawValue</span><span class="p">:</span> <span class="mi">0</span><span class="p">),</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nl">metrics</span><span class="p">:</span> <span class="nb">nil</span><span class="p">,</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nl">views</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;webView&quot;</span><span class="o">:</span> <span class="n">webView</span><span class="p">]))</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">view</span><span class="p">.</span><span class="n">addConstraints</span><span class="p">(</span><span class="bp">NSLayoutConstraint</span><span class="p">.</span><span class="n">constraintsWithVisualFormat</span><span class="p">(</span><span class="s">&quot;V:|-20-[webView]-|&quot;</span><span class="p">,</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nl">options</span><span class="p">:</span> <span class="n">NSLayoutFormatOptions</span><span class="p">(</span><span class="nl">rawValue</span><span class="p">:</span> <span class="mi">0</span><span class="p">),</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nl">metrics</span><span class="p">:</span> <span class="nb">nil</span><span class="p">,</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nl">views</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;webView&quot;</span><span class="o">:</span> <span class="n">webView</span><span class="p">]))</span>
+</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// 2 ways to load webpage: `loadHTML()` or `loadURL()`        </span>
+</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>In <code>viewDidLoad</code>, we have to create <code>WKWebView</code> in code. </p>
+
+<p>We add it to the view, flushing to the bounds, using <a href="/2014/05/13/first-taste-with-visual-language-format/">auto layout visual language format</a>.</p>
+
+<p>There are 2 ways to load a webpage:</p>
+
+<ol>
+<li>Load HTML as String </li>
+<li>Load URL request</li>
+</ol>
+
+<p>In <code>viewDidLoad</code>, call either <code>loadHTML()</code> or <code>loadURL()</code>, which we gonna explore next.</p>
+
+<h2>1. Load HTML as String</h2>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">loadHTML</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">webView</span><span class="p">.</span><span class="n">loadHTMLString</span><span class="p">(</span><span class="s">&quot;&lt;html&gt;&lt;body&gt;&quot;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="o">+</span> <span class="s">&quot;&lt;p&gt;&lt;a href=</span><span class="se">\&quot;</span><span class="s">http://samwize.com</span><span class="se">\&quot;</span><span class="s">&gt;http://samwize.com&lt;/a&gt;&lt;/p&gt;&quot;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="o">+</span> <span class="s">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</span><span class="p">,</span> <span class="nl">baseURL</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>We use <code>loadHTMLString</code> to load a local HTML.</p>
+
+<p>Run this now, tap on the link, and nothing happens.</p>
+
+<p>Why?</p>
+
+<p>Because <strong>App Transport Security policy</strong> requires the use of a secure connection, or unless you whitelist it. Add the following to your <code>Info.plst</code>:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;dict&gt;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;true/&gt;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;/dict&gt;</span></div></div></pre></div></figure>
+
+<h3>How did I know of the error?</h3>
+
+<p>Glad you ask. </p>
+
+<p>While Xcode debugger does not show up any error/warning, there is an the awesome <strong>Safari Debugger</strong>. </p>
+
+<p>Go to <strong>Safari &gt; Develper &gt; Simulator/Your Device</strong>, and you will be able to debug the page just like on desktop. </p>
+
+<p>For a real device, you will need to enable the feature in <strong>Settings app &gt; Safari &gt; Advanced</strong>.</p>
+
+<p>Keep in mind of this VERY useful tool.</p>
+
+<h2>2. Load URL request</h2>
+
+<p>Simply using <code>loadRequest</code>.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">loadURL</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">urlString</span> <span class="o">=</span> <span class="s">&quot;http://samwize.com&quot;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">guard</span> <span class="k">let</span> <span class="n">url</span> <span class="o">=</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="n">urlString</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span><span class="k">return</span><span class="p">&#x7d;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">request</span> <span class="o">=</span> <span class="bp">NSMutableURLRequest</span><span class="p">(</span><span class="nl">URL</span><span class="p">:</span><span class="n">url</span><span class="p">)</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">webView</span><span class="p">.</span><span class="n">loadRequest</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<h2>The 2 delegates</h2>
+
+<p>There are 2 delegates to the web view which you will most likely use.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nl">MyWebViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">WKUIDelegate</span><span class="p">,</span> <span class="n">WKNavigationDelegate</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">...</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">webView</span><span class="p">.</span><span class="n">UIDelegate</span> <span class="o">=</span> <span class="nb">self</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">webView</span><span class="p">.</span><span class="n">navigationDelegate</span> <span class="o">=</span> <span class="nb">self</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p><a href="https://developer.apple.com/library/ios/documentation/WebKit/Reference/WKUIDelegate_Ref/">WKUIDelegate</a> provides the method for presenting some native user interfaces (see Javascript dialog boxes later).</p>
+
+<p><a href="https://developer.apple.com/library/ios/documentation/WebKit/Reference/WKNavigationDelegate_Ref/">WKNavigationDelegate</a> track navigations from page to page.</p>
+
+<h2>Change URL Request HTTP Header</h2>
+
+<p>You can change a HTTP header value with a <code>NSMutableURLRequest</code> eg. in <code>loadURL()</code> like this:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">request</span><span class="p">.</span><span class="n">setValue</span><span class="p">(</span><span class="s">&quot;Wolverine&quot;</span><span class="p">,</span> <span class="nl">forHTTPHeaderField</span><span class="p">:</span> <span class="s">&quot;X-Men-Header&quot;</span><span class="p">)</span></div></div></pre></div></figure>
+
+<p>One of the most common header field is the <strong>User-Agent</strong>. You can set it on a request object.</p>
+
+<p>But a more convenient way is using <code>webView.customUserAgent</code> to set just once for the web view. Or you can change it <a href="http://stackoverflow.com/a/27331026/242682">globally by setting NSUserDefaults</a>.</p>
+
+<p>And this is how you find out the current user agent:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">webView</span><span class="p">.</span><span class="n">evaluateJavaScript</span><span class="p">(</span><span class="s">&quot;navigator.userAgent&quot;</span><span class="p">)</span> <span class="p">&#x7b;</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="k">in</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;User-Agent: \(result)&quot;</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<h2>Go Back/Forward and Progress</h2>
+
+<p>You can navigate the history with the web view <code>goBack()</code> and <code>goForward()</code>.</p>
+
+<p>To track the progress of loading a webpage, you will need to <em>observe</em> some key paths. Add this in <code>viewDidLoad</code></p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">webViewKeyPathsToObserve</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;loading&quot;</span><span class="p">,</span> <span class="s">&quot;estimatedProgress&quot;</span><span class="p">]</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">for</span> <span class="n">keyPath</span> <span class="k">in</span> <span class="n">webViewKeyPathsToObserve</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">webView</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">forKeyPath</span><span class="p">:</span> <span class="n">keyPath</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">New</span><span class="p">,</span> <span class="nl">context</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>Then as the values change:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="nf">observeValueForKeyPath</span><span class="p">(</span><span class="nl">keyPath</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span><span class="p">,</span> <span class="n">ofObject</span> <span class="nl">object</span><span class="p">:</span> <span class="n">AnyObject</span><span class="o">?</span><span class="p">,</span> <span class="nl">change</span><span class="p">:</span> <span class="p">[</span><span class="nl">String</span> <span class="p">:</span> <span class="n">AnyObject</span><span class="p">]</span><span class="o">?</span><span class="p">,</span> <span class="nl">context</span><span class="p">:</span> <span class="n">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">guard</span> <span class="k">let</span> <span class="n">keyPath</span> <span class="o">=</span> <span class="n">keyPath</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="p">&#x7d;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">switch</span> <span class="n">keyPath</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="s">&quot;loading&quot;</span><span class="o">:</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// If you have back and forward buttons, then here is the best time to enable it</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">backButton</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">webView</span><span class="p">.</span><span class="n">canGoBack</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">forwardButton</span><span class="p">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">webView</span><span class="p">.</span><span class="n">canGoForward</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="s">&quot;estimatedProgress&quot;</span><span class="o">:</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// If you are using a `UIProgressView`, this is how you update the progress</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">progressView</span><span class="p">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="n">webView</span><span class="p">.</span><span class="n">estimatedProgress</span> <span class="o">==</span> <span class="mi">1</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">progressView</span><span class="p">.</span><span class="n">progress</span> <span class="o">=</span> <span class="n">Float</span><span class="p">(</span><span class="n">webView</span><span class="p">.</span><span class="n">estimatedProgress</span><span class="p">)</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">default</span><span class="o">:</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">break</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>Lastly, when page is loaded, reset the progress view.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nl">webView</span><span class="p">:</span> <span class="n">WKWebView</span><span class="p">,</span> <span class="n">didFinishNavigation</span> <span class="nl">navigation</span><span class="p">:</span> <span class="n">WKNavigation</span><span class="o">!</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">progressView</span><span class="p">.</span><span class="n">setProgress</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">false</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<h2>Pitfall: Handling Javascript Dialog Boxes</h2>
+
+<p>This is often omitted in a custom implementation of <code>WKWebView</code>, yet it is very important.</p>
+
+<p>Unlike Safari, <code>WKWebView</code> left out how the <a href="http://www.tutorialspoint.com/javascript/javascript_dialog_boxes.htm">3 Javascript dialog boxes</a> are handled. </p>
+
+<p>You MUST implement the methods in <code>WKUIDelegate</code> to have a proper working web browser.</p>
+
+<p>Here, we have a simple implementation by using <code>UIAlertController</code> to show the dialog boxes.</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">/// Handle javascript:alert(...)</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nl">webView</span><span class="p">:</span> <span class="n">WKWebView</span><span class="p">,</span> <span class="n">runJavaScriptAlertPanelWithMessage</span> <span class="nl">message</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">initiatedByFrame</span> <span class="nl">frame</span><span class="p">:</span> <span class="n">WKFrameInfo</span><span class="p">,</span> <span class="nl">completionHandler</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">okAction</span> <span class="o">=</span> <span class="n">UIAlertAction</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="n">Okay</span><span class="p">,</span> <span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">Default</span><span class="p">)</span> <span class="p">&#x7b;</span> <span class="n">_</span> <span class="k">in</span>
+</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">completionHandler</span><span class="p">()</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
+</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">/// Handle javascript:confirm(...)</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nl">webView</span><span class="p">:</span> <span class="n">WKWebView</span><span class="p">,</span> <span class="n">runJavaScriptConfirmPanelWithMessage</span> <span class="nl">message</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">initiatedByFrame</span> <span class="nl">frame</span><span class="p">:</span> <span class="n">WKFrameInfo</span><span class="p">,</span> <span class="nl">completionHandler</span><span class="p">:</span> <span class="p">(</span><span class="n">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">okAction</span> <span class="o">=</span> <span class="n">UIAlertAction</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="n">Okay</span><span class="p">,</span> <span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">Default</span><span class="p">)</span> <span class="p">&#x7b;</span> <span class="n">_</span> <span class="k">in</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">completionHandler</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">cancelAction</span> <span class="o">=</span> <span class="n">UIAlertAction</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="n">Cancel</span><span class="p">,</span> <span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">Cancel</span><span class="p">)</span> <span class="p">&#x7b;</span> <span class="n">_</span> <span class="k">in</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">completionHandler</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
+</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
+</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">/// Handle javascript:prompt(...)</span>
+</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nl">webView</span><span class="p">:</span> <span class="n">WKWebView</span><span class="p">,</span> <span class="n">runJavaScriptTextInputPanelWithPrompt</span> <span class="nl">prompt</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">defaultText</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span><span class="p">,</span> <span class="n">initiatedByFrame</span> <span class="nl">frame</span><span class="p">:</span> <span class="n">WKFrameInfo</span><span class="p">,</span> <span class="nl">completionHandler</span><span class="p">:</span> <span class="p">(</span><span class="n">String</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
+</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">alertController</span><span class="p">.</span><span class="n">addTextFieldWithConfigurationHandler</span> <span class="p">&#x7b;</span> <span class="p">(</span><span class="n">textField</span><span class="p">)</span> <span class="k">in</span>
+</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">textField</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">defaultText</span>
+</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">okAction</span> <span class="o">=</span> <span class="n">UIAlertAction</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="n">Okay</span><span class="p">,</span> <span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">Default</span><span class="p">)</span> <span class="p">&#x7b;</span> <span class="n">action</span> <span class="k">in</span>
+</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">textField</span> <span class="o">=</span> <span class="n">alertController</span><span class="p">.</span><span class="n">textFields</span><span class="o">!</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="kt">as</span> <span class="bp">UITextField</span>
+</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">completionHandler</span><span class="p">(</span><span class="n">textField</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">cancelAction</span> <span class="o">=</span> <span class="n">UIAlertAction</span><span class="p">(</span><span class="nl">title</span><span class="p">:</span> <span class="n">Cancel</span><span class="p">,</span> <span class="nl">style</span><span class="p">:</span> <span class="p">.</span><span class="n">Cancel</span><span class="p">)</span> <span class="p">&#x7b;</span> <span class="n">_</span> <span class="k">in</span>
+</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">completionHandler</span><span class="p">(</span><span class="nb">nil</span><span class="p">)</span>
+</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
+</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>In the code above, I have left out the not-so-important part of creating <a href="http://nshipster.com/uialertcontroller/">UIAlertController</a>, adding the actions, and presenting it.</p>
+
+<p>What&#39;s important are the <code>UIAlertAction</code> and the <code>completionHandler</code> to call back with.</p>
+
+<h2>Pitfall: Unsupported URL</h2>
+
+<p>Custom scheme URL is not supported by <code>WKWebView</code> (but Safari will work). </p>
+
+<p>You can make it work by handling the &quot;error&quot;:</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nl">webView</span><span class="p">:</span> <span class="n">WKWebView</span><span class="p">,</span> <span class="n">didFailNavigation</span> <span class="nl">navigation</span><span class="p">:</span> <span class="n">WKNavigation</span><span class="o">!</span><span class="p">,</span> <span class="n">withError</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">handleError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
+</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nl">webView</span><span class="p">:</span> <span class="n">WKWebView</span><span class="p">,</span> <span class="n">didFailProvisionalNavigation</span> <span class="nl">navigation</span><span class="p">:</span> <span class="n">WKNavigation</span><span class="o">!</span><span class="p">,</span> <span class="n">withError</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">handleError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
+</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">handleError</span><span class="p">(</span><span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">failingUrl</span> <span class="o">=</span> <span class="n">error</span><span class="p">.</span><span class="n">userInfo</span><span class="p">[</span><span class="s">&quot;NSErrorFailingURLStringKey&quot;</span><span class="p">]</span> <span class="kt">as</span><span class="o">?</span> <span class="n">String</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">if</span> <span class="k">let</span> <span class="n">url</span> <span class="o">=</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="n">failingUrl</span><span class="p">)</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">let</span> <span class="n">didOpen</span> <span class="o">=</span> <span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">openURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">if</span> <span class="n">didOpen</span> <span class="p">&#x7b;</span>
+</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">print</span><span class="p">(</span><span class="s">&quot;openURL succeeded&quot;</span><span class="p">)</span>
+</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="k">return</span>
+</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;</span>
+</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
+</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
+</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+
+<p>Note: In iOS 9, you have to <a href="http://useyourloaf.com/blog/querying-url-schemes-with-canopenurl/">whitelist</a> the URL schemes if you use <code>canOpenURL</code>, therefore we simply go ahead and <code>openURL</code>, then use the returned boolean.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Complete+Guide+to+Implementing+WKWebView&amp;url=http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Complete+Guide+to+Implementing+WKWebView&amp;u=http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Complete+Guide+to+Implementing+WKWebView&amp;url=http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
