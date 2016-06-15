@@ -5,6 +5,8 @@ date: 2016-06-15T11:11:10-07:00
 categories: [Swift]
 ---
 
+_tldr: Check out [wwdc-dl](https://github.com/samwize/wwdc-dl), the github project with the Swift scripts_
+
 While I may be at WWDC physically (for the first time!), I still prefer to download and comfortably watch the sessions on my MacBook.
 
 It is refreshing to be live and watching the presenter, and _excessively applause every now and then_. 
