@@ -17,7 +17,7 @@ layout: default
     <div class="custom-links">
       {% for social in site.social %}
         {% if social.url %}
-            <a class="icon-{{ social.icon }}" href="{{ social.url }}" {% if social.desc %} title="{{ social.desc }}"{% endif %}">
+            <a class="icon-{{ social.icon }}" href="{{ social.url }}" {% if social.desc %} title="{{ social.desc }}"{% endif %}>
               <i class="fa fa-{{ social.icon }}"></i>
             </a>
             &nbsp;&nbsp;·&nbsp;&nbsp;
@@ -36,14 +36,14 @@ layout: default
       <ul class="recent-posts">
       {% for post in paginator.posts %}
       <li>
-        {% if post.redirect != null %}
-          <a href="{{ post.redirect }}" target="_blank" itemprop="url">
-          <span class="title">{{ post.title }} ➦</span>
-        {% else %}
+        {% if post.redirect == null %}
           <a href="{{ post.url }}" itemprop="url">
-          <span class="title">{{ post.title }}</span>
+            <span class="title">{{ post.title }}</span>
+        {% else %}
+          <a href="{{ post.redirect }}" target="_blank" itemprop="url">
+            <span class="title">{{ post.title }} ➦</span>
         {% endif %}
-          <span class="date">{{ post.date | date_to_long_string }}</span>
+            <span class="date">{{ post.date | date_to_long_string }}</span>
         </a>
       </li>
       {% endfor %}
