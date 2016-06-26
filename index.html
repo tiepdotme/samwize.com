@@ -36,8 +36,13 @@ layout: default
       <ul class="recent-posts">
       {% for post in paginator.posts %}
       <li>
-        <a href="{{ post.url }}" itemprop="url">
+        {% if post.redirect != null %}
+          <a href="{{ post.redirect }}" target="_blank" itemprop="url">
+          <span class="title">{{ post.title }} ➦</span>
+        {% else %}
+          <a href="{{ post.url }}" itemprop="url">
           <span class="title">{{ post.title }}</span>
+        {% endif %}
           <span class="date">{{ post.date | date_to_long_string }}</span>
         </a>
       </li>

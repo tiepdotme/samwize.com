@@ -3,7 +3,7 @@ layout: post
 title: "WWDC 2013 - download sessions directly"
 date: 2013-07-02 00:54
 comments: true
-categories: [iOS]
+categories: [WWDC]
 ---
 
 Unlike in previous years (WWDC 2012 and earlier), the developer session videos can be subscribed in iTunes University, hence you can easily download all the videos and conveniently sync to your iPhone to watch.

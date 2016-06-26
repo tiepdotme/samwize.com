@@ -3,7 +3,7 @@ layout: post
 title: "Download all WWDC 2014 PDF Slides only"
 date: 2014-06-06 00:56:46 +0800
 comments: true
-categories: [iOS]
+categories: [WWDC]
 ---
 
 [WWDC 2014](https://developer.apple.com/videos/wwdc/2014/) is over, and all the videos and PDF slides are now available for developers to download.

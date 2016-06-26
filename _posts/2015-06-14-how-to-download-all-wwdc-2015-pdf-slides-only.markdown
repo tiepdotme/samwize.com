@@ -3,7 +3,7 @@ layout: post
 title: "How to download all WWDC 2015 PDF Slides Only"
 date: 2015-06-14 11:48:11 +0800
 comments: true
-categories: [iOS]
+categories: [WWDC]
 ---
 
 Last year, I provided the script to [download all PDFs for WWDC 2014](http://samwize.com/2014/06/06/download-all-wwdc-2014-pdf-slides-only/).

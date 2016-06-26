@@ -27,7 +27,7 @@
         {% else %}
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">{{ page.title }}</h1>
+            <h1 class="post-title">{{ page.title }}{% if page.redirect != null %} ➦{% endif %}</h1>
             <div class="cf post-meta-text">
               <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date_to_long_string }}</time>
               <!-- , tagged on {{#foreach tags}}<span class="post-tag-{{slug}}">{{#if @first}}{{else}}, {{/if}}<a href="/tag/{{slug}}">{{name}}</a></span>{{/foreach}} -->
@@ -43,6 +43,10 @@
             <span class="post-reading-time"></span> read
           </div>
           <a name="topofpage"></a>
+          {% if page.redirect != null %}
+            <p>This post originates from <a href="{{ page.redirect }}" target="_blank">{{ page.redirect }}</a></p>
+            <p><a href="{{ page.redirect }}" target="_blank">Read more ➦</a></p>
+          {% endif %}
           {{content}}
         </section>
         <footer class="post-footer">
