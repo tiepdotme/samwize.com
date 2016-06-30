@@ -39,6 +39,9 @@ We could compile that into an **executable binary**.
 
 We name the binary `hello` in above. The binary will be created, and now you can run it with `./hello`.
 
+If you get an error `cannot load underlying module for 'CoreGraphics'` (if you start to import frameworks like `Foundation`), then you will need to run like this:
+
+    xcrun -sdk macosx main.swift -o hello
 
 
 ## Swift version manager
