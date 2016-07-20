@@ -281,3 +281,26 @@ func handleError(error: NSError) {
 ```
 
 Note: In iOS 9, you have to [whitelist](http://useyourloaf.com/blog/querying-url-schemes-with-canopenurl/) the URL schemes if you use `canOpenURL`, therefore we simply go ahead and `openURL`, then use the returned boolean.
+
+
+## Bonus: Universal Links
+
+Universal links are `http://...` URL that will open an app. They are similar to custom URI scheme to open app, but using regular http addresses. Yet it was claimed to be [untested software from Apple](https://blog.branch.io/apples-universal-links-a-testament-to-untested-software).
+
+It is quite a tricky technology.
+
+As noted in Apple Doc, iOS 9 users can [tap on universal links in `WKWebView`](https://developer.apple.com/library/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html), and it will open the app. It is the same for `UIWebView` and `SFSafariViewController`.
+
+There is no way you can prevent a universal link from opening an app (if installed) when the link is in a page in your web view. [Google Chrome app](http://blog.tapstream.com/google-changes-chrome-to-prevent-abusive/) is the same. It was [clarified](http://blog.tapstream.com/why-has-google-broken-deeplinking-on-android/#comment-1906522285) by their engineer that deep/universal link will still be opened if it results from a user's tap.
+
+[Branch](https://dev.branch.io/getting-started/universal-app-links/support/ios/#appsbrowsers-that-support-universal-links) provided a good guide on when universal link will **NOT** open the app:
+
+1. When the link is entered into the browser address field (thus creating the intial web view)
+2. Same domain
+3. Javascript `onload()` or `click()`
+
+In other words, it **only works** if the link is cross domain and is user driven (clicking on a `<a>` tag).
+
+If a universal link sometimes did not work, then it is likely the OS has remembered your preference for the link. You have to ["reset"](http://stackoverflow.com/a/32745272/242682) it.
+
+If you want to exclude a path, you can use a [`NOT` keyword](https://forums.developer.apple.com/thread/24981).
