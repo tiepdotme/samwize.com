@@ -306,6 +306,30 @@
 
 <p>Note: In iOS 9, you have to <a href="http://useyourloaf.com/blog/querying-url-schemes-with-canopenurl/">whitelist</a> the URL schemes if you use <code>canOpenURL</code>, therefore we simply go ahead and <code>openURL</code>, then use the returned boolean.</p>
 
+<h2>Bonus: Universal Links</h2>
+
+<p>Universal links are <code>http://...</code> URL that will open an app. They are similar to custom URI scheme to open app, but using regular http addresses. Yet it was claimed to be <a href="https://blog.branch.io/apples-universal-links-a-testament-to-untested-software">untested software from Apple</a>.</p>
+
+<p>It is quite a tricky technology.</p>
+
+<p>As noted in Apple Doc, iOS 9 users can <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html">tap on universal links in <code>WKWebView</code></a>, and it will open the app. It is the same for <code>UIWebView</code> and <code>SFSafariViewController</code>.</p>
+
+<p>There is no way you can prevent a universal link from opening an app (if installed) when the link is in a page in your web view. <a href="http://blog.tapstream.com/google-changes-chrome-to-prevent-abusive/">Google Chrome app</a> is the same. It was <a href="http://blog.tapstream.com/why-has-google-broken-deeplinking-on-android/#comment-1906522285">clarified</a> by their engineer that deep/universal link will still be opened if it results from a user&#39;s tap.</p>
+
+<p><a href="https://dev.branch.io/getting-started/universal-app-links/support/ios/#appsbrowsers-that-support-universal-links">Branch</a> provided a good guide on when universal link will <strong>NOT</strong> open the app:</p>
+
+<ol>
+<li>When the link is entered into the browser address field (thus creating the intial web view)</li>
+<li>Same domain</li>
+<li>Javascript <code>onload()</code> or <code>click()</code></li>
+</ol>
+
+<p>In other words, it <strong>only works</strong> if the link is cross domain and is user driven (clicking on a <code>&lt;a&gt;</code> tag).</p>
+
+<p>If a universal link sometimes did not work, then it is likely the OS has remembered your preference for the link. You have to <a href="http://stackoverflow.com/a/32745272/242682">&quot;reset&quot;</a> it.</p>
+
+<p>If you want to exclude a path, you can use a <a href="https://forums.developer.apple.com/thread/24981"><code>NOT</code> keyword</a>.</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">

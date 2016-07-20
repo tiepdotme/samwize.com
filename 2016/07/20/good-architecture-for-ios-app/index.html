@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Good Architecture for iOS App</title>
+  <meta name="description" content="This post discuss various architecture designs for an iOS app." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Good Architecture for iOS App" />
+    <meta name="twitter:image" content="http://samwize.com" />
+    
+    <meta name="twitter:description"  content="This post discuss various architecture designs for an iOS app." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Good Architecture for iOS App"/>
+  
+  <meta property="og:description" content="This post discuss various architecture designs for an iOS app." />
+  
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2016/07/20/good-architecture-for-ios-app/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2016-07-20T17:17:01+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2016/07/20/good-architecture-for-ios-app/">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Good Architecture for iOS App</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2016-07-20T17:17:01+08:00">20 July 2016</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p>This post discuss various architecture designs for an iOS app.</p>
+
+<p>It is an ongoing post which I will update continously.</p>
+
+<h2>Good iOS Architecture</h2>
+
+<p>I wrote this post because I was reading
+<a href="http://slideslive.com/38897361/good-ios-application-architecture-en">good iOS application architecture</a>
+by Krzysztof Zabłocki </p>
+
+<p>You might know him from <a href="https://github.com/krzysztofzablocki/KZLinkedConsole">KZLinkedConsole</a>
+his popular Xcode plugin <a href="http://merowing.info/2015/12/writing-xcode-plugin-in-swift/">written in Swift</a></p>
+
+<p>Traits of Good Architecture:</p>
+
+<ul>
+<li>Ability to follow data flow with ease</li>
+<li>Limited Dependencies</li>
+</ul>
+
+<p>As Uncle Bob says, a good architecture is one when you look at it, eg an accounting software, it screams ACCOUNTING, not MVC/etc. A good architecture will defer the frameworks it use.</p>
+
+<h2>How you know it is bad?</h2>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># How many lines in your view controllers?
+find . -type f -exec wc -l {} + | sort -n
+</code></pre></div>
+<p><a href="https://github.com/PaulTaykalo/objc-dependency-visualizer">Dependency Visualizer</a></p>
+
+<h2>Patterns</h2>
+
+<p>How you use patterns
+determines it is good or bad</p>
+
+<p>Singleton
+is very common
+but easily misused
+Eg. Logger - almost every class needs logging, so singleton is fine</p>
+
+<p>But when you have a VC using a Singleton
+just so it is convenient
+then it is likely wrong</p>
+
+<p>Composition
+is 1 pattern that you must know,
+which will lead to other great patterns</p>
+
+<p>DI is good
+as it encourages reuse,
+and even Apple encourages it in WWDC 2016-06</p>
+
+<h2>1. MVC</h2>
+
+<p>Apple&#39;s MVC is wrong
+because it&#39;s View and Controller are too closely coupled</p>
+
+<p>Only model can be reused</p>
+
+<p>MVC is invented in the 80s
+but it can still be good
+if you do composition</p>
+
+<p>Apple sample code –
+even they admit it is to merely to show a technology,
+not written in good architecture</p>
+
+<p>Problems with our View Controller:</p>
+
+<ul>
+<li>Knowing business logic</li>
+<li>Maintaining states</li>
+</ul>
+
+<h2>2. VIPER</h2>
+
+<p>Good
+But lots of boilerplate</p>
+
+<h2>3. MVVM</h2>
+
+<p>Most popular iOS Architecture?</p>
+
+<p>View Model
+is UIKit independent
+and is testable</p>
+
+<p>But no router</p>
+
+<h2>4. MVVM+</h2>
+
+<p>With Flow Coordinators/Controller/Router</p>
+
+<p><a href="http://merowing.info/2016/01/improve-your-ios-architecture-with-flowcontrollers/">Improving Architecture with Flow Controllers</a>:</p>
+
+<ul>
+<li>At least 1 root flow controller</li>
+<li>Created by AppDelegate</li>
+<li>Has multiple child controllers (VCs)</li>
+<li>VC/VM does not know about other VC/VM</li>
+<li>Configures and coordinate different screens</li>
+<li>To support multiple devices, subclass the root flow controller</li>
+<li>You can use for MVC or any other architecture</li>
+</ul>
+
+<p><a href="http://khanlou.com/2015/10/coordinators-redux/">Coordinator Redux</a> by Khanlou</p>
+
+<p>What&#39;s wrong with such a line of code in a view controller?</p>
+
+<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span> <span class="nl">pushViewController</span><span class="p">:</span><span class="n">detailViewController</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span></div></div></pre></div></figure>
+
+<blockquote>
+<p>It’s bossing its parent around. In real life, children should never boss their parents around. In programming, I would argue children shouldn’t even know who their parents are!</p>
+</blockquote>
+
+<p>Libraries vs frameworks</p>
+
+<blockquote>
+<p>They say the distinction between libraries and frameworks is that you call libraries, and frameworks call you. I want to treat 3rd-party dependencies as much like libraries as possible.</p>
+</blockquote>
+
+<p>A con of using flow coordinators:
+It does not play well with segue</p>
+
+<h2><a href="https://github.com/ReSwift/ReSwift">5. ReSwift</a></h2>
+
+<p>The new kid in the block, inspired by Redux.
+An <a href="https://realm.io/news/benji-encz-unidirectional-data-flow-swift/">introduction presented by Benjamin Encz</a></p>
+
+<p>Single point of truth</p>
+
+<p>It can load a state - persisting state across application launches</p>
+
+<p><a href="http://reswift.github.io/ReSwift/master/getting-started-guide.html"><img src="http://reswift.github.io/ReSwift/master/img/reswift_detail.png" alt=""></a></p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Good+Architecture+for+iOS+App&amp;url=http://samwize.com/2016/07/20/good-architecture-for-ios-app"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Good+Architecture+for+iOS+App&amp;u=http://samwize.com/2016/07/20/good-architecture-for-ios-app"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Good+Architecture+for+iOS+App&amp;url=http://samwize.com/2016/07/20/good-architecture-for-ios-app"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>

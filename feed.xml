@@ -6,9 +6,155 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 30 Jun 2016 17:37:33 +0800</pubDate>
-    <lastBuildDate>Thu, 30 Jun 2016 17:37:33 +0800</lastBuildDate>
+    <pubDate>Wed, 20 Jul 2016 16:11:04 +0800</pubDate>
+    <lastBuildDate>Wed, 20 Jul 2016 16:11:04 +0800</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Good Architecture for iOS App</title>
+        <description>&lt;p&gt;This post discuss various architecture designs for an iOS app.&lt;/p&gt;
+
+&lt;p&gt;It is an ongoing post which I will update continously.&lt;/p&gt;
+
+&lt;h2&gt;Good iOS Architecture&lt;/h2&gt;
+
+&lt;p&gt;I wrote this post because I was reading
+&lt;a href=&quot;http://slideslive.com/38897361/good-ios-application-architecture-en&quot;&gt;good iOS application architecture&lt;/a&gt;
+by Krzysztof Zabłocki &lt;/p&gt;
+
+&lt;p&gt;You might know him from &lt;a href=&quot;https://github.com/krzysztofzablocki/KZLinkedConsole&quot;&gt;KZLinkedConsole&lt;/a&gt;
+his popular Xcode plugin &lt;a href=&quot;http://merowing.info/2015/12/writing-xcode-plugin-in-swift/&quot;&gt;written in Swift&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Traits of Good Architecture:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Ability to follow data flow with ease&lt;/li&gt;
+&lt;li&gt;Limited Dependencies&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;As Uncle Bob says, a good architecture is one when you look at it, eg an accounting software, it screams ACCOUNTING, not MVC/etc. A good architecture will defer the frameworks it use.&lt;/p&gt;
+
+&lt;h2&gt;How you know it is bad?&lt;/h2&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;# How many lines in your view controllers?
+find . -type f -exec wc -l {} + | sort -n
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/PaulTaykalo/objc-dependency-visualizer&quot;&gt;Dependency Visualizer&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;Patterns&lt;/h2&gt;
+
+&lt;p&gt;How you use patterns
+determines it is good or bad&lt;/p&gt;
+
+&lt;p&gt;Singleton
+is very common
+but easily misused
+Eg. Logger - almost every class needs logging, so singleton is fine&lt;/p&gt;
+
+&lt;p&gt;But when you have a VC using a Singleton
+just so it is convenient
+then it is likely wrong&lt;/p&gt;
+
+&lt;p&gt;Composition
+is 1 pattern that you must know,
+which will lead to other great patterns&lt;/p&gt;
+
+&lt;p&gt;DI is good
+as it encourages reuse,
+and even Apple encourages it in WWDC 2016-06&lt;/p&gt;
+
+&lt;h2&gt;1. MVC&lt;/h2&gt;
+
+&lt;p&gt;Apple&amp;#39;s MVC is wrong
+because it&amp;#39;s View and Controller are too closely coupled&lt;/p&gt;
+
+&lt;p&gt;Only model can be reused&lt;/p&gt;
+
+&lt;p&gt;MVC is invented in the 80s
+but it can still be good
+if you do composition&lt;/p&gt;
+
+&lt;p&gt;Apple sample code –
+even they admit it is to merely to show a technology,
+not written in good architecture&lt;/p&gt;
+
+&lt;p&gt;Problems with our View Controller:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Knowing business logic&lt;/li&gt;
+&lt;li&gt;Maintaining states&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2&gt;2. VIPER&lt;/h2&gt;
+
+&lt;p&gt;Good
+But lots of boilerplate&lt;/p&gt;
+
+&lt;h2&gt;3. MVVM&lt;/h2&gt;
+
+&lt;p&gt;Most popular iOS Architecture?&lt;/p&gt;
+
+&lt;p&gt;View Model
+is UIKit independent
+and is testable&lt;/p&gt;
+
+&lt;p&gt;But no router&lt;/p&gt;
+
+&lt;h2&gt;4. MVVM+&lt;/h2&gt;
+
+&lt;p&gt;With Flow Coordinators/Controller/Router&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://merowing.info/2016/01/improve-your-ios-architecture-with-flowcontrollers/&quot;&gt;Improving Architecture with Flow Controllers&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;At least 1 root flow controller&lt;/li&gt;
+&lt;li&gt;Created by AppDelegate&lt;/li&gt;
+&lt;li&gt;Has multiple child controllers (VCs)&lt;/li&gt;
+&lt;li&gt;VC/VM does not know about other VC/VM&lt;/li&gt;
+&lt;li&gt;Configures and coordinate different screens&lt;/li&gt;
+&lt;li&gt;To support multiple devices, subclass the root flow controller&lt;/li&gt;
+&lt;li&gt;You can use for MVC or any other architecture&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://khanlou.com/2015/10/coordinators-redux/&quot;&gt;Coordinator Redux&lt;/a&gt; by Khanlou&lt;/p&gt;
+
+&lt;p&gt;What&amp;#39;s wrong with such a line of code in a view controller?&lt;/p&gt;
+
+&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;navigationController&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;pushViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;detailViewController&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;YES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;It’s bossing its parent around. In real life, children should never boss their parents around. In programming, I would argue children shouldn’t even know who their parents are!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Libraries vs frameworks&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;They say the distinction between libraries and frameworks is that you call libraries, and frameworks call you. I want to treat 3rd-party dependencies as much like libraries as possible.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;A con of using flow coordinators:
+It does not play well with segue&lt;/p&gt;
+
+&lt;h2&gt;&lt;a href=&quot;https://github.com/ReSwift/ReSwift&quot;&gt;5. ReSwift&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;The new kid in the block, inspired by Redux.
+An &lt;a href=&quot;https://realm.io/news/benji-encz-unidirectional-data-flow-swift/&quot;&gt;introduction presented by Benjamin Encz&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Single point of truth&lt;/p&gt;
+
+&lt;p&gt;It can load a state - persisting state across application launches&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://reswift.github.io/ReSwift/master/getting-started-guide.html&quot;&gt;&lt;img src=&quot;http://reswift.github.io/ReSwift/master/img/reswift_detail.png&quot; alt=&quot;&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Wed, 20 Jul 2016 17:17:01 +0800</pubDate>
+        <link>http://samwize.com/2016/07/20/good-architecture-for-ios-app/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/07/20/good-architecture-for-ios-app/</guid>
+        
+        
+        <category>architecture</category>
+        
+        <category>ios</category>
+        
+      </item>
     
       <item>
         <title>Refactor a Mega View Controller - A Live Coding!</title>
@@ -392,6 +538,30 @@ and set it to the navigation VC (the root VC of window).&lt;/p&gt;
 &lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;19&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
 
 &lt;p&gt;Note: In iOS 9, you have to &lt;a href=&quot;http://useyourloaf.com/blog/querying-url-schemes-with-canopenurl/&quot;&gt;whitelist&lt;/a&gt; the URL schemes if you use &lt;code&gt;canOpenURL&lt;/code&gt;, therefore we simply go ahead and &lt;code&gt;openURL&lt;/code&gt;, then use the returned boolean.&lt;/p&gt;
+
+&lt;h2&gt;Bonus: Universal Links&lt;/h2&gt;
+
+&lt;p&gt;Universal links are &lt;code&gt;http://...&lt;/code&gt; URL that will open an app. They are similar to custom URI scheme to open app, but using regular http addresses. Yet it was claimed to be &lt;a href=&quot;https://blog.branch.io/apples-universal-links-a-testament-to-untested-software&quot;&gt;untested software from Apple&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;It is quite a tricky technology.&lt;/p&gt;
+
+&lt;p&gt;As noted in Apple Doc, iOS 9 users can &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html&quot;&gt;tap on universal links in &lt;code&gt;WKWebView&lt;/code&gt;&lt;/a&gt;, and it will open the app. It is the same for &lt;code&gt;UIWebView&lt;/code&gt; and &lt;code&gt;SFSafariViewController&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;There is no way you can prevent a universal link from opening an app (if installed) when the link is in a page in your web view. &lt;a href=&quot;http://blog.tapstream.com/google-changes-chrome-to-prevent-abusive/&quot;&gt;Google Chrome app&lt;/a&gt; is the same. It was &lt;a href=&quot;http://blog.tapstream.com/why-has-google-broken-deeplinking-on-android/#comment-1906522285&quot;&gt;clarified&lt;/a&gt; by their engineer that deep/universal link will still be opened if it results from a user&amp;#39;s tap.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://dev.branch.io/getting-started/universal-app-links/support/ios/#appsbrowsers-that-support-universal-links&quot;&gt;Branch&lt;/a&gt; provided a good guide on when universal link will &lt;strong&gt;NOT&lt;/strong&gt; open the app:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;When the link is entered into the browser address field (thus creating the intial web view)&lt;/li&gt;
+&lt;li&gt;Same domain&lt;/li&gt;
+&lt;li&gt;Javascript &lt;code&gt;onload()&lt;/code&gt; or &lt;code&gt;click()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In other words, it &lt;strong&gt;only works&lt;/strong&gt; if the link is cross domain and is user driven (clicking on a &lt;code&gt;&amp;lt;a&amp;gt;&lt;/code&gt; tag).&lt;/p&gt;
+
+&lt;p&gt;If a universal link sometimes did not work, then it is likely the OS has remembered your preference for the link. You have to &lt;a href=&quot;http://stackoverflow.com/a/32745272/242682&quot;&gt;&amp;quot;reset&amp;quot;&lt;/a&gt; it.&lt;/p&gt;
+
+&lt;p&gt;If you want to exclude a path, you can use a &lt;a href=&quot;https://forums.developer.apple.com/thread/24981&quot;&gt;&lt;code&gt;NOT&lt;/code&gt; keyword&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Wed, 08 Jun 2016 10:38:53 +0800</pubDate>
         <link>http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview/</link>
@@ -722,87 +892,6 @@ JekyllImport::Importers::Blogger.run({ &amp;quot;source&amp;quot; =&amp;gt; &amp
         
         
         <category>jekyll</category>
-        
-      </item>
-    
-      <item>
-        <title>NSAttributedString, HTML and Unicode Encoding</title>
-        <description>&lt;p&gt;While converting a HTML string to a &lt;code&gt;NSAttributedString&lt;/code&gt;, I discovered a perculiar thing about it&amp;#39;s unicode encoding format.&lt;/p&gt;
-
-&lt;h2&gt;HTML as NSAttributedString&lt;/h2&gt;
-
-&lt;p&gt;Converting HTML &lt;code&gt;String&lt;/code&gt; to &lt;code&gt;NSAttributedString&lt;/code&gt; can be easily accomplished with this String extension:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;k&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;htmlAttributedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSAttributedString&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dataUsingEncoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSUTF16StringEncoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;allowLossyConversion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;n&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;NSMutableAttributedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;          &lt;span class=&quot;nl&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;6&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;          &lt;span class=&quot;nl&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;NSDocumentTypeDocumentAttribute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSHTMLTextDocumentType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; 
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;7&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;          &lt;span class=&quot;nl&quot;&gt;documentAttributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;8&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;9&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;    &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;10&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;To use,&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attributedText&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;&amp;lt;b&amp;gt;Hello&amp;lt;/b&amp;gt; \u&amp;#x7b;2022&amp;#x7d; World&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;htmlAttributedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;In the above, I have purposely added a unicode &lt;strong&gt;\u2022&lt;/strong&gt; to show that it renders unicode correctly.&lt;/p&gt;
-
-&lt;h2&gt;NSAttributedString uses NSUTF16StringEncoding&lt;/h2&gt;
-
-&lt;p&gt;If you observe the code carefully, when we call &lt;code&gt;dataUsingEncoding&lt;/code&gt;, we use &lt;code&gt;NSUTF16StringEncoding&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Sidetrack: A small introduction to unicode and encoding will be in next section.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;This is because &lt;code&gt;NSAttributedString&lt;/code&gt; requires data to be encoded in &lt;strong&gt;UTF-16&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;NOT UTF-8, as I expected at first.&lt;/p&gt;
-
-&lt;p&gt;Also note that &lt;code&gt;NSUnicodeStringEncoding&lt;/code&gt; is the same as &lt;code&gt;NSUTF16StringEncoding&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;While the &lt;a href=&quot;https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSAttributedString_Class/&quot;&gt;documentation&lt;/a&gt; never specify what encoding &lt;code&gt;data&lt;/code&gt; has to be, we can get a hint from
-&lt;code&gt;NSString&lt;/code&gt; which is &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Strings/Articles/stringsClusters.html&quot;&gt;conceptually UTF-16&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Another way is to specify the encoding in NSAttributedString initializer:&lt;/p&gt;
-
-&lt;figure class=&#39;code-highlight-figure&#39;&gt;&lt;div class=&#39;code-highlight&#39;&gt;&lt;pre class=&#39;code-highlight-pre&#39;&gt;&lt;div data-line=&#39;1&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;&lt;span class=&quot;bp&quot;&gt;NSMutableAttributedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;2&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;  &lt;span class=&quot;nl&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;3&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;  &lt;span class=&quot;nl&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;NSDocumentTypeDocumentAttribute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSHTMLTextDocumentType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;4&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;  &lt;span class=&quot;nl&quot;&gt;NSCharacterEncodingDocumentAttribute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSUTF8StringEncoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; 
-&lt;/div&gt;&lt;/div&gt;&lt;div data-line=&#39;5&#39; class=&#39;code-highlight-row numbered&#39;&gt;&lt;div class=&#39;code-highlight-line&#39;&gt;  &lt;span class=&quot;nl&quot;&gt;documentAttributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7b;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;#x7d;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/figure&gt;
-
-&lt;p&gt;In the above, &lt;code&gt;data&lt;/code&gt; will have to be UTF-8 encoded.&lt;/p&gt;
-
-&lt;h2&gt;An Introduction to Encoding Strings&lt;/h2&gt;
-
-&lt;p&gt;Why do we need to encode?&lt;/p&gt;
-
-&lt;p&gt;We need to handle encoding/decoding of string when it is &lt;strong&gt;converted to data&lt;/strong&gt; (eg &lt;code&gt;NSData&lt;/code&gt;). &lt;/p&gt;
-
-&lt;p&gt;When writing to a file, ultimately, the string representation is written as bytes of data. This conversion of string to data requires an encoding form.&lt;/p&gt;
-
-&lt;p&gt;This is because 1 character in a string (or specifically unicode string) can be represented by 1-4 bytes, depending on the encoding form. &lt;/p&gt;
-
-&lt;p&gt;We discuss 2 of the most common forms here.&lt;/p&gt;
-
-&lt;p&gt;A &lt;strong&gt;UTF-16&lt;/strong&gt; character is minimumly 2 bytes (or 16 bits). &lt;/p&gt;
-
-&lt;p&gt;But a &lt;a href=&quot;http://unicode.org/faq/utf_bom.html&quot;&gt;unicode character is up to 21 bit&lt;/a&gt;, so while UTF-16 can represent most of the unicode characters (specifically 63K characters) in 2 bytes, there are characters that it needs more than 2 bytes to represent. &lt;/p&gt;
-
-&lt;p&gt;A &lt;strong&gt;UTF-8&lt;/strong&gt; character is minimumly 1 byte (or 8 bits). Only 128 characters are encoded in 1 byte (this includes the very common ASCII). This is much more space efficient than UTF-16.&lt;/p&gt;
-
-&lt;p&gt;That&amp;#39;s it for an introduction.&lt;/p&gt;
-
-&lt;p&gt;For more, read about how &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/StringsAndCharacters.html&quot;&gt;Swift deal with String&lt;/a&gt; and from &lt;a href=&quot;https://www.objc.io/issues/9-strings/unicode/&quot;&gt;objc.io&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 24 May 2016 17:09:57 +0800</pubDate>
-        <link>http://samwize.com/2016/05/24/nsattributedstring-html-ios-unicode-encoding/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/05/24/nsattributedstring-html-ios-unicode-encoding/</guid>
-        
-        
-        <category>ios</category>
         
       </item>
     
