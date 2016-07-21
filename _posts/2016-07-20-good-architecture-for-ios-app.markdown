@@ -10,7 +10,7 @@ This post discuss various architecture designs for an iOS app.
 It is an ongoing post which I will update continously.
 
 
-## Good iOS Architecture
+## Good Architecture
 
 I wrote this post because I was reading
 [good iOS application architecture](http://slideslive.com/38897361/good-ios-application-architecture-en)
@@ -21,8 +21,11 @@ his popular Xcode plugin [written in Swift](http://merowing.info/2015/12/writing
 
 Traits of Good Architecture:
 
+- Each object has a clear role
 - Ability to follow data flow with ease
+- Don't depend on any particular framework
 - Limited Dependencies
+- Flexible because it is simple, not because it is over abstracted
 
 As Uncle Bob says, a good architecture is one when you look at it, eg an accounting software, it screams ACCOUNTING, not MVC/etc. A good architecture will defer the frameworks it use.
 
