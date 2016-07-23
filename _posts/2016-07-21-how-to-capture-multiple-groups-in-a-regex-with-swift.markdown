@@ -11,32 +11,31 @@ Here is a `String` extension that extract the captured groups with a regex patte
 
 ```swift
 extension String {
-    
-    func capturedGroups(withRegex pattern: String) -> [String]? {
+    func capturedGroups(withRegex pattern: String) -> [String] {
+        var results = [String]()
+
+        var regex: NSRegularExpression
         do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
-            let matches = regex.matchesInString(self, options: [], range: NSRange(location:0, length: self.characters.count))
-            
-            guard let match = matches.first else { return nil }
-            
-            // Note: Index 1 is 1st capture group, 2 is 2nd, ..., while index 0 is full match which we don't use
-            let lastRangeIndex = match.numberOfRanges - 1
-            guard lastRangeIndex >= 1 else { return nil }
-            
-            var results = [String]()
-            
-            for i in 1...lastRangeIndex {
-                let capturedGroupIndex = match.rangeAtIndex(i)
-                let matchedString = (self as NSString).substringWithRange(capturedGroupIndex)
-                results.append(matchedString)
-            }
-            
-            return results
+            regex = try NSRegularExpression(pattern: pattern, options: [])
         } catch {
-            return nil
+            return results
         }
+        
+        let matches = regex.matchesInString(self, options: [], range: NSRange(location:0, length: self.characters.count))
+        
+        guard let match = matches.first else { return results }
+        
+        let lastRangeIndex = match.numberOfRanges - 1
+        guard lastRangeIndex >= 1 else { return results }
+        
+        for i in 1...lastRangeIndex {
+            let capturedGroupIndex = match.rangeAtIndex(i)
+            let matchedString = (self as NSString).substringWithRange(capturedGroupIndex)
+            results.append(matchedString)
+        }
+        
+        return results
     }
-    
 }
 ```
 
