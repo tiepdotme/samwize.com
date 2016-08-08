@@ -9,11 +9,9 @@ published: true
 
 Since the introduction of [iCloud Backup](https://www.apple.com/support/icloud/backup/), developers have increasingly faced the following reason for rejected binary:
 
-{% blockquote %}
-	2.23: Apps must follow the iOS Data Storage Guidelines or they will be rejected
+>	2.23: Apps must follow the iOS Data Storage Guidelines or they will be rejected
 
-	The iOS Data Storage Guidelines indicate that only content that the user creates using your app, e.g., documents, new files, edits, etc., should be backed up by iCloud. 
-{% endblockquote %}
+>	The iOS Data Storage Guidelines indicate that only content that the user creates using your app, e.g., documents, new files, edits, etc., should be backed up by iCloud. 
 
 This all boils down to understanding [iOS Data Storage Guidelines](https://developer.apple.com/library/ios/qa/qa1719/_index.html).
 

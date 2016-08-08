@@ -43,6 +43,7 @@ Or you can set breakpoint, then evaluates with `po anElement`.
 
 An example of a hierarchy: 
 
+{% raw %}
 ```
 Other 0x7ff0014a3bc0: traits: 8589934592, {{0.0, 0.0}, {414.0, 736.0}}
    Other 0x7ff00149a490: traits: 8589934592, {{0.0, 0.0}, {414.0, 736.0}}
@@ -51,6 +52,7 @@ Other 0x7ff0014a3bc0: traits: 8589934592, {{0.0, 0.0}, {414.0, 736.0}}
          Image 0x7ff0014984f0: traits: 8589934596, {{0.0, 64.0}, {414.0, 0.3}}
        Button 0x7ff0014a4240: traits: 8724152321, {{12.0, 31.7}, {21.0, 21.0}}, identifier: 'back'
 ```
+{% endraw %}
 
 You can easily see the views hierarchy, type, and identifier. This will come in very handy.
 

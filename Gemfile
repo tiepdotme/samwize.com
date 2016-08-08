@@ -6,13 +6,9 @@ gem 'bourbon'
 gem 'jemoji'
 
 group :jekyll_plugins do
-	gem 'octopress', '~> 3.0.11'
+	gem 'octopress'
 	gem 'octopress-image-tag'
-	gem 'octopress-video-tag'
-	gem 'octopress-quote-tag'
- 	gem 'octopress-codefence'
 	gem 'octopress-solarized', :git => 'https://github.com/samwize/solarized'
- 	gem 'octopress-gist'
+	gem 'octopress-hooks', git: 'https://github.com/octopress/hooks.git'
+	gem 'octopress-paginate'
 end
-
-
