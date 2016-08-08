@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,139 +78,157 @@
 
 <p>This happens not only between class instances, but also <strong>between class instance and closure</strong>.</p>
 
-<h2>Are we superfluously capturing self as weak/unowned?</h2>
+<h2 id="are-we-superfluously-capturing-self-as-weakunowned">Are we superfluously capturing self as weak/unowned?</h2>
 
-<p>We often see codes littered with <code>[weak self]</code> or <code>[unowned self]</code> in the capture list of closures. </p>
+<p>We often see codes littered with <code class="highlighter-rouge">[weak self]</code> or <code class="highlighter-rouge">[unowned self]</code> in the capture list of closures.</p>
 
 <p>But are they necessary? Do we ALWAYS have to use unowned/weak inside closure?</p>
 
-<p>These is one question that we will attempt to answer (at the end). </p>
+<p>These is one question that we will attempt to answer (at the end).</p>
 
-<h2>The exact problem to avoid</h2>
+<h2 id="the-exact-problem-to-avoid">The exact problem to avoid</h2>
 
 <p>A reference cycle will occur if and only if:</p>
 
 <ol>
-<li>Class instance has a strong reference to closure</li>
-<li>Closure has a strong reference to class instance</li>
+  <li>Class instance has a strong reference to closure</li>
+  <li>Closure has a strong reference to class instance</li>
 </ol>
 
 <p>If either (1) or (2) has a weak reference instead, then you do NOT have the problem.</p>
 
-<p>Let&#39;s look closer at 2 scenarios.</p>
+<p>Let’s look closer at 2 scenarios.</p>
 
-<h2>1. Class instance with strong reference to closure</h2>
+<h2 id="class-instance-with-strong-reference-to-closure">1. Class instance with strong reference to closure</h2>
 
 <p>This is the typical scenario where the class instance has a strong reference to the closure directly, or indirectly.</p>
 
 <p>What is mean by indirect? The instance could be holding the reference indirectly, via a third-party object.</p>
 
-<p>Let&#39;s look at an example:</p>
+<p>Let’s look at an example:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Now, myStrongClass has strong reference to the closure</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="n">MyStrongClass</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">deinit</span> <span class="p">&#x7b;</span> <span class="n">print</span><span class="p">(</span><span class="s">&quot;deinit MyStrongClass&quot;</span><span class="p">)</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="nl">theClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="n">Void</span><span class="p">)</span><span class="o">?</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">runClosure</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">theClosure</span> <span class="o">=</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">dispatch_after</span><span class="p">(</span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="n">Int64</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">Double</span><span class="p">(</span><span class="n">NSEC_PER_SEC</span><span class="p">))),</span> <span class="n">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">print</span><span class="p">(</span><span class="s">&quot;Running the closure and this is self: \(self)&quot;</span><span class="p">)</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">theClosure</span><span class="o">!</span><span class="p">()</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="nl">myStrongClass</span><span class="p">:</span> <span class="n">MyStrongClass</span><span class="o">?</span> <span class="o">=</span> <span class="n">MyStrongClass</span><span class="p">()</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">myStrongClass</span><span class="o">?</span><span class="p">.</span><span class="n">runClosure</span><span class="p">()</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">myStrongClass</span> <span class="o">=</span> <span class="nb">nil</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Now, myStrongClass has strong reference to the closure</span>
+<span class="kd">class</span> <span class="kt">MyStrongClass</span> <span class="p">{</span>
+    <span class="kd">deinit</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"deinit MyStrongClass"</span><span class="p">)</span> <span class="p">}</span>
+    <span class="k">var</span> <span class="nv">theClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)?</span>
+    
+    <span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">theClosure</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nf">dispatch_after</span><span class="p">(</span><span class="nf">dispatch_time</span><span class="p">(</span><span class="kt">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="kt">Double</span><span class="p">(</span><span class="kt">NSEC_PER_SEC</span><span class="p">))),</span> <span class="nf">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"Running the closure and this is self: </span><span class="se">\(</span><span class="k">self</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="nf">theClosure</span><span class="o">!</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-<p>In the code above, <code>myStrongClass</code> will not deinit even when it is set to <code>nil</code>.</p>
+<span class="k">var</span> <span class="nv">myStrongClass</span><span class="p">:</span> <span class="kt">MyStrongClass</span><span class="p">?</span> <span class="o">=</span> <span class="kt">MyStrongClass</span><span class="p">()</span>
+<span class="n">myStrongClass</span><span class="p">?</span><span class="o">.</span><span class="nf">runClosure</span><span class="p">()</span>
+<span class="n">myStrongClass</span> <span class="o">=</span> <span class="kc">nil</span>
+</code></pre>
+</div>
 
-<p>This is because the closure is (by default), capturing <code>self</code>/<code>myStrongClass</code> <strong>strongly</strong>.</p>
+<p>In the code above, <code class="highlighter-rouge">myStrongClass</code> will not deinit even when it is set to <code class="highlighter-rouge">nil</code>.</p>
 
-<p>The typical solution is to capture <code>self</code> with <code>unowned</code> or <code>weak</code>.</p>
+<p>This is because the closure is (by default), capturing <code class="highlighter-rouge">self</code>/<code class="highlighter-rouge">myStrongClass</code> <strong>strongly</strong>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">theClosure</span> <span class="o">=</span> <span class="p">&#x7b;</span> <span class="p">[</span><span class="k">weak</span> <span class="nb">self</span><span class="p">]</span> <span class="k">in</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">...</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p>The typical solution is to capture <code class="highlighter-rouge">self</code> with <code class="highlighter-rouge">unowned</code> or <code class="highlighter-rouge">weak</code>.</p>
 
-<p>This is the scenario where it is <strong>necessary</strong> to use <code>weak</code>/<code>unowned</code>, if not you will have memory leak problem.</p>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">theClosure</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
+  <span class="o">...</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<h2>2. Closure has a strong reference to class instance</h2>
+<p>This is the scenario where it is <strong>necessary</strong> to use <code class="highlighter-rouge">weak</code>/<code class="highlighter-rouge">unowned</code>, if not you will have memory leak problem.</p>
 
-<p>In this scenario, you might think the closure can be declared with <code>weak</code> (while still capture <code>self</code> strongly):</p>
+<h2 id="closure-has-a-strong-reference-to-class-instance">2. Closure has a strong reference to class instance</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">weak</span> <span class="k">var</span> <span class="nl">theClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="n">Void</span><span class="p">)</span><span class="o">?</span></div></div></pre></div></figure>
+<p>In this scenario, you might think the closure can be declared with <code class="highlighter-rouge">weak</code> (while still capture <code class="highlighter-rouge">self</code> strongly):</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">weak</span> <span class="k">var</span> <span class="nv">theClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)?</span>
+</code></pre>
+</div>
 
 <p>But that is not possible.</p>
 
-<p><code>weak</code> can only be applied to class or class-bound protocol.</p>
+<p><code class="highlighter-rouge">weak</code> can only be applied to class or class-bound protocol.</p>
 
-<p>To illustrate, we&#39;ll use a closure in a local scope (therefore not strongly referenced by <code>self</code>).</p>
+<p>To illustrate, we’ll use a closure in a local scope (therefore not strongly referenced by <code class="highlighter-rouge">self</code>).</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="n">MyHolder</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="n">value</span> <span class="o">=</span> <span class="s">&quot;initial&quot;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">deinit</span> <span class="p">&#x7b;</span> <span class="n">print</span><span class="p">(</span><span class="s">&quot;deinit MyHolder&quot;</span><span class="p">)</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">runClosure</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="nl">strongClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="n">Void</span><span class="p">)</span> <span class="o">=</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">dispatch_after</span><span class="p">(</span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="n">Int64</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">Double</span><span class="p">(</span><span class="n">NSEC_PER_SEC</span><span class="p">))),</span> <span class="n">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">print</span><span class="p">(</span><span class="s">&quot;Value of MyHolder: \(self.value)&quot;</span><span class="p">)</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">strongClosure</span><span class="p">()</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="nl">holder</span><span class="p">:</span> <span class="n">MyHolder</span><span class="o">?</span> <span class="o">=</span> <span class="n">MyHolder</span><span class="p">()</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">holder</span><span class="o">?</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;changed&quot;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">holder</span><span class="o">?</span><span class="p">.</span><span class="n">runClosure</span><span class="p">()</span>       <span class="c1">// Prints changed then deinit</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">holder</span> <span class="o">=</span> <span class="nb">nil</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Result: holder will deinit once the closure has completed (and printed the value)</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// closure deinit, therefore instance deinit too</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyHolder</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">value</span> <span class="o">=</span> <span class="s">"initial"</span>
+    <span class="kd">deinit</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"deinit MyHolder"</span><span class="p">)</span> <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">strongClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="nf">dispatch_after</span><span class="p">(</span><span class="nf">dispatch_time</span><span class="p">(</span><span class="kt">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="kt">Double</span><span class="p">(</span><span class="kt">NSEC_PER_SEC</span><span class="p">))),</span> <span class="nf">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">{</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"Value of MyHolder: </span><span class="se">\(</span><span class="k">self</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="nf">strongClosure</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-<p>The closure is never referenced in the object instance. It is used only in the local scope of <code>runClosure</code>.</p>
+<span class="k">var</span> <span class="nv">holder</span><span class="p">:</span> <span class="kt">MyHolder</span><span class="p">?</span> <span class="o">=</span> <span class="kt">MyHolder</span><span class="p">()</span>
+<span class="n">holder</span><span class="p">?</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">"changed"</span>
+<span class="n">holder</span><span class="p">?</span><span class="o">.</span><span class="nf">runClosure</span><span class="p">()</span>       <span class="c1">// Prints changed then deinit</span>
+<span class="n">holder</span> <span class="o">=</span> <span class="kc">nil</span>
 
-<p><code>strongClosure</code> captures self strongly. That&#39;s why it will print the value first, then self will be released.</p>
+<span class="c1">// Result: holder will deinit once the closure has completed (and printed the value)</span>
+<span class="c1">// closure deinit, therefore instance deinit too</span>
+</code></pre>
+</div>
+
+<p>The closure is never referenced in the object instance. It is used only in the local scope of <code class="highlighter-rouge">runClosure</code>.</p>
+
+<p><code class="highlighter-rouge">strongClosure</code> captures self strongly. That’s why it will print the value first, then self will be released.</p>
 
 <p>The point to emphasize here is:</p>
 
-<p><strong>If <code>self</code> does NOT have a strong reference to the closure, it is okay to have the closure capture <code>self</code> strongly.</strong></p>
+<p><strong>If <code class="highlighter-rouge">self</code> does NOT have a strong reference to the closure, it is okay to have the closure capture <code class="highlighter-rouge">self</code> strongly.</strong></p>
 
-<h2>The Case of Singleton</h2>
+<h2 id="the-case-of-singleton">The Case of Singleton</h2>
 
 <p>It is more common that you have scenario (2) in the case of using a singleton:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="n">Singleton</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">static</span> <span class="k">let</span> <span class="n">sharedInstance</span> <span class="o">=</span> <span class="n">Singleton</span><span class="p">()</span>    
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">runClosure</span><span class="p">(</span><span class="nl">closure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="n">Void</span><span class="p">))</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">dispatch_after</span><span class="p">(</span><span class="n">dispatch_time</span><span class="p">(</span><span class="n">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="n">Int64</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">Double</span><span class="p">(</span><span class="n">NSEC_PER_SEC</span><span class="p">))),</span> <span class="n">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">closure</span><span class="p">()</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="n">MyHolder</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">runClosure</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">Singleton</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">runClosure</span> <span class="p">&#x7b;</span> 
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">print</span><span class="p">(</span><span class="s">&quot;Value of MyHolderWithSingleton: \(self.value)&quot;</span><span class="p">)</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Singleton</span> <span class="p">{</span>
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">sharedInstance</span> <span class="o">=</span> <span class="kt">Singleton</span><span class="p">()</span>    
+    <span class="kd">func</span> <span class="nf">runClosure</span><span class="p">(</span><span class="nv">closure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nf">dispatch_after</span><span class="p">(</span><span class="nf">dispatch_time</span><span class="p">(</span><span class="kt">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="kt">Double</span><span class="p">(</span><span class="kt">NSEC_PER_SEC</span><span class="p">))),</span> <span class="nf">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">{</span>
+            <span class="nf">closure</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-<p>The above code is similar to (2) -- the closure has a strong reference to self, but self does NOT have strong reference tot he closure, nor to the singleton.</p>
+<span class="kd">class</span> <span class="kt">MyHolder</span> <span class="p">{</span>
+    <span class="o">...</span>
+    <span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kt">Singleton</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="n">runClosure</span> <span class="p">{</span> 
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Value of MyHolderWithSingleton: </span><span class="se">\(</span><span class="k">self</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>I have seen many codes that <strong>superfluously</strong> capture self as <code>weak</code> like this:</p>
+<p>The above code is similar to (2) – the closure has a strong reference to self, but self does NOT have strong reference tot he closure, nor to the singleton.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">Singleton</span><span class="p">.</span><span class="n">sharedInstance</span><span class="p">.</span><span class="n">runClosure</span> <span class="p">&#x7b;</span> <span class="p">[</span><span class="k">weak</span> <span class="nb">self</span><span class="p">]</span> <span class="k">in</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Value of MyHolderWithSingleton: \(self?.value)&quot;</span><span class="p">)</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p>I have seen many codes that <strong>superfluously</strong> capture self as <code class="highlighter-rouge">weak</code> like this:</p>
 
-<p>Usually <code>self</code> is a view controller, and the superfluous code above have the closure reference the view controller weakly. </p>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">Singleton</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="n">runClosure</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Value of MyHolderWithSingleton: </span><span class="se">\(</span><span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>BUT, <code>self</code> is not referencing the closure strongly in the first place!</p>
+<p>Usually <code class="highlighter-rouge">self</code> is a view controller, and the superfluous code above have the closure reference the view controller weakly.</p>
 
-<p>There is no need to avoid a reference cycle, because there isn&#39;t one in the first place.</p>
+<p>BUT, <code class="highlighter-rouge">self</code> is not referencing the closure strongly in the first place!</p>
+
+<p>There is no need to avoid a reference cycle, because there isn’t one in the first place.</p>
 
 <p>Once again:</p>
 

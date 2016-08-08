@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,39 +78,48 @@
 
 <p>Take this example of drawing a round rect:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Draw a 1 pt border line with radius 5 in the rect</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">rect</span> <span class="o">=</span> <span class="bp">CGRect</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">width</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mi">100</span><span class="p">)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="nl">borderWidth</span><span class="p">:</span> <span class="n">CGFloat</span> <span class="o">=</span> <span class="mi">1</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="nl">radius</span><span class="p">:</span> <span class="n">CGFloat</span> <span class="o">=</span> <span class="mi">5</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">UIGraphicsBeginImageContext</span><span class="p">(</span><span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">)</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">context</span> <span class="o">=</span> <span class="n">UIGraphicsGetCurrentContext</span><span class="p">()</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Note: Because stroke will overflow, we need to make the actual round rect smaller</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// http://stackoverflow.com/a/11176658/242682</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">roundRect</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">borderWidth</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">borderWidth</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">rect</span><span class="p">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">borderWidth</span><span class="p">),</span> <span class="p">(</span><span class="n">rect</span><span class="p">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">borderWidth</span><span class="p">))</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Fill and stroke</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">path</span> <span class="o">=</span> <span class="bp">UIBezierPath</span><span class="p">(</span><span class="nl">roundedRect</span><span class="p">:</span> <span class="n">roundRect</span><span class="p">,</span> <span class="nl">cornerRadius</span><span class="p">:</span> <span class="n">radius</span><span class="p">)</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">UIColor</span><span class="p">.</span><span class="n">whiteColor</span><span class="p">().</span><span class="n">setFill</span><span class="p">()</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">path</span><span class="p">.</span><span class="n">fill</span><span class="p">()</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">UIColor</span><span class="p">.</span><span class="n">redColor</span><span class="p">().</span><span class="n">setStroke</span><span class="p">()</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">path</span><span class="p">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="n">borderWidth</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">path</span><span class="p">.</span><span class="n">stroke</span><span class="p">()</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Draw it</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">CGContextAddPath</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">path</span><span class="p">.</span><span class="bp">CGPath</span><span class="p">);</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Get the final image from context</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">img</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">()</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">UIGraphicsEndImageContext</span><span class="p">()</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Draw a 1 pt border line with radius 5 in the rect</span>
+<span class="k">let</span> <span class="nv">rect</span> <span class="o">=</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">100</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">borderWidth</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">let</span> <span class="nv">radius</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="kt">UIGraphicsBeginImageContext</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">context</span> <span class="o">=</span> <span class="kt">UIGraphicsGetCurrentContext</span><span class="p">()</span>
+
+<span class="c1">// Note: Because stroke will overflow, we need to make the actual round rect smaller</span>
+<span class="c1">// http://stackoverflow.com/a/11176658/242682</span>
+<span class="k">let</span> <span class="nv">roundRect</span> <span class="o">=</span> <span class="kt">CGRectMake</span><span class="p">(</span><span class="n">borderWidth</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">borderWidth</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="n">borderWidth</span><span class="p">),</span> <span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">borderWidth</span><span class="p">))</span>
+
+<span class="c1">// Fill and stroke</span>
+<span class="k">let</span> <span class="nv">path</span> <span class="o">=</span> <span class="kt">UIBezierPath</span><span class="p">(</span><span class="nv">roundedRect</span><span class="p">:</span> <span class="n">roundRect</span><span class="p">,</span> <span class="nv">cornerRadius</span><span class="p">:</span> <span class="n">radius</span><span class="p">)</span>
+<span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span><span class="o">.</span><span class="nf">setFill</span><span class="p">()</span>
+<span class="n">path</span><span class="o">.</span><span class="nf">fill</span><span class="p">()</span>
+<span class="kt">UIColor</span><span class="o">.</span><span class="nf">redColor</span><span class="p">()</span><span class="o">.</span><span class="nf">setStroke</span><span class="p">()</span>
+<span class="n">path</span><span class="o">.</span><span class="n">lineWidth</span> <span class="o">=</span> <span class="n">borderWidth</span>
+<span class="n">path</span><span class="o">.</span><span class="nf">stroke</span><span class="p">()</span>
+
+<span class="c1">// Draw it</span>
+<span class="kt">CGContextAddPath</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="kt">CGPath</span><span class="p">);</span>
+
+<span class="c1">// Get the final image from context</span>
+<span class="k">let</span> <span class="nv">img</span> <span class="o">=</span> <span class="kt">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">()</span>
+<span class="kt">UIGraphicsEndImageContext</span><span class="p">()</span>
+</code></pre>
+</div>
 
 <p>When the image is shown on a retina device (@2x or @3x), the 1pt line border will be blurry.</p>
 
 <p>The <a href="http://stackoverflow.com/a/6965894/242682">solution</a> is simple:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">rect</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kt">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<p>Use <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKitFunctionReference/#//apple_ref/c/func/UIGraphicsBeginImageContextWithOptions"><code>UIGraphicsBeginImageContextWithOptions</code> API</a> instead of the old <code>UIGraphicsBeginImageContext</code>. </p>
+<p>Use <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKitFunctionReference/#//apple_ref/c/func/UIGraphicsBeginImageContextWithOptions"><code class="highlighter-rouge">UIGraphicsBeginImageContextWithOptions</code> API</a> instead of the old <code class="highlighter-rouge">UIGraphicsBeginImageContext</code>.</p>
 
-<p>The third parameter passed in is the <strong>scale</strong>. Passing in <code>0.0</code> will use the device scale automatically.</p>
+<p>The third parameter passed in is the <strong>scale</strong>. Passing in <code class="highlighter-rouge">0.0</code> will use the device scale automatically.</p>
 
-<p>Remember: Drawing is always specified in <strong>points</strong>, but when you &quot;begin image context&quot;, you have to use <code>UIGraphicsBeginImageContextWithOptions</code> to specific the correct scale.</p>
+<p>Remember: Drawing is always specified in <strong>points</strong>, but when you “begin image context”, you have to use <code class="highlighter-rouge">UIGraphicsBeginImageContextWithOptions</code> to specific the correct scale.</p>
 
         </section>
         <footer class="post-footer">

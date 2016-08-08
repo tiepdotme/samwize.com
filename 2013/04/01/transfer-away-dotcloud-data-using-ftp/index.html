@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Transfer Away Dotcloud Data using FTP</title>
-  <meta name="description" content="If you have data on Dotcloud server that you want to transfer away via FTP directly, you can&#39;t, because Dotcloud don&#39;t provide FTP to the instances." />
+  <meta name="description" content="If you have data on Dotcloud server that you want to transfer away via FTP directly, you can’t, because Dotcloud don’t provide FTP to the instances." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Transfer Away Dotcloud Data using FTP" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="If you have data on Dotcloud server that you want to transfer away via FTP directly, you can&#39;t, because Dotcloud don&#39;t provide FTP to the instances." />
+    <meta name="twitter:description"  content="If you have data on Dotcloud server that you want to transfer away via FTP directly, you can’t, because Dotcloud don’t provide FTP to the instances." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Transfer Away Dotcloud Data using FTP"/>
   
-  <meta property="og:description" content="If you have data on Dotcloud server that you want to transfer away via FTP directly, you can&#39;t, because Dotcloud don&#39;t provide FTP to the instances." />
+  <meta property="og:description" content="If you have data on Dotcloud server that you want to transfer away via FTP directly, you can’t, because Dotcloud don’t provide FTP to the instances." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2013/04/01/transfer-away-dotcloud-data-using-ftp/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,18 +72,23 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>If you have data on Dotcloud server that you want to transfer away via FTP directly, you can&#39;t, because Dotcloud don&#39;t provide FTP to the instances.</p>
+          <p>If you have data on Dotcloud server that you want to transfer away via FTP directly, you can’t, because Dotcloud don’t provide FTP to the instances.</p>
 
-<p>This is about the best way I know of transfering data, first by transferring to your own FTP server: </p>
+<p>This is about the best way I know of transfering data, first by transferring to your own FTP server:</p>
 
 <!-- more -->
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>// SSH to your dotcloud instance
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>dotcloud run www
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>// ZIP the data eg. html
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>tar -C $HOME -czf html.tar.gz ./current/html
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>// curl
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>curl -u myusername:mypassword -sST html.tar.gz ftp://myserver.com</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>// SSH to your dotcloud instance
+dotcloud run www
+
+// ZIP the data eg. html
+tar -C $HOME -czf html.tar.gz ./current/html
+
+// curl
+curl -u myusername:mypassword -sST html.tar.gz ftp://myserver.com
+</code></pre>
+</div>
+
 
         </section>
         <footer class="post-footer">

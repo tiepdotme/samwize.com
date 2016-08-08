@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,57 +76,59 @@
 
 <p>If you have 2 or more versions of the same app eg. a lite and a pro version, or many versions of the same map app but for different country, then this guide is for you.</p>
 
-<p>Let&#39;s use the scenario of an <strong>&quot;Awesome&quot;</strong> app, which I want to create <strong>&quot;Awesome Lite&quot;</strong>.</p>
+<p>Let’s use the scenario of an <strong>“Awesome”</strong> app, which I want to create <strong>“Awesome Lite”</strong>.</p>
 
 <!-- more -->
 
-<h1>1. Create New Target</h1>
+<h1 id="create-new-target">1. Create New Target</h1>
 
-<p>Go to Project &gt; Targets &gt; Select the original target &quot;Awesome&quot; &gt; Right click &gt; Duplicate.</p>
+<p>Go to Project &gt; Targets &gt; Select the original target “Awesome” &gt; Right click &gt; Duplicate.</p>
 
-<p>When duplicating a target, the default generates &quot;Awesome copy&quot; .app, .plist, etc. We want to change that.</p>
+<p>When duplicating a target, the default generates “Awesome copy” .app, .plist, etc. We want to change that.</p>
 
-<p>Rename the new target (select and press enter to edit) to &quot;Awesome Lite&quot;.</p>
+<p>Rename the new target (select and press enter to edit) to “Awesome Lite”.</p>
 
-<p>Under Build Settings, search for &quot;Awesome copy&quot;. You need to rename <strong>Product Name</strong> to &quot;Awesome Lite&quot;, and rename <strong>Info.plist</strong> to &quot;Awesome Lite-info.plist&quot;.</p>
+<p>Under Build Settings, search for “Awesome copy”. You need to rename <strong>Product Name</strong> to “Awesome Lite”, and rename <strong>Info.plist</strong> to “Awesome Lite-info.plist”.</p>
 
-<p>In your project, find &quot;Awesome copy-info.plist&quot;, and rename to &quot;Awesome Lite-info.plist&quot;. After renaming, you would need to delete the &quot;missing one&quot; in your project navigator, and drag the new one in, and select the correct target (Awesome Lite) to copy for.</p>
+<p>In your project, find “Awesome copy-info.plist”, and rename to “Awesome Lite-info.plist”. After renaming, you would need to delete the “missing one” in your project navigator, and drag the new one in, and select the correct target (Awesome Lite) to copy for.</p>
 
-<p>Pitfall: Take note of the path for the plist. If you place it in the root folder of the project, then you can just specify the name (no need the path). If not, specify the full path <code>$(PROJECT_DIR)/path/to/Info.plist</code>.</p>
+<p>Pitfall: Take note of the path for the plist. If you place it in the root folder of the project, then you can just specify the name (no need the path). If not, specify the full path <code class="highlighter-rouge">$(PROJECT_DIR)/path/to/Info.plist</code>.</p>
 
-<h1>2. Edit Scheme</h1>
+<h1 id="edit-scheme">2. Edit Scheme</h1>
 
-<p>Go to Product &gt; Scheme &gt; Edit Scheme &gt; change the scheme &quot;Awesome copy&quot; to &quot;Awesome Lite&quot;.</p>
+<p>Go to Product &gt; Scheme &gt; Edit Scheme &gt; change the scheme “Awesome copy” to “Awesome Lite”.</p>
 
 <p>At this point, you should now be able to build and run the new scheme (even though it is exactly the same as the original target). We will modify the lite version from this point onwards.</p>
 
-<h1>3. Edit Info.plist</h1>
+<h1 id="edit-infoplist">3. Edit Info.plist</h1>
 
 <p>Go to the new target &gt; Info &gt; edit these accordingly:</p>
 
 <ul>
-<li>Bundle Display Name</li>
-<li>Bundle Name</li>
-<li>Bundle Identifier</li>
+  <li>Bundle Display Name</li>
+  <li>Bundle Name</li>
+  <li>Bundle Identifier</li>
 </ul>
 
-<h1>4. Writing Preprocessor Codes</h1>
+<h1 id="writing-preprocessor-codes">4. Writing Preprocessor Codes</h1>
 
 <p>Preprocessor codes are used to determine which code would be used during compile time. You may want different targets to run different section of the codes using preprocessor codes.</p>
 
 <p>For example:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#if defined(TARGET_LITE)</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Lite version&quot;</span><span class="p">);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#else</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Original version&quot;</span><span class="p">);</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#endif</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="cp">#if defined(TARGET_LITE)
+</span>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Lite version"</span><span class="p">);</span>
+<span class="cp">#else
+</span>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Original version"</span><span class="p">);</span>
+<span class="cp">#endif
+</span></code></pre>
+</div>
 
-<p>Select &quot;Awesome Lite&quot; target &gt; Build Settings &gt; Preprocessing &gt; Preprocessor Macros &gt; Add <code>TARGET_LITE</code> to each of the configuration (eg both Debug and Release configurations).</p>
+<p>Select “Awesome Lite” target &gt; Build Settings &gt; Preprocessing &gt; Preprocessor Macros &gt; Add <code class="highlighter-rouge">TARGET_LITE</code> to each of the configuration (eg both Debug and Release configurations).</p>
 
-<p>Warning: You must change for all configurations. The default is Debug and Release, but let&#39;s say you created a &quot;Beta&quot;, then you have to change that too.</p>
+<p>Warning: You must change for all configurations. The default is Debug and Release, but let’s say you created a “Beta”, then you have to change that too.</p>
 
-<h1>5. Resources, Images and Assets Catalog</h1>
+<h1 id="resources-images-and-assets-catalog">5. Resources, Images and Assets Catalog</h1>
 
 <p>For any such resources (except Assets Catalog), the trick here is to specify their targets.</p>
 
@@ -134,23 +136,27 @@
 
 <p>For Assets Catalog, you have to create for each target because you cannot specify individual target membership for each of the images in it.</p>
 
-<p>You can add &quot;New App Icon&quot; in the new assets catalog, and simply delete the app icon in the old one.</p>
+<p>You can add “New App Icon” in the new assets catalog, and simply delete the app icon in the old one.</p>
 
-<h1>6. If you are using Pods</h1>
+<h1 id="if-you-are-using-pods">6. If you are using Pods</h1>
 
-<p>If you are using CocoaPods, and assets doesn&#39;t work correctly, read this <a href="https://github.com/CocoaPods/CocoaPods/issues/1546">pod issue</a>.</p>
+<p>If you are using CocoaPods, and assets doesn’t work correctly, read this <a href="https://github.com/CocoaPods/CocoaPods/issues/1546">pod issue</a>.</p>
 
-<p>I added the following to my <code>Podfile</code> and it works:</p>
+<p>I added the following to my <code class="highlighter-rouge">Podfile</code> and it works:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1"># Append to Podfile</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">post_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer</span><span class="o">|</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">installer</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="sx">%x~ if [ ! -f Pods/</span><span class="si">#&#x7b;</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">&#x7d;</span><span class="sx">-resources.sh.bak ]; then cp Pods/</span><span class="si">#&#x7b;</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">&#x7d;</span><span class="sx">-resources.sh Pods/</span><span class="si">#&#x7b;</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">&#x7d;</span><span class="sx">-resources.sh.bak; fi ~</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="sx">%x~ sed &#39;/WRAPPER_EXTENSION/,/fi\\n/d&#39; Pods/</span><span class="si">#&#x7b;</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">&#x7d;</span><span class="sx">-resources.sh &gt; Pods/</span><span class="si">#&#x7b;</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">&#x7d;</span><span class="sx">-resources.sh.temp ~</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="sx">%x~ sed &#39;/*.xcassets)/,/;;/d&#39; Pods/</span><span class="si">#&#x7b;</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">&#x7d;</span><span class="sx">-resources.sh.temp &gt; Pods/</span><span class="si">#&#x7b;</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">&#x7d;</span><span class="sx">-resources.sh ~</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="sx">%x~ rm Pods/</span><span class="si">#&#x7b;</span><span class="n">target</span><span class="o">.</span><span class="n">name</span><span class="si">&#x7d;</span><span class="sx">-resources.sh.temp ~</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Append to Podfile</span>
+<span class="n">post_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer</span><span class="o">|</span>
+    <span class="n">installer</span><span class="p">.</span><span class="nf">project</span><span class="p">.</span><span class="nf">targets</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
+        <span class="sx">%x~ if [ ! -f Pods/</span><span class="si">#{</span><span class="n">target</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="sx">-resources.sh.bak ]; then cp Pods/</span><span class="si">#{</span><span class="n">target</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="sx">-resources.sh Pods/</span><span class="si">#{</span><span class="n">target</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="sx">-resources.sh.bak; fi ~</span>
+
+        <span class="sx">%x~ sed '/WRAPPER_EXTENSION/,/fi</span><span class="se">\\</span><span class="sx">n/d' Pods/</span><span class="si">#{</span><span class="n">target</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="sx">-resources.sh &gt; Pods/</span><span class="si">#{</span><span class="n">target</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="sx">-resources.sh.temp ~</span>
+        <span class="sx">%x~ sed '/*.xcassets)/,/;;/d' Pods/</span><span class="si">#{</span><span class="n">target</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="sx">-resources.sh.temp &gt; Pods/</span><span class="si">#{</span><span class="n">target</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="sx">-resources.sh ~</span>
+        <span class="sx">%x~ rm Pods/</span><span class="si">#{</span><span class="n">target</span><span class="p">.</span><span class="nf">name</span><span class="si">}</span><span class="sx">-resources.sh.temp ~</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
 
         </section>
         <footer class="post-footer">

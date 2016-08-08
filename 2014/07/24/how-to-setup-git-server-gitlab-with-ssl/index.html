@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -80,9 +80,9 @@
 
 <!-- more -->
 
-<h2>GitLab Installation Guide</h2>
+<h2 id="gitlab-installation-guide">GitLab Installation Guide</h2>
 
-<p>At the point of writing, I am using <strong>GitLab 7.1 (stable)</strong> on <strong>Ubuntu 14.04</strong>. </p>
+<p>At the point of writing, I am using <strong>GitLab 7.1 (stable)</strong> on <strong>Ubuntu 14.04</strong>.</p>
 
 <p>Refer to their detailed <a href="https://github.com/gitlabhq/gitlabhq/blob/7-1-stable/doc/install/installation.md">installation guide</a>.</p>
 
@@ -92,117 +92,157 @@
 
 <p>Follow their guide (except on the sections on HTTPS/SSL).</p>
 
-<h2>Setting up for HTTPS/SSL</h2>
+<h2 id="setting-up-for-httpsssl">Setting up for HTTPS/SSL</h2>
 
 <p>For setting up HTTPS/SSL, refer to this <a href="https://gitlab.com/gitlab-org/gitlab-recipes/tree/master/misc/ssl-certificate-implemented">GitLab recipe</a>.</p>
 
 <p>But I still need some refinement to that recipe, so I will share my configs.</p>
 
-<p>I will be setting up for a fictional domain <code>git.okloh.com</code>.</p>
+<p>I will be setting up for a fictional domain <code class="highlighter-rouge">git.okloh.com</code>.</p>
 
-<h3>Create your FREE SSL Cert</h3>
+<h3 id="create-your-free-ssl-cert">Create your FREE SSL Cert</h3>
 
-<p>A FREE class 1 SSL is provided by StartCom. Go to <a href="https://www.startssl.com/">StartCom</a>, and create another certificate for <code>git.okloh.com</code>.</p>
+<p>A FREE class 1 SSL is provided by StartCom. Go to <a href="https://www.startssl.com/">StartCom</a>, and create another certificate for <code class="highlighter-rouge">git.okloh.com</code>.</p>
 
 <ol>
-<li><p>Save your private key password somewhere</p></li>
-<li><p>On your server, <code>cd /etc/ssl/private</code></p></li>
-<li><p>Save your private key <code>git-okloh.key</code></p></li>
-<li><p>Save your certificate <code>git-okloh.pem</code></p></li>
-<li><p><code>wget https://www.startssl.com/certs/sub.class1.server.ca.pem</code> to download their intermediate CA Cert</p></li>
-<li><p><code>cat git-okloh.pem sub.class1.server.ca.pem &gt; git-okloh-chain.pem</code> to concat and create a chain cert</p></li>
-<li><p><code>openssl rsa -in git-okloh.key -out git-okloh-decrypted.key</code> &gt; enter your private key password</p></li>
+  <li>
+    <p>Save your private key password somewhere</p>
+  </li>
+  <li>
+    <p>On your server, <code class="highlighter-rouge">cd /etc/ssl/private</code></p>
+  </li>
+  <li>
+    <p>Save your private key <code class="highlighter-rouge">git-okloh.key</code></p>
+  </li>
+  <li>
+    <p>Save your certificate <code class="highlighter-rouge">git-okloh.pem</code></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">wget https://www.startssl.com/certs/sub.class1.server.ca.pem</code> to download their intermediate CA Cert</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">cat git-okloh.pem sub.class1.server.ca.pem &gt; git-okloh-chain.pem</code> to concat and create a chain cert</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">openssl rsa -in git-okloh.key -out git-okloh-decrypted.key</code> &gt; enter your private key password</p>
+  </li>
 </ol>
 
-<p>Note: In many tutorials, you would see that they use a <code>.crt</code> instead of a <code>.pem</code>. They are the same thing, but in <a href="http://info.ssl.com/article.aspx?id=12149">different format</a>. But it doesn&#39;t matter. You can use a <code>.pem</code> in place.</p>
+<p>Note: In many tutorials, you would see that they use a <code class="highlighter-rouge">.crt</code> instead of a <code class="highlighter-rouge">.pem</code>. They are the same thing, but in <a href="http://info.ssl.com/article.aspx?id=12149">different format</a>. But it doesn’t matter. You can use a <code class="highlighter-rouge">.pem</code> in place.</p>
 
-<h3>Nginx</h3>
+<h3 id="nginx">Nginx</h3>
 
 <p>This is my nginx config that works:</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>/etc/nginx/sites-enabled/gitlab</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">upstream</span> <span class="s">gitlab</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">server</span> <span class="s">unix:/home/git/gitlab/tmp/sockets/gitlab.socket</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">server</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">server_name</span>   <span class="s">git.okloh.com</span><span class="p">;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">rewrite</span>       <span class="s">^</span> <span class="s">https://</span><span class="nv">$server_name$request_uri?</span> <span class="s">permanent</span><span class="p">;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">server</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">listen</span>        <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">server_name</span>   <span class="s">git.okloh.com</span><span class="p">;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">root</span>          <span class="s">/home/git/gitlab/public</span><span class="p">;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">ssl</span>                   <span class="no">on</span><span class="p">;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">ssl_certificate</span>       <span class="s">/etc/ssl/private/git-okloh-chain.pem</span><span class="p">;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">ssl_certificate_key</span>   <span class="s">/etc/ssl/private/git-okloh-decrypted.key</span><span class="p">;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">ssl_prefer_server_ciphers</span> <span class="no">on</span><span class="p">;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">ssl_protocols</span>         <span class="s">SSLv3</span> <span class="s">TLSv1</span><span class="p">;</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">ssl_ciphers</span>           <span class="s">ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM</span><span class="p">;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">client_max_body_size</span> <span class="mi">20m</span><span class="p">;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">access_log</span>  <span class="s">/var/log/nginx/gitlab_access.log</span><span class="p">;</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">error_log</span>   <span class="s">/var/log/nginx/gitlab_error.log</span><span class="p">;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">location</span> <span class="s">/</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri/index.html</span> <span class="nv">$uri.html</span> <span class="s">@gitlab</span><span class="p">;</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">location</span> <span class="s">@gitlab</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">proxy_read_timeout</span> <span class="mi">300</span><span class="p">;</span> <span class="c1"># https://github.com/gitlabhq/gitlabhq/issues/694</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">proxy_connect_timeout</span> <span class="mi">300</span><span class="p">;</span> <span class="c1"># https://github.com/gitlabhq/gitlabhq/issues/694</span>
-</div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">proxy_redirect</span>     <span class="no">off</span><span class="p">;</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-Proto</span> <span class="nv">$scheme</span><span class="p">;</span>
-</div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">proxy_set_header</span>   <span class="s">Host</span>              <span class="nv">$http_host</span><span class="p">;</span>
-</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Real-IP</span>         <span class="nv">$remote_addr</span><span class="p">;</span>
-</div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-For</span>   <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='42' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">proxy_pass</span> <span class="s">http://gitlab</span><span class="p">;</span>
-</div></div><div data-line='43' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;</span>
-</div></div><div data-line='44' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='45' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">location</span> <span class="p">~</span> <span class="sr">^/(assets)/</span>  <span class="p">&#x7b;</span>
-</div></div><div data-line='46' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">root</span> <span class="s">/home/git/gitlab/public</span><span class="p">;</span>
-</div></div><div data-line='47' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">gzip_static</span> <span class="no">on</span><span class="p">;</span> <span class="c1"># to serve pre-gzipped version</span>
-</div></div><div data-line='48' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">expires</span> <span class="s">max</span><span class="p">;</span>
-</div></div><div data-line='49' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kn">add_header</span> <span class="s">Cache-Control</span> <span class="s">public</span><span class="p">;</span>
-</div></div><div data-line='50' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;</span>
-</div></div><div data-line='51' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='52' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="kn">error_page</span> <span class="mi">502</span> <span class="s">/502.html</span><span class="p">;</span>
-</div></div><div data-line='53' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p>```nginx /etc/nginx/sites-enabled/gitlab
+upstream gitlab {
+  server unix:/home/git/gitlab/tmp/sockets/gitlab.socket;
+}</p>
 
-<h3>GitLab Config</h3>
+<p>server {
+  listen 80;
+  server_name   git.okloh.com;
+  rewrite       ^ https://$server_name$request_uri? permanent;
+}</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>/home/git/gitlab/config/gitlab.yml</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="l-Scalar-Plain">gitlab</span><span class="p-Indicator">:</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="l-Scalar-Plain">host</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">git.okloh.com</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">443</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="l-Scalar-Plain">https</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span></div></div></pre></div></figure>
+<p>server {
+  listen        443 ssl;
+  server_name   git.okloh.com;
+  root          /home/git/gitlab/public;</p>
 
-<h3>GitLab-Shell Config</h3>
+<p>ssl                   on;
+  ssl_certificate       /etc/ssl/private/git-okloh-chain.pem;
+  ssl_certificate_key   /etc/ssl/private/git-okloh-decrypted.key;
+  ssl_prefer_server_ciphers on;
+  ssl_protocols         SSLv3 TLSv1;
+  ssl_ciphers           ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM;</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>/home/git/gitlab-shell/config.yml</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="l-Scalar-Plain">gitlab_url</span><span class="p-Indicator">:</span> <span class="s">&quot;https://git.okloh.com/&quot;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="l-Scalar-Plain">http_settings</span><span class="p-Indicator">:</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="l-Scalar-Plain">self_signed_cert</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">false</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="l-Scalar-Plain">ca_file</span><span class="p-Indicator">:</span> <span class="s">&quot;/etc/ssl/private/git-okloh-chain.pem&quot;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="l-Scalar-Plain">ca_path</span><span class="p-Indicator">:</span> <span class="s">&quot;/etc/ssl/private&quot;</span></div></div></pre></div></figure>
+<p>client_max_body_size 20m;</p>
 
-<h3>Restart</h3>
+<p>access_log  /var/log/nginx/gitlab_access.log;
+  error_log   /var/log/nginx/gitlab_error.log;</p>
+
+<p>location / {
+    try_files $uri $uri/index.html $uri.html @gitlab;
+  }</p>
+
+<p>location @gitlab {
+    proxy_read_timeout 300; # https://github.com/gitlabhq/gitlabhq/issues/694
+    proxy_connect_timeout 300; # https://github.com/gitlabhq/gitlabhq/issues/694
+    proxy_redirect     off;</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>proxy_set_header   X-Forwarded-Proto $scheme;
+proxy_set_header   Host              $http_host;
+proxy_set_header   X-Real-IP         $remote_addr;
+proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+
+proxy_pass http://gitlab;   }
+</code></pre>
+</div>
+
+<p>location ~ ^/(assets)/  {
+    root /home/git/gitlab/public;
+    gzip_static on; # to serve pre-gzipped version
+    expires max;
+    add_header Cache-Control public;
+  }</p>
+
+<p>error_page 502 /502.html;
+}
+```</p>
+
+<h3 id="gitlab-config">GitLab Config</h3>
+
+<p><code class="highlighter-rouge">yml /home/git/gitlab/config/gitlab.yml
+gitlab:
+  host: git.okloh.com
+  port: 443
+  https: true
+</code></p>
+
+<h3 id="gitlab-shell-config">GitLab-Shell Config</h3>
+
+<p><code class="highlighter-rouge">yml /home/git/gitlab-shell/config.yml
+gitlab_url: "https://git.okloh.com/"
+http_settings:
+  self_signed_cert: false
+ca_file: "/etc/ssl/private/git-okloh-chain.pem"
+ca_path: "/etc/ssl/private"
+</code></p>
+
+<h3 id="restart">Restart</h3>
 
 <p>Remember to restart both services.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo service gitlab restart
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo service nginx restart</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo service gitlab restart
+sudo service nginx restart
+</code></pre>
+</div>
 
 <p>If anything is wrong, you can check:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">cd</span> /home/git/gitlab/
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo -u git -H bundle <span class="nb">exec </span>rake gitlab:env:info <span class="nv">RAILS_ENV</span><span class="o">=</span>production
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo -u git -H bundle <span class="nb">exec </span>rake gitlab:check <span class="nv">RAILS_ENV</span><span class="o">=</span>production</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /home/git/gitlab/
+sudo -u git -H bundle <span class="nb">exec </span>rake gitlab:env:info <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+sudo -u git -H bundle <span class="nb">exec </span>rake gitlab:check <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</code></pre>
+</div>
 
-<h3>Pitfall: Port 443 already binded</h3>
+<h3 id="pitfall-port-443-already-binded">Pitfall: Port 443 already binded</h3>
 
-<p>In a <a href="http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/">previous tutorial</a>, I setup iRedMail, which actually runs on Apache, which listen on port 443. </p>
+<p>In a <a href="http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/">previous tutorial</a>, I setup iRedMail, which actually runs on Apache, which listen on port 443.</p>
 
 <p>You will need to remove port 433 on apache, and probably do a reverse proxy from nginx for port 433. <em>This perhaps will be covered in another tutorial.</em></p>
 
-<h3>Pitfall: Sidekiq not running</h3>
+<h3 id="pitfall-sidekiq-not-running">Pitfall: Sidekiq not running</h3>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'># Make sure it is running
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>ps -ef | grep sidekiq | grep -v grep
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'># If not, run it
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo -u git -H RAILS_ENV=production bin/background_jobs start</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code># Make sure it is running
+ps -ef | grep sidekiq | grep -v grep
+
+# If not, run it
+sudo -u git -H RAILS_ENV=production bin/background_jobs start
+</code></pre>
+</div>
+
 
         </section>
         <footer class="post-footer">

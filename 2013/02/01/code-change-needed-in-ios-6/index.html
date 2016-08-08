@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,38 +76,52 @@
 
 <!-- more -->
 
-<h2>presentModalViewController</h2>
+<h2 id="presentmodalviewcontroller">presentModalViewController</h2>
 
-<p>Starting from iOS 6, <code>UIViewController</code> deprecated this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">- (void)presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated
-</code></pre></div>
+<p>Starting from iOS 6, <code class="highlighter-rouge">UIViewController</code> deprecated this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)presentModalViewController:(UIViewController *)modalViewController animated:(BOOL)animated
+</code></pre>
+</div>
+
 <p>Starting from iOS 5, the replacement is:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">- (void)presentViewController:(UIViewController *)viewControllerToPresent animated: (BOOL)flag completion:(void (^)(void))completion
-</code></pre></div>
-<p>If you <em>really</em> need to support the older iOS 4 and below, and mix in the new replacement, you would need to <a href="http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated">check</a> using <code>respondsToSelector</code>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">if ([self respondsToSelector:@selector(presentViewController:animated:completion:)])
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- (void)presentViewController:(UIViewController *)viewControllerToPresent animated: (BOOL)flag completion:(void (^)(void))completion
+</code></pre>
+</div>
+
+<p>If you <em>really</em> need to support the older iOS 4 and below, and mix in the new replacement, you would need to <a href="http://stackoverflow.com/questions/12445190/dismissmodalviewcontrolleranimated-deprecated">check</a> using <code class="highlighter-rouge">respondsToSelector</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>if ([self respondsToSelector:@selector(presentViewController:animated:completion:)])
     [self presentViewController:navController animated:YES completion:nil];
 else
     [self presentModalViewController:navController animated:YES];
-</code></pre></div>
-<h2>For older xib</h2>
+</code></pre>
+</div>
 
-<h3>Tab Bar not working</h3>
+<h2 id="for-older-xib">For older xib</h2>
+
+<h3 id="tab-bar-not-working">Tab Bar not working</h3>
 
 <p>If after adding support for iOS6 and your UITabBar is not working anymore eg. does not respond to taps, it could be due to the xib from an older project.</p>
 
-<p>You <a href="http://stackoverflow.com/a/12627117/242682">need</a> to set the <code>window</code> object of your main xib to <strong>Full Size at Launch</strong>.</p>
+<p>You <a href="http://stackoverflow.com/a/12627117/242682">need</a> to set the <code class="highlighter-rouge">window</code> object of your main xib to <strong>Full Size at Launch</strong>.</p>
 
-<h3>Error: UIViewControllerHierarchyInconsistency</h3>
+<h3 id="error-uiviewcontrollerhierarchyinconsistency">Error: UIViewControllerHierarchyInconsistency</h3>
 
-<p>This is again due to an older project. </p>
+<p>This is again due to an older project.</p>
 
 <p>You <a href="http://stackoverflow.com/questions/12434937/uiviewcontrollerhierarchyinconsistency-when-trying-to-present-a-modal-view-contr/12450770#12450770">need</a> to do this:</p>
 
 <ol>
-<li><p>Move main <strong>View</strong> out of <strong>View Controller</strong>:</p></li>
-<li><p>Delete <strong>View Controller</strong> from the XIB (it is not necessary since File&#39;s Owner should be of its Class already)</p></li>
+  <li>
+    <p>Move main <strong>View</strong> out of <strong>View Controller</strong>:</p>
+  </li>
+  <li>
+    <p>Delete <strong>View Controller</strong> from the XIB (it is not necessary since File’s Owner should be of its Class already)</p>
+  </li>
 </ol>
+
 
         </section>
         <footer class="post-footer">

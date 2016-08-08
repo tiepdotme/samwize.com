@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,31 +72,34 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>When you save a <code>PFObject</code> and encounter the error <code>Found a circular dependency when saving</code>, it could be due to you setting a bidirectional/inverse relationship.</p>
+          <p>When you save a <code class="highlighter-rouge">PFObject</code> and encounter the error <code class="highlighter-rouge">Found a circular dependency when saving</code>, it could be due to you setting a bidirectional/inverse relationship.</p>
 
 <!-- more -->
 
 <p>Take this example:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// You have 2 Parse Class Teacher and Student</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">PFObject</span> <span class="o">*</span><span class="n">teacher</span><span class="p">,</span> <span class="n">student</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// You try to set up the bidirectional relationship</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">teacher</span><span class="p">.</span><span class="n">student</span> <span class="o">=</span> <span class="n">student</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">student</span><span class="p">.</span><span class="n">teacher</span> <span class="o">=</span> <span class="n">teacher</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="c1">// You have 2 Parse Class Teacher and Student
+</span><span class="n">PFObject</span> <span class="o">*</span><span class="n">teacher</span><span class="p">,</span> <span class="n">student</span><span class="p">;</span>
+<span class="c1">// You try to set up the bidirectional relationship
+</span><span class="n">teacher</span><span class="p">.</span><span class="n">student</span> <span class="o">=</span> <span class="n">student</span>
+<span class="n">student</span><span class="p">.</span><span class="n">teacher</span> <span class="o">=</span> <span class="n">teacher</span>
+</code></pre>
+</div>
 
-<p>Upon save, the code will throw the exception <code>Found a circular dependency when saving</code>. This is because <a href="https://parse.com/questions/bidirectional-relationship-one-to-many">bidirectional relationship is not supported</a> on Parse.</p>
+<p>Upon save, the code will throw the exception <code class="highlighter-rouge">Found a circular dependency when saving</code>. This is because <a href="https://parse.com/questions/bidirectional-relationship-one-to-many">bidirectional relationship is not supported</a> on Parse.</p>
 
 <p>The solution requires 3 steps:</p>
 
 <ul>
-<li>Don&#39;t set up any of the relationship, and save <code>teacher</code> first. Saving will provide <code>teacher.objectId</code>.</li>
-<li>Then save <code>student</code> with 1 directional relationship to <code>teacher</code>. Saving will provide <code>student.objectId</code>.</li>
-<li>Then update <code>teacher</code> with the relation to <code>student</code>.</li>
+  <li>Don’t set up any of the relationship, and save <code class="highlighter-rouge">teacher</code> first. Saving will provide <code class="highlighter-rouge">teacher.objectId</code>.</li>
+  <li>Then save <code class="highlighter-rouge">student</code> with 1 directional relationship to <code class="highlighter-rouge">teacher</code>. Saving will provide <code class="highlighter-rouge">student.objectId</code>.</li>
+  <li>Then update <code class="highlighter-rouge">teacher</code> with the relation to <code class="highlighter-rouge">student</code>.</li>
 </ul>
 
 <p>This takes 3 API requests to set up.</p>
 
 <p>Not good, but workaround the limitation of Parse.</p>
+
 
         </section>
         <footer class="post-footer">

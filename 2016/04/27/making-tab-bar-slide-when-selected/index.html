@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,72 +74,86 @@
           
           <p>This is a Swift code snippet for making the tab bar have a sliding animation when selected.</p>
 
-<p>This post takes reference from the <a href="http://stackoverflow.com/a/5180104/242682">answers</a> on StackOverflow. </p>
+<p>This post takes reference from the <a href="http://stackoverflow.com/a/5180104/242682">answers</a> on StackOverflow.</p>
 
 <p>The difference:</p>
 
 <ul>
-<li>Code in Swift</li>
-<li>With a private method <code>animateToTab</code> which you can call programatically</li>
-<li>Less code using <code>frame.center</code> etc</li>
+  <li>Code in Swift</li>
+  <li>With a private method <code class="highlighter-rouge">animateToTab</code> which you can call programatically</li>
+  <li>Less code using <code class="highlighter-rouge">frame.center</code> etc</li>
 </ul>
 
-<h2>The Code</h2>
+<h2 id="the-code">The Code</h2>
 
-<p>Hooking up to <code>UITabBarControllerDelegate</code>, you can start the animation when a tab is about to be selected:</p>
+<p>Hooking up to <code class="highlighter-rouge">UITabBarControllerDelegate</code>, you can start the animation when a tab is about to be selected:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">tabBarController</span><span class="p">(</span><span class="nl">tabBarController</span><span class="p">:</span> <span class="bp">UITabBarController</span><span class="p">,</span> <span class="n">shouldSelectViewController</span> <span class="nl">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">tabViewControllers</span> <span class="o">=</span> <span class="n">tabBarController</span><span class="p">.</span><span class="n">viewControllers</span><span class="o">!</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">guard</span> <span class="k">let</span> <span class="n">toIndex</span> <span class="o">=</span> <span class="n">tabViewControllers</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">viewController</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="nb">false</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Our method</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">animateToTab</span><span class="p">(</span><span class="n">toIndex</span><span class="p">)</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="nb">true</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">tabBarController</span><span class="p">(</span><span class="nv">tabBarController</span><span class="p">:</span> <span class="kt">UITabBarController</span><span class="p">,</span> <span class="n">shouldSelectViewController</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">tabViewControllers</span> <span class="o">=</span> <span class="n">tabBarController</span><span class="o">.</span><span class="n">viewControllers</span><span class="o">!</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">toIndex</span> <span class="o">=</span> <span class="n">tabViewControllers</span><span class="o">.</span><span class="nf">indexOf</span><span class="p">(</span><span class="n">viewController</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Our method</span>
+    <span class="nf">animateToTab</span><span class="p">(</span><span class="n">toIndex</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>We have our method <code>animateToTab</code>, which contains the bulk of the code for animating the views.</p>
+<p>We have our method <code class="highlighter-rouge">animateToTab</code>, which contains the bulk of the code for animating the views.</p>
 
-<p>Remember: You can even call <code>animateToTab</code> programmatically to switch tab, with the same sliding animation.</p>
+<p>Remember: You can even call <code class="highlighter-rouge">animateToTab</code> programmatically to switch tab, with the same sliding animation.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">animateToTab</span><span class="p">(</span><span class="nl">toIndex</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">tabViewControllers</span> <span class="o">=</span> <span class="n">viewControllers</span><span class="o">!</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">fromView</span> <span class="o">=</span> <span class="n">selectedViewController</span><span class="o">!</span><span class="p">.</span><span class="n">view</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">toView</span> <span class="o">=</span> <span class="n">tabViewControllers</span><span class="p">[</span><span class="n">toIndex</span><span class="p">].</span><span class="n">view</span>    
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">fromIndex</span> <span class="o">=</span> <span class="n">tabViewControllers</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">selectedViewController</span><span class="o">!</span><span class="p">)</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">guard</span> <span class="n">fromIndex</span> <span class="o">!=</span> <span class="n">toIndex</span> <span class="k">else</span> <span class="p">&#x7b;</span><span class="k">return</span><span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Add the toView to the tab bar view</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">fromView</span><span class="p">.</span><span class="n">superview</span><span class="o">!</span><span class="p">.</span><span class="n">addSubview</span><span class="p">(</span><span class="n">toView</span><span class="p">)</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Position toView off screen (to the left/right of fromView)</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">screenWidth</span> <span class="o">=</span> <span class="bp">UIScreen</span><span class="p">.</span><span class="n">mainScreen</span><span class="p">().</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">scrollRight</span> <span class="o">=</span> <span class="n">toIndex</span> <span class="o">&gt;</span> <span class="n">fromIndex</span><span class="p">;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">scrollRight</span> <span class="o">?</span> <span class="nl">screenWidth</span> <span class="p">:</span> <span class="o">-</span><span class="n">screenWidth</span><span class="p">)</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">toView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="bp">CGPoint</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">fromView</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">toView</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Disable interaction during animation</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">view</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">false</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">UIView</span><span class="p">.</span><span class="n">animateWithDuration</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="nl">delay</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nl">usingSpringWithDamping</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nl">initialSpringVelocity</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="n">UIViewAnimationOptions</span><span class="p">.</span><span class="n">CurveEaseOut</span><span class="p">,</span> <span class="nl">animations</span><span class="p">:</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">// Slide the views by -offset</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">fromView</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="bp">CGPoint</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">fromView</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">fromView</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">toView</span><span class="p">.</span><span class="n">center</span>   <span class="o">=</span> <span class="bp">CGPoint</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">toView</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">toView</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;,</span> <span class="nl">completion</span><span class="p">:</span> <span class="p">&#x7b;</span> <span class="n">finished</span> <span class="k">in</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">// Remove the old view from the tabbar view.</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">fromView</span><span class="p">.</span><span class="n">removeFromSuperview</span><span class="p">()</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nb">self</span><span class="p">.</span><span class="n">selectedIndex</span> <span class="o">=</span> <span class="n">toIndex</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">true</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;)</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">animateToTab</span><span class="p">(</span><span class="nv">toIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">tabViewControllers</span> <span class="o">=</span> <span class="n">viewControllers</span><span class="o">!</span>
+    <span class="k">let</span> <span class="nv">fromView</span> <span class="o">=</span> <span class="n">selectedViewController</span><span class="o">!.</span><span class="n">view</span>
+    <span class="k">let</span> <span class="nv">toView</span> <span class="o">=</span> <span class="n">tabViewControllers</span><span class="p">[</span><span class="n">toIndex</span><span class="p">]</span><span class="o">.</span><span class="n">view</span>    
+    <span class="k">let</span> <span class="nv">fromIndex</span> <span class="o">=</span> <span class="n">tabViewControllers</span><span class="o">.</span><span class="nf">indexOf</span><span class="p">(</span><span class="n">selectedViewController</span><span class="o">!</span><span class="p">)</span>
+    
+    <span class="k">guard</span> <span class="n">fromIndex</span> <span class="o">!=</span> <span class="n">toIndex</span> <span class="k">else</span> <span class="p">{</span><span class="k">return</span><span class="p">}</span>
+    
+    <span class="c1">// Add the toView to the tab bar view</span>
+    <span class="n">fromView</span><span class="o">.</span><span class="n">superview</span><span class="o">!.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">toView</span><span class="p">)</span>
+    
+    <span class="c1">// Position toView off screen (to the left/right of fromView)</span>
+    <span class="k">let</span> <span class="nv">screenWidth</span> <span class="o">=</span> <span class="kt">UIScreen</span><span class="o">.</span><span class="nf">mainScreen</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">;</span>
+    <span class="k">let</span> <span class="nv">scrollRight</span> <span class="o">=</span> <span class="n">toIndex</span> <span class="o">&gt;</span> <span class="n">fromIndex</span><span class="p">;</span>
+    <span class="k">let</span> <span class="nv">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">scrollRight</span> <span class="p">?</span> <span class="nv">screenWidth</span> <span class="p">:</span> <span class="o">-</span><span class="n">screenWidth</span><span class="p">)</span>
+    <span class="n">toView</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="n">fromView</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="n">toView</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
 
-<h2>A Lesson Learnt</h2>
+    <span class="c1">// Disable interaction during animation</span>
+    <span class="n">view</span><span class="o">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="kc">false</span>
+    
+    <span class="kt">UIView</span><span class="o">.</span><span class="nf">animateWithDuration</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="nv">delay</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nv">usingSpringWithDamping</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">initialSpringVelocity</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">UIViewAnimationOptions</span><span class="o">.</span><span class="kt">CurveEaseOut</span><span class="p">,</span> <span class="nv">animations</span><span class="p">:</span> <span class="p">{</span>
+        
+            <span class="c1">// Slide the views by -offset</span>
+            <span class="n">fromView</span><span class="o">.</span><span class="n">center</span> <span class="o">=</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="n">fromView</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="n">fromView</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">);</span>
+            <span class="n">toView</span><span class="o">.</span><span class="n">center</span>   <span class="o">=</span> <span class="kt">CGPoint</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="n">toView</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="n">toView</span><span class="o">.</span><span class="n">center</span><span class="o">.</span><span class="n">y</span><span class="p">);</span>
+            
+        <span class="p">},</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">{</span> <span class="n">finished</span> <span class="k">in</span>
+            
+            <span class="c1">// Remove the old view from the tabbar view.</span>
+            <span class="n">fromView</span><span class="o">.</span><span class="nf">removeFromSuperview</span><span class="p">()</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">selectedIndex</span> <span class="o">=</span> <span class="n">toIndex</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="kc">true</span>
+        <span class="p">})</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="a-lesson-learnt">A Lesson Learnt</h2>
 
 <p>In <a href="http://stackoverflow.com/a/30620627/242682">one of the answers</a> (also swift code), the author uses CA transformation, instead of changing the frames.</p>
 
-<p>That doesn&#39;t work in some cases eg. triggered <code>animateToTab</code> programmatically</p>
+<p>That doesn’t work in some cases eg. triggered <code class="highlighter-rouge">animateToTab</code> programmatically</p>
 
-<p>I suspect it is the same as the <a href="http://blog.spacemanlabs.com/2012/08/premature-completion-an-embarrassing-problem/">embarrassing problem</a> whereby the animation completed prematuring, because iOS &quot;don&#39;t see any animation&quot; to do. In the completion block, <code>finished</code> will be false, which would mean the animation wasn&#39;t completed.</p>
+<p>I suspect it is the same as the <a href="http://blog.spacemanlabs.com/2012/08/premature-completion-an-embarrassing-problem/">embarrassing problem</a> whereby the animation completed prematuring, because iOS “don’t see any animation” to do. In the completion block, <code class="highlighter-rouge">finished</code> will be false, which would mean the animation wasn’t completed.</p>
 
-<p>I do not know exactly how to fix the code, but changing to frames work. </p>
+<p>I do not know exactly how to fix the code, but changing to frames work.</p>
 
-<p>Do you know what&#39;s wrong?</p>
+<p>Do you know what’s wrong?</p>
 
         </section>
         <footer class="post-footer">

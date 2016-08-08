@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,67 +74,83 @@
           
           <p>This blog is hosted entirely on <a href="http://pages.github.com/">Github Pages</a>, powered by the blogging framework for hacker - <a href="http://octopress.org/">Octopress</a>.</p>
 
-<p>As mentioned in the previous post, I have <a href="/2012/09/10/switched-from-wordpress-to-octopress">switched from Wordpress to Octopress</a>. This post, I am writing the steps on how I get it running. </p>
+<p>As mentioned in the previous post, I have <a href="/2012/09/10/switched-from-wordpress-to-octopress">switched from Wordpress to Octopress</a>. This post, I am writing the steps on how I get it running.</p>
 
 <!-- more -->
 
-<h2>Setup</h2>
+<h2 id="setup">Setup</h2>
 
-<p>You need to install <strong>Git</strong> and <strong>Ruby 1.9.3</strong>. As Octopress must use Ruby 1.9.3, if <code>ruby --version</code> does not give you 1.9.3, then you must install via rbenv.</p>
+<p>You need to install <strong>Git</strong> and <strong>Ruby 1.9.3</strong>. As Octopress must use Ruby 1.9.3, if <code class="highlighter-rouge">ruby --version</code> does not give you 1.9.3, then you must install via rbenv.</p>
 
 <p>Follow the guide for <a href="http://octopress.org/docs/setup/rbenv/">rbenv</a>. Do the standard method if you have Mac Ports installed (cos it will conflict with Homebrew).</p>
 
 <p>If you are using Mac, you will need to download and install <a href="https://github.com/kennethreitz/osx-gcc-installer/downloads">OSX GCC Compiler</a> because Apple no longer includes that, and Ruby needs that.</p>
 
 <p>An exception for me is that I installed p194 instead of p0. You might need other post revisions.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Here&#39;s how I found out
-rake new_post[&quot;Switched Wordpress to Octopress&quot;]
-rbenv: version `1.9.3-p194&#39; is not installed
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Here's how I found out
+rake new_post["Switched Wordpress to Octopress"]
+rbenv: version `1.9.3-p194' is not installed
 
 # Hence..
 rbenv install 1.9.3-p194
 rbenv global 1.9.3-p194
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>With Ruby 1.9.3, <a href="http://octopress.org/docs/setup/">setup octopress</a>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">gem install bundler
+
+<div class="highlighter-rouge"><pre class="highlight"><code>gem install bundler
 rbenv rehash
 bundle install
-</code></pre></div>
-<h2>Deploy</h2>
+</code></pre>
+</div>
 
-<p>I chose to deploy to <a href="http://pages.github.com/">Github Pages</a>, since it&#39;s free as long as you don&#39;t mind pushing your &#39;code&#39; to public. Follow the guide at <a href="http://octopress.org/docs/deploying/github/">Octopress</a>.</p>
+<h2 id="deploy">Deploy</h2>
 
-<p>It is interesting to notice that <code>rake setup_github_pages</code> does 2 things:</p>
+<p>I chose to deploy to <a href="http://pages.github.com/">Github Pages</a>, since it’s free as long as you don’t mind pushing your ‘code’ to public. Follow the guide at <a href="http://octopress.org/docs/deploying/github/">Octopress</a>.</p>
+
+<p>It is interesting to notice that <code class="highlighter-rouge">rake setup_github_pages</code> does 2 things:</p>
 
 <ol>
-<li><strong>master</strong> branch is your _deploy directory (the static html)</li>
-<li><strong>source</strong> branch contains the project <em>less</em> _deploy (the markdowns, config and plugins)</li>
+  <li><strong>master</strong> branch is your _deploy directory (the static html)</li>
+  <li><strong>source</strong> branch contains the project <em>less</em> _deploy (the markdowns, config and plugins)</li>
 </ol>
 
 <p>To deploy:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">rake generate
+
+<div class="highlighter-rouge"><pre class="highlight"><code>rake generate
 rake deploy
-</code></pre></div>
-<p>Note that <code>rake deploy</code> will commit and push up to the master branch. In a few minutes, Github will be serving those webpages (it takes longer for the first time).</p>
+</code></pre>
+</div>
+
+<p>Note that <code class="highlighter-rouge">rake deploy</code> will commit and push up to the master branch. In a few minutes, Github will be serving those webpages (it takes longer for the first time).</p>
 
 <p>So what about the source branch? You should also commit and push them.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git add .
-git commit -m &#39;your message&#39;
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git add .
+git commit -m 'your message'
 git push origin source
-</code></pre></div>
-<h2>Custom Domain</h2>
+</code></pre>
+</div>
+
+<h2 id="custom-domain">Custom Domain</h2>
 
 <p>I am using my custom domain samwize.just2us.com, instead of samwize.github.com. This can be accomplished easily be adding a CNAME file.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">echo &#39;your-domain.com&#39; &gt;&gt; source/CNAME
-</code></pre></div>
-<p>Then <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-pages">setup your DNS</a>. For myself, I added a new <strong>CNAME record</strong> <code>samwize.just2us.com</code> pointing to <code>samwize.github.com</code>.</p>
 
-<p>If you are using a Top-level domain, add a <strong>A record</strong> pointing to <code>204.232.175.78</code>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>echo 'your-domain.com' &gt;&gt; source/CNAME
+</code></pre>
+</div>
 
-<h2>New Post</h2>
+<p>Then <a href="https://help.github.com/articles/setting-up-a-custom-domain-with-pages">setup your DNS</a>. For myself, I added a new <strong>CNAME record</strong> <code class="highlighter-rouge">samwize.just2us.com</code> pointing to <code class="highlighter-rouge">samwize.github.com</code>.</p>
+
+<p>If you are using a Top-level domain, add a <strong>A record</strong> pointing to <code class="highlighter-rouge">204.232.175.78</code>.</p>
+
+<h2 id="new-post">New Post</h2>
 
 <p>This is my process whenever I have a new blog post.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">rake new_post[&quot;My New Post&quot;]
+
+<div class="highlighter-rouge"><pre class="highlight"><code>rake new_post["My New Post"]
 
 # edit my-new-post.markdown with text editor
 
@@ -149,9 +165,12 @@ rake deploy
 
 # Commit source
 git add .
-git commit -m &#39;your message&#39;
-git push origin source  
-</code></pre></div>
+git commit -m 'your message'
+git push origin source	
+</code></pre>
+</div>
+
+
         </section>
         <footer class="post-footer">
           <section class="share">

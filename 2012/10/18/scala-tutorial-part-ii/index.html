@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,127 +78,179 @@
 
 <!-- more -->
 
-<h2>Switch case statements</h2>
+<h2 id="switch-case-statements">Switch case statements</h2>
 
-<p>You can do <a href="http://kerflyn.wordpress.com/2011/02/14/playing-with-scalas-pattern-matching/">switch statements</a> pattern matching. A simple <code>switch case</code> statement looks like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">n match {
-    case 0 =&gt; println(&quot;Zero&quot;)
-    case 1 =&gt; println(&quot;One&quot;)
-    case n =&gt; println(&quot;It is &quot; + n)
-}
-</code></pre></div>
-<h2>What is sealed trait</h2>
+<p>You can do <a href="http://kerflyn.wordpress.com/2011/02/14/playing-with-scalas-pattern-matching/">switch statements</a> pattern matching. A simple <code class="highlighter-rouge">switch case</code> statement looks like this:</p>
 
-<p>Use <a href="http://stackoverflow.com/questions/11203268/what-is-a-sealed-trait">sealed trait</a> as <code>enums</code></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">sealed trait Answer
+<div class="highlighter-rouge"><pre class="highlight"><code>n match {
+	case 0 =&gt; println("Zero")
+	case 1 =&gt; println("One")
+	case n =&gt; println("It is " + n)
+  	}
+</code></pre>
+</div>
+
+<h2 id="what-is-sealed-trait">What is sealed trait</h2>
+
+<p>Use <a href="http://stackoverflow.com/questions/11203268/what-is-a-sealed-trait">sealed trait</a> as <code class="highlighter-rouge">enums</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sealed trait Answer
 case object Yes extends Answer
 case object No extends Answer
-</code></pre></div>
-<p>Add a folder to classpath (for reading files). Don&#39;t have to put in src.</p>
+</code></pre>
+</div>
+
+<p>Add a folder to classpath (for reading files). Don’t have to put in src.</p>
 
 <p>In Eclipse, right click, Build Path &gt; Use As Source Folder</p>
 
 <p>Folder will be in classpath. Access using</p>
 
-<h2>Read a resource file in Scala Play! 2</h2>
+<h2 id="read-a-resource-file-in-scala-play-2">Read a resource file in Scala Play! 2</h2>
 
-<p>Let&#39;s say you have a text file call <code>myfile.txt</code>. You should put in <code>/public</code> of your Play! project.</p>
+<p>Let’s say you have a text file call <code class="highlighter-rouge">myfile.txt</code>. You should put in <code class="highlighter-rouge">/public</code> of your Play! project.</p>
 
 <p>You can read the file with the following <a href="http://stackoverflow.com/questions/12825644/how-to-read-a-file-in-scala-with-play-2-0">code</a>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">val is = Application.getClass().getResourceAsStream(&quot;/public/myfile.txt&quot;)    
+
+<div class="highlighter-rouge"><pre class="highlight"><code>val is = Application.getClass().getResourceAsStream("/public/myfile.txt")    
 val src = scala.io.Source.Source.fromInputStream(is)
 val iter = src.getLine
 for (s &lt;- iter)
-    println(s)
-</code></pre></div>
-<h2>Accessing Global Object</h2>
+	println(s)
+</code></pre>
+</div>
 
-<p>If you have an object that is initiated once when the app starts, you can put it in the <code>Global</code> object. </p>
+<h2 id="accessing-global-object">Accessing Global Object</h2>
 
-<p>However, <code>Global</code> object is by default in a default package, and because it is in default package, it cannot be referenced/accessed by other packages.</p>
+<p>If you have an object that is initiated once when the app starts, you can put it in the <code class="highlighter-rouge">Global</code> object.</p>
 
-<p>The <a href="http://stackoverflow.com/questions/10440864/play-2-0-scala-accessing-global-object">workaround</a> is to move your Global object into a specific package, and change the <code>application.conf</code> file to</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">global= my.packaged.Global
-</code></pre></div>
-<h2>Initializing a class</h2>
+<p>However, <code class="highlighter-rouge">Global</code> object is by default in a default package, and because it is in default package, it cannot be referenced/accessed by other packages.</p>
+
+<p>The <a href="http://stackoverflow.com/questions/10440864/play-2-0-scala-accessing-global-object">workaround</a> is to move your Global object into a specific package, and change the <code class="highlighter-rouge">application.conf</code> file to</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>global= my.packaged.Global
+</code></pre>
+</div>
+
+<h2 id="initializing-a-class">Initializing a class</h2>
 
 <p>There is differences between</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">class Person(name:String)
-</code></pre></div>
-<p>and</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">class Person(val name:String)
-</code></pre></div>
-<p>In the later (with <code>val</code> in the constructor), you can access <code>person.name</code>. For former does not. Very subtle difference until when I create my first class.</p>
 
-<h2>Unit Testing with Specs</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>class Person(name:String)
+</code></pre>
+</div>
+
+<p>and</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>class Person(val name:String)
+</code></pre>
+</div>
+
+<p>In the later (with <code class="highlighter-rouge">val</code> in the constructor), you can access <code class="highlighter-rouge">person.name</code>. For former does not. Very subtle difference until when I create my first class.</p>
+
+<h2 id="unit-testing-with-specs">Unit Testing with Specs</h2>
 
 <p>Write your unit tests with <a href="http://www.playframework.org/documentation/2.0/ScalaTest">specs2</a>.</p>
 
 <p>To run just 1 test:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">sbt test-only test.MySpec
-</code></pre></div>
-<h2>java.lang.OutOfMemoryError: PermGen space</h2>
 
-<p>When <code>sbt run</code>, sometimes you would run into the error</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">java.lang.OutOfMemoryError: PermGen space
-</code></pre></div>
+<div class="highlighter-rouge"><pre class="highlight"><code>sbt test-only test.MySpec
+</code></pre>
+</div>
+
+<h2 id="javalangoutofmemoryerror-permgen-space">java.lang.OutOfMemoryError: PermGen space</h2>
+
+<p>When <code class="highlighter-rouge">sbt run</code>, sometimes you would run into the error</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>java.lang.OutOfMemoryError: PermGen space
+</code></pre>
+</div>
+
 <p>To solve, you can</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">brew info sbt
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew info sbt
+</code></pre>
+</div>
+
 <p>to look for a clue. Changing to 512M helps.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">export SBT_OPTS=&quot;-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M&quot;
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export SBT_OPTS="-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=512M"
+</code></pre>
+</div>
+
 <p>As much as you could googled, <a href="http://javarevisited.blogspot.sg/2011/09/javalangoutofmemoryerror-permgen-space.html">some</a> solutions do not work.</p>
 
-<h2>Split 1 line of code into multiple lines</h2>
+<h2 id="split-1-line-of-code-into-multiple-lines">Split 1 line of code into multiple lines</h2>
 
 <p>Something so simple does not work as you normally do in Java. For example, this would not compile:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">val s = &quot;a&quot;
-    + &quot;b&quot;
-</code></pre></div>
-<p>This is because <code>+</code> is a method, and it needs to be on the same line as the member calling the method (that is &quot;a&quot;).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>val s = "a"
+	+ "b"
+</code></pre>
+</div>
+
+<p>This is because <code class="highlighter-rouge">+</code> is a method, and it needs to be on the same line as the member calling the method (that is “a”).</p>
 
 <p>Instead, this will work:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">val s = &quot;a&quot; +
-    &quot;b&quot;
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>val s = "a" +
+	"b"
+</code></pre>
+</div>
+
 <p>Or you can use brackets..</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">val s = (&quot;a&quot;
-    + &quot;b&quot;)
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>val s = ("a"
+  		+ "b")
+</code></pre>
+</div>
+
 <p>The same goes for calling methods with dot notation. This will not work:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">myClass.someMethod
-    .anotherMethod
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>myClass.someMethod
+	.anotherMethod
+</code></pre>
+</div>
+
 <p>This will work:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">myClass.someMethod.
-    anotherMethod
-</code></pre></div>
-<h2>Play! asText is tricky</h2>
 
-<p><code>request.body.asText</code> is tricky. It could be None even when there is something.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>myClass.someMethod.
+	anotherMethod
+</code></pre>
+</div>
 
-<p>Let&#39;s same you POST some data, and you didn&#39;t specify <code>Content-Type: application/x-www-form-urlencoded</code>.</p>
+<h2 id="play-astext-is-tricky">Play! asText is tricky</h2>
 
-<p>Firstly, <code>request.body.asFormUrlEncoded</code> will be <code>None</code>. Okay, I understand that is because Play! is strict with missing content-type.</p>
+<p><code class="highlighter-rouge">request.body.asText</code> is tricky. It could be None even when there is something.</p>
 
-<p>However, <code>request.body.asText</code> will be <code>None</code> too!</p>
+<p>Let’s same you POST some data, and you didn’t specify <code class="highlighter-rouge">Content-Type: application/x-www-form-urlencoded</code>.</p>
 
-<h2>A simple HTTP POST</h2>
+<p>Firstly, <code class="highlighter-rouge">request.body.asFormUrlEncoded</code> will be <code class="highlighter-rouge">None</code>. Okay, I understand that is because Play! is strict with missing content-type.</p>
+
+<p>However, <code class="highlighter-rouge">request.body.asText</code> will be <code class="highlighter-rouge">None</code> too!</p>
+
+<h2 id="a-simple-http-post">A simple HTTP POST</h2>
 
 <p><a href="http://dispatch.databinder.net/">Dispatch</a> is the most popular HTTP library for Scala. However, to me, it is difficult to understand, <a href="http://www.flotsam.nl/dispatch-periodic-table.html">cryptic</a>, and with poor documentation.</p>
 
 <p>It took me a while to find a <a href="http://stackoverflow.com/questions/12342062/basic-usage-of-dispatch-0-9">basic use</a>, without using those crazy operators:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">val req = url(&quot;http://my.server.com/&quot;).POST.
-  setBody(&quot;yeah&quot;).
-  addQueryParameter(&quot;foo&quot;, &quot;true&quot;).
-  addHeader(&quot;Content-type&quot;, &quot;application/json&quot;)
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>val req = url("http://my.server.com/").POST.
+  setBody("yeah").
+  addQueryParameter("foo", "true").
+  addHeader("Content-type", "application/json")
+</code></pre>
+</div>
+
 <p>Then gets back a response in blocking way.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">val response = Http(req)()
+
+<div class="highlighter-rouge"><pre class="highlight"><code>val response = Http(req)()
 val body = response.getResponseBody
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>HTTP should be that simple, and readable.</p>
+
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -82,59 +82,59 @@
 
 <!-- more -->
 
-<h2>In the past</h2>
+<h2 id="in-the-past">In the past</h2>
 
-<p>In the early days (year 2008), the guide to Adhoc distribution was to create a new build configuration called &quot;Adhoc&quot;, in addition to &quot;Debug&quot; and &quot;Release&quot;. </p>
+<p>In the early days (year 2008), the guide to Adhoc distribution was to create a new build configuration called “Adhoc”, in addition to “Debug” and “Release”.</p>
 
 <p>I know why it is necessary back then, but that is not necessary now. But some posts still <a href="http://diaryofacodemonkey.ruprect.com/2011/03/18/ad-hoc-app-distribution-with-xcode-4/">insisted</a> that.</p>
 
-<h2>The new way</h2>
+<h2 id="the-new-way">The new way</h2>
 
-<p>With Xcode 4.5 (or perhaps earlier), Project Schemes is introduced. It provides more ways you can configure how you &quot;Build&quot;, &quot;Run&quot;, &quot;Test&quot;, &quot;Analyse&quot; and &quot;Archive&quot;. You can change the build configuration to &quot;Debug&quot; or &quot;Release&quot; as you wanted.</p>
+<p>With Xcode 4.5 (or perhaps earlier), Project Schemes is introduced. It provides more ways you can configure how you “Build”, “Run”, “Test”, “Analyse” and “Archive”. You can change the build configuration to “Debug” or “Release” as you wanted.</p>
 
-<p>You don&#39;t need to touch them.</p>
+<p>You don’t need to touch them.</p>
 
-<p>To distribute Adhoc way, you only need to &quot;Archive&quot;.</p>
+<p>To distribute Adhoc way, you only need to “Archive”.</p>
 
-<p>Then in Organizer, click on the &quot;Distribute&quot; button, and select &quot;Save for Enterprise or Ad-Hoc Deployment&quot;.</p>
+<p>Then in Organizer, click on the “Distribute” button, and select “Save for Enterprise or Ad-Hoc Deployment”.</p>
 
 <p>Select the Adhoc provisioning cert (you would need to download from Apple portal, and install to Xcode).</p>
 
-<p><img src="/images/xcode-distribute-adhoc-enterprise.png" alt="Adhoc Distribution" ></p>
+<p><img src="/images/xcode-distribute-adhoc-enterprise.png" alt="Adhoc Distribution" /></p>
 
-<p>Save the <code>App.ipa</code>.</p>
+<p>Save the <code class="highlighter-rouge">App.ipa</code>.</p>
 
-<p>To install, drag to iTunes and sync. That&#39;s it!</p>
+<p>To install, drag to iTunes and sync. That’s it!</p>
 
-<h2>Push Notification</h2>
+<h2 id="push-notification">Push Notification</h2>
 
-<p>Things get slightly more complicated if you are using Apple Push Notifications. </p>
+<p>Things get slightly more complicated if you are using Apple Push Notifications.</p>
 
-<p>To use push, there are 2 more certs needed for your server to communicate with Apple. One is <code>aps-development</code>, the other is <code>aps-production</code>.</p>
+<p>To use push, there are 2 more certs needed for your server to communicate with Apple. One is <code class="highlighter-rouge">aps-development</code>, the other is <code class="highlighter-rouge">aps-production</code>.</p>
 
-<p>You use <code>aps-development</code> for running on device using &quot;Debug&quot; build configuration.</p>
+<p>You use <code class="highlighter-rouge">aps-development</code> for running on device using “Debug” build configuration.</p>
 
-<p>You use <code>aps-production</code> for both Adhoc and App Store distribution.</p>
+<p>You use <code class="highlighter-rouge">aps-production</code> for both Adhoc and App Store distribution.</p>
 
-<p>Not the other way round. Adhoc distributed apps will NOT get push when you use <code>aps-development</code>.</p>
+<p>Not the other way round. Adhoc distributed apps will NOT get push when you use <code class="highlighter-rouge">aps-development</code>.</p>
 
-<p>Why? </p>
+<p>Why?</p>
 
 <blockquote>
-<p>Because Adhoc distributed apps will register device token to <strong>Apple production gateway</strong>, while your <code>aps-development</code> communicates with <strong>Apple sandbox gateway</strong>.</p>
+  <p>Because Adhoc distributed apps will register device token to <strong>Apple production gateway</strong>, while your <code class="highlighter-rouge">aps-development</code> communicates with <strong>Apple sandbox gateway</strong>.</p>
 </blockquote>
 
-<p>If you want Adhoc distributed apps to get push, you must send the push with <code>aps-production</code>. Adhoc is as good as production app, yet not on the App Store.</p>
+<p>If you want Adhoc distributed apps to get push, you must send the push with <code class="highlighter-rouge">aps-production</code>. Adhoc is as good as production app, yet not on the App Store.</p>
 
-<h2>TestFlight</h2>
+<h2 id="testflight">TestFlight</h2>
 
 <p>As stated in the <a href="https://developer.apple.com/library/ios/technotes/tn2407/_index.html#//apple_ref/doc/uid/DTS40014991-CH1-RECOMMENDED_WORKFLOWS-SUBMITTING_YOUR_APP_FOR_PUBLISHING_TO_TESTFLIGHT">technical note</a>, TestFlight requires App Store Distribution provisioning profile.</p>
 
-<p>Which also means the push must use <code>aps-production</code>.</p>
+<p>Which also means the push must use <code class="highlighter-rouge">aps-production</code>.</p>
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
-<p>In the past, you need to create a new build configuration call &quot;Adhoc&quot;. But that is no longer needed as you can select which cert to re-sign after archiving.</p>
+<p>In the past, you need to create a new build configuration call “Adhoc”. But that is no longer needed as you can select which cert to re-sign after archiving.</p>
 
 <p>I will not cover wireless distribution today (though you may refer to <a href="http://blog.just2us.com/2010/12/wireless-ad-hoc-distribution-for-iphone-apps/">this method using dropbox</a>).</p>
 

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,110 +76,127 @@
 
 <p>However, it is pretty tricky (in fact misleading) when you are configuring the number of significant figures (SF) or decimal places (DP), hence this guide.</p>
 
-<h2>Defaults</h2>
+<h2 id="defaults">Defaults</h2>
 
-<p>When you init a <code>NSNumberFormatter</code>, the default is:</p>
+<p>When you init a <code class="highlighter-rouge">NSNumberFormatter</code>, the default is:</p>
 
 <ul>
-<li><code>usesSignificantDigits</code> = <code>false</code> </li>
-<li><code>minimum/maximumSignificantDigits</code> = 1-6</li>
-<li><code>minimum/maximumFractionDigits</code> = 0-0</li>
+  <li><code class="highlighter-rouge">usesSignificantDigits</code> = <code class="highlighter-rouge">false</code></li>
+  <li><code class="highlighter-rouge">minimum/maximumSignificantDigits</code> = 1-6</li>
+  <li><code class="highlighter-rouge">minimum/maximumFractionDigits</code> = 0-0</li>
 </ul>
 
-<p><code>usesSignificantDigits</code> = <code>false</code> means the formatter will not use the significant digits (aka SF), even though it is set to 1-6. And since the fractional digits (aka DP) is set to 0-0, it will not show any decimal places.</p>
+<p><code class="highlighter-rouge">usesSignificantDigits</code> = <code class="highlighter-rouge">false</code> means the formatter will not use the significant digits (aka SF), even though it is set to 1-6. And since the fractional digits (aka DP) is set to 0-0, it will not show any decimal places.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">num</span> <span class="o">=</span> <span class="mf">1.23456789</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="n">numberFormatter</span> <span class="o">=</span> <span class="bp">NSNumberFormatter</span><span class="p">()</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;SF: \(numberFormatter.minimumSignificantDigits)-\(numberFormatter.maximumSignificantDigits) [Uses SD: \(numberFormatter.usesSignificantDigits)]&quot;</span><span class="p">)</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;DP: \(numberFormatter.minimumFractionDigits)-\(numberFormatter.maximumFractionDigits)&quot;</span><span class="p">)</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">/// Prints &quot;1&quot;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">num</span> <span class="o">=</span> <span class="mf">1.23456789</span>
+<span class="k">var</span> <span class="nv">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"SF: </span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">minimumSignificantDigits</span><span class="se">)</span><span class="s">-</span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span><span class="se">)</span><span class="s"> [Uses SD: </span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="se">)</span><span class="s">]"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"DP: </span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">minimumFractionDigits</span><span class="se">)</span><span class="s">-</span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumFractionDigits</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 
-<h2>Set the Decimal Places</h2>
+<span class="c1">/// Prints "1"</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="set-the-decimal-places">Set the Decimal Places</h2>
 
 <p>This is straight forward:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumFractionDigits</span> <span class="o">=</span> <span class="mi">3</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">/// Prints &quot;1.235&quot; (3 DP)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumFractionDigits</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="c1">/// Prints "1.235" (3 DP)</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<p>Also note that it actually rounded up, because the default mode is <code>RoundHalfEven</code>.</p>
+<p>Also note that it actually rounded up, because the default mode is <code class="highlighter-rouge">RoundHalfEven</code>.</p>
 
-<h2>Set the Significant Figures</h2>
+<h2 id="set-the-significant-figures">Set the Significant Figures</h2>
 
 <p>It gets trickier.</p>
 
-<p>If you want to use significant figures, you can set <code>usesSignificantDigits</code> to <code>true</code> to activate the default.</p>
+<p>If you want to use significant figures, you can set <code class="highlighter-rouge">usesSignificantDigits</code> to <code class="highlighter-rouge">true</code> to activate the default.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="nb">true</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">/// Prints &quot;1.23457&quot; (6 SF)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">true</span>
+<span class="c1">/// Prints "1.23457" (6 SF)</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<p>But you can also just set <code>minimum/maximumSignificantDigits</code>, with a caveat.. </p>
+<p>But you can also just set <code class="highlighter-rouge">minimum/maximumSignificantDigits</code>, with a caveat..</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span> <span class="o">=</span> <span class="bp">NSNumberFormatter</span><span class="p">()</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// &quot;false&quot; by default</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">minimumSignificantDigits</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1">// Set the SF</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// &quot;true&quot;, somehow it auto set</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="nb">false</span>   <span class="c1">// Reset to false</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// &quot;false&quot;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">minimumSignificantDigits</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1">// Subsequent set</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// Remains false</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// "false" by default</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="n">minimumSignificantDigits</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1">// Set the SF</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// "true", somehow it auto set</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">false</span>   <span class="c1">// Reset to false</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// "false"</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="n">minimumSignificantDigits</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1">// Subsequent set</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// Remains false</span>
+</code></pre>
+</div>
 
-<p>In line 3, setting <code>minimumSignificantDigits</code> causes <code>usesSignificantDigits</code> to be auto set to <code>true</code>.</p>
+<p>In line 3, setting <code class="highlighter-rouge">minimumSignificantDigits</code> causes <code class="highlighter-rouge">usesSignificantDigits</code> to be auto set to <code class="highlighter-rouge">true</code>.</p>
 
-<p>But when you reset <code>usesSignificantDigits</code> to <code>false</code> (line 6) and then subequently set <code>minimum/maximumSignificantDigits</code> (line 7), it will NOT auto set <code>usesSignificantDigits</code> to <code>true</code>!</p>
+<p>But when you reset <code class="highlighter-rouge">usesSignificantDigits</code> to <code class="highlighter-rouge">false</code> (line 6) and then subequently set <code class="highlighter-rouge">minimum/maximumSignificantDigits</code> (line 7), it will NOT auto set <code class="highlighter-rouge">usesSignificantDigits</code> to <code class="highlighter-rouge">true</code>!</p>
 
 <p>The behaviour in this API is badly designed.</p>
 
-<p>To prevent this misleading behaviour, remember to set <code>usesSignificantDigits</code> explicitly everytime.</p>
+<p>To prevent this misleading behaviour, remember to set <code class="highlighter-rouge">usesSignificantDigits</code> explicitly everytime.</p>
 
-<h2>Either Decimal Places or Significant Figures</h2>
+<h2 id="either-decimal-places-or-significant-figures">Either Decimal Places or Significant Figures</h2>
 
-<p>On any cases, the formatting will use either <code>minimum/maximumSignificantDigits</code> or <code>minimum/maximumFractionDigits</code>.</p>
+<p>On any cases, the formatting will use either <code class="highlighter-rouge">minimum/maximumSignificantDigits</code> or <code class="highlighter-rouge">minimum/maximumFractionDigits</code>.</p>
 
 <p>It will NOT use both configurations.</p>
 
-<p>So control with <code>usesSignificantDigits</code>.</p>
+<p>So control with <code class="highlighter-rouge">usesSignificantDigits</code>.</p>
 
 <p>An example of a function that control the use of DP or SF depending on the number:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumSignificantDigits</span>    <span class="o">=</span> <span class="mi">4</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumFractionDigits</span>       <span class="o">=</span> <span class="mi">2</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// If num &gt; 1, use DP, else use SF</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">stringFromNum</span><span class="p">(</span><span class="nl">num</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">?</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="nb">false</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span> <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="nb">true</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">stringFromNum</span><span class="p">(</span><span class="mf">0.123456789</span><span class="p">)</span>      <span class="c1">// &quot;0.1235&quot; (4 SF)</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">stringFromNum</span><span class="p">(</span><span class="mf">9876.123456789</span><span class="p">)</span>   <span class="c1">// &quot;9876.12&quot; (2 DP)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span>    <span class="o">=</span> <span class="mi">4</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumFractionDigits</span>       <span class="o">=</span> <span class="mi">2</span>
 
-<h2>Bug with usesSignificantDigits</h2>
+<span class="c1">// If num &gt; 1, use DP, else use SF</span>
+<span class="kd">func</span> <span class="nf">stringFromNum</span><span class="p">(</span><span class="nv">num</span><span class="p">:</span> <span class="kt">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">{</span>
+        <span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="p">}</span>
 
-<p>It is not the end of the story. </p>
+<span class="nf">stringFromNum</span><span class="p">(</span><span class="mf">0.123456789</span><span class="p">)</span>      <span class="c1">// "0.1235" (4 SF)</span>
+<span class="nf">stringFromNum</span><span class="p">(</span><span class="mf">9876.123456789</span><span class="p">)</span>   <span class="c1">// "9876.12" (2 DP)</span>
+</code></pre>
+</div>
 
-<p>There is a <a href="http://www.openradar.me/18468186">serious bug</a> with <code>usesSignificantDigits</code>, and it is still not fixed since Sep 2014.</p>
+<h2 id="bug-with-usessignificantdigits">Bug with usesSignificantDigits</h2>
+
+<p>It is not the end of the story.</p>
+
+<p>There is a <a href="http://www.openradar.me/18468186">serious bug</a> with <code class="highlighter-rouge">usesSignificantDigits</code>, and it is still not fixed since Sep 2014.</p>
 
 <p>Reproduce bug:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span> <span class="o">=</span> <span class="bp">NSNumberFormatter</span><span class="p">()</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">2</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="nb">false</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="mf">3.8765432</span><span class="p">)</span>  <span class="c1">// Expected &quot;4&quot; (0 DP), but printed &quot;3.9&quot; (2 SF)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="mf">3.8765432</span><span class="p">)</span>  <span class="c1">// Expected "4" (0 DP), but printed "3.9" (2 SF)</span>
+</code></pre>
+</div>
 
 <p>Solution:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span> <span class="o">=</span> <span class="bp">NSNumberFormatter</span><span class="p">()</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>    <span class="c1">// This is the WORKAROUND</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">2</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="nb">false</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">numberFormatter</span><span class="p">.</span><span class="n">stringFromNumber</span><span class="p">(</span><span class="mf">3.8765432</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>    <span class="c1">// This is the WORKAROUND</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="mf">3.8765432</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<p>As weird as it seems, using <code>stringFromNumber</code> once right after init-ing will set things correct!</p>
+<p>As weird as it seems, using <code class="highlighter-rouge">stringFromNumber</code> once right after init-ing will set things correct!</p>
 
 <p>Not sure why, but that is a workaround..</p>
 

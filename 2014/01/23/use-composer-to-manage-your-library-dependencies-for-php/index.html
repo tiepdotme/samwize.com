@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,35 +78,41 @@
 
 <p>To get started, <a href="https://getcomposer.org/doc/00-intro.md">install</a> as per instruction.</p>
 
-<p>For Mac, it will be a few <code>brew</code> commands.</p>
+<p>For Mac, it will be a few <code class="highlighter-rouge">brew</code> commands.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>brew tap josegonzalez/homebrew-php
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>brew install josegonzalez/php/composer</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>brew tap josegonzalez/homebrew-php
+brew install josegonzalez/php/composer
+</code></pre>
+</div>
 
-<p>If you have some errors, you might need to <code>brew install php53-intl</code>, <code>brew update</code> and <code>brew doctor</code>. I have to do that for some <a href="https://github.com/Homebrew/homebrew/issues/24290">weird errors</a>.</p>
+<p>If you have some errors, you might need to <code class="highlighter-rouge">brew install php53-intl</code>, <code class="highlighter-rouge">brew update</code> and <code class="highlighter-rouge">brew doctor</code>. I have to do that for some <a href="https://github.com/Homebrew/homebrew/issues/24290">weird errors</a>.</p>
 
-<p>Next, prepare a basic <code>composer.json</code> in your root directory. The below json is an example of a project that requires <a href="https://github.com/Seldaek/monolog">monolog</a>.</p>
+<p>Next, prepare a basic <code class="highlighter-rouge">composer.json</code> in your root directory. The below json is an example of a project that requires <a href="https://github.com/Seldaek/monolog">monolog</a>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&quot;require&quot;</span><span class="p">:</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;monolog/monolog&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0.*&quot;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nt">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"monolog/monolog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.*"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
 
-<p>Install the library and it&#39;s dependencies (monolog in this example).</p>
+<p>Install the library and it’s dependencies (monolog in this example).</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>curl -sS https://getcomposer.org/installer <span class="p">|</span> php
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>php composer.phar install</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+</code></pre>
+</div>
 
-<p>A <code>vendor</code> directory will be created and it contains all the libraries. You can start using the libraries as per normal.</p>
+<p>A <code class="highlighter-rouge">vendor</code> directory will be created and it contains all the libraries. You can start using the libraries as per normal.</p>
 
 <p>Or use <a href="https://getcomposer.org/doc/01-basic-usage.md">autoload</a>.</p>
 
-<h2>For developers with library/SDK to share..</h2>
+<h2 id="for-developers-with-librarysdk-to-share">For developers with library/SDK to share..</h2>
 
-<p>If you have your library/SDK and you want to upload to composer repository, create a <code>composer.json</code> in your project root directory.</p>
+<p>If you have your library/SDK and you want to upload to composer repository, create a <code class="highlighter-rouge">composer.json</code> in your project root directory.</p>
 
-<p>Here&#39;s <a href="https://github.com/Hoiio/hoiio-php/blob/master/composer.json">one</a> for reference.</p>
+<p>Here’s <a href="https://github.com/Hoiio/hoiio-php/blob/master/composer.json">one</a> for reference.</p>
 
 <p>Then go to <a href="https://packagist.org">packagist</a>, register an account, and point it to your repository.</p>
 

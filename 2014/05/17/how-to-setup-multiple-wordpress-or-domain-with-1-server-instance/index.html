@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -82,26 +82,30 @@
 
 <p>I will be summarizing the steps.</p>
 
-<h1>1. Setup MySQL</h1>
+<h1 id="setup-mysql">1. Setup MySQL</h1>
 
 <p>Firstly, you need to setup your mysql database to be used with your wordpress.</p>
 
-<p>In this example, we are using <code>wp_myblog1</code> for database name, <code>wp_myblog1</code> for the mysql user and <code>secretpassword</code>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mysql -u root -p
+<p>In this example, we are using <code class="highlighter-rouge">wp_myblog1</code> for database name, <code class="highlighter-rouge">wp_myblog1</code> for the mysql user and <code class="highlighter-rouge">secretpassword</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mysql -u root -p
 
 # Setup your database name, and a mysql user
 CREATE DATABASE wp_myblog1;
 CREATE USER wp_myblog1@localhost;
-SET PASSWORD FOR wp_myblog1@localhost= PASSWORD(&quot;secretpassword&quot;);
+SET PASSWORD FOR wp_myblog1@localhost= PASSWORD("secretpassword");
 
-GRANT ALL PRIVILEGES ON wp_myblog1.* TO wp_myblog1@localhost IDENTIFIED BY &#39;secretpassword&#39;;
+GRANT ALL PRIVILEGES ON wp_myblog1.* TO wp_myblog1@localhost IDENTIFIED BY 'secretpassword';
 FLUSH PRIVILEGES;
 exit
-</code></pre></div>
-<h1>2. Setup wordpress scripts</h1>
+</code></pre>
+</div>
 
-<p>Download and copy wordpress (the scripts) to some directory eg. <code>/var/www/myblog1.com</code></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Download Wordpress
+<h1 id="setup-wordpress-scripts">2. Setup wordpress scripts</h1>
+
+<p>Download and copy wordpress (the scripts) to some directory eg. <code class="highlighter-rouge">/var/www/myblog1.com</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Download Wordpress
 cd ~
 wget http://wordpress.org/latest.tar.gz
 tar xzvf latest.tar.gz
@@ -114,58 +118,78 @@ sudo rsync -avP ~/wordpress/ /var/www/myblog1.com/
 cd /var/www/myblog1
 sudo chown www-data:www-data * -R
 sudo usermod -a -G www-data root
-</code></pre></div>
-<h1>3. Configure Wordpress</h1>
+</code></pre>
+</div>
+
+<h1 id="configure-wordpress">3. Configure Wordpress</h1>
 
 <p>Configure wp-config.php to let wordpress know how to connect to your mysql.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd /var/www/myblog1
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd /var/www/myblog1
 sudo nano wp-config.php
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Edit these:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">define</span><span class="p">(</span><span class="s1">&#39;DB_NAME&#39;</span><span class="p">,</span> <span class="s1">&#39;wp_myblog1&#39;</span><span class="p">);</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">define</span><span class="p">(</span><span class="s1">&#39;DB_USER&#39;</span><span class="p">,</span> <span class="s1">&#39;wp_myblog1&#39;</span><span class="p">);</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">define</span><span class="p">(</span><span class="s1">&#39;DB_PASSWORD&#39;</span><span class="p">,</span> <span class="s1">&#39;secretpassword&#39;</span><span class="p">);</span></div></div></pre></div></figure>
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>define('DB_NAME', 'wp_myblog1');
+
+define('DB_USER', 'wp_myblog1');
+
+define('DB_PASSWORD', 'secretpassword');
+</code></pre>
+</div>
 
 <p>Save and exit.</p>
 
-<h1>4. Setup Virtual Host</h1>
+<h1 id="setup-virtual-host">4. Setup Virtual Host</h1>
 
 <p>Setup Apache to let it know there are multiple virtual hosts to the machine.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd /etc/apache2/sites-available
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd /etc/apache2/sites-available
 sudo cp 000-default.conf wp_myblog1.com.conf
 sudo nano wp_myblog1.com.conf
-</code></pre></div>
-<p>NOTE: You <a href="http://www.epicfoobar.com/2013/08/apache-a2ensite-error-site-does-not-exist/">must</a> have a <code>.conf</code> extension</p>
+</code></pre>
+</div>
+
+<p>NOTE: You <a href="http://www.epicfoobar.com/2013/08/apache-a2ensite-error-site-does-not-exist/">must</a> have a <code class="highlighter-rouge">.conf</code> extension</p>
 
 <p>Edit as follows:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  ServerAdmin webmaster@myblog1.com
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  ServerName myblog1.com
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  ServerAlias *.myblog1.com
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  DocumentRoot /var/www/myblog1.com
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nt">&lt;Directory</span> <span class="nt">/&gt;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    Options FollowSymLinks
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    AllowOverride None
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nt">&lt;/Directory&gt;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nt">&lt;Directory</span> <span class="err">/var/www/myblog1.com</span><span class="nt">&gt;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    Options Indexes FollowSymLinks MultiViews
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    AllowOverride None
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    Order allow,deny
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    allow from all
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nt">&lt;/Directory&gt;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;/VirtualHost&gt;</span></div></div></pre></div></figure>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>
+  ServerAdmin webmaster@myblog1.com
+  ServerName myblog1.com
+  ServerAlias *.myblog1.com
+
+  DocumentRoot /var/www/myblog1.com
+
+  <span class="nt">&lt;Directory</span> <span class="nt">/&gt;</span>
+    Options FollowSymLinks
+    AllowOverride None
+  <span class="nt">&lt;/Directory&gt;</span>
+  <span class="nt">&lt;Directory</span> <span class="err">/var/www/myblog1.com</span><span class="nt">&gt;</span>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    allow from all
+  <span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</code></pre>
+</div>
 
 <p>Enabled this new virtual host, and restart Apache</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo a2ensite myblog1.com.conf
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo a2ensite myblog1.com.conf
 sudo service apache2 reload
-</code></pre></div>
-<p>That&#39;s it!</p>
+</code></pre>
+</div>
+
+<p>That’s it!</p>
 
 <p>You have configured for 1 wordpress.</p>
 
 <p>To configure for multiple wordpress, repeat with eg myblog2</p>
+
 
         </section>
         <footer class="post-footer">

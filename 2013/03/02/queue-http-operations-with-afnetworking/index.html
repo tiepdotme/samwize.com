@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,53 +74,61 @@
           
           <p>In a previous post, I wrote about a <a href="http://samwize.com/2012/10/25/simple-get-post-afnetworking/">simple usage of AFNetworking</a>, the de facto HTTP library for iOS.</p>
 
-<p>This post, I will show how you can use AFNetworking to queue multiple HTTP operations. They could be running concurrently, or have dependencies. </p>
+<p>This post, I will show how you can use AFNetworking to queue multiple HTTP operations. They could be running concurrently, or have dependencies.</p>
 
-<p>Adding dependencies to HTTP operations is especially useful. For example, you can make sure that you fetch a list of resources, then fetch image1, then image2, ...</p>
+<p>Adding dependencies to HTTP operations is especially useful. For example, you can make sure that you fetch a list of resources, then fetch image1, then image2, …</p>
 
 <!-- more -->
 
-<p>Adding operations to a queue is rather simple. </p>
+<p>Adding operations to a queue is rather simple.</p>
 
-<p>You will be using <code>NSOperationQueue</code>, which is part of Apple&#39;s <a href="http://developer.apple.com/library/ios/#documentation/cocoa/Reference/NSOperationQueue_class/Reference/Reference.html">Foundation framework</a>.</p>
+<p>You will be using <code class="highlighter-rouge">NSOperationQueue</code>, which is part of Apple’s <a href="http://developer.apple.com/library/ios/#documentation/cocoa/Reference/NSOperationQueue_class/Reference/Reference.html">Foundation framework</a>.</p>
 
-<p>You will be adding <code>NSOperation</code> to the queue. Not surprisingly, classes such as <code>AFHTTPRequestOperation</code> subclass <code>NSOperation</code>. </p>
+<p>You will be adding <code class="highlighter-rouge">NSOperation</code> to the queue. Not surprisingly, classes such as <code class="highlighter-rouge">AFHTTPRequestOperation</code> subclass <code class="highlighter-rouge">NSOperation</code>.</p>
 
-<h2>Adding an operation to a queue</h2>
+<h2 id="adding-an-operation-to-a-queue">Adding an operation to a queue</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Create a http operation</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://samwize.com/api/cars/&quot;</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">httpClient</span> <span class="nl">registerHTTPOperationClass</span><span class="p">:[</span><span class="n">AFHTTPRequestOperation</span> <span class="k">class</span><span class="p">]];</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">operation</span> <span class="nl">setCompletionBlockWithSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Print the response body in text</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Response: %@&quot;</span><span class="p">,</span> <span class="p">[[</span><span class="bp">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nl">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]);</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;];</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Add the operation to a queue</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// It will start once added</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">operationQueue</span> <span class="nl">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="c1">// Create a http operation
+</span><span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/api/cars/"</span><span class="p">];</span>
+<span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+<span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperation</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
+<span class="p">[</span><span class="n">httpClient</span> <span class="nf">registerHTTPOperationClass</span><span class="p">:[</span><span class="n">AFHTTPRequestOperation</span> <span class="nf">class</span><span class="p">]];</span>
+<span class="p">[</span><span class="n">operation</span> <span class="nf">setCompletionBlockWithSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Print the response body in text
+</span>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Response: %@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]);</span>
+<span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+<span class="p">}];</span>
+
+<span class="c1">// Add the operation to a queue
+// It will start once added
+</span><span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="p">[</span><span class="n">operationQueue</span> <span class="nf">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
+</code></pre>
+</div>
 
 <p>As you can see, it is just 2 more lines of code.</p>
 
-<h2>Adding multiple operations and run them concurrently</h2>
+<h2 id="adding-multiple-operations-and-run-them-concurrently">Adding multiple operations and run them concurrently</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Set the max number of concurrent operations (threads)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">operationQueue</span> <span class="nl">setMaxConcurrentOperationCount</span><span class="p">:</span><span class="mi">3</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">operationQueue</span> <span class="nl">addOperations</span><span class="p">:</span><span class="l">@[</span><span class="n">operation1</span><span class="p">,</span> <span class="n">operation2</span><span class="p">,</span> <span class="n">operation3</span><span class="l">]</span> <span class="nl">waitUntilFinished</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="c1">// Set the max number of concurrent operations (threads)
+</span><span class="p">[</span><span class="n">operationQueue</span> <span class="nf">setMaxConcurrentOperationCount</span><span class="p">:</span><span class="mi">3</span><span class="p">];</span>
+<span class="p">[</span><span class="n">operationQueue</span> <span class="nf">addOperations</span><span class="p">:@[</span><span class="n">operation1</span><span class="p">,</span> <span class="n">operation2</span><span class="p">,</span> <span class="n">operation3</span><span class="p">]</span> <span class="nf">waitUntilFinished</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+</code></pre>
+</div>
 
-<h2>Adding Dependencies</h2>
+<h2 id="adding-dependencies">Adding Dependencies</h2>
 
-<p>Let&#39;s say we have 2 operations, and we want <code>operation2</code> to start only after <code>operation1</code> has finish.</p>
+<p>Let’s say we have 2 operations, and we want <code class="highlighter-rouge">operation2</code> to start only after <code class="highlighter-rouge">operation1</code> has finish.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSOperationQueue</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Make operation2 depend on operation1</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">operation2</span> <span class="nl">addDependency</span><span class="p">:</span><span class="n">operation1</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">operationQueue</span> <span class="nl">addOperations</span><span class="p">:</span><span class="l">@[</span><span class="n">operation1</span><span class="p">,</span> <span class="n">operation2</span><span class="p">,</span> <span class="n">operation3</span><span class="l">]</span> <span class="nl">waitUntilFinished</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="c1">// Make operation2 depend on operation1
+</span><span class="p">[</span><span class="n">operation2</span> <span class="nf">addDependency</span><span class="p">:</span><span class="n">operation1</span><span class="p">];</span>
+<span class="p">[</span><span class="n">operationQueue</span> <span class="nf">addOperations</span><span class="p">:@[</span><span class="n">operation1</span><span class="p">,</span> <span class="n">operation2</span><span class="p">,</span> <span class="n">operation3</span><span class="p">]</span> <span class="nf">waitUntilFinished</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

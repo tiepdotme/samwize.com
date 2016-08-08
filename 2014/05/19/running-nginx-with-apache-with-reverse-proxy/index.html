@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -80,103 +80,128 @@
 
 <!-- more -->
 
-<p>That&#39;s possible, when you make nginx a reverse proxy server.</p>
+<p>That’s possible, when you make nginx a reverse proxy server.</p>
 
 <p>The plan is as such:</p>
 
 <ul>
-<li>nginx listens to <strong>port 80</strong></li>
-<li>nginx 1st server block is configured for node app at <strong>port 8021</strong></li>
-<li>nginx 2nd server block is configured to proxy to apache at <strong>port 8011</strong></li>
-<li>apache listen to port 8011</li>
-<li>apache&#39;s virtual hosts listen to port 8011</li>
+  <li>nginx listens to <strong>port 80</strong></li>
+  <li>nginx 1st server block is configured for node app at <strong>port 8021</strong></li>
+  <li>nginx 2nd server block is configured to proxy to apache at <strong>port 8011</strong></li>
+  <li>apache listen to port 8011</li>
+  <li>apache’s virtual hosts listen to port 8011</li>
 </ul>
 
-<p>The details and a sample of the <code>.conf</code> files as follows. My scenario is using <code>nginxapp.com</code> and <code>apacheapp.com</code></p>
+<p>The details and a sample of the <code class="highlighter-rouge">.conf</code> files as follows. My scenario is using <code class="highlighter-rouge">nginxapp.com</code> and <code class="highlighter-rouge">apacheapp.com</code></p>
 
-<h2>Nginx</h2>
+<h2 id="nginx">Nginx</h2>
 
-<p>There are 2 server blocks, which I put in 2 seperate conf files: <code>nginxapp.com.conf</code> and <code>apache-proxy.conf</code>.</p>
+<p>There are 2 server blocks, which I put in 2 seperate conf files: <code class="highlighter-rouge">nginxapp.com.conf</code> and <code class="highlighter-rouge">apache-proxy.conf</code>.</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>/etc/nginx/sites-available/nginxapp.com.conf</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1"># Node server block</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">server</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">listen</span>  <span class="mi">80</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">root</span>  <span class="s">/var/www/nginxapp.com/</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">index</span>   <span class="s">index.html</span> <span class="s">index.htm</span><span class="p">;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">server_name</span>   <span class="s">nginxapp.com</span><span class="p">;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1"># temp for serving static</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">location</span> <span class="s">/</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>              <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri/</span> <span class="s">/index.php</span><span class="p">;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1"># Proxy to node app</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1"># Uncomment and remove the temp above if your node app is setup at port 8021</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">#location / &#x7b;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">#  proxy_pass http://localhost:8021;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">#  proxy_http_version 1.1;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">#  proxy_set_header Upgrade $http_upgrade;</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">#  proxy_set_header Connection &#39;upgrade&#39;;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">#  proxy_set_header Host $host;</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">#  proxy_cache_bypass $http_upgrade;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">#&#x7d;</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p>```nginx /etc/nginx/sites-available/nginxapp.com.conf
+    # Node server block
+    server {
+            listen  80;</p>
 
-<p>Note: You should setup your node app and listen on 8021. In the meanwhile (testing), you can put a dummy index.html in <code>/var/www/nginxapp.com/</code>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>        root  /var/www/nginxapp.com/;
+        index   index.html index.htm;
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>/etc/nginx/sites-available/apache-proxy.conf</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1"># Apache server block</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1"># Proxy to 8011 which Apache is listening to</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">server</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">listen</span>  <span class="mi">80</span> <span class="s">default_server</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">location</span> <span class="s">/</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="kn">proxy_set_header</span> <span class="s">X-Real-IP</span>  <span class="nv">$remote_addr</span><span class="p">;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="kn">proxy_set_header</span> <span class="s">X-Forwarded-For</span> <span class="nv">$remote_addr</span><span class="p">;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="kn">proxy_pass</span> <span class="s">http://localhost:8011</span><span class="p">;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="p">&#x7d;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>             <span class="kn">location</span> <span class="p">~</span> <span class="sr">/\.ht</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="kn">deny</span> <span class="s">all</span><span class="p">;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span></div></div></pre></div></figure>
+        server_name   nginxapp.com;
+
+        # temp for serving static
+        location / {
+          try_files $uri $uri/ /index.php;
+        }
+
+        # Proxy to node app
+        # Uncomment and remove the temp above if your node app is setup at port 8021
+        #location / {
+        #  proxy_pass http://localhost:8021;
+        #  proxy_http_version 1.1;
+        #  proxy_set_header Upgrade $http_upgrade;
+        #  proxy_set_header Connection 'upgrade';
+        #  proxy_set_header Host $host;
+        #  proxy_cache_bypass $http_upgrade;
+        #}
+} ```
+</code></pre>
+</div>
+
+<p>Note: You should setup your node app and listen on 8021. In the meanwhile (testing), you can put a dummy index.html in <code class="highlighter-rouge">/var/www/nginxapp.com/</code>.</p>
+
+<p>```nginx /etc/nginx/sites-available/apache-proxy.conf
+    # Apache server block
+    # Proxy to 8011 which Apache is listening to
+    server {
+            listen  80 default_server;</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>        location / {
+
+                proxy_set_header X-Real-IP  $remote_addr;
+                proxy_set_header X-Forwarded-For $remote_addr;
+                proxy_set_header Host $host;
+                proxy_pass http://localhost:8011;
+
+         }
+
+         location ~ /\.ht {
+                deny all;
+        }
+} ```
+</code></pre>
+</div>
 
 <p>Enable the nginx conf with these commands:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo ln -s /etc/nginx/sites-available/nginxapp.com.conf /etc/nginx/sites-enabled/nginxapp.com.conf
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo ln -s /etc/nginx/sites-available/apache-proxy.conf /etc/nginx/sites-enabled/apache-proxy.conf</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo ln -s /etc/nginx/sites-available/nginxapp.com.conf /etc/nginx/sites-enabled/nginxapp.com.conf
+sudo ln -s /etc/nginx/sites-available/apache-proxy.conf /etc/nginx/sites-enabled/apache-proxy.conf
+</code></pre>
+</div>
 
-<h2>Apache</h2>
+<h2 id="apache">Apache</h2>
 
 <p>For apache, you need to change the port file to listen to 8011.</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>/etc/apache2/ports.conf</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">Listen</span> <span class="m">8011</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c"># As per default configuration</span></div></div></pre></div></figure>
+<p>```apache /etc/apache2/ports.conf
+    Listen 8011</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># As per default configuration ```
+</code></pre>
+</div>
 
 <p>Below is a sample of a virtual host file. You need to change for all. The change is again on the listening port.</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>/etc/apache2/sites-available/awesome.com.conf</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;VirtualHost</span> <span class="s">*:8011</span><span class="nt">&gt;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c"># as per your configuration</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;/VirtualHost&gt;</span></div></div></pre></div></figure>
+<p><code class="highlighter-rouge">apache /etc/apache2/sites-available/awesome.com.conf
+    &lt;VirtualHost *:8011&gt;
+        # as per your configuration
+    &lt;/VirtualHost&gt;
+</code></p>
 
-<h2>Restart</h2>
+<h2 id="restart">Restart</h2>
 
 <p>With that, restart each service with apache first, then nginx.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo service apache restart
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo service nginx restart</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo service apache restart
+sudo service nginx restart
+</code></pre>
+</div>
 
-<p>Now, you if you go to <code>http://apacheapp.com</code>, it should work, and it is because nginx is proxying nicely to apache.</p>
+<p>Now, you if you go to <code class="highlighter-rouge">http://apacheapp.com</code>, it should work, and it is because nginx is proxying nicely to apache.</p>
 
-<p>You can also go to <code>http://apacheapp.com:8011</code>, which is directly to apache.</p>
+<p>You can also go to <code class="highlighter-rouge">http://apacheapp.com:8011</code>, which is directly to apache.</p>
 
-<p>And of course, you can now write your node app at <code>http://nodeapp.com</code>.</p>
+<p>And of course, you can now write your node app at <code class="highlighter-rouge">http://nodeapp.com</code>.</p>
 
-<h2>Other guides</h2>
+<h2 id="other-guides">Other guides</h2>
 
 <p>I referenced from some of Digital Ocean guides:</p>
 
 <ul>
-<li><a href="https://www.digitalocean.com/community/articles/how-to-install-nginx-on-ubuntu-12-04-lts-precise-pangolin">Installing nginx</a></li>
-<li><a href="https://www.digitalocean.com/community/articles/how-to-configure-nginx-as-a-front-end-proxy-for-apache">Nginx as a frontend proxy</a></li>
-<li><a href="https://www.digitalocean.com/community/articles/how-to-host-multiple-node-js-applications-on-a-single-vps-with-nginx-forever-and-crontab">Hosting multiple node apps</a></li>
+  <li><a href="https://www.digitalocean.com/community/articles/how-to-install-nginx-on-ubuntu-12-04-lts-precise-pangolin">Installing nginx</a></li>
+  <li><a href="https://www.digitalocean.com/community/articles/how-to-configure-nginx-as-a-front-end-proxy-for-apache">Nginx as a frontend proxy</a></li>
+  <li><a href="https://www.digitalocean.com/community/articles/how-to-host-multiple-node-js-applications-on-a-single-vps-with-nginx-forever-and-crontab">Hosting multiple node apps</a></li>
 </ul>
+
 
         </section>
         <footer class="post-footer">

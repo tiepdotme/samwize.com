@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>How to migrate SVN to Git</title>
-  <meta name="description" content="My biggest problem with SVN is that I don&#39;t have good Mac software supporting SVN. For Git, I have the free SourceTree app." />
+  <meta name="description" content="My biggest problem with SVN is that I don’t have good Mac software supporting SVN. For Git, I have the free SourceTree app." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="How to migrate SVN to Git" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="My biggest problem with SVN is that I don&#39;t have good Mac software supporting SVN. For Git, I have the free SourceTree app." />
+    <meta name="twitter:description"  content="My biggest problem with SVN is that I don’t have good Mac software supporting SVN. For Git, I have the free SourceTree app." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="How to migrate SVN to Git"/>
   
-  <meta property="og:description" content="My biggest problem with SVN is that I don&#39;t have good Mac software supporting SVN. For Git, I have the free SourceTree app." />
+  <meta property="og:description" content="My biggest problem with SVN is that I don’t have good Mac software supporting SVN. For Git, I have the free SourceTree app." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2012/11/28/how-to-migrate-svn-to-git/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>My biggest problem with SVN is that I don&#39;t have good Mac software supporting SVN. For Git, I have the free <a href="http://www.sourcetreeapp.com/">SourceTree</a> app.</p>
+          <p>My biggest problem with SVN is that I don’t have good Mac software supporting SVN. For Git, I have the free <a href="http://www.sourcetreeapp.com/">SourceTree</a> app.</p>
 
 <p>Hence I decided to migrate some of my ancient repos that were still on SVN.</p>
 
@@ -81,20 +81,29 @@
 <!-- more -->
 
 <p>It is basically just 1 command to clone the svn repos to your local working directory. The operation will maintain the logs.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git svn clone -s http://my.svnserver.com/svn/myapp/ MyAppGit
-</code></pre></div>
-<p>The <code>-s</code> command will clone just the trunk. If you don&#39;t use the stand trunk, tag, branch, you can <code>-s</code> and it will clone the whole repos.</p>
 
-<p>You can verify all logs are there with <code>git log</code>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>git svn clone -s http://my.svnserver.com/svn/myapp/ MyAppGit
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">-s</code> command will clone just the trunk. If you don’t use the stand trunk, tag, branch, you can <code class="highlighter-rouge">-s</code> and it will clone the whole repos.</p>
+
+<p>You can verify all logs are there with <code class="highlighter-rouge">git log</code>.</p>
 
 <p>Next, maintain the same ignore configurations.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git svn create-ignore
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git svn create-ignore
+</code></pre>
+</div>
+
 <p>Lastly, add the new remote to your git repos (eg Github).</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git remote add origin https://github.com/samwize/myapp.git
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git remote add origin https://github.com/samwize/myapp.git
 git push -u origin master
-</code></pre></div>
-<p>That&#39;s all!</p>
+</code></pre>
+</div>
+
+<p>That’s all!</p>
 
 <p>You may also want to refer to <a href="http://samwize.com/2012/10/30/common-git-usage/">some common Git usage</a>.</p>
 

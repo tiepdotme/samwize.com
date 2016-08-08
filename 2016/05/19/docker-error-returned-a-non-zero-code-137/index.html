@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -73,8 +73,11 @@
           <a name="topofpage"></a>
           
           <p>While running a node app with Docker, there is an error 137:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">The command &#39;/bin/sh -c npm install&#39; returned a non-zero code: 137
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>The command '/bin/sh -c npm install' returned a non-zero code: 137
+</code></pre>
+</div>
+
 <p>This means a <a href="https://github.com/mitchellh/vagrant/issues/4247">out of memory error</a>.</p>
 
 <p>To fix, you can add more RAM.</p>
@@ -83,27 +86,36 @@
 
 <p>These steps are exactly the same from a <a href="/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory/">previous guide</a>:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Confirm you have no swap</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo swapon -s
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Allocate 1GB (or more if you wish) in /swapfile</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo fallocate -l 1G /swapfile
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Make it secure</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo chmod <span class="m">600</span> /swapfile
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>ls -lh /swapfile
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Activate it</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo mkswap /swapfile
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo swapon /swapfile
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Confirm again there&#39;s indeed more memory now</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>free -m
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo swapon -s
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Configure fstab to use swap when instance restart</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo nano /etc/fstab
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Add this line to /etc/fstab, save and exit</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>/swapfile   none    swap    sw    <span class="m">0</span>   0
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Change swappiness to 10, so that swap is used only when 10% RAM is unused</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># The default is too high at 60</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">echo </span><span class="m">10</span> <span class="p">|</span> sudo tee /proc/sys/vm/swappiness
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">echo </span>vm.swappiness <span class="o">=</span> <span class="m">10</span> <span class="p">|</span> sudo tee -a /etc/sysctl.conf</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Confirm you have no swap</span>
+sudo swapon -s
+
+<span class="c"># Allocate 1GB (or more if you wish) in /swapfile</span>
+sudo fallocate -l 1G /swapfile
+
+<span class="c"># Make it secure</span>
+sudo chmod 600 /swapfile
+ls -lh /swapfile
+
+<span class="c"># Activate it</span>
+sudo mkswap /swapfile
+sudo swapon /swapfile
+
+<span class="c"># Confirm again there's indeed more memory now</span>
+free -m
+sudo swapon -s
+
+<span class="c"># Configure fstab to use swap when instance restart</span>
+sudo nano /etc/fstab
+
+<span class="c"># Add this line to /etc/fstab, save and exit</span>
+/swapfile   none    swap    sw    0   0
+
+<span class="c"># Change swappiness to 10, so that swap is used only when 10% RAM is unused</span>
+<span class="c"># The default is too high at 60</span>
+<span class="nb">echo </span>10 | sudo tee /proc/sys/vm/swappiness
+<span class="nb">echo </span>vm.swappiness <span class="o">=</span> 10 | sudo tee -a /etc/sysctl.conf
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

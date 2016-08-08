@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,28 +74,38 @@
           
           <p>Previously we mentioned a <a href="http://samwize.com/2015/01/13/uistatusbar-with-light-content-style-not-working-pitfall/">common pitfall with using a light style status bar</a>.</p>
 
-<p>This is more to understanding how to properly use <code>UIStatusBar</code>.</p>
+<p>This is more to understanding how to properly use <code class="highlighter-rouge">UIStatusBar</code>.</p>
 
 <!-- more -->
 
-<h1>Info.plist</h1>
+<h1 id="infoplist">Info.plist</h1>
 
-<p>You already know the 2 settings in the project/target setting, or in Info.plist. There&#39;s one more (see 3rd point).</p>
+<p>You already know the 2 settings in the project/target setting, or in Info.plist. There’s one more (see 3rd point).</p>
 
 <ol>
-<li><p><code>UIStatusBarStyle</code> - Default is dark text on white. Light is opposite.</p></li>
-<li><p><code>UIViewControllerBasedStatusBarAppearance</code> - Set to NO if you have a global status bar styling</p></li>
-<li><p><code>UIStatusBarHidden</code> - During launch, if you don&#39;t want status bar to overlap your launch image, then set to YES.</p></li>
+  <li>
+    <p><code class="highlighter-rouge">UIStatusBarStyle</code> - Default is dark text on white. Light is opposite.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">UIViewControllerBasedStatusBarAppearance</code> - Set to NO if you have a global status bar styling</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">UIStatusBarHidden</code> - During launch, if you don’t want status bar to overlap your launch image, then set to YES.</p>
+  </li>
 </ol>
 
-<h1>Application Launch</h1>
+<h1 id="application-launch">Application Launch</h1>
 
-<p>In <code>application:didFinishLaunchingWithOptions:</code>, you could need 2 more codes to make status bar work.</p>
+<p>In <code class="highlighter-rouge">application:didFinishLaunchingWithOptions:</code>, you could need 2 more codes to make status bar work.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Set the status bar style</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">application</span> <span class="nl">setStatusBarStyle</span><span class="p">:</span><span class="n">UIStatusBarStyleLightContent</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// And you need to un-hide it, if you hide it during launch</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">application</span> <span class="nl">setStatusBarHidden</span><span class="p">:</span><span class="nb">NO</span> <span class="nl">withAnimation</span><span class="p">:</span><span class="n">UIStatusBarAnimationFade</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="c1">// Set the status bar style
+</span><span class="p">[</span><span class="n">application</span> <span class="nf">setStatusBarStyle</span><span class="p">:</span><span class="n">UIStatusBarStyleLightContent</span><span class="p">];</span>
+
+<span class="c1">// And you need to un-hide it, if you hide it during launch
+</span><span class="p">[</span><span class="n">application</span> <span class="nf">setStatusBarHidden</span><span class="p">:</span><span class="nb">NO</span> <span class="nf">withAnimation</span><span class="p">:</span><span class="n">UIStatusBarAnimationFade</span><span class="p">];</span>
+</code></pre>
+</div>
+
 
         </section>
         <footer class="post-footer">

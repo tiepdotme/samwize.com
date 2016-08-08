@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,113 +72,120 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><code>ErrorType</code> is a big thing is Swift, changing the way how errors are handled.</p>
+          <p><code class="highlighter-rouge">ErrorType</code> is a big thing is Swift, changing the way how errors are handled.</p>
 
-<h2>NSError is the Past</h2>
+<h2 id="nserror-is-the-past">NSError is the Past</h2>
 
-<p><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class"><code>NSError</code></a> was the way how errors are encapsulated, and passed along in methods and blocks/closures.</p>
+<p><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class"><code class="highlighter-rouge">NSError</code></a> was the way how errors are encapsulated, and passed along in methods and blocks/closures.</p>
 
 <p>But it was not a good design.</p>
 
-<p>It differentiates the errors using <code>code</code> (Int), and also <code>domain</code> (String).</p>
+<p>It differentiates the errors using <code class="highlighter-rouge">code</code> (Int), and also <code class="highlighter-rouge">domain</code> (String).</p>
 
-<p>And it passes more information in <code>userInfo</code> as a dictionary.</p>
+<p>And it passes more information in <code class="highlighter-rouge">userInfo</code> as a dictionary.</p>
 
-<p>It works, but isn&#39;t cool.</p>
+<p>It works, but isn’t cool.</p>
 
 <p><em>A bit of History: In the very beginning (in MacOS, way before any iOS), there is <a href="https://www.bignerdranch.com/blog/error-handling-in-swift-2/">NSException</a> and try-catch in Objective-C, but eventually NSError took over.</em></p>
 
-<h2>ErrorType</h2>
+<h2 id="errortype">ErrorType</h2>
 
-<p>Then comes <code>ErrorType</code> in Swift.</p>
+<p>Then comes <code class="highlighter-rouge">ErrorType</code> in Swift.</p>
 
-<p>It is merely a <code>protocol</code>.</p>
+<p>It is merely a <code class="highlighter-rouge">protocol</code>.</p>
 
 <p>And it does NOT have any method. It is an EMPTY PROTOCOL.</p>
 
-<p>That means you can make any of your type a <code>ErrorType</code>, and have it being throw around.</p>
+<p>That means you can make any of your type a <code class="highlighter-rouge">ErrorType</code>, and have it being throw around.</p>
 
-<p>Note: <code>ErrorType</code> can always be casted to <code>NSError</code>, <a href="https://realm.io/news/testing-swift-error-type/">magically</a>. You can cast to <code>NSError</code> without any problem, but it don&#39;t make much sense because you <a href="http://stackoverflow.com/a/31685457/242682">lose almost all information</a> on the error.</p>
+<p>Note: <code class="highlighter-rouge">ErrorType</code> can always be casted to <code class="highlighter-rouge">NSError</code>, <a href="https://realm.io/news/testing-swift-error-type/">magically</a>. You can cast to <code class="highlighter-rouge">NSError</code> without any problem, but it don’t make much sense because you <a href="http://stackoverflow.com/a/31685457/242682">lose almost all information</a> on the error.</p>
 
-<p>If you choose to use <code>ErrorType</code>, forget about <code>NSError</code>. Unless the <code>NSError</code> comes from other frameworks/libraries, then you might want to handle and map to one of your custom <code>ErrorType</code> case. Or you can wrap the NSError in your custom <code>ErrorType</code> (see <code>.OtherNSError</code> below).</p>
+<p>If you choose to use <code class="highlighter-rouge">ErrorType</code>, forget about <code class="highlighter-rouge">NSError</code>. Unless the <code class="highlighter-rouge">NSError</code> comes from other frameworks/libraries, then you might want to handle and map to one of your custom <code class="highlighter-rouge">ErrorType</code> case. Or you can wrap the NSError in your custom <code class="highlighter-rouge">ErrorType</code> (see <code class="highlighter-rouge">.OtherNSError</code> below).</p>
 
-<h2>Custom ErrorType</h2>
+<h2 id="custom-errortype">Custom ErrorType</h2>
 
-<p>Every app should have one (or more) custom <code>AppError</code> that subclass <code>ErrorType</code>.</p>
+<p>Every app should have one (or more) custom <code class="highlighter-rouge">AppError</code> that subclass <code class="highlighter-rouge">ErrorType</code>.</p>
 
 <p>It will usually be an enum (but you can use <a href="https://realm.io/news/testing-swift-error-type/">class and struct</a> too, if you want), with different cases of errors, and init with different parameters (thanks to enum)!</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">enum</span> <span class="nl">AppError</span><span class="p">:</span> <span class="n">ErrorType</span><span class="p">,</span> <span class="n">CustomStringConvertible</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">DivisionError</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">NetworkError</span><span class="p">(</span><span class="nl">code</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">UnexpectedError</span><span class="p">(</span><span class="nl">message</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">OtherNSError</span><span class="p">(</span><span class="nl">nsError</span><span class="p">:</span> <span class="bp">NSError</span><span class="p">)</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="nl">description</span><span class="p">:</span> <span class="n">String</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">switch</span> <span class="nb">self</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">...</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">enum</span> <span class="kt">AppError</span><span class="p">:</span> <span class="kt">ErrorType</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kt">DivisionError</span>
+    <span class="k">case</span> <span class="kt">NetworkError</span><span class="p">(</span><span class="nv">code</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span>
+    <span class="k">case</span> <span class="kt">UnexpectedError</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span>
+    <span class="k">case</span> <span class="kt">OtherNSError</span><span class="p">(</span><span class="nv">nsError</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">)</span>
 
-<p>It will be good to implement <code>CustomStringConvertible</code>, and return <code>description</code> accordingly for each error case.</p>
+    <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="k">self</span> <span class="p">{</span>
+        <span class="o">...</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<h2>try-catch-throw</h2>
+<p>It will be good to implement <code class="highlighter-rouge">CustomStringConvertible</code>, and return <code class="highlighter-rouge">description</code> accordingly for each error case.</p>
+
+<h2 id="try-catch-throw">try-catch-throw</h2>
 
 <p>I will not discuss more on how try-catch-throw works, because there are <a href="https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/ErrorHandling.html">many</a>, and I love this version:</p>
 
-<p><a href="http://alisoftware.github.io/2015/12/17/let-it-throw/"><img class="center" src="http://alisoftware.github.io/assets/frozen-throw-man.jpg"  ></a></p>
+<p><a href="http://alisoftware.github.io/2015/12/17/let-it-throw/"><img class="center" src="http://alisoftware.github.io/assets/frozen-throw-man.jpg" /></a></p>
 
 <p><a href="http://alisoftware.github.io/2015/12/17/let-it-throw/">Let it throw, let it throw~</a></p>
 
-<h2>An Example</h2>
+<h2 id="an-example">An Example</h2>
 
-<p>But I will provide an example using <a href="https://github.com/JohnSundell/Unbox">Unbox library</a> (a good JSON decoder) of how to catch it&#39;s <code>UnboxError</code> (their custom <code>ErrorType</code>):</p>
+<p>But I will provide an example using <a href="https://github.com/JohnSundell/Unbox">Unbox library</a> (a good JSON decoder) of how to catch it’s <code class="highlighter-rouge">UnboxError</code> (their custom <code class="highlighter-rouge">ErrorType</code>):</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">do</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">...</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="n">catch</span> <span class="n">UnboxError</span><span class="p">.</span><span class="n">MissingKey</span><span class="p">(</span><span class="k">let</span> <span class="n">key</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Specific error case of a MissingKey</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;Missing Key&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="n">catch</span> <span class="k">let</span> <span class="n">error</span> <span class="kt">as</span> <span class="n">UnboxError</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Catch all other UnboxError</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Because UnboxError conforms to CustomStringConvertible, we can print `description`</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">description</span><span class="p">)</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="n">catch</span> <span class="k">let</span> <span class="n">error</span> <span class="kt">as</span> <span class="bp">NSError</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Warning: Cast to NSError (details will be lost). Not recommended.</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">localizedDescription</span><span class="p">)</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">do</span> <span class="p">{</span>
+    <span class="o">...</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="kt">UnboxError</span><span class="o">.</span><span class="kt">MissingKey</span><span class="p">(</span><span class="k">let</span> <span class="nv">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Specific error case of a MissingKey</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Missing Key"</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">error</span> <span class="k">as</span> <span class="kt">UnboxError</span> <span class="p">{</span>
+    <span class="c1">// Catch all other UnboxError</span>
+    <span class="c1">// Because UnboxError conforms to CustomStringConvertible, we can print `description`</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="k">let</span> <span class="nv">error</span> <span class="k">as</span> <span class="kt">NSError</span> <span class="p">{</span>
+    <span class="c1">// Warning: Cast to NSError (details will be lost). Not recommended.</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<h2>Handling throw in closures</h2>
+<h2 id="handling-throw-in-closures">Handling throw in closures</h2>
 
 <p>There are 2 ways as discussed in <a href="http://appventure.me/2015/06/19/swift-try-catch-asynchronous-closures/">appventure.me</a>:</p>
 
 <ol>
-<li>Using <code>Result</code></li>
-<li>Using inner closure that throws</li>
+  <li>Using <code class="highlighter-rouge">Result</code></li>
+  <li>Using inner closure that throws</li>
 </ol>
 
-<p>Using <code>Result</code> is simpler, and easier to read. It became popular as more developers use the <code>Result</code>, even though it is NOT in Swift standard library. It is a simple concept, and you can find a couple of different <code>Result.swift</code> in Github.</p>
+<p>Using <code class="highlighter-rouge">Result</code> is simpler, and easier to read. It became popular as more developers use the <code class="highlighter-rouge">Result</code>, even though it is NOT in Swift standard library. It is a simple concept, and you can find a couple of different <code class="highlighter-rouge">Result.swift</code> in Github.</p>
 
-<h2>Result Type</h2>
+<h2 id="result-type">Result Type</h2>
 
-<p><code>Result</code> is an enumeration that’s either a <code>.Success(value)</code> or a <code>.Failure(error)</code>, and is a common pattern among Swift programmers.</p>
+<p><code class="highlighter-rouge">Result</code> is an enumeration that’s either a <code class="highlighter-rouge">.Success(value)</code> or a <code class="highlighter-rouge">.Failure(error)</code>, and is a common pattern among Swift programmers.</p>
 
 <p>Before Swift 2, it is a common way to deal with a result - either success or with error.</p>
 
-<p>In Swift 2, try-catch is Apple&#39;s endorsed way.</p>
+<p>In Swift 2, try-catch is Apple’s endorsed way.</p>
 
-<p>But <code>Result</code> still is good and more composable eg. you can pass <code>Result</code> in a closure</p>
+<p>But <code class="highlighter-rouge">Result</code> still is good and more composable eg. you can pass <code class="highlighter-rouge">Result</code> in a closure</p>
 
-<p>The concept of <code>Result</code> is very simple, and the shortest implementation is:</p>
+<p>The concept of <code class="highlighter-rouge">Result</code> is very simple, and the shortest implementation is:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">public</span> <span class="k">enum</span> <span class="n">Result</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="nl">Error</span><span class="p">:</span> <span class="n">ErrorType</span><span class="o">&gt;</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">Success</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="n">Failure</span><span class="p">(</span><span class="n">Error</span><span class="p">)</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Result</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">Error</span><span class="p">:</span> <span class="kt">ErrorType</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="kt">Success</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span>
+    <span class="k">case</span> <span class="kt">Failure</span><span class="p">(</span><span class="kt">Error</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>But you may want to refer to a <a href="https://github.com/antitypical/Result/blob/master/Result/Result.swift">more complete implementation</a>, which has more feature such as <code>dematerialize</code> to throw an error if it is a failure.</p>
+<p>But you may want to refer to a <a href="https://github.com/antitypical/Result/blob/master/Result/Result.swift">more complete implementation</a>, which has more feature such as <code class="highlighter-rouge">dematerialize</code> to throw an error if it is a failure.</p>
 
-<p>Many frameworks, such as <a href="https://github.com/Alamofire/Alamofire/blob/master/Source/Result.swift">Alamofire</a>, will also write their own <code>Result</code> type. You cam probably write your own too.</p>
+<p>Many frameworks, such as <a href="https://github.com/Alamofire/Alamofire/blob/master/Source/Result.swift">Alamofire</a>, will also write their own <code class="highlighter-rouge">Result</code> type. You cam probably write your own too.</p>
 
         </section>
         <footer class="post-footer">

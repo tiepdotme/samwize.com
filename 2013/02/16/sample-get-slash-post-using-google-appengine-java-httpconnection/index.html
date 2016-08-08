@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Sample GET/POST using Google AppEngine Java HttpConnection</title>
-  <meta name="description" content="A sample code on basic usage of HTTP GET/POST is always helpful. " />
+  <meta name="description" content="A sample code on basic usage of HTTP GET/POST is always helpful." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Sample GET/POST using Google AppEngine Java HttpConnection" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="A sample code on basic usage of HTTP GET/POST is always helpful. " />
+    <meta name="twitter:description"  content="A sample code on basic usage of HTTP GET/POST is always helpful." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Sample GET/POST using Google AppEngine Java HttpConnection"/>
   
-  <meta property="og:description" content="A sample code on basic usage of HTTP GET/POST is always helpful. " />
+  <meta property="og:description" content="A sample code on basic usage of HTTP GET/POST is always helpful." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2013/02/16/sample-get-slash-post-using-google-appengine-java-httpconnection/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,79 +72,93 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>A sample code on basic usage of HTTP GET/POST is always helpful. </p>
+          <p>A sample code on basic usage of HTTP GET/POST is always helpful.</p>
 
 <p>I wrote once for <a href="http://samwize.com/2012/10/25/simple-get-post-afnetworking/">AFNetworking</a> (for iOS), which I subsequently referred to it myself. Hence, I am now writing for Google App Engine (Java).</p>
 
-<p>Google provided <a href="https://developers.google.com/appengine/docs/java/urlfetch/usingjavanet">documentation</a> on http connection, but it is incomplete. Here&#39;s my version.</p>
+<p>Google provided <a href="https://developers.google.com/appengine/docs/java/urlfetch/usingjavanet">documentation</a> on http connection, but it is incomplete. Here’s my version.</p>
 
 <!-- more -->
 
-<h2>GET</h2>
+<h2 id="get">GET</h2>
 
-<p>In my example, I want to get a JSON response for a Comment resource. </p>
+<p>In my example, I want to get a JSON response for a Comment resource.</p>
 
-<p>I showed how I set my custom headers, especially the Content-Type header. Then I read the response body by using <code>BufferedReader</code>, finally parse the string to <code>JSONObject</code>.</p>
+<p>I showed how I set my custom headers, especially the Content-Type header. Then I read the response body by using <code class="highlighter-rouge">BufferedReader</code>, finally parse the string to <code class="highlighter-rouge">JSONObject</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">try</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">URL</span><span class="o">(</span><span class="s">&quot;https://api.myserver.com/v1/comments&quot;</span><span class="o">);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">&quot;X-Custom-Header&quot;</span><span class="o">,</span> <span class="s">&quot;xxx&quot;</span><span class="o">);</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">&quot;Content-Type&quot;</span><span class="o">,</span> <span class="s">&quot;application/json&quot;</span><span class="o">);</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">if</span> <span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">// OK</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">StringBuffer</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">StringBuffer</span><span class="o">();</span> 
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">String</span> <span class="n">line</span><span class="o">;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">res</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="o">&#x7d;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">JSONObject</span> <span class="n">jsonObj</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">JSONObject</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">String</span> <span class="n">count</span> <span class="o">=</span> <span class="n">jsonObj</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">);</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="o">...</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="o">&#x7d;</span> <span class="k">else</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">// Server returned HTTP error code.</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="o">&#x7d;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://api.myserver.com/v1/comments"</span><span class="o">);</span>
+        <span class="n">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"X-Custom-Header"</span><span class="o">,</span> <span class="s">"xxx"</span><span class="o">);</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">);</span>
+        
+        <span class="k">if</span> <span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// OK</span>
+            <span class="n">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
+            <span class="n">StringBuffer</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span> 
+            <span class="n">String</span> <span class="n">line</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">res</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            
+            <span class="n">JSONObject</span> <span class="n">jsonObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">count</span> <span class="o">=</span> <span class="n">jsonObj</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"count"</span><span class="o">);</span>
+            <span class="o">...</span>
 
-<h2>POST</h2>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// Server returned HTTP error code.</span>
+        <span class="o">}</span>
+        
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<h2 id="post">POST</h2>
 
 <p>Similarly, this is how you POST data.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">try</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">URL</span><span class="o">(</span><span class="s">&quot;https://api.myserver.com/v1/comments&quot;</span><span class="o">);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">&quot;X-Custom-Header&quot;</span><span class="o">,</span> <span class="s">&quot;xxx&quot;</span><span class="o">);</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">&quot;Content-Type&quot;</span><span class="o">,</span> <span class="s">&quot;application/json&quot;</span><span class="o">);</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// POST the http body data</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">connection</span><span class="o">.</span><span class="na">setDoOutput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">&quot;POST&quot;</span><span class="o">);</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">OutputStreamWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">OutputStreamWriter</span><span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">());</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">writer</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">&quot;&#x7b;\&quot;comment\&quot;: \&quot;awesome tutorial\&quot;&#x7d;&quot;</span><span class="o">);</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">writer</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">if</span> <span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">// OK</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">StringBuffer</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">StringBuffer</span><span class="o">();</span> 
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">String</span> <span class="n">line</span><span class="o">;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">res</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="o">&#x7d;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">JSONObject</span> <span class="n">jsonObj</span> <span class="o">=</span> <span class="k">new</span> <span class="nf">JSONObject</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">String</span> <span class="n">count</span> <span class="o">=</span> <span class="n">jsonObj</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">&quot;count&quot;</span><span class="o">);</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="o">...</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="o">&#x7d;</span> <span class="k">else</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">// Server returned HTTP error code.</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="o">&#x7d;</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">&#x7b;</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://api.myserver.com/v1/comments"</span><span class="o">);</span>
+        <span class="n">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"X-Custom-Header"</span><span class="o">,</span> <span class="s">"xxx"</span><span class="o">);</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">);</span>
+        
+        <span class="c1">// POST the http body data</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setDoOutput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">connection</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"POST"</span><span class="o">);</span>
+        <span class="n">OutputStreamWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OutputStreamWriter</span><span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">());</span>
+        <span class="n">writer</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"{\"comment\": \"awesome tutorial\"}"</span><span class="o">);</span>
+        <span class="n">writer</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 
-<h2>Pitfalls</h2>
+        <span class="k">if</span> <span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// OK</span>
+            <span class="n">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
+            <span class="n">StringBuffer</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span> 
+            <span class="n">String</span> <span class="n">line</span><span class="o">;</span>
+            <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">res</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            
+            <span class="n">JSONObject</span> <span class="n">jsonObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+            <span class="n">String</span> <span class="n">count</span> <span class="o">=</span> <span class="n">jsonObj</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"count"</span><span class="o">);</span>
+            <span class="o">...</span>
 
-<p>Google AppEngine always append to your <a href="http://stackoverflow.com/questions/13226598/how-to-remove-the-google-app-engine-default-header-when-fetching-a-url">User-Agent header</a>, so as to identify the http request is from a particular AppEngine app. This is a bane because if you are crawling some website, they could easily block you since you can&#39;t spoof your user-agent.</p>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// Server returned HTTP error code.</span>
+        <span class="o">}</span>
+        
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">}</span>
+</code></pre>
+</div>
+
+<h2 id="pitfalls">Pitfalls</h2>
+
+<p>Google AppEngine always append to your <a href="http://stackoverflow.com/questions/13226598/how-to-remove-the-google-app-engine-default-header-when-fetching-a-url">User-Agent header</a>, so as to identify the http request is from a particular AppEngine app. This is a bane because if you are crawling some website, they could easily block you since you can’t spoof your user-agent.</p>
+
 
         </section>
         <footer class="post-footer">

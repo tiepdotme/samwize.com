@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>It is a very common task in iOS when you have eg <code>UITextField</code>, which on tap brings up the keyboard, and in the process obscure part of your view.</p>
+          <p>It is a very common task in iOS when you have eg <code class="highlighter-rouge">UITextField</code>, which on tap brings up the keyboard, and in the process obscure part of your view.</p>
 
 <p>Unfortuantely, iOS leaves this situation to the developer to handle.</p>
 
@@ -80,102 +80,115 @@
 
 <!-- more -->
 
-<h2>IQKeyboardManager</h2>
+<h2 id="iqkeyboardmanager">IQKeyboardManager</h2>
 
 <p>This <a href="https://github.com/hackiftekhar/IQKeyboardManager">open soure library by hackiftekhar</a> is a terrific component for iOS.</p>
 
-<p>Just install (eg via Cocoapods), and that&#39;s it.</p>
+<p>Just install (eg via Cocoapods), and that’s it.</p>
 
 <p>Zero code needed.</p>
 
-<p>How the library achieves this is by having it&#39;s manager listening to the standard <code>UIKeyboardWillShowNotification</code> during app initialization, and then adjusting the whole window view when necessary.</p>
+<p>How the library achieves this is by having it’s manager listening to the standard <code class="highlighter-rouge">UIKeyboardWillShowNotification</code> during app initialization, and then adjusting the whole window view when necessary.</p>
 
-<p>It&#39;s a shame iOS didn&#39;t ship with a capability like that.</p>
+<p>It’s a shame iOS didn’t ship with a capability like that.</p>
 
-<h2>How to manually handle the keyboard</h2>
+<h2 id="how-to-manually-handle-the-keyboard">How to manually handle the keyboard</h2>
 
 <p>While IQKeyboardManager is great, sometimes you want to manage these keyboard events manually.</p>
 
-<p>For example, if you have a <code>UITextView</code> for entering paragraph of text, and you want only the insets to change when keyboard is showing/hiding, then IQKeyboardManager isn&#39;t configured for that.</p>
+<p>For example, if you have a <code class="highlighter-rouge">UITextView</code> for entering paragraph of text, and you want only the insets to change when keyboard is showing/hiding, then IQKeyboardManager isn’t configured for that.</p>
 
-<p>Or for example, if you have a toolbar that you want to stick just above the keyboard, then IQKeyboardManager isn&#39;t suited for that.</p>
+<p>Or for example, if you have a toolbar that you want to stick just above the keyboard, then IQKeyboardManager isn’t suited for that.</p>
 
 <p>This is the code to manually handle, and with proper animations that synchronize with keyboard animation:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Listen to the standard keyboard notifications</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>                                             <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">keyboardWillShow</span><span class="p">:)</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                 <span class="nl">name</span><span class="p">:</span><span class="n">UIKeyboardWillShowNotification</span> <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>                                             <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">keyboardWillHide</span><span class="p">:)</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                 <span class="nl">name</span><span class="p">:</span><span class="n">UIKeyboardWillHideNotification</span> <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">dealloc</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">removeObserver</span><span class="p">:</span><span class="nb">self</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                    <span class="nl">name</span><span class="p">:</span><span class="n">UIKeyboardDidShowNotification</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                  <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">removeObserver</span><span class="p">:</span><span class="nb">self</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                    <span class="nl">name</span><span class="p">:</span><span class="n">UIKeyboardWillHideNotification</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                  <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardWillShow:</span><span class="p">(</span><span class="bp">NSNotification</span><span class="o">*</span><span class="p">)</span><span class="nv">aNotification</span> <span class="p">&#x7b;</span>    
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">adjustForKeyboard</span><span class="p">:</span><span class="n">aNotification</span> <span class="nl">showing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">keyboardWillHide:</span><span class="p">(</span><span class="bp">NSNotification</span><span class="o">*</span><span class="p">)</span><span class="nv">aNotification</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">adjustForKeyboard</span><span class="p">:</span><span class="n">aNotification</span> <span class="nl">showing</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">adjustForKeyboard:</span><span class="p">(</span><span class="bp">NSNotification</span><span class="o">*</span><span class="p">)</span><span class="nv">aNotification</span> <span class="nf">showing:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">showing</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSDictionary</span><span class="o">*</span> <span class="n">info</span> <span class="o">=</span> <span class="p">[</span><span class="n">aNotification</span> <span class="n">userInfo</span><span class="p">];</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">CGRect</span> <span class="n">keyboardFrame</span> <span class="o">=</span> <span class="p">[[</span><span class="n">info</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="n">UIKeyboardFrameEndUserInfoKey</span><span class="p">]</span> <span class="n">CGRectValue</span><span class="p">];</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">CGRect</span> <span class="n">convertedFrame</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">convertRect</span><span class="p">:</span><span class="n">keyboardFrame</span> <span class="nl">fromView</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">window</span><span class="p">];</span>
-</div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">CGSize</span> <span class="n">kbSize</span> <span class="o">=</span> <span class="n">convertedFrame</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// 1. Adjust for the UITextView</span>
-</div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">UIEdgeInsets</span> <span class="n">newInsets</span><span class="p">;</span>
-</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// If keyboard showing, add an inset</span>
-</div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="n">showing</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">newInsets</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">kbSize</span><span class="p">.</span><span class="n">height</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
-</div></div><div data-line='42' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span> <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='43' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Else keyboard hiding, rest the inset</span>
-</div></div><div data-line='44' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">newInsets</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</div></div><div data-line='45' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='46' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">_textView</span><span class="p">.</span><span class="n">contentInset</span> <span class="o">=</span> <span class="n">newInsets</span><span class="p">;</span>
-</div></div><div data-line='47' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">_textView</span><span class="p">.</span><span class="n">scrollIndicatorInsets</span> <span class="o">=</span> <span class="n">newInsets</span><span class="p">;</span>
-</div></div><div data-line='48' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='49' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// 2. Adjust toolbar with animation</span>
-</div></div><div data-line='50' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Get keyboard animation info</span>
-</div></div><div data-line='51' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">NSTimeInterval</span> <span class="n">animationDuration</span><span class="p">;</span>
-</div></div><div data-line='52' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">UIViewAnimationCurve</span> <span class="n">animationCurve</span><span class="p">;</span>
-</div></div><div data-line='53' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[[</span><span class="n">info</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="n">UIKeyboardAnimationCurveUserInfoKey</span><span class="p">]</span> <span class="nl">getValue</span><span class="p">:</span><span class="o">&amp;</span><span class="n">animationCurve</span><span class="p">];</span>
-</div></div><div data-line='54' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[[</span><span class="n">info</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="n">UIKeyboardAnimationDurationUserInfoKey</span><span class="p">]</span> <span class="nl">getValue</span><span class="p">:</span><span class="o">&amp;</span><span class="n">animationDuration</span><span class="p">];</span>
-</div></div><div data-line='55' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// A simple convertion of UIViewAnimationCurve to UIViewAnimationOptions</span>
-</div></div><div data-line='56' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">UIViewAnimationOptions</span> <span class="n">animationOption</span> <span class="o">=</span> <span class="n">animationCurve</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">;</span>
-</div></div><div data-line='57' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="n">animationDuration</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</div></div><div data-line='58' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">animationDuration</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
-</div></div><div data-line='59' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='60' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Start animation</span>
-</div></div><div data-line='61' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="n">layoutIfNeeded</span><span class="p">];</span>
-</div></div><div data-line='62' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="n">animationDuration</span>
-</div></div><div data-line='63' class='code-highlight-row numbered'><div class='code-highlight-line'>                          <span class="nl">delay</span><span class="p">:</span><span class="mi">0</span>
-</div></div><div data-line='64' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="nl">options</span><span class="p">:</span><span class="n">animationOption</span>
-</div></div><div data-line='65' class='code-highlight-row numbered'><div class='code-highlight-line'>                     <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">&#x7b;</span>
-</div></div><div data-line='66' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='67' class='code-highlight-row numbered'><div class='code-highlight-line'>                         <span class="c1">// Adjust for toolbar</span>
-</div></div><div data-line='68' class='code-highlight-row numbered'><div class='code-highlight-line'>                         <span class="k">if</span> <span class="p">(</span><span class="n">showing</span><span class="p">)</span>
-</div></div><div data-line='69' class='code-highlight-row numbered'><div class='code-highlight-line'>                             <span class="n">_toolbarBottomSpace</span><span class="p">.</span><span class="n">constant</span> <span class="o">=</span> <span class="n">kbSize</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
-</div></div><div data-line='70' class='code-highlight-row numbered'><div class='code-highlight-line'>                         <span class="k">else</span>
-</div></div><div data-line='71' class='code-highlight-row numbered'><div class='code-highlight-line'>                             <span class="n">_toolbarBottomSpace</span><span class="p">.</span><span class="n">constant</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</div></div><div data-line='72' class='code-highlight-row numbered'><div class='code-highlight-line'>                         <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="n">layoutIfNeeded</span><span class="p">];</span>
-</div></div><div data-line='73' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='74' class='code-highlight-row numbered'><div class='code-highlight-line'>                     <span class="p">&#x7d;</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='75' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
 
-<p>In <code>viewDidLoad</code>, it is where we add the view controller as the observer to the keyboard events. Subsequently in <code>dealloc</code>, remove the observer.</p>
+    <span class="c1">// Listen to the standard keyboard notifications
+</span>    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="nf">defaultCenter</span><span class="p">]</span> <span class="nf">addObserver</span><span class="p">:</span><span class="n">self</span>
+                                             <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">keyboardWillShow</span><span class="o">:</span><span class="p">)</span>
+                                                 <span class="n">name</span><span class="o">:</span><span class="n">UIKeyboardWillShowNotification</span> <span class="n">object</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    
+    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="nf">defaultCenter</span><span class="p">]</span> <span class="nf">addObserver</span><span class="p">:</span><span class="n">self</span>
+                                             <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">keyboardWillHide</span><span class="o">:</span><span class="p">)</span>
+                                                 <span class="n">name</span><span class="o">:</span><span class="n">UIKeyboardWillHideNotification</span> <span class="n">object</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
 
-<p>The gist is in <code>adjustForKeyboard:showing:</code>.</p>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">dealloc</span> <span class="p">{</span>
+    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="nf">defaultCenter</span><span class="p">]</span> <span class="nf">removeObserver</span><span class="p">:</span><span class="n">self</span>
+                                                    <span class="nf">name</span><span class="p">:</span><span class="n">UIKeyboardDidShowNotification</span>
+                                                  <span class="n">object</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="nf">defaultCenter</span><span class="p">]</span> <span class="nf">removeObserver</span><span class="p">:</span><span class="n">self</span>
+                                                    <span class="nf">name</span><span class="p">:</span><span class="n">UIKeyboardWillHideNotification</span>
+                                                  <span class="n">object</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
 
-<p><code>aNotification</code> contains a dictionary about the keyboard size and animation details. </p>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">keyboardWillShow</span><span class="o">:</span><span class="p">(</span><span class="n">NSNotification</span><span class="o">*</span><span class="p">)</span><span class="n">aNotification</span> <span class="p">{</span>    
+    <span class="p">[</span><span class="n">self</span> <span class="nf">adjustForKeyboard</span><span class="p">:</span><span class="n">aNotification</span> <span class="nf">showing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
 
-<p>A little trick is needed to convert <code>UIViewAnimationCurve</code> to <code>UIViewAnimationOptions</code>, which is needed for the new animation code.</p>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">keyboardWillHide</span><span class="o">:</span><span class="p">(</span><span class="n">NSNotification</span><span class="o">*</span><span class="p">)</span><span class="n">aNotification</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span> <span class="nf">adjustForKeyboard</span><span class="p">:</span><span class="n">aNotification</span> <span class="nf">showing</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+<span class="p">}</span>
 
-<p>For the toolbar, we change <code>_toolbarBottomSpace</code>, which is a vertical spacing constraint for the toolbar view to the bottom layout guide. You need to create this constraint on your storyboard (with autolayout).</p>
+<span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">adjustForKeyboard</span><span class="o">:</span><span class="p">(</span><span class="n">NSNotification</span><span class="o">*</span><span class="p">)</span><span class="n">aNotification</span> <span class="n">showing</span><span class="o">:</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">showing</span> <span class="p">{</span>
+    <span class="n">NSDictionary</span><span class="o">*</span> <span class="n">info</span> <span class="o">=</span> <span class="p">[</span><span class="n">aNotification</span> <span class="nf">userInfo</span><span class="p">];</span>
+    <span class="n">CGRect</span> <span class="n">keyboardFrame</span> <span class="o">=</span> <span class="p">[[</span><span class="n">info</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="n">UIKeyboardFrameEndUserInfoKey</span><span class="p">]</span> <span class="nf">CGRectValue</span><span class="p">];</span>
+    <span class="n">CGRect</span> <span class="n">convertedFrame</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">convertRect</span><span class="p">:</span><span class="n">keyboardFrame</span> <span class="nf">fromView</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">window</span><span class="p">];</span>
+    <span class="n">CGSize</span> <span class="n">kbSize</span> <span class="o">=</span> <span class="n">convertedFrame</span><span class="p">.</span><span class="n">size</span><span class="p">;</span>
+    
+    <span class="c1">// 1. Adjust for the UITextView
+</span>    <span class="n">UIEdgeInsets</span> <span class="n">newInsets</span><span class="p">;</span>
+    <span class="c1">// If keyboard showing, add an inset
+</span>    <span class="k">if</span> <span class="p">(</span><span class="n">showing</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">newInsets</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">kbSize</span><span class="p">.</span><span class="n">height</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// Else keyboard hiding, rest the inset
+</span>        <span class="n">newInsets</span> <span class="o">=</span> <span class="n">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">_textView</span><span class="p">.</span><span class="n">contentInset</span> <span class="o">=</span> <span class="n">newInsets</span><span class="p">;</span>
+    <span class="n">_textView</span><span class="p">.</span><span class="n">scrollIndicatorInsets</span> <span class="o">=</span> <span class="n">newInsets</span><span class="p">;</span>
+    
+    <span class="c1">// 2. Adjust toolbar with animation
+</span>    <span class="c1">// Get keyboard animation info
+</span>    <span class="n">NSTimeInterval</span> <span class="n">animationDuration</span><span class="p">;</span>
+    <span class="n">UIViewAnimationCurve</span> <span class="n">animationCurve</span><span class="p">;</span>
+    <span class="p">[[</span><span class="n">info</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="n">UIKeyboardAnimationCurveUserInfoKey</span><span class="p">]</span> <span class="nf">getValue</span><span class="p">:</span><span class="o">&amp;</span><span class="n">animationCurve</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">info</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="n">UIKeyboardAnimationDurationUserInfoKey</span><span class="p">]</span> <span class="nf">getValue</span><span class="p">:</span><span class="o">&amp;</span><span class="n">animationDuration</span><span class="p">];</span>
+    <span class="c1">// A simple convertion of UIViewAnimationCurve to UIViewAnimationOptions
+</span>    <span class="n">UIViewAnimationOptions</span> <span class="n">animationOption</span> <span class="o">=</span> <span class="n">animationCurve</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">animationDuration</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">animationDuration</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="p">;</span>
+    
+    <span class="c1">// Start animation
+</span>    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">layoutIfNeeded</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="n">animationDuration</span>
+                          <span class="nf">delay</span><span class="p">:</span><span class="mi">0</span>
+                        <span class="n">options</span><span class="o">:</span><span class="n">animationOption</span>
+                     <span class="n">animations</span><span class="o">:^</span><span class="p">{</span>
+                         
+                         <span class="c1">// Adjust for toolbar
+</span>                         <span class="k">if</span> <span class="p">(</span><span class="n">showing</span><span class="p">)</span>
+                             <span class="n">_toolbarBottomSpace</span><span class="p">.</span><span class="n">constant</span> <span class="o">=</span> <span class="n">kbSize</span><span class="p">.</span><span class="n">height</span><span class="p">;</span>
+                         <span class="k">else</span>
+                             <span class="n">_toolbarBottomSpace</span><span class="p">.</span><span class="n">constant</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                         <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">layoutIfNeeded</span><span class="p">];</span>
+                         
+                     <span class="p">}</span> <span class="n">completion</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>In <code class="highlighter-rouge">viewDidLoad</code>, it is where we add the view controller as the observer to the keyboard events. Subsequently in <code class="highlighter-rouge">dealloc</code>, remove the observer.</p>
+
+<p>The gist is in <code class="highlighter-rouge">adjustForKeyboard:showing:</code>.</p>
+
+<p><code class="highlighter-rouge">aNotification</code> contains a dictionary about the keyboard size and animation details.</p>
+
+<p>A little trick is needed to convert <code class="highlighter-rouge">UIViewAnimationCurve</code> to <code class="highlighter-rouge">UIViewAnimationOptions</code>, which is needed for the new animation code.</p>
+
+<p>For the toolbar, we change <code class="highlighter-rouge">_toolbarBottomSpace</code>, which is a vertical spacing constraint for the toolbar view to the bottom layout guide. You need to create this constraint on your storyboard (with autolayout).</p>
 
         </section>
         <footer class="post-footer">

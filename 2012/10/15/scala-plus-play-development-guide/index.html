@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,54 +78,70 @@
 
 <!-- more -->
 
-<h2>Installation</h2>
+<h2 id="installation">Installation</h2>
 
-<p>Install the <a href="http://typesafe.com/stack/download">stack</a>. </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ brew install scala sbt maven giter8
-</code></pre></div>
-<p><code>sbt</code> is the <a href="http://typesafe.com/technology/sbt">Simple Build Tool</a> for managing Scala project. The sbt-version for this guide is 0.12.0.</p>
+<p>Install the <a href="http://typesafe.com/stack/download">stack</a>.</p>
 
-<p><code>giter8</code> is for <a href="https://github.com/n8han/giter8">generating template projects</a>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ brew install scala sbt maven giter8
+</code></pre>
+</div>
 
-<p>If you have a 404 error when maven is being installed, you can <code>brew edit maven</code> and <a href="http://stackoverflow.com/questions/12757694/brew-install-maven-404-error">change the URL</a>.</p>
+<p><code class="highlighter-rouge">sbt</code> is the <a href="http://typesafe.com/technology/sbt">Simple Build Tool</a> for managing Scala project. The sbt-version for this guide is 0.12.0.</p>
 
-<h2>Create a new project</h2>
+<p><code class="highlighter-rouge">giter8</code> is for <a href="https://github.com/n8han/giter8">generating template projects</a>.</p>
 
-<p>Create a new project using <code>giter8</code> templates</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ g8 typesafehub/play-scala
-</code></pre></div>
-<h2>Run the project</h2>
+<p>If you have a 404 error when maven is being installed, you can <code class="highlighter-rouge">brew edit maven</code> and <a href="http://stackoverflow.com/questions/12757694/brew-install-maven-404-error">change the URL</a>.</p>
+
+<h2 id="create-a-new-project">Create a new project</h2>
+
+<p>Create a new project using <code class="highlighter-rouge">giter8</code> templates</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ g8 typesafehub/play-scala
+</code></pre>
+</div>
+
+<h2 id="run-the-project">Run the project</h2>
 
 <p>Issue the 2 commands to run</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ sbt
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ sbt
 $ run
-</code></pre></div>
-<p>The web app will serve at <a href="http://localhost:9000/">http://localhost:9000/</a>. </p>
+</code></pre>
+</div>
 
-<p>You could as well issue a single command <code>sbt run</code>.</p>
+<p>The web app will serve at http://localhost:9000/.</p>
 
-<h2>Run a console</h2>
+<p>You could as well issue a single command <code class="highlighter-rouge">sbt run</code>.</p>
+
+<h2 id="run-a-console">Run a console</h2>
 
 <p>You can also run a play console to do some testing.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ sbt console
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ sbt console
+</code></pre>
+</div>
+
 <p>In the console, you could call any piece of your code directly and conveniently test out stuff.</p>
 
-<h2>Setup Eclipse</h2>
+<h2 id="setup-eclipse">Setup Eclipse</h2>
 
-<p>In order to open the project using Eclipse, do a </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ sbt eclipsify
-</code></pre></div>
-<p>You would of course download the <a href="http://typesafe.com/stack/scala_ide_download">Scala IDE</a> (Eclipse). I would rename to <code>Eclipse-scala</code> and put in my Applications folder.</p>
+<p>In order to open the project using Eclipse, do a</p>
 
-<p>Open Eclipse, go to File &gt; Import &gt; General/Existing Project and select the scala project. </p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ sbt eclipsify
+</code></pre>
+</div>
 
-<p>Important: Everytime you added libraries and dependencies to the project, you need to <code>sbt eclipsify</code> again.</p>
+<p>You would of course download the <a href="http://typesafe.com/stack/scala_ide_download">Scala IDE</a> (Eclipse). I would rename to <code class="highlighter-rouge">Eclipse-scala</code> and put in my Applications folder.</p>
 
-<h2>Git setup, and .gitignore</h2>
+<p>Open Eclipse, go to File &gt; Import &gt; General/Existing Project and select the scala project.</p>
 
-<p>These are the files to ignore; the content of <code>.gitignore</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">logs
+<p>Important: Everytime you added libraries and dependencies to the project, you need to <code class="highlighter-rouge">sbt eclipsify</code> again.</p>
+
+<h2 id="git-setup-and-gitignore">Git setup, and .gitignore</h2>
+
+<p>These are the files to ignore; the content of <code class="highlighter-rouge">.gitignore</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>logs
 project/project
 project/target
 target
@@ -139,29 +155,34 @@ tmp
 /.classpath
 /.cache
 /.DS_Store
-</code></pre></div>
-<p>Then do <code>git init</code> and your first commit!</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git init
-git add .
-git commit -m &quot;Initial Commit&quot;
-</code></pre></div>
-<h2>Scala</h2>
+</code></pre>
+</div>
 
-<p>Before the next section on Play! Framework, make sure you are comfortable with Scala first. </p>
+<p>Then do <code class="highlighter-rouge">git init</code> and your first commit!</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git init
+git add .
+git commit -m "Initial Commit"
+</code></pre>
+</div>
+
+<h2 id="scala">Scala</h2>
+
+<p>Before the next section on Play! Framework, make sure you are comfortable with Scala first.</p>
 
 <p>Even how much you about Scala being an easy to understand language, and much like Java, trust me. You need to read an introduction guide to Scala first.</p>
 
 <p>A good starting point would be a <a href="/2012/10/07/2012-10-07-a-short-scala-tutorial-for-java-developers/">Scala tutorial</a> from me (:</p>
 
-<h2>Play! Framework</h2>
+<h2 id="play-framework">Play! Framework</h2>
 
-<p>It&#39;s time to start actual development of your app.</p>
+<p>It’s time to start actual development of your app.</p>
 
 <p>However, I am going to cut short here, as this post is merely a short guide to get you started.</p>
 
 <p>Head over to <a href="http://scala.playframework.org/documentation/">Play! framework documentation</a> for a tutorial. (You may skip the setup portion, and start with the <a href="http://scala.playframework.org/documentation/2.0.4/ScalaActions">Action</a>)</p>
 
-<h2>Deploy to Heroku</h2>
+<h2 id="deploy-to-heroku">Deploy to Heroku</h2>
 
 <p>Heroku supports Play! 2 and Scala. A <a href="https://github.com/playframework/Play20/wiki/ProductionHeroku">wiki</a> on how to deploy to Heroku is available.</p>
 
@@ -170,10 +191,14 @@ git commit -m &quot;Initial Commit&quot;
 <p>You must have setup git as described in the previous section.</p>
 
 <p>Create a heroku app and push to the server</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">heroku create
+
+<div class="highlighter-rouge"><pre class="highlight"><code>heroku create
 git push heroku master
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>It will take quite some time to setup the heroku server on the first push. So wait till it says finish, and off you go!</p>
+
 
         </section>
         <footer class="post-footer">

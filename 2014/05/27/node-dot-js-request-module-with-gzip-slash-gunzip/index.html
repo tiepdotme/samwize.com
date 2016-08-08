@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,39 +78,45 @@
 
 <!-- more -->
 
-<p>There are multiple solutions I have seen, and some didn&#39;t work for me.</p>
+<p>There are multiple solutions I have seen, and some didn’t work for me.</p>
 
 <p>There are some more advanced ones, <a href="http://nickfishman.com/post/49533681471/nodejs-http-requests-with-gzip-deflate-compression">using streams</a>.</p>
 
-<p>Here&#39;s mine:</p>
+<p>Here’s mine:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">);</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">zlib</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;zlib&#39;</span><span class="p">);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;http://some.endpoint.com/api/&#39;</span><span class="p">,</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">headers</span><span class="o">:</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="s1">&#39;X-some-headers&#39;</span>  <span class="o">:</span> <span class="s1">&#39;Some headers&#39;</span><span class="p">,</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="s1">&#39;Accept-Encoding&#39;</span> <span class="o">:</span> <span class="s1">&#39;gzip, deflate&#39;</span><span class="p">,</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;,</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">encoding</span><span class="o">:</span> <span class="kc">null</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">request</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// If response is gzip, unzip first</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kd">var</span> <span class="nx">encoding</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;content-encoding&#39;</span><span class="p">]</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">encoding</span> <span class="o">&amp;&amp;</span> <span class="nx">encoding</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;gzip&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nx">zlib</span><span class="p">.</span><span class="nx">gunzip</span><span class="p">(</span><span class="nx">body</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">dezipped</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="kd">var</span> <span class="nx">json_string</span> <span class="o">=</span> <span class="nx">dezipped</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">);</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="kd">var</span> <span class="nx">json</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json_string</span><span class="p">);</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Process the json..</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="p">&#x7d;);</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span> <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="c1">// Response is not gzipped</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;);</span></div></div></pre></div></figure>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">zlib</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'zlib'</span><span class="p">);</span>
 
-<p>The above will also fix for <code>Incorrect header check</code> <a href="http://stackoverflow.com/q/19438884/242682">error</a>, with <code>encoding: null</code> option.</p>
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://some.endpoint.com/api/'</span><span class="p">,</span>
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">'X-some-headers'</span>  <span class="p">:</span> <span class="s1">'Some headers'</span><span class="p">,</span>
+    <span class="s1">'Accept-Encoding'</span> <span class="p">:</span> <span class="s1">'gzip, deflate'</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="na">encoding</span><span class="p">:</span> <span class="kc">null</span>
+<span class="p">};</span>
+
+<span class="nx">request</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// If response is gzip, unzip first</span>
+    <span class="kd">var</span> <span class="nx">encoding</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">'content-encoding'</span><span class="p">]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">encoding</span> <span class="o">&amp;&amp;</span> <span class="nx">encoding</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">'gzip'</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">zlib</span><span class="p">.</span><span class="nx">gunzip</span><span class="p">(</span><span class="nx">body</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">dezipped</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">json_string</span> <span class="o">=</span> <span class="nx">dezipped</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">json</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">json_string</span><span class="p">);</span>
+        <span class="c1">// Process the json..</span>
+      <span class="p">});</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// Response is not gzipped</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>The above will also fix for <code class="highlighter-rouge">Incorrect header check</code> <a href="http://stackoverflow.com/q/19438884/242682">error</a>, with <code class="highlighter-rouge">encoding: null</code> option.</p>
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,7 +74,7 @@
           
           <p>I regretted that I <a href="/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory/">initially</a> configured my swap space to just 1GB.</p>
 
-<p>I am running out of memory with intensive apps such as <a href="/2014/07/24/how-to-setup-git-server-gitlab-with-ssl/">GitLab</a>. </p>
+<p>I am running out of memory with intensive apps such as <a href="/2014/07/24/how-to-setup-git-server-gitlab-with-ssl/">GitLab</a>.</p>
 
 <p>And so I needed to increase swap.</p>
 
@@ -84,21 +84,28 @@
 
 <p>Steps:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'># Assume I need another 2GB
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'># Allocate 2GB in another file. Let's call it swapfile2g.
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo fallocate -l 2G /swapfile2g
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'># Make it secure
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo chmod 600 /swapfile2g
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'># Activate it
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo mkswap /swapfile2g
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo swapon /swapfile2g
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'># Confirm again there's indeed more memory now
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>free -m
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo swapon -s
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'># Configure fstab to use swap when instance restart
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>sudo nano /etc/fstab
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'># Add this line to /etc/fstab, save and exit
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>/swapfile2g   none    swap    sw    0   0</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code># Assume I need another 2GB
+# Allocate 2GB in another file. Let's call it swapfile2g.
+sudo fallocate -l 2G /swapfile2g
+
+# Make it secure
+sudo chmod 600 /swapfile2g
+
+# Activate it
+sudo mkswap /swapfile2g
+sudo swapon /swapfile2g
+
+# Confirm again there's indeed more memory now
+free -m
+sudo swapon -s
+
+# Configure fstab to use swap when instance restart
+sudo nano /etc/fstab
+
+# Add this line to /etc/fstab, save and exit
+/swapfile2g   none    swap    sw    0   0
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

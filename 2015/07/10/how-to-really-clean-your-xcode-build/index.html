@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,22 +74,25 @@
           
           <p>There are times when you have weird Xcode build errors eg. you are absolutely sure <em>that the referenced object</em> is in the project, yet Xcode could not find it.</p>
 
-<p>Or compile errors such as <code>Include of non-modular header inside framework module</code>, when you know the framework works very fine.</p>
+<p>Or compile errors such as <code class="highlighter-rouge">Include of non-modular header inside framework module</code>, when you know the framework works very fine.</p>
 
 <p>You can try clean (Cmd + Shift + K) and build.</p>
 
-<p>But the <strong>absolute way to clean Xcode</strong> is to delete folders in <code>~/Library/Developer/Xcode/DerivedData</code>. Delete the folders with your app name, and also <code>ModuleCache</code>. </p>
+<p>But the <strong>absolute way to clean Xcode</strong> is to delete folders in <code class="highlighter-rouge">~/Library/Developer/Xcode/DerivedData</code>. Delete the folders with your app name, and also <code class="highlighter-rouge">ModuleCache</code>.</p>
 
 <p>Or simply delete all:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">rm -rf ~/Library/Developer/Xcode/DerivedData/*
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>rm -rf ~/Library/Developer/Xcode/DerivedData/*
+</code></pre>
+</div>
+
 <p>Purging DerivedData could well save your day.</p>
 
-<p>Well, it did save me on many occasions. Here is my list of weird errors/warnings that were &quot;solved&quot;:</p>
+<p>Well, it did save me on many occasions. Here is my list of weird errors/warnings that were “solved”:</p>
 
 <ul>
-<li><code>ignoring user defined runtime attribute</code> warning for my custom view that is <code>IBDesignable</code></li>
-<li><code>Include of non-modular header inside framework module</code></li>
+  <li><code class="highlighter-rouge">ignoring user defined runtime attribute</code> warning for my custom view that is <code class="highlighter-rouge">IBDesignable</code></li>
+  <li><code class="highlighter-rouge">Include of non-modular header inside framework module</code></li>
 </ul>
 
         </section>

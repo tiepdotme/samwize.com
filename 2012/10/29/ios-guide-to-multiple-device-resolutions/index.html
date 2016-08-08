@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,90 +78,100 @@
 
 <!-- more -->
 
-<h2>Device Resolutions</h2>
+<h2 id="device-resolutions">Device Resolutions</h2>
 
 <p>Apple provides a <a href="http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/MobileHIG/IconsImages/IconsImages.html#//apple_ref/doc/uid/TP40006556-CH14-SW1">table matrix</a> on the App Icons, Screen size, and tool bar icon sizes for the various devices.</p>
 
 <p>This table summarizes the resolutions:</p>
 
-<table><thead>
-<tr>
-<th></th>
-<th>iPhone 5</th>
-<th>iPhone (Retina)</th>
-<th>iPhone</th>
-<th>iPad (Retina)</th>
-<th>iPad</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Actual</td>
-<td>640 x 1136</td>
-<td>640 x 960</td>
-<td>320 x 480</td>
-<td>1536 x 2048</td>
-<td>768 x 1024</td>
-</tr>
-<tr>
-<td>Default.png</td>
-<td>640 x 1136</td>
-<td>640 x 960</td>
-<td>320 x 480</td>
-<td>1536 x 2008</td>
-<td>768 x 1004</td>
-</tr>
-<tr>
-<td>App Icon</td>
-<td>114 x 114</td>
-<td>114 x 114</td>
-<td>57 x 57</td>
-<td>144 x 144</td>
-<td>72 x 72</td>
-</tr>
-<tr>
-<td>Toolbar icon</td>
-<td>40 x 40</td>
-<td>40 x 40</td>
-<td>20 x 20</td>
-<td>40 x 40</td>
-<td>20 x 20</td>
-</tr>
-</tbody></table>
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>iPhone 5</th>
+      <th>iPhone (Retina)</th>
+      <th>iPhone</th>
+      <th>iPad (Retina)</th>
+      <th>iPad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Actual</td>
+      <td>640 x 1136</td>
+      <td>640 x 960</td>
+      <td>320 x 480</td>
+      <td>1536 x 2048</td>
+      <td>768 x 1024</td>
+    </tr>
+    <tr>
+      <td>Default.png</td>
+      <td>640 x 1136</td>
+      <td>640 x 960</td>
+      <td>320 x 480</td>
+      <td>1536 x 2008</td>
+      <td>768 x 1004</td>
+    </tr>
+    <tr>
+      <td>App Icon</td>
+      <td>114 x 114</td>
+      <td>114 x 114</td>
+      <td>57 x 57</td>
+      <td>144 x 144</td>
+      <td>72 x 72</td>
+    </tr>
+    <tr>
+      <td>Toolbar icon</td>
+      <td>40 x 40</td>
+      <td>40 x 40</td>
+      <td>20 x 20</td>
+      <td>40 x 40</td>
+      <td>20 x 20</td>
+    </tr>
+  </tbody>
+</table>
 
 <p>Note that for iPads, the Default.png should not include the status bar (20px).</p>
 
-<h2>Image Resource File</h2>
-
-<p>Apple introduced an easy way to load <a href="http://developer.apple.com/library/ios/#documentation/2DDrawing/Conceptual/DrawingPrintingiOS/SupportingHiResScreensInViews/SupportingHiResScreensInViews.html#//apple_ref/doc/uid/TP40010156-CH15">images</a> automatically for the devices. </p>
+<h2 id="image-resource-file">Image Resource File</h2>
+<p>Apple introduced an easy way to load <a href="http://developer.apple.com/library/ios/#documentation/2DDrawing/Conceptual/DrawingPrintingiOS/SupportingHiResScreensInViews/SupportingHiResScreensInViews.html#//apple_ref/doc/uid/TP40010156-CH15">images</a> automatically for the devices.</p>
 
 <p>The rule goes like this:</p>
 
 <ul>
-<li><p>Standard: <code>&lt;ImageName&gt;&lt;device_modifier&gt;.&lt;filename_extension&gt;</code></p></li>
-<li><p>High resolution: <code>&lt;ImageName&gt;@2x&lt;device_modifier&gt;.&lt;filename_extension&gt;</code></p></li>
+  <li>
+    <p>Standard: <code class="highlighter-rouge">&lt;ImageName&gt;&lt;device_modifier&gt;.&lt;filename_extension&gt;</code></p>
+  </li>
+  <li>
+    <p>High resolution: <code class="highlighter-rouge">&lt;ImageName&gt;@2x&lt;device_modifier&gt;.&lt;filename_extension&gt;</code></p>
+  </li>
 </ul>
 
 <p>For <a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Conceptual/LoadingResources/ImageSoundResources/ImageSoundResources.html#//apple_ref/doc/uid/10000051i-CH7-SW1">example</a>,</p>
 
 <ul>
-<li>MyImage.png - Default version of an image resource.</li>
-<li><a href="mailto:MyImage@2x.png">MyImage@2x.png</a> - High-resolution version of an image resource for devices with Retina displays.</li>
-<li>MyImage~iphone.png - Version of an image for iPhone and iPod touch.</li>
-<li>MyImage@2x~iphone.png - High-resolution version of an image for iPhone and iPod touch devices with Retina displays.</li>
-<li>MyImage~ipad.png - Version of an image for iPad</li>
-<li>MyImage@2x~ipad.png - High-resolution version of an image for iPad with Retina displays.</li>
+  <li>MyImage.png - Default version of an image resource.</li>
+  <li>MyImage@2x.png - High-resolution version of an image resource for devices with Retina displays.</li>
+  <li>MyImage~iphone.png - Version of an image for iPhone and iPod touch.</li>
+  <li>MyImage@2x~iphone.png - High-resolution version of an image for iPhone and iPod touch devices with Retina displays.</li>
+  <li>MyImage~ipad.png - Version of an image for iPad</li>
+  <li>MyImage@2x~ipad.png - High-resolution version of an image for iPad with Retina displays.</li>
 </ul>
 
-<p>With that knowledge, you could load a UIImage </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">UIImage *anImage = [UIImage imageNamed:@&quot;MyImage&quot;];
-</code></pre></div>
+<p>With that knowledge, you could load a UIImage</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>UIImage *anImage = [UIImage imageNamed:@"MyImage"];
+</code></pre>
+</div>
+
 <p>and the appropriate resource file will be loaded.</p>
 
-<h2>iPhone 5 - taller screen</h2>
+<h2 id="iphone-5---taller-screen">iPhone 5 - taller screen</h2>
 
-<p>Unfortunately, for the taller iPhone 5, it does not automatically load <code>MyImage@2x~iphone5.png</code>.</p>
+<p>Unfortunately, for the taller iPhone 5, it does not automatically load <code class="highlighter-rouge">MyImage@2x~iphone5.png</code>.</p>
 
 <p>You could use a <a href="http://stackoverflow.com/questions/5088945/use-2x-retina-images-for-ipad-in-universal-app-and-does-apple-prefer-native-ap">handy</a> UIImage category to load.</p>
+
 
         </section>
         <footer class="post-footer">

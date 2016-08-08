@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,25 +72,27 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><code>NSError</code> is a very common and easy to use object in iOS.</p>
+          <p><code class="highlighter-rouge">NSError</code> is a very common and easy to use object in iOS.</p>
 
 <p>But Parse has shown us how not to use it.</p>
 
-<p>I faced the <a href="https://www.parse.com/questions/localized-error-description">same problem</a> as Jonathan with using the <code>NSError</code> emitted from Parse library.</p>
+<p>I faced the <a href="https://www.parse.com/questions/localized-error-description">same problem</a> as Jonathan with using the <code class="highlighter-rouge">NSError</code> emitted from Parse library.</p>
 
 <!-- more -->
 
-<p>Usually, a <code>[error localizedDescription]</code> will print a nice message.</p>
+<p>Usually, a <code class="highlighter-rouge">[error localizedDescription]</code> will print a nice message.</p>
 
-<p>It is especially useful if the error is to do with &quot;The Internet appears to be offline&quot;.</p>
+<p>It is especially useful if the error is to do with “The Internet appears to be offline”.</p>
 
-<p>However, Parse <code>[error localizedDescription]</code> is a generic &quot;The operation cannot be completed (Error 100)&quot;.</p>
+<p>However, Parse <code class="highlighter-rouge">[error localizedDescription]</code> is a generic “The operation cannot be completed (Error 100)”.</p>
 
-<p>Firstly, if you look under their <a href="http://parse.com/docs/dotnet/api/html/T_Parse_ParseException_ErrorCode.htm">error codes</a>, error 100 is Connection Failed. But in my case, it is specifically the Internet is offline. </p>
+<p>Firstly, if you look under their <a href="http://parse.com/docs/dotnet/api/html/T_Parse_ParseException_ErrorCode.htm">error codes</a>, error 100 is Connection Failed. But in my case, it is specifically the Internet is offline.</p>
 
-<p>If you dig around to find other usable error message, you will stumble upon <code>[[error userInfo] objectForKey:@&quot;error&quot;]</code>, which is a long debug string that looks like this:</p>
+<p>If you dig around to find other usable error message, you will stumble upon <code class="highlighter-rouge">[[error userInfo] objectForKey:@"error"]</code>, which is a long debug string that looks like this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>Error Domain=NSURLErrorDomain Code=-1009 "The Internet connection appears to be offline." UserInfo=0x1700fc300 &#x7b;NSUnderlyingError=0x178254cd0 "The Internet connection appears to be offline.", NSErrorFailingURLStringKey=https://api.parse.com/2/client_function, NSErrorFailingURLKey=https://api.parse.com/2/client_function, NSLocalizedDescription=The Internet connection appears to be offline.&#x7d;</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>Error Domain=NSURLErrorDomain Code=-1009 "The Internet connection appears to be offline." UserInfo=0x1700fc300 {NSUnderlyingError=0x178254cd0 "The Internet connection appears to be offline.", NSErrorFailingURLStringKey=https://api.parse.com/2/client_function, NSErrorFailingURLKey=https://api.parse.com/2/client_function, NSLocalizedDescription=The Internet connection appears to be offline.}
+</code></pre>
+</div>
 
 <p>How terrible is their design, once <a href="/2014/05/30/parse-error-141-uncaught-userid-must-be-a-string/">again</a>, and <a href="/2014/06/30/parse-custom-error-not-possible/">again</a>, and <a href="/2014/07/15/pitfall-with-using-anonymous-user-in-parse/">again</a>.</p>
 

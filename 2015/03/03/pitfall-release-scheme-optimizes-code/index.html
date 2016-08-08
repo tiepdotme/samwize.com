@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -73,39 +73,49 @@
           <a name="topofpage"></a>
           
           <p>I was once writing a simple piece of code, something along the line of:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">NSString *name = [[NSBundle mainBundle] objectForInfoDictionaryKey:@&quot;CFBundleDisplayName&quot;];
-</code></pre></div>
-<p>It turns out strange that when I run in Release scheme, name is <code>nil</code> when I inspect the variable in debugger.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>NSString *name = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+</code></pre>
+</div>
+
+<p>It turns out strange that when I run in Release scheme, name is <code class="highlighter-rouge">nil</code> when I inspect the variable in debugger.</p>
 
 <p>When I run in Debug scheme, it is fine. The code returns the app name as you expected.</p>
 
 <!-- more -->
 
-<h2>Pitfall</h2>
+<h2 id="pitfall">Pitfall</h2>
 
 <p>The pitfall is that when you run in Release mode, the <a href="http://stackoverflow.com/a/13041747/242682">code is optimized</a>.</p>
 
 <p>The effect of the optimization is such that any information you see in debugger could not be the truth.</p>
 
-<p>It might not be <code>nil</code>, though you see <code>nil</code> in debugger.</p>
+<p>It might not be <code class="highlighter-rouge">nil</code>, though you see <code class="highlighter-rouge">nil</code> in debugger.</p>
 
 <p>If you were to print out the variable at that breakpoint with lldb, it could say:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Printing description of name:
-(NSString *) name = &lt;no location, value may have been optimized out&gt;
-</code></pre></div>
-<p>or </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Printing description of name:
-(NSString *) name = &lt;variable not available&gt;
-</code></pre></div>
-<p>Both does not give you the true value of name. But at least they don&#39;t wrongly says the variable is <code>nil</code>..</p>
 
-<h2>Solution</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>Printing description of name:
+(NSString *) name = &lt;no location, value may have been optimized out&gt;
+</code></pre>
+</div>
+
+<p>or</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Printing description of name:
+(NSString *) name = &lt;variable not available&gt;
+</code></pre>
+</div>
+
+<p>Both does not give you the true value of name. But at least they don’t wrongly says the variable is <code class="highlighter-rouge">nil</code>..</p>
+
+<h2 id="solution">Solution</h2>
 
 <p>It you really want to debug in Release mode, you can change the optimzation level.</p>
 
-<p>Go to <strong>Project &gt; App target &gt; Build Settings &gt; Optimization Level</strong> and change to <code>None</code> for Release.</p>
+<p>Go to <strong>Project &gt; App target &gt; Build Settings &gt; Optimization Level</strong> and change to <code class="highlighter-rouge">None</code> for Release.</p>
 
 <p>But remember to change it back for actual app release.</p>
+
 
         </section>
         <footer class="post-footer">

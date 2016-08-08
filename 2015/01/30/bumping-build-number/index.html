@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Bumping Build Number</title>
-  <meta name="description" content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version. " />
+  <meta name="description" content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Bumping Build Number" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version. " />
+    <meta name="twitter:description"  content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Bumping Build Number"/>
   
-  <meta property="og:description" content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version. " />
+  <meta property="og:description" content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2015/01/30/bumping-build-number/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version. </p>
+          <p>Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version.</p>
 
 <p>Note: Build number (eg. 1234) is different from Version number (eg. 1.2).</p>
 
@@ -80,37 +80,44 @@
 
 <!-- more -->
 
-<h1>Bump in a build script</h1>
+<h1 id="bump-in-a-build-script">Bump in a build script</h1>
 
 <p>Create a <strong>Run Script</strong> in your project <strong>Build Phases</strong></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#!/bin/bash
-bN=$(/usr/libexec/PlistBuddy -c &quot;Print CFBundleVersion&quot; &quot;$INFOPLIST_FILE&quot;)
-bN=$(expr $bN + 1)
-bN=$(printf &quot;%d&quot; $bN)
-/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $bN&quot; &quot;$INFOPLIST_FILE&quot;
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
+/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
+</code></pre>
+</div>
+
 <p>This will auto increment the build number every time you build the project.</p>
 
-<h1>Make use of git commits</h1>
+<h1 id="make-use-of-git-commits">Make use of git commits</h1>
 
 <p>If you work in a team, the previous build script will pose an unsyncronized problem.</p>
 
 <p>As an <a href="https://objcsharp.wordpress.com/2013/10/01/how-to-automatically-update-xcode-build-numbers-from-git/">improvement</a>, you can use the total number of commits in your git repository as your build number!</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#!/bin/bash
-if [ ${CONFIGURATION} == &quot;Release&quot; ]; then
-buildNumber=$(git rev-list HEAD | wc -l | tr -d &#39; &#39;)
-/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $buildNumber&quot; &quot;${PROJECT_DIR}/${INFOPLIST_FILE}&quot;
-fi;
-</code></pre></div>
-<h1>avgtool</h1>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="k">if</span> <span class="o">[</span> <span class="k">${</span><span class="nv">CONFIGURATION</span><span class="k">}</span> <span class="o">==</span> <span class="s2">"Release"</span> <span class="o">]</span>; <span class="k">then
+</span><span class="nv">buildNumber</span><span class="o">=</span><span class="k">$(</span>git rev-list HEAD | wc -l | tr -d <span class="s1">' '</span><span class="k">)</span>
+/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$buildNumber</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PROJECT_DIR</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">INFOPLIST_FILE</span><span class="k">}</span><span class="s2">"</span>
+<span class="k">fi</span>;
+</code></pre>
+</div>
+
+<h1 id="avgtool">avgtool</h1>
 
 <p>Apple provide a tool to manage the build and version number.</p>
 
 <p>Firstly, <a href="https://developer.apple.com/library/ios/qa/qa1827/_index.html">setup the project</a> in order to use avgtool.</p>
 
 <p>This is how you use it:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># In your project folder
-# Let&#39;s check the current build number
+
+<div class="highlighter-rouge"><pre class="highlight"><code># In your project folder
+# Let's check the current build number
 agvtool what-version
 
 # To auto increment the build number
@@ -121,12 +128,15 @@ agvtool new-version -all 1234
 
 # You can also set VERSION NUMBER eg 1.2
 agvtool new-marketing-version 1.2
-</code></pre></div>
-<h1>Using fastlane</h1>
+</code></pre>
+</div>
 
-<p><a href="/2015/01/29/fastlane-replacing-ui-screen-shooter-and-screenshot-uploader/">fastlane</a> makes use of <code>agvtool</code> to bump the build number.</p>
+<h1 id="using-fastlane">Using fastlane</h1>
 
-<p>In any lane of Fastfile, you can add <code>increment_build_number</code>, which will basically call <code>agvtool next-version -all</code></p>
+<p><a href="/2015/01/29/fastlane-replacing-ui-screen-shooter-and-screenshot-uploader/">fastlane</a> makes use of <code class="highlighter-rouge">agvtool</code> to bump the build number.</p>
+
+<p>In any lane of Fastfile, you can add <code class="highlighter-rouge">increment_build_number</code>, which will basically call <code class="highlighter-rouge">agvtool next-version -all</code></p>
+
 
         </section>
         <footer class="post-footer">

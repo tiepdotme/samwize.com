@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -82,36 +82,37 @@
 
 <!-- more -->
 
-<h2>Designing a flat Entity Hierarchy</h2>
+<h2 id="designing-a-flat-entity-hierarchy">Designing a flat Entity Hierarchy</h2>
 
-<p>When you have common attributes (such as <code>createdAt</code>, <code>updatedAt</code>) between entities, most likely you only want to enjoy the convenient of using them in your code.</p>
+<p>When you have common attributes (such as <code class="highlighter-rouge">createdAt</code>, <code class="highlighter-rouge">updatedAt</code>) between entities, most likely you only want to enjoy the convenient of using them in your code.</p>
 
 <p>Steps:</p>
 
 <ul>
-<li>Copy and paste the common attributes across entities</li>
-<li>Create a parent <code>NSManagedObject</code> that declare the common attributes</li>
-<li>Subclass with the parent <code>NSManagedObject</code></li>
+  <li>Copy and paste the common attributes across entities</li>
+  <li>Create a parent <code class="highlighter-rouge">NSManagedObject</code> that declare the common attributes</li>
+  <li>Subclass with the parent <code class="highlighter-rouge">NSManagedObject</code></li>
 </ul>
 
-<h2>Using mogenerator</h2>
+<h2 id="using-mogenerator">Using mogenerator</h2>
 
-<p>When using mogenerator, the class files are auto generated, and it is generated according to the schema design. </p>
+<p>When using mogenerator, the class files are auto generated, and it is generated according to the schema design.</p>
 
 <p>This complicate things..</p>
 
 <p>To fix:</p>
 
 <ul>
-<li>Create the parent entity with the common attributes</li>
-<li>Generate</li>
-<li>In all the <code>_Entity.h</code>, subclass with the parent class instead of <code>NSManagedObject</code>, and remove codes on the common attributes</li>
-<li>Remove <code>objectID</code> in the parenty entity class (because each child has the same attribute)</li>
+  <li>Create the parent entity with the common attributes</li>
+  <li>Generate</li>
+  <li>In all the <code class="highlighter-rouge">_Entity.h</code>, subclass with the parent class instead of <code class="highlighter-rouge">NSManagedObject</code>, and remove codes on the common attributes</li>
+  <li>Remove <code class="highlighter-rouge">objectID</code> in the parenty entity class (because each child has the same attribute)</li>
 </ul>
 
-<p>Tedious workaround, but I don&#39;t have a better way to work with mogenerator. </p>
+<p>Tedious workaround, but I don’t have a better way to work with mogenerator.</p>
 
 <p>If you know, let me know :)</p>
+
 
         </section>
         <footer class="post-footer">

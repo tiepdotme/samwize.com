@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,61 +72,70 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>Customizing <code>UINavigationBar</code> remains a <em>not-easy-to-remember</em> topic.</p>
+          <p>Customizing <code class="highlighter-rouge">UINavigationBar</code> remains a <em>not-easy-to-remember</em> topic.</p>
 
 <p>When I need to change the looks of the nav bar - such as changing the Back arrow, or title, or making it transparent - I always need to google for the code.</p>
 
 <!-- more -->
 
-<h2>Understanding Navigation Bar</h2>
+<h2 id="understanding-navigation-bar">Understanding Navigation Bar</h2>
 
 <p>The reason that nav bar is not easy, is because it is a pretty complicated component.</p>
 
 <p>There are 3 classes associated with nav bar:</p>
 
 <ol>
-<li><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationBar_Class/index.html">UINavigationBar</a></li>
-<li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UINavigationItem_Class/index.html">UINavigationItem</a></li>
-<li><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIBarButtonItem_Class/index.html">UIBarButtonItem</a></li>
+  <li><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationBar_Class/index.html">UINavigationBar</a></li>
+  <li><a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UINavigationItem_Class/index.html">UINavigationItem</a></li>
+  <li><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIBarButtonItem_Class/index.html">UIBarButtonItem</a></li>
 </ol>
 
-<p><code>UIBarButtonItem</code> are the buttons on the <code>UINavigationBar</code>.</p>
+<p><code class="highlighter-rouge">UIBarButtonItem</code> are the buttons on the <code class="highlighter-rouge">UINavigationBar</code>.</p>
 
-<p>But it is actually the <code>UINavigationItem</code> that you will use to manage the buttons and views. </p>
+<p>But it is actually the <code class="highlighter-rouge">UINavigationItem</code> that you will use to manage the buttons and views.</p>
 
-<p>Specifically, eg you are on a view controller, then <code>self.navigationItem</code> will provide you the left button, right button, title, etc.</p>
+<p>Specifically, eg you are on a view controller, then <code class="highlighter-rouge">self.navigationItem</code> will provide you the left button, right button, title, etc.</p>
 
-<p>One of the most confusing thing is between <code>self.navigationItem.backBarButtonItem</code> and <code>self.navigationItem.leftBarButtonItem</code>.</p>
+<p>One of the most confusing thing is between <code class="highlighter-rouge">self.navigationItem.backBarButtonItem</code> and <code class="highlighter-rouge">self.navigationItem.leftBarButtonItem</code>.</p>
 
-<p>Assuming you are now on your view controller, then <code>leftBarButtonItem</code> refers to the button on the left of the nav bar. <code>backBarButtonItem</code> is NOT shown (yet). </p>
+<p>Assuming you are now on your view controller, then <code class="highlighter-rouge">leftBarButtonItem</code> refers to the button on the left of the nav bar. <code class="highlighter-rouge">backBarButtonItem</code> is NOT shown (yet).</p>
 
-<p><code>backBarButtonItem</code> will be shown when you push another view controller (on top of it), as the left button of this topmost view controller (the &quot;Back&quot;).</p>
+<p><code class="highlighter-rouge">backBarButtonItem</code> will be shown when you push another view controller (on top of it), as the left button of this topmost view controller (the “Back”).</p>
 
-<h2>Change the Back Arrow Image</h2>
+<h2 id="change-the-back-arrow-image">Change the Back Arrow Image</h2>
 
 <p>You can change the default back arrow image by setting the appearance proxy.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">[[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@&quot;back-button-image&quot;]];
-[[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@&quot;back-button-image&quot;]];
-</code></pre></div>
-<h2>Change the Back Title</h2>
 
-<p>The default &quot;Back Title&quot; is the title of the view controller. </p>
+<div class="highlighter-rouge"><pre class="highlight"><code>[[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"back-button-image"]];
+[[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"back-button-image"]];
+</code></pre>
+</div>
 
-<p>Sometimes, you want it to display literally &quot;Back&quot; (a shorter word if your title is too long), or you might want to not display a string at all (just the Back Arrow).</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@&quot;Back&quot; style:UIBarButtonItemStylePlain target:nil action:nil];
-</code></pre></div>
-<p>Remember: The above has to be set whereby <code>self</code> is the parent view controller which the button will go back to.</p>
+<h2 id="change-the-back-title">Change the Back Title</h2>
 
-<h2>Make the Background Transparent</h2>
+<p>The default “Back Title” is the title of the view controller.</p>
+
+<p>Sometimes, you want it to display literally “Back” (a shorter word if your title is too long), or you might want to not display a string at all (just the Back Arrow).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:nil action:nil];
+</code></pre>
+</div>
+
+<p>Remember: The above has to be set whereby <code class="highlighter-rouge">self</code> is the parent view controller which the button will go back to.</p>
+
+<h2 id="make-the-background-transparent">Make the Background Transparent</h2>
 
 <p>For this, I have created <a href="https://github.com/samwize/UINavigationBar-Addition">UINavigationBar+Addition</a>.</p>
 
-<p>There are quite a number of things to set, some are not obvious. </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">[navBar setTranslucent:YES];
+<p>There are quite a number of things to set, some are not obvious.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[navBar setTranslucent:YES];
 [navBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
 navBar.backgroundColor = [UIColor clearColor];
 navBar.shadowImage = [UIImage new];
-</code></pre></div>
+</code></pre>
+</div>
+
         </section>
         <footer class="post-footer">
           <section class="share">

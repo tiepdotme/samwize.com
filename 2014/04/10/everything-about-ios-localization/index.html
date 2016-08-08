@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,100 +72,114 @@
           </div>
           <a name="topofpage"></a>
           
-          <h2>Why localize your app</h2>
+          <h2 id="why-localize-your-app">Why localize your app</h2>
 
 <p>Because it can <a href="http://www.distimo.com/blog/2012_10_publication-the-impact-of-app-translations/">increase your app download by 128%</a>, according to Distimo report.</p>
 
 <p>It is a fact: <a href="http://exploredia.com/how-many-people-in-the-world-speak-english-2013/">English is only the third largest language</a> (after Chinese and Spanish). And there is around 1 billion people who speaks English.</p>
 
-<p>Don&#39;t ignore others.</p>
+<p>Don’t ignore others.</p>
 
 <!-- more -->
 
-<h2>Start using NSLocalizedString</h2>
+<h2 id="start-using-nslocalizedstring">Start using NSLocalizedString</h2>
 
-<p>If you are using a string that will be displayed to your user, always use the macro <code>NSLocalizedString</code>.</p>
+<p>If you are using a string that will be displayed to your user, always use the macro <code class="highlighter-rouge">NSLocalizedString</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">NSLocalizedString</span><span class="p">(</span><span class="s">@&quot;some string&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">NSLocalizedString</span><span class="p">(</span><span class="s">@"some string"</span><span class="p">,</span> <span class="nb">nil</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<h2>Then genstring</h2>
+<h2 id="then-genstring">Then genstring</h2>
 
-<p>Thereafter, you can easily extract all the string to a <code>.strings</code> file.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">find . -name &quot;*.m&quot; | xargs genstrings -o tmp
-</code></pre></div>
+<p>Thereafter, you can easily extract all the string to a <code class="highlighter-rouge">.strings</code> file.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>find . -name "*.m" | xargs genstrings -o tmp
+</code></pre>
+</div>
+
 <p>In your project, under Info &gt; Localizations, add a new language.</p>
 
 <p>Replace with the strings file generated.</p>
 
-<h2>Plural Support</h2>
+<h2 id="plural-support">Plural Support</h2>
 
-<p>New in <a href="https://developer.apple.com/library/Mac/releasenotes/Foundation/RN-Foundation/index.html">Foundation</a>, you can have a <code>.stringsdict</code> file alongside the <code>.strings</code>.</p>
+<p>New in <a href="https://developer.apple.com/library/Mac/releasenotes/Foundation/RN-Foundation/index.html">Foundation</a>, you can have a <code class="highlighter-rouge">.stringsdict</code> file alongside the <code class="highlighter-rouge">.strings</code>.</p>
 
 <p>Refer to the section on <strong>Localized Property List File</strong>.</p>
 
 <p>The dict looks like this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span><span class="nt">&gt;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;dict&gt;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&lt;key&gt;</span>%d files are selected<span class="nt">&lt;/key&gt;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&lt;dict&gt;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;key&gt;</span>NSStringLocalizedFormatKey<span class="nt">&lt;/key&gt;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;string&gt;</span>%#@num_files_are@ selected<span class="nt">&lt;/string&gt;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;key&gt;</span>num_files_are<span class="nt">&lt;/key&gt;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;dict&gt;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>NSStringFormatSpecTypeKey<span class="nt">&lt;/key&gt;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>NSStringPluralRuleType<span class="nt">&lt;/string&gt;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>NSStringFormatValueTypeKey<span class="nt">&lt;/key&gt;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>d<span class="nt">&lt;/string&gt;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>zero<span class="nt">&lt;/key&gt;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>No file is<span class="nt">&lt;/string&gt;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>one<span class="nt">&lt;/key&gt;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>A file is<span class="nt">&lt;/string&gt;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;key&gt;</span>other<span class="nt">&lt;/key&gt;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nt">&lt;string&gt;</span>%d files are<span class="nt">&lt;/string&gt;</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&lt;/dict&gt;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&lt;/dict&gt;</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;/dict&gt;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">&lt;/plist&gt;</span></div></div></pre></div></figure>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code>    <span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+    <span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+    <span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;dict&gt;</span>
+        <span class="nt">&lt;key&gt;</span>%d files are selected<span class="nt">&lt;/key&gt;</span>
+        <span class="nt">&lt;dict&gt;</span>
+            <span class="nt">&lt;key&gt;</span>NSStringLocalizedFormatKey<span class="nt">&lt;/key&gt;</span>
+            <span class="nt">&lt;string&gt;</span>%#@num_files_are@ selected<span class="nt">&lt;/string&gt;</span>
+            <span class="nt">&lt;key&gt;</span>num_files_are<span class="nt">&lt;/key&gt;</span>
+            <span class="nt">&lt;dict&gt;</span>
+                <span class="nt">&lt;key&gt;</span>NSStringFormatSpecTypeKey<span class="nt">&lt;/key&gt;</span>
+                <span class="nt">&lt;string&gt;</span>NSStringPluralRuleType<span class="nt">&lt;/string&gt;</span>
+                <span class="nt">&lt;key&gt;</span>NSStringFormatValueTypeKey<span class="nt">&lt;/key&gt;</span>
+                <span class="nt">&lt;string&gt;</span>d<span class="nt">&lt;/string&gt;</span>
+                <span class="nt">&lt;key&gt;</span>zero<span class="nt">&lt;/key&gt;</span>
+                <span class="nt">&lt;string&gt;</span>No file is<span class="nt">&lt;/string&gt;</span>
+                <span class="nt">&lt;key&gt;</span>one<span class="nt">&lt;/key&gt;</span>
+                <span class="nt">&lt;string&gt;</span>A file is<span class="nt">&lt;/string&gt;</span>
+                <span class="nt">&lt;key&gt;</span>other<span class="nt">&lt;/key&gt;</span>
+                <span class="nt">&lt;string&gt;</span>%d files are<span class="nt">&lt;/string&gt;</span>
+            <span class="nt">&lt;/dict&gt;</span>
+        <span class="nt">&lt;/dict&gt;</span>
+    <span class="nt">&lt;/dict&gt;</span>
+    <span class="nt">&lt;/plist&gt;</span>
+</code></pre>
+</div>
 
-<h2>Upper/Lower Case</h2>
+<h2 id="upperlower-case">Upper/Lower Case</h2>
 
-<p>In NSString, you should use <code>uppercaseStringWithLocale:</code> and <code>lowercaseStringWithLocale:</code> methods instead.</p>
+<p>In NSString, you should use <code class="highlighter-rouge">uppercaseStringWithLocale:</code> and <code class="highlighter-rouge">lowercaseStringWithLocale:</code> methods instead.</p>
 
-<h2>Formatting Dates</h2>
+<h2 id="formatting-dates">Formatting Dates</h2>
 
-<p>In NSDateFormatter, you should use <code>dateFormatFromTemplate:options:locale:</code> instead.</p>
+<p>In NSDateFormatter, you should use <code class="highlighter-rouge">dateFormatFromTemplate:options:locale:</code> instead.</p>
 
 <p>Refer to the <a href="https://developer.apple.com/library/mac/documentation/cocoa/Reference/Foundation/Classes/NSDateFormatter_Class/Reference/Reference.html#//apple_ref/occ/clm/NSDateFormatter/dateFormatFromTemplate:options:locale:">documentation</a>. Displaying dates is much harder than you think, with the punctuation and ordering all different.</p>
 
-<h2>The right locale</h2>
+<h2 id="the-right-locale">The right locale</h2>
 
-<p>The current system locale is <code>[NSLocale currentLocale]</code>.</p>
+<p>The current system locale is <code class="highlighter-rouge">[NSLocale currentLocale]</code>.</p>
 
 <p>But sometimes your app only is supporting certain locale, and you want the presentation to be consistent. In that case, you should use:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">localization</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSBundle</span> <span class="n">mainBundle</span><span class="p">].</span><span class="n">preferredLocalizations</span><span class="p">.</span><span class="n">firstObject</span><span class="p">;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSLocale</span> <span class="o">*</span><span class="n">locale</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSLocale</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithLocaleIdentifier</span><span class="p">:</span><span class="n">localization</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">NSString</span> <span class="o">*</span><span class="n">localization</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">].</span><span class="n">preferredLocalizations</span><span class="p">.</span><span class="n">firstObject</span><span class="p">;</span>
+    <span class="n">NSLocale</span> <span class="o">*</span><span class="n">locale</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSLocale</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithLocaleIdentifier</span><span class="p">:</span><span class="n">localization</span><span class="p">];</span>
+</code></pre>
+</div>
 
 <p>You might also want to know when the locale has changed.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[[</span><span class="bp">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>                                             <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">localeDidChange</span><span class="p">)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                 <span class="nl">name</span><span class="p">:</span><span class="n">NSCurrentLocaleDidChangeNotification</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                                               <span class="nl">object</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="nf">defaultCenter</span><span class="p">]</span> <span class="nf">addObserver</span><span class="p">:</span><span class="n">self</span>
+                                             <span class="nf">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">localeDidChange</span><span class="p">)</span>
+                                                 <span class="n">name</span><span class="o">:</span><span class="n">NSCurrentLocaleDidChangeNotification</span>
+                                               <span class="n">object</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+</code></pre>
+</div>
 
-<h2>Test on Simulator</h2>
+<h2 id="test-on-simulator">Test on Simulator</h2>
 
 <p>To test, you can go to Settings app in simulator to change the language.</p>
 
 <p>Or if you prefer faster way, you can set the launch arguments in Scheme &gt; Run &gt; Arguments, and add the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">-AppleLanguages (zh-Hans)
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>-AppleLanguages (zh-Hans)
+</code></pre>
+</div>
+
 <p>The above will start the simulator in Chinese Simplified. Edit the language accordingly such as es, ko, de</p>
 
-<h2>Third Party Services</h2>
+<h2 id="third-party-services">Third Party Services</h2>
 
 <p>There are mnay services that provides translations. Apple even has a <a href="https://developer.apple.com/internationalization/">list of vendors</a>.</p>
 
@@ -174,16 +188,22 @@
 <p>This is because:</p>
 
 <ul>
-<li><p>they have a free management tool that is the best (can even add screenshots)</p></li>
-<li><p>it&#39;s free to to use their crowdsource up to 5 collaborators</p></li>
-<li><p>their charge of 0.10 USD/word is comparable to others</p></li>
+  <li>
+    <p>they have a free management tool that is the best (can even add screenshots)</p>
+  </li>
+  <li>
+    <p>it’s free to to use their crowdsource up to 5 collaborators</p>
+  </li>
+  <li>
+    <p>their charge of 0.10 USD/word is comparable to others</p>
+  </li>
 </ul>
 
 <p>I would use OneSky to ask my friends and users to help in translation.</p>
 
-<h2>Google API</h2>
+<h2 id="google-api">Google API</h2>
 
-<p>It&#39;s usually terrible to translate using Google API. They probably can only get 50% right.</p>
+<p>It’s usually terrible to translate using Google API. They probably can only get 50% right.</p>
 
 <p>The other 50% is either grammatically wrong, or assumed wrong context.</p>
 

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,116 +78,137 @@
 
 <!-- more -->
 
-<h2>Why Both ?</h2>
+<h2 id="why-both-">Why Both ?</h2>
 
-<p>JSDoc is regular API documentation that explain the methods and modules of your project. You annotate your source code with <code>@param</code> etc to explain them. It is good for public API documentation.</p>
+<p>JSDoc is regular API documentation that explain the methods and modules of your project. You annotate your source code with <code class="highlighter-rouge">@param</code> etc to explain them. It is good for public API documentation.</p>
 
 <p>Docco is a 2 vertical layout documentation with <strong>prose</strong> and the <strong>code</strong>. It has recently became popular and a good example is <a href="http://underscorejs.org/docs/underscore.html">underscore documentation</a>. It is more suitable for explaining the flow of your code. It is good for small team, or ownself.</p>
 
-<p>Docco is actually very simple. It parses your source code, and any comments that starts with <code>//</code> is the <strong>prose</strong>. You can use markdown too. And, it doesn&#39;t consider <code>/** comments */</code> as a prose, which is good, because JSDoc uses them.</p>
+<p>Docco is actually very simple. It parses your source code, and any comments that starts with <code class="highlighter-rouge">//</code> is the <strong>prose</strong>. You can use markdown too. And, it doesn’t consider <code class="highlighter-rouge">/** comments */</code> as a prose, which is good, because JSDoc uses them.</p>
 
 <p>I like to use both simultaneously because</p>
 
 <ul>
-<li><p>Docco is great for reading your source code with the comments right beside. It helps in explaining the flow.</p></li>
-<li><p>JSDoc is great for looking up on how to use a method, the parameters and type.</p></li>
+  <li>
+    <p>Docco is great for reading your source code with the comments right beside. It helps in explaining the flow.</p>
+  </li>
+  <li>
+    <p>JSDoc is great for looking up on how to use a method, the parameters and type.</p>
+  </li>
 </ul>
 
 <p><a href="http://jashkenas.github.io/docco/">Setting up Docco</a> is easy so I will not be explaining.</p>
 
 <p>But ironically, the documentation from JSDoc is not the clearest of all.</p>
 
-<h2>Setting up JSDoc</h2>
+<h2 id="setting-up-jsdoc">Setting up JSDoc</h2>
 
 <p>There are 2 places for their documentation - <a href="http://usejsdoc.org">usejsdoc.org</a> and <a href="https://github.com/jsdoc3/jsdoc">github</a>.</p>
 
 <p>Firstly, go to <a href="https://github.com/jsdoc3/jsdoc">github</a> to understand how to install the module.</p>
 
-<p>I made a mistake to install the module globally with npm <code>-g</code>, which is WRONG. Install locally with:</p>
+<p>I made a mistake to install the module globally with npm <code class="highlighter-rouge">-g</code>, which is WRONG. Install locally with:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>npm install jsdoc</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>npm install jsdoc
+</code></pre>
+</div>
 
-<p>This is because you need to edit the config file in the module at <code>./node_modules/jsdoc/config.json</code>. And this part of the information is at <a href="http://usejsdoc.org/about-configuring-jsdoc.html">usejsdoc.org</a>..</p>
+<p>This is because you need to edit the config file in the module at <code class="highlighter-rouge">./node_modules/jsdoc/config.json</code>. And this part of the information is at <a href="http://usejsdoc.org/about-configuring-jsdoc.html">usejsdoc.org</a>..</p>
 
 <p>To generate, run this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>./node_modules/.bin/jsdoc yourJavaScriptFile.js</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>./node_modules/.bin/jsdoc yourJavaScriptFile.js
+</code></pre>
+</div>
 
-<p>The doc will appear in <code>./out</code> (default directory).</p>
+<p>The doc will appear in <code class="highlighter-rouge">./out</code> (default directory).</p>
 
-<h2>Using Docstrap</h2>
+<h2 id="using-docstrap">Using Docstrap</h2>
 
-<p>The default theme of JSDoc isn&#39;t attractive. Fortunately there is <a href="https://github.com/terryweiss/docstrap">docstrap</a>.</p>
+<p>The default theme of JSDoc isn’t attractive. Fortunately there is <a href="https://github.com/terryweiss/docstrap">docstrap</a>.</p>
 
 <p>I like <a href="http://terryweiss.github.io/docstrap/themes/amelia/">amelia</a> (retro feel) and <a href="http://terryweiss.github.io/docstrap/themes/cerulean/">cerulean</a> (twitter like).</p>
 
-<p>Again, the instructions wasn&#39;t very clear.</p>
+<p>Again, the instructions wasn’t very clear.</p>
 
-<p>To use docstrap, you have to <code>npm install ink-docstrap</code>, then edit <code>config.json</code> in <em>jsdoc</em>, and add the following to <code>templates</code> key.  Note the <code>theme</code> used is cerulean below.</p>
+<p>To use docstrap, you have to <code class="highlighter-rouge">npm install ink-docstrap</code>, then edit <code class="highlighter-rouge">config.json</code> in <em>jsdoc</em>, and add the following to <code class="highlighter-rouge">templates</code> key.  Note the <code class="highlighter-rouge">theme</code> used is cerulean below.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="s2">&quot;templates&quot;</span><span class="err">:</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;cleverLinks&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;monospaceLinks&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;default&quot;</span><span class="p">:</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nt">&quot;outputSourceFiles&quot;</span><span class="p">:</span> <span class="kc">true</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;,</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;systemName&quot;</span>      <span class="p">:</span> <span class="s2">&quot;DocStrap&quot;</span><span class="p">,</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;footer&quot;</span>          <span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;copyright&quot;</span>       <span class="p">:</span> <span class="s2">&quot;DocStrap Copyright © 2012-2013 The contributors to the JSDoc3 and DocStrap projects.&quot;</span><span class="p">,</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;navType&quot;</span>         <span class="p">:</span> <span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;theme&quot;</span>           <span class="p">:</span> <span class="s2">&quot;cerulean&quot;</span><span class="p">,</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;linenums&quot;</span>        <span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;collapseSymbols&quot;</span> <span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nt">&quot;inverseNav&quot;</span>      <span class="p">:</span> <span class="kc">true</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span><span class="err">,</span></div></div></pre></div></figure>
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="w">    </span><span class="s2">"templates"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"cleverLinks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"monospaceLinks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nt">"outputSourceFiles"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"systemName"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"DocStrap"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"footer"</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"copyright"</span><span class="w">       </span><span class="p">:</span><span class="w"> </span><span class="s2">"DocStrap Copyright © 2012-2013 The contributors to the JSDoc3 and DocStrap projects."</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"navType"</span><span class="w">         </span><span class="p">:</span><span class="w"> </span><span class="s2">"vertical"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"theme"</span><span class="w">           </span><span class="p">:</span><span class="w"> </span><span class="s2">"cerulean"</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"linenums"</span><span class="w">        </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"collapseSymbols"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"inverseNav"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span></code></pre>
+</div>
 
 <p>Then this is how you generate:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>./node_modules/.bin/jsdoc yourJavaScriptFile.js -t ./node_modules/ink-docstrap/template -c ./node_modules/jsdoc/conf.json</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>./node_modules/.bin/jsdoc yourJavaScriptFile.js -t ./node_modules/ink-docstrap/template -c ./node_modules/jsdoc/conf.json
+</code></pre>
+</div>
 
-<p>And that&#39;s how you have a much better looking website.</p>
+<p>And that’s how you have a much better looking website.</p>
 
-<h2>Using Grunt</h2>
+<h2 id="using-grunt">Using Grunt</h2>
 
-<p>The last command is long and tedious. Let&#39; use Grunt to improve and automate the process.</p>
+<p>The last command is long and tedious. Let’ use Grunt to improve and automate the process.</p>
 
 <p>Install <a href="http://gruntjs.com/">Grunt</a>:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>npm install -g grunt-cli</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>npm install -g grunt-cli
+</code></pre>
+</div>
 
 <p>Then install the plugin <a href="https://npmjs.org/package/grunt-jsdoc">Grunt-Jsdoc</a>:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>npm install grunt-jsdoc --save-dev</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>npm install grunt-jsdoc --save-dev
+</code></pre>
+</div>
 
 <p>Configure the Gruntfile and use <a href="https://npmjs.org/package/grunt-jsdoc">accordingly</a>. This is mine after configuring:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">// Project configuration.</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">(&#x7b;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">jsdoc</span> <span class="o">:</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nx">dist</span> <span class="o">:</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;./*.js&#39;</span><span class="p">],</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nx">jsdoc</span><span class="o">:</span> <span class="s1">&#39;./node_modules/.bin/jsdoc&#39;</span><span class="p">,</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nx">options</span><span class="o">:</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nx">destination</span><span class="o">:</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nx">configure</span><span class="o">:</span> <span class="s1">&#39;./node_modules/jsdoc/conf.json&#39;</span><span class="p">,</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="nx">template</span><span class="o">:</span> <span class="s1">&#39;./node_modules/ink-docstrap/template&#39;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;);</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-jsdoc&#39;</span><span class="p">);</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;;</span></div></div></pre></div></figure>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
 
-<p>Now, you can simple run <code>grunt jsdoc</code>.</p>
+  <span class="c1">// Project configuration.</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+    <span class="na">jsdoc</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="na">dist</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="na">src</span><span class="p">:</span> <span class="p">[</span><span class="s1">'./*.js'</span><span class="p">],</span>
+            <span class="na">jsdoc</span><span class="p">:</span> <span class="s1">'./node_modules/.bin/jsdoc'</span><span class="p">,</span>
+            <span class="na">options</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">destination</span><span class="p">:</span> <span class="s1">'doc'</span><span class="p">,</span>
+                <span class="na">configure</span><span class="p">:</span> <span class="s1">'./node_modules/jsdoc/conf.json'</span><span class="p">,</span>
+                <span class="na">template</span><span class="p">:</span> <span class="s1">'./node_modules/ink-docstrap/template'</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
 
-<h2>Others</h2>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">'grunt-jsdoc'</span><span class="p">);</span>
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>Now, you can simple run <code class="highlighter-rouge">grunt jsdoc</code>.</p>
+
+<h2 id="others">Others</h2>
 
 <p>There is a good review of <a href="http://blog.fusioncharts.com/2013/12/jsdoc-vs-yuidoc-vs-doxx-vs-docco-choosing-a-javascript-documentation-generator/">Jsdoc vs Docco vs Yuidoc vs Doxx</a>.</p>
 
 <p><a href="https://github.com/visionmedia/dox">Dox</a> is another good one, but it now no longer spits out html. It only spits out JSON, yet there is no good render template with it.</p>
 
-<p><a href="http://smartcomments.github.io/">Smartcomments</a> is helpful to generate <code>@param</code> etc, but it didn&#39;t work well for me. Not a big deal missing it.</p>
+<p><a href="http://smartcomments.github.io/">Smartcomments</a> is helpful to generate <code class="highlighter-rouge">@param</code> etc, but it didn’t work well for me. Not a big deal missing it.</p>
 
 <p>Lastly, manual handwritten wiki style is still great. It is good for tutorials such as Express documentation. You can write in markdown or HTML.</p>
 

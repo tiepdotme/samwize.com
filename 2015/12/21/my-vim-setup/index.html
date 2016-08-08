@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,54 +72,65 @@
           </div>
           <a name="topofpage"></a>
           
-          <h2>Install vim with +clipboard</h2>
+          <h2 id="install-vim-with-clipboard">Install vim with +clipboard</h2>
 
 <p>The vim that comes with Mac OS was not built with clipboard support. That means you have no access to system clipboard in their vim!</p>
 
 <p>Therefore, the first step is to install a better version of vim.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">brew install vim
-</code></pre></div>
-<h2>Vundle to manage vim plugins</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>brew install vim
+</code></pre>
+</div>
+
+<h2 id="vundle-to-manage-vim-plugins">Vundle to manage vim plugins</h2>
 
 <p><a href="https://github.com/VundleVim/Vundle.vim">Vundle</a> is a plugin manager for vim.</p>
 
-<p>Firstly, <code>git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</code>.</p>
+<p>Firstly, <code class="highlighter-rouge">git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</code>.</p>
 
-<p>Since I use <a href="http://samwize.com/2014/01/12/getting-started-with-dotfiles/">dotfiles</a> and <a href="http://samwize.com/2014/01/15/getting-started-with-zsh/">oh-my-zsh</a>, there will be some setup to them. With oh-my-zsh, enable vundle as one of the plugins in <code>.zshrc</code>.</p>
+<p>Since I use <a href="http://samwize.com/2014/01/12/getting-started-with-dotfiles/">dotfiles</a> and <a href="http://samwize.com/2014/01/15/getting-started-with-zsh/">oh-my-zsh</a>, there will be some setup to them. With oh-my-zsh, enable vundle as one of the plugins in <code class="highlighter-rouge">.zshrc</code>.</p>
 
-<p>Then in <code>.vimrc</code>, add the following: </p>
+<p>Then in <code class="highlighter-rouge">.vimrc</code>, add the following:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>filetype off                  " required
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>set rtp+=~/.vim/bundle/Vundle.vim
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>call vundle#begin()
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>Plugin 'ctrlpvim/ctrlp.vim'
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>call vundle#end()            " required
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>filetype plugin indent on    " required</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>filetype off                  " required
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'ctrlpvim/ctrlp.vim'
+call vundle#end()            " required
+filetype plugin indent on    " required
+</code></pre>
+</div>
 
 <p>In the example, I have only added <a href="https://github.com/ctrlpvim/ctrlp.vim">ctrlp</a> for illustration of a plugin to install. Add more as needed.</p>
 
-<p>You can now install with <code>:PluginInstall</code>.</p>
+<p>You can now install with <code class="highlighter-rouge">:PluginInstall</code>.</p>
 
-<h2>Symlink dotfiles</h2>
+<h2 id="symlink-dotfiles">Symlink dotfiles</h2>
 
-<p>A convenient way is to symlink <code>.vimrc</code> so that you only edit in one place (dotfile):</p>
+<p>A convenient way is to symlink <code class="highlighter-rouge">.vimrc</code> so that you only edit in one place (dotfile):</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>ln -s ~/dotfiles/.vimrc ~/.vimrc</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>ln -s ~/dotfiles/.vimrc ~/.vimrc
+</code></pre>
+</div>
 
-<h2>Solarized Theme</h2>
+<h2 id="solarized-theme">Solarized Theme</h2>
 
-<p>We can&#39;t not mention the most popluar theme - solarized.</p>
+<p>We can’t not mention the most popluar theme - solarized.</p>
 
-<p>Add the plugin to <code>.zshrc</code>, and install with <code>:PluginInstall</code>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Plugin &#39;altercation/vim-colors-solarized&#39;
-</code></pre></div>
+<p>Add the plugin to <code class="highlighter-rouge">.zshrc</code>, and install with <code class="highlighter-rouge">:PluginInstall</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Plugin 'altercation/vim-colors-solarized'
+</code></pre>
+</div>
+
 <p>Remember to also change the <a href="https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized">theme for iTerm2</a>.</p>
 
-<h2>Agnoster/Powerline zsh theme</h2>
+<h2 id="agnosterpowerline-zsh-theme">Agnoster/Powerline zsh theme</h2>
 
-<p>While we are at theme, you might as well change your zsh theme to <a href="https://gist.github.com/agnoster/3712874">Agnoster</a>, a theme that is compatible with Solarized and good if you use git. Change your <code>.zshrc</code> theme to <code>agnoster</code>.</p>
+<p>While we are at theme, you might as well change your zsh theme to <a href="https://gist.github.com/agnoster/3712874">Agnoster</a>, a theme that is compatible with Solarized and good if you use git. Change your <code class="highlighter-rouge">.zshrc</code> theme to <code class="highlighter-rouge">agnoster</code>.</p>
 
 <p>You will need to install <a href="https://github.com/powerline/fonts">powerline fonts</a>, then change your iTerm non-ASCII font to eg Menso for Powerline.</p>
+
 
         </section>
         <footer class="post-footer">

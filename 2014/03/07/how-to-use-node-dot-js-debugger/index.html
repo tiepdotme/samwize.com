@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,69 +74,78 @@
           
           <p>Node.js did come with a built-in <a href="http://nodejs.org/api/debugger.html">debugger</a>.</p>
 
-<h2>How to use</h2>
+<h2 id="how-to-use">How to use</h2>
 
 <!-- more -->
 
-<h3>1. Add breakpoint into code</h3>
+<h3 id="add-breakpoint-into-code">1. Add breakpoint into code</h3>
 
 <p>To add a breakpoint, add this line of code:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">debugger;
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>debugger;
+</code></pre>
+</div>
+
 <p>Yup, just 1 word to break there.</p>
 
-<h3>2. Run in debug mode</h3>
+<h3 id="run-in-debug-mode">2. Run in debug mode</h3>
 
-<p>Say the script you run is <code>app.js</code>, you will run <code>node</code> with a <code>debug</code>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">node debug app.js
-</code></pre></div>
+<p>Say the script you run is <code class="highlighter-rouge">app.js</code>, you will run <code class="highlighter-rouge">node</code> with a <code class="highlighter-rouge">debug</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>node debug app.js
+</code></pre>
+</div>
+
 <p>Your script will run and break on the line as specified.</p>
 
 <p>For example:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">break in /some/path/app.js:1
+
+<div class="highlighter-rouge"><pre class="highlight"><code>break in /some/path/app.js:1
   1 x = 5;
   2 setTimeout(function () {
   3   debugger;
 debug&gt;
-</code></pre></div>
-<h3>3. The commands to stepping around</h3>
+</code></pre>
+</div>
+
+<h3 id="the-commands-to-stepping-around">3. The commands to stepping around</h3>
 
 <p>At this point of time, you can issue the following commands to step around the code:</p>
 
 <ul>
-<li><code>c</code> - Continue execution</li>
-<li><code>n</code> - Step next</li>
-<li><code>s</code> - Step in</li>
-<li><code>o</code> - Step out</li>
-<li><code>pause</code> - Pause running code</li>
+  <li><code class="highlighter-rouge">c</code> - Continue execution</li>
+  <li><code class="highlighter-rouge">n</code> - Step next</li>
+  <li><code class="highlighter-rouge">s</code> - Step in</li>
+  <li><code class="highlighter-rouge">o</code> - Step out</li>
+  <li><code class="highlighter-rouge">pause</code> - Pause running code</li>
 </ul>
 
 <p>Or these commands for breakpoints:</p>
 
 <ul>
-<li><code>sb()</code> - Set breakpoint on current line</li>
-<li><code>sb(line)</code> - Set breakpoint on specific line</li>
-<li><code>sb(&#39;fn()&#39;)</code> - Set breakpoint on a first statement in functions body</li>
-<li><code>sb(&#39;script.js&#39;, 1)</code> - Set breakpoint on first line of script.js</li>
-<li><code>cb</code> - Clear breakpoint</li>
+  <li><code class="highlighter-rouge">sb()</code> - Set breakpoint on current line</li>
+  <li><code class="highlighter-rouge">sb(line)</code> - Set breakpoint on specific line</li>
+  <li><code class="highlighter-rouge">sb('fn()')</code> - Set breakpoint on a first statement in functions body</li>
+  <li><code class="highlighter-rouge">sb('script.js', 1)</code> - Set breakpoint on first line of script.js</li>
+  <li><code class="highlighter-rouge">cb</code> - Clear breakpoint</li>
 </ul>
 
 <p>Or more info:</p>
 
 <ul>
-<li><code>bt</code> - Print backtrace of current execution frame</li>
-<li><code>list(5)</code> - List scripts source code with 5 line context (5 lines before and after)</li>
-<li><code>watch(expr)</code> - Add expression to watch list</li>
-<li><code>unwatch(expr)</code> - Remove expression from watch list</li>
-<li><code>watchers</code> - List all watchers and their values (automatically listed on each breakpoint)</li>
+  <li><code class="highlighter-rouge">bt</code> - Print backtrace of current execution frame</li>
+  <li><code class="highlighter-rouge">list(5)</code> - List scripts source code with 5 line context (5 lines before and after)</li>
+  <li><code class="highlighter-rouge">watch(expr)</code> - Add expression to watch list</li>
+  <li><code class="highlighter-rouge">unwatch(expr)</code> - Remove expression from watch list</li>
+  <li><code class="highlighter-rouge">watchers</code> - List all watchers and their values (automatically listed on each breakpoint)</li>
 </ul>
 
-<h3>Bonus: REPL</h3>
+<h3 id="bonus-repl">Bonus: REPL</h3>
 
 <p>This is one of the best feature. It kinds of like code inspection in interative mode.</p>
 
 <ul>
-<li><code>repl</code> - Open debugger&#39;s repl for evaluation in debugging script&#39;s context</li>
+  <li><code class="highlighter-rouge">repl</code> - Open debugger’s repl for evaluation in debugging script’s context</li>
 </ul>
 
 <p>Nice tool from node (even better than <a href="http://blog.just2us.com/2012/07/python-debugger-guide-pdb-kind-of-gdb/">Python</a>)!</p>

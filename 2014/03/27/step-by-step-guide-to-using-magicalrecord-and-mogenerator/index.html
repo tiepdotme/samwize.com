@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -82,109 +82,129 @@
 
 <!-- more -->
 
-<h2>1. Install MagicalRecords</h2>
+<h2 id="install-magicalrecords">1. Install MagicalRecords</h2>
 
 <p>Using CocoaPods, add this to your podfile:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">pod &#39;MagicalRecord/Shorthand&#39;, &#39;~&gt; 2.2&#39;
-</code></pre></div>
-<p>Then <code>pod install</code>.</p>
 
-<p>Note: We want to used shorthand, therefore the additional &quot;/Shorthand&quot; in the podfile. Shorthand is recommended, so that you use <code>findAll</code> instead of <code>MR_findAll</code>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>pod 'MagicalRecord/Shorthand', '~&gt; 2.2'
+</code></pre>
+</div>
 
-<h2>2. Setup pch</h2>
+<p>Then <code class="highlighter-rouge">pod install</code>.</p>
+
+<p>Note: We want to used shorthand, therefore the additional “/Shorthand” in the podfile. Shorthand is recommended, so that you use <code class="highlighter-rouge">findAll</code> instead of <code class="highlighter-rouge">MR_findAll</code>.</p>
+
+<h2 id="setup-pch">2. Setup pch</h2>
 
 <p>Your pch file should look like this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#ifdef __OBJC__</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="cp">#define MR_SHORTHAND</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="cp">#import &lt;CoreData+MagicalRecord.h&gt;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#endif</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="cp">#ifdef __OBJC__
+</span>    <span class="cp">#define MR_SHORTHAND
+</span>    <span class="cp">#import &lt;CoreData+MagicalRecord.h&gt;
+#endif
+</span></code></pre>
+</div>
 
-<h2>3. Setup when application load/exit</h2>
+<h2 id="setup-when-application-loadexit">3. Setup when application load/exit</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions:</span><span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">MagicalRecord</span> <span class="n">setupCoreDataStack</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">applicationWillTerminate:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">MagicalRecord</span> <span class="n">cleanUp</span><span class="p">];</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">MagicalRecord</span> <span class="nf">setupCoreDataStack</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">applicationWillTerminate</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">MagicalRecord</span> <span class="nf">cleanUp</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>Or if you want to setup with a different sqlite name, or deal with migration, refer to this <a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/GettingStarted.md">documentation</a>.</p>
 
-<h2>4. Using MagicalRecord API</h2>
+<h2 id="using-magicalrecord-api">4. Using MagicalRecord API</h2>
 
-<p><a href="https://github.com/magicalpanda/MagicalRecord">MagicalRecord</a> documentation is kind of messy. Here&#39;s a orderly guide to using:</p>
+<p><a href="https://github.com/magicalpanda/MagicalRecord">MagicalRecord</a> documentation is kind of messy. Here’s a orderly guide to using:</p>
 
 <ul>
-<li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Fetching.md">Basic &amp; Advanced fetching</a></li>
-<li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Saving.md">Saving</a></li>
-<li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Threads.md">Threading</a> make easy</li>
-<li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Logging.md">Logging</a> which you can disable</li>
-<li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/iCloud.md">iCloud support</a></li>
+  <li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Fetching.md">Basic &amp; Advanced fetching</a></li>
+  <li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Saving.md">Saving</a></li>
+  <li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Threads.md">Threading</a> make easy</li>
+  <li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Logging.md">Logging</a> which you can disable</li>
+  <li><a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/iCloud.md">iCloud support</a></li>
 </ul>
 
 <p>At this point, you may already use MagicalRecord API with Core Data. Just create your model and entities. Refer to a <a href="http://yannickloriot.com/2012/03/magicalrecord-how-to-make-programming-with-core-data-pleasant/">tutorial</a> if needed.</p>
 
 <p>But it is better to use mogenerator to generate the entitiy classes. I will explain setting up of mogenerator in the rest of the sections. But if you are not using mogenerator, stop here.</p>
 
-<h2>5. Install mogenerator</h2>
+<h2 id="install-mogenerator">5. Install mogenerator</h2>
 
 <p>The value of mogenerator is:</p>
 
 <blockquote>
-<p>Generate 2 classes per entity - 1 for machine and 1 for human (which you can edit)</p>
+  <p>Generate 2 classes per entity - 1 for machine and 1 for human (which you can edit)</p>
 </blockquote>
 
 <p>It is a command-line tool, which you can install using brew:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">// On your command line
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// On your command line
 $ sudo brew install mogenerator
 // Or if you need to update
 $ sudo brew update &amp;&amp; brew upgrade mogenerator
-</code></pre></div>
-<h2>6. Add a Model</h2>
+</code></pre>
+</div>
+
+<h2 id="add-a-model">6. Add a Model</h2>
 
 <p>Next, add a core data model (if you have not).</p>
 
 <p>Go to File &gt; New File &gt; Core Data &gt; Data Model</p>
 
-<p>You should save <code>Model.xcdatamodeld</code> in a <code>Models</code> directory.</p>
+<p>You should save <code class="highlighter-rouge">Model.xcdatamodeld</code> in a <code class="highlighter-rouge">Models</code> directory.</p>
 
-<h2>7. Add new Entity</h2>
+<h2 id="add-new-entity">7. Add new Entity</h2>
 
-<p>Add a new entity into the model. Assume the entity name is <code>Person</code>.</p>
+<p>Add a new entity into the model. Assume the entity name is <code class="highlighter-rouge">Person</code>.</p>
 
-<p>Change the entity name, <a href="http://stackoverflow.com/questions/14183895/mogenerator-error-skipping-entity-myobjectname-nsmanagedobject-because-it-doe">and also class name</a> to <code>Person</code> too.</p>
+<p>Change the entity name, <a href="http://stackoverflow.com/questions/14183895/mogenerator-error-skipping-entity-myobjectname-nsmanagedobject-because-it-doe">and also class name</a> to <code class="highlighter-rouge">Person</code> too.</p>
 
-<h2>8. Setup target and build script</h2>
+<h2 id="setup-target-and-build-script">8. Setup target and build script</h2>
 
 <p>Follow the guide to setup a <a href="http://raptureinvenice.com/getting-started-with-mogenerator/">target for mogenerator</a>. That creates a mogenerator target that you can build everytime you change your model.</p>
 
-<p>Here&#39;s my build script:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mogenerator -m &quot;MyApp/Models/Model.xcdatamodeld/Model.xcdatamodel&quot; -O MyApp/Models --template-var arc=true
-</code></pre></div>
-<p><code>MyApp/Models/</code> is the directory containing all my models related file, which is also where I save the data model when I created it. You may make changes accordingly.</p>
+<p>Here’s my build script:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mogenerator -m "MyApp/Models/Model.xcdatamodeld/Model.xcdatamodel" -O MyApp/Models --template-var arc=true
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">MyApp/Models/</code> is the directory containing all my models related file, which is also where I save the data model when I created it. You may make changes accordingly.</p>
 
 <p>You can also refer to the <a href="http://stackoverflow.com/questions/3589247/how-do-the-mogenerator-parameters-work-which-can-i-send-via-xcode">command-line options</a>, if you need to change how it generates.</p>
 
 <p><em>UPDATE: If you are using v1.28 (Sep 2014), and wants to use ARC, the shorter command is:</em></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mogenerator --v2 -m &quot;MyApp/Models/Model.xcdatamodeld&quot; -O &quot;Jade/Models&quot;
-</code></pre></div>
-<p>Note that if you have a new version of your model, you should edit the build script correspondingly. eg. I have a &quot;Model 2.xcdatamodel&quot;:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mogenerator -m &quot;MyApp/Models/Model.xcdatamodeld/Model 2.xcdatamodel&quot; -O MyApp/Models --template-var arc=true
-</code></pre></div>
-<h2>9. Build mogenerator target</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mogenerator --v2 -m "MyApp/Models/Model.xcdatamodeld" -O "Jade/Models"
+</code></pre>
+</div>
+
+<p>Note that if you have a new version of your model, you should edit the build script correspondingly. eg. I have a “Model 2.xcdatamodel”:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mogenerator -m "MyApp/Models/Model.xcdatamodeld/Model 2.xcdatamodel" -O MyApp/Models --template-var arc=true
+</code></pre>
+</div>
+
+<h2 id="build-mogenerator-target">9. Build mogenerator target</h2>
 
 <p>Select the mogenerator target and build. This will generate all the files.</p>
 
-<p><code>Person.h/m</code> is the file for human, which you may edit.</p>
+<p><code class="highlighter-rouge">Person.h/m</code> is the file for human, which you may edit.</p>
 
-<p><code>_Person.h/m</code> is the file for machines, which you should never touch.</p>
+<p><code class="highlighter-rouge">_Person.h/m</code> is the file for machines, which you should never touch.</p>
 
-<h2>10. Add the files to project</h2>
+<h2 id="add-the-files-to-project">10. Add the files to project</h2>
 
-<p>Add <code>_Person.h/m</code> into <code>Models</code> group in your project.</p>
+<p>Add <code class="highlighter-rouge">_Person.h/m</code> into <code class="highlighter-rouge">Models</code> group in your project.</p>
 
-<p>That&#39;s it!</p>
+<p>That’s it!</p>
 
 <p>Start using with MagicalRecords, or refer to a <a href="http://yannickloriot.com/2012/03/magicalrecord-how-to-make-programming-with-core-data-pleasant/">tutorial</a> if needed.</p>
 

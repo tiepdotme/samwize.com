@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,40 +72,49 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>I encountered a weird error when using <code>UICollectionView</code>, where the storyboard is using autolayout.</p>
+          <p>I encountered a weird error when using <code class="highlighter-rouge">UICollectionView</code>, where the storyboard is using autolayout.</p>
 
 <p>This is the error:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>Unable to simultaneously satisfy constraints.
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    Probably at least one of the constraints in the following list is one you don't want. Try this: (1) look at each constraint and try to figure out which you don't expect; (2) find the code that added the unwanted constraint or constraints and fix it. (Note: If you're seeing NSAutoresizingMaskLayoutConstraints that you don't understand, refer to the documentation for the UIView property translatesAutoresizingMaskIntoConstraints) 
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>(
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    "&lt;NSLayoutConstraint:0x7fda6411de70 H:[UIButton:0x7fda6411dc90(13)]>",
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    ...
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    "&lt;NSAutoresizingMaskLayoutConstraint:0x7fda61cf61e0 h=--& v=--& H:[UIView:0x7fda6411d500(50)]>"
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>)
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>Will attempt to recover by breaking constraint 
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>&lt;NSLayoutConstraint:0x7fda6411de70 H:[UIButton:0x7fda6411dc90(13)]></div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>Unable to simultaneously satisfy constraints.
+    Probably at least one of the constraints in the following list is one you don't want. Try this: (1) look at each constraint and try to figure out which you don't expect; (2) find the code that added the unwanted constraint or constraints and fix it. (Note: If you're seeing NSAutoresizingMaskLayoutConstraints that you don't understand, refer to the documentation for the UIView property translatesAutoresizingMaskIntoConstraints) 
+(
+    "&lt;NSLayoutConstraint:0x7fda6411de70 H:[UIButton:0x7fda6411dc90(13)]&gt;",
+    ...
+    "&lt;NSAutoresizingMaskLayoutConstraint:0x7fda61cf61e0 h=--&amp; v=--&amp; H:[UIView:0x7fda6411d500(50)]&gt;"
+)
+
+Will attempt to recover by breaking constraint 
+&lt;NSLayoutConstraint:0x7fda6411de70 H:[UIButton:0x7fda6411dc90(13)]&gt;
+</code></pre>
+</div>
 
 <!-- more -->
 
-<p>It doesn&#39;t crash as it is able to recover by breaking constraint.</p>
+<p>It doesn’t crash as it is able to recover by breaking constraint.</p>
 
-<h2>It is weird becase:</h2>
+<h2 id="it-is-weird-becase">It is weird becase:</h2>
 
 <ul>
-<li><p>If I try to solve by breaking the constraint, it will not layout as I wanted</p></li>
-<li><p>I checked every constraints and they are valid and minimal; I need not remove any unwanted constraints</p></li>
+  <li>
+    <p>If I try to solve by breaking the constraint, it will not layout as I wanted</p>
+  </li>
+  <li>
+    <p>I checked every constraints and they are valid and minimal; I need not remove any unwanted constraints</p>
+  </li>
 </ul>
 
-<h2>Solution</h2>
+<h2 id="solution">Solution</h2>
 
 <p>The problem lies with the view cell.</p>
 
-<p>Somehow, the <code>contentView</code> must set <code>translatesAutoresizingMaskIntoConstraints</code> to <code>NO</code>.</p>
+<p>Somehow, the <code class="highlighter-rouge">contentView</code> must set <code class="highlighter-rouge">translatesAutoresizingMaskIntoConstraints</code> to <code class="highlighter-rouge">NO</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">contentView</span> <span class="nl">setTranslatesAutoresizingMaskIntoConstraints</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="p">[</span><span class="n">cell</span><span class="p">.</span><span class="n">contentView</span> <span class="nf">setTranslatesAutoresizingMaskIntoConstraints</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
+</code></pre>
+</div>
 
-<p>This will similarly apply to <code>UITableViewCell</code>.</p>
+<p>This will similarly apply to <code class="highlighter-rouge">UITableViewCell</code>.</p>
 
 <p>It seems like the content view cell must use auto resizing mask.</p>
 

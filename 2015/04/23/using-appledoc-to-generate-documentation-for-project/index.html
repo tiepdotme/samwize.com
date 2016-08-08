@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -80,73 +80,85 @@
 
 <!-- more -->
 
-<h2>Install VVDocumenter-Xcode</h2>
+<h2 id="install-vvdocumenter-xcode">Install VVDocumenter-Xcode</h2>
 
-<p>Firstly, install <a href="https://github.com/onevcat/VVDocumenter-Xcode">this Xcode plugin</a> to help you with generating Javadoc style by simply typing <code>///</code> (3 forward slashes). </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone https://github.com/onevcat/VVDocumenter-Xcode.git
-</code></pre></div>
+<p>Firstly, install <a href="https://github.com/onevcat/VVDocumenter-Xcode">this Xcode plugin</a> to help you with generating Javadoc style by simply typing <code class="highlighter-rouge">///</code> (3 forward slashes).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/onevcat/VVDocumenter-Xcode.git
+</code></pre>
+</div>
+
 <p>Open the project and build.</p>
 
 <p>Restart Xcode.</p>
 
-<p>Typing <code>///</code> above a method should now generate the template for you to document on a method.</p>
+<p>Typing <code class="highlighter-rouge">///</code> above a method should now generate the template for you to document on a method.</p>
 
-<h2>Install appledoc</h2>
+<h2 id="install-appledoc">Install appledoc</h2>
 
 <p>Install <a href="https://github.com/tomaz/appledoc">appledoc</a> and build it.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone https://github.com/tomaz/appledoc.git
-sudo sh install-appledoc.sh
-</code></pre></div>
-<p>Note: <code>brew install appledoc</code> doesn&#39;t work with Yosemite as of April 2015, so git clone and build is the way to go.</p>
 
-<h2>Create a AppledocSettings.plist</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/tomaz/appledoc.git
+sudo sh install-appledoc.sh
+</code></pre>
+</div>
+
+<p>Note: <code class="highlighter-rouge">brew install appledoc</code> doesn’t work with Yosemite as of April 2015, so git clone and build is the way to go.</p>
+
+<h2 id="create-a-appledocsettingsplist">Create a AppledocSettings.plist</h2>
 
 <p>You can refer to a <a href="https://github.com/tomaz/appledoc/wiki/appledoc-docs-examples-basic">basic use of appledoc</a> at this point, but a basic use would have a number of parameters to the command.</p>
 
 <p>It is better to create a plist to contain the parameters.</p>
 
-<p>The default plist for a project is <code>AppledocSettings.plist</code>.</p>
+<p>The default plist for a project is <code class="highlighter-rouge">AppledocSettings.plist</code>.</p>
 
 <p>The plist for my project looks like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; 
-    &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
-&lt;dict&gt;
-    &lt;key&gt;--project-name&lt;/key&gt;
-    &lt;string&gt;Jade&lt;/string&gt;
-    &lt;key&gt;--project-company&lt;/key&gt;
-    &lt;string&gt;Just2us&lt;/string&gt;
-    &lt;key&gt;--company-id&lt;/key&gt;
-    &lt;string&gt;com.justus&lt;/string&gt;
 
-    &lt;key&gt;--output&lt;/key&gt;
-    &lt;string&gt;Docs&lt;/string&gt;
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" 
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>--project-name<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;string&gt;</span>Jade<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;key&gt;</span>--project-company<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;string&gt;</span>Just2us<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;key&gt;</span>--company-id<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;string&gt;</span>com.justus<span class="nt">&lt;/string&gt;</span>
 
-    &lt;key&gt;--create-docset&lt;/key&gt;
-    &lt;false/&gt;
+    <span class="nt">&lt;key&gt;</span>--output<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;string&gt;</span>Docs<span class="nt">&lt;/string&gt;</span>
 
-    &lt;key&gt;--ignore&lt;/key&gt;
-    &lt;array&gt;
-        &lt;string&gt;Pods&lt;/string&gt;
-        &lt;string&gt;Libs&lt;/string&gt;
-        &lt;string&gt;JadeTests&lt;/string&gt;
-        &lt;string&gt;*.framework&lt;/string&gt;
-    &lt;/array&gt;
+    <span class="nt">&lt;key&gt;</span>--create-docset<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;false/&gt;</span>
 
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre></div>
-<p>I have some basic information about the project and the company. Then I am generating the HTML in <code>Docs</code>, without docset, and ignoring some folders such as Pods, tests and frameworks.</p>
+    <span class="nt">&lt;key&gt;</span>--ignore<span class="nt">&lt;/key&gt;</span>
+    <span class="nt">&lt;array&gt;</span>
+        <span class="nt">&lt;string&gt;</span>Pods<span class="nt">&lt;/string&gt;</span>
+        <span class="nt">&lt;string&gt;</span>Libs<span class="nt">&lt;/string&gt;</span>
+        <span class="nt">&lt;string&gt;</span>JadeTests<span class="nt">&lt;/string&gt;</span>
+        <span class="nt">&lt;string&gt;</span>*.framework<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;/array&gt;</span>
+
+<span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/plist&gt;</span>
+</code></pre>
+</div>
+
+<p>I have some basic information about the project and the company. Then I am generating the HTML in <code class="highlighter-rouge">Docs</code>, without docset, and ignoring some folders such as Pods, tests and frameworks.</p>
 
 <p>With that, in your project directory, run</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">appledoc .
-</code></pre></div>
-<p>That&#39;s it!</p>
 
-<p>The HTML will be in <code>Docs</code>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>appledoc .
+</code></pre>
+</div>
 
-<h2>Advanced</h2>
+<p>That’s it!</p>
+
+<p>The HTML will be in <code class="highlighter-rouge">Docs</code>.</p>
+
+<h2 id="advanced">Advanced</h2>
 
 <p>There are some <a href="https://github.com/tomaz/appledoc/wiki/appledoc-docs-examples-advanced">advanced commands</a> and good guide about publishing from <a href="http://www.cocoanetics.com/2011/11/amazing-apple-like-documentation/">Cocoanetics</a>.</p>
 

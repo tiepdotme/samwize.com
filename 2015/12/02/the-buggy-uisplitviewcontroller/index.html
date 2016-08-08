@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>The Buggy UISplitViewController</title>
-  <meta name="description" content="When iOS 8 was released, UISplitViewController has a big upgrade -- it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app." />
+  <meta name="description" content="When iOS 8 was released, UISplitViewController has a big upgrade – it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="The Buggy UISplitViewController" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="When iOS 8 was released, UISplitViewController has a big upgrade -- it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app." />
+    <meta name="twitter:description"  content="When iOS 8 was released, UISplitViewController has a big upgrade – it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="The Buggy UISplitViewController"/>
   
-  <meta property="og:description" content="When iOS 8 was released, UISplitViewController has a big upgrade -- it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app." />
+  <meta property="og:description" content="When iOS 8 was released, UISplitViewController has a big upgrade – it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2015/12/02/the-buggy-uisplitviewcontroller/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,106 +72,119 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>When iOS 8 was released, <code>UISplitViewController</code> has a big upgrade -- it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app.</p>
+          <p>When iOS 8 was released, <code class="highlighter-rouge">UISplitViewController</code> has a big upgrade – it is no longer restricted to only iPad. That means, you can use the same on iPhone, therefore building a truly universal app.</p>
 
-<p>NSHipster has a <a href="https://www.google.com/search?client=safari&amp;rls=en&amp;q=uisplitviewcontroller+bug&amp;ie=UTF-8&amp;oe=UTF-8">good guide</a> to <code>UISplitViewController</code>.</p>
+<p>NSHipster has a <a href="https://www.google.com/search?client=safari&amp;rls=en&amp;q=uisplitviewcontroller+bug&amp;ie=UTF-8&amp;oe=UTF-8">good guide</a> to <code class="highlighter-rouge">UISplitViewController</code>.</p>
 
 <p>Here, I only want to point out the horrible bugs.</p>
 
-<h2>My Typical Setup</h2>
+<h2 id="my-typical-setup">My Typical Setup</h2>
 
-<p><img src="/images/uisplitviewcontroller-setup.png"  ></p>
+<p><img src="/images/uisplitviewcontroller-setup.png" /></p>
 
 <p>My storyboard consists of:</p>
 
 <ol>
-<li>a master/primary view in a <code>UINavigationViewController</code></li>
-<li>a detail/secondary view in a <code>UINavigationViewController</code></li>
-<li>both have a <code>UITextField</code> pinned to the bottom</li>
+  <li>a master/primary view in a <code class="highlighter-rouge">UINavigationViewController</code></li>
+  <li>a detail/secondary view in a <code class="highlighter-rouge">UINavigationViewController</code></li>
+  <li>both have a <code class="highlighter-rouge">UITextField</code> pinned to the bottom</li>
 </ol>
 
-<p>Not much code needed to demo the bugs. It&#39;s all in the master <code>ViewController</code> as such:</p>
+<p>Not much code needed to demo the bugs. It’s all in the master <code class="highlighter-rouge">ViewController</code> as such:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nl">ViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="bp">UISplitViewControllerDelegate</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">splitViewController</span><span class="o">?</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Display mode can be: AllVisible | PrimaryOverlay | etc</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Set to .PrimaryOverlay, and the bugs will come</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">self</span><span class="p">.</span><span class="n">splitViewController</span><span class="o">?</span><span class="p">.</span><span class="n">preferredDisplayMode</span> <span class="o">=</span> <span class="p">.</span><span class="n">PrimaryOverlay</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">splitViewController</span><span class="p">(</span><span class="nl">splitViewController</span><span class="p">:</span> <span class="bp">UISplitViewController</span><span class="p">,</span> <span class="n">collapseSecondaryViewController</span> <span class="nl">secondaryViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">,</span> <span class="n">ontoPrimaryViewController</span> <span class="nl">primaryViewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// To show detail first for eg iPhone compact size</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="nb">false</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">UISplitViewControllerDelegate</span> <span class="p">{</span>
+
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+
+        <span class="n">splitViewController</span><span class="p">?</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
+
+        <span class="c1">// Display mode can be: AllVisible | PrimaryOverlay | etc</span>
+        <span class="c1">// Set to .PrimaryOverlay, and the bugs will come</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">splitViewController</span><span class="p">?</span><span class="o">.</span><span class="n">preferredDisplayMode</span> <span class="o">=</span> <span class="o">.</span><span class="kt">PrimaryOverlay</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">splitViewController</span><span class="p">(</span><span class="nv">splitViewController</span><span class="p">:</span> <span class="kt">UISplitViewController</span><span class="p">,</span> <span class="n">collapseSecondaryViewController</span> <span class="nv">secondaryViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="n">ontoPrimaryViewController</span> <span class="nv">primaryViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="c1">// To show detail first for eg iPhone compact size</span>
+        <span class="k">return</span> <span class="kc">false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>I tested in simulator and real devices, running the latest iOS 9.1.</p>
 
-<h2>The BUGS</h2>
+<h2 id="the-bugs">The BUGS</h2>
 
-<p>When <code>preferredDisplayMode</code> is set to <code>PrimaryOverlay</code> (or <code>PrimaryHidden</code> or <code>Automatic</code>), 2 bugs will be introduced:</p>
+<p>When <code class="highlighter-rouge">preferredDisplayMode</code> is set to <code class="highlighter-rouge">PrimaryOverlay</code> (or <code class="highlighter-rouge">PrimaryHidden</code> or <code class="highlighter-rouge">Automatic</code>), 2 bugs will be introduced:</p>
 
 <ol>
-<li>In iPad, swipe from left edge on detail will not show master!</li>
-<li>The controller view will auto adjust whenever keyboard is shown</li>
+  <li>In iPad, swipe from left edge on detail will not show master!</li>
+  <li>The controller view will auto adjust whenever keyboard is shown</li>
 </ol>
 
-<p><iframe width="640" height="480" src="https://www.youtube.com/embed/vYGw9BCdyC4?rel=0" frameborder="0" allowfullscreen></iframe><br/></p>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/vYGw9BCdyC4?rel=0" frameborder="0" allowfullscreen=""></iframe>
+<p><br /></p>
 
-<p>In fact, only by setting to <code>AllVisible</code> then things work correctly.</p>
+<p>In fact, only by setting to <code class="highlighter-rouge">AllVisible</code> then things work correctly.</p>
 
-<p>Bug #1 - Not being able to swipe from left edge is irritating, but luckily you can still have <code>displayModeButtonItem</code> that can be added to your navigation bar.</p>
+<p>Bug #1 - Not being able to swipe from left edge is irritating, but luckily you can still have <code class="highlighter-rouge">displayModeButtonItem</code> that can be added to your navigation bar.</p>
 
-<p>Bug #2 - auto adjusting your view is much more irritating. It looks like a <em>feature</em> at first, because it will prevent keyboard from blocking your <code>UITextField</code>.</p>
+<p>Bug #2 - auto adjusting your view is much more irritating. It looks like a <em>feature</em> at first, because it will prevent keyboard from blocking your <code class="highlighter-rouge">UITextField</code>.</p>
 
-<p>However, the behaviour is buggy in iPhone. By switching to landscape, then back to portrait (as shown in the video above), the view will not auto adjust now! Because of that, you can&#39;t safely assume your view will be adjusted correctly. Neither can you add codes to prevent the keyboard from blocking other views.</p>
+<p>However, the behaviour is buggy in iPhone. By switching to landscape, then back to portrait (as shown in the video above), the view will not auto adjust now! Because of that, you can’t safely assume your view will be adjusted correctly. Neither can you add codes to prevent the keyboard from blocking other views.</p>
 
-<p>What&#39;s more, the animation is laggy..</p>
+<p>What’s more, the animation is laggy..</p>
 
 <p>Terribe. Terrible.</p>
 
-<h2>Bonus Bug</h2>
+<h2 id="bonus-bug">Bonus Bug</h2>
 
-<p>Actually, there could be a warning <code>Unbalanced calls to begin/end appearance transitions</code> if you simply set <code>preferredDisplayMode</code>.</p>
+<p>Actually, there could be a warning <code class="highlighter-rouge">Unbalanced calls to begin/end appearance transitions</code> if you simply set <code class="highlighter-rouge">preferredDisplayMode</code>.</p>
 
 <p>You have to wrap it around a dispatch block..</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Why set the display mode in dispatch?</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// It&#39;s a workaround: http://stackoverflow.com/a/28440974/242682</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">// Display mode can be: AllVisible | PrimaryOverlay | etc</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1">// The bugs coming from the mode .PrimaryOverlay</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nb">self</span><span class="p">.</span><span class="n">splitViewController</span><span class="o">?</span><span class="p">.</span><span class="n">preferredDisplayMode</span> <span class="o">=</span> <span class="p">.</span><span class="n">PrimaryOverlay</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code>        <span class="c1">// Why set the display mode in dispatch?</span>
+        <span class="c1">// It's a workaround: http://stackoverflow.com/a/28440974/242682</span>
+        <span class="nf">dispatch_async</span><span class="p">(</span><span class="nf">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">{</span>
+            <span class="c1">// Display mode can be: AllVisible | PrimaryOverlay | etc</span>
+            <span class="c1">// The bugs coming from the mode .PrimaryOverlay</span>
+            <span class="k">self</span><span class="o">.</span><span class="n">splitViewController</span><span class="p">?</span><span class="o">.</span><span class="n">preferredDisplayMode</span> <span class="o">=</span> <span class="o">.</span><span class="kt">PrimaryOverlay</span>
+        <span class="p">}</span>
+</code></pre>
+</div>
 
-<p>It&#39;s a warning, but show how buggy <code>UISplitViewController</code> is!</p>
+<p>It’s a warning, but show how buggy <code class="highlighter-rouge">UISplitViewController</code> is!</p>
 
-<h2>UPDATE</h2>
+<h2 id="update">UPDATE</h2>
 
 <p>After conversing with an Apple engineer, here is what I knew.</p>
 
-<p><code>preferredDisplayMode</code> is merely <em>your preferred mode</em>. The actual mode depends on the device size class, as <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UISplitViewController_class/#//apple_ref/occ/instp/UISplitViewController/preferredDisplayMode">stated in doc</a>.</p>
+<p><code class="highlighter-rouge">preferredDisplayMode</code> is merely <em>your preferred mode</em>. The actual mode depends on the device size class, as <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UISplitViewController_class/#//apple_ref/occ/instp/UISplitViewController/preferredDisplayMode">stated in doc</a>.</p>
 
 <blockquote>
-<p>Use this property to specify the display mode that you prefer to use. The split view controller makes every effort to adopt the interface you specify but may use a different type of interface if there is not enough space to support your preferred choice. If changing the value of this property leads to an actual change in the current display mode, the split view controller animates the resulting change.</p>
-
-<p>Setting the value of this property to <code>UISplitViewControllerDisplayModeAutomatic</code> causes the split view controller to choose the most appropriate display mode for the currently available space. On iPad, this results in use of the mode <code>UISplitViewControllerDisplayModePrimaryOverlay</code> in portrait orientations and <code>UISplitViewControllerDisplayModeAllVisible</code> in landscape orientations. The default value of this property is <code>UISplitViewControllerDisplayModeAutomatic</code>.</p>
+  <p>Use this property to specify the display mode that you prefer to use. The split view controller makes every effort to adopt the interface you specify but may use a different type of interface if there is not enough space to support your preferred choice. If changing the value of this property leads to an actual change in the current display mode, the split view controller animates the resulting change.</p>
 </blockquote>
 
-<p>When you rotate to landscape (regular horizontally), the mode will change to <code>AllVisible</code> automatically. And even after you rotate to portrait, it will remain <code>AllVisible</code>!</p>
+<blockquote>
+  <p>Setting the value of this property to <code class="highlighter-rouge">UISplitViewControllerDisplayModeAutomatic</code> causes the split view controller to choose the most appropriate display mode for the currently available space. On iPad, this results in use of the mode <code class="highlighter-rouge">UISplitViewControllerDisplayModePrimaryOverlay</code> in portrait orientations and <code class="highlighter-rouge">UISplitViewControllerDisplayModeAllVisible</code> in landscape orientations. The default value of this property is <code class="highlighter-rouge">UISplitViewControllerDisplayModeAutomatic</code>.</p>
+</blockquote>
 
-<p>Hence, if you want it to be always <code>PrimaryOverlay</code>, then you have to set <code>preferredDisplayMode</code> every time there is a rotation:</p>
+<p>When you rotate to landscape (regular horizontally), the mode will change to <code class="highlighter-rouge">AllVisible</code> automatically. And even after you rotate to portrait, it will remain <code class="highlighter-rouge">AllVisible</code>!</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="nf">willAnimateRotationToInterfaceOrientation</span><span class="p">(</span><span class="nl">toInterfaceOrientation</span><span class="p">:</span> <span class="n">UIInterfaceOrientation</span><span class="p">,</span> <span class="nl">duration</span><span class="p">:</span> <span class="n">NSTimeInterval</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">self</span><span class="p">.</span><span class="n">splitViewController</span><span class="o">?</span><span class="p">.</span><span class="n">preferredDisplayMode</span> <span class="o">=</span> <span class="p">.</span><span class="n">PrimaryOverlay</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p>Hence, if you want it to be always <code class="highlighter-rouge">PrimaryOverlay</code>, then you have to set <code class="highlighter-rouge">preferredDisplayMode</code> every time there is a rotation:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code>    <span class="k">override</span> <span class="kd">func</span> <span class="nf">willAnimateRotationToInterfaceOrientation</span><span class="p">(</span><span class="nv">toInterfaceOrientation</span><span class="p">:</span> <span class="kt">UIInterfaceOrientation</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">NSTimeInterval</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">splitViewController</span><span class="p">?</span><span class="o">.</span><span class="n">preferredDisplayMode</span> <span class="o">=</span> <span class="o">.</span><span class="kt">PrimaryOverlay</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
 
 <p>Okay, got that.</p>
 
-<p>Now the last mystery is why would <code>PrimaryOverlay</code> cause the view to adjust when keyboard is shown?</p>
+<p>Now the last mystery is why would <code class="highlighter-rouge">PrimaryOverlay</code> cause the view to adjust when keyboard is shown?</p>
 
-<p>This is because in <code>PrimaryOverlay</code>, the master view is presented within a <strong>popover</strong>, and popovers will automatically adjust in response to keyboard..</p>
+<p>This is because in <code class="highlighter-rouge">PrimaryOverlay</code>, the master view is presented within a <strong>popover</strong>, and popovers will automatically adjust in response to keyboard..</p>
 
         </section>
         <footer class="post-footer">

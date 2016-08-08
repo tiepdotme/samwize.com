@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>NSAttributedString, HTML and Unicode Encoding</title>
-  <meta name="description" content="While converting a HTML string to a NSAttributedString, I discovered a perculiar thing about it&#39;s unicode encoding format." />
+  <meta name="description" content="While converting a HTML string to a NSAttributedString, I discovered a perculiar thing about it’s unicode encoding format." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="NSAttributedString, HTML and Unicode Encoding" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="While converting a HTML string to a NSAttributedString, I discovered a perculiar thing about it&#39;s unicode encoding format." />
+    <meta name="twitter:description"  content="While converting a HTML string to a NSAttributedString, I discovered a perculiar thing about it’s unicode encoding format." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="NSAttributedString, HTML and Unicode Encoding"/>
   
-  <meta property="og:description" content="While converting a HTML string to a NSAttributedString, I discovered a perculiar thing about it&#39;s unicode encoding format." />
+  <meta property="og:description" content="While converting a HTML string to a NSAttributedString, I discovered a perculiar thing about it’s unicode encoding format." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2016/05/24/nsattributedstring-html-ios-unicode-encoding/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,75 +72,82 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>While converting a HTML string to a <code>NSAttributedString</code>, I discovered a perculiar thing about it&#39;s unicode encoding format.</p>
+          <p>While converting a HTML string to a <code class="highlighter-rouge">NSAttributedString</code>, I discovered a perculiar thing about it’s unicode encoding format.</p>
 
-<h2>HTML as NSAttributedString</h2>
+<h2 id="html-as-nsattributedstring">HTML as NSAttributedString</h2>
 
-<p>Converting HTML <code>String</code> to <code>NSAttributedString</code> can be easily accomplished with this String extension:</p>
+<p>Converting HTML <code class="highlighter-rouge">String</code> to <code class="highlighter-rouge">NSAttributedString</code> can be easily accomplished with this String extension:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">extension</span> <span class="n">String</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">htmlAttributedString</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">NSAttributedString</span><span class="o">?</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">guard</span> <span class="k">let</span> <span class="n">data</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">dataUsingEncoding</span><span class="p">(</span><span class="n">NSUTF16StringEncoding</span><span class="p">,</span> <span class="nl">allowLossyConversion</span><span class="p">:</span> <span class="nb">false</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="nb">nil</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">guard</span> <span class="k">let</span> <span class="n">html</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="bp">NSMutableAttributedString</span><span class="p">(</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>          <span class="nl">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> 
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>          <span class="nl">options</span><span class="p">:</span> <span class="p">[</span><span class="nl">NSDocumentTypeDocumentAttribute</span><span class="p">:</span> <span class="n">NSHTMLTextDocumentType</span><span class="p">],</span> 
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>          <span class="nl">documentAttributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="nb">nil</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">html</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">htmlAttributedString</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">NSAttributedString</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="nf">dataUsingEncoding</span><span class="p">(</span><span class="kt">NSUTF16StringEncoding</span><span class="p">,</span> <span class="nv">allowLossyConversion</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">nil</span> <span class="p">}</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">html</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">NSMutableAttributedString</span><span class="p">(</span>
+          <span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> 
+          <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSDocumentTypeDocumentAttribute</span><span class="p">:</span> <span class="kt">NSHTMLTextDocumentType</span><span class="p">],</span> 
+          <span class="nv">documentAttributes</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">nil</span> <span class="p">}</span>
+        <span class="k">return</span> <span class="n">html</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>To use,</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">label</span><span class="p">.</span><span class="n">attributedText</span> <span class="o">=</span> <span class="s">&quot;&lt;b&gt;Hello&lt;/b&gt; \u&#x7b;2022&#x7d; World&quot;</span><span class="p">.</span><span class="n">htmlAttributedString</span><span class="p">()</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">label</span><span class="o">.</span><span class="n">attributedText</span> <span class="o">=</span> <span class="s">"&lt;b&gt;Hello&lt;/b&gt; </span><span class="se">\u{2022}</span><span class="s"> World"</span><span class="o">.</span><span class="nf">htmlAttributedString</span><span class="p">()</span>
+</code></pre>
+</div>
 
 <p>In the above, I have purposely added a unicode <strong>\u2022</strong> to show that it renders unicode correctly.</p>
 
-<h2>NSAttributedString uses NSUTF16StringEncoding</h2>
+<h2 id="nsattributedstring-uses-nsutf16stringencoding">NSAttributedString uses NSUTF16StringEncoding</h2>
 
-<p>If you observe the code carefully, when we call <code>dataUsingEncoding</code>, we use <code>NSUTF16StringEncoding</code>.</p>
+<p>If you observe the code carefully, when we call <code class="highlighter-rouge">dataUsingEncoding</code>, we use <code class="highlighter-rouge">NSUTF16StringEncoding</code>.</p>
 
 <p><em>Sidetrack: A small introduction to unicode and encoding will be in next section.</em></p>
 
-<p>This is because <code>NSAttributedString</code> requires data to be encoded in <strong>UTF-16</strong>.</p>
+<p>This is because <code class="highlighter-rouge">NSAttributedString</code> requires data to be encoded in <strong>UTF-16</strong>.</p>
 
 <p>NOT UTF-8, as I expected at first.</p>
 
-<p>Also note that <code>NSUnicodeStringEncoding</code> is the same as <code>NSUTF16StringEncoding</code>.</p>
+<p>Also note that <code class="highlighter-rouge">NSUnicodeStringEncoding</code> is the same as <code class="highlighter-rouge">NSUTF16StringEncoding</code>.</p>
 
-<p>While the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSAttributedString_Class/">documentation</a> never specify what encoding <code>data</code> has to be, we can get a hint from
-<code>NSString</code> which is <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Strings/Articles/stringsClusters.html">conceptually UTF-16</a>.</p>
+<p>While the <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSAttributedString_Class/">documentation</a> never specify what encoding <code class="highlighter-rouge">data</code> has to be, we can get a hint from
+<code class="highlighter-rouge">NSString</code> which is <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Strings/Articles/stringsClusters.html">conceptually UTF-16</a>.</p>
 
 <p>Another way is to specify the encoding in NSAttributedString initializer:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSMutableAttributedString</span><span class="p">(</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nl">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> 
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nl">options</span><span class="p">:</span> <span class="p">[</span><span class="nl">NSDocumentTypeDocumentAttribute</span><span class="p">:</span> <span class="n">NSHTMLTextDocumentType</span><span class="p">,</span> 
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nl">NSCharacterEncodingDocumentAttribute</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">],</span> 
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nl">documentAttributes</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="nb">nil</span> <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kt">NSMutableAttributedString</span><span class="p">(</span>
+  <span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> 
+  <span class="nv">options</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSDocumentTypeDocumentAttribute</span><span class="p">:</span> <span class="kt">NSHTMLTextDocumentType</span><span class="p">,</span> 
+  <span class="kt">NSCharacterEncodingDocumentAttribute</span><span class="p">:</span> <span class="kt">NSUTF8StringEncoding</span><span class="p">],</span> 
+  <span class="nv">documentAttributes</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">nil</span> <span class="p">}</span>
+</code></pre>
+</div>
 
-<p>In the above, <code>data</code> will have to be UTF-8 encoded.</p>
+<p>In the above, <code class="highlighter-rouge">data</code> will have to be UTF-8 encoded.</p>
 
-<h2>An Introduction to Encoding Strings</h2>
+<h2 id="an-introduction-to-encoding-strings">An Introduction to Encoding Strings</h2>
 
 <p>Why do we need to encode?</p>
 
-<p>We need to handle encoding/decoding of string when it is <strong>converted to data</strong> (eg <code>NSData</code>). </p>
+<p>We need to handle encoding/decoding of string when it is <strong>converted to data</strong> (eg <code class="highlighter-rouge">NSData</code>).</p>
 
 <p>When writing to a file, ultimately, the string representation is written as bytes of data. This conversion of string to data requires an encoding form.</p>
 
-<p>This is because 1 character in a string (or specifically unicode string) can be represented by 1-4 bytes, depending on the encoding form. </p>
+<p>This is because 1 character in a string (or specifically unicode string) can be represented by 1-4 bytes, depending on the encoding form.</p>
 
 <p>We discuss 2 of the most common forms here.</p>
 
-<p>A <strong>UTF-16</strong> character is minimumly 2 bytes (or 16 bits). </p>
+<p>A <strong>UTF-16</strong> character is minimumly 2 bytes (or 16 bits).</p>
 
-<p>But a <a href="http://unicode.org/faq/utf_bom.html">unicode character is up to 21 bit</a>, so while UTF-16 can represent most of the unicode characters (specifically 63K characters) in 2 bytes, there are characters that it needs more than 2 bytes to represent. </p>
+<p>But a <a href="http://unicode.org/faq/utf_bom.html">unicode character is up to 21 bit</a>, so while UTF-16 can represent most of the unicode characters (specifically 63K characters) in 2 bytes, there are characters that it needs more than 2 bytes to represent.</p>
 
 <p>A <strong>UTF-8</strong> character is minimumly 1 byte (or 8 bits). Only 128 characters are encoded in 1 byte (this includes the very common ASCII). This is much more space efficient than UTF-16.</p>
 
-<p>That&#39;s it for an introduction.</p>
+<p>That’s it for an introduction.</p>
 
 <p>For more, read about how <a href="https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/StringsAndCharacters.html">Swift deal with String</a> and from <a href="https://www.objc.io/issues/9-strings/unicode/">objc.io</a>.</p>
+
 
         </section>
         <footer class="post-footer">

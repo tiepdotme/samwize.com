@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Simple HTTP GET/POST Request in Node.js</title>
-  <meta name="description" content="This is a simple tutorial using mikeal&#39;s super-simple-to-use request library." />
+  <meta name="description" content="This is a simple tutorial using mikeal’s super-simple-to-use request library." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Simple HTTP GET/POST Request in Node.js" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="This is a simple tutorial using mikeal&#39;s super-simple-to-use request library." />
+    <meta name="twitter:description"  content="This is a simple tutorial using mikeal’s super-simple-to-use request library." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Simple HTTP GET/POST Request in Node.js"/>
   
-  <meta property="og:description" content="This is a simple tutorial using mikeal&#39;s super-simple-to-use request library." />
+  <meta property="og:description" content="This is a simple tutorial using mikeal’s super-simple-to-use request library." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2013/08/31/simple-http-get-slash-post-request-in-node-dot-js/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,92 +72,108 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>This is a simple tutorial using mikeal&#39;s <a href="https://github.com/mikeal/request">super-simple-to-use request</a> library.</p>
+          <p>This is a simple tutorial using mikeal’s <a href="https://github.com/mikeal/request">super-simple-to-use request</a> library.</p>
 
 <!-- more -->
 
-<p>If you don&#39;t know how to setup node.js libraries, read <a href="/2013/08/29/getting-started-with-node-dot-js-scripting/">this</a>.</p>
+<p>If you don’t know how to setup node.js libraries, read <a href="/2013/08/29/getting-started-with-node-dot-js-scripting/">this</a>.</p>
 
 <p>This tutorial will provide sample codes for:</p>
 
 <ul>
-<li>setting the HTTP headers, </li>
-<li>setting the URL query string for GET</li>
-<li>setting the HTTP body for POST</li>
-<li>handling gzip response</li>
-<li>handling json response</li>
+  <li>setting the HTTP headers,</li>
+  <li>setting the URL query string for GET</li>
+  <li>setting the HTTP body for POST</li>
+  <li>handling gzip response</li>
+  <li>handling json response</li>
 </ul>
 
-<h2>GET</h2>
+<h2 id="get">GET</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">);</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Set the headers</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="s1">&#39;User-Agent&#39;</span><span class="o">:</span>       <span class="s1">&#39;Super Agent/0.0.1&#39;</span><span class="p">,</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span>     <span class="s1">&#39;application/x-www-form-urlencoded&#39;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Configure the request</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;http://samwize.com&#39;</span><span class="p">,</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">headers</span><span class="o">:</span> <span class="nx">headers</span><span class="p">,</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">qs</span><span class="o">:</span> <span class="p">&#x7b;</span><span class="s1">&#39;key1&#39;</span><span class="o">:</span> <span class="s1">&#39;xxx&#39;</span><span class="p">,</span> <span class="s1">&#39;key2&#39;</span><span class="o">:</span> <span class="s1">&#39;yyy&#39;</span><span class="p">&#x7d;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Start the request</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Print out the response body</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span></div></div></pre></div></figure>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
 
-<p>Above code will do GET <a href="https://localhost:8080/?key1=xxx&amp;key2=yyy">https://localhost:8080/?key1=xxx&amp;key2=yyy</a></p>
+<span class="c1">// Set the headers</span>
+<span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'User-Agent'</span><span class="p">:</span>       <span class="s1">'Super Agent/0.0.1'</span><span class="p">,</span>
+    <span class="s1">'Content-Type'</span><span class="p">:</span>     <span class="s1">'application/x-www-form-urlencoded'</span>
+<span class="p">}</span>
 
-<h2>POST</h2>
+<span class="c1">// Configure the request</span>
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'http://samwize.com'</span><span class="p">,</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
+    <span class="na">qs</span><span class="p">:</span> <span class="p">{</span><span class="s1">'key1'</span><span class="p">:</span> <span class="s1">'xxx'</span><span class="p">,</span> <span class="s1">'key2'</span><span class="p">:</span> <span class="s1">'yyy'</span><span class="p">}</span>
+<span class="p">}</span>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">);</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Set the headers</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="s1">&#39;User-Agent&#39;</span><span class="o">:</span>       <span class="s1">&#39;Super Agent/0.0.1&#39;</span><span class="p">,</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span>     <span class="s1">&#39;application/x-www-form-urlencoded&#39;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Configure the request</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;http://samwize.com&#39;</span><span class="p">,</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">method</span><span class="o">:</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">headers</span><span class="o">:</span> <span class="nx">headers</span><span class="p">,</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">form</span><span class="o">:</span> <span class="p">&#x7b;</span><span class="s1">&#39;key1&#39;</span><span class="o">:</span> <span class="s1">&#39;xxx&#39;</span><span class="p">,</span> <span class="s1">&#39;key2&#39;</span><span class="o">:</span> <span class="s1">&#39;yyy&#39;</span><span class="p">&#x7d;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Start the request</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Print out the response body</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span></div></div></pre></div></figure>
+<span class="c1">// Start the request</span>
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Print out the response body</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
 
-<p>Above code will do POST <a href="https://localhost:8080/">https://localhost:8080/</a> with key1=xxx&amp;key2=yyy in the body.</p>
+<p>Above code will do GET https://localhost:8080/?key1=xxx&amp;key2=yyy</p>
 
-<h2>Handling gzip encoding</h2>
+<h2 id="post">POST</h2>
 
-<p>To handle gzip encoded response, you will need the <code>compress-buffer</code> library.</p>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">uncompress</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;compress-buffer&#39;</span><span class="p">).</span><span class="nx">uncompress</span><span class="p">;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Set the headers and options ...</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Handle gzip</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="kd">var</span> <span class="nx">encoding</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;content-encoding&#39;</span><span class="p">]</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">if</span><span class="p">(</span><span class="nx">encoding</span> <span class="o">&amp;&amp;</span> <span class="nx">encoding</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;gzip&#39;</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="nx">body</span> <span class="o">=</span> <span class="nx">uncompress</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nx">body</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">);</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Print out the response body</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// If it is json</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="kd">var</span> <span class="nx">json_body</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span></div></div></pre></div></figure>
+<span class="c1">// Set the headers</span>
+<span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'User-Agent'</span><span class="p">:</span>       <span class="s1">'Super Agent/0.0.1'</span><span class="p">,</span>
+    <span class="s1">'Content-Type'</span><span class="p">:</span>     <span class="s1">'application/x-www-form-urlencoded'</span>
+<span class="p">}</span>
+
+<span class="c1">// Configure the request</span>
+<span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'http://samwize.com'</span><span class="p">,</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'POST'</span><span class="p">,</span>
+    <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
+    <span class="na">form</span><span class="p">:</span> <span class="p">{</span><span class="s1">'key1'</span><span class="p">:</span> <span class="s1">'xxx'</span><span class="p">,</span> <span class="s1">'key2'</span><span class="p">:</span> <span class="s1">'yyy'</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Start the request</span>
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Print out the response body</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
+<p>Above code will do POST https://localhost:8080/ with key1=xxx&amp;key2=yyy in the body.</p>
+
+<h2 id="handling-gzip-encoding">Handling gzip encoding</h2>
+
+<p>To handle gzip encoded response, you will need the <code class="highlighter-rouge">compress-buffer</code> library.</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">uncompress</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'compress-buffer'</span><span class="p">).</span><span class="nx">uncompress</span><span class="p">;</span>
+
+<span class="c1">// Set the headers and options ...</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Handle gzip</span>
+        <span class="kd">var</span> <span class="nx">encoding</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">'content-encoding'</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">encoding</span> <span class="o">&amp;&amp;</span> <span class="nx">encoding</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">'gzip'</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">body</span> <span class="o">=</span> <span class="nx">uncompress</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="nx">body</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">);</span>
+        
+        <span class="c1">// Print out the response body</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>
+
+        <span class="c1">// If it is json</span>
+        <span class="kd">var</span> <span class="nx">json_body</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">})</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

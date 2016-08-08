@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,121 +72,134 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><code>UICollectionView</code> is a very powerful UI component because you can <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/UsingtheFlowLayout/UsingtheFlowLayout.html">use a flow layout</a>, which is kind of a dynamic grid, which provides more than a table view.</p>
+          <p><code class="highlighter-rouge">UICollectionView</code> is a very powerful UI component because you can <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/UsingtheFlowLayout/UsingtheFlowLayout.html">use a flow layout</a>, which is kind of a dynamic grid, which provides more than a table view.</p>
 
 <p>A <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewFlowLayout_class/index.html">flow layout</a> is actually a subclass of <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewLayout_class/index.html">layout</a>. A (generic) layout is more powerful as you can place items in any custom layout you want! Circle layout? No problem!</p>
 
-<p>But in this post, let&#39;s just restrict to the vertical flow layout.</p>
+<p>But in this post, let’s just restrict to the vertical flow layout.</p>
 
 <p>There are two ways to implement:</p>
 
 <ol>
-<li>Customize the flow layout object (simple way)</li>
-<li>Implement the delegate (advanced way)</li>
+  <li>Customize the flow layout object (simple way)</li>
+  <li>Implement the delegate (advanced way)</li>
 </ol>
 
-<h2>How items are being layout</h2>
+<h2 id="how-items-are-being-layout">How items are being layout</h2>
 
-<p>Before we look at how to implement with either the simple or advanced way, let&#39;s understand how items are layout. </p>
+<p>Before we look at how to implement with either the simple or advanced way, let’s understand how items are layout.</p>
 
 <p>We use a verticle flow as an example (horizontal will be similar).</p>
 
-<p><img src="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/Art/flow_horiz_layout_uneven_2x.png"  ></p>
+<p><img src="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/Art/flow_horiz_layout_uneven_2x.png" /></p>
 
 <ul>
-<li>The tallest item in the line, will be the line height</li>
-<li>All items in the line will be aligned vertically center</li>
-<li>Minimum spacing is <em>minimum</em> between the items, but the actual spacing depends on the collection view width</li>
-<li>Flow layout object will add items with minimum spacing until it can&#39;t fit, then increase the actual spacing so that they are evenly spaced</li>
-<li>Each section have its own line/item spacing</li>
-<li>In a section, the line/item spacing is fixed; you can&#39;t have different line/item spacing in a section</li>
-<li>Each section have its own inset</li>
+  <li>The tallest item in the line, will be the line height</li>
+  <li>All items in the line will be aligned vertically center</li>
+  <li>Minimum spacing is <em>minimum</em> between the items, but the actual spacing depends on the collection view width</li>
+  <li>Flow layout object will add items with minimum spacing until it can’t fit, then increase the actual spacing so that they are evenly spaced</li>
+  <li>Each section have its own line/item spacing</li>
+  <li>In a section, the line/item spacing is fixed; you can’t have different line/item spacing in a section</li>
+  <li>Each section have its own inset</li>
 </ul>
 
-<h2>1. The Simple Way</h2>
+<h2 id="the-simple-way">1. The Simple Way</h2>
 
-<p>If your items have a fixed size, then you can simply use the layout object -- <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewFlowLayout_class/index.html#//apple_ref/occ/instp/UICollectionViewFlowLayout/"><code>UICollectionViewFlowLayout</code></a></p>
+<p>If your items have a fixed size, then you can simply use the layout object – <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewFlowLayout_class/index.html#//apple_ref/occ/instp/UICollectionViewFlowLayout/"><code class="highlighter-rouge">UICollectionViewFlowLayout</code></a></p>
 
 <p>This is an example with items that are 100x100, <em>at least</em> 8pt apart, and with section inset of 8pt.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="nf">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLayoutSubviews</span><span class="p">()</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">layout</span> <span class="o">=</span> <span class="bp">UICollectionViewFlowLayout</span><span class="p">()</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">itemSize</span> <span class="o">=</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mi">100</span><span class="p">)</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">minimumInteritemSpacing</span> <span class="o">=</span> <span class="mi">8</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">minimumLineSpacing</span> <span class="o">=</span> <span class="mi">8</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">headerReferenceSize</span> <span class="o">=</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mi">40</span><span class="p">)</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">sectionInset</span> <span class="o">=</span> <span class="bp">UIEdgeInsets</span><span class="p">(</span><span class="nl">top</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nl">left</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nl">bottom</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="mi">8</span><span class="p">)</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">collectionView</span><span class="p">.</span><span class="n">collectionViewLayout</span> <span class="o">=</span> <span class="n">layout</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLayoutSubviews</span><span class="p">()</span>
+
+    <span class="k">let</span> <span class="nv">layout</span> <span class="o">=</span> <span class="kt">UICollectionViewFlowLayout</span><span class="p">()</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">itemSize</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">minimumInteritemSpacing</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">minimumLineSpacing</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">headerReferenceSize</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">sectionInset</span> <span class="o">=</span> <span class="kt">UIEdgeInsets</span><span class="p">(</span><span class="nv">top</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nv">left</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nv">bottom</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="n">collectionView</span><span class="o">.</span><span class="n">collectionViewLayout</span> <span class="o">=</span> <span class="n">layout</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>Just that simple, if your items are simple.</p>
 
-<h2>2. The Advanced Way</h2>
+<h2 id="the-advanced-way">2. The Advanced Way</h2>
 
-<p>The advanced way is required if you have varying item sizes, in which you can implement the <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewDelegateFlowLayout_protocol/#//apple_ref/occ/intfm/UICollectionViewDelegateFlowLayout/"><code>UICollectionViewDelegateFlowLayout</code></a>.</p>
+<p>The advanced way is required if you have varying item sizes, in which you can implement the <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UICollectionViewDelegateFlowLayout_protocol/#//apple_ref/occ/intfm/UICollectionViewDelegateFlowLayout/"><code class="highlighter-rouge">UICollectionViewDelegateFlowLayout</code></a>.</p>
 
-<p>This uses the same <code>UICollectionViewFlowLayout</code> object, but you implement it&#39;s delegate methods so as to customize more advanced stuff.</p>
+<p>This uses the same <code class="highlighter-rouge">UICollectionViewFlowLayout</code> object, but you implement it’s delegate methods so as to customize more advanced stuff.</p>
 
 <p>For example, if each item has a different size, you will implement the following:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nl">collectionView</span><span class="p">:</span> <span class="bp">UICollectionView</span><span class="p">,</span> <span class="n">layout</span> <span class="nl">collectionViewLayout</span><span class="p">:</span> <span class="bp">UICollectionViewLayout</span><span class="p">,</span> <span class="n">sizeForItemAtIndexPath</span> <span class="nl">indexPath</span><span class="p">:</span> <span class="bp">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">CGSize</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="c1">// Return your item size</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="n">_</span> <span class="nv">collectionView</span><span class="p">:</span> <span class="kt">UICollectionView</span><span class="p">,</span> <span class="n">layout</span> <span class="nv">collectionViewLayout</span><span class="p">:</span> <span class="kt">UICollectionViewLayout</span><span class="p">,</span> <span class="n">sizeForItemAtIndexPath</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">CGSize</span> <span class="p">{</span>
+      <span class="c1">// Return your item size</span>
+  <span class="p">}</span>
+</code></pre>
+</div>
 
 <p>There is a corresponding delegate method for minimum line spacing, item spacing, etc.</p>
 
-<p>They are all optional, so if you don&#39;t implement, it will use the flow layout object properties.</p>
+<p>They are all optional, so if you don’t implement, it will use the flow layout object properties.</p>
 
-<h1>Bonus: How to make cells with fixed spacing?</h1>
+<h1 id="bonus-how-to-make-cells-with-fixed-spacing">Bonus: How to make cells with fixed spacing?</h1>
 
 <p>A <a href="http://stackoverflow.com/q/17229350/242682">common problem</a> is to have a <strong>fixed spacing</strong> between the cells.</p>
 
-<p>However, you can only set <code>minimumInteritemSpacing</code>, and the actual item spacing depends on the collection view&#39;s width.</p>
+<p>However, you can only set <code class="highlighter-rouge">minimumInteritemSpacing</code>, and the actual item spacing depends on the collection view’s width.</p>
 
-<p><code>UICollectionViewFlowLayout</code> will align the items center after applying the section inset, with the same amount of spacing between each cell.</p>
+<p><code class="highlighter-rouge">UICollectionViewFlowLayout</code> will align the items center after applying the section inset, with the same amount of spacing between each cell.</p>
 
 <p>If you want fixed spacing, this is <a href="http://stackoverflow.com/a/34012726/242682">how</a> you can achieve by manipulating the section left &amp; right inset:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">private</span> <span class="k">let</span> <span class="nl">minItemSpacing</span><span class="p">:</span> <span class="n">CGFloat</span> <span class="o">=</span> <span class="mi">8</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">private</span> <span class="k">let</span> <span class="nl">itemWidth</span><span class="p">:</span> <span class="n">CGFloat</span>      <span class="o">=</span> <span class="mi">100</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">private</span> <span class="k">let</span> <span class="nl">headerHeight</span><span class="p">:</span> <span class="n">CGFloat</span>   <span class="o">=</span> <span class="mi">32</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLayoutSubviews</span><span class="p">()</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Create our custom flow layout that evenly space out the items, and have them in the center</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">layout</span> <span class="o">=</span> <span class="bp">UICollectionViewFlowLayout</span><span class="p">()</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">itemSize</span> <span class="o">=</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="n">itemWidth</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">itemWidth</span><span class="p">)</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">minimumInteritemSpacing</span> <span class="o">=</span> <span class="n">minItemSpacing</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">minimumLineSpacing</span> <span class="o">=</span> <span class="n">minItemSpacing</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">headerReferenceSize</span> <span class="o">=</span> <span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="n">headerHeight</span><span class="p">)</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Find n, where n is the number of item that can fit into the collection view</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="nl">n</span><span class="p">:</span> <span class="n">CGFloat</span> <span class="o">=</span> <span class="mi">1</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">containerWidth</span> <span class="o">=</span> <span class="n">collectionView</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">width</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">while</span> <span class="nb">true</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">nextN</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">totalWidth</span> <span class="o">=</span> <span class="p">(</span><span class="n">nextN</span><span class="o">*</span><span class="n">itemWidth</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">nextN</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">minItemSpacing</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">if</span> <span class="n">totalWidth</span> <span class="o">&gt;</span> <span class="n">containerWidth</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">break</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span> <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">n</span> <span class="o">=</span> <span class="n">nextN</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Calculate the section inset for left and right. </span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Setting this section inset will manipulate the items such that they will all be aligned horizontally center.</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">inset</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">minItemSpacing</span><span class="p">,</span> <span class="n">floor</span><span class="p">(</span> <span class="p">(</span><span class="n">containerWidth</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">itemWidth</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">minItemSpacing</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">layout</span><span class="p">.</span><span class="n">sectionInset</span> <span class="o">=</span> <span class="bp">UIEdgeInsets</span><span class="p">(</span><span class="nl">top</span><span class="p">:</span> <span class="n">minItemSpacing</span><span class="p">,</span> <span class="nl">left</span><span class="p">:</span> <span class="n">inset</span><span class="p">,</span> <span class="nl">bottom</span><span class="p">:</span> <span class="n">minItemSpacing</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="n">inset</span><span class="p">)</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">collectionView</span><span class="p">.</span><span class="n">collectionViewLayout</span> <span class="o">=</span> <span class="n">layout</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="k">let</span> <span class="nv">minItemSpacing</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="kd">private</span> <span class="k">let</span> <span class="nv">itemWidth</span><span class="p">:</span> <span class="kt">CGFloat</span>      <span class="o">=</span> <span class="mi">100</span>
+<span class="kd">private</span> <span class="k">let</span> <span class="nv">headerHeight</span><span class="p">:</span> <span class="kt">CGFloat</span>   <span class="o">=</span> <span class="mi">32</span>
 
-<h1>Bonus: Custom Layouts</h1>
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLayoutSubviews</span><span class="p">()</span>
+
+    <span class="c1">// Create our custom flow layout that evenly space out the items, and have them in the center</span>
+    <span class="k">let</span> <span class="nv">layout</span> <span class="o">=</span> <span class="kt">UICollectionViewFlowLayout</span><span class="p">()</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">itemSize</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="n">itemWidth</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="n">itemWidth</span><span class="p">)</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">minimumInteritemSpacing</span> <span class="o">=</span> <span class="n">minItemSpacing</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">minimumLineSpacing</span> <span class="o">=</span> <span class="n">minItemSpacing</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">headerReferenceSize</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="n">headerHeight</span><span class="p">)</span>
+
+    <span class="c1">// Find n, where n is the number of item that can fit into the collection view</span>
+    <span class="k">var</span> <span class="nv">n</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">let</span> <span class="nv">containerWidth</span> <span class="o">=</span> <span class="n">collectionView</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">width</span>
+    <span class="k">while</span> <span class="kc">true</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">nextN</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">let</span> <span class="nv">totalWidth</span> <span class="o">=</span> <span class="p">(</span><span class="n">nextN</span><span class="o">*</span><span class="n">itemWidth</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">nextN</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">minItemSpacing</span>
+        <span class="k">if</span> <span class="n">totalWidth</span> <span class="o">&gt;</span> <span class="n">containerWidth</span> <span class="p">{</span>
+            <span class="k">break</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">nextN</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Calculate the section inset for left and right. </span>
+    <span class="c1">// Setting this section inset will manipulate the items such that they will all be aligned horizontally center.</span>
+    <span class="k">let</span> <span class="nv">inset</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">minItemSpacing</span><span class="p">,</span> <span class="nf">floor</span><span class="p">(</span> <span class="p">(</span><span class="n">containerWidth</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">itemWidth</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">minItemSpacing</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+    <span class="n">layout</span><span class="o">.</span><span class="n">sectionInset</span> <span class="o">=</span> <span class="kt">UIEdgeInsets</span><span class="p">(</span><span class="nv">top</span><span class="p">:</span> <span class="n">minItemSpacing</span><span class="p">,</span> <span class="nv">left</span><span class="p">:</span> <span class="n">inset</span><span class="p">,</span> <span class="nv">bottom</span><span class="p">:</span> <span class="n">minItemSpacing</span><span class="p">,</span> <span class="nv">right</span><span class="p">:</span> <span class="n">inset</span><span class="p">)</span>
+
+    <span class="n">collectionView</span><span class="o">.</span><span class="n">collectionViewLayout</span> <span class="o">=</span> <span class="n">layout</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h1 id="bonus-custom-layouts">Bonus: Custom Layouts</h1>
 
 <p>Flow layout is provided out-of-the-box. It is easy to use, and is enough for most UI.</p>
 
 <p>But you can also create your own <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/CreatingCustomLayouts/CreatingCustomLayouts.html">custom layouts</a>.</p>
 
-<p>The central method is in <code>layoutAttributesForElementsInRect:</code> of the layout class. You can read a good guide <a href="https://www.objc.io/issues/3-views/collection-view-layouts/">from objc.io</a>. It is an even more advanced topic.</p>
+<p>The central method is in <code class="highlighter-rouge">layoutAttributesForElementsInRect:</code> of the layout class. You can read a good guide <a href="https://www.objc.io/issues/3-views/collection-view-layouts/">from objc.io</a>. It is an even more advanced topic.</p>
 
 <p>NOTE: Usually we use autolayout constraints, but for the cell, you have to set the frame the traditional way. Just the cell. The views inside the cell may still use autolayout.</p>
+
 
         </section>
         <footer class="post-footer">

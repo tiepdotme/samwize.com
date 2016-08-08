@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>My Custom Localization and genstrings</title>
-  <meta name="description" content="This post is about some custom stuff I did for localization. " />
+  <meta name="description" content="This post is about some custom stuff I did for localization." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="My Custom Localization and genstrings" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="This post is about some custom stuff I did for localization. " />
+    <meta name="twitter:description"  content="This post is about some custom stuff I did for localization." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="My Custom Localization and genstrings"/>
   
-  <meta property="og:description" content="This post is about some custom stuff I did for localization. " />
+  <meta property="og:description" content="This post is about some custom stuff I did for localization." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2012/11/06/my-custom-localization-and-genstrings/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,19 +72,19 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>This post is about some custom stuff I did for <a href="https://developer.apple.com/library/ios/#documentation/MacOSX/Conceptual/BPInternational/Articles/ChoosingLocalizations.html">localization</a>. </p>
+          <p>This post is about some custom stuff I did for <a href="https://developer.apple.com/library/ios/#documentation/MacOSX/Conceptual/BPInternational/Articles/ChoosingLocalizations.html">localization</a>.</p>
 
 <p>It does not cover the <a href="http://www.raywenderlich.com/2876/how-to-localize-an-iphone-app-tutorial">basic</a> of how you localized an app, nor how to use the Apple provided <a href="http://spritebandits.wordpress.com/2012/01/25/ios-iphone-app-localization-genstrings-tips/">genstrings</a> tool.</p>
 
 <!-- more -->
 
-<p>I have some particular bad vibes with using <code>NSLocalizedString</code>. I hate it being 17 characters long, and the REQUIRED comment parameter that you MUST pass in, which usually is just <code>nil</code> for me.</p>
+<p>I have some particular bad vibes with using <code class="highlighter-rouge">NSLocalizedString</code>. I hate it being 17 characters long, and the REQUIRED comment parameter that you MUST pass in, which usually is just <code class="highlighter-rouge">nil</code> for me.</p>
 
-<p>And so I have my own Macro called <code>Localized</code>.</p>
+<p>And so I have my own Macro called <code class="highlighter-rouge">Localized</code>.</p>
 
 <p>Which I improved to read from other table strings, and has an awesome recursive replacement.</p>
 
-<p>By doing that, I lose the use of <code>genstrings</code>, as it no longer uses <code>NSLocalizedString</code>. Unfortunately <code>genstrings</code> is closed source. But fortunately, some <a href="https://github.com/dunkelstern/Cocoa-Localisation-Helper">python helper</a> is around.</p>
+<p>By doing that, I lose the use of <code class="highlighter-rouge">genstrings</code>, as it no longer uses <code class="highlighter-rouge">NSLocalizedString</code>. Unfortunately <code class="highlighter-rouge">genstrings</code> is closed source. But fortunately, some <a href="https://github.com/dunkelstern/Cocoa-Localisation-Helper">python helper</a> is around.</p>
 
 <p>And the result is at <a href="https://github.com/samwize/localized">https://github.com/samwize/localized</a>.</p>
 

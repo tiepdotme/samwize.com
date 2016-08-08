@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,59 +74,68 @@
           
           <p>iOS 5 does NOT support Base Internationalization.</p>
 
-<p>I learnt this the hard way (and partly Apple&#39;s fault).</p>
+<p>I learnt this the hard way (and partly Apple’s fault).</p>
 
 <p>After upgrading my project to use Base Internationalization, I release a new version, and shortly, my users complained of startup crash.</p>
 
 <!-- more -->
 
-<h2>New release, crash on startup</h2>
+<h2 id="new-release-crash-on-startup">New release, crash on startup</h2>
 
 <p>You might be wondering:</p>
 
 <blockquote>
-<p>Didn&#39;t you test your app?</p>
+  <p>Didn’t you test your app?</p>
 </blockquote>
 
 <p>I did test, <strong>but only with Simulator</strong>. I ran on Simulator with iOS 5, and also tested on my real device with iOS 6.0.</p>
 
-<p>It didn&#39;t crash on Simulator with iOS 5.</p>
+<p>It didn’t crash on Simulator with iOS 5.</p>
 
 <p>However, on a real iPhone with iOS 5, it crashed on startup.</p>
 
-<p>Exception is raised from <code>[UINib instantiateWithOwner:options:]</code>, with the error log:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Terminating app due to uncaught exception &#39;NSInternalInconsistencyException&#39;, 
-reason: &#39;Could not load NIB in bundle: &#39;NSBundle 
-&lt;/var/mobile/Applications/***/***.app&gt; (loaded)&#39; with name &#39;MainWindow&#39;&#39;
-</code></pre></div>
-<p>This <a href="http://stackoverflow.com/questions/9075298/app-works-on-simulator-but-not-on-iphone">meant</a> that the app could not find <code>MainWindow.xib</code>. </p>
+<p>Exception is raised from <code class="highlighter-rouge">[UINib instantiateWithOwner:options:]</code>, with the error log:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Terminating app due to uncaught exception 'NSInternalInconsistencyException', 
+reason: 'Could not load NIB in bundle: 'NSBundle 
+&lt;/var/mobile/Applications/***/***.app&gt; (loaded)' with name 'MainWindow''
+</code></pre>
+</div>
+
+<p>This <a href="http://stackoverflow.com/questions/9075298/app-works-on-simulator-but-not-on-iphone">meant</a> that the app could not find <code class="highlighter-rouge">MainWindow.xib</code>.</p>
 
 <p>It is strange that the xib is not copied, especially when I am prudent to do clean build and run.</p>
 
-<h2>The culprit</h2>
+<h2 id="the-culprit">The culprit</h2>
 
-<p>Base Internationalization was introduced in iOS 6. It is an awesome feature because: instead of having N NIB files for N languages, you need just <strong>1 base NIB file</strong> with <strong>N localization.strings</strong>. </p>
+<p>Base Internationalization was introduced in iOS 6. It is an awesome feature because: instead of having N NIB files for N languages, you need just <strong>1 base NIB file</strong> with <strong>N localization.strings</strong>.</p>
 
 <p>The biggest change I had for the release was Base Internationalization.</p>
 
 <p>Researching into the problem, I realized Base Internationalization is supported only from iOS 6.</p>
 
-<p>Xcode will let you release the app with <em>any minimum deployment target</em>, without any warning. But once the app starts and load a xib, it will crash as it can&#39;t find the xib.</p>
+<p>Xcode will let you release the app with <em>any minimum deployment target</em>, without any warning. But once the app starts and load a xib, it will crash as it can’t find the xib.</p>
 
-<h2>The Solution</h2>
+<h2 id="the-solution">The Solution</h2>
 
 <p>The change is reversible.</p>
 
 <p>Select the XIB and look under File Inspector.</p>
 
-<p>You can change each of the <code>localization.strings</code> back to XIB. Then remove the Base (when prompted, copied it to English).</p>
+<p>You can change each of the <code class="highlighter-rouge">localization.strings</code> back to XIB. Then remove the Base (when prompted, copied it to English).</p>
 
-<h2>Lessons Learnt</h2>
+<h2 id="lessons-learnt">Lessons Learnt</h2>
 
 <ul>
-<li><p>Simulator is not exactly like real device</p></li>
-<li><p>Base Internationalization is awesome, but is not advised to be used </p></li>
-<li><p>Many users stick with iOS 5 because of Map app. Perhaps they will upgrade in ~2014 as Apple continues to improve.</p></li>
+  <li>
+    <p>Simulator is not exactly like real device</p>
+  </li>
+  <li>
+    <p>Base Internationalization is awesome, but is not advised to be used</p>
+  </li>
+  <li>
+    <p>Many users stick with iOS 5 because of Map app. Perhaps they will upgrade in ~2014 as Apple continues to improve.</p>
+  </li>
 </ul>
 
         </section>

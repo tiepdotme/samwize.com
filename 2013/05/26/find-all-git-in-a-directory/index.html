@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,25 +72,34 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>To find all the git repositories in a directory, you can run the following command (which search for the <code>.git</code> directories):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">find . -type d -name .git
-</code></pre></div>
+          <p>To find all the git repositories in a directory, you can run the following command (which search for the <code class="highlighter-rouge">.git</code> directories):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>find . -type d -name .git
+</code></pre>
+</div>
+
 <!-- more -->
 
-<p>It is using the <code>find</code> command, with the type directory, and name <code>.git</code>. </p>
+<p>It is using the <code class="highlighter-rouge">find</code> command, with the type directory, and name <code class="highlighter-rouge">.git</code>.</p>
 
 <p>If you want to delete them, you can do this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">find . -type d -name .git | xargs rm -rf
-</code></pre></div>
-<p>PS: The <code>find</code> command has a <code>-delete</code> option, but that somehow doesn&#39;t work with directory.</p>
 
-<h2>Remove all .DS_Store and .gitignore</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>find . -type d -name .git | xargs rm -rf
+</code></pre>
+</div>
+
+<p>PS: The <code class="highlighter-rouge">find</code> command has a <code class="highlighter-rouge">-delete</code> option, but that somehow doesn’t work with directory.</p>
+
+<h2 id="remove-all-dsstore-and-gitignore">Remove all .DS_Store and .gitignore</h2>
 
 <p>If you are like me who wants to clean up a directory with all the git stuff and send to a possibly Windows user, you could run these:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">find . -name &#39;*.DS_Store&#39; -type f -delete
-find . -name &#39;.gitignore&#39; -type f -delete
-</code></pre></div>
-<p>The <code>-delete</code> option works for the files.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>find . -name '*.DS_Store' -type f -delete
+find . -name '.gitignore' -type f -delete
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">-delete</code> option works for the files.</p>
 
         </section>
         <footer class="post-footer">

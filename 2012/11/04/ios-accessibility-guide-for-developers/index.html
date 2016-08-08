@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,60 +74,66 @@
           
           <p>There are some simple steps you can take to make your iOS app friendly to the visually impaired users. All you need is to provide more meaningful labels and iOS VoiceOver will take care of it.</p>
 
-<p>I am guilty that I didn&#39;t take these simple steps whenever I release a new app, even though I know about it since iOS 3.. Sometimes, I need a <a href="http://mattgemmell.com/2012/10/26/ios-accessibility-heroes-and-villains/">reminder</a>.</p>
+<p>I am guilty that I didn’t take these simple steps whenever I release a new app, even though I know about it since iOS 3.. Sometimes, I need a <a href="http://mattgemmell.com/2012/10/26/ios-accessibility-heroes-and-villains/">reminder</a>.</p>
 
 <p>Treat this post as <em>another reminder</em>. And as a guide.</p>
 
 <!-- more -->
 
-<h2>Test with Accessibility Inspector</h2>
+<h2 id="test-with-accessibility-inspector">Test with Accessibility Inspector</h2>
 
 <p>In <strong>iOS Simulator</strong> (NOT actual device), go to Settings &gt; General &gt; Accessibility and switch it on.</p>
 
 <p>You may now observe accessibility information for each UI element.</p>
 
-<h2>Define in Interface Builder</h2>
+<h2 id="define-in-interface-builder">Define in Interface Builder</h2>
 
-<p>If you are using IB to build your UI, you can easily edit from the Identity Inspector. All <code>UIView</code> comes with accessibility attributes.</p>
+<p>If you are using IB to build your UI, you can easily edit from the Identity Inspector. All <code class="highlighter-rouge">UIView</code> comes with accessibility attributes.</p>
 
-<p><img src="/images/xcode-accessibility-inspector.png" alt="Accessibility Inspector" ></p>
+<p><img src="/images/xcode-accessibility-inspector.png" alt="Accessibility Inspector" /></p>
 
 <ul>
-<li>Enable Accessibility </li>
-<li>Enter a label. This is what will be read with VoiceOver.</li>
-<li>Enter a hint, if the label could be ambiguous.</li>
+  <li>Enable Accessibility</li>
+  <li>Enter a label. This is what will be read with VoiceOver.</li>
+  <li>Enter a hint, if the label could be ambiguous.</li>
 </ul>
 
-<h2>Change Programmatically</h2>
+<h2 id="change-programmatically">Change Programmatically</h2>
 
-<p>You can also change the label and hint programmatically. </p>
+<p>You can also change the label and hint programmatically.</p>
 
-<p>If you have a <code>UILabel</code>, it will read the text of the label. However if that is not descriptive, you could</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mylabel.accessibilityLabel = @&quot;Play the music&quot;;
-mylabel.accessibilityHint = @&quot;Play the music right now&quot;;
-</code></pre></div>
-<h2>UITableViewCell</h2>
+<p>If you have a <code class="highlighter-rouge">UILabel</code>, it will read the text of the label. However if that is not descriptive, you could</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mylabel.accessibilityLabel = @"Play the music";
+mylabel.accessibilityHint = @"Play the music right now";
+</code></pre>
+</div>
+
+<h2 id="uitableviewcell">UITableViewCell</h2>
 
 <p>It is most likely a table view cell is made up of a couple of UI elements. However, it would be difficult to select the individual elements.</p>
 
-<p>Hence you could help be aggregating the labels and set the <code>UITableCellView</code> accessibility options.</p>
+<p>Hence you could help be aggregating the labels and set the <code class="highlighter-rouge">UITableCellView</code> accessibility options.</p>
 
-<h2>UISlider</h2>
+<h2 id="uislider">UISlider</h2>
 
 <p>For slider, you may also want to set the value.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mySlider.accessibilityValue = @&quot;Volume at 50%&quot;;
-</code></pre></div>
-<h2>Test on Device</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mySlider.accessibilityValue = @"Volume at 50%";
+</code></pre>
+</div>
+
+<h2 id="test-on-device">Test on Device</h2>
 
 <p>Go to Settings &gt; General &gt; Accessibility &gt; Enable VoiceOver.</p>
 
 <p>Test it out!</p>
 
-<h2>Advanced</h2>
+<h2 id="advanced">Advanced</h2>
 
 <p>I have merely list the <em>simple</em> steps I usually used.</p>
 
-<p>Apple has it&#39;s own <a href="http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5">complete guide</a> on how you should approach the topic, including custom views and <code>UIAccessibilityPostNotification</code>. <a href="http://mattgemmell.com/2010/12/19/accessibility-for-iphone-and-ipad-apps/">Matt Gemmell</a> also covers the topic.</p>
+<p>Apple has it’s own <a href="http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/iPhoneAccessibility/Making_Application_Accessible/Making_Application_Accessible.html#//apple_ref/doc/uid/TP40008785-CH102-SW5">complete guide</a> on how you should approach the topic, including custom views and <code class="highlighter-rouge">UIAccessibilityPostNotification</code>. <a href="http://mattgemmell.com/2010/12/19/accessibility-for-iphone-and-ipad-apps/">Matt Gemmell</a> also covers the topic.</p>
 
 <p>Hope you be a hero!</p>
 

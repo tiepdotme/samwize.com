@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,17 +74,17 @@
           
           <p>There are a few ways to include a common library in an Xcode project.</p>
 
-<p>For iOS 8, it became interesting when embedded/dynamic framework is made available for iOS. You can watch about &quot;modern framework&quot; in <a href="https://developer.apple.com/videos/wwdc/2014/?id=416">WWDC 2014</a>.</p>
+<p>For iOS 8, it became interesting when embedded/dynamic framework is made available for iOS. You can watch about “modern framework” in <a href="https://developer.apple.com/videos/wwdc/2014/?id=416">WWDC 2014</a>.</p>
 
 <p>This post is to clarify some of the concepts.</p>
 
 <!-- more -->
 
-<h1>Embedded/Dynamic Framework</h1>
+<h1 id="embeddeddynamic-framework">Embedded/Dynamic Framework</h1>
 
 <p>Prior to iOS 8, developers can also create their own framework as <a href="http://www.raywenderlich.com/65964/create-a-framework-for-ios">static framework</a>.</p>
 
-<p>For iOS 8, dynamic framework is introduced because it would be needed for iOS Extension and Watch app. </p>
+<p>For iOS 8, dynamic framework is introduced because it would be needed for iOS Extension and Watch app.</p>
 
 <p>For example, you would have common code shared between the parent app and the Watch app (note: they are separately sandboxed). It is aptly to put these common code in a framework.</p>
 
@@ -96,41 +96,42 @@
 
 <p>It cannot be used by other third party apps. Therefore it is <a href="https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/FrameworkBinding.html">not truly dynamic</a>.</p>
 
-<h1>Projects</h1>
+<h1 id="projects">Projects</h1>
 
-<p>We all starts a project with a <em>project</em>. </p>
+<p>We all starts a project with a <em>project</em>.</p>
 
-<p>A project can have multiple targets and frameworks. </p>
+<p>A project can have multiple targets and frameworks.</p>
 
 <p>Yes, you create an embedded framework in your project.</p>
 
-<h1>Workspace</h1>
+<h1 id="workspace">Workspace</h1>
 
 <p>Then there is the concept of <em>workspace</em> in Xcode.</p>
 
 <p>Workspace is for handling multiple projects which are inter-related.</p>
 
-<h1>CocoaPods</h1>
+<h1 id="cocoapods">CocoaPods</h1>
 
 <p>If you have been using CocoaPods, you would be opening <em>workspace</em> instead of <em>project</em> because CocoaPods created workspace which contain 2 projects - your app and the pods project.</p>
 
 <p>However, CocoaPods is currently <a href="https://github.com/CocoaPods/CocoaPods/pull/2222">not playing well with embedded framework</a>.</p>
 
-<p>This is because your watch app has to include another copy of the pods, instead of sharing with the parent app. </p>
+<p>This is because your watch app has to include another copy of the pods, instead of sharing with the parent app.</p>
 
 <p>Conceptually, this can be solved by having the pods as an embedded framework. We have to wait for the CocoaPods maintainers to support the feature.</p>
 
-<h1>If not using CocoaPods..</h1>
+<h1 id="if-not-using-cocoapods">If not using CocoaPods..</h1>
 
 <p>Since CocoaPods is not playing well with embedded framework at the moment, this is what you can do if you want to using your common framework across multiple projects..</p>
 
-<p>Create your embedded framework as a project of it&#39;s own, and <code>git</code> it. </p>
+<p>Create your embedded framework as a project of it’s own, and <code class="highlighter-rouge">git</code> it.</p>
 
-<p>Create your main application as a project of it&#39;s own. Then create a workspace and include this project.</p>
+<p>Create your main application as a project of it’s own. Then create a workspace and include this project.</p>
 
-<p>Using <code>git submodule</code>, add the embedded framwork project into the workspace directory. Then add the project into the workspace.</p>
+<p>Using <code class="highlighter-rouge">git submodule</code>, add the embedded framwork project into the workspace directory. Then add the project into the workspace.</p>
 
 <p>With that, the workspace is setup with the 2 projects.</p>
+
 
         </section>
         <footer class="post-footer">

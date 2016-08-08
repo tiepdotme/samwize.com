@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -80,73 +80,91 @@
 
 <!-- more -->
 
-<h2>1.  Mock an instance method</h2>
+<h2 id="mock-an-instance-method">1.  Mock an instance method</h2>
 
-<p>If you have a class <code>MyClass</code>, an instance <code>anObject</code>, and an instance method <code>foo</code>, you can change the return value of <code>foo</code> during testing:</p>
+<p>If you have a class <code class="highlighter-rouge">MyClass</code>, an instance <code class="highlighter-rouge">anObject</code>, and an instance method <code class="highlighter-rouge">foo</code>, you can change the return value of <code class="highlighter-rouge">foo</code> during testing:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Create a mock for the class</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kt">id</span> <span class="n">myClassMock</span> <span class="o">=</span> <span class="n">OCMClassMock</span><span class="p">([</span><span class="n">MyClass</span> <span class="k">class</span><span class="p">]);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Change the method&#39;s behaviour for MyClass with a stub</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="n">foo</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@&quot;bar&quot;</span><span class="p">);</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// If you only want to stub for a specific value eg Force to return Apple for Green fruit</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="nl">fruitWithColor</span><span class="p">:</span><span class="s">@&quot;Green&quot;</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@&quot;Apple&quot;</span><span class="p">);</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// If you want to return Apple for all fruits</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="nl">fruitWithColor</span><span class="p">:[</span><span class="n">OCMArg</span> <span class="n">any</span><span class="p">]]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@&quot;Apple&quot;</span><span class="p">);</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="c1">// Create a mock for the class
+</span><span class="n">id</span> <span class="n">myClassMock</span> <span class="o">=</span> <span class="n">OCMClassMock</span><span class="p">([</span><span class="n">MyClass</span> <span class="nf">class</span><span class="p">]);</span>
 
-<h2>2. Mock a class method</h2>
+<span class="c1">// Change the method's behaviour for MyClass with a stub
+</span><span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="nf">foo</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@"bar"</span><span class="p">);</span>
+
+<span class="c1">// If you only want to stub for a specific value eg Force to return Apple for Green fruit
+</span><span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="nf">fruitWithColor</span><span class="p">:</span><span class="s">@"Green"</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@"Apple"</span><span class="p">);</span>
+
+<span class="c1">// If you want to return Apple for all fruits
+</span><span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="nf">fruitWithColor</span><span class="p">:[</span><span class="n">OCMArg</span> <span class="nf">any</span><span class="p">]]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@"Apple"</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h2 id="mock-a-class-method">2. Mock a class method</h2>
 
 <p>Mocking a class method is exactly the same as mocking for instance method.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kt">id</span> <span class="n">myClassMock</span> <span class="o">=</span> <span class="n">OCMClassMock</span><span class="p">([</span><span class="n">MyClass</span> <span class="k">class</span><span class="p">]);</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="n">classMethod</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@&quot;bar&quot;</span><span class="p">);</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">id</span> <span class="n">myClassMock</span> <span class="o">=</span> <span class="n">OCMClassMock</span><span class="p">([</span><span class="n">MyClass</span> <span class="nf">class</span><span class="p">]);</span>
+<span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="nf">classMethod</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@"bar"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-<h2>3. Mock an object (Partial mock)</h2>
+<h2 id="mock-an-object-partial-mock">3. Mock an object (Partial mock)</h2>
 
-<p>If you have the instance <code>anObject</code>, you can use <code>OCMPartialMock</code> to create the mock. </p>
+<p>If you have the instance <code class="highlighter-rouge">anObject</code>, you can use <code class="highlighter-rouge">OCMPartialMock</code> to create the mock.</p>
 
 <p>This mock in effect is the same as mocking the class.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kt">id</span> <span class="n">partialMock</span> <span class="o">=</span> <span class="n">OCMPartialMock</span><span class="p">(</span><span class="n">anObject</span><span class="p">);</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">partialMock</span> <span class="n">foo</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@&quot;bar&quot;</span><span class="p">);</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">id</span> <span class="n">partialMock</span> <span class="o">=</span> <span class="n">OCMPartialMock</span><span class="p">(</span><span class="n">anObject</span><span class="p">);</span>
+<span class="n">OCMStub</span><span class="p">([</span><span class="n">partialMock</span> <span class="nf">foo</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@"bar"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-<p>Pitfall: You might assume partial mock applies to only that instance <code>anObject</code>. That&#39;s wrong. If you have <code>anotherObject2</code>, it will be affected by whatever was mocked because partial mock actually mock the whole class.</p>
+<p>Pitfall: You might assume partial mock applies to only that instance <code class="highlighter-rouge">anObject</code>. That’s wrong. If you have <code class="highlighter-rouge">anotherObject2</code>, it will be affected by whatever was mocked because partial mock actually mock the whole class.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">anObject</span> <span class="n">foo</span><span class="p">];</span>     <span class="c1">// Will return @&quot;bar&quot;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">anObject2</span> <span class="n">foo</span><span class="p">];</span>    <span class="c1">// Will return @&quot;bar&quot; too!</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">anObject</span> <span class="nf">foo</span><span class="p">];</span>     <span class="c1">// Will return @"bar"
+</span><span class="p">[</span><span class="n">anObject2</span> <span class="nf">foo</span><span class="p">];</span>    <span class="c1">// Will return @"bar" too!
+</span></code></pre>
+</div>
 
-<h2>4. Stop mocking</h2>
+<h2 id="stop-mocking">4. Stop mocking</h2>
 
-<p>You can stop mocking to return to the real object and reset it&#39;s behaviours.</p>
+<p>You can stop mocking to return to the real object and reset it’s behaviours.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">anObject</span> <span class="n">foo</span><span class="p">];</span>     <span class="c1">// Will return @&quot;bar&quot;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">anObject</span> <span class="n">stopMocking</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">anObject2</span> <span class="n">foo</span><span class="p">];</span>    <span class="c1">// Will return as per normal</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">anObject</span> <span class="nf">foo</span><span class="p">];</span>     <span class="c1">// Will return @"bar"
+</span><span class="p">[</span><span class="n">anObject</span> <span class="nf">stopMocking</span><span class="p">];</span>
+<span class="p">[</span><span class="n">anObject2</span> <span class="nf">foo</span><span class="p">];</span>    <span class="c1">// Will return as per normal
+</span></code></pre>
+</div>
 
-<p>We use the example of partial mock, but you could call <code>[MyClass stopMocking]</code> and it will have the same effects.</p>
+<p>We use the example of partial mock, but you could call <code class="highlighter-rouge">[MyClass stopMocking]</code> and it will have the same effects.</p>
 
-<h2>5. Stub methods and chaining</h2>
+<h2 id="stub-methods-and-chaining">5. Stub methods and chaining</h2>
 
 <p>You can stub the methods with different actions: return object, return native values, throw, post notification, forward to real object or do nothing.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="n">someMethod</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="n">anObject</span><span class="p">);</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="n">aMethodReturningABoolean</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="nb">YES</span><span class="p">);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="n">someMethod</span><span class="p">]).</span><span class="n">andThrow</span><span class="p">(</span><span class="n">anException</span><span class="p">);</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="n">someMethod</span><span class="p">]).</span><span class="n">andPost</span><span class="p">(</span><span class="n">aNotification</span><span class="p">);</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="n">someMethod</span><span class="p">]).</span><span class="n">andForwardToRealObject</span><span class="p">();</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="n">someMethod</span><span class="p">]).</span><span class="n">andDo</span><span class="p">(</span><span class="n">anInvocation</span><span class="p">);</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="n">anObject</span><span class="p">);</span>
+<span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">aMethodReturningABoolean</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="nb">YES</span><span class="p">);</span>
+<span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andThrow</span><span class="p">(</span><span class="n">anException</span><span class="p">);</span>
+<span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andPost</span><span class="p">(</span><span class="n">aNotification</span><span class="p">);</span>
+<span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andForwardToRealObject</span><span class="p">();</span>
+<span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andDo</span><span class="p">(</span><span class="n">anInvocation</span><span class="p">);</span>
+</code></pre>
+</div>
 
-<p>You can also <a href="http://ocmock.org/reference/#stubing-methods">chain</a> <code>andPost</code> and <code>andReturn</code> with other actions.</p>
+<p>You can also <a href="http://ocmock.org/reference/#stubing-methods">chain</a> <code class="highlighter-rouge">andPost</code> and <code class="highlighter-rouge">andReturn</code> with other actions.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="n">someMethod</span><span class="p">]).</span><span class="n">andPost</span><span class="p">(</span><span class="n">aNotification</span><span class="p">).</span><span class="n">andReturn</span><span class="p">(</span><span class="n">aValue</span><span class="p">);</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andPost</span><span class="p">(</span><span class="n">aNotification</span><span class="p">).</span><span class="n">andReturn</span><span class="p">(</span><span class="n">aValue</span><span class="p">);</span>
+</code></pre>
+</div>
 
-<h2>Limitations - Especially Core Data</h2>
+<h2 id="limitations---especially-core-data">Limitations - Especially Core Data</h2>
 
 <p>Not only those <a href="http://ocmock.org/reference/#limitations">listed</a> on OCMock,
 but there are other limitations.</p>
 
-<p>The most severe is that you cannot mock a <code>NSManagedObject</code>.</p>
+<p>The most severe is that you cannot mock a <code class="highlighter-rouge">NSManagedObject</code>.</p>
 
 <p>There is a way to <a href="http://hackazach.net/code/2014/04/13/ios-testing-and-core-data/">get around</a> it, but it is better that you never, never mock Core Data.</p>
+
 
         </section>
         <footer class="post-footer">

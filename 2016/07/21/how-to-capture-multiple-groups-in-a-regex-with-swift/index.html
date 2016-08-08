@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,46 +72,56 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>Swift does not provide regex support in the language (hopefully in Swift 4!?).  For now we still have to rely on <a href="https://developer.apple.com/library/mac/documentation/Foundation/Reference/NSRegularExpression_Class/"><code>NSRegularExpression</code></a>.</p>
+          <p>Swift does not provide regex support in the language (hopefully in Swift 4!?).  For now we still have to rely on <a href="https://developer.apple.com/library/mac/documentation/Foundation/Reference/NSRegularExpression_Class/"><code class="highlighter-rouge">NSRegularExpression</code></a>.</p>
 
-<p>Here is a <code>String</code> extension that extract the captured groups with a regex pattern. </p>
+<p>Here is a <code class="highlighter-rouge">String</code> extension that extract the captured groups with a regex pattern.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">extension</span> <span class="n">String</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">capturedGroups</span><span class="p">(</span><span class="n">withRegex</span> <span class="nl">pattern</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">String</span><span class="p">]</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">var</span> <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">String</span><span class="p">]()</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">var</span> <span class="nl">regex</span><span class="p">:</span> <span class="bp">NSRegularExpression</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">do</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">regex</span> <span class="o">=</span> <span class="n">try</span> <span class="bp">NSRegularExpression</span><span class="p">(</span><span class="nl">pattern</span><span class="p">:</span> <span class="n">pattern</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">[])</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span> <span class="n">catch</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">return</span> <span class="n">results</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">matches</span> <span class="o">=</span> <span class="n">regex</span><span class="p">.</span><span class="n">matchesInString</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">[],</span> <span class="nl">range</span><span class="p">:</span> <span class="n">NSRange</span><span class="p">(</span><span class="nl">location</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="nl">length</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">characters</span><span class="p">.</span><span class="n">count</span><span class="p">))</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">guard</span> <span class="k">let</span> <span class="n">match</span> <span class="o">=</span> <span class="n">matches</span><span class="p">.</span><span class="n">first</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="n">results</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">lastRangeIndex</span> <span class="o">=</span> <span class="n">match</span><span class="p">.</span><span class="n">numberOfRanges</span> <span class="o">-</span> <span class="mi">1</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">guard</span> <span class="n">lastRangeIndex</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="n">results</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">..</span><span class="n">lastRangeIndex</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">let</span> <span class="n">capturedGroupIndex</span> <span class="o">=</span> <span class="n">match</span><span class="p">.</span><span class="n">rangeAtIndex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">let</span> <span class="n">matchedString</span> <span class="o">=</span> <span class="p">(</span><span class="nb">self</span> <span class="kt">as</span> <span class="bp">NSString</span><span class="p">).</span><span class="n">substringWithRange</span><span class="p">(</span><span class="n">capturedGroupIndex</span><span class="p">)</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">results</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">matchedString</span><span class="p">)</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">results</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">capturedGroups</span><span class="p">(</span><span class="n">withRegex</span> <span class="nv">pattern</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="p">{</span>
+        <span class="k">var</span> <span class="nv">results</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">]()</span>
+
+        <span class="k">var</span> <span class="nv">regex</span><span class="p">:</span> <span class="kt">NSRegularExpression</span>
+        <span class="k">do</span> <span class="p">{</span>
+            <span class="n">regex</span> <span class="o">=</span> <span class="k">try</span> <span class="kt">NSRegularExpression</span><span class="p">(</span><span class="nv">pattern</span><span class="p">:</span> <span class="n">pattern</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[])</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">results</span>
+        <span class="p">}</span>
+        
+        <span class="k">let</span> <span class="nv">matches</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="nf">matchesInString</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[],</span> <span class="nv">range</span><span class="p">:</span> <span class="kt">NSRange</span><span class="p">(</span><span class="nv">location</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="nv">length</span><span class="p">:</span> <span class="k">self</span><span class="o">.</span><span class="n">characters</span><span class="o">.</span><span class="n">count</span><span class="p">))</span>
+        
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">match</span> <span class="o">=</span> <span class="n">matches</span><span class="o">.</span><span class="n">first</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="n">results</span> <span class="p">}</span>
+        
+        <span class="k">let</span> <span class="nv">lastRangeIndex</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">numberOfRanges</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">guard</span> <span class="n">lastRangeIndex</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="n">results</span> <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">...</span><span class="n">lastRangeIndex</span> <span class="p">{</span>
+            <span class="k">let</span> <span class="nv">capturedGroupIndex</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="nf">rangeAtIndex</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">let</span> <span class="nv">matchedString</span> <span class="o">=</span> <span class="p">(</span><span class="k">self</span> <span class="k">as</span> <span class="kt">NSString</span><span class="p">)</span><span class="o">.</span><span class="nf">substringWithRange</span><span class="p">(</span><span class="n">capturedGroupIndex</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">matchedString</span><span class="p">)</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">results</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>To use:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Will match &quot;bcde&quot;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="s">&quot;abcdefg&quot;</span><span class="p">.</span><span class="n">capturedGroups</span><span class="p">(</span><span class="nl">withRegex</span><span class="p">:</span> <span class="s">&quot;a(.*)f&quot;</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Will match "bcde"</span>
+<span class="s">"abcdefg"</span><span class="o">.</span><span class="nf">capturedGroups</span><span class="p">(</span><span class="nv">withRegex</span><span class="p">:</span> <span class="s">"a(.*)f"</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<h2>Capture Groups vs Matches</h2>
+<h2 id="capture-groups-vs-matches">Capture Groups vs Matches</h2>
 
 <p>There is a difference.</p>
 
-<p>The code <code>regex.matchesInString(...)</code> will return 0 or more <strong>matches</strong>. For example, &quot;hello hello&quot; will match the regex pattern &quot;hello&quot; twice.</p>
+<p>The code <code class="highlighter-rouge">regex.matchesInString(...)</code> will return 0 or more <strong>matches</strong>. For example, “hello hello” will match the regex pattern “hello” twice.</p>
 
 <p>We did not bother with multiple matches, and instead only handle for the first match.</p>
 
-<p><a href="http://www.regular-expressions.info/brackets.html">Capture groups</a> are regex pattern which you define that you want to capture using brackets eg. <code>id=(\\d*)</code> will capture a number after a &quot;id=&quot;.</p>
+<p><a href="http://www.regular-expressions.info/brackets.html">Capture groups</a> are regex pattern which you define that you want to capture using brackets eg. <code class="highlighter-rouge">id=(\\d*)</code> will capture a number after a “id=”.</p>
 
         </section>
         <footer class="post-footer">

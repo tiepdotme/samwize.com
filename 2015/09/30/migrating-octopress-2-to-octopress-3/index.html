@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -80,57 +80,71 @@
 
 <p>The older website has moved to <a href="http://o2.samwize.com">o2.samwize.com</a>.</p>
 
-<h2>Installing</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mkdir mywebsite.com
+<h2 id="installing">Installing</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir mywebsite.com
 cd mywebsite.com
 touch Gemfile
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Edit the Gemfile as follows:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">gem</span> <span class="s1">&#39;jekyll&#39;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">gem</span> <span class="s1">&#39;github-pages&#39;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">gem</span> <span class="s1">&#39;bourbon&#39;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">group</span> <span class="ss">:jekyll_plugins</span> <span class="k">do</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 3.0.11&#39;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-image-tag&#39;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-video-tag&#39;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-codeblock&#39;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-quote-tag&#39;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-codefence&#39;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-solarized&#39;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">gem</span> <span class="s1">&#39;octopress-gist&#39;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">source</span> <span class="s1">'https://rubygems.org'</span>
+ 
+<span class="n">gem</span> <span class="s1">'jekyll'</span>
+<span class="n">gem</span> <span class="s1">'github-pages'</span>
+<span class="n">gem</span> <span class="s1">'bourbon'</span>
 
-<p>Octopress 2.0 is a derivative of jekyll with more features. </p>
+<span class="n">group</span> <span class="ss">:jekyll_plugins</span> <span class="k">do</span>
+    <span class="n">gem</span> <span class="s1">'octopress'</span><span class="p">,</span> <span class="s1">'~&gt; 3.0.11'</span>
+    <span class="n">gem</span> <span class="s1">'octopress-image-tag'</span>
+    <span class="n">gem</span> <span class="s1">'octopress-video-tag'</span>
+    <span class="n">gem</span> <span class="s1">'octopress-codeblock'</span>
+    <span class="n">gem</span> <span class="s1">'octopress-quote-tag'</span>
+    <span class="n">gem</span> <span class="s1">'octopress-codefence'</span>
+    <span class="n">gem</span> <span class="s1">'octopress-solarized'</span>
+    <span class="n">gem</span> <span class="s1">'octopress-gist'</span>
+<span class="k">end</span>
+</code></pre>
+</div>
 
-<p>Octopress 3.0 is merely a plugin to jekyll -- which is a better design and plays well with the powerful jekyll. And there are other plugins provided by octopress such as <code>octopress-codefence</code> for <a href="http://octopress.org/docs/plugins/backtick-codeblock/">backtick code blocks</a>.</p>
+<p>Octopress 2.0 is a derivative of jekyll with more features.</p>
 
-<p>Run <code>bundle install</code> to install the gems.</p>
+<p>Octopress 3.0 is merely a plugin to jekyll – which is a better design and plays well with the powerful jekyll. And there are other plugins provided by octopress such as <code class="highlighter-rouge">octopress-codefence</code> for <a href="http://octopress.org/docs/plugins/backtick-codeblock/">backtick code blocks</a>.</p>
 
-<h2>Setup a new website</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># In the directory mywebsite.com
+<p>Run <code class="highlighter-rouge">bundle install</code> to install the gems.</p>
+
+<h2 id="setup-a-new-website">Setup a new website</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># In the directory mywebsite.com
 octopress new .
-</code></pre></div>
-<p>With that, you can now run the website locally: </p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">bundle exec jekyll serve
-</code></pre></div>
-<p>Note: You need to prepend <code>bundle exec</code> so that the gems are used in this context.</p>
+</code></pre>
+</div>
 
-<h2>Migrating Your Posts and etc</h2>
+<p>With that, you can now run the website locally:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>bundle exec jekyll serve
+</code></pre>
+</div>
+
+<p>Note: You need to prepend <code class="highlighter-rouge">bundle exec</code> so that the gems are used in this context.</p>
+
+<h2 id="migrating-your-posts-and-etc">Migrating Your Posts and etc</h2>
 
 <p>Migrating octopress/jekyll is rather easy, because the your pages and posts are your markdown files.</p>
 
 <ul>
-<li>Copy all the markdown post (<code>/source/_posts</code> to <code>/_posts</code>)</li>
-<li>Copy all the markdown pages</li>
-<li>Copy all the images eg. (<code>/source/images</code> to <code>/images</code>)</li>
+  <li>Copy all the markdown post (<code class="highlighter-rouge">/source/_posts</code> to <code class="highlighter-rouge">/_posts</code>)</li>
+  <li>Copy all the markdown pages</li>
+  <li>Copy all the images eg. (<code class="highlighter-rouge">/source/images</code> to <code class="highlighter-rouge">/images</code>)</li>
 </ul>
 
-<h2>Plugins</h2>
+<h2 id="plugins">Plugins</h2>
 
-<p>To activate the <a href="http://jekyllrb.com/docs/plugins/">jekyll plugins</a>, edit <code>_config.yml</code> and add the gems:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">gems: 
+<p>To activate the <a href="http://jekyllrb.com/docs/plugins/">jekyll plugins</a>, edit <code class="highlighter-rouge">_config.yml</code> and add the gems:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>gems: 
   - octopress-image-tag
   - octopress-video-tag
   - octopress-codeblock
@@ -138,53 +152,71 @@ octopress new .
   - octopress-codefence
   - octopress-solarized
   - octopress-gist
-</code></pre></div>
-<h2>Themes</h2>
+</code></pre>
+</div>
+
+<h2 id="themes">Themes</h2>
 
 <p>Jekyll themes are merely fork of Jekyll with custom html/css/etc.</p>
 
 <p>For this website, I use <a href="https://github.com/dirkfabisch/mediator">mediator</a>.</p>
 
-<p>Since we didn&#39;t start with a fork of a theme, we have to download/clone the theme, then copy (and replace) these:</p>
+<p>Since we didn’t start with a fork of a theme, we have to download/clone the theme, then copy (and replace) these:</p>
 
 <ul>
-<li>_config.yml</li>
-<li>_includes</li>
-<li>_layouts</li>
-<li>_sass</li>
-<li>assets</li>
-<li>css</li>
-<li>feed.xml</li>
-<li>index.html</li>
+  <li>_config.yml</li>
+  <li>_includes</li>
+  <li>_layouts</li>
+  <li>_sass</li>
+  <li>assets</li>
+  <li>css</li>
+  <li>feed.xml</li>
+  <li>index.html</li>
 </ul>
 
-<p>You might also need the merge the theme&#39;s Gemfile to yours, if the theme uses other gems.</p>
+<p>You might also need the merge the theme’s Gemfile to yours, if the theme uses other gems.</p>
 
-<h2>Permalinks</h2>
+<h2 id="permalinks">Permalinks</h2>
 
 <p>The default jekyll permalink for each post is different from Octopress 2.0.</p>
 
 <p>In Octopress 2.0, it is:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://samwize.com/2015/09/30/migrating-octopress-2-to-octopress-3/
+</code></pre>
+</div>
+
 <p>In Octopress 3.0 (or Jekyll), the <a href="http://jekyllrb.com/docs/permalinks/">default</a> is:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">http://samwize.com/some_category/2015/09/30/migrating-octopress-2-to-octopress-3.html
-</code></pre></div>
-<p>To change, edit <code>_config.yml</code> and add:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">permalink: /:year/:month/:day/:title/
-</code></pre></div>
-<h2>Github Pages</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://samwize.com/some_category/2015/09/30/migrating-octopress-2-to-octopress-3.html
+</code></pre>
+</div>
+
+<p>To change, edit <code class="highlighter-rouge">_config.yml</code> and add:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>permalink: /:year/:month/:day/:title/
+</code></pre>
+</div>
+
+<h2 id="github-pages">Github Pages</h2>
 
 <p>I host this website on Github Pages, for free. You can find out how to host it on <a href="http://samwize.com/2015/09/02/how-to-host-a-website-on-github-pages/">this post</a>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># To setup
-bundle exec octopress deploy init git
-</code></pre></div>
-<p>Then edit <code>_deploy.yml</code> with your github repos.</p>
 
-<p>You will also need to add a <code>CNAME</code> file with your domain name in it in <code>/mywebsite.com</code>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Then push and deploy with
+<div class="highlighter-rouge"><pre class="highlight"><code># To setup
+bundle exec octopress deploy init git
+</code></pre>
+</div>
+
+<p>Then edit <code class="highlighter-rouge">_deploy.yml</code> with your github repos.</p>
+
+<p>You will also need to add a <code class="highlighter-rouge">CNAME</code> file with your domain name in it in <code class="highlighter-rouge">/mywebsite.com</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Then push and deploy with
 octopress deploy
-</code></pre></div>
+</code></pre>
+</div>
+
+
         </section>
         <footer class="post-footer">
           <section class="share">

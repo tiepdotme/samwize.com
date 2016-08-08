@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>You should not be using <code>su</code> with <code>npm install</code> or <code>bower install</code>.</p>
+          <p>You should not be using <code class="highlighter-rouge">su</code> with <code class="highlighter-rouge">npm install</code> or <code class="highlighter-rouge">bower install</code>.</p>
 
 <p>However, we understand when you see errors such as <strong>npm ERR! Error: EACCES, mkdir ..</strong>, you will relent to using your superadmin power..</p>
 
@@ -81,14 +81,17 @@
 <p>In bower case, if you do, you will see warning message:</p>
 
 <blockquote>
-<p>Since bower is a user command, there is no need to execute it with superuser permissions.
-If you&#39;re having permission errors when using bower without sudo, please spend a few minutes learning more about how your system should work and make any necessary repairs.</p>
+  <p>Since bower is a user command, there is no need to execute it with superuser permissions.
+If you’re having permission errors when using bower without sudo, please spend a few minutes learning more about how your system should work and make any necessary repairs.</p>
 </blockquote>
 
 <p>The <a href="https://github.com/npm/npm/issues/5649">fix</a> is simple:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo chown -R $USER:$GROUP ~/.npm
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo chown -R $USER:$GROUP ~/.npm
 sudo chown -R $USER:$GROUP ~/.config
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>This makes the directory where npm and bower is using when installing packages to be given the correct permissions.</p>
 
         </section>

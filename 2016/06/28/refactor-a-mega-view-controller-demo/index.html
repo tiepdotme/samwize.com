@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Refactor a Mega View Controller - A Live Coding!</title>
-  <meta name="description" content="Andy Matuschak gave a good talk on refactoring a mega controller. " />
+  <meta name="description" content="Andy Matuschak gave a good talk on refactoring a mega controller." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Refactor a Mega View Controller - A Live Coding!" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="Andy Matuschak gave a good talk on refactoring a mega controller. " />
+    <meta name="twitter:description"  content="Andy Matuschak gave a good talk on refactoring a mega controller." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Refactor a Mega View Controller - A Live Coding!"/>
   
-  <meta property="og:description" content="Andy Matuschak gave a good talk on refactoring a mega controller. " />
+  <meta property="og:description" content="Andy Matuschak gave a good talk on refactoring a mega controller." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2016/06/28/refactor-a-mega-view-controller-demo/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,11 +72,11 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>Andy Matuschak gave a good talk on refactoring a mega controller. </p>
+          <p>Andy Matuschak gave a good talk on refactoring a mega controller.</p>
 
 <p><a href="https://realm.io/news/andy-matuschak-refactor-mega-controller/">Watch it</a>.</p>
 
-<p><a href="https://realm.io/news/andy-matuschak-refactor-mega-controller/"><img src="/images/refactor-a-mega-view-controller-demo.png" alt=""></a></p>
+<p><a href="https://realm.io/news/andy-matuschak-refactor-mega-controller/"><img src="/images/refactor-a-mega-view-controller-demo.png" alt="" /></a></p>
 
 <p>It is a very good video by Andy Matuschak,
 performing delightful live coding
@@ -85,9 +85,9 @@ and narrating his thoughts process.</p>
 <p>You might recognize Andy,
 an ex-Apple engineer 
 who gave a great talk in <a href="https://developer.apple.com/videos/play/wwdc2014/229/">WWDC 2014</a>
-on app architecture -- <strong>where is the truth</strong>?</p>
+on app architecture – <strong>where is the truth</strong>?</p>
 
-<h2>The Usual Problem</h2>
+<h2 id="the-usual-problem">The Usual Problem</h2>
 
 <p>We often got into
 is writing Massive View Controller,
@@ -95,44 +95,44 @@ resulting in 1 single file that contains all kind of code!</p>
 
 <p>Apple sample code 
 and programming guide
-didn&#39;t help to guide us towards clean code/architecture.</p>
+didn’t help to guide us towards clean code/architecture.</p>
 
-<h2>Techniques</h2>
+<h2 id="techniques">Techniques</h2>
 
 <p>There is no magic.</p>
 
 <blockquote>
-<p>Mostly Decomposition</p>
+  <p>Mostly Decomposition</p>
 </blockquote>
 
 <p>Or as Uncle Bob says: <em>Extract till you drop</em></p>
 
 <blockquote>
-<p>Where is the truth?</p>
+  <p>Where is the truth?</p>
 </blockquote>
 
 <p>Think hard which class should hold the truth.</p>
 
 <blockquote>
-<p>It is VERY RUDE for a view controller to change it&#39;s parents properties</p>
+  <p>It is VERY RUDE for a view controller to change it’s parents properties</p>
 </blockquote>
 
-<p>For example, don&#39;t change your navigation bar tint color directly. Your view controller does not own the navigation bar. What if another (child) view controller also change the tint?</p>
+<p>For example, don’t change your navigation bar tint color directly. Your view controller does not own the navigation bar. What if another (child) view controller also change the tint?</p>
 
 <p>Test driven development (TDD) will force you
 to architect your code nicely.</p>
 
-<h2>What Pasta is Your Code?</h2>
+<h2 id="what-pasta-is-your-code">What Pasta is Your Code?</h2>
 
 <p>As you decompose/abstract/encapsulate your code, the structure changes.</p>
 
 <ol>
-<li>Spaghetti code - messy</li>
-<li>Lasagna code - well layered</li>
-<li>Ravioli code - very much decoupled</li>
+  <li>Spaghetti code - messy</li>
+  <li>Lasagna code - well layered</li>
+  <li>Ravioli code - very much decoupled</li>
 </ol>
 
-<p><img src="http://www.proun-game.com/Oogst3D/BLOG/Italian%20Food%20Coding%20Ravioli.jpg" alt=""></p>
+<p><img src="http://www.proun-game.com/Oogst3D/BLOG/Italian%20Food%20Coding%20Ravioli.jpg" alt="" /></p>
 
 <p>It is up to you to find the balance,
 which is not easy.</p>
@@ -141,13 +141,13 @@ which is not easy.</p>
 but not to the extend
 that it difficult to follow the flow of data.</p>
 
-<h2>Bonus</h2>
+<h2 id="bonus">Bonus</h2>
 
 <p>Storyboard instantiate your initial view controller
 so you have no chance to init yourself.</p>
 
 <p>A trick is shown in the talk
-where you instantiate your VC manually in <code>AppDelegate</code>
+where you instantiate your VC manually in <code class="highlighter-rouge">AppDelegate</code>
 and set it to the navigation VC (the root VC of window).</p>
 
         </section>

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,9 +72,12 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>While using <a href="http://cocoapods.org/">Cocoapod</a> and running <code>pod install</code>, I encountered the following error:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">[!] The platform of the target `Pods` (iOS 4.3) is not compatible with `FlatUIKit (1.1)` which has a minimum requirement of iOS 5.0.
-</code></pre></div>
+          <p>While using <a href="http://cocoapods.org/">Cocoapod</a> and running <code class="highlighter-rouge">pod install</code>, I encountered the following error:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[!] The platform of the target `Pods` (iOS 4.3) is not compatible with `FlatUIKit (1.1)` which has a minimum requirement of iOS 5.0.
+</code></pre>
+</div>
+
 <!-- more -->
 
 <p>There is obviously a dependency error. Immediately, I open Xcode, go to Project Building Settings, and changed <strong>iOS Deployment Target</strong> to 5.0. I was pretty sure that is the way to change the minimum deployment version.</p>
@@ -83,14 +86,16 @@
 
 <p>I was puzzled. Did I set it wrongly in Xcode? I started to question myself..</p>
 
-<p>After some probing, I realized it is Cocoapod&#39;s <a href="https://github.com/CocoaPods/CocoaPods/issues/603">fault</a>.</p>
+<p>After some probing, I realized it is Cocoapod’s <a href="https://github.com/CocoaPods/CocoaPods/issues/603">fault</a>.</p>
 
-<p>You have to write in <code>Podfile</code> your minimum deployment version eg.</p>
+<p>You have to write in <code class="highlighter-rouge">Podfile</code> your minimum deployment version eg.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>platform :ios, '5.0'
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>pod 'FlatUIKit', '~> 1.1'</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>platform :ios, '5.0'
+pod 'FlatUIKit', '~&gt; 1.1'
+</code></pre>
+</div>
 
-<p>If you don&#39;t specify &#39;5.0&#39;, it is taken to be &#39;4.3&#39;. Duh.</p>
+<p>If you don’t specify ‘5.0’, it is taken to be ‘4.3’. Duh.</p>
 
         </section>
         <footer class="post-footer">

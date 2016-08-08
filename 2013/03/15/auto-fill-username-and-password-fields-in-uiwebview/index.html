@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,29 +72,31 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>If you use <code>UIWebView</code> and would like to automatically fill in the username and password (or any other text input fields), you could do so by executing Javascript on the webview.</p>
+          <p>If you use <code class="highlighter-rouge">UIWebView</code> and would like to automatically fill in the username and password (or any other text input fields), you could do so by executing Javascript on the webview.</p>
 
 <p>I first learnt about this from <a href="http://stackoverflow.com/a/9722805/242682">stackoverflow</a>, and has edited slightly.</p>
 
-<p>The technique is to implement <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIWebViewDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intf/UIWebViewDelegate"><code>UIWebViewDelegate</code></a> and execute some Javascript in <code>webViewDidFinishLoad</code>. </p>
+<p>The technique is to implement <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIWebViewDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intf/UIWebViewDelegate"><code class="highlighter-rouge">UIWebViewDelegate</code></a> and execute some Javascript in <code class="highlighter-rouge">webViewDidFinishLoad</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad:</span><span class="p">(</span><span class="bp">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Auto fill the username and password text fields, assuming the HTML has</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// &lt;input type=&quot;text&quot; name=&quot;username&quot;&gt; and</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// &lt;input type=&quot;text&quot; name=&quot;password&quot;&gt;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSString</span> <span class="o">*</span><span class="n">savedUsername</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSUserDefaults</span> <span class="n">standardUserDefaults</span><span class="p">]</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;USERNAME&quot;</span><span class="p">];</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSString</span> <span class="o">*</span><span class="n">savedPassword</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSUserDefaults</span> <span class="n">standardUserDefaults</span><span class="p">]</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@&quot;PASSWORD&quot;</span><span class="p">];</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="n">savedUsername</span><span class="p">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">savedPassword</span><span class="p">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Create js strings</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="bp">NSString</span> <span class="o">*</span><span class="n">loadUsernameJS</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;var inputFields = document.querySelectorAll(</span><span class="se">\&quot;</span><span class="s">input[name=&#39;username&#39;]</span><span class="se">\&quot;</span><span class="s">); \</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="s">                                    for (var i = inputFields.length &gt;&gt;&gt; 0; i--;) &#x7b; inputFields[i].value = &#39;%@&#39;;&#x7d;&quot;</span><span class="p">,</span> <span class="n">savedUsername</span><span class="p">];</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="bp">NSString</span> <span class="o">*</span><span class="n">loadPasswordJS</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;var inputFields = document.querySelectorAll(</span><span class="se">\&quot;</span><span class="s">input[name=&#39;password&#39;]</span><span class="se">\&quot;</span><span class="s">); \</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="s">                                    for (var i = inputFields.length &gt;&gt;&gt; 0; i--;) &#x7b; inputFields[i].value = &#39;%@&#39;;&#x7d;&quot;</span><span class="p">,</span> <span class="n">savedPassword</span><span class="p">];</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Runs the JS</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webview</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span> <span class="n">loadUsernameJS</span><span class="p">];</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webview</span> <span class="nl">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span> <span class="n">loadPasswordJS</span><span class="p">];</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad</span><span class="p">:(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
+    <span class="c1">// Auto fill the username and password text fields, assuming the HTML has
+</span>    <span class="c1">// &lt;input type="text" name="username"&gt; and
+</span>    <span class="c1">// &lt;input type="text" name="password"&gt;
+</span>    <span class="n">NSString</span> <span class="o">*</span><span class="n">savedUsername</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"USERNAME"</span><span class="p">];</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">savedPassword</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"PASSWORD"</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">savedUsername</span><span class="p">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">savedPassword</span><span class="p">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Create js strings
+</span>        <span class="n">NSString</span> <span class="o">*</span><span class="n">loadUsernameJS</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"var inputFields = document.querySelectorAll(</span><span class="se">\"</span><span class="s">input[name='username']</span><span class="se">\"</span><span class="s">); \
+                                    for (var i = inputFields.length &gt;&gt;&gt; 0; i--;) { inputFields[i].value = '%@';}"</span><span class="p">,</span> <span class="n">savedUsername</span><span class="p">];</span>
+        <span class="n">NSString</span> <span class="o">*</span><span class="n">loadPasswordJS</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"var inputFields = document.querySelectorAll(</span><span class="se">\"</span><span class="s">input[name='password']</span><span class="se">\"</span><span class="s">); \
+                                    for (var i = inputFields.length &gt;&gt;&gt; 0; i--;) { inputFields[i].value = '%@';}"</span><span class="p">,</span> <span class="n">savedPassword</span><span class="p">];</span>
+        <span class="c1">// Runs the JS
+</span>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webview</span> <span class="nf">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span> <span class="n">loadUsernameJS</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webview</span> <span class="nf">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span> <span class="n">loadPasswordJS</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

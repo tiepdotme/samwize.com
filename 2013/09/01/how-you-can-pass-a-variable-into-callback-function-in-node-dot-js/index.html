@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,55 +74,62 @@
           
           <p>Because Node.js works <strong>asynchronously</strong>, things might not work as you think, if you are still stuck in the <strong>synchronous</strong> world..</p>
 
-<p>To pass variables into callback function, you can use <code>bind()</code>. </p>
+<p>To pass variables into callback function, you can use <code class="highlighter-rouge">bind()</code>.</p>
 
 <p>I will show you how.</p>
 
 <!-- more -->
 
-<h1>The dummy function that takes 1 sec to callback</h1>
+<h1 id="the-dummy-function-that-takes-1-sec-to-callback">The dummy function that takes 1 sec to callback</h1>
 
-<p>To begin, let&#39;s say we have this <code>dummy()</code> function that will do some lengthy processing, and then callback. This is common. For example, a <a href="/2013/08/31/simple-http-get-slash-post-request-in-node-dot-js/">simple http request</a> will use a callback function for the http response. </p>
+<p>To begin, let’s say we have this <code class="highlighter-rouge">dummy()</code> function that will do some lengthy processing, and then callback. This is common. For example, a <a href="/2013/08/31/simple-http-get-slash-post-request-in-node-dot-js/">simple http request</a> will use a callback function for the http response.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// A dummy function that callback after 1 second (simulating some processing work)</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">function</span> <span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// After 1 second, we callback with a result</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nx">callback</span><span class="p">(</span><span class="s1">&#39;dumb result&#39;</span><span class="p">)</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;,</span> <span class="mi">1000</span><span class="p">);</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="c1">// A dummy function that callback after 1 second (simulating some processing work)</span>
+<span class="kd">function</span> <span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+		<span class="c1">// After 1 second, we callback with a result</span>
+    	<span class="nx">callback</span><span class="p">(</span><span class="s1">'dumb result'</span><span class="p">)</span>
+    <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<h1>Incorrect Code</h1>
+<h1 id="incorrect-code">Incorrect Code</h1>
 
-<p>Now, let&#39;s have a code that loops 10 times. </p>
+<p>Now, let’s have a code that loops 10 times.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Incorrect version</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;i = &quot;</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot; , response = &quot;</span> <span class="o">+</span> <span class="nx">response</span><span class="p">);</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;)</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="c1">// Incorrect version</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"i = "</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">" , response = "</span> <span class="o">+</span> <span class="nx">response</span><span class="p">);</span>
+	<span class="p">})</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>You might think the code above will print out <code>i</code> as 1-10. </p>
+<p>You might think the code above will print out <code class="highlighter-rouge">i</code> as 1-10.</p>
 
 <p>But wrongly, it will print 10 every time!</p>
 
-<p>This is because the callback from <code>dummy()</code> takes 1 second before calling back. So by the time we print out, <code>i</code> is already 10.</p>
+<p>This is because the callback from <code class="highlighter-rouge">dummy()</code> takes 1 second before calling back. So by the time we print out, <code class="highlighter-rouge">i</code> is already 10.</p>
 
-<h1>Correct Code</h1>
+<h1 id="correct-code">Correct Code</h1>
 
-<p>There is the <strong>correct way</strong> to pass variables such as <code>i</code> into the callback function.</p>
+<p>There is the <strong>correct way</strong> to pass variables such as <code class="highlighter-rouge">i</code> into the callback function.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Correct version</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;i = &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">&quot; , response = &quot;</span> <span class="o">+</span> <span class="nx">response</span><span class="p">);</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;.</span><span class="nx">bind</span><span class="p">(</span> <span class="p">&#x7b;</span><span class="nx">i</span><span class="o">:</span> <span class="nx">i</span><span class="p">&#x7d;</span> <span class="p">))</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="c1">// Correct version</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"i = "</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">" , response = "</span> <span class="o">+</span> <span class="nx">response</span><span class="p">);</span>
+	<span class="p">}.</span><span class="nx">bind</span><span class="p">(</span> <span class="p">{</span><span class="na">i</span><span class="p">:</span> <span class="nx">i</span><span class="p">}</span> <span class="p">))</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>As you can see, I have used <code>bind()</code> to pass the variables to <code>function(response)</code>.</p>
+<p>As you can see, I have used <code class="highlighter-rouge">bind()</code> to pass the variables to <code class="highlighter-rouge">function(response)</code>.</p>
 
-<p>Then in the callback, I can access the variable with <code>this.i</code>.</p>
+<p>Then in the callback, I can access the variable with <code class="highlighter-rouge">this.i</code>.</p>
+
 
         </section>
         <footer class="post-footer">

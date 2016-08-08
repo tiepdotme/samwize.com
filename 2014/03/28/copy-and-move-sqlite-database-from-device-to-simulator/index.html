@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -80,35 +80,47 @@
 
 <!-- more -->
 
-<h2>1. Copy using iExplorer</h2>
+<h2 id="copy-using-iexplorer">1. Copy using iExplorer</h2>
 
 <p>I use the demo version of <a href="http://www.macroplant.com/iexplorer/">iExplorer</a> to explore the file system of my iPhone.</p>
 
 <p>Navigate to your app (eg MyApp), and the database is in:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/Library/Application Support/MyApp/
-</code></pre></div>
-<p>Copy the 3 database files (MyApp.sqlite, MyApp.sqlite-shm, MyApp.sqlite-wal), and if you use external storage, copy the folder (.MyApp_SUPPORT) too. Note that this folder is prefix with a <code>.</code>, hence it will be hidden in your file system.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/Library/Application Support/MyApp/
+</code></pre>
+</div>
+
+<p>Copy the 3 database files (MyApp.sqlite, MyApp.sqlite-shm, MyApp.sqlite-wal), and if you use external storage, copy the folder (.MyApp_SUPPORT) too. Note that this folder is prefix with a <code class="highlighter-rouge">.</code>, hence it will be hidden in your file system.</p>
 
 <p>Make sure these database files are in your computer, as you need to copy them to your simulator.</p>
 
-<h2>2. Find out the path to your simulator</h2>
+<h2 id="find-out-the-path-to-your-simulator">2. Find out the path to your simulator</h2>
 
 <p>To know the path to your simulator, you can print a path directory in your app.</p>
 
 <p>For example, the code below I used print the full Document path (using <a href="https://github.com/nicklockwood/StandardPaths">StandardPaths library</a>):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">NSLog(@&quot;Doc Path: %@&quot;, [[NSFileManager defaultManager] publicDataPath]);
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>NSLog(@"Doc Path: %@", [[NSFileManager defaultManager] publicDataPath]);
+</code></pre>
+</div>
+
 <p>This is where my simulator is at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/
-</code></pre></div>
-<h2>3. Copy the files over</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/
+</code></pre>
+</div>
+
+<h2 id="copy-the-files-over">3. Copy the files over</h2>
 
 <p>Copy the database files from (1) to the simulator. Preserve the path, hence the files should be copied to the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/Library/Application Support/MyApp/
-</code></pre></div>
-<p>If you use Finder, you can copy the visible files easily. If you have external storage and the folder is hidden, you have to use the command line and <code>mv .MyApp_Support /to/the/simulator/path/above/</code>.</p>
 
-<p>That&#39;s it!</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/Library/Application Support/MyApp/
+</code></pre>
+</div>
+
+<p>If you use Finder, you can copy the visible files easily. If you have external storage and the folder is hidden, you have to use the command line and <code class="highlighter-rouge">mv .MyApp_Support /to/the/simulator/path/above/</code>.</p>
+
+<p>That’s it!</p>
 
 <p>You can now run on simulator, and it should have the same dataset.</p>
 

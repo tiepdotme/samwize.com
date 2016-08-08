@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Octopress would not deploy</title>
-  <meta name="description" content="I encountered a problem when I did a rake deploy. Somehow it does not get deployed. " />
+  <meta name="description" content="I encountered a problem when I did a rake deploy. Somehow it does not get deployed." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Octopress would not deploy" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="I encountered a problem when I did a rake deploy. Somehow it does not get deployed. " />
+    <meta name="twitter:description"  content="I encountered a problem when I did a rake deploy. Somehow it does not get deployed." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Octopress would not deploy"/>
   
-  <meta property="og:description" content="I encountered a problem when I did a rake deploy. Somehow it does not get deployed. " />
+  <meta property="og:description" content="I encountered a problem when I did a rake deploy. Somehow it does not get deployed." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2012/09/30/octopress-would-not-deploy/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,29 +72,42 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>I encountered a problem when I did a <code>rake deploy</code>. Somehow it does not get deployed. </p>
+          <p>I encountered a problem when I did a <code class="highlighter-rouge">rake deploy</code>. Somehow it does not get deployed.</p>
 
 <p>The only error I got was:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">The following paths are ignored by one of your .gitignore files:
+
+<div class="highlighter-rouge"><pre class="highlight"><code>The following paths are ignored by one of your .gitignore files:
 _deploy
-</code></pre></div>
+</code></pre>
+</div>
+
 <!-- more -->
 
-<p>That&#39;s a strange error. And I verified the <code>public</code> and <code>_deploy</code> directories were generated correctly.</p>
+<p>That’s a strange error. And I verified the <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">_deploy</code> directories were generated correctly.</p>
 
 <p>It turns out to be an issue when you clone the repos. You <a href="https://github.com/imathis/octopress/issues/412">must setup the Github pages</a> again.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">rake setup_github_pages 
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>rake setup_github_pages 
+</code></pre>
+</div>
+
 <p>Just that. Wasted a few hours. Hopes this help others.</p>
 
-<h2>Another Error: _deploy not found</h2>
+<h2 id="another-error-deploy-not-found">Another Error: _deploy not found</h2>
 
 <p>If you deploy and there is error complaining:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Errno::ENOENT: No such file or directory - _deploy
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Errno::ENOENT: No such file or directory - _deploy
+</code></pre>
+</div>
+
 <p>You will have to git clone the master branch into _deploy first.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git clone https://github.com/samwize/samwize.github.com.git _deploy
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/samwize/samwize.github.com.git _deploy
+</code></pre>
+</div>
+
+
         </section>
         <footer class="post-footer">
           <section class="share">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,7 +74,7 @@
           
           <p><em>UPDATE (Feb 2015): I have <a href="/2015/01/29/fastlane-replacing-ui-screen-shooter-and-screenshot-uploader/">replaced these tools</a> with Fastlane.</em></p>
 
-<hr>
+<hr />
 
 <p>If you <a href="/2014/04/10/everything-about-ios-localization/">localize your app</a>, you should be also localizing your screenshots.</p>
 
@@ -84,75 +84,108 @@
 
 <!-- more -->
 
-<h1>Automate screenshot capturing</h1>
+<h1 id="automate-screenshot-capturing">Automate screenshot capturing</h1>
 
 <p><a href="https://github.com/jonathanpenn/ui-screen-shooter">ui-screen-shooter</a> is some scripts to automatically build and run simulator on different languages, and automatically take screenshots.</p>
 
 <p>This is how you use:</p>
 
 <ol>
-<li><p><a href="https://github.com/jonathanpenn/ui-screen-shooter/archive/master.zip">Download</a> and unzip</p></li>
-<li><p>You only need to copy these 4 files to your project root: shoot_the_screens.js, ui-screen-shooter.sh, capture.js, unix_instruments.sh</p></li>
-<li><p>Edit <code>ui-screen-shooter.sh</code> for the <code>languages</code> you have localized. You may edit <code>simulators</code> eg if you don&#39;t need iPad.</p></li>
-<li><p>Edit <code>shoot_the_screens.js</code> for the actual UIAutomation. Tip: Run Instruments, and record your actions, and copy the javascript code.</p></li>
-<li><p>Run <code>./ui-screen-shooter.sh ~/Desktop/screenshots</code> on your project</p></li>
+  <li>
+    <p><a href="https://github.com/jonathanpenn/ui-screen-shooter/archive/master.zip">Download</a> and unzip</p>
+  </li>
+  <li>
+    <p>You only need to copy these 4 files to your project root: shoot_the_screens.js, ui-screen-shooter.sh, capture.js, unix_instruments.sh</p>
+  </li>
+  <li>
+    <p>Edit <code class="highlighter-rouge">ui-screen-shooter.sh</code> for the <code class="highlighter-rouge">languages</code> you have localized. You may edit <code class="highlighter-rouge">simulators</code> eg if you don’t need iPad.</p>
+  </li>
+  <li>
+    <p>Edit <code class="highlighter-rouge">shoot_the_screens.js</code> for the actual UIAutomation. Tip: Run Instruments, and record your actions, and copy the javascript code.</p>
+  </li>
+  <li>
+    <p>Run <code class="highlighter-rouge">./ui-screen-shooter.sh ~/Desktop/screenshots</code> on your project</p>
+  </li>
 </ol>
 
 <p>Go drink a coffee while the screenshots are being automatically captured!</p>
 
-<h1>Alias itms</h1>
+<h1 id="alias-itms">Alias itms</h1>
 
 <p>iTMSTransporter is the command line tool provided by Apple for the geekies, as an alternative to iTunes Connect website.</p>
 
-<p>For convenience, I <a href="http://stackoverflow.com/a/17786822/242682">added an alias</a> so that I can run fine with just <code>itms</code>:</p>
+<p>For convenience, I <a href="http://stackoverflow.com/a/17786822/242682">added an alias</a> so that I can run fine with just <code class="highlighter-rouge">itms</code>:</p>
 
 <p>You can add this to your .bash_profile, or just run in on your bash:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">alias itms=&#39;`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/MacOS/itms/bin/iTMSTransporter&#39;
-</code></pre></div>
-<p>For myself, I use <a href="http://samwize.com/2014/01/12/getting-started-with-dotfiles/">dotfiles</a>, hence I added the alias to my <code>~/dotfiles/.aliases</code>, and make sure my zsh <a href="http://samwize.com/2014/01/19/load-dotfiles-aliases-in-zsh/">work nicely</a> with it.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>alias itms='`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/MacOS/itms/bin/iTMSTransporter'
+</code></pre>
+</div>
+
+<p>For myself, I use <a href="http://samwize.com/2014/01/12/getting-started-with-dotfiles/">dotfiles</a>, hence I added the alias to my <code class="highlighter-rouge">~/dotfiles/.aliases</code>, and make sure my zsh <a href="http://samwize.com/2014/01/19/load-dotfiles-aliases-in-zsh/">work nicely</a> with it.</p>
 
 <p><em>UPDATE: In Xcode 7.2, the itms path is changed slightly:</em></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">alias itms=&#39;`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter&#39;
-</code></pre></div>
-<h1>Screenshot Uploader</h1>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>alias itms='`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter'
+</code></pre>
+</div>
+
+<h1 id="screenshot-uploader">Screenshot Uploader</h1>
 
 <p><a href="https://github.com/fulldecent/itc-localized-screenshot-uploader">itc-localized-screenshot-uploader</a> is a helper to prepare your screenshots when using iTMSTransporter. Note: I am using a forked version, which is better and clearer.</p>
 
-<p>Specifically, the PHP script generates the <code>metadata.xml</code> with the screenshots and their checksum.</p>
+<p>Specifically, the PHP script generates the <code class="highlighter-rouge">metadata.xml</code> with the screenshots and their checksum.</p>
 
 <p>This is how you use:</p>
 
 <ol>
-<li><p><code>~/Desktop/screenshots</code> - Firstly, this is where all your screenshots must be in (the default if using ui-screen-shooter)</p></li>
-<li><p>Change the ui-screen-shooter format to the required format. Run this command in <code>~/Desktop/screenshots</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">for a in */*; do d=$(dirname $a); f=$(basename $a); mv $a ${d}___${f}; done; rmdir */
-</code></pre></div></li>
-<li><p>Download your app metadata package:</p>
+  <li>
+    <p><code class="highlighter-rouge">~/Desktop/screenshots</code> - Firstly, this is where all your screenshots must be in (the default if using ui-screen-shooter)</p>
+  </li>
+  <li>
+    <p>Change the ui-screen-shooter format to the required format. Run this command in <code class="highlighter-rouge">~/Desktop/screenshots</code>:</p>
 
-<p>ITMSUSER=YourItunesUsername
-ITMSPASS=YourItunesPassword
-ITMSSKU=YourAppSKU
-itms -m lookupMetadata -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -destination ~/Desktop</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code> for a in */*; do d=$(dirname $a); f=$(basename $a); mv $a ${d}___${f}; done; rmdir */
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>Download your app metadata package:</p>
 
-<p>Edit your iTunes Connect username, password and your app sku. Note that the destionation must be ~/Desktop.</p></li>
-<li><p><a href="https://github.com/fulldecent/itc-localized-screenshot-uploader/archive/d72b891a3af4e5a31654de2678ce30a999b9b2bb.zip">Download</a>, unzip, then run <code>php screenshots.php</code></p></li>
-<li><p><code>metadata.xml</code> should be successfully generated in <code>~/Desktop/screenshots</code>. Copy this and the screenshots to the itms package.</p>
+    <p>ITMSUSER=YourItunesUsername
+ ITMSPASS=YourItunesPassword
+ ITMSSKU=YourAppSKU
+ itms -m lookupMetadata -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -destination ~/Desktop</p>
 
-<p>cp ~/Desktop/screenshots/* ~/Desktop/*.itmsp</p></li>
-<li><p>Verify</p>
+    <p>Edit your iTunes Connect username, password and your app sku. Note that the destionation must be ~/Desktop.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/fulldecent/itc-localized-screenshot-uploader/archive/d72b891a3af4e5a31654de2678ce30a999b9b2bb.zip">Download</a>, unzip, then run <code class="highlighter-rouge">php screenshots.php</code></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">metadata.xml</code> should be successfully generated in <code class="highlighter-rouge">~/Desktop/screenshots</code>. Copy this and the screenshots to the itms package.</p>
 
-<p>itms -m verify -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itmsp</p></li>
-<li><p>Upload</p>
+    <p>cp ~/Desktop/screenshots/* ~/Desktop/*.itmsp</p>
+  </li>
+  <li>
+    <p>Verify</p>
 
-<p>itms -m upload -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itmsp</p></li>
+    <p>itms -m verify -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itmsp</p>
+  </li>
+  <li>
+    <p>Upload</p>
+
+    <p>itms -m upload -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itmsp</p>
+  </li>
 </ol>
 
-<h1>Subsequent Versions</h1>
+<h1 id="subsequent-versions">Subsequent Versions</h1>
 
 <p>The first time performing this automation could be daunting. But if you follow the steps above closely, it will save you much precious time.</p>
 
 <p>Automating it subsequently is much easier:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Fetch the latest itmsp
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Fetch the latest itmsp
 ITMSUSER=YourItunesUsername
 ITMSPASS=YourItunesPassword
 ITMSSKU=YourAppSKU
@@ -170,37 +203,43 @@ php screenshots.php
 # Copy all files to itmsp and upload
 cp ~/Desktop/screenshots/* ~/Desktop/*.itmsp
 itms -m upload -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itmsp
-</code></pre></div>
-<h1>Common Pitfalls</h1>
+</code></pre>
+</div>
 
-<h3>Locale identifiers</h3>
+<h1 id="common-pitfalls">Common Pitfalls</h1>
 
-<p>The locale identifiers used in iTMSTransporter is strict. Instead of &#39;en&#39;, it is &#39;en-US&#39;. Instead of &#39;zh-Hans&#39;, it is &#39;cmn-Hans&#39;.</p>
+<h3 id="locale-identifiers">Locale identifiers</h3>
 
-<p>After itms <code>lookup</code>, you can find out the locale identifiers with</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">grep locale ~/Desktop/*.itmsp/metadata.xml  | grep name | sort -u
-</code></pre></div>
+<p>The locale identifiers used in iTMSTransporter is strict. Instead of ‘en’, it is ‘en-US’. Instead of ‘zh-Hans’, it is ‘cmn-Hans’.</p>
+
+<p>After itms <code class="highlighter-rouge">lookup</code>, you can find out the locale identifiers with</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>grep locale ~/Desktop/*.itmsp/metadata.xml  | grep name | sort -u
+</code></pre>
+</div>
+
 <p>You must use these for the languages.</p>
 
-<p>Then re-run <code>./ui-screen-shooter.sh ~/Desktop/screenshots</code>. Then re-upload again.</p>
+<p>Then re-run <code class="highlighter-rouge">./ui-screen-shooter.sh ~/Desktop/screenshots</code>. Then re-upload again.</p>
 
-<h3>Screenshot filenames</h3>
+<h3 id="screenshot-filenames">Screenshot filenames</h3>
 
-<p>If you didn&#39;t modify <code>capture.js</code>, then the filenames should be suitable for uploading with itms.</p>
+<p>If you didn’t modify <code class="highlighter-rouge">capture.js</code>, then the filenames should be suitable for uploading with itms.</p>
 
-<p>The files names should be like <code>iOS-3.5-in___portrait___screen1.png</code>. The &quot;iOS-3.5-in&quot; is used in the metadata.xml as display_target.</p>
+<p>The files names should be like <code class="highlighter-rouge">iOS-3.5-in___portrait___screen1.png</code>. The “iOS-3.5-in” is used in the metadata.xml as display_target.</p>
 
-<p>You should also delete all screenshots starting with &quot;UIATarget-&quot; which are automatically generated.</p>
+<p>You should also delete all screenshots starting with “UIATarget-“ which are automatically generated.</p>
 
-<h3>Create the new locale first</h3>
+<h3 id="create-the-new-locale-first">Create the new locale first</h3>
 
-<p>Go to iTunes Connect, and manually add in the new language (if you haven&#39;t). Just use the default screenshots first. Note: You can only add new language for new version of your app.</p>
+<p>Go to iTunes Connect, and manually add in the new language (if you haven’t). Just use the default screenshots first. Note: You can only add new language for new version of your app.</p>
 
-<h3>Error: Screenshots cannot be edited in the current state</h3>
+<h3 id="error-screenshots-cannot-be-edited-in-the-current-state">Error: Screenshots cannot be edited in the current state</h3>
 
-<p>If itms upload gives an error <code>software_screenshots cannot be edited in the current state</code>, just try again 1 hour later.</p>
+<p>If itms upload gives an error <code class="highlighter-rouge">software_screenshots cannot be edited in the current state</code>, just try again 1 hour later.</p>
 
-<p>You have probably edited your app status (&quot;Waiting for Binary Upload&quot;), yet iTunes Connect seems to be lagged in knowing your state.</p>
+<p>You have probably edited your app status (“Waiting for Binary Upload”), yet iTunes Connect seems to be lagged in knowing your state.</p>
+
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,85 +74,106 @@
           
           <p>This is a tutorial on using Ruby and Commander to build a command line interface (CLI) app.</p>
 
-<h2>Gemfile</h2>
+<h2 id="gemfile">Gemfile</h2>
 
 <p>Create the project directory and add a Gemfile.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>mkdir ruby-cli
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>cd ruby-cli
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>touch Gemfile</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir ruby-cli
+cd ruby-cli
+touch Gemfile
+</code></pre>
+</div>
 
-<p>The <code>Gemfile</code> has only 1 gem - <a href="https://github.com/tj/commander">commander</a>:
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>source &quot;<a href="http://rubygems.org">http://rubygems.org</a>&quot;
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>gem &quot;commander&quot;</div></div></pre></div></figure></p>
+<p>The <code class="highlighter-rouge">Gemfile</code> has only 1 gem - <a href="https://github.com/tj/commander">commander</a>:
+<code class="highlighter-rouge">
+source "http://rubygems.org"
+gem "commander"
+</code></p>
 
-<p>Install with <code>bundle install</code>. If you don&#39;t have <a href="http://bundler.io">bundler</a>, then install with <code>gem install bundler</code> first.</p>
+<p>Install with <code class="highlighter-rouge">bundle install</code>. If you don’t have <a href="http://bundler.io">bundler</a>, then install with <code class="highlighter-rouge">gem install bundler</code> first.</p>
 
-<h2>The Code</h2>
+<h2 id="the-code">The Code</h2>
 
-<p>This is the code for our simple <code>ruby-cli.rb</code>:</p>
+<p>This is the code for our simple <code class="highlighter-rouge">ruby-cli.rb</code>:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">#!/usr/bin/env ruby</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">require</span> <span class="s2">&quot;bundler/setup&quot;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">require</span> <span class="s1">&#39;commander/import&#39;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">program</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">&quot;Ruby CLI&quot;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">program</span> <span class="ss">:version</span><span class="p">,</span> <span class="s1">&#39;1.0.0&#39;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">program</span> <span class="ss">:description</span><span class="p">,</span> <span class="s1">&#39;A simple cli that does nothing&#39;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">command</span> <span class="ss">:extract</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="n">c</span><span class="o">.</span><span class="n">syntax</span> <span class="o">=</span> <span class="s1">&#39;ruby-cli extract foo -bar=123&#39;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="n">c</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Extract foo and bar&#39;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="n">c</span><span class="o">.</span><span class="n">option</span> <span class="s1">&#39;--bar STRING&#39;</span><span class="p">,</span> <span class="nb">String</span><span class="p">,</span> <span class="s1">&#39;Option bar with a string&#39;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>               <span class="n">options</span><span class="o">.</span><span class="n">default</span> <span class="ss">:bar</span> <span class="o">=&gt;</span> <span class="s1">&#39;BAR&#39;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>               <span class="nb">puts</span> <span class="s1">&#39;Extracting..&#39;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>               <span class="nb">puts</span> <span class="s2">&quot;Args: </span><span class="si">#&#x7b;</span><span class="n">args</span><span class="si">&#x7d;</span><span class="s2">&quot;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>               <span class="nb">puts</span> <span class="s2">&quot;Option Bar: </span><span class="si">#&#x7b;</span><span class="n">options</span><span class="o">.</span><span class="n">bar</span><span class="si">&#x7d;</span><span class="s2">&quot;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="k">end</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1">#!/usr/bin/env ruby</span>
 
-<p>We can now run <code>ruby ruby-cli.rb extract</code>. But we can simply run <code>./ruby-cli.rb extract</code>, since the first line declared the ruby shebang. All we need is to <code>chmod a+x ruby-cli.rb</code> so that the file has executable permission.</p>
+<span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s2">"bundler/setup"</span>
+<span class="nb">require</span> <span class="s1">'commander/import'</span>
 
-<p>Using <code>commander</code>, we have described our CLI easily. Run <code>./ruby-cli.rb --help</code>, and it will provide a nice help on all the commands that is possible. In our code, we only have <code>extract</code> command.</p>
+<span class="n">program</span> <span class="ss">:name</span><span class="p">,</span> <span class="s2">"Ruby CLI"</span>
+<span class="n">program</span> <span class="ss">:version</span><span class="p">,</span> <span class="s1">'1.0.0'</span>
+<span class="n">program</span> <span class="ss">:description</span><span class="p">,</span> <span class="s1">'A simple cli that does nothing'</span>
 
-<p>In our <code>extract</code> command, we print out the args and options.</p>
+<span class="n">command</span> <span class="ss">:extract</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+		<span class="n">c</span><span class="p">.</span><span class="nf">syntax</span> <span class="o">=</span> <span class="s1">'ruby-cli extract foo -bar=123'</span>
+		<span class="n">c</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s1">'Extract foo and bar'</span>
+		<span class="n">c</span><span class="p">.</span><span class="nf">option</span> <span class="s1">'--bar STRING'</span><span class="p">,</span> <span class="no">String</span><span class="p">,</span> <span class="s1">'Option bar with a string'</span>
+		<span class="n">c</span><span class="p">.</span><span class="nf">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">args</span><span class="p">,</span> <span class="n">options</span><span class="o">|</span>
+				<span class="n">options</span><span class="p">.</span><span class="nf">default</span> <span class="ss">:bar</span> <span class="o">=&gt;</span> <span class="s1">'BAR'</span>
+				<span class="nb">puts</span> <span class="s1">'Extracting..'</span>
+				<span class="nb">puts</span> <span class="s2">"Args: </span><span class="si">#{</span><span class="n">args</span><span class="si">}</span><span class="s2">"</span>
+				<span class="nb">puts</span> <span class="s2">"Option Bar: </span><span class="si">#{</span><span class="n">options</span><span class="p">.</span><span class="nf">bar</span><span class="si">}</span><span class="s2">"</span>
+		<span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
 
-<p>There is only 1 option <code>--bar</code>, with the default string &quot;BAR&quot;. </p>
+<p>We can now run <code class="highlighter-rouge">ruby ruby-cli.rb extract</code>. But we can simply run <code class="highlighter-rouge">./ruby-cli.rb extract</code>, since the first line declared the ruby shebang. All we need is to <code class="highlighter-rouge">chmod a+x ruby-cli.rb</code> so that the file has executable permission.</p>
 
-<h2>Ruby Gem</h2>
+<p>Using <code class="highlighter-rouge">commander</code>, we have described our CLI easily. Run <code class="highlighter-rouge">./ruby-cli.rb --help</code>, and it will provide a nice help on all the commands that is possible. In our code, we only have <code class="highlighter-rouge">extract</code> command.</p>
 
-<p>Till now, you can ruby <code>./ruby-cli.rb ...</code>. </p>
+<p>In our <code class="highlighter-rouge">extract</code> command, we print out the args and options.</p>
 
-<p>But we could install it as a gem, and run <code>ruby-cli ...</code>.</p>
+<p>There is only 1 option <code class="highlighter-rouge">--bar</code>, with the default string “BAR”.</p>
 
-<p>To do that, move the script to <code>bin</code>, and without the extension</p>
+<h2 id="ruby-gem">Ruby Gem</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>mkdir bin
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>mv ruby-cli.rb bin/ruby-cli</div></div></pre></div></figure>
+<p>Till now, you can ruby <code class="highlighter-rouge">./ruby-cli.rb ...</code>.</p>
 
-<p>Next we create the file <code>ruby-cli.gemspec</code>.</p>
+<p>But we could install it as a gem, and run <code class="highlighter-rouge">ruby-cli ...</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;ruby-cli&#39;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;1.0.0&#39;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="s1">&#39;2015-12-25&#39;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">summary</span> <span class="o">=</span> <span class="s2">&quot;Our simple CLI&quot;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Our very very simple CLI&quot;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">authors</span> <span class="o">=</span> <span class="o">[</span> <span class="s2">&quot;Luke Skywalker&quot;</span> <span class="o">]</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s1">&#39;lukeskywalker@gmail.com&#39;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">executables</span> <span class="o">&lt;&lt;</span> <span class="s1">&#39;ruby-cli&#39;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">s</span><span class="o">.</span><span class="n">add_dependency</span> <span class="s1">&#39;commander&#39;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+<p>To do that, move the script to <code class="highlighter-rouge">bin</code>, and without the extension</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir bin
+mv ruby-cli.rb bin/ruby-cli
+</code></pre>
+</div>
+
+<p>Next we create the file <code class="highlighter-rouge">ruby-cli.gemspec</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Gem</span><span class="o">::</span><span class="no">Specification</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="s1">'ruby-cli'</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">version</span> <span class="o">=</span> <span class="s1">'1.0.0'</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">date</span> <span class="o">=</span> <span class="s1">'2015-12-25'</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">summary</span> <span class="o">=</span> <span class="s2">"Our simple CLI"</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">description</span> <span class="o">=</span> <span class="s2">"Our very very simple CLI"</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">authors</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"Luke Skywalker"</span> <span class="p">]</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">email</span> <span class="o">=</span> <span class="s1">'lukeskywalker@gmail.com'</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">executables</span> <span class="o">&lt;&lt;</span> <span class="s1">'ruby-cli'</span>
+
+  <span class="n">s</span><span class="p">.</span><span class="nf">add_dependency</span> <span class="s1">'commander'</span>
+<span class="k">end</span>
+</code></pre>
+</div>
 
 <p>To build the gem:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">gem build ruby-cli.gemset
-</code></pre></div>
-<p>To install the gem:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">gem install ruby-cli-1.0.0.gem
-</code></pre></div>
-<p>Finally, you can run <code>ruby-cli extract foo -bar=1213</code>!</p>
 
-<p><em>PS: This is my first tutorial with using Ruby. I have been fighting against using Ruby for many times, since languages like Python and Go are great, and I am sure Swift will be usable for scripting some day too. But, so many existing tools use Ruby, that I can&#39;t avoid it. Two of my favorites - <a href="https://github.com/jekyll/jekyll">Jekyll</a> and <a href="https://github.com/fastlane/fastlane">fastlane</a>.</em></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>gem build ruby-cli.gemset
+</code></pre>
+</div>
+
+<p>To install the gem:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>gem install ruby-cli-1.0.0.gem
+</code></pre>
+</div>
+
+<p>Finally, you can run <code class="highlighter-rouge">ruby-cli extract foo -bar=1213</code>!</p>
+
+<p><em>PS: This is my first tutorial with using Ruby. I have been fighting against using Ruby for many times, since languages like Python and Go are great, and I am sure Swift will be usable for scripting some day too. But, so many existing tools use Ruby, that I can’t avoid it. Two of my favorites - <a href="https://github.com/jekyll/jekyll">Jekyll</a> and <a href="https://github.com/fastlane/fastlane">fastlane</a>.</em></p>
+
 
         </section>
         <footer class="post-footer">

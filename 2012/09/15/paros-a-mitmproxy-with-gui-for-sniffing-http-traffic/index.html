@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,29 +74,29 @@
           
           <p>I introduced <a href="http://blog.just2us.com/2012/05/sniff-iphone-http-traffic-using-mitmproxy/">mitmproxy for sniffing iPhone HTTP traffic</a> back at <a href="http://just2us.com">just2us.com</a>.</p>
 
-<p><a href="http://mitmproxy.org/">mitmproxy</a> is awesome, except that it isn&#39;t very user friendly, as it is a text console interface. Many times, I have to figure what are the keys to move around or access certain function.</p>
+<p><a href="http://mitmproxy.org/">mitmproxy</a> is awesome, except that it isn’t very user friendly, as it is a text console interface. Many times, I have to figure what are the keys to move around or access certain function.</p>
 
-<p>That&#39;s where <a href="http://www.parosproxy.org/">Paros</a> shines.</p>
+<p>That’s where <a href="http://www.parosproxy.org/">Paros</a> shines.</p>
 
 <p>This is how you setup up Paros to sniff iPhone HTTP Traffic:</p>
 
 <!-- more -->
 
-<h2>1. Install Paros</h2>
+<h2 id="install-paros">1. Install Paros</h2>
 
-<p>Paros runs on Java. <a href="http://www.parosproxy.org/download.shtml">Download</a> for <a href="http://www.parosproxy.org/install.shtml">install</a>. </p>
+<p>Paros runs on Java. <a href="http://www.parosproxy.org/download.shtml">Download</a> for <a href="http://www.parosproxy.org/install.shtml">install</a>.</p>
 
 <p>For Mac, download the Linux version.</p>
 
-<p>Unzip and run <code>paros.jar</code>.</p>
+<p>Unzip and run <code class="highlighter-rouge">paros.jar</code>.</p>
 
-<h2>2. Find out your machine IP</h2>
+<h2 id="find-out-your-machine-ip">2. Find out your machine IP</h2>
 
 <p>Find out the local IP for your machine. You need this for the next step.</p>
 
-<p>For Mac, run the command <code>ifconfig en1</code> and copy down the IP.</p>
+<p>For Mac, run the command <code class="highlighter-rouge">ifconfig en1</code> and copy down the IP.</p>
 
-<h2>3. Setup your iPhone proxy</h2>
+<h2 id="setup-your-iphone-proxy">3. Setup your iPhone proxy</h2>
 
 <p>Make sure your iPhone is on the same network as the machine running Paros. eg. connect to the same Wifi</p>
 
@@ -104,15 +104,15 @@
 
 <p>From there, choose <strong>Manual</strong> for <strong>HTTP Proxy</strong>. Enter the <strong>machine IP</strong> for Server and <strong>8080</strong> for Port.</p>
 
-<p><img class="center" src="/images/iphone-http-proxy-paros.png" width="360" alt="iPhone network settings" ></p>
+<p><img class="center" src="/images/iphone-http-proxy-paros.png" width="360" alt="iPhone network settings" /></p>
 
 <p>In the screenshot above, my machine IP is 192.168.1.68.</p>
 
-<h2>4. Start running your target app and sniff</h2>
+<h2 id="start-running-your-target-app-and-sniff">4. Start running your target app and sniff</h2>
 
 <p>Use your iPhone to run the app that you want to sniff the traffic.</p>
 
-<p>Paros interface will immediately show the URL sites the app connects to. The interface is pretty self explanatory so I won&#39;t go on from here.</p>
+<p>Paros interface will immediately show the URL sites the app connects to. The interface is pretty self explanatory so I won’t go on from here.</p>
 
 <p>Rock on from there!</p>
 

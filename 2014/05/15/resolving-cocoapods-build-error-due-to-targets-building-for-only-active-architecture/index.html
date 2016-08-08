@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,24 +72,26 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>I always have a build error after <code>pod install</code>, because by default, CocoaPods will configure your pods to <strong>build for active architecture only</strong> (during debugging).</p>
+          <p>I always have a build error after <code class="highlighter-rouge">pod install</code>, because by default, CocoaPods will configure your pods to <strong>build for active architecture only</strong> (during debugging).</p>
 
-<p>The solution is to change Pods project setting <code>Build Active Architecture Only</code> to <code>NO</code> for debug.</p>
+<p>The solution is to change Pods project setting <code class="highlighter-rouge">Build Active Architecture Only</code> to <code class="highlighter-rouge">NO</code> for debug.</p>
 
-<p>But it is tedious to change every time after you run <code>pod install</code> (as your change will get reverted back to <code>YES</code>).</p>
+<p>But it is tedious to change every time after you run <code class="highlighter-rouge">pod install</code> (as your change will get reverted back to <code class="highlighter-rouge">YES</code>).</p>
 
 <!-- more -->
 
 <p>As <a href="https://github.com/CocoaPods/CocoaPods/issues/1400#issuecomment-39855490">suggested by msmollin</a> in CocoaPods issues, you can fix by with:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1"># Append to your Podfile</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">post_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer_representation</span><span class="o">|</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">installer_representation</span><span class="o">.</span><span class="n">pods_project</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">target</span><span class="o">.</span><span class="n">build_configurations</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">config</span><span class="o">.</span><span class="n">build_settings</span><span class="o">[</span><span class="s1">&#39;ONLY_ACTIVE_ARCH&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;NO&#39;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">end</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Append to your Podfile</span>
+<span class="n">post_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer_representation</span><span class="o">|</span>
+    <span class="n">installer_representation</span><span class="p">.</span><span class="nf">pods_project</span><span class="p">.</span><span class="nf">targets</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
+        <span class="n">target</span><span class="p">.</span><span class="nf">build_configurations</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+            <span class="n">config</span><span class="p">.</span><span class="nf">build_settings</span><span class="p">[</span><span class="s1">'ONLY_ACTIVE_ARCH'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'NO'</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,17 +72,19 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>As described in <a href="https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/AutoLayoutbyExample/AutoLayoutbyExample.html">Apple Autolayout Guide</a>, your <code>UIView</code> animation block should look like this:</p>
+          <p>As described in <a href="https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/AutoLayoutbyExample/AutoLayoutbyExample.html">Apple Autolayout Guide</a>, your <code class="highlighter-rouge">UIView</code> animation block should look like this:</p>
 
 <!-- more -->
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">containerView</span> <span class="n">layoutIfNeeded</span><span class="p">];</span> <span class="c1">// Ensures that all pending layout operations have been completed</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="bp">UIView</span> <span class="nl">animateWithDuration</span><span class="p">:</span><span class="mf">1.0</span> <span class="nl">animations</span><span class="p">:</span><span class="o">^</span><span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">// Make all constraint changes here</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">// For example:</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">someViewConstraint</span><span class="p">.</span><span class="n">constant</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">[</span><span class="n">containerView</span> <span class="n">layoutIfNeeded</span><span class="p">];</span> <span class="c1">// Forces the layout of the subtree animation block and then captures all of the frame changes</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">containerView</span> <span class="nf">layoutIfNeeded</span><span class="p">];</span> <span class="c1">// Ensures that all pending layout operations have been completed
+</span><span class="p">[</span><span class="n">UIView</span> <span class="nf">animateWithDuration</span><span class="p">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="nf">animations</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+  <span class="c1">// Make all constraint changes here
+</span>  <span class="c1">// For example:
+</span>  <span class="n">someViewConstraint</span><span class="p">.</span><span class="n">constant</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span>
+  <span class="p">[</span><span class="n">containerView</span> <span class="nf">layoutIfNeeded</span><span class="p">];</span> <span class="c1">// Forces the layout of the subtree animation block and then captures all of the frame changes
+</span><span class="p">}];</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

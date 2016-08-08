@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,29 +74,31 @@
           
           <p>A common UI design pattern is to make an image fill the header as you scroll beyond the top, like this:</p>
 
-<p><img class="center" src="/images/expandable-header-uiscrollview.gif"  ></p>
+<p><img class="center" src="/images/expandable-header-uiscrollview.gif" /></p>
 
 <p>This post will show you how to do that, easily.</p>
 
 <!-- more -->
 
-<p>Implement the <code>UIScrollViewDelegate</code> method as follows:</p>
+<p>Implement the <code class="highlighter-rouge">UIScrollViewDelegate</code> method as follows:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">scrollViewDidScroll:</span><span class="p">(</span><span class="bp">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="n">scrollView</span><span class="p">.</span><span class="n">contentOffset</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="bp">CGAffineTransform</span> <span class="n">translate</span> <span class="o">=</span> <span class="n">CGAffineTransformMakeTranslation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">scrollView</span><span class="p">.</span><span class="n">contentOffset</span><span class="p">.</span><span class="n">y</span><span class="o">/</span><span class="mf">2.0</span><span class="p">);</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">CGFloat</span> <span class="n">orgHeight</span> <span class="o">=</span> <span class="n">_photoHeightConstraint</span><span class="p">.</span><span class="n">constant</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">CGFloat</span> <span class="n">scaleFactor</span> <span class="o">=</span> <span class="p">(</span><span class="n">orgHeight</span> <span class="o">-</span> <span class="n">scrollView</span><span class="p">.</span><span class="n">contentOffset</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">orgHeight</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="bp">CGAffineTransform</span> <span class="n">translateAndZoom</span> <span class="o">=</span> <span class="n">CGAffineTransformScale</span><span class="p">(</span><span class="n">translate</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="p">);</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">_photoImageView</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">translateAndZoom</span><span class="p">;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">scrollViewDidScroll</span><span class="p">:(</span><span class="n">UIScrollView</span> <span class="o">*</span><span class="p">)</span><span class="nv">scrollView</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">scrollView</span><span class="p">.</span><span class="n">contentOffset</span><span class="p">.</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">CGAffineTransform</span> <span class="n">translate</span> <span class="o">=</span> <span class="n">CGAffineTransformMakeTranslation</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">scrollView</span><span class="p">.</span><span class="n">contentOffset</span><span class="p">.</span><span class="n">y</span><span class="o">/</span><span class="mi">2</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+        <span class="n">CGFloat</span> <span class="n">orgHeight</span> <span class="o">=</span> <span class="n">_photoHeightConstraint</span><span class="p">.</span><span class="n">constant</span><span class="p">;</span>
+        <span class="n">CGFloat</span> <span class="n">scaleFactor</span> <span class="o">=</span> <span class="p">(</span><span class="n">orgHeight</span> <span class="o">-</span> <span class="n">scrollView</span><span class="p">.</span><span class="n">contentOffset</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">orgHeight</span><span class="p">;</span>
+        <span class="n">CGAffineTransform</span> <span class="n">translateAndZoom</span> <span class="o">=</span> <span class="n">CGAffineTransformScale</span><span class="p">(</span><span class="n">translate</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="p">,</span> <span class="n">scaleFactor</span><span class="p">);</span>
+        <span class="n">_photoImageView</span><span class="p">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">translateAndZoom</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>In the code above <code>_photoImageView</code> is the image view that we want to make expandable, and <code>_photoHeightConstraint</code> is a NSLayoutConstraint for the height of <code>_photoImageView</code>.</p>
+<p>In the code above <code class="highlighter-rouge">_photoImageView</code> is the image view that we want to make expandable, and <code class="highlighter-rouge">_photoHeightConstraint</code> is a NSLayoutConstraint for the height of <code class="highlighter-rouge">_photoImageView</code>.</p>
 
-<p>That&#39;s all for the code!</p>
+<p>That’s all for the code!</p>
 
-<p>When the scroll view <code>contentOffset</code> changes, perform a zoom and translate transformation.</p>
+<p>When the scroll view <code class="highlighter-rouge">contentOffset</code> changes, perform a zoom and translate transformation.</p>
 
         </section>
         <footer class="post-footer">

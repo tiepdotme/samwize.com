@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>How to write Getter/Setter for static variables</title>
-  <meta name="description" content="In the last post, I blogged about how you should write Getter/Setter for member variables. " />
+  <meta name="description" content="In the last post, I blogged about how you should write Getter/Setter for member variables." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="How to write Getter/Setter for static variables" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="In the last post, I blogged about how you should write Getter/Setter for member variables. " />
+    <meta name="twitter:description"  content="In the last post, I blogged about how you should write Getter/Setter for member variables." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="How to write Getter/Setter for static variables"/>
   
-  <meta property="og:description" content="In the last post, I blogged about how you should write Getter/Setter for member variables. " />
+  <meta property="og:description" content="In the last post, I blogged about how you should write Getter/Setter for member variables." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2012/09/20/how-to-write-getter-slash-setter-for-static-variables/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,35 +72,40 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>In the last post, I blogged about how you should write <a href="/2012/09/19/how-you-should-write-getter-slash-setter-for-python/">Getter/Setter for member variables</a>. </p>
+          <p>In the last post, I blogged about how you should write <a href="/2012/09/19/how-you-should-write-getter-slash-setter-for-python/">Getter/Setter for member variables</a>.</p>
 
 <p>This is a follow-up for <strong>static variables</strong>, instead of instance variables.</p>
 
 <!-- more -->
 
-<p>I didn&#39;t know the answer to that, until I searched around <a href="http://stackoverflow.com/questions/128573/using-property-on-classmethods">Stackoverflow</a>. There are a couple of ways around using @property on classmethods.</p>
+<p>I didn’t know the answer to that, until I searched around <a href="http://stackoverflow.com/questions/128573/using-property-on-classmethods">Stackoverflow</a>. There are a couple of ways around using @property on classmethods.</p>
 
 <p>The best answer for me is this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">_foo</span> <span class="o">=</span> <span class="mi">5</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">class</span> <span class="nc">__metaclass__</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nd">@property</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_foo</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nd">@foo.setter</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">cls</span><span class="o">.</span><span class="n">_foo</span> <span class="o">=</span> <span class="n">value</span></div></div></pre></div></figure>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">_foo</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">class</span> <span class="nc">__metaclass__</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+        <span class="nd">@property</span>
+        <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_foo</span>
+        
+        <span class="nd">@foo.setter</span>
+        <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                <span class="n">cls</span><span class="o">.</span><span class="n">_foo</span> <span class="o">=</span> <span class="n">value</span>
+</code></pre>
+</div>
 
-<p>It uses <code>__metaclass__</code>, some kind of <a href="http://www.voidspace.org.uk/python/articles/five-minutes.shtml">black magic</a> in Python.</p>
+<p>It uses <code class="highlighter-rouge">__metaclass__</code>, some kind of <a href="http://www.voidspace.org.uk/python/articles/five-minutes.shtml">black magic</a> in Python.</p>
 
 <p>With that, you can use the getter/setter on the static variable.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">5</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">3</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="mi">3</span></div></div></pre></div></figure>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span>
+<span class="mi">5</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span>
+<span class="mi">3</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,35 +74,40 @@
           
           <p>If you use auto layout and support iOS 8, then you are in luck.</p>
 
-<p>In the past, you will need to implement <code>tableView:heightForRowAtIndexPath:</code> and caculate the height of your cell to return. It is a lot of code just to achieve the goal.</p>
+<p>In the past, you will need to implement <code class="highlighter-rouge">tableView:heightForRowAtIndexPath:</code> and caculate the height of your cell to return. It is a lot of code just to achieve the goal.</p>
 
 <p>Now, it is just these <a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/AutolayoutPG/WorkingwithSelf-SizingTableViewCells.html">steps</a>:</p>
 
-<h2>Step 1. Set <code>rowHeight</code></h2>
+<h2 id="step-1-set-rowheight">Step 1. Set <code class="highlighter-rouge">rowHeight</code></h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">tableView</span><span class="p">.</span><span class="n">rowHeight</span> <span class="o">=</span> <span class="n">UITableViewAutomaticDimension</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Similarly, you can set for header &amp; footer</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">tableView</span><span class="p">.</span><span class="n">sectionFooterHeight</span> <span class="o">=</span> <span class="n">UITableViewAutomaticDimension</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="n">rowHeight</span> <span class="o">=</span> <span class="kt">UITableViewAutomaticDimension</span>
+<span class="c1">// Similarly, you can set for header &amp; footer</span>
+<span class="n">tableView</span><span class="o">.</span><span class="n">sectionFooterHeight</span> <span class="o">=</span> <span class="kt">UITableViewAutomaticDimension</span>
+</code></pre>
+</div>
 
-<p><code>UITableViewAutomaticDimension</code> is a special value (a <code>CGFloat</code>) that tells the cell to auto adjust it&#39;s height.</p>
+<p><code class="highlighter-rouge">UITableViewAutomaticDimension</code> is a special value (a <code class="highlighter-rouge">CGFloat</code>) that tells the cell to auto adjust it’s height.</p>
 
-<p>You may even return it in <code>tableView:heightForRowAtIndexPath:</code>, if you want a mix of auto and fixed height.</p>
+<p>You may even return it in <code class="highlighter-rouge">tableView:heightForRowAtIndexPath:</code>, if you want a mix of auto and fixed height.</p>
 
-<h2>Step 2. Set <code>estimatedRowHeight</code></h2>
+<h2 id="step-2-set-estimatedrowheight">Step 2. Set <code class="highlighter-rouge">estimatedRowHeight</code></h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">tableView</span><span class="p">.</span><span class="n">estimatedRowHeight</span> <span class="o">=</span> <span class="mf">85.0</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="n">estimatedRowHeight</span> <span class="o">=</span> <span class="mf">85.0</span>
+</code></pre>
+</div>
 
-<p>You will also need to set the <code>estimatedRowHeight</code>. </p>
+<p>You will also need to set the <code class="highlighter-rouge">estimatedRowHeight</code>.</p>
 
 <p>If not, it will NOT work.</p>
 
 <p>The estimated height is needed only for the purpose of calculating the scroll bar height.</p>
 
-<h2>Step 3. Autolayout for the cells</h2>
+<h2 id="step-3-autolayout-for-the-cells">Step 3. Autolayout for the cells</h2>
 
-<p>Set up autolayout constraints as per normal. </p>
+<p>Set up autolayout constraints as per normal.</p>
 
 <p>Make sure that the content view has the necessary contraints eg. the bottom is pinned to some view</p>
+
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,30 +74,34 @@
           
           <p>I was using <a href="http://developer.apple.com/library/mac/#documentation/developertools/Conceptual/UnitTesting/00-About_Unit_Testing/about.html">SenTestingKit</a>, the default unit testing framework from Apple, when I found out that it does not support tests that involve asynchronous methods, or blocks.</p>
 
-<p>That&#39;s a waste. </p>
+<p>That’s a waste.</p>
 
 <!-- more -->
 
 <p>Though there is <a href="https://gist.github.com/2254570">a workaround</a> using semaphore.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testBlockMethod</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kt">dispatch_semaphore_t</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>    
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Your block method eg. AFNetworking</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://httpbin.org/ip&quot;</span><span class="p">];</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">AFJSONRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFJSONRequestOperation</span> <span class="nl">JSONRequestOperationWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">request</span><span class="p">,</span> <span class="bp">NSHTTPURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="kt">id</span> <span class="n">JSON</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;IP Address: %@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">JSON</span> <span class="nl">valueForKeyPath</span><span class="p">:</span><span class="s">@&quot;origin&quot;</span><span class="p">]);</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">STAssertNotNil</span><span class="p">(</span><span class="n">JSON</span><span class="p">,</span> <span class="s">@&quot;JSON not loaded&quot;</span><span class="p">);</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Signal that block has completed</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>        
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span> <span class="nl">failure</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">operation</span> <span class="n">start</span><span class="p">];</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Run loop</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">while</span> <span class="p">(</span><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_NOW</span><span class="p">))</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[[</span><span class="bp">NSRunLoop</span> <span class="n">currentRunLoop</span><span class="p">]</span> <span class="nl">runMode</span><span class="p">:</span><span class="n">NSDefaultRunLoopMode</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>                                 <span class="nl">beforeDate</span><span class="p">:[</span><span class="bp">NSDate</span> <span class="nl">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">dispatch_release</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>    
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">testBlockMethod</span> <span class="p">{</span>
+    <span class="n">dispatch_semaphore_t</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>    
+    
+    <span class="c1">// Your block method eg. AFNetworking
+</span>    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://httpbin.org/ip"</span><span class="p">];</span>
+    <span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+    <span class="n">AFJSONRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFJSONRequestOperation</span> <span class="nf">JSONRequestOperationWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span><span class="p">,</span> <span class="n">NSHTTPURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="n">id</span> <span class="n">JSON</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"IP Address: %@"</span><span class="p">,</span> <span class="p">[</span><span class="n">JSON</span> <span class="nf">valueForKeyPath</span><span class="p">:</span><span class="s">@"origin"</span><span class="p">]);</span>
+        <span class="n">STAssertNotNil</span><span class="p">(</span><span class="n">JSON</span><span class="p">,</span> <span class="s">@"JSON not loaded"</span><span class="p">);</span>
+        <span class="c1">// Signal that block has completed
+</span>        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>        
+    <span class="p">}</span> <span class="n">failure</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">operation</span> <span class="nf">start</span><span class="p">];</span>
+    
+    <span class="c1">// Run loop
+</span>    <span class="k">while</span> <span class="p">(</span><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_NOW</span><span class="p">))</span>
+        <span class="p">[[</span><span class="n">NSRunLoop</span> <span class="nf">currentRunLoop</span><span class="p">]</span> <span class="nf">runMode</span><span class="p">:</span><span class="n">NSDefaultRunLoopMode</span>
+                                 <span class="nf">beforeDate</span><span class="p">:[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
+    <span class="n">dispatch_release</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>    
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>But if you mind, there are lots of <a href="http://stackoverflow.com/questions/4114083/ios-tests-specs-tdd-bdd-and-integration-acceptance-testing">other testing frameworks</a>, eg <a href="https://github.com/gabriel/gh-unit">GHUnit</a> supports asynchronous testing.</p>
 

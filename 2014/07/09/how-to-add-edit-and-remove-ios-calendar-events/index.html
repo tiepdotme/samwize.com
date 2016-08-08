@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,52 +78,61 @@
 
 <!-- more -->
 
-<h2>Import EventKit</h2>
+<h2 id="import-eventkit">Import EventKit</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#import &lt;EventKit/EventKit.h&gt;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="cp">#import &lt;EventKit/EventKit.h&gt;
+</span></code></pre>
+</div>
 
-<h2>Add Event</h2>
+<h2 id="add-event">Add Event</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">EKEventStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">EKEventStore</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">store</span> <span class="nl">requestAccessToEntityType</span><span class="p">:</span><span class="n">EKEntityTypeEvent</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">granted</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="bp">EKEvent</span> <span class="o">*</span><span class="n">event</span> <span class="o">=</span> <span class="p">[</span><span class="bp">EKEvent</span> <span class="nl">eventWithEventStore</span><span class="p">:</span><span class="n">store</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">event</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@&quot;Event Title&quot;</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">event</span><span class="p">.</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDate</span> <span class="n">date</span><span class="p">];</span> <span class="c1">// today</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="n">event</span><span class="p">.</span><span class="n">endDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">event</span><span class="p">.</span><span class="n">startDate</span> <span class="nl">dateByAddingTimeInterval</span><span class="p">:</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">];</span>  <span class="c1">// Duration 1 hr</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">[</span><span class="n">event</span> <span class="nl">setCalendar</span><span class="p">:[</span><span class="n">store</span> <span class="n">defaultCalendarForNewEvents</span><span class="p">]];</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="bp">NSError</span> <span class="o">*</span><span class="n">err</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">[</span><span class="n">store</span> <span class="nl">saveEvent</span><span class="p">:</span><span class="n">event</span> <span class="nl">span</span><span class="p">:</span><span class="n">EKSpanThisEvent</span> <span class="nl">commit</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">err</span><span class="p">];</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="bp">NSString</span> <span class="o">*</span><span class="n">savedEventId</span> <span class="o">=</span> <span class="n">event</span><span class="p">.</span><span class="n">eventIdentifier</span><span class="p">;</span>  <span class="c1">// Store this so you can access this event later</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">EKEventStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[[</span><span class="n">EKEventStore</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="p">[</span><span class="n">store</span> <span class="nf">requestAccessToEntityType</span><span class="p">:</span><span class="n">EKEntityTypeEvent</span> <span class="nf">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">granted</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+  <span class="n">EKEvent</span> <span class="o">*</span><span class="n">event</span> <span class="o">=</span> <span class="p">[</span><span class="n">EKEvent</span> <span class="nf">eventWithEventStore</span><span class="p">:</span><span class="n">store</span><span class="p">];</span>
+  <span class="n">event</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@"Event Title"</span><span class="p">;</span>
+  <span class="n">event</span><span class="p">.</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">];</span> <span class="c1">// today
+</span>  <span class="n">event</span><span class="p">.</span><span class="n">endDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">event</span><span class="p">.</span><span class="n">startDate</span> <span class="nf">dateByAddingTimeInterval</span><span class="p">:</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">];</span>  <span class="c1">// Duration 1 hr
+</span>  <span class="p">[</span><span class="n">event</span> <span class="nf">setCalendar</span><span class="p">:[</span><span class="n">store</span> <span class="nf">defaultCalendarForNewEvents</span><span class="p">]];</span>
+  <span class="n">NSError</span> <span class="o">*</span><span class="n">err</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+  <span class="p">[</span><span class="n">store</span> <span class="nf">saveEvent</span><span class="p">:</span><span class="n">event</span> <span class="nf">span</span><span class="p">:</span><span class="n">EKSpanThisEvent</span> <span class="n">commit</span><span class="o">:</span><span class="nb">YES</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">err</span><span class="p">];</span>
+  <span class="n">NSString</span> <span class="o">*</span><span class="n">savedEventId</span> <span class="o">=</span> <span class="n">event</span><span class="p">.</span><span class="n">eventIdentifier</span><span class="p">;</span>  <span class="c1">// Store this so you can access this event later
+</span><span class="p">}];</span>
 
-<h2>Edit Event</h2>
+</code></pre>
+</div>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">EKEventStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">EKEventStore</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">store</span> <span class="nl">requestAccessToEntityType</span><span class="p">:</span><span class="n">EKEntityTypeEvent</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">granted</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="bp">EKEvent</span> <span class="o">*</span><span class="n">event</span> <span class="o">=</span> <span class="p">[</span><span class="n">store</span> <span class="nl">eventWithIdentifier</span><span class="p">:</span><span class="n">savedEventId</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">// Uncomment below if you want to create a new event if savedEventId no longer exists</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">// if (event == nil)</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">//   event = [EKEvent eventWithEventStore:store];</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSError</span> <span class="o">*</span><span class="n">err</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">event</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@&quot;New event title&quot;</span><span class="p">;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">store</span> <span class="nl">saveEvent</span><span class="p">:</span><span class="n">event</span> <span class="nl">span</span><span class="p">:</span><span class="n">EKSpanThisEvent</span> <span class="nl">commit</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">err</span><span class="p">];</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;];</span></div></div></pre></div></figure>
+<h2 id="edit-event">Edit Event</h2>
 
-<h2>Delete Event</h2>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">EKEventStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[[</span><span class="n">EKEventStore</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="p">[</span><span class="n">store</span> <span class="nf">requestAccessToEntityType</span><span class="p">:</span><span class="n">EKEntityTypeEvent</span> <span class="nf">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">granted</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+  <span class="n">EKEvent</span> <span class="o">*</span><span class="n">event</span> <span class="o">=</span> <span class="p">[</span><span class="n">store</span> <span class="nf">eventWithIdentifier</span><span class="p">:</span><span class="n">savedEventId</span><span class="p">];</span>
+  <span class="c1">// Uncomment below if you want to create a new event if savedEventId no longer exists
+</span>  <span class="c1">// if (event == nil)
+</span>  <span class="c1">//   event = [EKEvent eventWithEventStore:store];
+</span>  <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSError</span> <span class="o">*</span><span class="n">err</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="n">event</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@"New event title"</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">store</span> <span class="nf">saveEvent</span><span class="p">:</span><span class="n">event</span> <span class="nf">span</span><span class="p">:</span><span class="n">EKSpanThisEvent</span> <span class="n">commit</span><span class="o">:</span><span class="nb">YES</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">err</span><span class="p">];</span>
+  <span class="p">}</span>
+<span class="p">}];</span>
+</code></pre>
+</div>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">EKEventStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">EKEventStore</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">store</span> <span class="nl">requestAccessToEntityType</span><span class="p">:</span><span class="n">EKEntityTypeEvent</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">granted</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="bp">EKEvent</span><span class="o">*</span> <span class="n">eventToRemove</span> <span class="o">=</span> <span class="p">[</span><span class="n">store</span> <span class="nl">eventWithIdentifier</span><span class="p">:</span><span class="n">savedEventId</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="k">if</span> <span class="p">(</span><span class="n">eventToRemove</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSError</span><span class="o">*</span> <span class="n">err</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">store</span> <span class="nl">removeEvent</span><span class="p">:</span><span class="n">eventToRemove</span> <span class="nl">span</span><span class="p">:</span><span class="n">EKSpanThisEvent</span> <span class="nl">commit</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">error</span><span class="p">:</span><span class="o">&amp;</span><span class="n">err</span><span class="p">];</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;];</span></div></div></pre></div></figure>
+<h2 id="delete-event">Delete Event</h2>
+
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">EKEventStore</span> <span class="o">*</span><span class="n">store</span> <span class="o">=</span> <span class="p">[[</span><span class="n">EKEventStore</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="p">[</span><span class="n">store</span> <span class="nf">requestAccessToEntityType</span><span class="p">:</span><span class="n">EKEntityTypeEvent</span> <span class="nf">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">granted</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+  <span class="n">EKEvent</span><span class="o">*</span> <span class="n">eventToRemove</span> <span class="o">=</span> <span class="p">[</span><span class="n">store</span> <span class="nf">eventWithIdentifier</span><span class="p">:</span><span class="n">savedEventId</span><span class="p">];</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">eventToRemove</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSError</span><span class="o">*</span> <span class="n">err</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">store</span> <span class="nf">removeEvent</span><span class="p">:</span><span class="n">eventToRemove</span> <span class="nf">span</span><span class="p">:</span><span class="n">EKSpanThisEvent</span> <span class="n">commit</span><span class="o">:</span><span class="nb">YES</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">err</span><span class="p">];</span>
+  <span class="p">}</span>
+<span class="p">}];</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

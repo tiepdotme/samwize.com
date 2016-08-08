@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,59 +74,64 @@
           
           <p>Making a beautiful iOS app icon takes some hard work. Even more work now that there are more devices with different resolutions.</p>
 
-<p>This post is to provide some of the tips in the making Apple&#39;s trademarked iPhone rounded icon.</p>
+<p>This post is to provide some of the tips in the making Apple’s trademarked iPhone rounded icon.</p>
 
 <!-- more -->
 
-<h2>Understanding the resolutions</h2>
+<h2 id="understanding-the-resolutions">Understanding the resolutions</h2>
 
-<p>There is quite a number of different resolutions that is needed for 1 app. </p>
+<p>There is quite a number of different resolutions that is needed for 1 app.</p>
 
 <p>Refer to this <a href="http://developer.apple.com/library/ios/#documentation/UserExperience/Conceptual/MobileHIG/IconsImages/IconsImages.html#//apple_ref/doc/uid/TP40006556-CH14-SW1">Apple document</a>.</p>
 
 <p>Note that every icon can be different in terms of how it looks. So in theory you can have a 57x57 that is totally different looking from your 512x512.</p>
 
-<h2>Icon Template</h2>
+<h2 id="icon-template">Icon Template</h2>
 
 <p>There are many template around. The most popular (now) is from <a href="http://appicontemplate.com/">http://appicontemplate.com/</a>.</p>
 
 <p>Using Photoshop smart objects, the template let you edit the biggest size, and it will automatically scale down to the smaller sizes, and export them automatically.</p>
 
-<h2>Rounded corner radius</h2>
+<h2 id="rounded-corner-radius">Rounded corner radius</h2>
 
 <p>If you are not using the template or need a specific resolution, it is important that you know the rounded corner radius for each of the icon reolution. This <a href="http://stackoverflow.com/a/10239376/242682">discussion</a> explained well.</p>
 
-<p>To summarize, </p>
+<p>To summarize,</p>
 
 <blockquote>
-<p>Rounded corner radius = icon length x 10/57</p>
+  <p>Rounded corner radius = icon length x 10/57</p>
 </blockquote>
 
 <p>That is,</p>
 
 <ul>
-<li>Icon512.png - 512px - 89.825</li>
-<li>Icon.png - 57px - 10</li>
-<li><a href="mailto:Icon@2x.png">Icon@2x.png</a> - 114px - 20</li>
-<li>Icon-72.png - 72px - 12.632</li>
-<li><a href="mailto:Icon-72@2x.png">Icon-72@2x.png</a> - 144px - 25.263</li>
-<li>Icon-Small.png - 29px - 5.088</li>
-<li><a href="mailto:Icon-Small@2x.png">Icon-Small@2x.png</a> - 58px - 10.175</li>
+  <li>Icon512.png - 512px - 89.825</li>
+  <li>Icon.png - 57px - 10</li>
+  <li>Icon@2x.png - 114px - 20</li>
+  <li>Icon-72.png - 72px - 12.632</li>
+  <li>Icon-72@2x.png - 144px - 25.263</li>
+  <li>Icon-Small.png - 29px - 5.088</li>
+  <li>Icon-Small@2x.png - 58px - 10.175</li>
 </ul>
 
-<h2>Mask</h2>
+<h2 id="mask">Mask</h2>
 
-<p>You can get a set of mask from within Xcode. </p>
+<p>You can get a set of mask from within Xcode.</p>
 
 <p>Open the following directory.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.0.sdk/System/Library/PrivateFrameworks/MobileIcons.framework
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.0.sdk/System/Library/PrivateFrameworks/MobileIcons.framework
+</code></pre>
+</div>
+
 <p>But there is also a <a href="http://stackoverflow.com/a/1834558/242682">way</a> to programmatically set a round corner masking:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">imageView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">imageView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">imageView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">borderColor</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIColor</span> <span class="n">lightGrayColor</span><span class="p">].</span><span class="bp">CGColor</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">imageView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">borderWidth</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>	<span class="n">imageView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">cornerRadius</span> <span class="o">=</span> <span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+	<span class="n">imageView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">masksToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+	<span class="n">imageView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">borderColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">lightGrayColor</span><span class="p">].</span><span class="n">CGColor</span><span class="p">;</span>
+	<span class="n">imageView</span><span class="p">.</span><span class="n">layer</span><span class="p">.</span><span class="n">borderWidth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">;</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

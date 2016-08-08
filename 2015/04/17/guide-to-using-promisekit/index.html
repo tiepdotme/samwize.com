@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Guide to using PromiseKit</title>
-  <meta name="description" content="PromiseKit is a wonderful library for dealing for async callbacks. " />
+  <meta name="description" content="PromiseKit is a wonderful library for dealing for async callbacks." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Guide to using PromiseKit" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="PromiseKit is a wonderful library for dealing for async callbacks. " />
+    <meta name="twitter:description"  content="PromiseKit is a wonderful library for dealing for async callbacks." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Guide to using PromiseKit"/>
   
-  <meta property="og:description" content="PromiseKit is a wonderful library for dealing for async callbacks. " />
+  <meta property="og:description" content="PromiseKit is a wonderful library for dealing for async callbacks." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2015/04/17/guide-to-using-promisekit/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><a href="http://promisekit.org">PromiseKit</a> is a wonderful library for dealing for async callbacks. </p>
+          <p><a href="http://promisekit.org">PromiseKit</a> is a wonderful library for dealing for async callbacks.</p>
 
 <p>Other similar libraries are <a href="http://promisekit.org">Bolts Framework</a> and <a href="https://github.com/ReactiveCocoa/ReactiveCocoa">ReactiveCocoa</a>, but personally I felt the syntax and design of PromiseKit to be much better.</p>
 
@@ -82,36 +82,39 @@
 
 <!-- more -->
 
-<h2>Throwing NSError</h2>
+<h2 id="throwing-nserror">Throwing NSError</h2>
 
-<p>You can return <code>NSError</code> (or <code>@throw</code> a message), which will then have the nearest <code>catch</code> blcok to handle</p>
+<p>You can return <code class="highlighter-rouge">NSError</code> (or <code class="highlighter-rouge">@throw</code> a message), which will then have the nearest <code class="highlighter-rouge">catch</code> blcok to handle</p>
 
-<h2>Return in a promise</h2>
+<h2 id="return-in-a-promise">Return in a promise</h2>
 
 <p>In a promise, you can return almost anything.</p>
 
 <ul>
-<li>If return a promise, next <code>then</code> will receive the <em>fulfilled value</em></li>
-<li>If return <code>NSError</code>, next <code>catch</code> will handle it</li>
-<li>If return any other type, next <code>then</code> will recive it</li>
-<li>If return <code>nil</code>, that&#39;s fine too</li>
-<li>If no return, next <code>then</code> will run immediately</li>
+  <li>If return a promise, next <code class="highlighter-rouge">then</code> will receive the <em>fulfilled value</em></li>
+  <li>If return <code class="highlighter-rouge">NSError</code>, next <code class="highlighter-rouge">catch</code> will handle it</li>
+  <li>If return any other type, next <code class="highlighter-rouge">then</code> will recive it</li>
+  <li>If return <code class="highlighter-rouge">nil</code>, that’s fine too</li>
+  <li>If no return, next <code class="highlighter-rouge">then</code> will run immediately</li>
 </ul>
 
-<p>It&#39;s really flexible with promises.</p>
+<p>It’s really flexible with promises.</p>
 
-<p>Pitfall: If returning <strong>different types</strong>, the return type must be explicitly <code>(^id)</code> (any type), not just <code>(^)</code> (no type).</p>
+<p>Pitfall: If returning <strong>different types</strong>, the return type must be explicitly <code class="highlighter-rouge">(^id)</code> (any type), not just <code class="highlighter-rouge">(^)</code> (no type).</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">myURLPromise</span><span class="p">.</span><span class="n">then</span><span class="p">(</span><span class="o">^</span><span class="kt">id</span><span class="p">(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span><span class="p">)&#x7b;</span> 
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>         <span class="k">return</span> <span class="n">url</span><span class="p">;</span> <span class="c1">// Got my url, I&#39;m done, return the value</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="p">&#x7d;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>         <span class="k">return</span> <span class="n">myOtherURLPromise</span><span class="p">;</span> <span class="c1">// Not done, do some more work</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;).</span><span class="n">then</span><span class="p">(</span><span class="o">^</span><span class="p">(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span><span class="p">)&#x7b;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Do something with URL ...</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;);</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">myURLPromise</span><span class="p">.</span><span class="n">then</span><span class="p">(</span><span class="o">^</span><span class="n">id</span><span class="p">(</span><span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span><span class="p">){</span> 
+     <span class="k">if</span> <span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">return</span> <span class="n">url</span><span class="p">;</span> <span class="c1">// Got my url, I'm done, return the value
+</span>     <span class="p">}</span>
+     <span class="k">else</span> <span class="p">{</span>
+         <span class="k">return</span> <span class="n">myOtherURLPromise</span><span class="p">;</span> <span class="c1">// Not done, do some more work
+</span>     <span class="p">}</span>
+<span class="p">}).</span><span class="n">then</span><span class="p">(</span><span class="o">^</span><span class="p">(</span><span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span><span class="p">){</span>
+    <span class="c1">// Do something with URL ...
+</span><span class="p">});</span>
+</code></pre>
+</div>
+
 
         </section>
         <footer class="post-footer">

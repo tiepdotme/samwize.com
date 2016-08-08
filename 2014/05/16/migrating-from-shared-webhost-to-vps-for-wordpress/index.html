@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -80,74 +80,78 @@
 
 <!-- more -->
 
-<h1>Why switch to Digital Ocean ?</h1>
+<h1 id="why-switch-to-digital-ocean-">Why switch to Digital Ocean ?</h1>
 
-<p>I was inspired by <a href="http://www.marco.org/2014/03/27/web-hosting-for-app-developers">Marco&#39;s blog on web hosting</a>.</p>
+<p>I was inspired by <a href="http://www.marco.org/2014/03/27/web-hosting-for-app-developers">Marco’s blog on web hosting</a>.</p>
 
 <p>He urged web developer to use VPS, instead of Amazon EC2, or other cloud providers. Shared webhost is lower than these, so I decided to jump to a new level.</p>
 
 <p>At the same time, I was playing around with some small projects, and I was disgusted because:</p>
 
 <ul>
-<li>Heroku doesn&#39;t have Singapore instance</li>
-<li>Amazon support Singapore as a region, but I was chalking up $15 per month for very low usage</li>
-<li>And my HostGator shared webhost is under utilized</li>
+  <li>Heroku doesn’t have Singapore instance</li>
+  <li>Amazon support Singapore as a region, but I was chalking up $15 per month for very low usage</li>
+  <li>And my HostGator shared webhost is under utilized</li>
 </ul>
 
 <p>And so I decided to switch and become a better developer.</p>
 
-<h1>Setting up Digital Ocean</h1>
+<h1 id="setting-up-digital-ocean">Setting up Digital Ocean</h1>
 
 <p><a href="https://www.digitalocean.com/community/articles/one-click-install-wordpress-on-ubuntu-13-10-with-digitalocean">Setting up</a> is very easy, as they promised. I setup Wordpress on Ubuntu 13.10, with the smallest instance in Singapore.</p>
 
-<p>Yet even their smallest instance is 512MB Ram, with 20GB <strong>SSD Disk</strong>! That&#39;s for $5 a month only.</p>
+<p>Yet even their smallest instance is 512MB Ram, with 20GB <strong>SSD Disk</strong>! That’s for $5 a month only.</p>
 
 <p>And it is running very fast.</p>
 
-<h1>Migrate Wordpress the wrong way</h1>
+<h1 id="migrate-wordpress-the-wrong-way">Migrate Wordpress the wrong way</h1>
 
-<p>Wordpress has it&#39;s own Import/Export function under Tools.</p>
+<p>Wordpress has it’s own Import/Export function under Tools.</p>
 
 <p>However, that only import/export items like posts etc, and does NOT include themes and others.</p>
 
-<p>That is the WRONG way to migrate as it doesn&#39;t include lots of other stuff.</p>
+<p>That is the WRONG way to migrate as it doesn’t include lots of other stuff.</p>
 
 <p>But if you choose to import/export via the WXR XML file, you might run into the 2MB limit. The solution listed on <a href="http://codex.wordpress.org/FAQ_Working_with_WordPress#How_do_I_Import_a_WordPress_WXR_file_when_it_says_it_is_too_large_to_import.3F">codex</a> is too much. Too much to read. Too extreme solution.</p>
 
 <p>You should simply split up the files to smaller chunk, either manually (if you understand XML syntax), or using a <a href="http://suhastech.com/wordpress-wxr-xmlfile-splitter-for-mac-os-x/">file splitter</a>.</p>
 
-<h1>Migrate Wordpress the right way</h1>
+<h1 id="migrate-wordpress-the-right-way">Migrate Wordpress the right way</h1>
 
 <p><a href="http://www.smashingmagazine.com/2013/04/08/moving-wordpress-website/">Smashing Magazine</a> has a good guide on migrating.</p>
 
 <p>In short:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">1. Old site &gt; Settings &gt; turn off permalinks
+
+<div class="highlighter-rouge"><pre class="highlight"><code>1. Old site &gt; Settings &gt; turn off permalinks
 
 2. Old site &gt; phpMyAdmin &gt; Export SQL
 
 3. New site &gt; phpMyAdmin &gt; Import SQL (manually split the file, if too big)
 
-4. SFTP transfer &quot;wp-content&quot; from old site to new site
+4. SFTP transfer "wp-content" from old site to new site
 
 5. Change your DNS records to point to your droplet IP
-</code></pre></div>
-<p>Pitfall: Make sure you copy everything (your themes and plugins) in <code>wp-content</code>, or you could face the white screen of death when you visit your new site.</p>
+</code></pre>
+</div>
 
-<h1>Other Pitfalls</h1>
+<p>Pitfall: Make sure you copy everything (your themes and plugins) in <code class="highlighter-rouge">wp-content</code>, or you could face the white screen of death when you visit your new site.</p>
 
-<h3>Search &amp; Replace DB</h3>
+<h1 id="other-pitfalls">Other Pitfalls</h1>
 
-<p>This <a href="https://github.com/interconnectit/Search-Replace-DB">script</a> is awesome for replacing eg URL. Migration doesn&#39;t cover changing the content of your database, hence this script helps tremendously in replacing thousands of rows easily.</p>
+<h3 id="search--replace-db">Search &amp; Replace DB</h3>
 
-<p>Download, unzip, upload to your wordpress root folder, then go to <a href="http://your.wordpress.com/Search-Replace-DB/">http://your.wordpress.com/Search-Replace-DB/</a>, and enter what you want to replace.</p>
+<p>This <a href="https://github.com/interconnectit/Search-Replace-DB">script</a> is awesome for replacing eg URL. Migration doesn’t cover changing the content of your database, hence this script helps tremendously in replacing thousands of rows easily.</p>
+
+<p>Download, unzip, upload to your wordpress root folder, then go to http://your.wordpress.com/Search-Replace-DB/, and enter what you want to replace.</p>
 
 <p>Once done, remember to delete the folder. Otherwise anyone could go in and cause havoc!</p>
 
-<h3>Upload Error</h3>
+<h3 id="upload-error">Upload Error</h3>
 
-<p>If you upload image and faced an error <code>Unable to create directory wp-content/uploads/2014/05. Is its parent directory writable by the server?</code>, then it is most likely due to <a href="http://stackoverflow.com/questions/20948586/wordpress-3-8-image-upload-is-not-possible">upload_path is wrong</a>.</p>
+<p>If you upload image and faced an error <code class="highlighter-rouge">Unable to create directory wp-content/uploads/2014/05. Is its parent directory writable by the server?</code>, then it is most likely due to <a href="http://stackoverflow.com/questions/20948586/wordpress-3-8-image-upload-is-not-possible">upload_path is wrong</a>.</p>
 
-<p>Go to phpMyAdmin &gt; wp_options table &gt; upload_path field &gt; change to &quot;wp-content/uploads&quot;.</p>
+<p>Go to phpMyAdmin &gt; wp_options table &gt; upload_path field &gt; change to “wp-content/uploads”.</p>
+
 
         </section>
         <footer class="post-footer">

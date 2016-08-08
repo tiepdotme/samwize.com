@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,9 +74,9 @@
           
           <p>I previously wrote about <a href="http://samwize.com/2014/03/29/implementing-nsfetchedresultscontroller-with-magicalrecord/">how to implement NSFetchedResultsController with Magical Record (UITableView version)</a>.</p>
 
-<p>For <code>UICollectionView</code>, it is largely the same.</p>
+<p>For <code class="highlighter-rouge">UICollectionView</code>, it is largely the same.</p>
 
-<p>Except for the change that Apple did - there is NO <code>[collectionView beginUpdates/endUpdates]</code> methods.</p>
+<p>Except for the change that Apple did - there is NO <code class="highlighter-rouge">[collectionView beginUpdates/endUpdates]</code> methods.</p>
 
 <!-- more -->
 
@@ -84,102 +84,111 @@
 
 <p>The code below is exactly from <a href="http://jose-ibanez.tumblr.com/post/38494557094/uicollectionviews-and-nsfetchedresultscontrollers">Jose</a>, who adapted the code from <a href="https://github.com/AshFurrow/UICollectionView-NSFetchedResultsController/blob/master/AFMasterViewController.m">AshFurrow</a>. Credits to them.</p>
 
-<p>Firstly, you have to add 2 <code>NSMutableArray</code> to your view controller to store the changes.</p>
+<p>Firstly, you have to add 2 <code class="highlighter-rouge">NSMutableArray</code> to your view controller to store the changes.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@interface</span> <span class="nc">MyViewController</span> <span class="p">()</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@property</span> <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">sectionChanges</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@property</span> <span class="bp">NSMutableArray</span> <span class="o">*</span><span class="n">itemChanges</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@end</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">MyViewController</span> <span class="p">()</span>
+<span class="k">@property</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">sectionChanges</span><span class="p">;</span>
+<span class="k">@property</span> <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">itemChanges</span><span class="p">;</span>
+<span class="k">@end</span>
+</code></pre>
+</div>
 
-<p>In the 4 Crazy NSFetchedResultsControllerDelegate methods, you bascially add to the arrays, and finally update them in batches in <code>controllerDidChangeContent</code>.</p>
+<p>In the 4 Crazy NSFetchedResultsControllerDelegate methods, you bascially add to the arrays, and finally update them in batches in <code class="highlighter-rouge">controllerDidChangeContent</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">controllerWillChangeContent:</span><span class="p">(</span><span class="bp">NSFetchedResultsController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">_sectionChanges</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">_itemChanges</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableArray</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">controller:</span><span class="p">(</span><span class="bp">NSFetchedResultsController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nf">didChangeSection:</span><span class="p">(</span><span class="kt">id</span> <span class="o">&lt;</span><span class="bp">NSFetchedResultsSectionInfo</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">sectionInfo</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>           <span class="nf">atIndex:</span><span class="p">(</span><span class="bp">NSUInteger</span><span class="p">)</span><span class="nv">sectionIndex</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="nf">forChangeType:</span><span class="p">(</span><span class="n">NSFetchedResultsChangeType</span><span class="p">)</span><span class="nv">type</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">change</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">change</span><span class="p">[</span><span class="l">@(</span><span class="n">type</span><span class="l">)</span><span class="p">]</span> <span class="o">=</span> <span class="l">@(</span><span class="n">sectionIndex</span><span class="l">)</span><span class="p">;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">_sectionChanges</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">change</span><span class="p">];</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">controller:</span><span class="p">(</span><span class="bp">NSFetchedResultsController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="nf">didChangeObject:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">anObject</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>       <span class="nf">atIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="nf">forChangeType:</span><span class="p">(</span><span class="n">NSFetchedResultsChangeType</span><span class="p">)</span><span class="nv">type</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nf">newIndexPath:</span><span class="p">(</span><span class="bp">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">newIndexPath</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">change</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSMutableDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">switch</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">case</span> <span class="nl">NSFetchedResultsChangeInsert</span><span class="p">:</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">change</span><span class="p">[</span><span class="l">@(</span><span class="n">type</span><span class="l">)</span><span class="p">]</span> <span class="o">=</span> <span class="n">newIndexPath</span><span class="p">;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">case</span> <span class="nl">NSFetchedResultsChangeDelete</span><span class="p">:</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">change</span><span class="p">[</span><span class="l">@(</span><span class="n">type</span><span class="l">)</span><span class="p">]</span> <span class="o">=</span> <span class="n">indexPath</span><span class="p">;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">case</span> <span class="nl">NSFetchedResultsChangeUpdate</span><span class="p">:</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">change</span><span class="p">[</span><span class="l">@(</span><span class="n">type</span><span class="l">)</span><span class="p">]</span> <span class="o">=</span> <span class="n">indexPath</span><span class="p">;</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">case</span> <span class="nl">NSFetchedResultsChangeMove</span><span class="p">:</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">change</span><span class="p">[</span><span class="l">@(</span><span class="n">type</span><span class="l">)</span><span class="p">]</span> <span class="o">=</span> <span class="l">@[</span><span class="n">indexPath</span><span class="p">,</span> <span class="n">newIndexPath</span><span class="l">]</span><span class="p">;</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">_itemChanges</span> <span class="nl">addObject</span><span class="p">:</span><span class="n">change</span><span class="p">];</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">controllerDidChangeContent:</span><span class="p">(</span><span class="bp">NSFetchedResultsController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">performBatchUpdates</span><span class="p">:</span><span class="o">^</span><span class="p">&#x7b;</span>
-</div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">for</span> <span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">change</span> <span class="k">in</span> <span class="n">_sectionChanges</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">[</span><span class="n">change</span> <span class="nl">enumerateKeysAndObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">key</span><span class="p">,</span> <span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='42' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">NSFetchedResultsChangeType</span> <span class="n">type</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="n">unsignedIntegerValue</span><span class="p">];</span>
-</div></div><div data-line='43' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="k">switch</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='44' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="k">case</span> <span class="nl">NSFetchedResultsChangeInsert</span><span class="p">:</span>
-</div></div><div data-line='45' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">insertSections</span><span class="p">:[</span><span class="bp">NSIndexSet</span> <span class="nl">indexSetWithIndex</span><span class="p">:[</span><span class="n">obj</span> <span class="n">unsignedIntegerValue</span><span class="p">]]];</span>
-</div></div><div data-line='46' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='47' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="k">case</span> <span class="nl">NSFetchedResultsChangeDelete</span><span class="p">:</span>
-</div></div><div data-line='48' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">deleteSections</span><span class="p">:[</span><span class="bp">NSIndexSet</span> <span class="nl">indexSetWithIndex</span><span class="p">:[</span><span class="n">obj</span> <span class="n">unsignedIntegerValue</span><span class="p">]]];</span>
-</div></div><div data-line='49' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='50' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="p">&#x7d;</span>
-</div></div><div data-line='51' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;];</span>
-</div></div><div data-line='52' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='53' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">for</span> <span class="p">(</span><span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">change</span> <span class="k">in</span> <span class="n">_itemChanges</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='54' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">[</span><span class="n">change</span> <span class="nl">enumerateKeysAndObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="n">key</span><span class="p">,</span> <span class="kt">id</span> <span class="n">obj</span><span class="p">,</span> <span class="kt">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='55' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">NSFetchedResultsChangeType</span> <span class="n">type</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="n">unsignedIntegerValue</span><span class="p">];</span>
-</div></div><div data-line='56' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="k">switch</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='57' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="k">case</span> <span class="nl">NSFetchedResultsChangeInsert</span><span class="p">:</span>
-</div></div><div data-line='58' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">insertItemsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="n">obj</span><span class="l">]</span><span class="p">];</span>
-</div></div><div data-line='59' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='60' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="k">case</span> <span class="nl">NSFetchedResultsChangeDelete</span><span class="p">:</span>
-</div></div><div data-line='61' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">deleteItemsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="n">obj</span><span class="l">]</span><span class="p">];</span>
-</div></div><div data-line='62' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='63' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="k">case</span> <span class="nl">NSFetchedResultsChangeUpdate</span><span class="p">:</span>
-</div></div><div data-line='64' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">reloadItemsAtIndexPaths</span><span class="p">:</span><span class="l">@[</span><span class="n">obj</span><span class="l">]</span><span class="p">];</span>
-</div></div><div data-line='65' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='66' class='code-highlight-row numbered'><div class='code-highlight-line'>                    <span class="k">case</span> <span class="nl">NSFetchedResultsChangeMove</span><span class="p">:</span>
-</div></div><div data-line='67' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nl">moveItemAtIndexPath</span><span class="p">:</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="nl">toIndexPath</span><span class="p">:</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
-</div></div><div data-line='68' class='code-highlight-row numbered'><div class='code-highlight-line'>                        <span class="k">break</span><span class="p">;</span>
-</div></div><div data-line='69' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="p">&#x7d;</span>
-</div></div><div data-line='70' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;];</span>
-</div></div><div data-line='71' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='72' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='73' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">_sectionChanges</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</div></div><div data-line='74' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">_itemChanges</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</div></div><div data-line='75' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;];</span>
-</div></div><div data-line='76' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">controllerWillChangeContent</span><span class="p">:(</span><span class="n">NSFetchedResultsController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span> <span class="p">{</span>
+    <span class="n">_sectionChanges</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">_itemChanges</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableArray</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="p">}</span>
 
-<h2>Pitfall: fetchLimit</h2>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">controller</span><span class="p">:(</span><span class="n">NSFetchedResultsController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span>
+  <span class="nf">didChangeSection</span><span class="p">:(</span><span class="n">id</span> <span class="o">&lt;</span><span class="n">NSFetchedResultsSectionInfo</span><span class="o">&gt;</span><span class="p">)</span><span class="nv">sectionInfo</span>
+           <span class="nf">atIndex</span><span class="p">:(</span><span class="n">NSUInteger</span><span class="p">)</span><span class="nv">sectionIndex</span>
+     <span class="nf">forChangeType</span><span class="p">:(</span><span class="n">NSFetchedResultsChangeType</span><span class="p">)</span><span class="nv">type</span> <span class="p">{</span>
+    <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">change</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableDictionary</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="n">change</span><span class="p">[</span><span class="err">@</span><span class="p">(</span><span class="n">type</span><span class="p">)]</span> <span class="o">=</span> <span class="err">@</span><span class="p">(</span><span class="n">sectionIndex</span><span class="p">);</span>
+    <span class="p">[</span><span class="n">_sectionChanges</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">change</span><span class="p">];</span>
+<span class="p">}</span>
 
-<p>If you use <code>fetchLimit</code> when you <code>performFetch</code>, you might be thinking it will be &quot;honoured&quot; throughout the <code>NSFetchedResultsController</code> eg. if they is change in the data, it will still be limited</p>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">controller</span><span class="p">:(</span><span class="n">NSFetchedResultsController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span>
+   <span class="nf">didChangeObject</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">anObject</span>
+       <span class="nf">atIndexPath</span><span class="p">:(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">indexPath</span>
+     <span class="nf">forChangeType</span><span class="p">:(</span><span class="n">NSFetchedResultsChangeType</span><span class="p">)</span><span class="nv">type</span>
+      <span class="nf">newIndexPath</span><span class="p">:(</span><span class="n">NSIndexPath</span> <span class="o">*</span><span class="p">)</span><span class="nv">newIndexPath</span> <span class="p">{</span>
+    <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">change</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSMutableDictionary</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+    <span class="k">switch</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="n">NSFetchedResultsChangeInsert</span><span class="p">:</span>
+            <span class="n">change</span><span class="p">[</span><span class="err">@</span><span class="p">(</span><span class="n">type</span><span class="p">)]</span> <span class="o">=</span> <span class="n">newIndexPath</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">NSFetchedResultsChangeDelete</span><span class="p">:</span>
+            <span class="n">change</span><span class="p">[</span><span class="err">@</span><span class="p">(</span><span class="n">type</span><span class="p">)]</span> <span class="o">=</span> <span class="n">indexPath</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">NSFetchedResultsChangeUpdate</span><span class="p">:</span>
+            <span class="n">change</span><span class="p">[</span><span class="err">@</span><span class="p">(</span><span class="n">type</span><span class="p">)]</span> <span class="o">=</span> <span class="n">indexPath</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="n">NSFetchedResultsChangeMove</span><span class="p">:</span>
+            <span class="n">change</span><span class="p">[</span><span class="err">@</span><span class="p">(</span><span class="n">type</span><span class="p">)]</span> <span class="o">=</span> <span class="p">@[</span><span class="n">indexPath</span><span class="p">,</span> <span class="n">newIndexPath</span><span class="p">];</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">[</span><span class="n">_itemChanges</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">change</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">controllerDidChangeContent</span><span class="p">:(</span><span class="n">NSFetchedResultsController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nf">performBatchUpdates</span><span class="p">:</span><span class="o">^</span><span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">change</span> <span class="k">in</span> <span class="n">_sectionChanges</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">change</span> <span class="nf">enumerateKeysAndObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">key</span><span class="p">,</span> <span class="n">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">NSFetchedResultsChangeType</span> <span class="n">type</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="nf">unsignedIntegerValue</span><span class="p">];</span>
+                <span class="k">switch</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">case</span> <span class="n">NSFetchedResultsChangeInsert</span><span class="p">:</span>
+                        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nf">insertSections</span><span class="p">:[</span><span class="n">NSIndexSet</span> <span class="nf">indexSetWithIndex</span><span class="p">:[</span><span class="n">obj</span> <span class="nf">unsignedIntegerValue</span><span class="p">]]];</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="n">NSFetchedResultsChangeDelete</span><span class="p">:</span>
+                        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nf">deleteSections</span><span class="p">:[</span><span class="n">NSIndexSet</span> <span class="nf">indexSetWithIndex</span><span class="p">:[</span><span class="n">obj</span> <span class="nf">unsignedIntegerValue</span><span class="p">]]];</span>
+                        <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}];</span>
+        <span class="p">}</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">change</span> <span class="k">in</span> <span class="n">_itemChanges</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">[</span><span class="n">change</span> <span class="nf">enumerateKeysAndObjectsUsingBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="n">key</span><span class="p">,</span> <span class="n">id</span> <span class="n">obj</span><span class="p">,</span> <span class="n">BOOL</span> <span class="o">*</span><span class="n">stop</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">NSFetchedResultsChangeType</span> <span class="n">type</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="nf">unsignedIntegerValue</span><span class="p">];</span>
+                <span class="k">switch</span><span class="p">(</span><span class="n">type</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">case</span> <span class="n">NSFetchedResultsChangeInsert</span><span class="p">:</span>
+                        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nf">insertItemsAtIndexPaths</span><span class="p">:@[</span><span class="n">obj</span><span class="p">]];</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="n">NSFetchedResultsChangeDelete</span><span class="p">:</span>
+                        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nf">deleteItemsAtIndexPaths</span><span class="p">:@[</span><span class="n">obj</span><span class="p">]];</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="n">NSFetchedResultsChangeUpdate</span><span class="p">:</span>
+                        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nf">reloadItemsAtIndexPaths</span><span class="p">:@[</span><span class="n">obj</span><span class="p">]];</span>
+                        <span class="k">break</span><span class="p">;</span>
+                    <span class="k">case</span> <span class="n">NSFetchedResultsChangeMove</span><span class="p">:</span>
+                        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">collectionView</span> <span class="nf">moveItemAtIndexPath</span><span class="p">:</span><span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="nf">toIndexPath</span><span class="p">:</span><span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">]];</span>
+                        <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}];</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="nf">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">finished</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">_sectionChanges</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+        <span class="n">_itemChanges</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="p">}];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="pitfall-fetchlimit">Pitfall: fetchLimit</h2>
+
+<p>If you use <code class="highlighter-rouge">fetchLimit</code> when you <code class="highlighter-rouge">performFetch</code>, you might be thinking it will be “honoured” throughout the <code class="highlighter-rouge">NSFetchedResultsController</code> eg. if they is change in the data, it will still be limited</p>
 
 <p>Unfortunately, it <a href="http://stackoverflow.com/q/9022580/242682">does not</a> limit the number of records.</p>
 
-<p>A <a href="http://stackoverflow.com/a/9025638/242682">quick solution</a> is to <code>performFetch</code> again, whenever there is a change in content:</p>
+<p>A <a href="http://stackoverflow.com/a/9025638/242682">quick solution</a> is to <code class="highlighter-rouge">performFetch</code> again, whenever there is a change in content:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="nf">controllerDidChangeContent</span><span class="p">(</span><span class="nl">controller</span><span class="p">:</span> <span class="bp">NSFetchedResultsController</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">_</span> <span class="o">=</span> <span class="n">try</span><span class="o">?</span> <span class="n">fetchedResultsController</span><span class="p">.</span><span class="n">performFetch</span><span class="p">()</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">controllerDidChangeContent</span><span class="p">(</span><span class="nv">controller</span><span class="p">:</span> <span class="kt">NSFetchedResultsController</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">fetchedResultsController</span><span class="o">.</span><span class="nf">performFetch</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>Another <a href="http://stackoverflow.com/a/10837871/242682">solution</a> is to limit the number of cells to display in the <code>UICollectionViewDataSource</code> methods. (Disclaimer: I didn&#39;t have success with that, as the code produces &quot;CoreData: error: Serious application error... controllerDidChangeContent...&quot;, but the concept is correct)</p>
+<p>Another <a href="http://stackoverflow.com/a/10837871/242682">solution</a> is to limit the number of cells to display in the <code class="highlighter-rouge">UICollectionViewDataSource</code> methods. (Disclaimer: I didn’t have success with that, as the code produces “CoreData: error: Serious application error… controllerDidChangeContent…”, but the concept is correct)</p>
 
         </section>
         <footer class="post-footer">

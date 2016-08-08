@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,65 +78,72 @@
 
 <!-- more -->
 
-<h2>Tutorials out there</h2>
+<h2 id="tutorials-out-there">Tutorials out there</h2>
 
-<p>I wrote this because even tutorials eg from <a href="http://www.raywenderlich.com/56879/magicalrecord-tutorial-ios">Ray Wenderlich</a> (2014 Feb) didn&#39;t use the recommended methods.</p>
+<p>I wrote this because even tutorials eg from <a href="http://www.raywenderlich.com/56879/magicalrecord-tutorial-ios">Ray Wenderlich</a> (2014 Feb) didn’t use the recommended methods.</p>
 
 <p>Or tutorials eg from <a href="http://yannickloriot.com/2012/03/magicalrecord-how-to-make-programming-with-core-data-pleasant/">Yannick Loriot</a> (2012 Mar) are outdated.</p>
 
-<h2>Official methods</h2>
+<h2 id="official-methods">Official methods</h2>
 
-<p>And unfortunately, the &#39;official document&#39; on <a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Saving.md">saving</a> explains more on the <em>recent changes to saving</em>. That is least helpful.</p>
+<p>And unfortunately, the ‘official document’ on <a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Saving.md">saving</a> explains more on the <em>recent changes to saving</em>. That is least helpful.</p>
 
 <p>Though if you dig further into <a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/Threads.md">threading</a>, you will find a better and safer way to save.</p>
 
-<p>And that is using <code>[MagicalRecord saveWithBlock:]</code>.</p>
+<p>And that is using <code class="highlighter-rouge">[MagicalRecord saveWithBlock:]</code>.</p>
 
-<h2>What the author says</h2>
+<h2 id="what-the-author-says">What the author says</h2>
 
 <p>On <a href="http://stackoverflow.com/a/15551603/242682">StackOverflow</a>, he said:</p>
 
 <blockquote>
-<p>don&#39;t use <code>[NSManagedObjectContext save:]</code></p>
+  <p>don’t use <code class="highlighter-rouge">[NSManagedObjectContext save:]</code></p>
 </blockquote>
 
 <p>On his <a href="http://saulmora.com/2013/09/15/why-contextforcurrentthread-doesn-t-work-in-magicalrecord/">blog</a>, he explained why.</p>
 
-<h2>The code</h2>
+<h2 id="the-code">The code</h2>
 
 <p>Finally, here is the code to update an entity.</p>
 
-<p><code>Poo</code> is my <code>NSManagedObject</code>. Replace it with your own model.</p>
+<p><code class="highlighter-rouge">Poo</code> is my <code class="highlighter-rouge">NSManagedObject</code>. Replace it with your own model.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">Poo</span> <span class="o">*</span><span class="n">poo</span> <span class="o">=</span> <span class="p">[</span><span class="n">Poo</span> <span class="n">MR_findFirst</span><span class="p">];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Update the entity in the block of saveWithBlock:</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">MagicalRecord</span> <span class="nl">saveWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSManagedObjectContext</span> <span class="o">*</span><span class="n">localContext</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">Poo</span> <span class="o">*</span><span class="n">localPoo</span> <span class="o">=</span> <span class="p">[</span><span class="n">poo</span> <span class="nl">MR_inContext</span><span class="p">:</span><span class="n">localContext</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">localPoo</span><span class="p">.</span><span class="n">someProperty</span> <span class="o">=</span> <span class="s">&quot;awesome&quot;</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// That&#39;s all to updating</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">Poo</span> <span class="o">*</span><span class="n">poo</span> <span class="o">=</span> <span class="p">[</span><span class="n">Poo</span> <span class="nf">MR_findFirst</span><span class="p">];</span>
+    <span class="c1">// Update the entity in the block of saveWithBlock:
+</span>    <span class="p">[</span><span class="n">MagicalRecord</span> <span class="nf">saveWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="n">localContext</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Poo</span> <span class="o">*</span><span class="n">localPoo</span> <span class="o">=</span> <span class="p">[</span><span class="n">poo</span> <span class="nf">MR_inContext</span><span class="p">:</span><span class="n">localContext</span><span class="p">];</span>
+        <span class="n">localPoo</span><span class="p">.</span><span class="n">someProperty</span> <span class="o">=</span> <span class="s">"awesome"</span><span class="p">;</span>
+        <span class="c1">// That's all to updating
+</span>    <span class="p">}];</span>
+</code></pre>
+</div>
 
-<p>Or if you want to delete the entity, use <code>[localPoo deleteEntity]</code> in the block.</p>
+<p>Or if you want to delete the entity, use <code class="highlighter-rouge">[localPoo deleteEntity]</code> in the block.</p>
 
-<h2>On threading</h2>
+<h2 id="on-threading">On threading</h2>
 
 <p>Note that the block will be run in a background thread, not the main thread.</p>
 
-<p>So if you want to do some UI updating, you should use <code>saveWithBlock:completion:</code> method.</p>
+<p>So if you want to do some UI updating, you should use <code class="highlighter-rouge">saveWithBlock:completion:</code> method.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">MagicalRecord</span> <span class="nl">saveWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSManagedObjectContext</span> <span class="o">*</span><span class="n">localContext</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// This block runs in background thread</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="nl">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// This block runs in main thread</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">MagicalRecord</span> <span class="nf">saveWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSManagedObjectContext</span> <span class="o">*</span><span class="n">localContext</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// This block runs in background thread
+</span><span class="p">}</span> <span class="nf">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// This block runs in main thread
+</span><span class="p">}];</span>
+</code></pre>
+</div>
 
-<p>Alternatively, you can use <code>saveWithBlockAndWait:</code> method.</p>
+<p>Alternatively, you can use <code class="highlighter-rouge">saveWithBlockAndWait:</code> method.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">MagicalRecord</span> <span class="nl">saveWithBlockAndWait</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Any updating or deletion will be on main thread</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="p">[</span><span class="n">MagicalRecord</span> <span class="nf">saveWithBlockAndWait</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">success</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Any updating or deletion will be on main thread
+</span>    <span class="p">}];</span>
+</code></pre>
+</div>
 
 <p>Hopes this helps you!</p>
+
 
         </section>
         <footer class="post-footer">

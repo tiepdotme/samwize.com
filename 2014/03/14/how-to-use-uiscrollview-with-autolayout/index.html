@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -80,87 +80,92 @@
 
 <!-- more -->
 
-<h3>1. Setup The Components</h3>
+<h3 id="setup-the-components">1. Setup The Components</h3>
 
-<p>Setup the storyboard: <strong>ViewController View (white)</strong> &gt;&gt; <strong>Scroll View (green)</strong> &gt;&gt; <strong>Content View (grey)</strong> &gt;&gt; <strong>UITextField</strong></p>
+<p>Setup the storyboard: <strong>ViewController View (white)</strong> » <strong>Scroll View (green)</strong> » <strong>Content View (grey)</strong> » <strong>UITextField</strong></p>
 
-<p><img class="center" src="/images/uiscrollview-setup.png"  ></p>
+<p><img class="center" src="/images/uiscrollview-setup.png" /></p>
 
 <p>Problem: When you rotate to landscape, the <strong>Scroll View</strong> will not fill up the width.</p>
 
-<p><img class="center" src="/images/uiscrollview-problem1.png"  ></p>
+<p><img class="center" src="/images/uiscrollview-problem1.png" /></p>
 
-<h3>2. Fix the Scroll View</h3>
+<h3 id="fix-the-scroll-view">2. Fix the Scroll View</h3>
 
 <p>This is easy autolayout problem.</p>
 
 <p>Pin Top/Bottom/Left/Right of <strong>Scroll View</strong> to the <strong>ViewController View</strong>. The 4 constraints will make Scroll View width/height adjust accordingly when in landscape.</p>
 
-<p><img class="center" src="/images/uiscrollview-pin.png"  ></p>
+<p><img class="center" src="/images/uiscrollview-pin.png" /></p>
 
 <p>Next Problem: When you rotate to landscape, the <strong>Content View</strong> will not fill up the width.</p>
 
-<p><img class="center" src="/images/uiscrollview-problem2.png"  ></p>
+<p><img class="center" src="/images/uiscrollview-problem2.png" /></p>
 
-<h3>3. Fix the Content View</h3>
+<h3 id="fix-the-content-view">3. Fix the Content View</h3>
 
-<p>Here&#39;s the tricky part where you could fall into 2 pitfalls.</p>
+<p>Here’s the tricky part where you could fall into 2 pitfalls.</p>
 
-<p>Pitfall 1: You might think you can pin Top/Bottom/Left/Right of <strong>Content View</strong> to <strong>Scroll View</strong>. However, UIScrollView is &quot;special&quot; here. The constraints don&#39;t affect Content View, but rather <code>scrollView.contentSize</code> (different thing!). See <a href="http://d37rcl8t6g8sj5.cloudfront.net/wp-content/uploads/uiscrollview-with-constraints-on-content.png">pic</a> from Atomic object.</p>
+<p>Pitfall 1: You might think you can pin Top/Bottom/Left/Right of <strong>Content View</strong> to <strong>Scroll View</strong>. However, UIScrollView is “special” here. The constraints don’t affect Content View, but rather <code class="highlighter-rouge">scrollView.contentSize</code> (different thing!). See <a href="http://d37rcl8t6g8sj5.cloudfront.net/wp-content/uploads/uiscrollview-with-constraints-on-content.png">pic</a> from Atomic object.</p>
 
-<p>Pitfall 2: You might think you can pin Top/Bottom/Left/Right of <strong>Content View</strong> to <strong>ViewController View</strong> (it&#39;s grandparent container). However, unfortuantely, autolayout can&#39;t do that in storyboard.</p>
+<p>Pitfall 2: You might think you can pin Top/Bottom/Left/Right of <strong>Content View</strong> to <strong>ViewController View</strong> (it’s grandparent container). However, unfortuantely, autolayout can’t do that in storyboard.</p>
 
-<p>Your attempt in Pitfall 2 is close to the solution. What you have to do is write the code in <code>viewDidLoad</code>.</p>
+<p>Your attempt in Pitfall 2 is close to the solution. What you have to do is write the code in <code class="highlighter-rouge">viewDidLoad</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Remember to setup the IBOutlet for contentView in .h file</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">@property</span> <span class="p">(</span><span class="k">weak</span><span class="p">,</span> <span class="k">nonatomic</span><span class="p">)</span> <span class="kt">IBOutlet</span> <span class="bp">UIView</span> <span class="o">*</span><span class="n">contentView</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// The constraints that can only work with code</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="bp">NSLayoutConstraint</span> <span class="o">*</span><span class="n">leftConstraint</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSLayoutConstraint</span> <span class="nl">constraintWithItem</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                          <span class="nl">attribute</span><span class="p">:</span><span class="n">NSLayoutAttributeLeading</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                          <span class="nl">relatedBy</span><span class="p">:</span><span class="mi">0</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                             <span class="nl">toItem</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                          <span class="nl">attribute</span><span class="p">:</span><span class="n">NSLayoutAttributeLeft</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                         <span class="nl">multiplier</span><span class="p">:</span><span class="mf">1.0</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                           <span class="nl">constant</span><span class="p">:</span><span class="mi">60</span><span class="p">];</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addConstraint</span><span class="p">:</span><span class="n">leftConstraint</span><span class="p">];</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="bp">NSLayoutConstraint</span> <span class="o">*</span><span class="n">rightConstraint</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSLayoutConstraint</span> <span class="nl">constraintWithItem</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">contentView</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                           <span class="nl">attribute</span><span class="p">:</span><span class="n">NSLayoutAttributeTrailing</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                           <span class="nl">relatedBy</span><span class="p">:</span><span class="mi">0</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                              <span class="nl">toItem</span><span class="p">:</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                           <span class="nl">attribute</span><span class="p">:</span><span class="n">NSLayoutAttributeRight</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                          <span class="nl">multiplier</span><span class="p">:</span><span class="mf">1.0</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                            <span class="nl">constant</span><span class="p">:</span><span class="o">-</span><span class="mi">60</span><span class="p">];</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addConstraint</span><span class="p">:</span><span class="n">rightConstraint</span><span class="p">];</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// Remember to setup the IBOutlet for contentView in .h file
+</span>    <span class="k">@property</span> <span class="p">(</span><span class="n">weak</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">IBOutlet</span> <span class="n">UIView</span> <span class="o">*</span><span class="n">contentView</span><span class="p">;</span>
 
-<p>In the code above, I create a left 60 and right 60 space from <code>contentView</code> to <code>self.view</code> (it&#39;s grandparent). Now it&#39;s better.</p>
+    <span class="c1">// The constraints that can only work with code
+</span>    <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span>
+    <span class="p">{</span>
+        <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
 
-<p><img class="center" src="/images/uiscrollview-code-constraints.png"  ></p>
+        <span class="n">NSLayoutConstraint</span> <span class="o">*</span><span class="n">leftConstraint</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintWithItem</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">contentView</span>
+                                                                          <span class="nf">attribute</span><span class="p">:</span><span class="n">NSLayoutAttributeLeading</span>
+                                                                          <span class="n">relatedBy</span><span class="o">:</span><span class="mi">0</span>
+                                                                             <span class="n">toItem</span><span class="o">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span>
+                                                                          <span class="n">attribute</span><span class="o">:</span><span class="n">NSLayoutAttributeLeft</span>
+                                                                         <span class="n">multiplier</span><span class="o">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
+                                                                           <span class="n">constant</span><span class="o">:</span><span class="mi">60</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addConstraint</span><span class="p">:</span><span class="n">leftConstraint</span><span class="p">];</span>
 
-<p>Next Probem: Wait. It doesn&#39;t scroll?!</p>
+        <span class="n">NSLayoutConstraint</span> <span class="o">*</span><span class="n">rightConstraint</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintWithItem</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">contentView</span>
+                                                                           <span class="nf">attribute</span><span class="p">:</span><span class="n">NSLayoutAttributeTrailing</span>
+                                                                           <span class="n">relatedBy</span><span class="o">:</span><span class="mi">0</span>
+                                                                              <span class="n">toItem</span><span class="o">:</span><span class="n">self</span><span class="p">.</span><span class="n">view</span>
+                                                                           <span class="n">attribute</span><span class="o">:</span><span class="n">NSLayoutAttributeRight</span>
+                                                                          <span class="n">multiplier</span><span class="o">:</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
+                                                                            <span class="n">constant</span><span class="o">:-</span><span class="mi">60</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addConstraint</span><span class="p">:</span><span class="n">rightConstraint</span><span class="p">];</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
 
-<h3>4. Fix Scrolling</h3>
+<p>In the code above, I create a left 60 and right 60 space from <code class="highlighter-rouge">contentView</code> to <code class="highlighter-rouge">self.view</code> (it’s grandparent). Now it’s better.</p>
+
+<p><img class="center" src="/images/uiscrollview-code-constraints.png" /></p>
+
+<p>Next Probem: Wait. It doesn’t scroll?!</p>
+
+<h3 id="fix-scrolling">4. Fix Scrolling</h3>
 
 <p>If you have followed through so far, there will be missing constraints for the Scroll View. Without adding these missing constraints, Scroll View will not be able to scroll.</p>
 
-<p>Pin Top/Bottom/Left/Right of <strong>Content View</strong> to <strong>Scroll View</strong> - this aforementioned &quot;special&quot; constraint is to tell <strong>Scroll View</strong> the <code>contentSize</code>, aka the scrollable area. As quoted in <a href="https://developer.apple.com/library/ios/technotes/tn2154/_index.html">Apple Technical Note TN2154</a>:</p>
+<p>Pin Top/Bottom/Left/Right of <strong>Content View</strong> to <strong>Scroll View</strong> - this aforementioned “special” constraint is to tell <strong>Scroll View</strong> the <code class="highlighter-rouge">contentSize</code>, aka the scrollable area. As quoted in <a href="https://developer.apple.com/library/ios/technotes/tn2154/_index.html">Apple Technical Note TN2154</a>:</p>
 
 <blockquote>
-<p>To make this work with Auto Layout, the top, left, bottom, and right edges within a scroll view now mean the edges of its content view.</p>
+  <p>To make this work with Auto Layout, the top, left, bottom, and right edges within a scroll view now mean the edges of its content view.</p>
 </blockquote>
 
-<p>In the above quoted, &quot;content view&quot; refers to <strong>Scroll View</strong> <code>contentSize</code>, not the <strong>Content View</strong> used in our scenario. Same name, different thing.</p>
+<p>In the above quoted, “content view” refers to <strong>Scroll View</strong> <code class="highlighter-rouge">contentSize</code>, not the <strong>Content View</strong> used in our scenario. Same name, different thing.</p>
 
 <p>Now that <strong>Scroll View</strong> knows the scrollable area, it can then scroll.</p>
 
 <p>Next Problem: Keyboard obscure the views</p>
 
-<h3>5. Fix the keyboard</h3>
+<h3 id="fix-the-keyboard">5. Fix the keyboard</h3>
 
-<p>To accomodate for the keyboard, the proper way is to adjust the <code>contentInset</code>. Figure 1-3 of <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/UIScrollView_pg/CreatingBasicScrollViews/CreatingBasicScrollViews.html">Apple documentation</a> will explain better what is this <code>contentInset</code> (as well as <code>contentSize</code>).</p>
+<p>To accomodate for the keyboard, the proper way is to adjust the <code class="highlighter-rouge">contentInset</code>. Figure 1-3 of <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/UIScrollView_pg/CreatingBasicScrollViews/CreatingBasicScrollViews.html">Apple documentation</a> will explain better what is this <code class="highlighter-rouge">contentInset</code> (as well as <code class="highlighter-rouge">contentSize</code>).</p>
 
 <p>Another Pitfall: The keyboard notification will give a wrong size. Solution is to <a href="http://stackoverflow.com/a/14351009/242682">convert the keyboard frame correctly</a>.</p>
 

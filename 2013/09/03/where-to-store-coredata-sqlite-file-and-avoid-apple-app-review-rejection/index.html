@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,31 +72,35 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>I seems to be getting Apple app review <a href="/2013/06/28/ios-data-storage-guidelines-and-how-to-resolve-itunes-connect-reject/">rejection</a> every time I sumbit an app update. This time, it is about my use of <code>UIFileSharingEnabled</code>.</p>
+          <p>I seems to be getting Apple app review <a href="/2013/06/28/ios-data-storage-guidelines-and-how-to-resolve-itunes-connect-reject/">rejection</a> every time I sumbit an app update. This time, it is about my use of <code class="highlighter-rouge">UIFileSharingEnabled</code>.</p>
 
 <p>The app review team said:</p>
 
 <blockquote>
-<p>Your app has the UIFileSharingEnabled key set to true in the Info.plist, but this feature is not functional.</p>
+  <p>Your app has the UIFileSharingEnabled key set to true in the Info.plist, but this feature is not functional.</p>
 
-<p>When file sharing is enabled, the entire Documents folder is used for file sharing. Files that are not intended for user access via the file sharing feature should be stored in another part of your application&#39;s bundle. If your application does not require the file sharing feature, the UIFileSharingEnabled key in the Info.plist should not be set to true.</p>
+  <p>When file sharing is enabled, the entire Documents folder is used for file sharing. Files that are not intended for user access via the file sharing feature should be stored in another part of your application’s bundle. If your application does not require the file sharing feature, the UIFileSharingEnabled key in the Info.plist should not be set to true.</p>
 </blockquote>
 
 <!-- more -->
 
 <p>The problem with my app is in the 2nd paragraph, which says <em>files in Documents folder should only be files that user need to access</em>.</p>
 
-<p>I have a <code>myapp.sqlite</code> in <code>/Documents</code> (hence a violation).</p>
+<p>I have a <code class="highlighter-rouge">myapp.sqlite</code> in <code class="highlighter-rouge">/Documents</code> (hence a violation).</p>
 
-<p>There wasn&#39;t a problem 5 years ago when iOS first started, and in fact I am sure a lot of code around the Internet set up the CoreData persistant document in Documents folder.</p>
+<p>There wasn’t a problem 5 years ago when iOS first started, and in fact I am sure a lot of code around the Internet set up the CoreData persistant document in Documents folder.</p>
 
 <p>However, things evolved, and there are <a href="http://samwize.com/2013/06/28/ios-data-storage-guidelines-and-how-to-resolve-itunes-connect-reject/">guidelines</a> to how you use the file system.</p>
 
-<p>To cut things short, the <strong>best place</strong> to put your sqlite file is in <code>/Library</code>.</p>
+<p>To cut things short, the <strong>best place</strong> to put your sqlite file is in <code class="highlighter-rouge">/Library</code>.</p>
 
 <ul>
-<li><p>It will not be exposed in iTunes File Sharing</p></li>
-<li><p>It will still be backup automatically</p></li>
+  <li>
+    <p>It will not be exposed in iTunes File Sharing</p>
+  </li>
+  <li>
+    <p>It will still be backup automatically</p>
+  </li>
 </ul>
 
         </section>

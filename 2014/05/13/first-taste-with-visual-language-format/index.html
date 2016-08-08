@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -79,61 +79,73 @@
 <p>You have to fall back to coding the controls and writing constraints in code. There are generally 2 ways to create constraints in code:</p>
 
 <ol>
-<li><p>writing each constraint directly, or</p></li>
-<li><p>writing Visual Language Format (VLF).</p></li>
+  <li>
+    <p>writing each constraint directly, or</p>
+  </li>
+  <li>
+    <p>writing Visual Language Format (VLF).</p>
+  </li>
 </ol>
 
 <!-- more -->
 
-<h2>What is Visual Language Format</h2>
+<h2 id="what-is-visual-language-format">What is Visual Language Format</h2>
 
 <p>VLF is a string describing 1 or more constraints. It is more convenient than writing each constraint directly since it is more succinct.</p>
 
 <p>An example:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">container</span> <span class="nl">addConstraints</span><span class="p">:[</span><span class="bp">NSLayoutConstraint</span> <span class="nl">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@&quot;|-[label]-|&quot;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                  <span class="nl">options</span><span class="p">:</span><span class="mi">0</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                  <span class="nl">metrics</span><span class="p">:</span><span class="nb">nil</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                    <span class="nl">views</span><span class="p">:</span><span class="n">NSDictionaryOfVariableBindings</span><span class="p">(</span><span class="n">label</span><span class="p">)]];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">container</span> <span class="nf">addConstraints</span><span class="p">:[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@"|-[label]-|"</span>
+                                                                  <span class="nf">options</span><span class="p">:</span><span class="mi">0</span>
+                                                                  <span class="nf">metrics</span><span class="p">:</span><span class="nb">nil</span>
+                                                                    <span class="n">views</span><span class="o">:</span><span class="n">NSDictionaryOfVariableBindings</span><span class="p">(</span><span class="n">label</span><span class="p">)]];</span>
+</code></pre>
+</div>
 
 <p>The above will add 2 constraints - pin the left and right of label to its superview (container in this case).</p>
 
-<h2>How to create views with Visual Language Format</h2>
+<h2 id="how-to-create-views-with-visual-language-format">How to create views with Visual Language Format</h2>
 
 <p>There are some standards steps when using VLF.</p>
 
 <p>This is a simple example of 2 labels in a container view.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 1. Create the controls</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// And setup other stuff eg text, font</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">UILabel</span> <span class="o">*</span><span class="n">label1</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILabel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">UILabel</span> <span class="o">*</span><span class="n">label2</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UILabel</span> <span class="n">alloc</span><span class="p">]</span> <span class="n">init</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 2. Must set to NO</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">label1</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">label2</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 3. Add to superview (container)</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">container</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">label1</span><span class="p">];</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">container</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">label2</span><span class="p">];</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 4. Use the macro to create a dictionary of views for convenience</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">views</span> <span class="o">=</span> <span class="n">NSDictionaryOfVariableBindings</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">);</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 5. Add horizontal constraint to superview</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">container</span> <span class="nl">addConstraints</span><span class="p">:[</span><span class="bp">NSLayoutConstraint</span> <span class="nl">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@&quot;|-2-[label1]-2-|&quot;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                  <span class="nl">options</span><span class="p">:</span><span class="mi">0</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                  <span class="nl">metrics</span><span class="p">:</span><span class="nb">nil</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                    <span class="nl">views</span><span class="p">:</span><span class="n">views</span><span class="p">]];</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 6. Add vertical constraint to superview</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">container</span> <span class="nl">addConstraints</span><span class="p">:[</span><span class="bp">NSLayoutConstraint</span> <span class="nl">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@&quot;V:|-2-[label1(40)]-2-[label2]]&quot;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                  <span class="nl">options</span><span class="p">:</span><span class="n">NSLayoutFormatAlignAllCenterX</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                  <span class="nl">metrics</span><span class="p">:</span><span class="nb">nil</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                                    <span class="nl">views</span><span class="p">:</span><span class="n">views</span><span class="p">]];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="c1">// 1. Create the controls
+// And setup other stuff eg text, font
+</span><span class="n">UILabel</span> <span class="o">*</span><span class="n">label1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="n">UILabel</span> <span class="o">*</span><span class="n">label2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+
+<span class="c1">// 2. Must set to NO
+</span><span class="n">label1</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+<span class="n">label2</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+
+<span class="c1">// 3. Add to superview (container)
+</span><span class="p">[</span><span class="n">container</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">label1</span><span class="p">];</span>
+<span class="p">[</span><span class="n">container</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">label2</span><span class="p">];</span>
+
+<span class="c1">// 4. Use the macro to create a dictionary of views for convenience
+</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">views</span> <span class="o">=</span> <span class="n">NSDictionaryOfVariableBindings</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">);</span>
+
+<span class="c1">// 5. Add horizontal constraint to superview
+</span><span class="p">[</span><span class="n">container</span> <span class="nf">addConstraints</span><span class="p">:[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@"|-2-[label1]-2-|"</span>
+                                                                  <span class="nf">options</span><span class="p">:</span><span class="mi">0</span>
+                                                                  <span class="nf">metrics</span><span class="p">:</span><span class="nb">nil</span>
+                                                                    <span class="n">views</span><span class="o">:</span><span class="n">views</span><span class="p">]];</span>
+<span class="c1">// 6. Add vertical constraint to superview
+</span><span class="p">[</span><span class="n">container</span> <span class="nf">addConstraints</span><span class="p">:[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@"V:|-2-[label1(40)]-2-[label2]]"</span>
+                                                                  <span class="nf">options</span><span class="p">:</span><span class="n">NSLayoutFormatAlignAllCenterX</span>
+                                                                  <span class="nf">metrics</span><span class="p">:</span><span class="nb">nil</span>
+                                                                    <span class="n">views</span><span class="o">:</span><span class="n">views</span><span class="p">]];</span>
+</code></pre>
+</div>
 
 <p>The gist is in adding the 2 constraints to container. You will need to add once for horizontal, and once for vertical.</p>
 
-<p><code>|-2-[label1]-2-|</code> means superview with left padding of 2 to label1, then with right padding of 2 to superview.</p>
+<p><code class="highlighter-rouge">|-2-[label1]-2-|</code> means superview with left padding of 2 to label1, then with right padding of 2 to superview.</p>
 
-<p><code>V:|-2-[label1(40)]-2-[label2]]</code> means a vertical constraint, with top padding of 2 from superview to label1, which has height 40, then padding of 2 to label2.</p>
+<p><code class="highlighter-rouge">V:|-2-[label1(40)]-2-[label2]]</code> means a vertical constraint, with top padding of 2 from superview to label1, which has height 40, then padding of 2 to label2.</p>
 
-<p>For <code>options</code> in vertical constraint, I also added a <code>NSLayoutFormatAlignAllCenterX</code>, which means all those in <code>views</code> (label1 and label2, but NOT container), will all align center x.</p>
+<p>For <code class="highlighter-rouge">options</code> in vertical constraint, I also added a <code class="highlighter-rouge">NSLayoutFormatAlignAllCenterX</code>, which means all those in <code class="highlighter-rouge">views</code> (label1 and label2, but NOT container), will all align center x.</p>
 
 <p>If you need to align label2/label2 to container, you have to write the constraint directly. Some things are not possible with VLF. There is no syntax to describe the alignment.</p>
 

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,7 +74,7 @@
           
           <p>The <a href="http://gabriel.github.com/gh-unit/docs/appledoc_include/guide_install_ios_4.html">installation guide for GHUnit</a> is for installing the framework in the traditional way.</p>
 
-<p>As you might know, <a href="http://cocoapods.org/">CocoaPods</a> is the new way to handle dependencies. Of course, GHUnit is supported. </p>
+<p>As you might know, <a href="http://cocoapods.org/">CocoaPods</a> is the new way to handle dependencies. Of course, GHUnit is supported.</p>
 
 <p>The is a lack of a guide on how you setup the two useful iOS libraries together.</p>
 
@@ -82,38 +82,45 @@
 
 <p>It is similar to the <a href="http://gabriel.github.com/gh-unit/docs/appledoc_include/guide_install_ios_4.html">official guide</a>. I am going to point out the differences when need to.</p>
 
-<h2>Step 1 - Create Test Target</h2>
+<h2 id="step-1---create-test-target">Step 1 - Create Test Target</h2>
 
-<p>This is the same. You create a completely new application target. </p>
+<p>This is the same. You create a completely new application target.</p>
 
-<p>I prefer to name it <code>AppGHTests</code>, as I might still be using <code>AppTests</code> for my <a href="/2012/10/03/sentestingkit-does-not-support-wait-for-blocks">SenTestings</a>.</p>
+<p>I prefer to name it <code class="highlighter-rouge">AppGHTests</code>, as I might still be using <code class="highlighter-rouge">AppTests</code> for my <a href="/2012/10/03/sentestingkit-does-not-support-wait-for-blocks">SenTestings</a>.</p>
 
-<p><img class="center" src="/images/xcode-ghunit-pods-new-target.png"  ></p>
+<p><img class="center" src="/images/xcode-ghunit-pods-new-target.png" /></p>
 
-<h2>Step 2 - Configure Test Target</h2>
+<h2 id="step-2---configure-test-target">Step 2 - Configure Test Target</h2>
 
-<p>You DON&#39;T have to download and copy <code>GHUnitIOS.framework</code> to your project since you are using CocoaPods. Instead, you should setup GHUnit pods.</p>
+<p>You DON’T have to download and copy <code class="highlighter-rouge">GHUnitIOS.framework</code> to your project since you are using CocoaPods. Instead, you should setup GHUnit pods.</p>
 
-<p>Edit the <code>Prodfile</code> and add GHUnitIOS.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">platform :ios
-pod &#39;GHUnitIOS&#39;, &#39;0.5.5&#39;
-</code></pre></div>
+<p>Edit the <code class="highlighter-rouge">Prodfile</code> and add GHUnitIOS.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>platform :ios
+pod 'GHUnitIOS', '0.5.5'
+</code></pre>
+</div>
+
 <p>Then install the pod as per normal.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ pod install
-</code></pre></div>
-<p>Continue with the official guide to remove the unnecessary files, and edit <code>main.m</code> to replace the delegate class with <code>GHUnitIOSAppDelegate</code>.</p>
 
-<h2>Step 3 - Configure Pod for Test Target</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ pod install
+</code></pre>
+</div>
 
-<p>This part is IMPORTANT. The new test target will not include the pods. </p>
+<p>Continue with the official guide to remove the unnecessary files, and edit <code class="highlighter-rouge">main.m</code> to replace the delegate class with <code class="highlighter-rouge">GHUnitIOSAppDelegate</code>.</p>
+
+<h2 id="step-3---configure-pod-for-test-target">Step 3 - Configure Pod for Test Target</h2>
+
+<p>This part is IMPORTANT. The new test target will not include the pods.</p>
 
 <p>You need to configure the target to be based on Pods project. Refer to <a href="http://samwize.com/2012/10/01/unit-tests-with-cocoapods/">this post</a>.</p>
 
-<p>Lastly, add the <code>libPods.a</code> library to the test target.</p>
+<p>Lastly, add the <code class="highlighter-rouge">libPods.a</code> library to the test target.</p>
 
-<p><img class="center" src="/images/xcode-ghunit-pods-libpods.png"  ></p>
+<p><img class="center" src="/images/xcode-ghunit-pods-libpods.png" /></p>
 
-<p>That&#39;s it. Run the test target!</p>
+<p>That’s it. Run the test target!</p>
+
 
         </section>
         <footer class="post-footer">

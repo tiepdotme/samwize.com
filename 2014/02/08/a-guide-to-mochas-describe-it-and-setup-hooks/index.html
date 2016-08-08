@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -77,106 +77,24 @@
 <p>When I first begin to write in Mocha, I had many questions:</p>
 
 <ul>
-<li>what exactly does <code>describe()</code> do?</li>
-<li>what is the effect of nesting <code>describe()</code> multiple levels?</li>
-<li>is <code>describe()</code> a test suite, and <code>it()</code> a test case?</li>
-<li>where should I place <code>before()</code> and <code>after()</code> hooks?</li>
+  <li>what exactly does <code class="highlighter-rouge">describe()</code> do?</li>
+  <li>what is the effect of nesting <code class="highlighter-rouge">describe()</code> multiple levels?</li>
+  <li>is <code class="highlighter-rouge">describe()</code> a test suite, and <code class="highlighter-rouge">it()</code> a test case?</li>
+  <li>where should I place <code class="highlighter-rouge">before()</code> and <code class="highlighter-rouge">after()</code> hooks?</li>
 </ul>
 
 <!-- more -->
 
-<p>I didn&#39;t find the answer online, hence I simply <em>test it out myself</em>.</p>
+<p>I didn’t find the answer online, hence I simply <em>test it out myself</em>.</p>
 
 <p>This <a href="https://gist.github.com/samwize/8877226">gist</a> is the javascript that explains the questions I had. Much clearer now :)</p>
 
 <p>I also used <a href="http://samwize.com/2014/01/31/the-best-documentation-generator-for-node/">docco</a> to generate a more-pleasing-to-read documentation for the gist.</p>
 
-<p>Sorry but I didn&#39;t host the docco documentation, but you could still read the javascript in it&#39;s purest form:</p>
+<p>Sorry but I didn’t host the docco documentation, but you could still read the javascript in it’s purest form:</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>mocha-guide-to-testing.js</span><a class='code-highlight-caption-link' href='https://gist.github.com/8877226'>link</a></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// # Mocha Guide to Testing</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Objective is to explain describe(), it(), and before()/etc hooks</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 1. `describe()` is merely for grouping, which you can nest as deep</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 2. `it()` is a test case</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// 3. `before()`, `beforeEach()`, `after()`, `afterEach()` are hooks to run</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// before/after first/each it() or describe().</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">//</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Which means, `before()` is run before first it()/describe()</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// -----------------------------------------------------------------------------</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// should.js is the preferred assertion library</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kd">var</span> <span class="nx">should</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;should&#39;</span><span class="p">);</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// **Only 1 test case (in a nameless test suite)**</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should fly&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="cm">/** here.should.be.tested</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cm">    * However, as long as no error within a it(),</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cm">    * it() is considered PASSED */</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// **Only 1 test case, but nested 3-level deep**</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// describe() are:</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// - commonly known as test suites, which contains test cases</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// - merely groups, and you can have groups within groups</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;galaxy&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;earth&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;singapre&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should fly&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;)</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// **2 test cases in 1 test suite**</span>
-</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// A common scenario.</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;singapre&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='42' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should fly&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='43' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;horse should gallop&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='44' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span>
-</div></div><div data-line='45' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='46' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='47' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// **Run once before the first test case**</span>
-</div></div><div data-line='48' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;singapre&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='49' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">before</span><span class="p">(</span><span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='50' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;see.. this function is run ONCE only&#39;</span><span class="p">)</span>
-</div></div><div data-line='51' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='52' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should fly&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='53' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;horse should gallop&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='54' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span>
-</div></div><div data-line='55' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='56' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='57' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// **Run once before each test case**</span>
-</div></div><div data-line='58' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;singapre&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='59' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='60' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;see.. this function is run EACH time&#39;</span><span class="p">)</span>
-</div></div><div data-line='61' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='62' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should fly&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='63' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;horse should gallop&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='64' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span>
-</div></div><div data-line='65' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='66' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// **2 test suites in a big test suite**</span>
-</div></div><div data-line='67' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='68' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// A common scenario.</span>
-</div></div><div data-line='69' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;earth&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='70' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;singapre&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='71' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should fly&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='72' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='73' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;malaysia&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='74' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should soar&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='75' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='76' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span>
-</div></div><div data-line='77' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='78' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='79' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// **before() can be applied to describe() too**</span>
-</div></div><div data-line='80' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;earth&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='81' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">before</span><span class="p">(</span><span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='82' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;see.. this function is run ONCE only, before first describe()&#39;</span><span class="p">)</span>
-</div></div><div data-line='83' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='84' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;singapre&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='85' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should fly&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='86' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='87' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;malaysia&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='88' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should soar&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='89' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='90' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span>
-</div></div><div data-line='91' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='92' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='93' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// **beforeEach() can be applied to describe() too**</span>
-</div></div><div data-line='94' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;earth&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='95' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='96' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;see.. this function is run EACH time, before each describe()&#39;</span><span class="p">)</span>
-</div></div><div data-line='97' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='98' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;singapre&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='99' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should fly&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='100' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='101' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nx">describe</span><span class="p">(</span><span class="s1">&#39;malaysia&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='102' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">it</span><span class="p">(</span><span class="s1">&#39;birds should soar&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()&#x7b;</span> <span class="cm">/** ... */</span> <span class="p">&#x7d;)</span>
-</div></div><div data-line='103' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;)</span>
-</div></div><div data-line='104' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;)</span></div></div></pre></div></figure>
+<script src="https://gist.github.com/8877226.js"> </script>
+
 
         </section>
         <footer class="post-footer">

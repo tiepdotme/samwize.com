@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,45 +76,54 @@
 
 <p>The steps I took for migration is very different from the previous guide on <a href="/2016/05/24/migrating-from-blogger-to-jekyll/">migrating from Blogger</a> to Jekyll.</p>
 
-<h2>What&#39;s wrong with Jekyll Import</h2>
+<h2 id="whats-wrong-with-jekyll-import">What’s wrong with Jekyll Import</h2>
 
-<p>Jekyll provided it&#39;s own <a href="https://import.jekyllrb.com/docs/wordpress/">migration tool for Wordpress</a>.</p>
+<p>Jekyll provided it’s own <a href="https://import.jekyllrb.com/docs/wordpress/">migration tool for Wordpress</a>.</p>
 
 <p>However, the tool has 2 major problems:</p>
 
 <ul>
-<li>it does not export the images</li>
-<li>it export the html wholesale, without converting to markdown</li>
+  <li>it does not export the images</li>
+  <li>it export the html wholesale, without converting to markdown</li>
 </ul>
 
 <p>By not exporting the images, the tool depends on linking all images url back to to original site. That means after migration, you will need to maintain the original site in order for the images to work!</p>
 
-<p>I wouldn&#39;t want that, because my migration intend to keep the same base URL.</p>
+<p>I wouldn’t want that, because my migration intend to keep the same base URL.</p>
 
-<h2>WP Plugin: Jekyll Exporter</h2>
+<h2 id="wp-plugin-jekyll-exporter">WP Plugin: Jekyll Exporter</h2>
 
 <p>Fortunately, there is a better way in the form of a <a href="https://github.com/benbalter/wordpress-to-jekyll-exporter/">Wordpress plugin</a>.</p>
 
-<p>Simply install the plugin, then go to Tools &gt; Export to Jekyll. However, this likely wouldn&#39;t work because of timeout etc.</p>
+<p>Simply install the plugin, then go to Tools &gt; Export to Jekyll. However, this likely wouldn’t work because of timeout etc.</p>
 
-<p>The better way is ssh in and cd to the plugin directory eg. <code>/var/www/just2us.com/wp-content/plugins/jekyll-exporter</code> then run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">php jekyll-export-cli.php &gt; jekyll-export.zip    
-</code></pre></div>
+<p>The better way is ssh in and cd to the plugin directory eg. <code class="highlighter-rouge">/var/www/just2us.com/wp-content/plugins/jekyll-exporter</code> then run:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>php jekyll-export-cli.php &gt; jekyll-export.zip    
+</code></pre>
+</div>
+
 <p>If there is no error, then the zip will contain all the markdowns and images!</p>
 
-<h2>Encountered out of memory in PHP</h2>
+<h2 id="encountered-out-of-memory-in-php">Encountered out of memory in PHP</h2>
 
 <p>For my case, I encountered the error:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 89391104 bytes)
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 89391104 bytes)
+</code></pre>
+</div>
+
 <p>There is a permanent and a temporary way to fix this, and I choose a <a href="http://stackoverflow.com/a/22283701/242682">temporary solution</a>.</p>
 
-<p>I edited <code>jekyll-export-cli.php</code> and added:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">ini_set(&#39;memory_limit&#39;, &#39;-1&#39;);
-</code></pre></div>
+<p>I edited <code class="highlighter-rouge">jekyll-export-cli.php</code> and added:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>ini_set('memory_limit', '-1');
+</code></pre>
+</div>
+
 <p>This will overide the default limit.</p>
 
-<p>Now run <code>php jekyll-export-cli.php &gt; jekyll-export.zip</code> again, and it should be fine.</p>
+<p>Now run <code class="highlighter-rouge">php jekyll-export-cli.php &gt; jekyll-export.zip</code> again, and it should be fine.</p>
 
         </section>
         <footer class="post-footer">

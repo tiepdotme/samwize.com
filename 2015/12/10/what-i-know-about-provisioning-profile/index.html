@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,38 +78,39 @@
 
 <p>I have never fully understood why/how a provisioning profile is needed when submiting an app. I am not an expert, but here I will provide a few things I know.</p>
 
-<h2>What is Provisioning Profile</h2>
+<h2 id="what-is-provisioning-profile">What is Provisioning Profile</h2>
 
-<p><a href="http://bigzaphod.tumblr.com/post/78574849549/provisioning">bigzaphod</a> wrote a good post. </p>
+<p><a href="http://bigzaphod.tumblr.com/post/78574849549/provisioning">bigzaphod</a> wrote a good post.</p>
 
 <p>In short:</p>
 
 <blockquote>
-<p>Provisioning profiles are where the vasty majority of the confusion is. They represent a union of almost everything mentioned so far and act as a single solution that addresses several issues. The important thing to remember is that they exist to grant an iOS device permission to grant your app specific permissions.</p>
+  <p>Provisioning profiles are where the vasty majority of the confusion is. They represent a union of almost everything mentioned so far and act as a single solution that addresses several issues. The important thing to remember is that they exist to grant an iOS device permission to grant your app specific permissions.</p>
 </blockquote>
 
-<p>A provisioning profile includes <em>almost everything</em> -- App ID, Team ID, developer cert, entitlements, devices (for Adhoc).</p>
+<p>A provisioning profile includes <em>almost everything</em> – App ID, Team ID, developer cert, entitlements, devices (for Adhoc).</p>
 
-<p>It is needed to securely sign your app. It works because Apple generates the provisioning profiles (signed by Apple&#39;s own private key), and you in turn sign your app with the provisioning profile.</p>
+<p>It is needed to securely sign your app. It works because Apple generates the provisioning profiles (signed by Apple’s own private key), and you in turn sign your app with the provisioning profile.</p>
 
-<h2>Quick Look</h2>
+<h2 id="quick-look">Quick Look</h2>
 
-<p>A good tool is <a href="https://github.com/chockenberry/Provisioning">Provisioning</a>, which let you quick look the details of a <code>.mobileprovision</code> file.</p>
+<p>A good tool is <a href="https://github.com/chockenberry/Provisioning">Provisioning</a>, which let you quick look the details of a <code class="highlighter-rouge">.mobileprovision</code> file.</p>
 
 <p>You get a better idea of what a profile contains.</p>
 
-<h2>Fastlane sigh</h2>
+<h2 id="fastlane-sigh">Fastlane sigh</h2>
 
-<p>Working with provisioning profile is tedious because you have to manage a lot of profiles. </p>
+<p>Working with provisioning profile is tedious because you have to manage a lot of profiles.</p>
 
-<p>Each app could require up to 3 types of profile -- Development, Adhoc and App Store Distribution.</p>
+<p>Each app could require up to 3 types of profile – Development, Adhoc and App Store Distribution.</p>
 
 <p>You need to download from Apple Developer Center, then install them.</p>
 
 <p>And they expire in one year, so you have to regenerate rather frequently.</p>
 
-<p><a href="https://github.com/fastlane/sigh"><code>sigh</code></a> takes care of that.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Create an App Store Distribution profile, download and install
+<p><a href="https://github.com/fastlane/sigh"><code class="highlighter-rouge">sigh</code></a> takes care of that.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Create an App Store Distribution profile, download and install
 sigh
 
 # For Adhoc
@@ -117,11 +118,13 @@ sigh --adhoc
 
 # For Development
 sigh --development
-</code></pre></div>
-<p>You can also manage all profiles that were installed locally via <code>sigh manage</code>, and delete the expired one with <code>sigh manage -e</code>. It&#39;s handly when you have hundreds of profiles.</p>
+</code></pre>
+</div>
+
+<p>You can also manage all profiles that were installed locally via <code class="highlighter-rouge">sigh manage</code>, and delete the expired one with <code class="highlighter-rouge">sigh manage -e</code>. It’s handly when you have hundreds of profiles.</p>
 
 <blockquote>
-<p>Because you would rather spend your time building stuff than fighting provisioning</p>
+  <p>Because you would rather spend your time building stuff than fighting provisioning</p>
 </blockquote>
 
         </section>

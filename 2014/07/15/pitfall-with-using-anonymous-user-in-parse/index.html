@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,11 +76,13 @@
 
 <p>Their <a href="https://www.parse.com/docs/ios_guide#users-anonymous/iOS">Anonymous User feature</a> is a great feature, but it lacks the last 10% to be awesome.</p>
 
-<p>When I was using the feature and did a query, it crashed. </p>
+<p>When I was using the feature and did a query, it crashed.</p>
 
 <!-- more -->
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Tried to save an object with a new, unsaved child.'</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', reason: 'Tried to save an object with a new, unsaved child.'
+</code></pre>
+</div>
 
 <p>I found the <a href="https://www.parse.com/questions/crash-on-query-with-new-anonymous-user">same incident</a> on Parse forum.</p>
 
@@ -89,25 +91,34 @@
 <p>Let me explain the pitfalls and shortcoming of Parse:</p>
 
 <ul>
-<li><p>Parse will automatically save an Anonymous User when an a <code>PFUser</code> (as an object or as a relation) is saved</p></li>
-<li><p>However, calling <code>PFQuery</code>, it will trigger the error because no object was automatically saved (probably due to your logic flow)</p></li>
-<li><p>Yet, strangely it seems, a <code>PFQuery</code> does not handle an anonymous user situation at all, and caused the crash</p></li>
+  <li>
+    <p>Parse will automatically save an Anonymous User when an a <code class="highlighter-rouge">PFUser</code> (as an object or as a relation) is saved</p>
+  </li>
+  <li>
+    <p>However, calling <code class="highlighter-rouge">PFQuery</code>, it will trigger the error because no object was automatically saved (probably due to your logic flow)</p>
+  </li>
+  <li>
+    <p>Yet, strangely it seems, a <code class="highlighter-rouge">PFQuery</code> does not handle an anonymous user situation at all, and caused the crash</p>
+  </li>
 </ul>
 
 <p>I felt this is a bug, just like the 2 other developers in the forum. Unfortunately, the forum, yet again, is closed for comments.</p>
 
 <p>Parse, please improve your library.</p>
 
-<h2>Workaround</h2>
+<h2 id="workaround">Workaround</h2>
 
-<p>As suggested, one could check to make certain <code>PFUser</code> is saved by checking the objectId. If it isn&#39;t, save it, then perform the query:</p>
+<p>As suggested, one could check to make certain <code class="highlighter-rouge">PFUser</code> is saved by checking the objectId. If it isn’t, save it, then perform the query:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">if</span> <span class="p">([</span><span class="n">PFUser</span> <span class="n">currentUser</span><span class="p">].</span><span class="n">objectId</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">[[</span><span class="n">PFUser</span> <span class="n">currentUser</span><span class="p">]</span> <span class="nl">saveInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="kt">BOOL</span> <span class="n">succeeded</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Perform the query fetch in block</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">&#x7d;];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">else</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="c1">// Perform the query fetch directly</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">([</span><span class="n">PFUser</span> <span class="nf">currentUser</span><span class="p">].</span><span class="n">objectId</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span>
+  <span class="p">[[</span><span class="n">PFUser</span> <span class="nf">currentUser</span><span class="p">]</span> <span class="nf">saveInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">succeeded</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Perform the query fetch in block
+</span>  <span class="p">}];</span>
+<span class="k">else</span>
+  <span class="c1">// Perform the query fetch directly
+</span></code></pre>
+</div>
+
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,75 +72,88 @@
           </div>
           <a name="topofpage"></a>
           
-          <h2>Problem</h2>
+          <h2 id="problem">Problem</h2>
 
 <p>I am creating a scene whereby in that 1 view controller, there will be multiple pages that shows different views.</p>
 
 <p>User can swipe the pages, or use the segment to change the page.</p>
 
-<h2>Solution</h2>
+<h2 id="solution">Solution</h2>
 
 <p>This design problem is pretty common, especially in an <a href="http://www.appcoda.com/uipageviewcontroller-storyboard-tutorial/">app intro scene</a>.</p>
 
 <p>The solution is to construct the storyboard as such:</p>
 
-<p><a href="/images/uipageviewcontroller-storyboard.png"><img src="/images/uipageviewcontroller-storyboard.png" alt="Storyboard Setup" ></a></p>
+<p><a href="/images/uipageviewcontroller-storyboard.png"><img src="/images/uipageviewcontroller-storyboard.png" alt="Storyboard Setup" /></a></p>
 
 <ul>
-<li>The scene has a container view</li>
-<li>The container view controller is replaced with a <code>UIPageViewController</code></li>
-<li>The <code>UIPageViewController</code> has segues to it&#39;s pages (there are 2 pages here)</li>
-<li>The pages have the storyboard ID <code>page1</code> and <code>page2</code></li>
+  <li>The scene has a container view</li>
+  <li>The container view controller is replaced with a <code class="highlighter-rouge">UIPageViewController</code></li>
+  <li>The <code class="highlighter-rouge">UIPageViewController</code> has segues to it’s pages (there are 2 pages here)</li>
+  <li>The pages have the storyboard ID <code class="highlighter-rouge">page1</code> and <code class="highlighter-rouge">page2</code></li>
 </ul>
 
-<h3>UIPageViewController</h3>
+<h3 id="uipageviewcontroller">UIPageViewController</h3>
 
-<p>NOTE: Firstly, the segue to the pages are actually not needed. I created the show segue so that it is clearer that the <code>UIPageViewController</code> has 2 children/pages.</p>
+<p>NOTE: Firstly, the segue to the pages are actually not needed. I created the show segue so that it is clearer that the <code class="highlighter-rouge">UIPageViewController</code> has 2 children/pages.</p>
 
-<p>This is a lacking feature of <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewControllerCatalog/Chapters/PageViewControllers.html">UIPageViewController</a>: it does not support segue to it&#39;s children, unlike <code>UINavigationController</code> or <code>UITabBarController</code>.</p>
+<p>This is a lacking feature of <a href="https://developer.apple.com/library/ios/documentation/WindowsViews/Conceptual/ViewControllerCatalog/Chapters/PageViewControllers.html">UIPageViewController</a>: it does not support segue to it’s children, unlike <code class="highlighter-rouge">UINavigationController</code> or <code class="highlighter-rouge">UITabBarController</code>.</p>
 
 <p>Instead, you can only link them up in code.</p>
 
-<p>Here&#39;s the source code of the <code>UIPageViewController</code> class in swift:</p>
+<p>Here’s the source code of the <code class="highlighter-rouge">UIPageViewController</code> class in swift:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">import</span> <span class="n">UIKit</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">class</span> <span class="nl">MyPageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">,</span> <span class="bp">UIPageViewControllerDataSource</span><span class="p">,</span> <span class="bp">UIPageViewControllerDelegate</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">var</span> <span class="n">pages</span> <span class="o">=</span> <span class="p">[</span><span class="bp">UIViewController</span><span class="p">]()</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLoad</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">self</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">self</span><span class="p">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="nb">self</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="nl">page1</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="o">!</span> <span class="o">=</span> <span class="n">storyboard</span><span class="o">?</span><span class="p">.</span><span class="n">instantiateViewControllerWithIdentifier</span><span class="p">(</span><span class="s">&quot;page1&quot;</span><span class="p">)</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="nl">page2</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="o">!</span> <span class="o">=</span> <span class="n">storyboard</span><span class="o">?</span><span class="p">.</span><span class="n">instantiateViewControllerWithIdentifier</span><span class="p">(</span><span class="s">&quot;page2&quot;</span><span class="p">)</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">pages</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">page1</span><span class="p">)</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">pages</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">page2</span><span class="p">)</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">setViewControllers</span><span class="p">([</span><span class="n">page1</span><span class="p">],</span> <span class="nl">direction</span><span class="p">:</span> <span class="n">UIPageViewControllerNavigationDirection</span><span class="p">.</span><span class="n">Forward</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">false</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">pageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">,</span> <span class="n">viewControllerBeforeViewController</span> <span class="nl">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIViewController</span><span class="o">?</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">currentIndex</span> <span class="o">=</span> <span class="n">pages</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">viewController</span><span class="p">)</span><span class="o">!</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">previousIndex</span> <span class="o">=</span> <span class="n">abs</span><span class="p">((</span><span class="n">currentIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">pages</span><span class="p">.</span><span class="n">count</span><span class="p">)</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">pages</span><span class="p">[</span><span class="n">previousIndex</span><span class="p">]</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">pageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">,</span> <span class="n">viewControllerAfterViewController</span> <span class="nl">viewController</span><span class="p">:</span> <span class="bp">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIViewController</span><span class="o">?</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">currentIndex</span> <span class="o">=</span> <span class="n">pages</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">viewController</span><span class="p">)</span><span class="o">!</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">nextIndex</span> <span class="o">=</span> <span class="n">abs</span><span class="p">((</span><span class="n">currentIndex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">pages</span><span class="p">.</span><span class="n">count</span><span class="p">)</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">pages</span><span class="p">[</span><span class="n">nextIndex</span><span class="p">]</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">presentationCountForPageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">pages</span><span class="p">.</span><span class="n">count</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">presentationIndexForPageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="mi">0</span>
-</div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">UIKit</span>
+
+<span class="kd">class</span> <span class="kt">MyPageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">,</span> <span class="kt">UIPageViewControllerDataSource</span><span class="p">,</span> <span class="kt">UIPageViewControllerDelegate</span> <span class="p">{</span>
+
+    <span class="k">var</span> <span class="nv">pages</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UIViewController</span><span class="p">]()</span>
+    
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+        
+        <span class="k">self</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">dataSource</span> <span class="o">=</span> <span class="k">self</span>
+
+        <span class="k">let</span> <span class="nv">page1</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="o">!</span> <span class="o">=</span> <span class="n">storyboard</span><span class="p">?</span><span class="o">.</span><span class="nf">instantiateViewControllerWithIdentifier</span><span class="p">(</span><span class="s">"page1"</span><span class="p">)</span>
+        <span class="k">let</span> <span class="nv">page2</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="o">!</span> <span class="o">=</span> <span class="n">storyboard</span><span class="p">?</span><span class="o">.</span><span class="nf">instantiateViewControllerWithIdentifier</span><span class="p">(</span><span class="s">"page2"</span><span class="p">)</span>
+        
+        <span class="n">pages</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">page1</span><span class="p">)</span>
+        <span class="n">pages</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">page2</span><span class="p">)</span>
+        
+        <span class="nf">setViewControllers</span><span class="p">([</span><span class="n">page1</span><span class="p">],</span> <span class="nv">direction</span><span class="p">:</span> <span class="kt">UIPageViewControllerNavigationDirection</span><span class="o">.</span><span class="kt">Forward</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">pageViewController</span><span class="p">(</span><span class="nv">pageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">,</span> <span class="n">viewControllerBeforeViewController</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">currentIndex</span> <span class="o">=</span> <span class="n">pages</span><span class="o">.</span><span class="nf">indexOf</span><span class="p">(</span><span class="n">viewController</span><span class="p">)</span><span class="o">!</span>
+        <span class="k">let</span> <span class="nv">previousIndex</span> <span class="o">=</span> <span class="nf">abs</span><span class="p">((</span><span class="n">currentIndex</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">pages</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pages</span><span class="p">[</span><span class="n">previousIndex</span><span class="p">]</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">pageViewController</span><span class="p">(</span><span class="nv">pageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">,</span> <span class="n">viewControllerAfterViewController</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span><span class="p">?</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">currentIndex</span> <span class="o">=</span> <span class="n">pages</span><span class="o">.</span><span class="nf">indexOf</span><span class="p">(</span><span class="n">viewController</span><span class="p">)</span><span class="o">!</span>
+        <span class="k">let</span> <span class="nv">nextIndex</span> <span class="o">=</span> <span class="nf">abs</span><span class="p">((</span><span class="n">currentIndex</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">pages</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pages</span><span class="p">[</span><span class="n">nextIndex</span><span class="p">]</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">presentationCountForPageViewController</span><span class="p">(</span><span class="nv">pageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">pages</span><span class="o">.</span><span class="n">count</span>
+    <span class="p">}</span>
+    
+    <span class="kd">func</span> <span class="nf">presentationIndexForPageViewController</span><span class="p">(</span><span class="nv">pageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>The code basically setup the view controllers for the pages by instantiating with the storyboard ID.</p>
 
 <p>Then it implement the datasource that tells which view controllers are in the pages.</p>
 
-<p>That&#39;s it. That&#39;s the only code needed.</p>
+<p>That’s it. That’s the only code needed.</p>
 
-<h3>Container View</h3>
+<h3 id="container-view">Container View</h3>
 
 <p><a href="https://github.com/codepath/ios_guides/wiki/Container-View-Controllers">Container View</a> is a very nice feature to manage complex scene with multiple views.</p>
 
@@ -148,9 +161,10 @@
 
 <p>It is one of the coolest feature, introduced in iOS 5 that makes designing your storyboard much neater.</p>
 
-<p>There&#39;s no code involved, just drag the container view.</p>
+<p>There’s no code involved, just drag the container view.</p>
 
-<p>Just note that in the main scene view controller, you can access <code>childViewControllers</code> to get all container view controllers. In our case, there is only 1 <code>UIPageViewController</code> as the container view controller.</p>
+<p>Just note that in the main scene view controller, you can access <code class="highlighter-rouge">childViewControllers</code> to get all container view controllers. In our case, there is only 1 <code class="highlighter-rouge">UIPageViewController</code> as the container view controller.</p>
+
 
         </section>
         <footer class="post-footer">

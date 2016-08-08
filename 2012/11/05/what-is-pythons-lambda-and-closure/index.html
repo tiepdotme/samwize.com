@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -75,82 +75,82 @@
           <p>Lambda is</p>
 
 <blockquote>
-<p>one line anonymous function constructed on the fly</p>
+  <p>one line anonymous function constructed on the fly</p>
 </blockquote>
 
 <p>Closure is</p>
 
 <blockquote>
-<p>a function object that remembers values in enclosing scopes regardless of whether those scopes are still present in memory</p>
+  <p>a function object that remembers values in enclosing scopes regardless of whether those scopes are still present in memory</p>
 </blockquote>
 
 <!-- more -->
 
-<h2>What is Lambda?</h2>
+<h2 id="what-is-lambda">What is Lambda?</h2>
 
-<p><a href="http://www.diveintopython.net/power_of_introspection/lambda_functions.html">DiveIntoPython</a> gave a good definition. Lambda is </p>
+<p><a href="http://www.diveintopython.net/power_of_introspection/lambda_functions.html">DiveIntoPython</a> gave a good definition. Lambda is</p>
 
 <ul>
-<li>a one line function</li>
-<li>anonymous function (no name) </li>
-<li>a function that can be used anywhere a function is required</li>
-<li>it takes in arbitrary parameters</li>
-<li>and implicitly return as a single expression</li>
+  <li>a one line function</li>
+  <li>anonymous function (no name)</li>
+  <li>a function that can be used anywhere a function is required</li>
+  <li>it takes in arbitrary parameters</li>
+  <li>and implicitly return as a single expression</li>
 </ul>
 
 <p>But most important, you need not use lambda.</p>
 
-<p>Lambda is a <strong>style</strong>. You need not use it. </p>
+<p>Lambda is a <strong>style</strong>. You need not use it.</p>
 
-<p>What&#39;s more, if you need multiple lines, then consider a normal function. Python can pass function as parameter anyway.</p>
+<p>What’s more, if you need multiple lines, then consider a normal function. Python can pass function as parameter anyway.</p>
 
-<h2>Why do we have Lambda?</h2>
+<h2 id="why-do-we-have-lambda">Why do we have Lambda?</h2>
 
 <p>You might <a href="http://stackoverflow.com/questions/890128/python-lambda-why">wonder</a> why is there lambda in the first place.</p>
 
 <p>This post on <a href="http://python-history.blogspot.sg/2009/04/origins-of-pythons-functional-features.html">Python history</a> explained well.</p>
 
 <blockquote>
-<p>In 1994, lambda operator was introduced for creating anonymous functions (as expressions). Lack of a better choice..</p>
+  <p>In 1994, lambda operator was introduced for creating anonymous functions (as expressions). Lack of a better choice..</p>
 </blockquote>
 
-<p>However, the choice of the terminology &quot;lambda&quot; had many unintended consequences. It doesn&#39;t match the expectation from other languages. Hence it is usually considered &quot;sorely lacking&quot; in features. eg. It does not work with surrounding codes. </p>
+<p>However, the choice of the terminology “lambda” had many unintended consequences. It doesn’t match the expectation from other languages. Hence it is usually considered “sorely lacking” in features. eg. It does not work with surrounding codes.</p>
 
 <p>Lambda is no closure like other languages.</p>
 
-<h2>What is Closure?</h2>
+<h2 id="what-is-closure">What is Closure?</h2>
 
-<p>Best explained in <a href="http://www.shutupandship.com/2012/01/python-closures-explained.html">ShutUpAndShip</a>, </p>
+<p>Best explained in <a href="http://www.shutupandship.com/2012/01/python-closures-explained.html">ShutUpAndShip</a>,</p>
 
 <blockquote>
-<p>A CLOSURE is a function object that remembers values in enclosing scopes regardless of whether those scopes are still present in memory.</p>
+  <p>A CLOSURE is a function object that remembers values in enclosing scopes regardless of whether those scopes are still present in memory.</p>
 </blockquote>
 
 <p>In another shorter <a href="http://ynniv.com/blog/2007/08/closures-in-python.html">explanation</a>,</p>
 
 <blockquote>
-<p>A closure is data attached to code</p>
+  <p>A closure is data attached to code</p>
 </blockquote>
 
 <p>In Python,</p>
 
 <ul>
-<li>Methods are closures</li>
-<li>Functions are NOT closures</li>
-<li>Lambda is NOT closure</li>
+  <li>Methods are closures</li>
+  <li>Functions are NOT closures</li>
+  <li>Lambda is NOT closure</li>
 </ul>
 
-<h2>Huh? Method vs Function</h2>
+<h2 id="huh-method-vs-function">Huh? Method vs Function</h2>
 
 <p>In case you wonder what is the difference between <a href="http://stackoverflow.com/a/155633/242682">Method &amp; Function</a>,</p>
 
 <blockquote>
-<p>A method is on an object. A function is independent of an object.</p>
+  <p>A method is on an object. A function is independent of an object.</p>
 </blockquote>
 
-<p>You define a <strong>function</strong> such as <code>def foo():</code>. </p>
+<p>You define a <strong>function</strong> such as <code class="highlighter-rouge">def foo():</code>.</p>
 
-<p>You use a <strong>method</strong> of an object such as <code>obj.foo()</code>. <code>obj</code> is implicitly passed as the first parameter to the method <code>foo</code>. That&#39;s why in a class, you have a <code>self</code> as the first param of a <em>method</em>.</p>
+<p>You use a <strong>method</strong> of an object such as <code class="highlighter-rouge">obj.foo()</code>. <code class="highlighter-rouge">obj</code> is implicitly passed as the first parameter to the method <code class="highlighter-rouge">foo</code>. That’s why in a class, you have a <code class="highlighter-rouge">self</code> as the first param of a <em>method</em>.</p>
 
         </section>
         <footer class="post-footer">

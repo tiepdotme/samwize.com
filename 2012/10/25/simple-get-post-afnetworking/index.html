@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Simple GET/POST AFNetworking</title>
-  <meta name="description" content="**UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
+  <meta name="description" content="UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Simple GET/POST AFNetworking" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="**UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
+    <meta name="twitter:description"  content="UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Simple GET/POST AFNetworking"/>
   
-  <meta property="og:description" content="**UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
+  <meta property="og:description" content="UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2012/10/25/simple-get-post-afnetworking/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><em>**UPDATE</em><em>: For AFNetworking 2.0, refer to <a href="/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/">this tutorial</a> instead.</em></p>
+          <p><em><strong>UPDATE</strong>: For AFNetworking 2.0, refer to <a href="/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/">this tutorial</a> instead.</em></p>
 
 <p><a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> is the choice for iOS/Mac developers when it comes to choosing a HTTP library.</p>
 
@@ -84,57 +84,70 @@
 
 <p>In many ways, it seems AFNetworking would be better. It uses blocks!</p>
 
-<p>However, I find the documentation lacking. It has an <a href="https://github.com/AFNetworking/AFNetworking">overview</a>, <a href="https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking">getting started</a>, <a href="https://github.com/AFNetworking/AFNetworking/wiki/Introduction-to-AFNetworking">introduction</a>, <a href="http://afnetworking.github.com/AFNetworking/">complete reference</a>, ... But yet, it didn&#39;t provide example on how you make a simple HTTP GET or POST.</p>
+<p>However, I find the documentation lacking. It has an <a href="https://github.com/AFNetworking/AFNetworking">overview</a>, <a href="https://github.com/AFNetworking/AFNetworking/wiki/Getting-Started-with-AFNetworking">getting started</a>, <a href="https://github.com/AFNetworking/AFNetworking/wiki/Introduction-to-AFNetworking">introduction</a>, <a href="http://afnetworking.github.com/AFNetworking/">complete reference</a>, … But yet, it didn’t provide example on how you make a simple HTTP GET or POST.</p>
 
 <p>Here is how you do it:</p>
 
-<h2>GET</h2>
+<h2 id="get">GET</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBaseURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://samwize.com/&quot;</span><span class="p">]];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nl">requestWithMethod</span><span class="p">:</span><span class="s">@&quot;GET&quot;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                            <span class="nl">path</span><span class="p">:</span><span class="s">@&quot;http://samwize.com/api/pigs/&quot;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                      <span class="nl">parameters</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperation</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">httpClient</span> <span class="nl">registerHTTPOperationClass</span><span class="p">:[</span><span class="n">AFHTTPRequestOperation</span> <span class="k">class</span><span class="p">]];</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">operation</span> <span class="nl">setCompletionBlockWithSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Print the response body in text</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Response: %@&quot;</span><span class="p">,</span> <span class="p">[[</span><span class="bp">NSString</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nl">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]);</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Error: %@&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;];</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">operation</span> <span class="n">start</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithBaseURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/"</span><span class="p">]];</span>
+    <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">requestWithMethod</span><span class="p">:</span><span class="s">@"GET"</span>
+                                                            <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pigs/"</span>
+                                                      <span class="n">parameters</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperation</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">httpClient</span> <span class="nf">registerHTTPOperationClass</span><span class="p">:[</span><span class="n">AFHTTPRequestOperation</span> <span class="nf">class</span><span class="p">]];</span>
+    <span class="p">[</span><span class="n">operation</span> <span class="nf">setCompletionBlockWithSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Print the response body in text
+</span>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Response: %@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]);</span>
+    <span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+    <span class="p">}];</span>
+    <span class="p">[</span><span class="n">operation</span> <span class="nf">start</span><span class="p">];</span>
+</code></pre>
+</div>
 
-<h2>POST</h2>
+<h2 id="post">POST</h2>
 
-<p>POST a urlencoded form <code>name=piggy</code> in the http body.</p>
+<p>POST a urlencoded form <code class="highlighter-rouge">name=piggy</code> in the http body.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBaseURL</span><span class="p">:[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;http://samwize.com/&quot;</span><span class="p">]];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">httpClient</span> <span class="nl">setParameterEncoding</span><span class="p">:</span><span class="n">AFFormURLParameterEncoding</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nl">requestWithMethod</span><span class="p">:</span><span class="s">@&quot;POST&quot;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                            <span class="nl">path</span><span class="p">:</span><span class="s">@&quot;http://samwize.com/api/pig/&quot;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>                                                      <span class="nl">parameters</span><span class="p">:</span><span class="l">@&#x7b;</span><span class="s">@&quot;name&quot;</span><span class="o">:</span><span class="s">@&quot;piggy&quot;</span><span class="l">&#x7d;</span><span class="p">];</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Similar to GET code ...</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithBaseURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/"</span><span class="p">]];</span>
+    <span class="p">[</span><span class="n">httpClient</span> <span class="nf">setParameterEncoding</span><span class="p">:</span><span class="n">AFFormURLParameterEncoding</span><span class="p">];</span>
+    <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">requestWithMethod</span><span class="p">:</span><span class="s">@"POST"</span>
+                                                            <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pig/"</span>
+                                                      <span class="n">parameters</span><span class="o">:</span><span class="p">@{</span><span class="s">@"name"</span><span class="o">:</span><span class="s">@"piggy"</span><span class="p">}];</span>
 
-<p>If you want to POST a json such as <code>{&quot;name&quot;:&quot;piggy&quot;}</code>, you change the encoding:</p>
+    <span class="c1">// Similar to GET code ...
+</span></code></pre>
+</div>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">httpClient</span> <span class="nl">setParameterEncoding</span><span class="p">:</span><span class="n">AFJSONParameterEncoding</span><span class="p">];</span></div></div></pre></div></figure>
+<p>If you want to POST a json such as <code class="highlighter-rouge"><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"piggy"</span><span class="p">}</span></code>, you change the encoding:</p>
+
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="p">[</span><span class="n">httpClient</span> <span class="nf">setParameterEncoding</span><span class="p">:</span><span class="n">AFJSONParameterEncoding</span><span class="p">];</span>
+</code></pre>
+</div>
 
 <p>If you want to do a multi-part POST of an image, you do this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nl">multipartFormRequestWithMethod</span><span class="p">:</span><span class="s">@&quot;POST&quot;</span> <span class="nl">path</span><span class="p">:</span><span class="s">@&quot;http://samwize.com/api/pig/photo&quot;</span> <span class="nl">parameters</span><span class="p">:</span><span class="nb">nil</span> <span class="nl">constructingBodyWithBlock</span><span class="p">:</span> <span class="o">^</span><span class="p">(</span><span class="kt">id</span> <span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span><span class="n">formData</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">formData</span> <span class="nl">appendPartWithFileData</span><span class="p">:</span><span class="n">imageData</span> <span class="nl">name</span><span class="p">:</span><span class="s">@&quot;avatar&quot;</span> <span class="nl">fileName</span><span class="p">:</span><span class="s">@&quot;avatar.jpg&quot;</span> <span class="nl">mimeType</span><span class="p">:</span><span class="s">@&quot;image/jpeg&quot;</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">multipartFormRequestWithMethod</span><span class="p">:</span><span class="s">@"POST"</span> <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pig/photo"</span> <span class="n">parameters</span><span class="o">:</span><span class="nb">nil</span> <span class="n">constructingBodyWithBlock</span><span class="o">:</span> <span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span><span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">formData</span> <span class="nf">appendPartWithFileData</span><span class="p">:</span><span class="n">imageData</span> <span class="nf">name</span><span class="p">:</span><span class="s">@"avatar"</span> <span class="n">fileName</span><span class="o">:</span><span class="s">@"avatar.jpg"</span> <span class="n">mimeType</span><span class="o">:</span><span class="s">@"image/jpeg"</span><span class="p">];</span>
+<span class="p">}];</span>
+</code></pre>
+</div>
 
 <p>This simple guide has been helped by <a href="http://stackoverflow.com/questions/9927945/afnetworking-post-to-rest-webservice">this</a>, <a href="http://stackoverflow.com/questions/9275333/afnetworking-post-request-with-application-x-www-form-urlencoded">this</a> and <a href="http://stackoverflow.com/questions/8468065/is-there-an-example-of-afhttpclient-posting-json-with-afnetworking">this</a>.</p>
 
-<h2>Pitfalls</h2>
+<h2 id="pitfalls">Pitfalls</h2>
 
-<p>Do not use <code>[[AFHTTPClient alloc] init]</code>, as that does not initialize a lot of stuff. Use <code>initWithBaseURL</code> instead.</p>
+<p>Do not use <code class="highlighter-rouge">[[AFHTTPClient alloc] init]</code>, as that does not initialize a lot of stuff. Use <code class="highlighter-rouge">initWithBaseURL</code> instead.</p>
 
 <p>For instance, if in the above example (POST JSON) you had used init, the Content-Type will be</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">application/json; charset=(null)
-</code></pre></div>
-<p>Charset should be <code>utf-8</code>, not <code>null</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>application/json; charset=(null)
+</code></pre>
+</div>
+
+<p>Charset should be <code class="highlighter-rouge">utf-8</code>, not <code class="highlighter-rouge">null</code>.</p>
+
 
         </section>
         <footer class="post-footer">

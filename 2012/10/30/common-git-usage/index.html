@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,155 +74,237 @@
           
           <p>I am never good at using Git.</p>
 
-<p>But it&#39;s not my fault. Git has too many commands, and I am not a command line guy. That&#39;s why I usually use <a href="http://www.syntevo.com/smartgit/index.html">SmartGit</a>, a Git software with user interface that supports Mac.</p>
+<p>But it’s not my fault. Git has too many commands, and I am not a command line guy. That’s why I usually use <a href="http://www.syntevo.com/smartgit/index.html">SmartGit</a>, a Git software with user interface that supports Mac.</p>
 
 <p>However, there are times when you have to run on the command line (eg. scripting or you just want to be <em>real fast</em>).</p>
 
-<p>These are my common use cases during development work flow. I don&#39;t cover <a href="http://ndpsoftware.com/git-cheatsheet.html">everything</a>, or advanced stuff.</p>
+<p>These are my common use cases during development work flow. I don’t cover <a href="http://ndpsoftware.com/git-cheatsheet.html">everything</a>, or advanced stuff.</p>
 
 <!-- more -->
 
-<h2>Push an existing repos to Github</h2>
+<h2 id="push-an-existing-repos-to-github">Push an existing repos to Github</h2>
 
 <p>Assuming you have a repos on github already, issue the following <a href="https://gist.github.com/868939">commands</a>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cd existing_git_repo
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd existing_git_repo
 git remote add origin git@github.com:[user]/[reponame].git
 git push -u origin master
-</code></pre></div>
-<h2>Setup Github to remember password</h2>
+</code></pre>
+</div>
+
+<h2 id="setup-github-to-remember-password">Setup Github to remember password</h2>
 
 <p>The <a href="https://help.github.com/articles/set-up-git">instructions</a>. Basically,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git config --global user.name &quot;Your Name Here&quot;
-git config --global user.email &quot;your_email@youremail.com&quot;
-</code></pre></div>
-<p>Then download and setup <code>git-credential-osxkeychain</code>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">curl -s -O http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git config --global user.name "Your Name Here"
+git config --global user.email "your_email@youremail.com"
+</code></pre>
+</div>
+
+<p>Then download and setup <code class="highlighter-rouge">git-credential-osxkeychain</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -s -O http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain
 chmod u+x git-credential-osxkeychain
-</code></pre></div>
-<p>Issue a <code>which git</code> and note the path of git. Assuming it is <code>/usr/bin/git</code>, you have have to move to <code>/usr/bin/</code> (IMPORTANT: less the git part!).</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">sudo mv git-credential-osxkeychain /usr/bin/
-</code></pre></div>
-<h2>On Color Options</h2>
+</code></pre>
+</div>
+
+<p>Issue a <code class="highlighter-rouge">which git</code> and note the path of git. Assuming it is <code class="highlighter-rouge">/usr/bin/git</code>, you have have to move to <code class="highlighter-rouge">/usr/bin/</code> (IMPORTANT: less the git part!).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo mv git-credential-osxkeychain /usr/bin/
+</code></pre>
+</div>
+
+<h2 id="on-color-options">On Color Options</h2>
 
 <p>One of the most important <a href="http://git-scm.com/book/en/Customizing-Git-Git-Configuration">configuration</a></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git config --global color.ui true
-</code></pre></div>
-<p>With that, commands like <code>git diff</code> and <code>git log -p</code> looks better</p>
 
-<h2>What&#39;s changed</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git config --global color.ui true
+</code></pre>
+</div>
+
+<p>With that, commands like <code class="highlighter-rouge">git diff</code> and <code class="highlighter-rouge">git log -p</code> looks better</p>
+
+<h2 id="whats-changed">What’s changed</h2>
 
 <p>Sometimes, you want to see what are the changes in your working directory (compared to HEAD/the last commit).</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git diff somefile.py
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git diff somefile.py
+</code></pre>
+</div>
+
 <p>Or you want to see what are the overall changes between the last 2 commits</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git whatchanged -n 1
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git whatchanged -n 1
+</code></pre>
+</div>
+
 <p>Then the actual code changes</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> git log -p somefile.py
-</code></pre></div>
-<h2>Added new files, Updated changes, or Deleted files</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> git log -p somefile.py
+</code></pre>
+</div>
+
+<h2 id="added-new-files-updated-changes-or-deleted-files">Added new files, Updated changes, or Deleted files</h2>
 
 <p>If you have added new files or updated tracked files</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git add .
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git add .
+</code></pre>
+</div>
+
 <p>If you have deleted files or updated tracked files</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git add -u
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git add -u
+</code></pre>
+</div>
+
 <p>You could do both in a single step</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git add -A
-</code></pre></div>
-<h2>What are my remotes/branches</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git add -A
+</code></pre>
+</div>
+
+<h2 id="what-are-my-remotesbranches">What are my remotes/branches</h2>
 
 <p>To know,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">cat .git/config
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cat .git/config
+</code></pre>
+</div>
+
 <p>Or you can <a href="http://gitref.org/remotes/">list</a> the remotes</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git remote -v
-</code></pre></div>
-<h2>Change remote url</h2>
 
-<p>With the list of remotes, you can change to a new URL (http or ssh). Eg. Change <code>origin</code> remote to a ssh url:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>git remote -v
+</code></pre>
+</div>
 
-<p>git remote set-url origin <a href="mailto:git@github.com">git@github.com</a>:USERNAME/REPOS.git</p>
+<h2 id="change-remote-url">Change remote url</h2>
 
-<h2>Update your repos</h2>
+<p>With the list of remotes, you can change to a new URL (http or ssh). Eg. Change <code class="highlighter-rouge">origin</code> remote to a ssh url:</p>
 
-<p>It&#39;s a 2 step process. First you fetch the changes from a remote named <code>origin</code></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git fetch origin
-</code></pre></div>
-<p>Then you merge a branch <code>master</code> to local</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git merge origin/master
-</code></pre></div>
+<p>git remote set-url origin git@github.com:USERNAME/REPOS.git</p>
+
+<h2 id="update-your-repos">Update your repos</h2>
+
+<p>It’s a 2 step process. First you fetch the changes from a remote named <code class="highlighter-rouge">origin</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git fetch origin
+</code></pre>
+</div>
+
+<p>Then you merge a branch <code class="highlighter-rouge">master</code> to local</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git merge origin/master
+</code></pre>
+</div>
+
 <p>Or Simply</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git pull origin master
-</code></pre></div>
-<p>If <code>origin</code> is a default remote and &#39;master&#39; is default branch, you can drop it eg. <code>git pull</code>.</p>
 
-<h2>Fix merge conflicts</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git pull origin master
+</code></pre>
+</div>
+
+<p>If <code class="highlighter-rouge">origin</code> is a default remote and ‘master’ is default branch, you can drop it eg. <code class="highlighter-rouge">git pull</code>.</p>
+
+<h2 id="fix-merge-conflicts">Fix merge conflicts</h2>
 
 <p>This always happen when you work in teams. A very <a href="http://stackoverflow.com/questions/161813/how-do-i-fix-merge-conflicts-in-git">commmon</a> question.</p>
 
 <p>It usually goes like this.. You tried to update</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git fetch
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git fetch
 git pull
 ... not uptodate. Cannot merge.
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>So you commit your local changes</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git add .
-git commit -m &quot;some changes&quot;
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git add .
+git commit -m "some changes"
 ...
 Automatic merge failed; fix conflicts and then commit the result.
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>So you need to resolve the conflict</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git mergetool -y
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git mergetool -y
+</code></pre>
+</div>
+
 <p>At this point you use the GUI (eg FileMerge) to resolve the conflicts and save. Then you commit</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git add .
-git commit -m &quot;fixed conflicts&quot;
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git add .
+git commit -m "fixed conflicts"
 git push
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Done!</p>
 
-<h2>Revert a file</h2>
+<h2 id="revert-a-file">Revert a file</h2>
 
 <p>You can checkout a file to a particular commmit.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout &lt;sha1-commit-id&gt; filename.c
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout &lt;sha1-commit-id&gt; filename.c
+</code></pre>
+</div>
+
 <p>In the case when you have a merge conflict, and you know it should just take your file,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout --ours filename.c
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout --ours filename.c
+</code></pre>
+</div>
+
 <p>Or if it should be their file,</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git checkout --theirs filename.c
-</code></pre></div>
-<h2>Revert a commit</h2>
 
-<p>Using <code>revert</code> is for the case where you want to roll back a commmit. It affects a commit, not files.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>git checkout --theirs filename.c
+</code></pre>
+</div>
 
-<p>In many cases, we want to <a href="http://stackoverflow.com/q/215718/242682">revert 1 file</a>. To do that, read the previous section that uses <code>checkout</code> to a certain commit. </p>
+<h2 id="revert-a-commit">Revert a commit</h2>
+
+<p>Using <code class="highlighter-rouge">revert</code> is for the case where you want to roll back a commmit. It affects a commit, not files.</p>
+
+<p>In many cases, we want to <a href="http://stackoverflow.com/q/215718/242682">revert 1 file</a>. To do that, read the previous section that uses <code class="highlighter-rouge">checkout</code> to a certain commit.</p>
 
 <p>For example, to revert to the fourth last commit:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git revert -n HEAD~3
-</code></pre></div>
-<p>The <code>-n</code> is <code>--no-commit</code>, which is not to create a new commit with the reverted changes.</p>
 
-<h2>Tagging</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git revert -n HEAD~3
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">-n</code> is <code class="highlighter-rouge">--no-commit</code>, which is not to create a new commit with the reverted changes.</p>
+
+<h2 id="tagging">Tagging</h2>
 
 <p>Useful when you want to <a href="http://git-scm.com/book/en/Git-Basics-Tagging">tag a version</a>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git tag -a v1.2
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git tag -a v1.2
+</code></pre>
+</div>
+
 <p>If you want to push to the tag, it works similarly like a branch.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git push origin v1.2
-</code></pre></div>
-<h2>Delete a commit that has been pushed</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git push origin v1.2
+</code></pre>
+</div>
+
+<h2 id="delete-a-commit-that-has-been-pushed">Delete a commit that has been pushed</h2>
 
 <p>This is usually when you accidentally commit <a href="http://stackoverflow.com/questions/1338728/how-to-delete-a-git-commit">wrongly</a>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git log
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git log
 git reset --hard &lt;sha1-commit-id&gt;
 git push origin HEAD --force
-</code></pre></div>
-<h2>Github.com secret tricks</h2>
+</code></pre>
+</div>
+
+<h2 id="githubcom-secret-tricks">Github.com secret tricks</h2>
 
 <p>Read this <a href="https://github.com/tiimgreen/github-cheat-sheet">cheat sheet</a>. You will learn shortcut keys and referencing issues easily.</p>
+
 
         </section>
         <footer class="post-footer">

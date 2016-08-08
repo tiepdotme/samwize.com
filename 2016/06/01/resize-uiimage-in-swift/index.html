@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,48 +74,58 @@
           
           <p>Erica Sadun posted a <a href="http://ericasadun.com/2016/05/31/swift-rewrite-challenge/">Swift rewrite challenge</a>, and the <a href="https://gist.github.com/jkereako/200342b66b5416fd715a">chosen function</a> is to scale and crop an image.</p>
 
-<p>Resizing a <code>UIImage</code> is a <a href="http://stackoverflow.com/q/2658738/242682">very common task</a>.</p>
+<p>Resizing a <code class="highlighter-rouge">UIImage</code> is a <a href="http://stackoverflow.com/q/2658738/242682">very common task</a>.</p>
 
 <p>I have written it a couple of times, in Objective-C, and recently in Swift.</p>
 
 <p>While I am not partaking in the challenge, it is helpful to look at the different implementations, learn from <a href="https://gist.github.com/erica/157e20ea0c7e9f28a03a8b12448c8fd0">them</a>, and improve my version.</p>
 
-<h2>My Improved Code</h2>
+<h2 id="my-improved-code">My Improved Code</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">import</span> <span class="n">UIKit</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">extension</span> <span class="bp">UIImage</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">/// Returns a image that fills in newSize</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">resizedImage</span><span class="p">(</span><span class="nl">newSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIImage</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Guard newSize is different</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">guard</span> <span class="nb">self</span><span class="p">.</span><span class="n">size</span> <span class="o">!=</span> <span class="n">newSize</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="nb">self</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">newSize</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">);</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">self</span><span class="p">.</span><span class="n">drawInRect</span><span class="p">(</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">newSize</span><span class="p">.</span><span class="n">width</span><span class="p">,</span> <span class="n">newSize</span><span class="p">.</span><span class="n">height</span><span class="p">))</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="nl">newImage</span><span class="p">:</span> <span class="bp">UIImage</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">()</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">UIGraphicsEndImageContext</span><span class="p">()</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">newImage</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">/// Returns a resized image that fits in rectSize, keeping it&#39;s aspect ratio</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">/// Note that the new image size is not rectSize, but within it.</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">func</span> <span class="n">resizedImageWithinRect</span><span class="p">(</span><span class="nl">rectSize</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIImage</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">widthFactor</span> <span class="o">=</span> <span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="n">rectSize</span><span class="p">.</span><span class="n">width</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">heightFactor</span> <span class="o">=</span> <span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="n">rectSize</span><span class="p">.</span><span class="n">height</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">var</span> <span class="n">resizeFactor</span> <span class="o">=</span> <span class="n">widthFactor</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">if</span> <span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">&gt;</span> <span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="n">resizeFactor</span> <span class="o">=</span> <span class="n">heightFactor</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">&#x7d;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">newSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="o">/</span><span class="n">resizeFactor</span><span class="p">,</span> <span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="o">/</span><span class="n">resizeFactor</span><span class="p">)</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">resized</span> <span class="o">=</span> <span class="n">resizedImage</span><span class="p">(</span><span class="n">newSize</span><span class="p">)</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">resized</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='34' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='35' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Tests</span>
-</div></div><div data-line='36' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">guard</span> <span class="k">let</span> <span class="n">url</span> <span class="o">=</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;http://placehold.it/300x150&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;Bad URL&quot;</span><span class="p">)</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='37' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">guard</span> <span class="k">let</span> <span class="n">data</span> <span class="o">=</span> <span class="bp">NSData</span><span class="p">(</span><span class="nl">contentsOfURL</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;Bad data&quot;</span><span class="p">)</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='38' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">guard</span> <span class="k">let</span> <span class="n">img</span> <span class="o">=</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">data</span><span class="p">:</span> <span class="n">data</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="n">fatalError</span><span class="p">(</span><span class="s">&quot;Bad data&quot;</span><span class="p">)</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='39' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='40' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">outImageFit</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">resizedImageWithinRect</span><span class="p">(</span><span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">))</span>
-</div></div><div data-line='41' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">outImageFill</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">resizedImage</span><span class="p">(</span><span class="bp">CGSize</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mi">200</span><span class="p">))</span></div></div></pre></div></figure>
+<pre><code class="language-Swift">import UIKit
 
-<p>It is my duty to point out the 0.0 passed in <code>UIGraphicsBeginImageContextWithOptions</code> is to make sure the <a href="/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines/">image scale gracefully in retina devices</a>.</p>
+extension UIImage {
+    
+    /// Returns a image that fills in newSize
+    func resizedImage(newSize: CGSize) -&gt; UIImage {
+        // Guard newSize is different
+        guard self.size != newSize else { return self }
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        self.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    /// Returns a resized image that fits in rectSize, keeping it's aspect ratio
+    /// Note that the new image size is not rectSize, but within it.
+    func resizedImageWithinRect(rectSize: CGSize) -&gt; UIImage {
+        let widthFactor = size.width / rectSize.width
+        let heightFactor = size.height / rectSize.height
+        
+        var resizeFactor = widthFactor
+        if size.height &gt; size.width {
+            resizeFactor = heightFactor
+        }
+        
+        let newSize = CGSizeMake(size.width/resizeFactor, size.height/resizeFactor)
+        let resized = resizedImage(newSize)
+        return resized
+    }
+    
+}
+
+// Tests
+guard let url = NSURL(string: "http://placehold.it/300x150") else { fatalError("Bad URL") }
+guard let data = NSData(contentsOfURL: url) else { fatalError("Bad data") }
+guard let img = UIImage(data: data) else { fatalError("Bad data") }
+
+let outImageFit = img.resizedImageWithinRect(CGSize(width: 200, height: 200))
+let outImageFill = img.resizedImage(CGSize(width: 200, height: 200))
+</code></pre>
+
+<p>It is my duty to point out the 0.0 passed in <code class="highlighter-rouge">UIGraphicsBeginImageContextWithOptions</code> is to make sure the <a href="/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines/">image scale gracefully in retina devices</a>.</p>
 
         </section>
         <footer class="post-footer">

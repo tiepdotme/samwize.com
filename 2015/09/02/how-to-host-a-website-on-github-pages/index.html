@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,48 +74,54 @@
           
           <p><a href="https://pages.github.com">GitHub Pages</a> provides FREE hosting of your (static) website.</p>
 
-<p>This post is a guide on hosting your &quot;project&quot; repository with a custom domain.</p>
+<p>This post is a guide on hosting your “project” repository with a custom domain.</p>
 
 <!-- more -->
 
-<h2>Your Local Repository</h2>
+<h2 id="your-local-repository">Your Local Repository</h2>
 
-<p>Instead of a <code>master</code> branch, rename it to <code>gh-pages</code>.</p>
+<p>Instead of a <code class="highlighter-rouge">master</code> branch, rename it to <code class="highlighter-rouge">gh-pages</code>.</p>
 
-<p>In your root, have a <code>CNAME</code> file with the line <code>example.com</code> (or your subdomain).</p>
+<p>In your root, have a <code class="highlighter-rouge">CNAME</code> file with the line <code class="highlighter-rouge">example.com</code> (or your subdomain).</p>
 
 <p>Commit and push.</p>
 
-<h2>GitHub Pages</h2>
+<h2 id="github-pages">GitHub Pages</h2>
 
 <p>Create a new repository on GitHub for the project.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git remote add origin https://github.com/yourusername/yourproject.git
-git push -u origin gh-pages
-</code></pre></div>
-<p>If you have an existing repository, create a new <code>gh-pages</code> branch, and make sure it is your default branch in your repos settings.</p>
 
-<h2>Configure Domain Name</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>git remote add origin https://github.com/yourusername/yourproject.git
+git push -u origin gh-pages
+</code></pre>
+</div>
+
+<p>If you have an existing repository, create a new <code class="highlighter-rouge">gh-pages</code> branch, and make sure it is your default branch in your repos settings.</p>
+
+<h2 id="configure-domain-name">Configure Domain Name</h2>
 
 <p>GitHub does provide an <a href="https://help.github.com/articles/tips-for-configuring-an-a-record-with-your-dns-provider/">article</a> on how you can do it, but it is very confusing.</p>
 
 <p>As an illustration, this is my configuration using <a href="http://www.namecheap.com/?aff=68466">namecheap</a>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">@       192.30.252.153              A (Address)
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@       192.30.252.153              A (Address)
 @       192.30.252.154              A (Address)
 www     yourusername.github.io.     CNAME (Alias)
-</code></pre></div>
-<p>For my configuration, I want both <code>example.com</code> and <code>www.example.com</code> to go to the website.</p>
+</code></pre>
+</div>
+
+<p>For my configuration, I want both <code class="highlighter-rouge">example.com</code> and <code class="highlighter-rouge">www.example.com</code> to go to the website.</p>
 
 <p>Note: The <strong>CNAME (Alias)</strong> record is for the subdomain <strong>www</strong>. It can be omitted if you are using only the root domain.</p>
 
 <p>The CNAME is pointing to your github username, not the project name. GitHub will determine which project it is for via the CNAME file.</p>
 
-<p>In the case where you are configuring for only a subdomain eg. blog.example.com, then in your <code>CNAME</code> file you will have <code>blog.example.com</code>, and you only need to have the CNAME Alias (no need A Address).</p>
+<p>In the case where you are configuring for only a subdomain eg. blog.example.com, then in your <code class="highlighter-rouge">CNAME</code> file you will have <code class="highlighter-rouge">blog.example.com</code>, and you only need to have the CNAME Alias (no need A Address).</p>
 
 <p>Wait for the DNS changes to propagate.</p>
 
-<p>Or check with <code>dig example.com +nostats +nocomments +nocmd</code> if changes are propagated.</p>
+<p>Or check with <code class="highlighter-rouge">dig example.com +nostats +nocomments +nocmd</code> if changes are propagated.</p>
 
-<p>That&#39;s it. With GitHub Pages, you can host as many projects/websites as you want, for free!</p>
+<p>That’s it. With GitHub Pages, you can host as many projects/websites as you want, for free!</p>
 
         </section>
         <footer class="post-footer">

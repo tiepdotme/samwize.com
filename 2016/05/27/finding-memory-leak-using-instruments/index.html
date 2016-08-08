@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,44 +76,44 @@
 
 <p>Before shipping your app, it is worth profiling your app memory usage to iron out quirky bugs.</p>
 
-<h2>Using Instruments</h2>
+<h2 id="using-instruments">Using Instruments</h2>
 
 <p><a href="https://developer.apple.com/library/ios/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide/CommonMemoryProblems.html">Instruments</a> is a great companion tool to Xcode.</p>
 
 <p>But it could be complex at first, so this guide is to run through how to use Instruments to find potential memory leaks.</p>
 
-<h3>1. Profile the App</h3>
+<h3 id="profile-the-app">1. Profile the App</h3>
 
-<p>From Xcode, select <strong>Product &gt; Profile</strong>. </p>
+<p>From Xcode, select <strong>Product &gt; Profile</strong>.</p>
 
 <p>This will open Instruments.</p>
 
 <p>From Instruments, select <strong>Leaks</strong> as the profiling template to use.</p>
 
-<h3>2. Configure</h3>
+<h3 id="configure">2. Configure</h3>
 
 <p>On the left pane, <strong>Record Settings</strong> (CMD+1) has a few configurations that should be set for our memory leak investigation.</p>
 
-<p><img src="/images/instruments-record-settings.png" alt=""></p>
+<p><img src="/images/instruments-record-settings.png" alt="" /></p>
 
 <p>In the above screenshot, we</p>
 
 <ul>
-<li>enable <strong>Discard events for freed memory</strong> as we don&#39;t need to record for memory that were freed (we only interested in leaks)</li>
-<li>check the flags in <strong>Recorded Types</strong> to ignore types with prefixes NS, CF and Malloc, as these are low level functions</li>
+  <li>enable <strong>Discard events for freed memory</strong> as we don’t need to record for memory that were freed (we only interested in leaks)</li>
+  <li>check the flags in <strong>Recorded Types</strong> to ignore types with prefixes NS, CF and Malloc, as these are low level functions</li>
 </ul>
 
-<h3>3. Start Recording</h3>
+<h3 id="start-recording">3. Start Recording</h3>
 
 <p>Click on the red record button on the top left to start profiling the app.</p>
 
 <p>As you use the app, you will see the memory usuage being recorded/snapshotted.</p>
 
-<h3>4. Mark Generation</h3>
+<h3 id="mark-generation">4. Mark Generation</h3>
 
 <p>In <strong>Display Settings</strong> (CMD+2), a very important button is there - <strong>Mark Generation</strong></p>
 
-<p><img src="/images/instruments-mark-generation.png" alt=""></p>
+<p><img src="/images/instruments-mark-generation.png" alt="" /></p>
 
 <p>Whenever you press the button, it will mark that period as a new generation.</p>
 
@@ -125,7 +125,7 @@
 
 <p>If it is not zero, then it would mean there is a memory leak, and you have to find out why.</p>
 
-<h3>5. Analysing Call Tree</h3>
+<h3 id="analysing-call-tree">5. Analysing Call Tree</h3>
 
 <p>Let say Generation B is not zero, hence you need to find which object is leaking memory.</p>
 
@@ -133,25 +133,26 @@
 
 <p>When you are at a call tree, the <strong>Display Settings</strong> will enabled the options for <strong>Call Tree</strong>.</p>
 
-<p><img src="/images/instruments-call-tree.png" alt=""></p>
+<p><img src="/images/instruments-call-tree.png" alt="" /></p>
 
 <p><strong>Invert Call Tree</strong> and <strong>Hide System Libraries</strong> makes it easier to find what you are looking for. So is <strong>Separate by Thread</strong>.</p>
 
-<p>Thereafter, it is up to you to inspect the objects, and your code, and fix the leak. </p>
+<p>Thereafter, it is up to you to inspect the objects, and your code, and fix the leak.</p>
 
-<h2>Other Tips</h2>
+<h2 id="other-tips">Other Tips</h2>
 
 <p>Perform a static analysis of your code by going to <strong>Xcode &gt; Product &gt; Analyze</strong>.</p>
 
 <p>What is <a href="http://clang-analyzer.llvm.org">static analysis</a>?</p>
 
 <blockquote>
-<p>a collection of algorithms and techniques used to analyze source code in order to automatically find bugs. The idea is similar in spirit to compiler warnings but to take that idea a step further and find bugs that are traditionally found using run-time debugging techniques such as testing.</p>
+  <p>a collection of algorithms and techniques used to analyze source code in order to automatically find bugs. The idea is similar in spirit to compiler warnings but to take that idea a step further and find bugs that are traditionally found using run-time debugging techniques such as testing.</p>
 </blockquote>
 
 <p>After Xcode complete the analysis, you can find any flagged issues under Issue Navigator (CMD + 4).</p>
 
-<p>If you ever run into <code>EXC_BAD_ACCESS</code> errors (who doesn&#39;t?), then you would enable Zombie Objects under <strong>your scheme &gt; Run &gt; Diagnostics</strong>. Enabling the flag will provide a warning when you try to access a deallocated object, instead of simply crashing with <code>EXC_BAD_ACCESS</code>.</p>
+<p>If you ever run into <code class="highlighter-rouge">EXC_BAD_ACCESS</code> errors (who doesn’t?), then you would enable Zombie Objects under <strong>your scheme &gt; Run &gt; Diagnostics</strong>. Enabling the flag will provide a warning when you try to access a deallocated object, instead of simply crashing with <code class="highlighter-rouge">EXC_BAD_ACCESS</code>.</p>
+
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,72 +76,78 @@
 
 <p>Fastlane <a href="https://github.com/fastlane/snapshot">snapshot</a> now uses Xcode 7 most awesome feature - UI Testing!</p>
 
-<h2>Xcode UI Testing</h2>
+<h2 id="xcode-ui-testing">Xcode UI Testing</h2>
 
 <p>If you are not familiar what this awesome feature from Xcode 7 is, then watch <a href="https://developer.apple.com/videos/play/wwdc2015-406/">WWDC 2015</a> for a demo.</p>
 
 <p>In short, developers can now:</p>
 
 <ul>
-<li>record UI interactions</li>
-<li>replay and test</li>
-<li>view test report which includes screenshots at every stage</li>
-<li>view test report which includes code coverage too</li>
+  <li>record UI interactions</li>
+  <li>replay and test</li>
+  <li>view test report which includes screenshots at every stage</li>
+  <li>view test report which includes code coverage too</li>
 </ul>
 
-<h2>How to use</h2>
+<h2 id="how-to-use">How to use</h2>
 
 <p>There is a good <a href="http://masilotti.com/ui-testing-cheat-sheet/">UI Testing Cheat Sheet and Example</a> from masilotti.</p>
 
 <p>More (and lengthy) details from <a href="https://developer.apple.com/library/prerelease/ios/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/01-introduction.html">Apple Doc</a>.</p>
 
-<h2>Using with snapshot</h2>
+<h2 id="using-with-snapshot">Using with snapshot</h2>
 
-<p>Setting up snapshot with a UI Test target is easy. The few steps are provided in it&#39;s <a href="https://github.com/fastlane/snapshot">quick guide</a>.</p>
+<p>Setting up snapshot with a UI Test target is easy. The few steps are provided in it’s <a href="https://github.com/fastlane/snapshot">quick guide</a>.</p>
 
 <p>What snapshot did not point (perhaps obvious) is this:</p>
 
 <p>Snapshot will run <strong>every test case</strong> in the UI test target. Therefore, you should have <strong>2 UI test targets</strong>:</p>
 
 <ol>
-<li>For full UI testing (if you need)</li>
-<li>For snapshot to capture screenshots</li>
+  <li>For full UI testing (if you need)</li>
+  <li>For snapshot to capture screenshots</li>
 </ol>
 
 <p>The test target for snapshot would suffice with 1 test case that walk through the important screens that you need to capture. Maybe 1, if you support only iPhone and not iPad/etc.</p>
 
-<h2>Testing iPad vs iPhone</h2>
+<h2 id="testing-ipad-vs-iphone">Testing iPad vs iPhone</h2>
 
-<p>Another caveat is that snapshot will run through all devices you specified in your <code>Snapfile</code>.</p>
+<p>Another caveat is that snapshot will run through all devices you specified in your <code class="highlighter-rouge">Snapfile</code>.</p>
 
 <p>That means, your test case could fail if your iPhone interface is different from iPad interface.</p>
 
 <p>To workaround, you should have 2 test cases in snapshot test target:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">testSnapshotPhone</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">guard</span> <span class="bp">UIDevice</span><span class="p">.</span><span class="n">currentDevice</span><span class="p">().</span><span class="n">userInterfaceIdiom</span> <span class="o">==</span> <span class="p">.</span><span class="n">Phone</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Capture screenshots for iPhone</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">testSnapshotPad</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">guard</span> <span class="bp">UIDevice</span><span class="p">.</span><span class="n">currentDevice</span><span class="p">().</span><span class="n">userInterfaceIdiom</span> <span class="o">==</span> <span class="p">.</span><span class="n">Pad</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Capture screenshots for iPad</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">testSnapshotPhone</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="kt">UIDevice</span><span class="o">.</span><span class="nf">currentDevice</span><span class="p">()</span><span class="o">.</span><span class="n">userInterfaceIdiom</span> <span class="o">==</span> <span class="o">.</span><span class="kt">Phone</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="c1">// Capture screenshots for iPhone</span>
+<span class="p">}</span>
 
-<h2>Prefill Database</h2>
+<span class="kd">func</span> <span class="nf">testSnapshotPad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="kt">UIDevice</span><span class="o">.</span><span class="nf">currentDevice</span><span class="p">()</span><span class="o">.</span><span class="n">userInterfaceIdiom</span> <span class="o">==</span> <span class="o">.</span><span class="kt">Pad</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="c1">// Capture screenshots for iPad</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="prefill-database">Prefill Database</h2>
 
 <p>A common requirement when taking screenshots is to have a prefill database so that the screenshots are consistent.</p>
 
-<p>You might think that can you clean up Core Data, then manually add objects in the test case <code>setUp()</code> function. That won&#39;t work.</p>
+<p>You might think that can you clean up Core Data, then manually add objects in the test case <code class="highlighter-rouge">setUp()</code> function. That won’t work.</p>
 
 <p>This is because the test target is <em>not the same</em> as app target.</p>
 
 <p>You could use a backdoor, or simply provide a logic in your app to know when it is <a href="https://github.com/fastlane/snapshot#launch-arguments">run via snapshot</a>:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">application</span><span class="p">(</span><span class="nl">application</span><span class="p">:</span> <span class="bp">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="nl">NSObject</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">]</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="bp">NSUserDefaults</span><span class="p">.</span><span class="n">standardUserDefaults</span><span class="p">().</span><span class="n">boolForKey</span><span class="p">(</span><span class="s">&quot;FASTLANE_SNAPSHOT&quot;</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Prefill database</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">standardUserDefaults</span><span class="p">()</span><span class="o">.</span><span class="nf">boolForKey</span><span class="p">(</span><span class="s">"FASTLANE_SNAPSHOT"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Prefill database</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
 
         </section>
         <footer class="post-footer">

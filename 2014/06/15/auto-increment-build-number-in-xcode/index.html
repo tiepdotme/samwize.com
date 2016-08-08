@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,37 +74,44 @@
           
           <p>You can auto increase the number with this <a href="http://stackoverflow.com/q/10091310/242682">build script</a>.</p>
 
-<p>However, that stackoverflow thread has closed and the &#39;solution&#39; will not work now.</p>
+<p>However, that stackoverflow thread has closed and the ‘solution’ will not work now.</p>
 
 <!-- more -->
 
-<h2>The Solution</h2>
+<h2 id="the-solution">The Solution</h2>
 
 <p>This is the working script that increment the integer instead of hex.</p>
 
-<p>Add it to your build phase&#39;s run script:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#!/bin/bash
-bN=$(/usr/libexec/PlistBuddy -c &quot;Print CFBundleVersion&quot; &quot;$INFOPLIST_FILE&quot;)
-bN=$(expr $bN + 1)
-bN=$(printf &quot;%d&quot; $bN)
-/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $bN&quot; &quot;$INFOPLIST_FILE&quot;
-</code></pre></div>
-<p>I will usually set <code>CFBundleVersion</code> (build number) to <code>1000</code> for a new project to begin with.</p>
+<p>Add it to your build phase’s run script:</p>
 
-<p>The corresponding <code>CFBundleShortVersionString</code> is any string you want to name your version eg. &quot;1.0&quot; or &quot;0.0.9-alpha&quot;</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
+/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
+</code></pre>
+</div>
 
-<h2>Improved to use common number across targets</h2>
+<p>I will usually set <code class="highlighter-rouge">CFBundleVersion</code> (build number) to <code class="highlighter-rouge">1000</code> for a new project to begin with.</p>
 
-<p>I also like the <a href="http://stackoverflow.com/q/9258344/242682">idea</a> of having a common build number across different targets, and keeping that number in a separate file. But that script wasn&#39;t provided..</p>
+<p>The corresponding <code class="highlighter-rouge">CFBundleShortVersionString</code> is any string you want to name your version eg. “1.0” or “0.0.9-alpha”</p>
 
-<p>And so I adapted the above solution by adding a <code>Info-CFBundleVersion.plist</code> that contains the common number.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#!/bin/bash
-bN=$(/usr/libexec/PlistBuddy -c &quot;Print CFBundleVersion&quot; &quot;$PROJECT_DIR/Resources/Info-CFBundleVersion.plist&quot;)
-bN=$(expr $bN + 1)
-bN=$(printf &quot;%d&quot; $bN)
-/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $bN&quot; &quot;$INFOPLIST_FILE&quot;
-/usr/libexec/PlistBuddy -c &quot;Set :CFBundleVersion $bN&quot; &quot;$PROJECT_DIR/Resources/Info-CFBundleVersion.plist&quot;
-</code></pre></div>
+<h2 id="improved-to-use-common-number-across-targets">Improved to use common number across targets</h2>
+
+<p>I also like the <a href="http://stackoverflow.com/q/9258344/242682">idea</a> of having a common build number across different targets, and keeping that number in a separate file. But that script wasn’t provided..</p>
+
+<p>And so I adapted the above solution by adding a <code class="highlighter-rouge">Info-CFBundleVersion.plist</code> that contains the common number.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span><span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
+/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
+/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span>
+</code></pre>
+</div>
+
+
         </section>
         <footer class="post-footer">
           <section class="share">

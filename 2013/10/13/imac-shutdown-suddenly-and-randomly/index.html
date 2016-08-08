@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,9 +74,9 @@
           
           <p>I have recently faced a critical issue with my iMac (early 2013 model).</p>
 
-<p>It crashes/shutdown randomly and suddenly. It&#39;s as if the power cord has been disconnected.</p>
+<p>It crashes/shutdown randomly and suddenly. It’s as if the power cord has been disconnected.</p>
 
-<p>And it doesn&#39;t restart when I press the power on button. I have to switch off the power socket, wait for a few minutes, then it can be turned back on. Sometimes, if I try to turn back on too early, I can notice my optical mouse lighted up briefly, and the iMac still doesn&#39;t start. These symptons make me wonder is it a power issue..</p>
+<p>And it doesn’t restart when I press the power on button. I have to switch off the power socket, wait for a few minutes, then it can be turned back on. Sometimes, if I try to turn back on too early, I can notice my optical mouse lighted up briefly, and the iMac still doesn’t start. These symptons make me wonder is it a power issue..</p>
 
 <p>These were some thing I did.. which still have not solve the issue..</p>
 
@@ -84,64 +84,68 @@
 
 <!-- more -->
 
-<h1>1. Console says Cause 0</h1>
+<h1 id="console-says-cause-0">1. Console says Cause 0</h1>
 
 <p>I checked Console.app, and it logged:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">kernel: Previous Shutdown Cause: 0
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>kernel: Previous Shutdown Cause: 0
+</code></pre>
+</div>
+
 <p>It was said on the <a href="https://discussions.apple.com/thread/3128527?start=0&amp;tstart=0">forum</a> that a Cause 0 means the power was disconnected. This gives me some clue how it gets shut off.</p>
 
 <p>It will be Casue 5 if triggered from the menu.</p>
 
-<h1>2. Running Apple Hardware Test</h1>
+<h1 id="running-apple-hardware-test">2. Running Apple Hardware Test</h1>
 
 <p>To isolate that the problem, I tried running <a href="http://support.apple.com/kb/ht1509">AHT (Apple Hardware Test)</a>.</p>
 
 <p>You can press and hold D while booting to perform the test.</p>
 
-<p>But the test said the hardware is fine. But I can&#39;t be 100% sure. In fact I am thinking it could be caused by the SSD or RAM.</p>
+<p>But the test said the hardware is fine. But I can’t be 100% sure. In fact I am thinking it could be caused by the SSD or RAM.</p>
 
-<h1>3. Installing Temperature Monitor</h1>
+<h1 id="installing-temperature-monitor">3. Installing Temperature Monitor</h1>
 
 <p>I installed <a href="http://www.macupdate.com/info.php/id/12381/temperature-monitor">Temperature Monitor app</a> to log the temperature of the CPU, GPU, etc.</p>
 
-<p>That again didn&#39;t shed light on the cause. The temperatures were all okay when the system crashed.</p>
+<p>That again didn’t shed light on the cause. The temperatures were all okay when the system crashed.</p>
 
-<h1>4. Learnt about resetting SMC</h1>
+<h1 id="learnt-about-resetting-smc">4. Learnt about resetting SMC</h1>
 
-<p>I learnt that what I have been doing - pulling off the power plug - is the way to <a href="http://support.apple.com/kb/HT3964">reset System Management Controller (SMC)</a>. </p>
+<p>I learnt that what I have been doing - pulling off the power plug - is the way to <a href="http://support.apple.com/kb/HT3964">reset System Management Controller (SMC)</a>.</p>
 
 <p>For my case, it seems a bit different. I need to power off for 1 minute instead of 20 seconds.</p>
 
-<h1>5. Run memtest</h1>
+<h1 id="run-memtest">5. Run memtest</h1>
 
 <p>Suspecting it could be a RAM that turned faulty, I run <a href="http://osxdaily.com/2011/05/03/memtest-mac-ram-test/">memtest</a>. That is basically a command line tools that write random data to all of the RAM and verify it is correct.</p>
 
-<p>I run <code>memtest all 2</code> and nothing bad turned up.</p>
+<p>I run <code class="highlighter-rouge">memtest all 2</code> and nothing bad turned up.</p>
 
-<h1>6. PRAM Reset</h1>
+<h1 id="pram-reset">6. PRAM Reset</h1>
 
 <p>Finally, I called Apple support for advise. One thing new they asked me to perform is the <a href="http://support.apple.com/kb/HT1379">PRAM reset</a>.</p>
 
 <p>During boot up, press and hold Command + Option + P + R. The computer will restart and when you hear the startup sound the 2nd time, you may release.</p>
 
-<p>One thing weird is that after I hear the startup sound the 2nd time, the Mac goes blank. By right it should continue to boot up, but it didn&#39;t. In fact, it shutted down..</p>
+<p>One thing weird is that after I hear the startup sound the 2nd time, the Mac goes blank. By right it should continue to boot up, but it didn’t. In fact, it shutted down..</p>
 
-<p>The Apple support deduce that the SMC logic board might have a problem and need to be replaced. </p>
+<p>The Apple support deduce that the SMC logic board might have a problem and need to be replaced.</p>
 
 <p>Hence, I got to bring the Mac down to a service center..</p>
 
-<h1>7. Apple forum</h1>
+<h1 id="apple-forum">7. Apple forum</h1>
 
-<p><a href="https://discussions.apple.com/message/23389173#23389173">Apple forum</a> didn&#39;t provide a clear resolution. At least I knew I am not the only one affected.</p>
+<p><a href="https://discussions.apple.com/message/23389173#23389173">Apple forum</a> didn’t provide a clear resolution. At least I knew I am not the only one affected.</p>
 
-<h1>8. Sending in for repair</h1>
+<h1 id="sending-in-for-repair">8. Sending in for repair</h1>
 
 <p>Alas, I carried the giant iMac down to a service center for repair. This is my most dreaded.</p>
 
 <p>It took 1 week for the repair. They replaced the logic board (aka monther board).</p>
 
-<p>That ends the saga. </p>
+<p>That ends the saga.</p>
+
 
         </section>
         <footer class="post-footer">

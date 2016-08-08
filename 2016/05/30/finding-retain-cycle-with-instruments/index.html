@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,7 +76,7 @@
 
 <p>This post, we will use a concrete, and a very common example, where memory is leaking because of retain cycle.</p>
 
-<h2>Retain Cycle</h2>
+<h2 id="retain-cycle">Retain Cycle</h2>
 
 <p>A retain cycle happens when object A has a strong reference to B, and B also has a strong reference to A.</p>
 
@@ -86,71 +86,79 @@
 
 <p>We will use the example of a view controller (VC) which is having a retain cycle with some other object.</p>
 
-<p>In a normal behaviour, when the VC is pushed and subsequently popped, it&#39;s memory should be released.</p>
+<p>In a normal behaviour, when the VC is pushed and subsequently popped, it’s memory should be released.</p>
 
-<h2>How to detect memory leak with deinit</h2>
+<h2 id="how-to-detect-memory-leak-with-deinit">How to detect memory leak with deinit</h2>
 
 <p>There are a few ways to detect a leak.</p>
 
-<p>A easy way is to make sure <code>deinit</code> is called. When memory is to be released, <code>deinit</code> is always being called.</p>
+<p>A easy way is to make sure <code class="highlighter-rouge">deinit</code> is called. When memory is to be released, <code class="highlighter-rouge">deinit</code> is always being called.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">deinit</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;Memory to be released soon&quot;</span><span class="p">)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">deinit</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Memory to be released soon"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>When the VC is popped, you should see the method being called.</p>
 
-<h2>How to detect memory leak with Instruments</h2>
+<h2 id="how-to-detect-memory-leak-with-instruments">How to detect memory leak with Instruments</h2>
 
 <p>In the last post we have an <a href="http://samwize.com/2016/05/27/finding-memory-leak-using-instruments/">introduction</a>. Profile the app with Leaks template.</p>
 
-<p>For this case of finding memory leak for our view controller, it is easier if we configure to record only for objects that has the suffix &quot;ViewController&quot;.</p>
+<p>For this case of finding memory leak for our view controller, it is easier if we configure to record only for objects that has the suffix “ViewController”.</p>
 
-<p><img src="/images/instruments-viewcontroller-records.png" alt="Record only ViewController"></p>
+<p><img src="/images/instruments-viewcontroller-records.png" alt="Record only ViewController" /></p>
 
 <p>This will record only the relevant objects we are interested in, so it is easier to find what we want.</p>
 
-<p>Record the session, and use the app and push the view controller. </p>
+<p>Record the session, and use the app and push the view controller.</p>
 
 <p>Select <strong>All Heap &amp; Anonymous VM</strong>, and look under <strong>Details &gt; Statistics</strong>.</p>
 
-<p><img src="/images/instruments-allocation-statistics.jpg" alt="Allocation Statistics"></p>
+<p><img src="/images/instruments-allocation-statistics.jpg" alt="Allocation Statistics" /></p>
 
-<p>Now pop the view controller, and observe the memory allocation. The popped view controller should no longer be listed. If you still see it, then you have a memory leak! </p>
+<p>Now pop the view controller, and observe the memory allocation. The popped view controller should no longer be listed. If you still see it, then you have a memory leak!</p>
 
-<p>If you now repeatedly push and pop the leaking VC, then you will see that the <strong># Persistent</strong> will increase. That is a count of the number of that object in memory. </p>
+<p>If you now repeatedly push and pop the leaking VC, then you will see that the <strong># Persistent</strong> will increase. That is a count of the number of that object in memory.</p>
 
-<h2>Who is retaining me?</h2>
+<h2 id="who-is-retaining-me">Who is retaining me?</h2>
 
-<p>To fix the retain cycle, you have to know who is retaining the VC errorneously. </p>
+<p>To fix the retain cycle, you have to know who is retaining the VC errorneously.</p>
 
-<p><a href="http://stackoverflow.com/a/29720892/242682">Unfortunately</a>, you&#39;re never going to be able to get a list of objects retaining a certain object. This is because in ARC, an object only record a reference count, a counter on how many objects is referencing to it. To record <em>who</em> is referencing to it will be inefficient.</p>
+<p><a href="http://stackoverflow.com/a/29720892/242682">Unfortunately</a>, you’re never going to be able to get a list of objects retaining a certain object. This is because in ARC, an object only record a reference count, a counter on how many objects is referencing to it. To record <em>who</em> is referencing to it will be inefficient.</p>
 
 <p>While you will not be able to find out exactly who is retaining VC immediately, you will be able to deduce by doing some forensic.</p>
 
 <p>Select the VC object in memory, and click on the right arrow button. This will show the <strong>Reference Count History</strong>, with all the events that retain and release the VC.</p>
 
-<p><img src="/images/instruments-references-history.png" alt="Reference History"></p>
+<p><img src="/images/instruments-references-history.png" alt="Reference History" /></p>
 
-<p>It is up to you to deduce which <strong>Responsible Caller</strong> is causing the retain cycle. You might want to select a &quot;Retain&quot; and a &quot;Release&quot; and &quot;Pair&quot; them up, and slowly find the extra retain.</p>
+<p>It is up to you to deduce which <strong>Responsible Caller</strong> is causing the retain cycle. You might want to select a “Retain” and a “Release” and “Pair” them up, and slowly find the extra retain.</p>
 
-<h2>Bonus: View Controller - weak delegate</h2>
+<h2 id="bonus-view-controller---weak-delegate">Bonus: View Controller - weak delegate</h2>
 
 <p>I wrote this post when I was trying to find a memory leak for my view controller.</p>
 
-<p>I guess this will be a pretty common pitfall for view controller. The culprit for my case is a custom delegate I wrote that is a <code>protocol</code> like this:</p>
+<p>I guess this will be a pretty common pitfall for view controller. The culprit for my case is a custom delegate I wrote that is a <code class="highlighter-rouge">protocol</code> like this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">protocol</span> <span class="n">MyViewControllerDelegate</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="nl">delegate</span><span class="p">:</span> <span class="n">MyViewControllerDelegate</span><span class="o">?</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">MyViewControllerDelegate</span> <span class="p">{</span>
+<span class="p">}</span>
 
-<p>The fix is to make the <code>delegate</code> object <code>weak</code>, so as to break the reference cycle.</p>
+<span class="k">var</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt">MyViewControllerDelegate</span><span class="p">?</span>
+</code></pre>
+</div>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">protocol</span> <span class="nl">DealCellDelegate</span><span class="p">:</span> <span class="k">class</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">weak</span> <span class="k">var</span> <span class="nl">delegate</span><span class="p">:</span> <span class="n">MyViewControllerDelegate</span><span class="o">?</span></div></div></pre></div></figure>
+<p>The fix is to make the <code class="highlighter-rouge">delegate</code> object <code class="highlighter-rouge">weak</code>, so as to break the reference cycle.</p>
 
-<p>In doing so, realize that the protocol has a <code>class</code> requirement, as weak cannot be applied to non-class type.</p>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">DealCellDelegate</span><span class="p">:</span> <span class="kd">class</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="k">weak</span> <span class="k">var</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt">MyViewControllerDelegate</span><span class="p">?</span>
+</code></pre>
+</div>
+
+<p>In doing so, realize that the protocol has a <code class="highlighter-rouge">class</code> requirement, as weak cannot be applied to non-class type.</p>
 
         </section>
         <footer class="post-footer">

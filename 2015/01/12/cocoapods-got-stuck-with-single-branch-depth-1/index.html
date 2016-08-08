@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,11 +72,14 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>When I did a <code>pod update --verbose</code>, cocoapod got stuck when trying to clone my private repos.</p>
+          <p>When I did a <code class="highlighter-rouge">pod update --verbose</code>, cocoapod got stuck when trying to clone my private repos.</p>
 
 <p>With the verbose mode, this is the line it got stuck on:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ /usr/bin/git clone https://my.repos.com/my_library/ /MyWorkspace/ --single-branch --depth 1
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ /usr/bin/git clone https://my.repos.com/my_library/ /MyWorkspace/ --single-branch --depth 1
+</code></pre>
+</div>
+
 <p>Turned out it is an <a href="https://github.com/CocoaPods/CocoaPods/issues/2481">issue to do with using https</a> to connect with the repository.</p>
 
 <p>Solution is to change to SSH counterpart.</p>

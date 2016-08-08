@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -79,16 +79,28 @@
 <!-- more -->
 
 <ol>
-<li><p>Add the otf/ttf font into your Resources folder. The name of my font is <strong>BentonSansComp-Book.otf</strong></p></li>
-<li><p>Edit <strong>info.plist</strong> and add a key call <code>UIAppFonts</code> - value type should be <code>Array</code>. The friendly name for <code>UIAppFonts</code> is <code>Fonts provided by application</code>.</p></li>
-<li><p>In <code>item0</code> of the array enter the name of the font you added -- in my case, <strong>BentonSansComp-Book.otf</strong></p></li>
-<li><p>Find the font name. </p>
+  <li>
+    <p>Add the otf/ttf font into your Resources folder. The name of my font is <strong>BentonSansComp-Book.otf</strong></p>
+  </li>
+  <li>
+    <p>Edit <strong>info.plist</strong> and add a key call <code class="highlighter-rouge">UIAppFonts</code> - value type should be <code class="highlighter-rouge">Array</code>. The friendly name for <code class="highlighter-rouge">UIAppFonts</code> is <code class="highlighter-rouge">Fonts provided by application</code>.</p>
+  </li>
+  <li>
+    <p>In <code class="highlighter-rouge">item0</code> of the array enter the name of the font you added – in my case, <strong>BentonSansComp-Book.otf</strong></p>
+  </li>
+  <li>
+    <p>Find the font name.</p>
 
-<p>IMPORTANT: The font name is not necessary the filename. Open with <strong>Font Book.app</strong> &gt; <strong>Show font info</strong> &gt; look for <strong>PostScript name</strong>. That&#39;s the font name you should use. For my font, it happens that the filename == font name.</p></li>
-<li><p>Unfortunately, Xcode interface builder does not let you change to your custom font. So you got to code it! </p></li>
+    <p>IMPORTANT: The font name is not necessary the filename. Open with <strong>Font Book.app</strong> &gt; <strong>Show font info</strong> &gt; look for <strong>PostScript name</strong>. That’s the font name you should use. For my font, it happens that the filename == font name.</p>
+  </li>
+  <li>
+    <p>Unfortunately, Xcode interface builder does not let you change to your custom font. So you got to code it!</p>
+  </li>
 </ol>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">myLabelView</span> <span class="nl">setFont</span><span class="p">:[</span><span class="bp">UIFont</span> <span class="nl">fontWithName</span><span class="p">:</span><span class="s">@&quot;BentonSansComp-Book&quot;</span> <span class="nl">size</span><span class="p">:</span><span class="mi">16</span><span class="p">]];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">myLabelView</span> <span class="nf">setFont</span><span class="p">:[</span><span class="n">UIFont</span> <span class="nf">fontWithName</span><span class="p">:</span><span class="s">@"BentonSansComp-Book"</span> <span class="nf">size</span><span class="p">:</span><span class="mi">16</span><span class="p">]];</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

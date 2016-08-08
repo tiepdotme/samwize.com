@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,91 +78,95 @@
 
 <p>In everyday emailing, no one bothers writing HTML. But I have my big day invitation to send, which I want to make it pretty. And so I went on to create my own HTML email.</p>
 
-<p>Here&#39;s what I learnt.</p>
+<p>Here’s what I learnt.</p>
 
 <!-- more -->
 
 <p>There are a few ways to create the HTML Email:</p>
 
 <ul>
-<li>Use mailchimp&#39;s email builder</li>
-<li>Buy a template</li>
-<li>Write HTML from scratch</li>
+  <li>Use mailchimp’s email builder</li>
+  <li>Buy a template</li>
+  <li>Write HTML from scratch</li>
 </ul>
 
-<p>I choose to write my own HTML after some research. It turned out to be a good decision, and it isn&#39;t that difficult, if you already know basic HTML and CSS.</p>
+<p>I choose to write my own HTML after some research. It turned out to be a good decision, and it isn’t that difficult, if you already know basic HTML and CSS.</p>
 
 <p>Let me show my final email screenshots before I explain on the pointers of creating the HTML email.</p>
 
 <p>On a full blown web browser or email app:</p>
 
-<p><img class="center" src="/images/html-email-actual-full.jpg" alt="Actual Full Screen" ></p>
+<p><img class="center" src="/images/html-email-actual-full.jpg" alt="Actual Full Screen" /></p>
 
 <p>On mobile (iPhone Mail app):</p>
 
-<p><img class="center" src="/images/html-email-actual-mobile.jpg" alt="Actual Mobile" ></p>
+<p><img class="center" src="/images/html-email-actual-mobile.jpg" alt="Actual Mobile" /></p>
 
-<h1>How much code?</h1>
+<h1 id="how-much-code">How much code?</h1>
 
 <p>For the record, to create the html email, I have only 75 lines of HTML code, and 3 images on my server.</p>
 
-<p>So that&#39;s not too difficult.</p>
+<p>So that’s not too difficult.</p>
 
-<p>I spent about 3 hours designing using Sketch app. The mockup produced was 90% similar to the deliverable. One big change is I replaced my custom font with web fonts. </p>
+<p>I spent about 3 hours designing using Sketch app. The mockup produced was 90% similar to the deliverable. One big change is I replaced my custom font with web fonts.</p>
 
 <p>Another 3 hours was learning and writing the HTML code from scratch.</p>
 
-<h1>Email Clients</h1>
+<h1 id="email-clients">Email Clients</h1>
 
-<p>Writing HTML for email is different from modern web development, where you can use CSS and Javascript. </p>
+<p>Writing HTML for email is different from modern web development, where you can use CSS and Javascript.</p>
 
 <p>For Email, the platforms are even more fragmented than web browsers. There are web services such as yahoo.com, gmail.com and outlook.com. And there are lots of email clients such as outlook, lotus, airmail, etc..</p>
 
 <p>Therefore, you have to use the older technology of HTML.</p>
 
-<h1>Table, table, and table</h1>
+<h1 id="table-table-and-table">Table, table, and table</h1>
 
-<p>Instead of using <code>&lt;div&gt;</code>, you have to use <code>&lt;table&gt;</code>, <code>&lt;tr&gt;</code> and <code>&lt;td&gt;</code>.</p>
+<p>Instead of using <code class="highlighter-rouge">&lt;div&gt;</code>, you have to use <code class="highlighter-rouge">&lt;table&gt;</code>, <code class="highlighter-rouge">&lt;tr&gt;</code> and <code class="highlighter-rouge">&lt;td&gt;</code>.</p>
 
-<p>So design your layout with tables, within tables.. </p>
+<p>So design your layout with tables, within tables..</p>
 
-<p>Don&#39;t rely on paddings, if you can use table.</p>
+<p>Don’t rely on paddings, if you can use table.</p>
 
-<h1>600px Container</h1>
+<h1 id="px-container">600px Container</h1>
 
 <p>Your main content should be in a table no larger than 600px, because most email clients display under 600px.</p>
 
-<h1>Fonts</h1>
+<h1 id="fonts">Fonts</h1>
 
-<p>You should use web fonts and <a href="https://www.campaignmonitor.com/blog/post/3897/using-web-fonts-in-email">@import</a>. Avoid <code>@font-face</code> because it is not well supported than <code>@import</code> method.</p>
+<p>You should use web fonts and <a href="https://www.campaignmonitor.com/blog/post/3897/using-web-fonts-in-email">@import</a>. Avoid <code class="highlighter-rouge">@font-face</code> because it is not well supported than <code class="highlighter-rouge">@import</code> method.</p>
 
-<p>Search for a compatible font in <a href="http://www.google.com/fonts">Google Web Fonts</a>, and use theirs. </p>
+<p>Search for a compatible font in <a href="http://www.google.com/fonts">Google Web Fonts</a>, and use theirs.</p>
 
-<h1>Images on a public server</h1>
+<h1 id="images-on-a-public-server">Images on a public server</h1>
 
 <p>When using any images, use absolute link to your public server.</p>
 
-<p>That&#39;s also how they are not as an attachment in the email.</p>
+<p>That’s also how they are not as an attachment in the email.</p>
 
-<h1>Litmus Test</h1>
+<h1 id="litmus-test">Litmus Test</h1>
 
 <p>You can use <a href="http://litmus.com">litmus.com</a> (free 14 days trial) to render your email on various devices.</p>
 
-<p>It&#39;s bound not to work 100%, so don&#39;t fret. For some (old) email clients, they might not render correctly.</p>
+<p>It’s bound not to work 100%, so don’t fret. For some (old) email clients, they might not render correctly.</p>
 
-<p>Missing images is common too because some email clients don&#39;t load images automatically for security reasons.</p>
+<p>Missing images is common too because some email clients don’t load images automatically for security reasons.</p>
 
-<h1>Fallback Plan</h1>
+<h1 id="fallback-plan">Fallback Plan</h1>
 
 <p>And so, always have this line on the very top/bottom:</p>
 
-<p><code>If you&#39;re having difficulty viewing this email, please click here.</code></p>
+<p><code class="highlighter-rouge">If you're having difficulty viewing this email, please click here.</code></p>
 
-<h1>Reference</h1>
+<h1 id="reference">Reference</h1>
 
 <ul>
-<li><p><a href="http://webdesign.tutsplus.com/articles/build-an-html-email-template-from-scratch--webdesign-12770">Coding HTML Email from scratch</a> by tutsplus</p></li>
-<li><p><a href="http://kb.mailchimp.com/article/how-to-code-html-emails/">HTML Email in a nutshell</a> by MailChimp</p></li>
+  <li>
+    <p><a href="http://webdesign.tutsplus.com/articles/build-an-html-email-template-from-scratch--webdesign-12770">Coding HTML Email from scratch</a> by tutsplus</p>
+  </li>
+  <li>
+    <p><a href="http://kb.mailchimp.com/article/how-to-code-html-emails/">HTML Email in a nutshell</a> by MailChimp</p>
+  </li>
 </ul>
 
         </section>

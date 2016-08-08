@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,18 +72,24 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>After upgrading to Yosemite, your <code>brew</code> could run into an error:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/usr/local/bin/brew: /usr/local/Library/brew.rb: /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby: bad interpreter: No such file or directory
+          <p>After upgrading to Yosemite, your <code class="highlighter-rouge">brew</code> could run into an error:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/usr/local/bin/brew: /usr/local/Library/brew.rb: /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby: bad interpreter: No such file or directory
 /usr/local/bin/brew: line 23: /usr/local/Library/brew.rb: Undefined error: 0
-</code></pre></div>
+</code></pre>
+</div>
+
 <!-- more -->
 
-<p>This is because the path to ruby has changed. It can be <a href="http://stackoverflow.com/a/24244945/242682">solved</a> easily be editing <code>/usr/local/Library/brew.rb</code>.</p>
+<p>This is because the path to ruby has changed. It can be <a href="http://stackoverflow.com/a/24244945/242682">solved</a> easily be editing <code class="highlighter-rouge">/usr/local/Library/brew.rb</code>.</p>
 
-<p>Replace the first line &quot;1.8&quot; to &quot;current&quot; so it looks like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#!/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/ruby -W0
-</code></pre></div>
-<p>As a side effect, you could run into errors with &quot;files would be overwritten by merge&quot; when you <code>brew update</code>.</p>
+<p>Replace the first line “1.8” to “current” so it looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">#!/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/ruby -W0</span>
+</code></pre>
+</div>
+
+<p>As a side effect, you could run into errors with “files would be overwritten by merge” when you <code class="highlighter-rouge">brew update</code>.</p>
 
 <p>To solve, you need to <a href="http://stackoverflow.com/a/12031907/242682">update</a> the brew repos.</p>
 

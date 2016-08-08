@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -82,98 +82,142 @@
 
 <p>I referred to the <a href="https://www.digitalocean.com/community/tutorials/how-to-install-iredmail-on-ubuntu-12-04-x64">guide</a>, with some corrections and enhancements, especially on the iRedMail host names and SSL.</p>
 
-<h2>My Objective</h2>
+<h2 id="my-objective">My Objective</h2>
 
 <p>To setup a mail server for my new domain name <a href="http://wahhh.com">wahhh.com</a>.</p>
 
-<p>I have these subdomains and want to create these 3 emails: <a href="mailto:support@app1.wahhh.com">support@app1.wahhh.com</a> , <a href="mailto:support@app2.wahhh.com">support@app2.wahhh.com</a> , and also <a href="mailto:admin@wahhh.com">admin@wahhh.com</a></p>
+<p>I have these subdomains and want to create these 3 emails: support@app1.wahhh.com , support@app2.wahhh.com , and also admin@wahhh.com</p>
 
-<p>It is good practise to setup an email server on a seperate <strong>subdomain</strong> such as <code>mail.wahhh.com</code></p>
+<p>It is good practise to setup an email server on a seperate <strong>subdomain</strong> such as <code class="highlighter-rouge">mail.wahhh.com</code></p>
 
-<h2>Setup DNS Server</h2>
+<h2 id="setup-dns-server">Setup DNS Server</h2>
 
 <p>I am using <a href="http://www.namecheap.com/?aff=68466">Namecheap</a> nameserver, and so I configure the records as such:</p>
 
 <p>A Record</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mail &gt; 128.123.213.132
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mail &gt; 128.123.213.132
+</code></pre>
+</div>
+
 <p>MX Records</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">@ &gt; mail.wahhh.com
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@ &gt; mail.wahhh.com
 app1 &gt; mail.wahhh.com
 app2 &gt; mail.wahhh.com
-</code></pre></div>
-<p>An example of how the configuration will work: </p>
+</code></pre>
+</div>
 
-<p>An email to <a href="mailto:admin@wahhh.com">admin@wahhh.com</a> will use the first MX Record (@ means nothing), which points to the host name <code>mail.wahhh.com</code>, which the A Record points to my actual IP address. At the IP address is where the mail server will be installed.</p>
+<p>An example of how the configuration will work:</p>
 
-<h2>Installing iRedMail</h2>
+<p>An email to admin@wahhh.com will use the first MX Record (@ means nothing), which points to the host name <code class="highlighter-rouge">mail.wahhh.com</code>, which the A Record points to my actual IP address. At the IP address is where the mail server will be installed.</p>
+
+<h2 id="installing-iredmail">Installing iRedMail</h2>
 
 <p><a href="http://www.iredmail.org/index.html">iRedMail</a> is a bundle of various technologies such as Postfix, Dovecot and Roundcube. A bundle makes the installation much much easier.</p>
 
 <p>Find out the <a href="http://www.iredmail.org/download.html">latest version</a> (0.8.7 is latest in Jul 2014) and install accordingly:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>wget https://bitbucket.org/zhb/iredmail/downloads/iRedMail-0.8.7.tar.bz2
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>tar jxvf iRedMail-0.8.7.tar.bz2 && cd iRedMail-0.8.7
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>bash iRedMail.sh</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>wget https://bitbucket.org/zhb/iredmail/downloads/iRedMail-0.8.7.tar.bz2
+tar jxvf iRedMail-0.8.7.tar.bz2 &amp;&amp; cd iRedMail-0.8.7
+bash iRedMail.sh
+</code></pre>
+</div>
 
 <p>Follow through the GUI installer.</p>
 
 <p>Restart your droplet.</p>
 
-<h2>TXT Records</h2>
+<h2 id="txt-records">TXT Records</h2>
 
 <p>There are 2 TXT Records to add.</p>
 
-<p>Firstly, add for DKIM, which is found in <code>/root/iRedMail-0.8.7/iRedMail.tips</code>. You might need to concatenate the strings. </p>
+<p>Firstly, add for DKIM, which is found in <code class="highlighter-rouge">/root/iRedMail-0.8.7/iRedMail.tips</code>. You might need to concatenate the strings.</p>
 
 <p>The TXT Record looks like the following (must have the quotes):</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>dkim_domainkey > "v=DKIM1; p=ABCDEFG...XYZ"</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>dkim_domainkey &gt; "v=DKIM1; p=ABCDEFG...XYZ"
+</code></pre>
+</div>
 
 <p>Add another one for SPF, which includes your IP address:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>@ > "v=spf1 ip4:128.123.213.132 -all"
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>app1 > "v=spf1 ip4:128.123.213.132 -all"
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>app2 > "v=spf1 ip4:128.123.213.132 -all"</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>@ &gt; "v=spf1 ip4:128.123.213.132 -all"
+app1 &gt; "v=spf1 ip4:128.123.213.132 -all"
+app2 &gt; "v=spf1 ip4:128.123.213.132 -all"
+</code></pre>
+</div>
 
-<h2>Adding Virtual Domains and Users</h2>
+<h2 id="adding-virtual-domains-and-users">Adding Virtual Domains and Users</h2>
 
-<p>At this point, you can use the iRedAdmin website to add users to your virtual domain. eg. <a href="mailto:user1@wahhh.com">user1@wahhh.com</a> , <a href="mailto:user2@wahhh.com">user2@wahhh.com</a> , <a href="mailto:support@app1.wahhh.com">support@app1.wahhh.com</a> , etc</p>
+<p>At this point, you can use the iRedAdmin website to add users to your virtual domain. eg. user1@wahhh.com , user2@wahhh.com , support@app1.wahhh.com , etc</p>
 
 <p>You can also add more virtual domains. For example, if you have a new okloh.com, you can add the virtual domain. In addition, you have to configure the A/MX/TXT records similarly for okloh.com.</p>
 
-<h2>SSL Cert</h2>
+<h2 id="ssl-cert">SSL Cert</h2>
 
 <p>For email server, you <strong>really should</strong> have a SSL cert.</p>
 
 <p>I use <a href="https://www.startssl.com/">StartCom</a>, as mentioned in <a href="http://arstechnica.com/information-technology/2014/03/taking-e-mail-back-part-2-arming-your-server-with-postfix-dovecot/">ArsTechnica</a>, which provides a FREE class 1 SSL. The steps are pretty lenthy from Ars, but they are not for iRedMail.</p>
 
-<p>So, I followed Ars guide on creating the StartCom SSL key and cert, then Digital Ocean guide to setup Apache. </p>
+<p>So, I followed Ars guide on creating the StartCom SSL key and cert, then Digital Ocean guide to setup Apache.</p>
 
 <p>The steps:</p>
 
 <ol>
-<li><p>Register at StartCom</p></li>
-<li><p>Enter real identity and wait for approval</p></li>
-<li><p>Validation Wizard &gt; Verify for your domain eg wahhh.com</p></li>
-<li><p>Certificate Wizard &gt; Web Server SSL &gt; 4096 keysize, SHA2 (SHA1 if takes forever) &gt; Continue and wait for a minute..</p></li>
-<li><p>Save the private key as <code>mail-wahhh.key</code></p></li>
-<li><p>Continue &gt; Select your domain &gt; Add &quot;mail.wahhh.com&quot; as the sub domain (only 1 sub domain for this free SSL). Wait for their approval, then retrieve the certificate.</p></li>
-<li><p>SSH into your mail server. <code>cd /etc/ssl/private</code></p></li>
-<li><p><code>nano mail-wahhh.key</code> and paste your private key</p></li>
-<li><p><code>nano mail-wahhh.pem</code> and paste your certificate</p></li>
-<li><p><code>wget https://www.startssl.com/certs/sub.class1.server.ca.pem</code> to download their intermediate CA Cert</p></li>
-<li><p><code>cat mail-wahhh.pem sub.class1.server.ca.pem &gt; mail-wahhh-chain.pem</code> to concat and create a chain cert</p></li>
-<li><p><code>openssl rsa -in mail-wahhh.key -out mail-wahhh-decrypted.key</code> &gt; enter your private key password</p></li>
-<li><p><code>chown root:root mail-wahhh*</code> and <code>chmod 400 mail-wahhh*</code> to make sure this file is only accessible by root</p></li>
-<li><p><code>nano /etc/apache2/sites-available/default-ssl.conf</code> &gt; Edit the key and cert path</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">SSLCertificateFile /etc/ssl/private/mail-wahhh-chain.pem
+  <li>
+    <p>Register at StartCom</p>
+  </li>
+  <li>
+    <p>Enter real identity and wait for approval</p>
+  </li>
+  <li>
+    <p>Validation Wizard &gt; Verify for your domain eg wahhh.com</p>
+  </li>
+  <li>
+    <p>Certificate Wizard &gt; Web Server SSL &gt; 4096 keysize, SHA2 (SHA1 if takes forever) &gt; Continue and wait for a minute..</p>
+  </li>
+  <li>
+    <p>Save the private key as <code class="highlighter-rouge">mail-wahhh.key</code></p>
+  </li>
+  <li>
+    <p>Continue &gt; Select your domain &gt; Add “mail.wahhh.com” as the sub domain (only 1 sub domain for this free SSL). Wait for their approval, then retrieve the certificate.</p>
+  </li>
+  <li>
+    <p>SSH into your mail server. <code class="highlighter-rouge">cd /etc/ssl/private</code></p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">nano mail-wahhh.key</code> and paste your private key</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">nano mail-wahhh.pem</code> and paste your certificate</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">wget https://www.startssl.com/certs/sub.class1.server.ca.pem</code> to download their intermediate CA Cert</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">cat mail-wahhh.pem sub.class1.server.ca.pem &gt; mail-wahhh-chain.pem</code> to concat and create a chain cert</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">openssl rsa -in mail-wahhh.key -out mail-wahhh-decrypted.key</code> &gt; enter your private key password</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">chown root:root mail-wahhh*</code> and <code class="highlighter-rouge">chmod 400 mail-wahhh*</code> to make sure this file is only accessible by root</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">nano /etc/apache2/sites-available/default-ssl.conf</code> &gt; Edit the key and cert path</p>
+
+    <div class="highlighter-rouge"><pre class="highlight"><code>SSLCertificateFile /etc/ssl/private/mail-wahhh-chain.pem
 SSLCertificateKeyFile /etc/ssl/private/mail-wahhh-decrypted.key
-</code></pre></div></li>
-<li><p><code>service apache2 restart</code></p></li>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">service apache2 restart</code></p>
+  </li>
 </ol>
 
-<p>That&#39;s it! You have now secured <a href="https://mail.wahhh.com">https://mail.wahhh.com</a> (my fictional URL!).</p>
+<p>That’s it! You have now secured https://mail.wahhh.com (my fictional URL!).</p>
 
         </section>
         <footer class="post-footer">

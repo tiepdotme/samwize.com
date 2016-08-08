@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -84,21 +84,27 @@
 
 <p>To download only the PDF slides, you can run this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>curl https://developer.apple.com/videos/wwdc/2014/ <span class="se">\</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">|</span> grep -iIoh <span class="s1">&#39;http.*pdf?dl=1&#39;</span> <span class="se">\</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">|</span> sed -e <span class="s1">&#39;s/\?dl=1//g&#39;</span> <span class="se">\</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">|</span> xargs -n1 curl --remote-name</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl https://developer.apple.com/videos/wwdc/2014/ <span class="se">\</span>
+| grep -iIoh <span class="s1">'http.*pdf?dl=1'</span> <span class="se">\</span>
+| sed -e <span class="s1">'s/\?dl=1//g'</span> <span class="se">\</span>
+| xargs -n1 curl --remote-name
+</code></pre>
+</div>
 
-<p>This is a small problem with the last item grep-ed. I don&#39;t know how to fix. But you can download the last PDF with:</p>
+<p>This is a small problem with the last item grep-ed. I don’t know how to fix. But you can download the last PDF with:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>curl --remote-name http://devstreaming.apple.com/videos/wwdc/2014/102xxw2o82y78a4/102/102_platforms_state_of_the_union.pdf<span class="sb">`</span></div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl --remote-name http://devstreaming.apple.com/videos/wwdc/2014/102xxw2o82y78a4/102/102_platforms_state_of_the_union.pdf<span class="sb">`</span>
+</code></pre>
+</div>
 
 <p>To download all the HD videos:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>curl https://developer.apple.com/videos/wwdc/2014/ <span class="se">\</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">|</span> grep -iIoh <span class="s1">&#39;http.*._hd_.*dl=1&quot;&gt;HD&#39;</span> <span class="se">\</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">|</span> sed -e <span class="s1">&#39;s/\?dl=1&quot;&gt;HD//g&#39;</span> <span class="se">\</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">|</span> xargs -n1 curl --remote-name</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>curl https://developer.apple.com/videos/wwdc/2014/ <span class="se">\</span>
+| grep -iIoh <span class="s1">'http.*._hd_.*dl=1"&gt;HD'</span> <span class="se">\</span>
+| sed -e <span class="s1">'s/\?dl=1"&gt;HD//g'</span> <span class="se">\</span>
+| xargs -n1 curl --remote-name
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

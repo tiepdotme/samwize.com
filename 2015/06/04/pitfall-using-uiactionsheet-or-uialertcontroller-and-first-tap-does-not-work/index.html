@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,36 +72,38 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>There is constantly bug with <code>UIActionSheet</code>.</p>
+          <p>There is constantly bug with <code class="highlighter-rouge">UIActionSheet</code>.</p>
 
 <p>Symptoms: Tapping on the action sheet does not work on the first tap. The subsequent tap works as expected.</p>
 
 <!-- more -->
 
-<h2>Since long ago..</h2>
+<h2 id="since-long-ago">Since long ago..</h2>
 
 <p>Back in 2009, <a href="http://stackoverflow.com/q/1197746/242682">UIActionSheet has a strange behaviour</a>, whereby the tap area seems to have moved.</p>
 
-<p>Solutions such as using <code>showFromTabBar</code> or show in window helped to solve Apple&#39;s bug.</p>
+<p>Solutions such as using <code class="highlighter-rouge">showFromTabBar</code> or show in window helped to solve Apple’s bug.</p>
 
-<p>It wasn&#39;t a good experience to have such glaring UI bug in Apple&#39;s SDK.</p>
+<p>It wasn’t a good experience to have such glaring UI bug in Apple’s SDK.</p>
 
-<h2>iOS 8</h2>
+<h2 id="ios-8">iOS 8</h2>
 
-<p>In iOS 8, Apple introduced <code>UIAlertController</code>.</p>
+<p>In iOS 8, Apple introduced <code class="highlighter-rouge">UIAlertController</code>.</p>
 
 <p>I have once again encountered strange behaviour, whereby I need to tap twice before I can tap a button on the action sheet.</p>
 
-<p>Turned out the issue lies with my <code>UITextField</code>, which was the first responder before I present the action sheet.</p>
+<p>Turned out the issue lies with my <code class="highlighter-rouge">UITextField</code>, which was the first responder before I present the action sheet.</p>
 
-<p>When I present the action sheet, UIKit will dismiss the keyboard, then present the action sheet. But it didn&#39;t do so properly. The first tap will somehow be ignored.</p>
+<p>When I present the action sheet, UIKit will dismiss the keyboard, then present the action sheet. But it didn’t do so properly. The first tap will somehow be ignored.</p>
 
 <p>Solution:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="n">textfield</span> <span class="n">resignFirstResponder</span><span class="p">];</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="nb">self</span> <span class="nl">presentViewController</span><span class="p">:</span><span class="n">alert</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">textfield</span> <span class="nf">resignFirstResponder</span><span class="p">];</span>
+<span class="p">[</span><span class="n">self</span> <span class="nf">presentViewController</span><span class="p">:</span><span class="n">alert</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span> <span class="n">completion</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+</code></pre>
+</div>
 
-<p>Before presenting the action sheet, manually <code>resignFirstResponder</code> first.</p>
+<p>Before presenting the action sheet, manually <code class="highlighter-rouge">resignFirstResponder</code> first.</p>
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,119 +78,145 @@
 
 <!-- more -->
 
-<h2>Install node</h2>
+<h2 id="install-node">Install node</h2>
 
-<p>Firstly, install <code>nvm</code> (node version manager), and also <code>git</code>.</p>
+<p>Firstly, install <code class="highlighter-rouge">nvm</code> (node version manager), and also <code class="highlighter-rouge">git</code>.</p>
 
 <p>The example use nvm version 0.7.0. You can <a href="https://github.com/creationix/nvm">update accordingly</a>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">cd</span> ~
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>curl https://raw.githubusercontent.com/creationix/nvm/v0.7.0/install.sh <span class="p">|</span> sh
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">source</span> ~/.profile
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>apt-get install git</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> ~
+curl https://raw.githubusercontent.com/creationix/nvm/v0.7.0/install.sh | sh
+<span class="nb">source</span> ~/.profile
+apt-get install git
+</code></pre>
+</div>
 
-<p>Then install <code>node</code>.</p>
+<p>Then install <code class="highlighter-rouge">node</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># List the versions</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>nvm ls-remote
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Assuming we want 0.10.28</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>nvm install 0.10.28</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># List the versions</span>
+nvm ls-remote
+<span class="c"># Assuming we want 0.10.28</span>
+nvm install 0.10.28
+</code></pre>
+</div>
 
-<p>Finally, you probably want to copy the active version into <code>/usr/local</code>.</p>
+<p>Finally, you probably want to copy the active version into <code class="highlighter-rouge">/usr/local</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>n=$(which node);n=$&#x7b;n%/bin/node&#x7d;; chmod -R 755 $n/bin/*; sudo cp -r $n/&#x7b;bin,lib,share&#x7d; /usr/local</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>n=$(which node);n=${n%/bin/node}; chmod -R 755 $n/bin/*; sudo cp -r $n/{bin,lib,share} /usr/local
+</code></pre>
+</div>
 
-<h2>Deploying your app</h2>
+<h2 id="deploying-your-app">Deploying your app</h2>
 
 <p>I have choose to deploy using SFTP.</p>
 
-<p>I use Cyberduck (Mac app), and simply copy the node app into eg <code>/var/www/nodeapp.com/</code></p>
+<p>I use Cyberduck (Mac app), and simply copy the node app into eg <code class="highlighter-rouge">/var/www/nodeapp.com/</code></p>
 
 <p>Note: There are better ways. And using <a href="https://github.com/progrium/dokku">dokku</a> seems to be very popular, but dokku does not support running multiple apps.</p>
 
-<h2>Setup Nginx</h2>
+<h2 id="setup-nginx">Setup Nginx</h2>
 
-<p>If you followed the <a href="/2014/05/19/running-nginx-with-apache-with-reverse-proxy/">tutorial in setting up apache alongside nginx</a>, you would want to edit the server block for the node app like this (I have changed the name to <code>nodeapp</code> instead of <code>nginxapp</code>):</p>
+<p>If you followed the <a href="/2014/05/19/running-nginx-with-apache-with-reverse-proxy/">tutorial in setting up apache alongside nginx</a>, you would want to edit the server block for the node app like this (I have changed the name to <code class="highlighter-rouge">nodeapp</code> instead of <code class="highlighter-rouge">nginxapp</code>):</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>/etc/nginx/sites-available/nodeapp.com.conf</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1"># Node server block</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">server</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">listen</span>  <span class="mi">80</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">root</span>  <span class="s">/var/www/nodeapp.com/</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">index</span>   <span class="s">index.html</span> <span class="s">index.htm</span><span class="p">;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">server_name</span>   <span class="s">nodeapp.com</span><span class="p">;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="c1"># Proxy to node app</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="kn">location</span> <span class="s">/</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>              <span class="kn">proxy_pass</span> <span class="s">http://localhost:8021</span><span class="p">;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>              <span class="kn">proxy_http_version</span> <span class="mi">1</span><span class="s">.1</span><span class="p">;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>              <span class="kn">proxy_set_header</span> <span class="s">Upgrade</span> <span class="nv">$http_upgrade</span><span class="p">;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>              <span class="kn">proxy_set_header</span> <span class="s">Connection</span> <span class="s">&#39;upgrade&#39;</span><span class="p">;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>              <span class="kn">proxy_set_header</span> <span class="s">Host</span> <span class="nv">$host</span><span class="p">;</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>              <span class="kn">proxy_cache_bypass</span> <span class="nv">$http_upgrade</span><span class="p">;</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="p">&#x7d;</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p>```nginx /etc/nginx/sites-available/nodeapp.com.conf
+    # Node server block
+    server {
+            listen  80;</p>
 
-<p>Restart nginx with <code>sudo service nginx restart</code>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>        root  /var/www/nodeapp.com/;
+        index   index.html index.htm;
 
-<h2>Install Forever (Globally)</h2>
+        server_name   nodeapp.com;
+
+        # Proxy to node app
+        location / {
+          proxy_pass http://localhost:8021;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host;
+          proxy_cache_bypass $http_upgrade;
+        }
+} ```
+</code></pre>
+</div>
+
+<p>Restart nginx with <code class="highlighter-rouge">sudo service nginx restart</code>.</p>
+
+<h2 id="install-forever-globally">Install Forever (Globally)</h2>
 
 <p><a href="https://github.com/nodejitsu/forever">Forever</a> is to ensure your node app gets run <em>forever</em>. That means if it crashes, it will restart for you.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>npm install forever -g</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>npm install forever -g
+</code></pre>
+</div>
 
-<h2>Start with Forever</h2>
+<h2 id="start-with-forever">Start with Forever</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nb">cd</span> /var/www/nodeapp.com/
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Install the packages, if you haven&#39;t</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>npm install
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Start forever, with minimum uptime 10 sec between launches if restart</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c"># Assuming app.js is your application main script</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>forever start --spinSleepTime <span class="m">10000</span> app.js</div></div></pre></div></figure>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /var/www/nodeapp.com/
 
-<h2>Start with Forever, truly forever</h2>
+<span class="c"># Install the packages, if you haven't</span>
+npm install
+
+<span class="c"># Start forever, with minimum uptime 10 sec between launches if restart</span>
+<span class="c"># Assuming app.js is your application main script</span>
+forever start --spinSleepTime 10000 app.js
+</code></pre>
+</div>
+
+<h2 id="start-with-forever-truly-forever">Start with Forever, truly forever</h2>
 
 <p>Your app is not truly running forever.</p>
 
 <p>If your VPS crash, then forever is not being started..</p>
 
-<p>Hence, you need a cronjob and this <code>starter.sh</code> in your home folder. You can <code>nano ~/starter.sh</code> and copy the following:</p>
+<p>Hence, you need a cronjob and this <code class="highlighter-rouge">starter.sh</code> in your home folder. You can <code class="highlighter-rouge">nano ~/starter.sh</code> and copy the following:</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>starter.sh</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c">#!/bin/sh</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">if</span> <span class="o">[</span> <span class="k">$(</span>ps -e -o uid,cmd <span class="p">|</span> grep <span class="nv">$UID</span> <span class="p">|</span> grep node <span class="p">|</span> grep -v grep <span class="p">|</span> wc -l <span class="p">|</span> tr -s <span class="s2">&quot;\n&quot;</span><span class="k">)</span> -eq <span class="m">0</span> <span class="o">]</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">then</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span>/usr/local/bin:<span class="nv">$PATH</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        forever start --spinSleepTime <span class="m">10000</span> --sourceDir /var/www/nodeapp.com app.js &gt;&gt; /var/www/nodeapp.com/log.txt 2&gt;<span class="p">&amp;</span>1
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">fi</span></div></div></pre></div></figure>
+<p>```bash starter.sh
+#!/bin/sh</p>
 
-<p>Then <code>crontab -e</code>, and add the following:</p>
+<p>if [ $(ps -e -o uid,cmd | grep $UID | grep node | grep -v grep | wc -l | tr -s “\n”) -eq 0 ]
+then
+        export PATH=/usr/local/bin:$PATH
+        forever start –spinSleepTime 10000 –sourceDir /var/www/nodeapp.com app.js » /var/www/nodeapp.com/log.txt 2&gt;&amp;1
+fi
+```</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>@reboot /path/to/starter.sh</div></div></pre></div></figure>
+<p>Then <code class="highlighter-rouge">crontab -e</code>, and add the following:</p>
 
-<p>To know where your path to <code>starter.sh</code> is, use <code>pwd</code> at the directory.</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>@reboot /path/to/starter.sh
+</code></pre>
+</div>
 
-<p>That&#39;s it!</p>
+<p>To know where your path to <code class="highlighter-rouge">starter.sh</code> is, use <code class="highlighter-rouge">pwd</code> at the directory.</p>
+
+<p>That’s it!</p>
 
 <p>To test your script is correct, you can:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>forever stopall
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'># Make sure the script can be executed
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>chmod +x starter.sh
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>~/starter.sh
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>forever list
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'># Should see 1 running process</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>forever stopall
+# Make sure the script can be executed
+chmod +x starter.sh
+~/starter.sh
+forever list
+# Should see 1 running process
+</code></pre>
+</div>
 
 <p>Or reboot your VPS to see that it gets truly run forever and ever :)</p>
 
-<h2>Multiple Node Apps</h2>
+<h2 id="multiple-node-apps">Multiple Node Apps</h2>
 
 <p>To deploy multiple node apps, repeat (except for installing node, git, forever, crontab).</p>
 
-<p>Assuming I have another app call <code>nodeapp2</code>, these are the changes:</p>
+<p>Assuming I have another app call <code class="highlighter-rouge">nodeapp2</code>, these are the changes:</p>
 
 <ul>
-<li><code>/var/www/nodeapp2.com/</code> - contains the node app</li>
-<li><code>nodeapp2.com.conf</code> - for nginx configuration (with a different port)</li>
-<li><code>starter.sh</code> - add another line for the new node app to forever start</li>
+  <li><code class="highlighter-rouge">/var/www/nodeapp2.com/</code> - contains the node app</li>
+  <li><code class="highlighter-rouge">nodeapp2.com.conf</code> - for nginx configuration (with a different port)</li>
+  <li><code class="highlighter-rouge">starter.sh</code> - add another line for the new node app to forever start</li>
 </ul>
+
 
         </section>
         <footer class="post-footer">

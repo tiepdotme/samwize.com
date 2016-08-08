@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,18 +72,20 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>There is a very easy (but not documented) way to set the User Agent header for HTTP requests sent via <code>UIWebView</code>.</p>
+          <p>There is a very easy (but not documented) way to set the User Agent header for HTTP requests sent via <code class="highlighter-rouge">UIWebView</code>.</p>
 
 <p>I find saw the solution from <a href="http://www.mphweb.com/en/blog/easily-set-user-agent-uiwebview">mphweb</a>.</p>
 
-<p>Basically, you just set register it with <code>NSUserDefaults</code>.</p>
+<p>Basically, you just set register it with <code class="highlighter-rouge">NSUserDefaults</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initialize</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Set user agent (the only problem is that we can&#39;t modify the User-Agent later in the program)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">dictionnary</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSDictionary</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithObjectsAndKeys</span><span class="p">:</span><span class="s">@&quot;Your desired user agent&quot;</span><span class="p">,</span> <span class="s">@&quot;UserAgent&quot;</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[[</span><span class="bp">NSUserDefaults</span> <span class="n">standardUserDefaults</span><span class="p">]</span> <span class="nl">registerDefaults</span><span class="p">:</span><span class="n">dictionnary</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">dictionnary</span> <span class="k">release</span><span class="p">];</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">initialize</span> <span class="p">{</span>
+    <span class="c1">// Set user agent (the only problem is that we can't modify the User-Agent later in the program)
+</span>    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">dictionnary</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSDictionary</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithObjectsAndKeys</span><span class="p">:</span><span class="s">@"Your desired user agent"</span><span class="p">,</span> <span class="s">@"UserAgent"</span><span class="p">,</span> <span class="nb">nil</span><span class="p">];</span>
+    <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">registerDefaults</span><span class="p">:</span><span class="n">dictionnary</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">dictionnary</span> <span class="nf">release</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

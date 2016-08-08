@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,23 +74,26 @@
           
           <p>In the previous post, I discussed about how to <a href="http://samwize.com/2013/05/07/why-an-android-app-is-not-supported-for-a-particular-device/">Google Play manage compatibility</a> between your app and devices.</p>
 
-<p>The key is to make <code>use-feature</code> optional.</p>
+<p>The key is to make <code class="highlighter-rouge">use-feature</code> optional.</p>
 
 <p>Recently, I have encountered another problem which I want to share.</p>
 
 <p>I have this in my manifest file:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;uses-feature</span> <span class="na">android:name=</span><span class="s">&quot;android.hardware.TELEPHONY&quot;</span> <span class="na">android:required=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.INTERNET&quot;</span> <span class="nt">/&gt;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.ACCESS_NETWORK_STATE&quot;</span> <span class="nt">/&gt;</span></div></div></pre></div></figure>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;uses-feature</span> <span class="na">android:name=</span><span class="s">"android.hardware.TELEPHONY"</span> <span class="na">android:required=</span><span class="s">"false"</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.ACCESS_NETWORK_STATE"</span> <span class="nt">/&gt;</span>
+</code></pre>
+</div>
 
 <p>On first look, it seems ok. Making TELEPHONY optional will make the app compatible with tablet (a common solution).</p>
 
-<p>However, the above is WRONG! Because it should be <code>android.hardware.telephony</code> (lower case)!</p>
+<p>However, the above is WRONG! Because it should be <code class="highlighter-rouge">android.hardware.telephony</code> (lower case)!</p>
 
 <p>I made a mistake.</p>
 
-<p>But I also blame Android, because for permission, it is upper case! <code>android.permission.INTERNET</code> is correct.</p>
+<p>But I also blame Android, because for permission, it is upper case! <code class="highlighter-rouge">android.permission.INTERNET</code> is correct.</p>
 
 <p>Weirdedness of Android..</p>
 

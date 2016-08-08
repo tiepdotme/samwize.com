@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,71 +74,98 @@
           
           <p>Heroku has a good <a href="https://devcenter.heroku.com/articles/scala">getting started guide with Scala</a>.</p>
 
-<p>If you know the basic of Heroku, and has started with Typesafe&#39;s Scala + Play! framework, there is 1 more thing you should to know.</p>
+<p>If you know the basic of Heroku, and has started with Typesafe’s Scala + Play! framework, there is 1 more thing you should to know.</p>
 
 <p>You should know how to properly configure your local development environment.</p>
 
 <!-- more -->
 
-<h2>Add the start script plugin</h2>
+<h2 id="add-the-start-script-plugin">Add the start script plugin</h2>
 
-<p>Typesafe&#39;s <a href="https://github.com/typesafehub/xsbt-start-script-plugin">start script plugin</a> helps to generate a <code>target/start</code> script (you will use later). </p>
+<p>Typesafe’s <a href="https://github.com/typesafehub/xsbt-start-script-plugin">start script plugin</a> helps to generate a <code class="highlighter-rouge">target/start</code> script (you will use later).</p>
 
-<p>Create the file <code>project/build.sbt</code> with this</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">resolvers += Classpaths.typesafeResolver
+<p>Create the file <code class="highlighter-rouge">project/build.sbt</code> with this</p>
 
-addSbtPlugin(&quot;com.typesafe.startscript&quot; % &quot;xsbt-start-script-plugin&quot; % &quot;0.5.3&quot;)
-</code></pre></div>
-<h2>Procfile</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>resolvers += Classpaths.typesafeResolver
 
-<p>Create the file <code>Procfile</code> in the root folder. Enter this line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">web: target/start Web
-</code></pre></div>
-<h2>Build your app locally</h2>
+addSbtPlugin("com.typesafe.startscript" % "xsbt-start-script-plugin" % "0.5.3")
+</code></pre>
+</div>
+
+<h2 id="procfile">Procfile</h2>
+
+<p>Create the file <code class="highlighter-rouge">Procfile</code> in the root folder. Enter this line:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>web: target/start Web
+</code></pre>
+</div>
+
+<h2 id="build-your-app-locally">Build your app locally</h2>
 
 <p>You need to run this EVERYTIME before you run the app</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ sbt clean compile stage
-</code></pre></div>
-<h2>Run your app locally</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ sbt clean compile stage
+</code></pre>
+</div>
+
+<h2 id="run-your-app-locally">Run your app locally</h2>
 
 <p>Run your app using <a href="http://blog.daviddollar.org/2011/05/06/introducing-foreman.html">foreman</a></p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ foreman run
-</code></pre></div>
-<p>The app will run on port 5000 (instead of usual 9000). </p>
 
-<p>Note: When you change your code, you need to exit, <code>sbt clean compile run</code>, then <code>foreman start</code> again..</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ foreman run
+</code></pre>
+</div>
 
-<h2>Environment Variables (.env)</h2>
+<p>The app will run on port 5000 (instead of usual 9000).</p>
 
-<p>The <code>.env</code> file at root is for storing <a href="https://devcenter.heroku.com/articles/config-vars#local_setup">environment variables</a>. This file is in <code>.gitignore</code>, because it usually contains API credentials or environment specific settings.</p>
+<p>Note: When you change your code, you need to exit, <code class="highlighter-rouge">sbt clean compile run</code>, then <code class="highlighter-rouge">foreman start</code> again..</p>
+
+<h2 id="environment-variables-env">Environment Variables (.env)</h2>
+
+<p>The <code class="highlighter-rouge">.env</code> file at root is for storing <a href="https://devcenter.heroku.com/articles/config-vars#local_setup">environment variables</a>. This file is in <code class="highlighter-rouge">.gitignore</code>, because it usually contains API credentials or environment specific settings.</p>
 
 <p>For example, credentials for mysql/redis/s3/etc is different between local and production environment.</p>
 
-<p>Enter your local environment variables in <code>.env</code> like this</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">S3_KEY=mykey
+<p>Enter your local environment variables in <code class="highlighter-rouge">.env</code> like this</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>S3_KEY=mykey
 S3_SECRET=mysecret
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Enter your production environment variables using heroku command as such</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ heroku config:add S3_KEY=superkey
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ heroku config:add S3_KEY=superkey
 $ heroku config:add S3_SECRET=supersecret
-</code></pre></div>
+</code></pre>
+</div>
+
 <p>Then in your scala code, you can access the respective environment variables as such:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">val</span> <span class="n">s3Key</span> <span class="k">=</span> <span class="nc">System</span><span class="o">.</span><span class="n">getenv</span><span class="o">(</span><span class="s">&quot;S3_KEY&quot;</span><span class="o">)</span></div></div></pre></div></figure>
+<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">val</span> <span class="n">s3Key</span> <span class="k">=</span> <span class="nc">System</span><span class="o">.</span><span class="n">getenv</span><span class="o">(</span><span class="s">"S3_KEY"</span><span class="o">)</span>
+</code></pre>
+</div>
 
-<h2>Better way to run your app locally</h2>
+<h2 id="better-way-to-run-your-app-locally">Better way to run your app locally</h2>
 
-<p>You could use <code>.env</code> in your local development workspace as described in the above sections.</p>
+<p>You could use <code class="highlighter-rouge">.env</code> in your local development workspace as described in the above sections.</p>
 
-<p>However, it would inefficient to <code>sbt clean compile run</code> and then <code>foreman start</code> everytime you change your code and run.</p>
+<p>However, it would inefficient to <code class="highlighter-rouge">sbt clean compile run</code> and then <code class="highlighter-rouge">foreman start</code> everytime you change your code and run.</p>
 
-<p>So the better way is to store directly in your computer&#39;s environment variables.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ export S3_KEY=mykey
-</code></pre></div>
-<p>To ensure it&#39;s stored</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ echo $S3_KEY
-</code></pre></div>
-<p>With that, your could <code>sbt run</code> as per normal.</p>
+<p>So the better way is to store directly in your computer’s environment variables.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ export S3_KEY=mykey
+</code></pre>
+</div>
+
+<p>To ensure it’s stored</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ echo $S3_KEY
+</code></pre>
+</div>
+
+<p>With that, your could <code class="highlighter-rouge">sbt run</code> as per normal.</p>
+
 
         </section>
         <footer class="post-footer">

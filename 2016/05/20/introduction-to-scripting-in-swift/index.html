@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,54 +72,71 @@
           </div>
           <a name="topofpage"></a>
           
-          <h2>Getting Started</h2>
+          <h2 id="getting-started">Getting Started</h2>
 
-<p>Assuming you already have Swift installed in your system (that is, if you run <code>whereis swift</code>, you should see <code>/usr/bin/swift</code>), running scripts in Swift is pretty easy.</p>
+<p>Assuming you already have Swift installed in your system (that is, if you run <code class="highlighter-rouge">whereis swift</code>, you should see <code class="highlighter-rouge">/usr/bin/swift</code>), running scripts in Swift is pretty easy.</p>
 
 <p>The process of writing Swift script is similar to that of bash script or python script.</p>
 
-<p>Create/touch <code>main.swift</code> (it must be named main), and write the following hello code:</p>
+<p>Create/touch <code class="highlighter-rouge">main.swift</code> (it must be named main), and write the following hello code:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#!/usr/bin/swift</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">print</span><span class="p">(</span><span class="s">&quot;Hello Swift!&quot;</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="cp">#!/usr/bin/swift</span>
+<span class="nf">print</span><span class="p">(</span><span class="s">"Hello Swift!"</span><span class="p">)</span>
+</code></pre>
+</div>
 
 <p>The first line is the hashbang commonly seen in other scripting languages, which points to our Swift REPL.</p>
 
 <p>To run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">chmod +x main.swift
-./main.swift
-</code></pre></div>
-<p>This will print &quot;Hello Swift!&quot;.</p>
 
-<h2>Compiling to Binary</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>chmod +x main.swift
+./main.swift
+</code></pre>
+</div>
+
+<p>This will print “Hello Swift!”.</p>
+
+<h2 id="compiling-to-binary">Compiling to Binary</h2>
 
 <p>In Getting Started, we have a swift file that compile on the fly.</p>
 
 <p>We could compile that into an <strong>executable binary</strong>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">swiftc main.swift -o hello
-</code></pre></div>
-<p>We name the binary <code>hello</code> in above. The binary will be created, and now you can run it with <code>./hello</code>.</p>
 
-<p>If you get an error <code>cannot load underlying module for &#39;CoreGraphics&#39;</code> (if you start to import frameworks like <code>Foundation</code>), then you will need to run like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">xcrun -sdk macosx main.swift -o hello
-</code></pre></div>
-<h2>Swift version manager</h2>
+<div class="highlighter-rouge"><pre class="highlight"><code>swiftc main.swift -o hello
+</code></pre>
+</div>
+
+<p>We name the binary <code class="highlighter-rouge">hello</code> in above. The binary will be created, and now you can run it with <code class="highlighter-rouge">./hello</code>.</p>
+
+<p>If you get an error <code class="highlighter-rouge">cannot load underlying module for 'CoreGraphics'</code> (if you start to import frameworks like <code class="highlighter-rouge">Foundation</code>), then you will need to run like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>xcrun -sdk macosx main.swift -o hello
+</code></pre>
+</div>
+
+<h2 id="swift-version-manager">Swift version manager</h2>
 
 <p>If you have used rvm for ruby, we have the equivalent <a href="https://github.com/neonichu/chswift">chswift</a>, by @neonichu from Cocoapods.</p>
 
 <p>Taking a step further, @neonichu created <a href="https://github.com/neonichu/cato">cato</a>, which let you run script with hashbang directive that specify the Swift version to run with:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#!/usr/bin/env cato 1.2
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#!/usr/bin/env cato 1.2
+</code></pre>
+</div>
+
 <p>There is also <a href="https://github.com/kylef/swiftenv">swiftenv</a>, another Swift Version Manager, which is more popular likely because it has much similarities to <a href="https://github.com/yyuu/pyenv">pyenv</a>.</p>
 
-<h2>Dependency Manager</h2>
+<h2 id="dependency-manager">Dependency Manager</h2>
 
 <p>Cocoapods has a <a href="https://github.com/neonichu/Rome">rome version</a> that will build frameworks for Swift scripts to use.</p>
 
 <p>Install with:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">gem install cocoapods-rome
-</code></pre></div>
-<p>Till further, that&#39;s all for an introduction. </p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>gem install cocoapods-rome
+</code></pre>
+</div>
+
+<p>Till further, that’s all for an introduction.</p>
 
         </section>
         <footer class="post-footer">

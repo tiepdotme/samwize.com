@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>Ever wonder how after <code>npm install</code>, you could use the installed tool on the command line, as if they were added to your <code>bin</code>?</p>
+          <p>Ever wonder how after <code class="highlighter-rouge">npm install</code>, you could use the installed tool on the command line, as if they were added to your <code class="highlighter-rouge">bin</code>?</p>
 
 <p>For example, after installing mocha, you could run mocha on your command line directly.</p>
 
@@ -80,35 +80,47 @@
 
 <!-- more -->
 
-<h2>Create the executable file</h2>
+<h2 id="create-the-executable-file">Create the executable file</h2>
 
-<p>Firstly, say you have this <code>superbot.js</code> that uses <a href="https://github.com/visionmedia/commander.js/">commander.js</a> that handles the command line options.</p>
+<p>Firstly, say you have this <code class="highlighter-rouge">superbot.js</code> that uses <a href="https://github.com/visionmedia/commander.js/">commander.js</a> that handles the command line options.</p>
 
-<p>It is good practice to put such javascript in <code>bin</code> folder, so let&#39;s assume that.</p>
+<p>It is good practice to put such javascript in <code class="highlighter-rouge">bin</code> folder, so let’s assume that.</p>
 
 <p>The first line of the file should also have a <em>shebang</em>, that tells terminal to run with node.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#!/usr/bin/env node
-</code></pre></div>
-<p>With that, you can run <code>./bin/superbot.js</code> on the command line, instead of <code>node ./bin/superbot.js</code>.</p>
 
-<p>Also make sure the javascript is executable permission eg <code>chmod +x ./bin/superbot.js</code>.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">#!/usr/bin/env node
+</span></code></pre>
+</div>
 
-<h2>Add bin to package.json</h2>
+<p>With that, you can run <code class="highlighter-rouge">./bin/superbot.js</code> on the command line, instead of <code class="highlighter-rouge">node ./bin/superbot.js</code>.</p>
 
-<p>Add a <a href="https://npmjs.org/doc/json.html#bin">bin key</a> to <code>package.json</code> like this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&quot;bin&quot; : { &quot;superbot&quot; : &quot;./bin/superbot.js&quot; }
-</code></pre></div>
-<p>When someone does a <code>npm install</code>, npm will create a symlink from <code>./bin/superbot.js</code> to their <code>/usr/local/bin/superbot</code>.</p>
+<p>Also make sure the javascript is executable permission eg <code class="highlighter-rouge">chmod +x ./bin/superbot.js</code>.</p>
 
-<p>That&#39;s why right after install, they can run commands such as:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">$ superbot --powerup somefile.txt
-</code></pre></div>
+<h2 id="add-bin-to-packagejson">Add bin to package.json</h2>
+
+<p>Add a <a href="https://npmjs.org/doc/json.html#bin">bin key</a> to <code class="highlighter-rouge">package.json</code> like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"bin" : { "superbot" : "./bin/superbot.js" }
+</code></pre>
+</div>
+
+<p>When someone does a <code class="highlighter-rouge">npm install</code>, npm will create a symlink from <code class="highlighter-rouge">./bin/superbot.js</code> to their <code class="highlighter-rouge">/usr/local/bin/superbot</code>.</p>
+
+<p>That’s why right after install, they can run commands such as:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ superbot --powerup somefile.txt
+</code></pre>
+</div>
+
 <p>But if you are the developer, and you try to run any command, it will not work, yet. You need to run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">npm link
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>npm link
+</code></pre>
+</div>
+
 <p>This will explicitly create the symlink.</p>
 
-<p>That&#39;s it!</p>
+<p>That’s it!</p>
 
 <p>PS: Another good (but longer) guide to build a CLI utility from <a href="http://flippinawesome.org/2013/07/29/writing-a-command-line-utility-using-node/">Jonathan Fielding</a> using: grunt-init, commander.js and underscore.js .</p>
 

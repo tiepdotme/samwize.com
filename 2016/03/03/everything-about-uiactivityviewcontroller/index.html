@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,95 +74,114 @@
           
           <p><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIActivityViewController_Class/">UIActivityViewController</a> was introduced in iOS 6 for apps to handle data (text, url, image, etc) in another app.</p>
 
-<h2>Share a text and URL</h2>
+<h2 id="share-a-text-and-url">Share a text and URL</h2>
 
 <p>One of the most common scenario is to share a URL, accompanied by some text. It could be accomplished with this code:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">textToShare</span> <span class="o">=</span> <span class="s">&quot;Hello world&quot;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">urlToShare</span> <span class="o">=</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;http://samwize.com&quot;</span><span class="p">)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">activityViewController</span> <span class="o">=</span> <span class="bp">UIActivityViewController</span><span class="p">(</span><span class="nl">activityItems</span><span class="p">:</span> <span class="p">[</span><span class="n">textToShare</span><span class="p">,</span> <span class="n">urlToShare</span><span class="o">!</span><span class="p">],</span> <span class="nl">applicationActivities</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Exclude irrelevant activities</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">activityViewController</span><span class="p">.</span><span class="n">excludedActivityTypes</span> <span class="o">=</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">UIActivityTypeAssignToContact</span><span class="p">,</span> <span class="n">UIActivityTypeSaveToCameraRoll</span><span class="p">,</span> <span class="n">UIActivityTypePostToFlickr</span><span class="p">,</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">UIActivityTypePostToVimeo</span><span class="p">,</span> <span class="n">UIActivityTypeOpenInIBooks</span><span class="p">]</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">navigationController</span><span class="o">?</span><span class="p">.</span><span class="n">presentViewController</span><span class="p">(</span><span class="n">activityViewController</span><span class="p">,</span> <span class="nl">animated</span><span class="p">:</span> <span class="nb">true</span><span class="p">,</span> <span class="nl">completion</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">textToShare</span> <span class="o">=</span> <span class="s">"Hello world"</span>
+<span class="k">let</span> <span class="nv">urlToShare</span> <span class="o">=</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"http://samwize.com"</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">activityViewController</span> <span class="o">=</span> <span class="kt">UIActivityViewController</span><span class="p">(</span><span class="nv">activityItems</span><span class="p">:</span> <span class="p">[</span><span class="n">textToShare</span><span class="p">,</span> <span class="n">urlToShare</span><span class="o">!</span><span class="p">],</span> <span class="nv">applicationActivities</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<span class="c1">// Exclude irrelevant activities</span>
+<span class="n">activityViewController</span><span class="o">.</span><span class="n">excludedActivityTypes</span> <span class="o">=</span>
+    <span class="p">[</span><span class="kt">UIActivityTypeAssignToContact</span><span class="p">,</span> <span class="kt">UIActivityTypeSaveToCameraRoll</span><span class="p">,</span> <span class="kt">UIActivityTypePostToFlickr</span><span class="p">,</span>
+        <span class="kt">UIActivityTypePostToVimeo</span><span class="p">,</span> <span class="kt">UIActivityTypeOpenInIBooks</span><span class="p">]</span>
+<span class="n">navigationController</span><span class="p">?</span><span class="o">.</span><span class="nf">presentViewController</span><span class="p">(</span><span class="n">activityViewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<h2>UIActivityItemSource</h2>
+<h2 id="uiactivityitemsource">UIActivityItemSource</h2>
 
 <p>Things are never so simple..</p>
 
 <ul>
-<li>Mail will not have a subject, because you never specify one</li>
-<li>In Message/Mail/etc, the content will have the text, followed by the URL (it looks bad if the text already contains the URL)</li>
+  <li>Mail will not have a subject, because you never specify one</li>
+  <li>In Message/Mail/etc, the content will have the text, followed by the URL (it looks bad if the text already contains the URL)</li>
 </ul>
 
-<p>The better, more advanced way, is to implement <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIActivityItemSource_protocol/index.html"><code>UIActivityItemSource</code></a> for your view controller.</p>
+<p>The better, more advanced way, is to implement <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIActivityItemSource_protocol/index.html"><code class="highlighter-rouge">UIActivityItemSource</code></a> for your view controller.</p>
 
 <p>By implementing the protocol, you can change the string to returning, depending on what activity it is. You could even return different types (String/UIImage/etc).</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">activityViewControllerPlaceholderItem</span><span class="p">(</span><span class="nl">activityViewController</span><span class="p">:</span> <span class="bp">UIActivityViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnyObject</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="s">&quot;Hello World&quot;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">activityViewController</span><span class="p">(</span><span class="nl">activityViewController</span><span class="p">:</span> <span class="bp">UIActivityViewController</span><span class="p">,</span> <span class="n">itemForActivityType</span> <span class="nl">activityType</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnyObject</span><span class="o">?</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">switch</span> <span class="n">activityType</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="k">let</span> <span class="n">x</span> <span class="k">where</span> <span class="p">[</span><span class="n">UIActivityTypePostToFacebook</span><span class="p">,</span> <span class="n">UIActivityTypePostToTwitter</span><span class="p">].</span><span class="n">contains</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">:</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Returns text for social media services</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="s">&quot;Sharing with you.. hello world!&quot;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="nl">UIActivityTypeMail</span><span class="p">:</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Returns long text for email</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="s">&quot;Hello World~~~~~~~~~~~~~~~~~~&quot;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">case</span> <span class="k">let</span> <span class="n">x</span> <span class="k">where</span> <span class="p">[</span><span class="n">UIActivityTypeCopyToPasteboard</span><span class="p">].</span><span class="n">contains</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">:</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Returns url</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">let</span> <span class="n">url</span> <span class="o">=</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;http://samwize.com&quot;</span><span class="p">)</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="n">url</span><span class="o">!</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">default</span><span class="o">:</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="s">&quot;Hello World&quot;</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">activityViewController</span><span class="p">(</span><span class="nl">activityViewController</span><span class="p">:</span> <span class="bp">UIActivityViewController</span><span class="p">,</span> <span class="n">subjectForActivityType</span> <span class="nl">activityType</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="s">&quot;Hello Subject&quot;</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">activityViewController</span><span class="p">(</span><span class="nl">activityViewController</span><span class="p">:</span> <span class="bp">UIActivityViewController</span><span class="p">,</span> <span class="n">thumbnailImageForActivityType</span> <span class="nl">activityType</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span><span class="p">,</span> <span class="n">suggestedSize</span> <span class="nl">size</span><span class="p">:</span> <span class="bp">CGSize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">UIImage</span><span class="o">?</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="bp">UIImage</span><span class="p">(</span><span class="nl">named</span><span class="p">:</span> <span class="s">&quot;hello&quot;</span><span class="p">)</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">activityViewControllerPlaceholderItem</span><span class="p">(</span><span class="nv">activityViewController</span><span class="p">:</span> <span class="kt">UIActivityViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s">"Hello World"</span>
+<span class="p">}</span>
 
-<p>With that, you now init <code>UIActivityViewController</code> with your view controller.</p>
+<span class="kd">func</span> <span class="nf">activityViewController</span><span class="p">(</span><span class="nv">activityViewController</span><span class="p">:</span> <span class="kt">UIActivityViewController</span><span class="p">,</span> <span class="n">itemForActivityType</span> <span class="nv">activityType</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="n">activityType</span> <span class="p">{</span>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">activityViewController</span> <span class="o">=</span> <span class="bp">UIActivityViewController</span><span class="p">(</span><span class="nl">activityItems</span><span class="p">:</span> <span class="p">[</span><span class="nb">self</span><span class="p">],</span> <span class="nl">applicationActivities</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span></div></div></pre></div></figure>
+    <span class="k">case</span> <span class="k">let</span> <span class="nv">x</span> <span class="k">where</span> <span class="p">[</span><span class="kt">UIActivityTypePostToFacebook</span><span class="p">,</span> <span class="kt">UIActivityTypePostToTwitter</span><span class="p">]</span><span class="o">.</span><span class="nf">contains</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="c1">// Returns text for social media services</span>
+        <span class="k">return</span> <span class="s">"Sharing with you.. hello world!"</span>
 
-<h2>Sharing directly to Facebook/Twitter using <code>SLComposeViewController</code></h2>
+    <span class="k">case</span> <span class="kt">UIActivityTypeMail</span><span class="p">:</span>
+        <span class="c1">// Returns long text for email</span>
+        <span class="k">return</span> <span class="s">"Hello World~~~~~~~~~~~~~~~~~~"</span>
 
-<p>Instead of using <code>UIActivityViewController</code>, which has the extra step of prompting user which app to use, <a href="https://developer.apple.com/library/prerelease/ios/documentation/NetworkingInternet/Reference/SLComposeViewController_Class/index.html">SLComposeViewController</a> can be used if all you want is post to Facebook/Twitter/etc.</p>
+    <span class="k">case</span> <span class="k">let</span> <span class="nv">x</span> <span class="k">where</span> <span class="p">[</span><span class="kt">UIActivityTypeCopyToPasteboard</span><span class="p">]</span><span class="o">.</span><span class="nf">contains</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="c1">// Returns url</span>
+        <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"http://samwize.com"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">url</span><span class="o">!</span>
 
-<h2>Sharing directly using their url scheme</h2>
+    <span class="k">default</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">"Hello World"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-<p>Another way to open an app to share data is via the app&#39;s url scheme.</p>
+<span class="kd">func</span> <span class="nf">activityViewController</span><span class="p">(</span><span class="nv">activityViewController</span><span class="p">:</span> <span class="kt">UIActivityViewController</span><span class="p">,</span> <span class="n">subjectForActivityType</span> <span class="nv">activityType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s">"Hello Subject"</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">activityViewController</span><span class="p">(</span><span class="nv">activityViewController</span><span class="p">:</span> <span class="kt">UIActivityViewController</span><span class="p">,</span> <span class="n">thumbnailImageForActivityType</span> <span class="nv">activityType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="n">suggestedSize</span> <span class="nv">size</span><span class="p">:</span> <span class="kt">CGSize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"hello"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>With that, you now init <code class="highlighter-rouge">UIActivityViewController</code> with your view controller.</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">activityViewController</span> <span class="o">=</span> <span class="kt">UIActivityViewController</span><span class="p">(</span><span class="nv">activityItems</span><span class="p">:</span> <span class="p">[</span><span class="k">self</span><span class="p">],</span> <span class="nv">applicationActivities</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="sharing-directly-to-facebooktwitter-using-slcomposeviewcontroller">Sharing directly to Facebook/Twitter using <code class="highlighter-rouge">SLComposeViewController</code></h2>
+
+<p>Instead of using <code class="highlighter-rouge">UIActivityViewController</code>, which has the extra step of prompting user which app to use, <a href="https://developer.apple.com/library/prerelease/ios/documentation/NetworkingInternet/Reference/SLComposeViewController_Class/index.html">SLComposeViewController</a> can be used if all you want is post to Facebook/Twitter/etc.</p>
+
+<h2 id="sharing-directly-using-their-url-scheme">Sharing directly using their url scheme</h2>
+
+<p>Another way to open an app to share data is via the app’s url scheme.</p>
 
 <p>For example, <a href="https://www.whatsapp.com/faq/en/iphone/23559013">WhatsApp</a> provided a simple url scheme to send text:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">whatsapp://send?text=Hello%2C%20World!
-</code></pre></div>
-<p>Pitfall: Starting from iOS 9, Apple changed the way we can open URL. You need to add to <code>Info.plist</code> the key <code>LSApplicationQueriesSchemes</code>, which is an array containing the URL schemes that can be opened. For example, to open WhatsApp, add &quot;whatsapp&quot; to the array.</p>
 
-<p>If your text to share includes a URL eg. &quot;Visit <a href="http://samwize.com">http://samwize.com</a> today!&quot;, then this URL encoding tips is for you:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>whatsapp://send?text=Hello%2C%20World!
+</code></pre>
+</div>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="kr">set</span> <span class="o">=</span> <span class="bp">NSCharacterSet</span><span class="p">.</span><span class="n">URLQueryAllowedCharacterSet</span><span class="p">().</span><span class="n">mutableCopy</span><span class="p">()</span> <span class="kt">as</span><span class="o">!</span> <span class="bp">NSMutableCharacterSet</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">set</span><span class="p">.</span><span class="n">removeCharactersInString</span><span class="p">(</span><span class="s">&quot;:/?=&quot;</span><span class="p">)</span>    <span class="c1">// Encode these too!</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">guard</span> <span class="k">let</span> <span class="n">encodedShareText</span> <span class="o">=</span> <span class="n">shareText</span><span class="p">.</span><span class="n">stringByAddingPercentEncodingWithAllowedCharacters</span><span class="p">(</span><span class="kr">set</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">guard</span> <span class="k">let</span> <span class="n">url</span> <span class="o">=</span> <span class="bp">NSURL</span><span class="p">(</span><span class="nl">string</span><span class="p">:</span> <span class="s">&quot;whatsapp://send?text=\(encodedShareText)&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="p">&#x7b;</span> <span class="k">return</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">if</span> <span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">canOpenURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">openURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Cannot open WhatsApp</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p>Pitfall: Starting from iOS 9, Apple changed the way we can open URL. You need to add to <code class="highlighter-rouge">Info.plist</code> the key <code class="highlighter-rouge">LSApplicationQueriesSchemes</code>, which is an array containing the URL schemes that can be opened. For example, to open WhatsApp, add “whatsapp” to the array.</p>
 
-<h2><code>UIDocumentInteractionController</code></h2>
+<p>If your text to share includes a URL eg. “Visit http://samwize.com today!”, then this URL encoding tips is for you:</p>
 
-<p>To share an image to WhatsApp is <a href="http://stackoverflow.com/questions/23921990/sharing-image-to-whatsapp-facebook">more difficult</a>. You will need to use <code>UIDocumentInteractionController</code>.</p>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">set</span> <span class="o">=</span> <span class="kt">NSCharacterSet</span><span class="o">.</span><span class="kt">URLQueryAllowedCharacterSet</span><span class="p">()</span><span class="o">.</span><span class="nf">mutableCopy</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">NSMutableCharacterSet</span>
+<span class="k">set</span><span class="o">.</span><span class="nf">removeCharactersInString</span><span class="p">(</span><span class="s">":/?="</span><span class="p">)</span>    <span class="c1">// Encode these too!</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">encodedShareText</span> <span class="o">=</span> <span class="n">shareText</span><span class="o">.</span><span class="nf">stringByAddingPercentEncodingWithAllowedCharacters</span><span class="p">(</span><span class="k">set</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"whatsapp://send?text=</span><span class="se">\(</span><span class="n">encodedShareText</span><span class="se">)</span><span class="s">"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
 
-<h2>Other Notes</h2>
+<span class="k">if</span> <span class="kt">UIApplication</span><span class="o">.</span><span class="nf">sharedApplication</span><span class="p">()</span><span class="o">.</span><span class="nf">canOpenURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">UIApplication</span><span class="o">.</span><span class="nf">sharedApplication</span><span class="p">()</span><span class="o">.</span><span class="nf">openURL</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// Cannot open WhatsApp</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="uidocumentinteractioncontroller"><code class="highlighter-rouge">UIDocumentInteractionController</code></h2>
+
+<p>To share an image to WhatsApp is <a href="http://stackoverflow.com/questions/23921990/sharing-image-to-whatsapp-facebook">more difficult</a>. You will need to use <code class="highlighter-rouge">UIDocumentInteractionController</code>.</p>
+
+<h2 id="other-notes">Other Notes</h2>
 
 <ul>
-<li>Facebook <a href="http://stackoverflow.com/a/29891228/242682">does not allow</a> the text (aka status) to be programatically changed when using <code>SLComposeViewController</code> or <code>UIActivityViewController</code>. However, if you use their <a href="https://developers.facebook.com/docs/sharing/ios/share-button">Facebook SDK</a>, then you can change the text..</li>
+  <li>Facebook <a href="http://stackoverflow.com/a/29891228/242682">does not allow</a> the text (aka status) to be programatically changed when using <code class="highlighter-rouge">SLComposeViewController</code> or <code class="highlighter-rouge">UIActivityViewController</code>. However, if you use their <a href="https://developers.facebook.com/docs/sharing/ios/share-button">Facebook SDK</a>, then you can change the text..</li>
 </ul>
 
         </section>

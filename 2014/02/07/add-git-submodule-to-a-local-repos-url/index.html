@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,42 +74,54 @@
           
           <p>I was adding a <a href="http://git-scm.com/docs/git-submodule">submodule</a> which is local.</p>
 
-<p>I didn&#39;t push to a remote because it is not necessary for my project. It is just some data files that I wanted to track the changes locally. Yet, I require it in the main project repository.</p>
+<p>I didn’t push to a remote because it is not necessary for my project. It is just some data files that I wanted to track the changes locally. Yet, I require it in the main project repository.</p>
 
 <p>A supposedly simple operation, but I met with some problem.</p>
 
 <!-- more -->
 
-<h2>Problem</h2>
+<h2 id="problem">Problem</h2>
 
 <p>I use <a href="http://www.sourcetreeapp.com">sourcetree</a> app to add the submodule. On my first try, somehow I select the folders wrongly.</p>
 
 <p>After a few tries, I figured out the source path and relative path in sourcetree..</p>
 
 <p>But when I add, I keep getting the error:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">pathspec &#39;mysub&#39; did not match any file(s) known to git
-</code></pre></div>
-<h2>Switch to command line</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pathspec 'mysub' did not match any file(s) known to git
+</code></pre>
+</div>
+
+<h2 id="switch-to-command-line">Switch to command line</h2>
 
 <p>Whenever sourcetree fails me, I switch to the command line.</p>
 
-<p>I deleted <code>.gitmodules</code> and the <code>mysub</code> directory (the relative directory in my main project that I want my submodule to be in).</p>
+<p>I deleted <code class="highlighter-rouge">.gitmodules</code> and the <code class="highlighter-rouge">mysub</code> directory (the relative directory in my main project that I want my submodule to be in).</p>
 
 <p>Then I run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">git submodule add /path/to/submodule mysub
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git submodule add /path/to/submodule mysub
+</code></pre>
+</div>
+
 <p>It complained:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">A git directory for &#39;mysub&#39; is found locally with remote(s):
+
+<div class="highlighter-rouge"><pre class="highlight"><code>A git directory for 'mysub' is found locally with remote(s):
 origin  /path/to/submodule
-</code></pre></div>
-<p>I used the <code>--force</code> options, and it gave me:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">fatal: You are on a branch yet to be born
-</code></pre></div>
-<h2>Solution</h2>
+</code></pre>
+</div>
+
+<p>I used the <code class="highlighter-rouge">--force</code> options, and it gave me:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>fatal: You are on a branch yet to be born
+</code></pre>
+</div>
+
+<h2 id="solution">Solution</h2>
 
 <p>After wasting 20 minutes, I found a <a href="http://stackoverflow.com/a/12072517/242682">solution on StackOverlfow</a> with more than 100 upvotes.</p>
 
-<p>I have to delete <code>.git/modules/mysub</code> because when I was using sourcetree, on my first try, the URL/path was specified wrongly.</p>
+<p>I have to delete <code class="highlighter-rouge">.git/modules/mysub</code> because when I was using sourcetree, on my first try, the URL/path was specified wrongly.</p>
 
 <p>A silly mistake.</p>
 

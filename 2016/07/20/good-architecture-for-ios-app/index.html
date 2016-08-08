@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,11 +76,11 @@
 
 <p>It is an ongoing post which I will update continously.</p>
 
-<h2>Good Architecture</h2>
+<h2 id="good-architecture">Good Architecture</h2>
 
 <p>I wrote this post because I was reading
 <a href="http://slideslive.com/38897361/good-ios-application-architecture-en">good iOS application architecture</a>
-by Krzysztof Zabłocki </p>
+by Krzysztof Zabłocki</p>
 
 <p>You might know him from <a href="https://github.com/krzysztofzablocki/KZLinkedConsole">KZLinkedConsole</a>
 his popular Xcode plugin <a href="http://merowing.info/2015/12/writing-xcode-plugin-in-swift/">written in Swift</a></p>
@@ -88,22 +88,25 @@ his popular Xcode plugin <a href="http://merowing.info/2015/12/writing-xcode-plu
 <p>Traits of Good Architecture:</p>
 
 <ul>
-<li>Each object has a clear role</li>
-<li>Ability to follow data flow with ease</li>
-<li>Don&#39;t depend on any particular framework</li>
-<li>Limited Dependencies</li>
-<li>Flexible because it is simple, not because it is over abstracted</li>
+  <li>Each object has a clear role</li>
+  <li>Ability to follow data flow with ease</li>
+  <li>Don’t depend on any particular framework</li>
+  <li>Limited Dependencies</li>
+  <li>Flexible because it is simple, not because it is over abstracted</li>
 </ul>
 
 <p>As Uncle Bob says, a good architecture is one when you look at it, eg an accounting software, it screams ACCOUNTING, not MVC/etc. A good architecture will defer the frameworks it use.</p>
 
-<h2>How you know it is bad?</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># How many lines in your view controllers?
+<h2 id="how-you-know-it-is-bad">How you know it is bad?</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># How many lines in your view controllers?
 find . -type f -exec wc -l {} + | sort -n
-</code></pre></div>
+</code></pre>
+</div>
+
 <p><a href="https://github.com/PaulTaykalo/objc-dependency-visualizer">Dependency Visualizer</a></p>
 
-<h2>Patterns</h2>
+<h2 id="patterns">Patterns</h2>
 
 <p>How you use patterns
 determines it is good or bad</p>
@@ -125,10 +128,10 @@ which will lead to other great patterns</p>
 as it encourages reuse,
 and even Apple encourages it in WWDC 2016-06</p>
 
-<h2>1. MVC</h2>
+<h2 id="mvc">1. MVC</h2>
 
-<p>Apple&#39;s MVC is wrong
-because it&#39;s View and Controller are too closely coupled</p>
+<p>Apple’s MVC is wrong
+because it’s View and Controller are too closely coupled</p>
 
 <p>Only model can be reused</p>
 
@@ -143,16 +146,16 @@ not written in good architecture</p>
 <p>Problems with our View Controller:</p>
 
 <ul>
-<li>Knowing business logic</li>
-<li>Maintaining states</li>
+  <li>Knowing business logic</li>
+  <li>Maintaining states</li>
 </ul>
 
-<h2>2. VIPER</h2>
+<h2 id="viper">2. VIPER</h2>
 
 <p>Good
 But lots of boilerplate</p>
 
-<h2>3. MVVM</h2>
+<h2 id="mvvm">3. MVVM</h2>
 
 <p>Most popular iOS Architecture?</p>
 
@@ -162,42 +165,44 @@ and is testable</p>
 
 <p>But no router</p>
 
-<h2>4. MVVM+</h2>
+<h2 id="mvvm-1">4. MVVM+</h2>
 
 <p>With Flow Coordinators/Controller/Router</p>
 
 <p><a href="http://merowing.info/2016/01/improve-your-ios-architecture-with-flowcontrollers/">Improving Architecture with Flow Controllers</a>:</p>
 
 <ul>
-<li>At least 1 root flow controller</li>
-<li>Created by AppDelegate</li>
-<li>Has multiple child controllers (VCs)</li>
-<li>VC/VM does not know about other VC/VM</li>
-<li>Configures and coordinate different screens</li>
-<li>To support multiple devices, subclass the root flow controller</li>
-<li>You can use for MVC or any other architecture</li>
+  <li>At least 1 root flow controller</li>
+  <li>Created by AppDelegate</li>
+  <li>Has multiple child controllers (VCs)</li>
+  <li>VC/VM does not know about other VC/VM</li>
+  <li>Configures and coordinate different screens</li>
+  <li>To support multiple devices, subclass the root flow controller</li>
+  <li>You can use for MVC or any other architecture</li>
 </ul>
 
 <p><a href="http://khanlou.com/2015/10/coordinators-redux/">Coordinator Redux</a> by Khanlou</p>
 
-<p>What&#39;s wrong with such a line of code in a view controller?</p>
+<p>What’s wrong with such a line of code in a view controller?</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">navigationController</span> <span class="nl">pushViewController</span><span class="p">:</span><span class="n">detailViewController</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="k">self</span><span class="o">.</span><span class="n">navigationController</span> <span class="nv">pushViewController</span><span class="p">:</span><span class="n">detailViewController</span> <span class="nv">animated</span><span class="p">:</span><span class="kt">YES</span><span class="p">];</span>  
+</code></pre>
+</div>
 
 <blockquote>
-<p>It’s bossing its parent around. In real life, children should never boss their parents around. In programming, I would argue children shouldn’t even know who their parents are!</p>
+  <p>It’s bossing its parent around. In real life, children should never boss their parents around. In programming, I would argue children shouldn’t even know who their parents are!</p>
 </blockquote>
 
 <p>Libraries vs frameworks</p>
 
 <blockquote>
-<p>They say the distinction between libraries and frameworks is that you call libraries, and frameworks call you. I want to treat 3rd-party dependencies as much like libraries as possible.</p>
+  <p>They say the distinction between libraries and frameworks is that you call libraries, and frameworks call you. I want to treat 3rd-party dependencies as much like libraries as possible.</p>
 </blockquote>
 
 <p>A con of using flow coordinators:
 It does not play well with segue</p>
 
-<h2><a href="https://github.com/ReSwift/ReSwift">5. ReSwift</a></h2>
+<h2 id="reswifthttpsgithubcomreswiftreswift"><a href="https://github.com/ReSwift/ReSwift">5. ReSwift</a></h2>
 
 <p>The new kid in the block, inspired by Redux.
 An <a href="https://realm.io/news/benji-encz-unidirectional-data-flow-swift/">introduction presented by Benjamin Encz</a></p>
@@ -206,7 +211,8 @@ An <a href="https://realm.io/news/benji-encz-unidirectional-data-flow-swift/">in
 
 <p>It can load a state - persisting state across application launches</p>
 
-<p><a href="http://reswift.github.io/ReSwift/master/getting-started-guide.html"><img src="http://reswift.github.io/ReSwift/master/img/reswift_detail.png" alt=""></a></p>
+<p><a href="http://reswift.github.io/ReSwift/master/getting-started-guide.html"><img src="http://reswift.github.io/ReSwift/master/img/reswift_detail.png" alt="" /></a></p>
+
 
         </section>
         <footer class="post-footer">

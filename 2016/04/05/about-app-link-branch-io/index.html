@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,13 +72,13 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>App Link is, technically, not a link, but metadata (eg. <code>og:title</code> and <code>og:url</code>) on a webpage.</p>
+          <p>App Link is, technically, not a link, but metadata (eg. <code class="highlighter-rouge">og:title</code> and <code class="highlighter-rouge">og:url</code>) on a webpage.</p>
 
 <p>It is called an App Link, because the webpage (with a URL link) usually open/install the app.</p>
 
 <p>It is pretty interesting to learn about App Link for iOS, and specifically, I wil be <a href="https://bnc.lt/m/imsbo8Ilis">introducing branch.io</a>, which is a free deep linking service for both iOS and Android. And they claimed to be <a href="https://branch.io/pricing/">FREE forever</a>!</p>
 
-<h2>Who else provides App Links?</h2>
+<h2 id="who-else-provides-app-links">Who else provides App Links?</h2>
 
 <p><a href="https://developers.facebook.com/docs/applinks/ios">Facebook</a> and <a href="https://developers.google.com/app-invites/">Google</a> has their own service to create app links.</p>
 
@@ -86,60 +86,67 @@
 
 <p>On the other hand, branch.io is neutral, and is very focused in doing what they do best.</p>
 
-<h2>Social Media Description</h2>
+<h2 id="social-media-description">Social Media Description</h2>
 
-<p>If you have an app, but doesn&#39;t have a website, branch.io will be a great help for you to generate a link which you can share on social media platforms.</p>
+<p>If you have an app, but doesn’t have a website, branch.io will be a great help for you to generate a link which you can share on social media platforms.</p>
 
 <p>Behind the scene, the link generates the <a href="http://ogp.me">open graph</a> metadata which describes your app.</p>
 
-<h2>App Link passes data over to app</h2>
+<h2 id="app-link-passes-data-over-to-app">App Link passes data over to app</h2>
 
 <p>This feature is the biggest reason why you should use branch.io.</p>
 
-<p>We all know that when a user install an app from the App Store, no data can be passed to the app. eg. You won&#39;t know the source/url that resulted in the user downloadong the app.</p>
+<p>We all know that when a user install an app from the App Store, no data can be passed to the app. eg. You won’t know the source/url that resulted in the user downloadong the app.</p>
 
 <p>branch.io solved this problem by using <a href="https://blog.branch.io/deferred-deep-link-for-facebook-install-ads">fingerprinting</a>. In short, it identifies a user with <strong>IDFA</strong>, then match it back after the app is installed. This is not perfect, but works 99%.</p>
 
-<h2>Setting up branch.io</h2>
+<h2 id="setting-up-branchio">Setting up branch.io</h2>
 
 <p>The <a href="https://dev.branch.io/getting-started/sdk-integration-guide/guide/ios/">SDK integration guide</a> is good.</p>
 
-<p>The part on <a href="https://dev.branch.io/getting-started/universal-app-links/overview/">Universal and App Links</a> is required too. They also provided good explanation on <a href="https://dev.branch.io/getting-started/universal-app-links/support/ios/#what-changed-in-ios-9-and-92">what&#39;s changed in iOS 9.2</a>. In short, Apple does not seamlessly open the app starting with iOS 9.2. Rather, it shows an alert and require the user to explicitly confirm first.</p>
+<p>The part on <a href="https://dev.branch.io/getting-started/universal-app-links/overview/">Universal and App Links</a> is required too. They also provided good explanation on <a href="https://dev.branch.io/getting-started/universal-app-links/support/ios/#what-changed-in-ios-9-and-92">what’s changed in iOS 9.2</a>. In short, Apple does not seamlessly open the app starting with iOS 9.2. Rather, it shows an alert and require the user to explicitly confirm first.</p>
 
-<p>The code needed in <code>AppDelegate</code>:</p>
+<p>The code needed in <code class="highlighter-rouge">AppDelegate</code>:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">application</span><span class="p">(</span><span class="nl">application</span><span class="p">:</span> <span class="bp">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nl">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="nl">NSObject</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">]</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">Branch</span><span class="p">.</span><span class="n">getInstance</span><span class="p">().</span><span class="n">initSessionWithLaunchOptions</span><span class="p">(</span><span class="n">launchOptions</span><span class="p">,</span> <span class="nl">andRegisterDeepLinkHandler</span><span class="p">:</span> <span class="n">handleBranch</span><span class="p">)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application</span><span class="p">:</span> <span class="bp">UIApplication</span><span class="p">,</span> <span class="n">openURL</span> <span class="nl">url</span><span class="p">:</span> <span class="bp">NSURL</span><span class="p">,</span> <span class="nl">sourceApplication</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span><span class="p">,</span> <span class="nl">annotation</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">Branch</span><span class="p">.</span><span class="n">getInstance</span><span class="p">().</span><span class="n">handleDeepLink</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application</span><span class="p">:</span> <span class="bp">UIApplication</span><span class="p">,</span> <span class="n">continueUserActivity</span> <span class="nl">userActivity</span><span class="p">:</span> <span class="n">NSUserActivity</span><span class="p">,</span> <span class="nl">restorationHandler</span><span class="p">:</span> <span class="p">([</span><span class="n">AnyObject</span><span class="p">]</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="n">Branch</span><span class="p">.</span><span class="n">getInstance</span><span class="p">().</span><span class="n">continueUserActivity</span><span class="p">(</span><span class="n">userActivity</span><span class="p">)</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// This branch handler will run when:</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// - App Start</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// - After `application:openURL:...`</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// - After `application:continueUserActivity:...`</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">//</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Note the params will be &quot;consumed&quot;. After the first run, on the subsequent, it will have `clicked_branch_link` false, `is_first_session` false</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">handleBranch</span><span class="p">(</span><span class="nl">params</span><span class="p">:</span> <span class="p">[</span><span class="nl">NSObject</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">]</span><span class="o">!</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">!</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="k">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">print</span><span class="p">(</span><span class="s">&quot;Error: \(error)&quot;</span><span class="p">)</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">print</span><span class="p">(</span><span class="s">&quot;Branch Params: \(params)&quot;</span><span class="p">)</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Handle it</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="kt">Branch</span><span class="o">.</span><span class="nf">getInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">initSessionWithLaunchOptions</span><span class="p">(</span><span class="n">launchOptions</span><span class="p">,</span> <span class="nv">andRegisterDeepLinkHandler</span><span class="p">:</span> <span class="n">handleBranch</span><span class="p">)</span>
+<span class="p">}</span>
 
-<p>Note: I am not very sure about this <a href="https://dev.branch.io/getting-started/universal-app-links/advanced/ios/#how-to-handle-old-uri-paths-with-universal-links">guide</a>, which says to prevent &quot;deep linked twice&quot;. It has a flag, which is set to ignore in the entry point for iOS 8.x <code>application:openURL:...</code>.</p>
+<span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">openURL</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">NSURL</span><span class="p">,</span> <span class="nv">sourceApplication</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">annotation</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="kt">Branch</span><span class="o">.</span><span class="nf">getInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">handleDeepLink</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="p">}</span>
+ 
+<span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">continueUserActivity</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kt">NSUserActivity</span><span class="p">,</span> <span class="nv">restorationHandler</span><span class="p">:</span> <span class="p">([</span><span class="kt">AnyObject</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Branch</span><span class="o">.</span><span class="nf">getInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">continueUserActivity</span><span class="p">(</span><span class="n">userActivity</span><span class="p">)</span>
+<span class="p">}</span>
 
-<h2>Handling Push</h2>
+<span class="c1">// This branch handler will run when:</span>
+<span class="c1">// - App Start</span>
+<span class="c1">// - After `application:openURL:...`</span>
+<span class="c1">// - After `application:continueUserActivity:...`</span>
+<span class="c1">//</span>
+<span class="c1">// Note the params will be "consumed". After the first run, on the subsequent, it will have `clicked_branch_link` false, `is_first_session` false</span>
+<span class="kd">func</span> <span class="nf">handleBranch</span><span class="p">(</span><span class="nv">params</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]</span><span class="o">!</span><span class="p">,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="n">error</span> <span class="p">{</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s">"Error: </span><span class="se">\(</span><span class="n">error</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Branch Params: </span><span class="se">\(</span><span class="n">params</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+    <span class="c1">// Handle it</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>Branch can also handle the push notification payload, with the branch link url in key <code>branch</code>.</p>
+<p>Note: I am not very sure about this <a href="https://dev.branch.io/getting-started/universal-app-links/advanced/ios/#how-to-handle-old-uri-paths-with-universal-links">guide</a>, which says to prevent “deep linked twice”. It has a flag, which is set to ignore in the entry point for iOS 8.x <code class="highlighter-rouge">application:openURL:...</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">application</span><span class="p">(</span><span class="nl">application</span><span class="p">:</span> <span class="bp">UIApplication</span><span class="p">,</span> <span class="n">didReceiveRemoteNotification</span> <span class="nl">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="nl">NSObject</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">]</span><span class="o">?</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Void</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">Branch</span><span class="p">.</span><span class="n">getInstance</span><span class="p">().</span><span class="n">handlePushNotification</span><span class="p">(</span><span class="n">launchOptions</span><span class="p">)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<h2 id="handling-push">Handling Push</h2>
+
+<p>Branch can also handle the push notification payload, with the branch link url in key <code class="highlighter-rouge">branch</code>.</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didReceiveRemoteNotification</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="p">{</span>
+    <span class="kt">Branch</span><span class="o">.</span><span class="nf">getInstance</span><span class="p">()</span><span class="o">.</span><span class="nf">handlePushNotification</span><span class="p">(</span><span class="n">launchOptions</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

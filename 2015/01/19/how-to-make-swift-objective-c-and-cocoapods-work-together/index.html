@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,31 +78,38 @@
 
 <!-- more -->
 
-<h1>Add a bridging header</h1>
+<h1 id="add-a-bridging-header">Add a bridging header</h1>
 
-<p>There&#39;s a <a href="http://stackoverflow.com/a/24005242/242682">step-by-step answer</a> to creating the bridging header.</p>
+<p>There’s a <a href="http://stackoverflow.com/a/24005242/242682">step-by-step answer</a> to creating the bridging header.</p>
 
 <p>Summary of my steps:</p>
 
 <ol>
-<li><p>Create a new Objective-C header file eg. <code>tmp.h</code> in your Watchkit Extension</p></li>
-<li><p>When prompted, let Xcode automatically configure the project</p>
+  <li>
+    <p>Create a new Objective-C header file eg. <code class="highlighter-rouge">tmp.h</code> in your Watchkit Extension</p>
+  </li>
+  <li>
+    <p>When prompted, let Xcode automatically configure the project</p>
 
-<p><img src="http://i.stack.imgur.com/nakLZ.png"  ></p></li>
-<li><p>Import your objective-c lib headers in the automatically created bridging header file</p></li>
+    <p><img src="http://i.stack.imgur.com/nakLZ.png" /></p>
+  </li>
+  <li>
+    <p>Import your objective-c lib headers in the automatically created bridging header file</p>
+  </li>
 </ol>
 
 <p>With that, you can use the Objective-C code in your Swift code.</p>
 
-<p>You may also delete <code>tmp.h</code>.</p>
+<p>You may also delete <code class="highlighter-rouge">tmp.h</code>.</p>
 
-<h1>Making it work with Cocoapods</h1>
+<h1 id="making-it-work-with-cocoapods">Making it work with Cocoapods</h1>
 
-<p>At this point, if you are using cocoapods, you will encounter <code>file not found</code> on the import statement.</p>
+<p>At this point, if you are using cocoapods, you will encounter <code class="highlighter-rouge">file not found</code> on the import statement.</p>
 
 <p>This is because <a href="http://stackoverflow.com/a/25555476/242682">Cocoapods is not configured for the Watch app extension</a>.</p>
 
 <p>To fix, you click on Project &gt; Info &gt; Configurations &gt; expand the dropdown, and select the corresponding Pods just like how it is for the main app.</p>
+
 
         </section>
         <footer class="post-footer">

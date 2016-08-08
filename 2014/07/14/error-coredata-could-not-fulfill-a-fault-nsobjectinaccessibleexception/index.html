@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Error: CoreData could not fulfill a fault. NSObjectInaccessibleException</title>
-  <meta name="description" content="One of the common errors when using CoreData is " />
+  <meta name="description" content="One of the common errors when using CoreData is" />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Error: CoreData could not fulfill a fault. NSObjectInaccessibleException" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="One of the common errors when using CoreData is " />
+    <meta name="twitter:description"  content="One of the common errors when using CoreData is" />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Error: CoreData could not fulfill a fault. NSObjectInaccessibleException"/>
   
-  <meta property="og:description" content="One of the common errors when using CoreData is " />
+  <meta property="og:description" content="One of the common errors when using CoreData is" />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2014/07/14/error-coredata-could-not-fulfill-a-fault-nsobjectinaccessibleexception/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,9 +72,10 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>One of the common errors when using CoreData is </p>
+          <p>One of the common errors when using CoreData is</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>*** Terminating app due to uncaught exception 'NSObjectInaccessibleException', reason: 'CoreData could not fulfill a fault for '0x10123456 &lt;x-coredata://3E1F9B1C-46BE-49F8-A3ED-1234567BF0/Event/p42></div></div></pre></div></figure>
+<p><code class="highlighter-rouge">
+*** Terminating app due to uncaught exception 'NSObjectInaccessibleException', reason: 'CoreData could not fulfill a fault for '0x10123456 &lt;x-coredata://3E1F9B1C-46BE-49F8-A3ED-1234567BF0/Event/p42&gt;</code></p>
 
 <p>This is what happened:</p>
 
@@ -84,19 +85,25 @@
 
 <p>Read <a href="https://developer.apple.com/library/mac/documentation/cocoa/conceptual/coredata/articles/cdTroubleshooting.html">Apple CoreData troubleshooting guide</a> on such object life-cycle problem.</p>
 
-<p>I have encountered this more than once when using <code>NSFetchedResultsController</code> and with <code>Magical Record</code>.</p>
+<p>I have encountered this more than once when using <code class="highlighter-rouge">NSFetchedResultsController</code> and with <code class="highlighter-rouge">Magical Record</code>.</p>
 
 <ul>
-<li><p><code>NSFetchedResultsController</code> is using it&#39;s a context for fetching the entities</p></li>
-<li><p><code>Magical Record</code> is using another context to update/delete some entities</p></li>
-<li><p>When <code>Magical Record</code> deletes an entity, <code>NSFetchedResultsController</code> has the (crashing) error</p></li>
+  <li>
+    <p><code class="highlighter-rouge">NSFetchedResultsController</code> is using it’s a context for fetching the entities</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">Magical Record</code> is using another context to update/delete some entities</p>
+  </li>
+  <li>
+    <p>When <code class="highlighter-rouge">Magical Record</code> deletes an entity, <code class="highlighter-rouge">NSFetchedResultsController</code> has the (crashing) error</p>
+  </li>
 </ul>
 
-<p>The solution is to be careful with using multiple contexts and avoid the scenario. </p>
+<p>The solution is to be careful with using multiple contexts and avoid the scenario.</p>
 
 <p>Duh.</p>
 
-<p>Okay, let me give you a more meaningful workaround: If you are deleting, you might want to &quot;mark for delete&quot; instead. Then let <code>NSFetchedResultsController</code> to run at some interval to remove the marked entities.</p>
+<p>Okay, let me give you a more meaningful workaround: If you are deleting, you might want to “mark for delete” instead. Then let <code class="highlighter-rouge">NSFetchedResultsController</code> to run at some interval to remove the marked entities.</p>
 
         </section>
         <footer class="post-footer">

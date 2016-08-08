@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,68 +72,75 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>I have covered a <a href="http://samwize.com/2015/11/30/understanding-uicollection-flow-layout/">few</a> <a href="http://samwize.com/2016/02/03/adding-header-footer-to-uicollectionview-using-storyboard/">posts</a> <a href="http://samwize.com/2015/03/05/pitfall-nslayoutconstraint-breaking-in-uicollectionview/">on</a> using <code>UICollectionView</code>.</p>
+          <p>I have covered a <a href="http://samwize.com/2015/11/30/understanding-uicollection-flow-layout/">few</a> <a href="http://samwize.com/2016/02/03/adding-header-footer-to-uicollectionview-using-storyboard/">posts</a> <a href="http://samwize.com/2015/03/05/pitfall-nslayoutconstraint-breaking-in-uicollectionview/">on</a> using <code class="highlighter-rouge">UICollectionView</code>.</p>
 
 <p>This post is about a bug to do with the content offset that somehow get set incorrectly during creation of the layout. I have no solution to this bug.</p>
 
-<h2>The Cause</h2>
+<h2 id="the-cause">The Cause</h2>
 
-<p>In iOS 7, the <a href="https://devforums.apple.com/message/874718#874718">behaviour changed</a>, and <code>viewDidLayoutSubviews</code> gets called every time that it loads a <code>UICollectionViewCell</code>. </p>
+<p>In iOS 7, the <a href="https://devforums.apple.com/message/874718#874718">behaviour changed</a>, and <code class="highlighter-rouge">viewDidLayoutSubviews</code> gets called every time that it loads a <code class="highlighter-rouge">UICollectionViewCell</code>.</p>
 
-<p>An effect of repeatedly calling <code>viewDidLayoutSubviews</code> is that the collection view content offset will be <em>incorrectly set to something</em> during one of the calls, causing the collection view to be &quot;scrolled&quot; to a wrong position.</p>
+<p>An effect of repeatedly calling <code class="highlighter-rouge">viewDidLayoutSubviews</code> is that the collection view content offset will be <em>incorrectly set to something</em> during one of the calls, causing the collection view to be “scrolled” to a wrong position.</p>
 
-<h2>Where to create layout?</h2>
+<h2 id="where-to-create-layout">Where to create layout?</h2>
 
-<p>The bug is triggered when layout is created. Exactly where the following code (lets refer to <code>setupLayout</code>) is called matters.</p>
+<p>The bug is triggered when layout is created. Exactly where the following code (lets refer to <code class="highlighter-rouge">setupLayout</code>) is called matters.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="nf">setupLayout</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Create your layout</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">let</span> <span class="n">layout</span> <span class="o">=</span> <span class="p">...</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">collectionView</span><span class="p">.</span><span class="n">collectionViewLayout</span> <span class="o">=</span> <span class="n">layout</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">setupLayout</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Create your layout</span>
+    <span class="k">let</span> <span class="nv">layout</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">collectionView</span><span class="o">.</span><span class="n">collectionViewLayout</span> <span class="o">=</span> <span class="n">layout</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>Is in <code>viewDidLoad</code>? </p>
+<p>Is in <code class="highlighter-rouge">viewDidLoad</code>?</p>
 
-<p>Unfortunately, in <code>viewDidLoad</code>, the <strong>collection view bounds are not ready yet</strong>, so depending on your layout (if it needs to know the bounds), it might not be the correct place to set up your layout.</p>
+<p>Unfortunately, in <code class="highlighter-rouge">viewDidLoad</code>, the <strong>collection view bounds are not ready yet</strong>, so depending on your layout (if it needs to know the bounds), it might not be the correct place to set up your layout.</p>
 
-<p>Placing it in <code>viewDidLayoutSubviews</code> is a better choice, because the collection view is initialized and the bounds are now correct.</p>
+<p>Placing it in <code class="highlighter-rouge">viewDidLayoutSubviews</code> is a better choice, because the collection view is initialized and the bounds are now correct.</p>
 
-<h2>The problem with <code>viewDidLayoutSubviews</code></h2>
+<h2 id="the-problem-with-viewdidlayoutsubviews">The problem with <code class="highlighter-rouge">viewDidLayoutSubviews</code></h2>
 
-<p>When you create your layout in <code>viewDidLayoutSubviews</code>, there will be the mentioned buggy behaviour whereby the collection view will somehow set it&#39;s content offset, making the view scrolled slightly (down/right).</p>
+<p>When you create your layout in <code class="highlighter-rouge">viewDidLayoutSubviews</code>, there will be the mentioned buggy behaviour whereby the collection view will somehow set it’s content offset, making the view scrolled slightly (down/right).</p>
 
-<p>If you trace the code, <code>viewDidLayoutSubviews</code> will be called twice or more, with one of the call changing the <code>contentOffset</code> (eg y by 38pt).</p>
+<p>If you trace the code, <code class="highlighter-rouge">viewDidLayoutSubviews</code> will be called twice or more, with one of the call changing the <code class="highlighter-rouge">contentOffset</code> (eg y by 38pt).</p>
 
 <p>To fix, make sure you create the layout only ONCE.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">=</span> <span class="nb">true</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLayoutSubviews</span><span class="p">()</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Make sure this is the first time, else return</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">guard</span> <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">==</span> <span class="nb">true</span> <span class="k">else</span> <span class="p">&#x7b;</span><span class="k">return</span><span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">=</span> <span class="nb">false</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Create the layout</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">setupLayout</span><span class="p">()</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">var</span> <span class="nv">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">=</span> <span class="kc">true</span>
 
-<h2>But what when bounds change?</h2>
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLayoutSubviews</span><span class="p">()</span>
+
+    <span class="c1">// Make sure this is the first time, else return</span>
+    <span class="k">guard</span> <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">==</span> <span class="kc">true</span> <span class="k">else</span> <span class="p">{</span><span class="k">return</span><span class="p">}</span>
+    <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">=</span> <span class="kc">false</span>
+
+    <span class="c1">// Create the layout</span>
+    <span class="nf">setupLayout</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="but-what-when-bounds-change">But what when bounds change?</h2>
 
 <p>Unfortunately, the above prevents layout from adjusting when the bounds change eg. device orientation rotated</p>
 
-<p>This is because <code>viewDidLayoutSubviews</code> is the place to adjust a collection view layout, because the new bounds (specifically the collection view bounds) would have been updated.</p>
+<p>This is because <code class="highlighter-rouge">viewDidLayoutSubviews</code> is the place to adjust a collection view layout, because the new bounds (specifically the collection view bounds) would have been updated.</p>
 
 <p>So, we are back to the problem:</p>
 
 <ul>
-<li>setting up layout in <code>viewDidLayoutSubviews</code></li>
-<li>bug with content offset</li>
+  <li>setting up layout in <code class="highlighter-rouge">viewDidLayoutSubviews</code></li>
+  <li>bug with content offset</li>
 </ul>
 
 <p>A likely solution is to adjust the content offset for the first time the layout is created.</p>
 
-<p>However, that don&#39;t work, because the content offset might not be set on first time!</p>
+<p>However, that don’t work, because the content offset might not be set on first time!</p>
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>There is no solution I know of.</p>
 
@@ -141,31 +148,40 @@
 
 <p>If your layout does NOT require information of the collection view bounds:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Set up in `viewDidLoad`</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLoad</span><span class="p">()</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">setupLayout</span><span class="p">()</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Set up in `viewDidLoad`</span>
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+    <span class="nf">setupLayout</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>Otherwise, this code, but with the bug that the content offset will be off:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Set up in `viewDidLayoutSubviews`</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="nf">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLayoutSubviews</span><span class="p">()</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">setupLayout</span><span class="p">()</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Set up in `viewDidLayoutSubviews`</span>
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLayoutSubviews</span><span class="p">()</span>
+    <span class="nf">setupLayout</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>If you don&#39;t need to deal with bounds/orientation change, then you can put on a guard to make sure layout is created once only:</p>
+<p>If you don’t need to deal with bounds/orientation change, then you can put on a guard to make sure layout is created once only:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">=</span> <span class="nb">true</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="kr">override</span> <span class="k">func</span> <span class="n">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">super</span><span class="p">.</span><span class="n">viewDidLayoutSubviews</span><span class="p">()</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Make sure this is the first time, else return</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">guard</span> <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">==</span> <span class="nb">true</span> <span class="k">else</span> <span class="p">&#x7b;</span><span class="k">return</span><span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">=</span> <span class="nb">false</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Create the layout</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">setupLayout</span><span class="p">()</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">var</span> <span class="nv">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">=</span> <span class="kc">true</span>
+ 
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLayoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLayoutSubviews</span><span class="p">()</span>
+ 
+    <span class="c1">// Make sure this is the first time, else return</span>
+    <span class="k">guard</span> <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">==</span> <span class="kc">true</span> <span class="k">else</span> <span class="p">{</span><span class="k">return</span><span class="p">}</span>
+    <span class="n">viewDidLayoutSubviewsForTheFirstTime</span> <span class="o">=</span> <span class="kc">false</span>
+ 
+    <span class="c1">// Create the layout</span>
+    <span class="nf">setupLayout</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

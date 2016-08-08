@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,55 +76,63 @@
 
 <p>But we leave out quite a few things about <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIPageViewControllerClassReferenceClassRef/#//apple_ref/occ/instp/UIPageViewController/viewControllers">UIPageViewController</a>.  This guide will cover some of these things.</p>
 
-<h2>The Pages &amp; ViewControllers</h2>
+<h2 id="the-pages--viewcontrollers">The Pages &amp; ViewControllers</h2>
 
-<p>In our <code>UIPageViewController</code>, we declared <code>pages</code> to hold all our view controllers.</p>
+<p>In our <code class="highlighter-rouge">UIPageViewController</code>, we declared <code class="highlighter-rouge">pages</code> to hold all our view controllers.</p>
 
-<p>This <code>pages</code> is different from the provided property <code>viewControllers</code>.</p>
+<p>This <code class="highlighter-rouge">pages</code> is different from the provided property <code class="highlighter-rouge">viewControllers</code>.</p>
 
 <ul>
-<li><code>pages</code> are all your view controllers</li>
-<li><code>viewControllers</code> are the <strong>current views</strong> being displayed in the <code>UIPageViewController</code>. In iBook, 2 pages could be displayed together, and this property will hold the 2 view controllers.</li>
+  <li><code class="highlighter-rouge">pages</code> are all your view controllers</li>
+  <li><code class="highlighter-rouge">viewControllers</code> are the <strong>current views</strong> being displayed in the <code class="highlighter-rouge">UIPageViewController</code>. In iBook, 2 pages could be displayed together, and this property will hold the 2 view controllers.</li>
 </ul>
 
-<h2>Currently Selected Index</h2>
+<h2 id="currently-selected-index">Currently Selected Index</h2>
 
 <p>Oddly, there is no property or event to let you know of the currently selected index.</p>
 
-<p>As such, you have ride on <code>UIPageViewControllerDelegate</code> and manually track it.</p>
+<p>As such, you have ride on <code class="highlighter-rouge">UIPageViewControllerDelegate</code> and manually track it.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Track the current index</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">var</span> <span class="nl">currentIndex</span><span class="p">:</span> <span class="n">Int</span><span class="o">?</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">private</span> <span class="k">var</span> <span class="nl">pendingIndex</span><span class="p">:</span> <span class="n">Int</span><span class="o">?</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">pageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">,</span> <span class="n">willTransitionToViewControllers</span> <span class="nl">pendingViewControllers</span><span class="p">:</span> <span class="p">[</span><span class="bp">UIViewController</span><span class="p">])</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">pendingIndex</span> <span class="o">=</span> <span class="n">pages</span><span class="p">.</span><span class="n">indexOf</span><span class="p">(</span><span class="n">pendingViewControllers</span><span class="p">.</span><span class="n">first</span><span class="o">!</span><span class="p">)</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">pageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">,</span> <span class="n">didFinishAnimating</span> <span class="nl">finished</span><span class="p">:</span> <span class="n">Bool</span><span class="p">,</span> <span class="nl">previousViewControllers</span><span class="p">:</span> <span class="p">[</span><span class="bp">UIViewController</span><span class="p">],</span> <span class="n">transitionCompleted</span> <span class="nl">completed</span><span class="p">:</span> <span class="n">Bool</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="n">completed</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">currentIndex</span> <span class="o">=</span> <span class="n">pendingIndex</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Track the current index</span>
+<span class="k">var</span> <span class="nv">currentIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
+<span class="kd">private</span> <span class="k">var</span> <span class="nv">pendingIndex</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span>
 
-<h2>Page Indicator</h2>
+<span class="kd">func</span> <span class="nf">pageViewController</span><span class="p">(</span><span class="nv">pageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">,</span> <span class="n">willTransitionToViewControllers</span> <span class="nv">pendingViewControllers</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIViewController</span><span class="p">])</span> <span class="p">{</span>
+    <span class="n">pendingIndex</span> <span class="o">=</span> <span class="n">pages</span><span class="o">.</span><span class="nf">indexOf</span><span class="p">(</span><span class="n">pendingViewControllers</span><span class="o">.</span><span class="n">first</span><span class="o">!</span><span class="p">)</span>
+<span class="p">}</span>
 
-<p>Page indicator is automatically provided if you use &quot;scroll&quot; transition, and you implement the 2 <code>UIPageViewControllerDataSource</code> methods below:</p>
+<span class="kd">func</span> <span class="nf">pageViewController</span><span class="p">(</span><span class="nv">pageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">,</span> <span class="n">didFinishAnimating</span> <span class="nv">finished</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">previousViewControllers</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIViewController</span><span class="p">],</span> <span class="n">transitionCompleted</span> <span class="nv">completed</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">completed</span> <span class="p">{</span>
+        <span class="n">currentIndex</span> <span class="o">=</span> <span class="n">pendingIndex</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">presentationCountForPageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="n">pages</span><span class="p">.</span><span class="n">count</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">func</span> <span class="n">presentationIndexForPageViewController</span><span class="p">(</span><span class="nl">pageViewController</span><span class="p">:</span> <span class="bp">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="mi">0</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<h2 id="page-indicator">Page Indicator</h2>
 
-<p>You could be wondering why <code>return 0</code> for the index?</p>
+<p>Page indicator is automatically provided if you use “scroll” transition, and you implement the 2 <code class="highlighter-rouge">UIPageViewControllerDataSource</code> methods below:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">presentationCountForPageViewController</span><span class="p">(</span><span class="nv">pageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">pages</span><span class="o">.</span><span class="n">count</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">presentationIndexForPageViewController</span><span class="p">(</span><span class="nv">pageViewController</span><span class="p">:</span> <span class="kt">UIPageViewController</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">0</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>You could be wondering why <code class="highlighter-rouge">return 0</code> for the index?</p>
 
 <p>As the <a href="https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIPageViewControllerDataSourceProtocolRef/index.html#//apple_ref/occ/intfm/UIPageViewControllerDataSource/presentationIndexForPageViewController:">doc</a> says:</p>
 
 <blockquote>
-<p>After gesture-driven navigation, these methods are not called. The index is updated automatically and the number of view controllers is expected to remain constant.</p>
+  <p>After gesture-driven navigation, these methods are not called. The index is updated automatically and the number of view controllers is expected to remain constant.</p>
 </blockquote>
 
-<p>The method is never called when you swipe to scroll. It is called only when you call <code>setViewControllers:direction:animated:completion:</code> on the first time.</p>
+<p>The method is never called when you swipe to scroll. It is called only when you call <code class="highlighter-rouge">setViewControllers:direction:animated:completion:</code> on the first time.</p>
+
 
         </section>
         <footer class="post-footer">

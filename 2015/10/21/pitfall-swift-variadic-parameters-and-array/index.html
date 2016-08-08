@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,38 +72,46 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>I was using <code>String</code> format with variadic parameters, and was very puzzled by how it works.</p>
+          <p>I was using <code class="highlighter-rouge">String</code> format with variadic parameters, and was very puzzled by how it works.</p>
 
 <p>See this piece of playground code:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">f</span> <span class="o">=</span> <span class="s">&quot;Hello %d World %d&quot;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Pass [1, 2] directly</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">String</span><span class="p">(</span><span class="nl">format</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span> <span class="nl">arguments</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Prints &quot;Hello 1 World 2&quot; correctly</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Now, lets create an array [1, 2], and pass in</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Surprisingly, this will CRASH</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">String</span><span class="p">(</span><span class="nl">format</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span> <span class="nl">arguments</span><span class="p">:</span> <span class="n">arr</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">f</span> <span class="o">=</span> <span class="s">"Hello %d World %d"</span>
+
+<span class="c1">// Pass [1, 2] directly</span>
+<span class="kt">String</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="c1">// Prints "Hello 1 World 2" correctly</span>
+
+<span class="c1">// Now, lets create an array [1, 2], and pass in</span>
+<span class="k">let</span> <span class="nv">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="c1">// Surprisingly, this will CRASH</span>
+<span class="kt">String</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="n">arr</span><span class="p">)</span>
+</code></pre>
+</div>
 
 <p>This puzzled me.</p>
 
 <p>Looks so similarly, yet one will crash and burn.</p>
 
-<h2>Swift Type</h2>
+<h2 id="swift-type">Swift Type</h2>
 
-<p>Apparently, arguments require the type <code>[CVarArgType]</code>, and if you will to declare it like <code>arr</code> as above, the type will be <code>[Int]</code>, and that&#39;s not ok.</p>
+<p>Apparently, arguments require the type <code class="highlighter-rouge">[CVarArgType]</code>, and if you will to declare it like <code class="highlighter-rouge">arr</code> as above, the type will be <code class="highlighter-rouge">[Int]</code>, and that’s not ok.</p>
 
 <p><a href="https://devforums.apple.com/message/970958">This thread</a> shed light on why the array is not cast/unpacked automatically.</p>
 
 <blockquote>
-<p>Should the compiler choose T=Int or T=Int[] ?
-Swift&#39;s generics system allows T to be any type, including an array type, so we don&#39;t allow automatic &quot;unpacking&quot; of arrays when calling into variadics, meaning that we&#39;ll always pick T=Int[]. There should be some way to explicitly unpack an array (or any sequence?), and we (internally) have a Radar requesting this feature.</p>
+  <p>Should the compiler choose T=Int or T=Int[] ?
+Swift’s generics system allows T to be any type, including an array type, so we don’t allow automatic “unpacking” of arrays when calling into variadics, meaning that we’ll always pick T=Int[]. There should be some way to explicitly unpack an array (or any sequence?), and we (internally) have a Radar requesting this feature.</p>
 </blockquote>
 
 <p>The fix is to explicitly provide the type:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="nl">arr</span><span class="p">:</span> <span class="p">[</span><span class="n">CVarArgType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">String</span><span class="p">(</span><span class="nl">format</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span> <span class="nl">arguments</span><span class="p">:</span> <span class="n">arr</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">arr</span><span class="p">:</span> <span class="p">[</span><span class="kt">CVarArgType</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="kt">String</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="n">f</span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="n">arr</span><span class="p">)</span>
+</code></pre>
+</div>
+
 
         </section>
         <footer class="post-footer">

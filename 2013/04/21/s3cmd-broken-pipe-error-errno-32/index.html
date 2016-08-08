@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>If you use <a href="http://s3tools.org/s3cmd">s3cmd</a> and encountered <code>[Errno 32] Broken pipe</code> as you try to put an object in a bucket, understand that this is a <em>very very bad error message</em>.</p>
+          <p>If you use <a href="http://s3tools.org/s3cmd">s3cmd</a> and encountered <code class="highlighter-rouge">[Errno 32] Broken pipe</code> as you try to put an object in a bucket, understand that this is a <em>very very bad error message</em>.</p>
 
 <p><a href="http://jeremyshapiro.com/blog/2011/02/errno-32-broken-pipe-in-s3cmd/">Jeremy</a> blogged about this and attributed the error to <strong>a typo in the bucket name</strong>.</p>
 
@@ -84,60 +84,69 @@
 
 <p>I was trying to create a new security group, and adding a new user, and restrict his access to only 1 of my S3 bucket. When you create a new security group, you can <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html">edit the policy</a>.</p>
 
-<p>You might change to this, thinking it allows all action on <code>example_bucket</code>:</p>
+<p>You might change to this, thinking it allows all action on <code class="highlighter-rouge">example_bucket</code>:</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>WRONG Policy</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nt">&quot;Statement&quot;</span><span class="p">:[&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="s2">&quot;*&quot;</span><span class="p">,</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>     <span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="s2">&quot;arn:aws:s3:::example_bucket&quot;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>   <span class="p">&#x7d;]</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p><code class="highlighter-rouge">json WRONG Policy
+{
+  "Statement":[{
+     "Effect":"Allow",
+     "Action":"*",
+     "Resource":"arn:aws:s3:::example_bucket"
+   }]
+}
+</code></p>
 
-<p>You are wrong (though I say Amazon and it&#39;s documentation to blame).</p>
+<p>You are wrong (though I say Amazon and it’s documentation to blame).</p>
 
 <p>The <a href="http://stackoverflow.com/a/6955864/242682">correct way</a> is to have multiple statements like this:</p>
 
-<figure class='code-highlight-figure'><figcaption class='code-highlight-caption'><span class='code-highlight-caption-title'>Correct Policy</span></figcaption><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="nt">&quot;Statement&quot;</span><span class="p">:</span> <span class="p">[</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:ListBucket&quot;</span><span class="p">,</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:GetBucketLocation&quot;</span><span class="p">,</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:ListBucketMultipartUploads&quot;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="p">],</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:s3:::example_bucket&quot;</span><span class="p">,</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nt">&quot;Condition&quot;</span><span class="p">:</span> <span class="p">&#x7b;&#x7d;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;,</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7b;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nt">&quot;Effect&quot;</span><span class="p">:</span> <span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nt">&quot;Action&quot;</span><span class="p">:</span> <span class="p">[</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:AbortMultipartUpload&quot;</span><span class="p">,</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:DeleteObject&quot;</span><span class="p">,</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:DeleteObjectVersion&quot;</span><span class="p">,</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:GetObject&quot;</span><span class="p">,</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:GetObjectAcl&quot;</span><span class="p">,</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:GetObjectVersion&quot;</span><span class="p">,</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:GetObjectVersionAcl&quot;</span><span class="p">,</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:PutObject&quot;</span><span class="p">,</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:PutObjectAcl&quot;</span><span class="p">,</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="s2">&quot;s3:PutObjectAclVersion&quot;</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="p">],</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nt">&quot;Resource&quot;</span><span class="p">:</span> <span class="s2">&quot;arn:aws:s3:::example_bucket/*&quot;</span><span class="p">,</span>
-</div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'>      <span class="nt">&quot;Condition&quot;</span><span class="p">:</span> <span class="p">&#x7b;&#x7d;</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>  <span class="p">]</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<p><code class="highlighter-rouge">json Correct Policy
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketLocation",
+        "s3:ListBucketMultipartUploads"
+      ],
+      "Resource": "arn:aws:s3:::example_bucket",
+      "Condition": {}
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:AbortMultipartUpload",
+        "s3:DeleteObject",
+        "s3:DeleteObjectVersion",
+        "s3:GetObject",
+        "s3:GetObjectAcl",
+        "s3:GetObjectVersion",
+        "s3:GetObjectVersionAcl",
+        "s3:PutObject",
+        "s3:PutObjectAcl",
+        "s3:PutObjectAclVersion"
+      ],
+      "Resource": "arn:aws:s3:::example_bucket/*",
+      "Condition": {}
+    }
+  ]
+}
+</code></p>
 
 <p>You need to split into 2 resources.</p>
 
 <ol>
-<li><p><code>arn:aws:s3:::example_bucket</code> - allow to list objects in the bucket</p></li>
-<li><p><code>arn:aws:s3:::example_bucket/*</code> - allow to Get/Put/etc the objects in the bucket</p></li>
+  <li>
+    <p><code class="highlighter-rouge">arn:aws:s3:::example_bucket</code> - allow to list objects in the bucket</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">arn:aws:s3:::example_bucket/*</code> - allow to Get/Put/etc the objects in the bucket</p>
+  </li>
 </ol>
 
-<p>It&#39;s subtle..</p>
+<p>It’s subtle..</p>
+
 
         </section>
         <footer class="post-footer">

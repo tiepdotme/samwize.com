@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,28 +78,35 @@
 
 <!-- more -->
 
-<p>Here is a <a href="https://brianstoner.com/blog/testing-in-nodejs-with-mocha/">guide by Brian Stoner</a>. After installing mocha and such, you can create a <code>MakeFile</code> like this:</p>
+<p>Here is a <a href="https://brianstoner.com/blog/testing-in-nodejs-with-mocha/">guide by Brian Stoner</a>. After installing mocha and such, you can create a <code class="highlighter-rouge">MakeFile</code> like this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>REPORTER = dot
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>test:
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>  @NODE_ENV=test ./node_modules/.bin/mocha \
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    --reporter $(REPORTER) \
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>test-w:
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>  @NODE_ENV=test ./node_modules/.bin/mocha \
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    --reporter $(REPORTER) \
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    --growl \
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    --watch
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>.PHONY: test test-w</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nv">REPORTER</span> <span class="o">=</span> dot
+
+<span class="nl">test</span><span class="o">:</span>
+  <span class="err">@</span><span class="nv">NODE_ENV</span><span class="o">=</span><span class="nb">test</span> ./node_modules/.bin/mocha <span class="se">\</span>
+    --reporter <span class="nv">$(REPORTER)</span> <span class="se">\</span>
+
+<span class="nl">test-w</span><span class="o">:</span>
+  <span class="err">@</span><span class="nv">NODE_ENV</span><span class="o">=</span><span class="nb">test</span> ./node_modules/.bin/mocha <span class="se">\</span>
+    --reporter <span class="nv">$(REPORTER)</span> <span class="se">\</span>
+    --growl <span class="se">\</span>
+    --watch
+
+<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">test test-w</span>
+</code></pre>
+</div>
 
 <p>(In case you <a href="http://stackoverflow.com/questions/2145590/what-is-the-purpose-of-phony-in-a-makefile">wonder what .PHONY is</a>..)</p>
 
 <p>You can run your tests with:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>$ make test</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ make test
+</code></pre>
+</div>
 
 <p>Another javascript library you should use together with mocha is <a href="https://github.com/shouldjs/should.js">should.js</a>.</p>
 
-<p>Should.js replaces <code>assert</code> library with more human-like language eg. <code>foo.should.be.exactly(5)</code></p>
+<p>Should.js replaces <code class="highlighter-rouge">assert</code> library with more human-like language eg. <code class="highlighter-rouge">foo.should.be.exactly(5)</code></p>
 
 <p>An interesting thing to note: should.js extend object prototype!! While this is usually dangerous, should.js extend object with a <em>should</em>, and only that, thus safer.</p>
 

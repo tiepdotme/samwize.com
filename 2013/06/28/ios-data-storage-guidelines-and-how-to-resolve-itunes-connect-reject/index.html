@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,110 +74,147 @@
           
           <p>Since the introduction of <a href="https://www.apple.com/support/icloud/backup/">iCloud Backup</a>, developers have increasingly faced the following reason for rejected binary:</p>
 
-<blockquote><div class="highlight"><pre><code class="language-text" data-lang="text">2.23: Apps must follow the iOS Data Storage Guidelines or they will be rejected
+<blockquote>
+  <div class="highlighter-rouge"><pre class="highlight"><code>2.23: Apps must follow the iOS Data Storage Guidelines or they will be rejected
+</code></pre>
+  </div>
+</blockquote>
 
-The iOS Data Storage Guidelines indicate that only content that the user creates using your app, e.g., documents, new files, edits, etc., should be backed up by iCloud. 
-</code></pre></div></blockquote>
+<blockquote>
+  <div class="highlighter-rouge"><pre class="highlight"><code>The iOS Data Storage Guidelines indicate that only content that the user creates using your app, e.g., documents, new files, edits, etc., should be backed up by iCloud. 
+</code></pre>
+  </div>
+</blockquote>
 
 <p>This all boils down to understanding <a href="https://developer.apple.com/library/ios/qa/qa1719/_index.html">iOS Data Storage Guidelines</a>.</p>
 
 <!-- more -->
 
-<h1>How App Backup and Update</h1>
+<h1 id="how-app-backup-and-update">How App Backup and Update</h1>
 
 <p>Apps are backup via iCloud/iTunes, but they do NOT backup the following directories:</p>
 
 <ol>
-<li><code>&lt;Application_Home&gt;/AppName.app</code></li>
-<li><code>&lt;Application_Home&gt;/Library/Caches</code></li>
-<li><code>&lt;Application_Home&gt;/tmp</code></li>
+  <li><code class="highlighter-rouge">&lt;Application_Home&gt;/AppName.app</code></li>
+  <li><code class="highlighter-rouge">&lt;Application_Home&gt;/Library/Caches</code></li>
+  <li><code class="highlighter-rouge">&lt;Application_Home&gt;/tmp</code></li>
 </ol>
 
-<p>In addition, if a file has an attribute that says &quot;exclude from backup&quot;, it will NOT be backup too.</p>
+<p>In addition, if a file has an attribute that says “exclude from backup”, it will NOT be backup too.</p>
 
 <p>When you update an application, data in these 2 directories will be copied over:</p>
 
 <ol>
-<li><code>&lt;Application_Home&gt;/Documents</code></li>
-<li><code>&lt;Application_Home&gt;/Library</code></li>
+  <li><code class="highlighter-rouge">&lt;Application_Home&gt;/Documents</code></li>
+  <li><code class="highlighter-rouge">&lt;Application_Home&gt;/Library</code></li>
 </ol>
 
 <p>Although files in other user directories may also be moved over, you should not rely on them being present after an update.</p>
 
-<h1>Type of data - Critical, Support, Cached, Temporary</h1>
+<h1 id="type-of-data---critical-support-cached-temporary">Type of data - Critical, Support, Cached, Temporary</h1>
 
 <p>Before we move on, these are the definitions for the 4 types of data:</p>
 
 <ol>
-<li><p><strong>Critical</strong>: Data that cannot be recreated by your app such as user generated content. These need to be backup.</p></li>
-<li><p><strong>Support</strong>: Needed files which the app can re-generate or download. They should be excluded from backup.</p></li>
-<li><p><strong>Cached</strong>: Downloaded content such as images, map data, magazine. System could delete them to free up disk space.</p></li>
-<li><p><strong>Temporary</strong>: Data that are needed for a short while such as during processing. You should delete them after use.</p></li>
+  <li>
+    <p><strong>Critical</strong>: Data that cannot be recreated by your app such as user generated content. These need to be backup.</p>
+  </li>
+  <li>
+    <p><strong>Support</strong>: Needed files which the app can re-generate or download. They should be excluded from backup.</p>
+  </li>
+  <li>
+    <p><strong>Cached</strong>: Downloaded content such as images, map data, magazine. System could delete them to free up disk space.</p>
+  </li>
+  <li>
+    <p><strong>Temporary</strong>: Data that are needed for a short while such as during processing. You should delete them after use.</p>
+  </li>
 </ol>
 
 <p>As you see, only critical data should be backup.</p>
 
-<h1>Different iOS Version</h1>
+<h1 id="different-ios-version">Different iOS Version</h1>
 
 <p>There are 3 versions that you <a href="https://developer.apple.com/library/ios/#qa/qa1719/_index.html">need to beware of</a> when you are using iCloud Backup. It is a fragmentation issue.</p>
 
 <p>Actually it deals with what files you do NOT want to backup. Because if you simply backup every files (including non critical files), Apple will reject your app.</p>
 
 <ol>
-<li><p>5.1 and later: You can add a file attribute <code>NSURLIsExcludedFromBackupKey</code> to specify that you don&#39;t want to backup the file. </p></li>
-<li><p>5.0.1: A slightly different method that uses <code>setxattr</code></p></li>
-<li><p>5.0: No method to specify a file not to backup. The only way is to store them in <code>&lt;Application_Home&gt;/Library/Caches</code></p></li>
+  <li>
+    <p>5.1 and later: You can add a file attribute <code class="highlighter-rouge">NSURLIsExcludedFromBackupKey</code> to specify that you don’t want to backup the file.</p>
+  </li>
+  <li>
+    <p>5.0.1: A slightly different method that uses <code class="highlighter-rouge">setxattr</code></p>
+  </li>
+  <li>
+    <p>5.0: No method to specify a file not to backup. The only way is to store them in <code class="highlighter-rouge">&lt;Application_Home&gt;/Library/Caches</code></p>
+  </li>
 </ol>
 
-<h1>Summary</h1>
+<h1 id="summary">Summary</h1>
 
 <p>A guideline for your files.</p>
 
 <ul>
-<li><p>For <strong>critcal</strong> data (the only type that need to be backup), store them in:</p>
+  <li>
+    <p>For <strong>critcal</strong> data (the only type that need to be backup), store them in:</p>
 
-<ul>
-<li><code>&lt;Application_Home&gt;/Documents</code></li>
-</ul></li>
-<li><p>For <strong>support</strong> data, they should be excluded from backup. It is a little complicated due to the different iOS version.</p>
+    <ul>
+      <li><code class="highlighter-rouge">&lt;Application_Home&gt;/Documents</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>For <strong>support</strong> data, they should be excluded from backup. It is a little complicated due to the different iOS version.</p>
 
-<ul>
-<li>For iOS 5.0.1 and later, store in <code>&lt;Application_Home&gt;/Library/Application Support</code> and add the file attribute as described in the previous section.</li>
-<li>If you need to support iOS 5.0, then store in <code>&lt;Application_Home&gt;/Library/Caches</code> and still use the file attributes for 5.0.1 and later</li>
-<li>Note: Support files might not exist when an app backup or update, so you should check if it exists first before use.</li>
-</ul></li>
-<li><p>For <strong>cache</strong>, store in </p>
+    <ul>
+      <li>
+        <p>For iOS 5.0.1 and later, store in <code class="highlighter-rouge">&lt;Application_Home&gt;/Library/Application Support</code> and add the file attribute as described in the previous section.</p>
+      </li>
+      <li>
+        <p>If you need to support iOS 5.0, then store in <code class="highlighter-rouge">&lt;Application_Home&gt;/Library/Caches</code> and still use the file attributes for 5.0.1 and later</p>
+      </li>
+      <li>
+        <p>Note: Support files might not exist when an app backup or update, so you should check if it exists first before use.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>For <strong>cache</strong>, store in</p>
 
-<ul>
-<li><code>&lt;Application_Home&gt;/Library/Caches</code></li>
-</ul></li>
-<li><p>For <strong>temp</strong> files, store in </p>
+    <ul>
+      <li><code class="highlighter-rouge">&lt;Application_Home&gt;/Library/Caches</code></li>
+    </ul>
+  </li>
+  <li>
+    <p>For <strong>temp</strong> files, store in</p>
 
-<ul>
-<li><code>&lt;Application_Home&gt;/tmp</code></li>
-</ul></li>
+    <ul>
+      <li><code class="highlighter-rouge">&lt;Application_Home&gt;/tmp</code></li>
+    </ul>
+  </li>
 </ul>
 
-<h1>Code to fix your app</h1>
+<h1 id="code-to-fix-your-app">Code to fix your app</h1>
 
-<p>It is your <strong>support</strong> data in <code>&lt;Application_Home&gt;/Library/Application Support</code> that should be excluded from backup. </p>
+<p>It is your <strong>support</strong> data in <code class="highlighter-rouge">&lt;Application_Home&gt;/Library/Application Support</code> that should be excluded from backup.</p>
 
-<p>You can add the following code in <code>application:didFinishLaunchingWithOptions:</code> to exclude all files and directories:</p>
+<p>You can add the following code in <code class="highlighter-rouge">application:didFinishLaunchingWithOptions:</code> to exclude all files and directories:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">paths</span> <span class="o">=</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span><span class="n">NSApplicationSupportDirectory</span><span class="p">,</span> <span class="n">NSUserDomainMask</span><span class="p">,</span> <span class="nb">YES</span><span class="p">);</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">basePath</span> <span class="o">=</span> <span class="p">([</span><span class="n">paths</span> <span class="n">count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="p">[</span><span class="n">paths</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">:</span> <span class="nb">nil</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSArray</span> <span class="o">*</span><span class="n">documents</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">contentsOfDirectoryAtPath</span><span class="p">:</span><span class="n">basePath</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSURL</span> <span class="o">*</span><span class="n">URL</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSString</span> <span class="o">*</span><span class="n">completeFilePath</span><span class="p">;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">for</span> <span class="p">(</span><span class="bp">NSString</span> <span class="o">*</span><span class="n">file</span> <span class="k">in</span> <span class="n">documents</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">completeFilePath</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@/%@&quot;</span><span class="p">,</span> <span class="n">basePath</span><span class="p">,</span> <span class="n">file</span><span class="p">];</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">URL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">fileURLWithPath</span><span class="p">:</span><span class="n">completeFilePath</span><span class="p">];</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">URL</span> <span class="nl">resourceValuesForKeys</span><span class="p">:</span><span class="l">@[</span><span class="n">NSURLIsExcludedFromBackupKey</span><span class="l">]</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">([</span><span class="n">values</span><span class="p">[</span><span class="n">NSURLIsExcludedFromBackupKey</span><span class="p">]</span> <span class="n">boolValue</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NO</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;To exclude from iCloud backup: %@&quot;</span><span class="p">,</span> <span class="n">completeFilePath</span><span class="p">);</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="n">URL</span> <span class="nl">setResourceValue</span><span class="p">:</span><span class="l">@(</span><span class="nb">YES</span><span class="l">)</span> <span class="nl">forKey</span><span class="p">:</span><span class="n">NSURLIsExcludedFromBackupKey</span> <span class="nl">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">NSArray</span> <span class="o">*</span><span class="n">paths</span> <span class="o">=</span> <span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span><span class="n">NSApplicationSupportDirectory</span><span class="p">,</span> <span class="n">NSUserDomainMask</span><span class="p">,</span> <span class="nb">YES</span><span class="p">);</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">basePath</span> <span class="o">=</span> <span class="p">([</span><span class="n">paths</span> <span class="nf">count</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">?</span> <span class="p">[</span><span class="n">paths</span> <span class="nf">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="n">NSArray</span> <span class="o">*</span><span class="n">documents</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSFileManager</span> <span class="nf">defaultManager</span><span class="p">]</span> <span class="nf">contentsOfDirectoryAtPath</span><span class="p">:</span><span class="n">basePath</span> <span class="nf">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+<span class="n">NSURL</span> <span class="o">*</span><span class="n">URL</span><span class="p">;</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">completeFilePath</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="n">file</span> <span class="k">in</span> <span class="n">documents</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">completeFilePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%@/%@"</span><span class="p">,</span> <span class="n">basePath</span><span class="p">,</span> <span class="n">file</span><span class="p">];</span>
+    <span class="n">URL</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">fileURLWithPath</span><span class="p">:</span><span class="n">completeFilePath</span><span class="p">];</span>
+    <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">URL</span> <span class="nf">resourceValuesForKeys</span><span class="p">:@[</span><span class="n">NSURLIsExcludedFromBackupKey</span><span class="p">]</span> <span class="nf">error</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">values</span><span class="p">[</span><span class="nf">NSURLIsExcludedFromBackupKey</span><span class="p">]</span> <span class="nf">boolValue</span><span class="p">]</span> <span class="o">==</span> <span class="nb">NO</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"To exclude from iCloud backup: %@"</span><span class="p">,</span> <span class="n">completeFilePath</span><span class="p">);</span>
+        <span class="p">[</span><span class="n">URL</span> <span class="nf">setResourceValue</span><span class="p">:</span><span class="err">@</span><span class="p">(</span><span class="nb">YES</span><span class="p">)</span> <span class="nf">forKey</span><span class="p">:</span><span class="n">NSURLIsExcludedFromBackupKey</span> <span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

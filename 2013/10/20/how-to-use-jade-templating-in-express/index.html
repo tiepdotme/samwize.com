@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,37 +78,43 @@
 
 <!-- more -->
 
-<h2>1. Create the views directory</h2>
+<h2 id="create-the-views-directory">1. Create the views directory</h2>
 
-<p>Create a <code>views</code> directory in your project root directory. </p>
+<p>Create a <code class="highlighter-rouge">views</code> directory in your project root directory.</p>
 
-<h2>2. Configure the view engine</h2>
+<h2 id="configure-the-view-engine">2. Configure the view engine</h2>
 
-<p>You can actually use other directory names instead of <code>views</code>, as you will configure in your app.js as such:</p>
+<p>You can actually use other directory names instead of <code class="highlighter-rouge">views</code>, as you will configure in your app.js as such:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nx">app</span><span class="p">.</span><span class="nx">configure</span><span class="p">(</span><span class="kd">function</span><span class="p">()&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;views&#39;</span><span class="p">,</span> <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/views&#39;</span><span class="p">);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;view engine&#39;</span><span class="p">,</span> <span class="s1">&#39;jade&#39;</span><span class="p">);</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;);</span></div></div></pre></div></figure>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">app</span><span class="p">.</span><span class="nx">configure</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'views'</span><span class="p">,</span> <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">'/views'</span><span class="p">);</span>
+    <span class="nx">app</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">'view engine'</span><span class="p">,</span> <span class="s1">'jade'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-<h2>3. Write some jade code</h2>
+<h2 id="write-some-jade-code">3. Write some jade code</h2>
 
-<p>Create <code>index.jade</code> in the <code>views</code> directory. </p>
+<p>Create <code class="highlighter-rouge">index.jade</code> in the <code class="highlighter-rouge">views</code> directory.</p>
 
 <p>A basic example:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="nt">div</span><span class="nc">.content</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nt">p</span> <span class="nt">Hello</span> <span class="nt">Worls</span></div></div></pre></div></figure>
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nt">div</span><span class="nc">.content</span>
+	<span class="nt">p</span> <span class="nt">Hello</span> <span class="nt">Worls</span>
+</code></pre>
+</div>
 
-<h2>4. Write the route</h2>
+<h2 id="write-the-route">4. Write the route</h2>
 
-<p>In the usual <code>app.get(..)</code> code, you can now render using the jade template.</p>
+<p>In the usual <code class="highlighter-rouge">app.get(..)</code> code, you can now render using the jade template.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'>app.get('/', function(request, response) &#x7b;
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    response.render('index.jade');
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>&#x7d;);</div></div></pre></div></figure>
+<div class="highlighter-rouge"><pre class="highlight"><code>app.get('/', function(request, response) {
+    response.render('index.jade');
+});
+</code></pre>
+</div>
 
-<p>That&#39;s it!</p>
+<p>That’s it!</p>
 
         </section>
         <footer class="post-footer">

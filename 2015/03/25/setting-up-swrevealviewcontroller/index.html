@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,17 +74,17 @@
           
           <p><a href="https://github.com/John-Lluch/SWRevealViewController">SWRevealViewController</a> is a very well written iOS library by John Lluch.</p>
 
-<p>It is a UI component popularly known as the hamburger menu that slides in the sidebar. </p>
+<p>It is a UI component popularly known as the hamburger menu that slides in the sidebar.</p>
 
 <p>This post is all about my encounter with SWRevealViewController.</p>
 
 <!-- more -->
 
-<h2>Using Hamburger Menu</h2>
+<h2 id="using-hamburger-menu">Using Hamburger Menu</h2>
 
 <p>I was once very against the use of the Hamburger Menu.</p>
 
-<p>The hamburger is commonly placed on the top left corner, and that is where the thumb can&#39;t reach on an iPhone.</p>
+<p>The hamburger is commonly placed on the top left corner, and that is where the thumb can’t reach on an iPhone.</p>
 
 <p>But overtime, I felt the UI pattern can be used, if a swipe right gesture is provided.</p>
 
@@ -92,60 +92,83 @@
 
 <p>You can easily swipe right to show the channels, or swipe left to open a side menu.</p>
 
-<h2>How to setup SWRevealViewController</h2>
+<h2 id="how-to-setup-swrevealviewcontroller">How to setup SWRevealViewController</h2>
 
 <p>The <a href="https://github.com/John-Lluch/SWRevealViewController">github</a> has some information on using the API, and a sample app.</p>
 
-<p>But there ain&#39;t good steps.</p>
+<p>But there ain’t good steps.</p>
 
 <p>If you are integrating to your project, this is my step-by-step guide.</p>
 
 <ol>
-<li><p>Add <code>pod &#39;SWRevealViewController&#39;, &#39;~&gt; 2.3&#39;</code> to your <a href="http://cocoapods.org">pods</a></p></li>
-<li><p>Create a View Controller (VC) in your storyboard, and set the class to <code>SWRevealViewController</code>. This VC will be empty. </p></li>
-<li><p>Create a <code>Front VC</code> and a <code>Rear VC</code> in your storyboard. </p>
+  <li>
+    <p>Add <code class="highlighter-rouge">pod 'SWRevealViewController', '~&gt; 2.3'</code> to your <a href="http://cocoapods.org">pods</a></p>
+  </li>
+  <li>
+    <p>Create a View Controller (VC) in your storyboard, and set the class to <code class="highlighter-rouge">SWRevealViewController</code>. This VC will be empty.</p>
+  </li>
+  <li>
+    <p>Create a <code class="highlighter-rouge">Front VC</code> and a <code class="highlighter-rouge">Rear VC</code> in your storyboard.</p>
 
-<p>A &quot;Front VC&quot; is usually the content view controller, and you usually will have multiple of them, with one as the initial one. </p>
+    <p>A “Front VC” is usually the content view controller, and you usually will have multiple of them, with one as the initial one.</p>
 
-<p>A &quot;Rear VC&quot; is usually a sidebar on the left of the &quot;Front VC&quot; when slided in.</p>
+    <p>A “Rear VC” is usually a sidebar on the left of the “Front VC” when slided in.</p>
 
-<p>There is also a &quot;Right VC&quot;, which is sort of a &quot;Rear VC&quot; but on the right. We will omit this, but every API for Rear has one for Right.</p></li>
-<li><p>Create a segue from <code>SWRevealViewController</code> to <code>Front VC</code>, when prompted set to “reveal view controller set segue”, then set the segue identifier to <code>sw_front</code>.</p></li>
-<li><p>Create a segue from <code>SWRevealViewController</code> to <code>Rear VC</code>, when prompted set to “reveal view controller set segue”, then set the segue identifier to <code>sw_rear</code>.</p></li>
-<li><p>Add a button to Front VC with the name <code>sidebarButton</code></p></li>
-<li><p>The code for Front VC:</p></li>
+    <p>There is also a “Right VC”, which is sort of a “Rear VC” but on the right. We will omit this, but every API for Rear has one for Right.</p>
+  </li>
+  <li>
+    <p>Create a segue from <code class="highlighter-rouge">SWRevealViewController</code> to <code class="highlighter-rouge">Front VC</code>, when prompted set to “reveal view controller set segue”, then set the segue identifier to <code class="highlighter-rouge">sw_front</code>.</p>
+  </li>
+  <li>
+    <p>Create a segue from <code class="highlighter-rouge">SWRevealViewController</code> to <code class="highlighter-rouge">Rear VC</code>, when prompted set to “reveal view controller set segue”, then set the segue identifier to <code class="highlighter-rouge">sw_rear</code>.</p>
+  </li>
+  <li>
+    <p>Add a button to Front VC with the name <code class="highlighter-rouge">sidebarButton</code></p>
+  </li>
+  <li>
+    <p>The code for Front VC:</p>
+  </li>
 </ol>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">super</span> <span class="n">viewDidLoad</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">SWRevealViewController</span> <span class="o">*</span><span class="n">revealViewController</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="n">revealViewController</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">sidebarButton</span> <span class="nl">setTarget</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">];</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">sidebarButton</span> <span class="nl">setAction</span><span class="p">:</span> <span class="k">@selector</span><span class="p">(</span><span class="nl">revealToggle</span><span class="p">:)];</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span> <span class="nb">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">.</span><span class="n">panGestureRecognizer</span><span class="p">];</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">viewDidLoad</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidLoad</span><span class="p">];</span>
+    <span class="n">SWRevealViewController</span> <span class="o">*</span><span class="n">revealViewController</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">revealViewController</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">sidebarButton</span> <span class="nf">setTarget</span><span class="p">:</span> <span class="n">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">sidebarButton</span> <span class="nf">setAction</span><span class="p">:</span> <span class="k">@selector</span><span class="p">(</span><span class="nf">revealToggle</span><span class="p">:)];</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addGestureRecognizer</span><span class="p">:</span> <span class="n">self</span><span class="p">.</span><span class="n">revealViewController</span><span class="p">.</span><span class="n">panGestureRecognizer</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>That&#39;s all! You can try running and tap on the button to reveal the side bar, or swipe!</p>
+<p>That’s all! You can try running and tap on the button to reveal the side bar, or swipe!</p>
 
 <p>Add the code similarly for Rear VC, for the menu item to reveal back to (another) Front VC.</p>
 
-<h2>More customization explained</h2>
+<h2 id="more-customization-explained">More customization explained</h2>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Example sidebar is width 200</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">rearViewRevealWidth</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Cannot drag and see beyond width 200</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">rearViewRevealOverdraw</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>    
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Faster slide animation</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">toggleAnimationDuration</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Simply ease out. No Spring animation.</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">toggleAnimationType</span> <span class="o">=</span> <span class="n">SWRevealToggleAnimationTypeEaseOut</span><span class="p">;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// More shadow</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">frontViewShadowRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// Example sidebar is width 200
+</span>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">rearViewRevealWidth</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+    
+    <span class="c1">// Cannot drag and see beyond width 200
+</span>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">rearViewRevealOverdraw</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>    
+    
+    <span class="c1">// Faster slide animation
+</span>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">toggleAnimationDuration</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">;</span>
+    
+    <span class="c1">// Simply ease out. No Spring animation.
+</span>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">toggleAnimationType</span> <span class="o">=</span> <span class="n">SWRevealToggleAnimationTypeEaseOut</span><span class="p">;</span>
+    
+    <span class="c1">// More shadow
+</span>    <span class="n">revealViewController</span><span class="p">.</span><span class="n">frontViewShadowRadius</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+</code></pre>
+</div>
 
-<p>There are more, but above is what I find useful for customizing my UI. </p>
+<p>There are more, but above is what I find useful for customizing my UI.</p>
 
-<p>Check out <code>SWRevealViewController.h</code> for more.</p>
+<p>Check out <code class="highlighter-rouge">SWRevealViewController.h</code> for more.</p>
+
 
         </section>
         <footer class="post-footer">

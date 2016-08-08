@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Camera Programming for iOS 7</title>
-  <meta name="description" content="Apple&#39;s Camera Programming Guide for taking pictures and movies is outdated." />
+  <meta name="description" content="Apple’s Camera Programming Guide for taking pictures and movies is outdated." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Camera Programming for iOS 7" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="Apple&#39;s Camera Programming Guide for taking pictures and movies is outdated." />
+    <meta name="twitter:description"  content="Apple’s Camera Programming Guide for taking pictures and movies is outdated." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Camera Programming for iOS 7"/>
   
-  <meta property="og:description" content="Apple&#39;s Camera Programming Guide for taking pictures and movies is outdated." />
+  <meta property="og:description" content="Apple’s Camera Programming Guide for taking pictures and movies is outdated." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2014/02/11/camera-programming-for-ios-7/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,37 +72,40 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>Apple&#39;s <a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/CameraAndPhotoLib_TopicsForIOS/Articles/TakingPicturesAndMovies.html#//apple_ref/doc/uid/TP40010406-SW8">Camera Programming Guide</a> for taking pictures and movies is outdated.</p>
+          <p>Apple’s <a href="https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/CameraAndPhotoLib_TopicsForIOS/Articles/TakingPicturesAndMovies.html#//apple_ref/doc/uid/TP40010406-SW8">Camera Programming Guide</a> for taking pictures and movies is outdated.</p>
 
-<p>It was last updated on 2012-07-17 (as of writing), and this doesn&#39;t take into account of new stuff eg. iOS 7 changes and ARC</p>
+<p>It was last updated on 2012-07-17 (as of writing), and this doesn’t take into account of new stuff eg. iOS 7 changes and ARC</p>
 
 <!-- more -->
 
-<p>In iOS 5, the behaviour of UIViewController <code>parentViewController</code> has <a href="http://stackoverflow.com/a/8349487/242682">changed</a>.</p>
+<p>In iOS 5, the behaviour of UIViewController <code class="highlighter-rouge">parentViewController</code> has <a href="http://stackoverflow.com/a/8349487/242682">changed</a>.</p>
 
 <blockquote>
-<p>Prior to iOS 5.0, if a view did not have a parent view controller and was being presented, the presenting view controller would be returned. On iOS 5, this behavior no longer occurs. Instead, use the <strong>presentingViewController</strong> property to access the presenting view controller.</p>
+  <p>Prior to iOS 5.0, if a view did not have a parent view controller and was being presented, the presenting view controller would be returned. On iOS 5, this behavior no longer occurs. Instead, use the <strong>presentingViewController</strong> property to access the presenting view controller.</p>
 </blockquote>
 
-<p>Which means when you dismiss the picker, the <code>parentViewController</code> could be nil, and hence it will not dismiss as you expected.</p>
+<p>Which means when you dismiss the picker, the <code class="highlighter-rouge">parentViewController</code> could be nil, and hence it will not dismiss as you expected.</p>
 
 <p>This is my updated source code for responding to the user tapping Cancel.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">imagePickerControllerDidCancel:</span> <span class="p">(</span><span class="bp">UIImagePickerController</span> <span class="o">*</span><span class="p">)</span> <span class="nv">picker</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">UIViewController</span> <span class="o">*</span><span class="n">dismissingController</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">([</span><span class="n">picker</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">presentingViewController</span><span class="p">)])</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">dismissingController</span> <span class="o">=</span> <span class="n">picker</span><span class="p">.</span><span class="n">presentingViewController</span><span class="p">;</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">else</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">dismissingController</span> <span class="o">=</span> <span class="n">picker</span><span class="p">.</span><span class="n">parentViewController</span><span class="p">;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Since dismissModalViewControllerAnimated is deprecated in iOS 6..</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">([</span><span class="n">dismissingController</span> <span class="nl">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">dismissViewControllerAnimated</span><span class="p">:</span><span class="nl">completion</span><span class="p">:)])&#x7b;</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="n">dismissingController</span> <span class="nl">dismissViewControllerAnimated</span><span class="p">:</span><span class="nb">YES</span> <span class="nl">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span> <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="n">dismissingController</span> <span class="nl">dismissModalViewControllerAnimated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">imagePickerControllerDidCancel</span><span class="p">:</span> <span class="p">(</span><span class="n">UIImagePickerController</span> <span class="o">*</span><span class="p">)</span> <span class="n">picker</span> <span class="p">{</span>
+    <span class="n">UIViewController</span> <span class="o">*</span><span class="n">dismissingController</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">picker</span> <span class="nf">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">presentingViewController</span><span class="p">)])</span>
+        <span class="n">dismissingController</span> <span class="o">=</span> <span class="n">picker</span><span class="p">.</span><span class="n">presentingViewController</span><span class="p">;</span>
+    <span class="k">else</span>
+        <span class="n">dismissingController</span> <span class="o">=</span> <span class="n">picker</span><span class="p">.</span><span class="n">parentViewController</span><span class="p">;</span>
 
-<p>I also dropped <code>[picker release]</code> since using ARC.</p>
+    <span class="c1">// Since dismissModalViewControllerAnimated is deprecated in iOS 6..
+</span>    <span class="k">if</span> <span class="p">([</span><span class="n">dismissingController</span> <span class="nf">respondsToSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">dismissViewControllerAnimated</span><span class="p">:</span><span class="n">completion</span><span class="o">:</span><span class="p">)]){</span>
+        <span class="p">[</span><span class="n">dismissingController</span> <span class="nf">dismissViewControllerAnimated</span><span class="p">:</span><span class="nb">YES</span> <span class="nf">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">dismissingController</span> <span class="nf">dismissModalViewControllerAnimated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>I also dropped <code class="highlighter-rouge">[picker release]</code> since using ARC.</p>
 
 <p>Similarly, replace the code for dismissing when a photo/video is selected.</p>
 

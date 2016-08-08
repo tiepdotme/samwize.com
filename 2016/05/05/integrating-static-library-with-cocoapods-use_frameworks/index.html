@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,24 +72,27 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>When using a library that is built with static framework (vs dynamic) and integrating using <a href="https://blog.cocoapods.org/CocoaPods-0.36/">Cocoapods</a>, you could have linker error when you use <code>use_frameworks!</code> and Swift.</p>
+          <p>When using a library that is built with static framework (vs dynamic) and integrating using <a href="https://blog.cocoapods.org/CocoaPods-0.36/">Cocoapods</a>, you could have linker error when you use <code class="highlighter-rouge">use_frameworks!</code> and Swift.</p>
 
 <p>There is a workaround.</p>
 
-<p>Let&#39;s take the example of <code>Some-iOS-SDK</code> that uses static framework.</p>
+<p>Let’s take the example of <code class="highlighter-rouge">Some-iOS-SDK</code> that uses static framework.</p>
 
-<p>You can use post_hook in your <code>Podfile</code> as such:</p>
+<p>You can use post_hook in your <code class="highlighter-rouge">Podfile</code> as such:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">use_frameworks!</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="n">post_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer</span><span class="o">|</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">installer</span><span class="o">.</span><span class="n">pods_project</span><span class="o">.</span><span class="n">targets</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">target</span><span class="o">.</span><span class="n">build_configurations</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">if</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;Some-iOS-SDK&quot;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>                <span class="n">config</span><span class="o">.</span><span class="n">build_settings</span><span class="o">[</span><span class="s2">&quot;OTHER_LDFLAGS&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;$(inherited) &quot;-ObjC&quot;&#39;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">end</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">end</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">end</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">end</span></div></div></pre></div></figure>
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">use_frameworks!</span>
+
+<span class="n">post_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer</span><span class="o">|</span>
+    <span class="n">installer</span><span class="p">.</span><span class="nf">pods_project</span><span class="p">.</span><span class="nf">targets</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
+        <span class="n">target</span><span class="p">.</span><span class="nf">build_configurations</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+            <span class="k">if</span> <span class="n">target</span><span class="p">.</span><span class="nf">name</span> <span class="o">==</span> <span class="s2">"Some-iOS-SDK"</span>
+                <span class="n">config</span><span class="p">.</span><span class="nf">build_settings</span><span class="p">[</span><span class="s2">"OTHER_LDFLAGS"</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'$(inherited) "-ObjC"'</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
 
 <p>iOS, and <a href="https://github.com/CocoaPods/CocoaPods/issues/3701">CocoaPods</a>, is moving away from static frameworks (towards dynamic). So until libraries turn their project to using dynamic framework, the workaround is needed.</p>
 

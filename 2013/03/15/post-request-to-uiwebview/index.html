@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,24 +74,28 @@
           
           <p>In the last post, I wrote about <a href="/2013/03/15/auto-fill-username-and-password-fields-in-uiwebview/">how you can automatically fill in username and password in a UIWebView</a>.</p>
 
-<p>This post, I will teach you how you can automatically login to a <code>UIWebView</code>.</p>
+<p>This post, I will teach you how you can automatically login to a <code class="highlighter-rouge">UIWebView</code>.</p>
 
 <p>It turns out to be simple if the login uses a simple form POST.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">login</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Setup the URL</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSString</span> <span class="o">*</span><span class="n">loginUrl</span> <span class="o">=</span> <span class="s">@&quot;https://just2us.com/login&quot;</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">loginUrl</span><span class="p">];</span>    
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSMutableURLRequest</span> <span class="o">*</span><span class="n">requestObj</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// POST the username password</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">requestObj</span> <span class="nl">setHTTPMethod</span><span class="p">:</span><span class="s">@&quot;POST&quot;</span><span class="p">];</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSString</span> <span class="o">*</span><span class="n">postString</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;username=%@&amp;password=%@&quot;</span><span class="p">,</span> <span class="s">@&quot;samwize&quot;</span><span class="p">,</span> <span class="s">@&quot;secret&quot;</span><span class="p">];</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">postString</span> <span class="nl">dataUsingEncoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">];</span> 
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">requestObj</span> <span class="nl">setHTTPBody</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Load the request</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">self</span><span class="p">.</span><span class="n">webview</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="nb">self</span><span class="p">;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">webview</span> <span class="nl">loadRequest</span><span class="p">:</span><span class="n">requestObj</span><span class="p">];</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">login</span> <span class="p">{</span>
+    <span class="c1">// Setup the URL
+</span>    <span class="n">NSString</span> <span class="o">*</span><span class="n">loginUrl</span> <span class="o">=</span> <span class="s">@"https://just2us.com/login"</span><span class="p">;</span>
+    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="n">loginUrl</span><span class="p">];</span>    
+    <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">requestObj</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+    
+    <span class="c1">// POST the username password
+</span>    <span class="p">[</span><span class="n">requestObj</span> <span class="nf">setHTTPMethod</span><span class="p">:</span><span class="s">@"POST"</span><span class="p">];</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">postString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"username=%@&amp;password=%@"</span><span class="p">,</span> <span class="s">@"samwize"</span><span class="p">,</span> <span class="s">@"secret"</span><span class="p">];</span>
+    <span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">postString</span> <span class="nf">dataUsingEncoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">];</span> 
+    <span class="p">[</span><span class="n">requestObj</span> <span class="nf">setHTTPBody</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
+    
+    <span class="c1">// Load the request
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">webview</span><span class="p">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">self</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webview</span> <span class="nf">loadRequest</span><span class="p">:</span><span class="n">requestObj</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

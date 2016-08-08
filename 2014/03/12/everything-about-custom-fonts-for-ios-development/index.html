@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,28 +72,31 @@
           </div>
           <a name="topofpage"></a>
           
-          <h2>Basic Introduction</h2>
+          <h2 id="basic-introduction">Basic Introduction</h2>
 
 <p>Starting for iOS 3.2, it is possible to use custom fonts in your iOS application. Read about <a href="http://samwize.com/2012/09/14/adding-and-using-custom-font-in-ios/">how to add custom fonts</a> in my earlier post.</p>
 
-<p>But there&#39;s much more to custom fonts.</p>
+<p>But there’s much more to custom fonts.</p>
 
 <!-- more -->
 
-<h2>Set Global Appearance</h2>
+<h2 id="set-global-appearance">Set Global Appearance</h2>
 
-<p>You can also set the appearance in your AppDelegate <code>didFinishLaunchingWithOptions</code>.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"> [[UILabel appearance] setFont:[UIFont fontWithName:@&quot;CustomFont-Regular&quot; size:17.0]];
-</code></pre></div>
+<p>You can also set the appearance in your AppDelegate <code class="highlighter-rouge">didFinishLaunchingWithOptions</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> [[UILabel appearance] setFont:[UIFont fontWithName:@"CustomFont-Regular" size:17.0]];
+</code></pre>
+</div>
+
 <p>However, this is a rather naive approach as it will fix the size (above exammple all font will be size 17).</p>
 
-<h2>Set only font family</h2>
+<h2 id="set-only-font-family">Set only font family</h2>
 
 <p>So a better approach is <a href="http://stackoverflow.com/a/12139982/242682">this</a>.</p>
 
-<p>In each of your ViewController <code>viewDidLoad</code>, you can <code>setFontFamily</code> for the view and it&#39;s subview, while maintaining the font size. But you have to do it for every view controller.</p>
+<p>In each of your ViewController <code class="highlighter-rouge">viewDidLoad</code>, you can <code class="highlighter-rouge">setFontFamily</code> for the view and it’s subview, while maintaining the font size. But you have to do it for every view controller.</p>
 
-<h2>Use Runtime Attributes</h2>
+<h2 id="use-runtime-attributes">Use Runtime Attributes</h2>
 
 <p>You can change the font in Xcode using <a href="http://www.davidahouse.com/blog/2013/02/10/bindings-for-ios-apps/">user defined runtime attributes</a>.</p>
 
@@ -101,28 +104,33 @@
 
 <p>While good, it could be tedious to add key value for every UI element you want custom font for.</p>
 
-<h2>IBCustomFonts Replacer</h2>
+<h2 id="ibcustomfonts-replacer">IBCustomFonts Replacer</h2>
 
-<p><a href="https://github.com/deni2s/IBCustomFonts">IBCutomFonts</a> replace a natively supported font with a custom font. For example, replace all <code>HelveticaNeue-Regular</code> with <code>CustomFont-Regular</code>.</p>
+<p><a href="https://github.com/deni2s/IBCustomFonts">IBCutomFonts</a> replace a natively supported font with a custom font. For example, replace all <code class="highlighter-rouge">HelveticaNeue-Regular</code> with <code class="highlighter-rouge">CustomFont-Regular</code>.</p>
 
-<p>It uses method sizzling for <code>fontWithName</code> method, so it is a dangerous way.</p>
+<p>It uses method sizzling for <code class="highlighter-rouge">fontWithName</code> method, so it is a dangerous way.</p>
 
 <p>Somehow, I could not get it to work correctly for iOS 7.</p>
 
-<p>It&#39;s not recommended, although one of the cleanest way to replace all fonts.</p>
+<p>It’s not recommended, although one of the cleanest way to replace all fonts.</p>
 
-<h2>MoarFont for $10</h2>
+<h2 id="moarfont-for-10">MoarFont for $10</h2>
 
-<p>This is <a href="http://pitaya.ch/moarfonts/">an app</a> that shows up the custom font in Xcode. For $10. I didn&#39;t try it.</p>
+<p>This is <a href="http://pitaya.ch/moarfonts/">an app</a> that shows up the custom font in Xcode. For $10. I didn’t try it.</p>
 
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>I ended up using only 2 solutions:</p>
 
 <ol>
-<li><p>Write code to <a href="http://stackoverflow.com/a/12139982/242682">set font family</a> for a view which has many components</p></li>
-<li><p>Use <a href="http://canvaspod.io">cavaspod.io</a> to set runtime attributes for the rest</p></li>
+  <li>
+    <p>Write code to <a href="http://stackoverflow.com/a/12139982/242682">set font family</a> for a view which has many components</p>
+  </li>
+  <li>
+    <p>Use <a href="http://canvaspod.io">cavaspod.io</a> to set runtime attributes for the rest</p>
+  </li>
 </ol>
+
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,40 +74,52 @@
           
           <p>There will be times where you want to do these on the command line.</p>
 
-<h2>List the available SDKs</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">xcodebuild -showsdks
-</code></pre></div>
+<h2 id="list-the-available-sdks">List the available SDKs</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>xcodebuild -showsdks
+</code></pre>
+</div>
+
 <p>For example, I have <strong>iphonesimulator8.2</strong> in my list of SDKs. This will be used in the next step.</p>
 
 <!-- more -->
 
-<h2>Xcode Build</h2>
+<h2 id="xcode-build">Xcode Build</h2>
 
 <p>Build the project:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">xcodebuild -project &#39;/path/to/Awesome.xcproj&#39; -arch i386  -sdk iphonesimulator8.2
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>xcodebuild -project '/path/to/Awesome.xcproj' -arch i386  -sdk iphonesimulator8.2
+</code></pre>
+</div>
+
 <p>If you are using workspace, then you need to provide the scheme too:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">xcodebuild -workspace &#39;/path/to/Awesome.xcworkspace&#39; -scheme &#39;Awesome-Production&#39; -arch i386  -sdk iphonesimulator8.2
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>xcodebuild -workspace '/path/to/Awesome.xcworkspace' -scheme 'Awesome-Production' -arch i386  -sdk iphonesimulator8.2
+</code></pre>
+</div>
+
 <p>Or, more likely, you are using Xcode app (not commandline), then just build the app as per normal.</p>
 
 <p>The build will be created at <strong>~/Library/Developer/Xcode/DerivedData</strong>.</p>
 
 <p>So, if the build is successful, the app will be at <strong>~/Library/Developer/Xcode/DerivedData/Awesome-dvxamtpiqakwogarovbwiagepzxj/Build/Products/Release-iphonesimulator/Awesome.app</strong>. This path is needed in the next step.</p>
 
-<h2>Run on Simulator</h2>
+<h2 id="run-on-simulator">Run on Simulator</h2>
 
 <p>Use <a href="https://github.com/phonegap/ios-sim">ios-sim</a> to help run on simulator.</p>
 
-<p>Install it with <code>brew install ios-sim</code>.</p>
+<p>Install it with <code class="highlighter-rouge">brew install ios-sim</code>.</p>
 
 <p>Then run:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># First, find the device type
+
+<div class="highlighter-rouge"><pre class="highlight"><code># First, find the device type
 ios-sim showdevicetypes
 # Example using iPhone 6 Plus
-ios-sim launch --devicetypeid &quot;iPhone-6-Plus, 9.2&quot; /path/to/awesome.app
-</code></pre></div>
-<p>That&#39;s it!</p>
+ios-sim launch --devicetypeid "iPhone-6-Plus, 9.2" /path/to/awesome.app
+</code></pre>
+</div>
+
+<p>That’s it!</p>
 
         </section>
         <footer class="post-footer">

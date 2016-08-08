@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Dismiss keyboard when tap outside a UITextField/UITextView</title>
-  <meta name="description" content="This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it&#39;s the same), start editing, and you will soon need to learn how ..." />
+  <meta name="description" content="This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it’s the same), start editing, and you will soon need to learn how to d..." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Dismiss keyboard when tap outside a UITextField/UITextView" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it&#39;s the same), start editing, and you will soon need to learn how ..." />
+    <meta name="twitter:description"  content="This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it’s the same), start editing, and you will soon need to learn how to d..." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Dismiss keyboard when tap outside a UITextField/UITextView"/>
   
-  <meta property="og:description" content="This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it&#39;s the same), start editing, and you will soon need to learn how ..." />
+  <meta property="og:description" content="This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it’s the same), start editing, and you will soon need to learn how to d..." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,65 +72,73 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it&#39;s the same), start editing, and you will soon need to learn how to dismiss the keyboard.</p>
+          <p>This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it’s the same), start editing, and you will soon need to learn how to dismiss the keyboard.</p>
 
 <p>The code to dismiss is simple:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">[textfield endEditing:YES];
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[textfield endEditing:YES];
+</code></pre>
+</div>
+
 <p>The difficulty is where to put this code.</p>
 
 <!-- more -->
 
 <p>There are 2 scenarios - using a scroll view, or not.</p>
 
-<h2>1. Using a scroll view</h2>
+<h2 id="using-a-scroll-view">1. Using a scroll view</h2>
 
 <p>If you are using a UIScrollView (or UITableView), then you will need to add a tap gesture recognizer to it.</p>
 
 <p>I use storyboard most of the time. To add, drag a Tap Gesture Recognizer (in control library) to the UIScrollView.</p>
 
-<p>In the tap gesture recognizer, control-drag the &quot;Sent Actions&quot; to your .m implementation file, and add a method eg. <code>hideKeyboard</code>.</p>
+<p>In the tap gesture recognizer, control-drag the “Sent Actions” to your .m implementation file, and add a method eg. <code class="highlighter-rouge">hideKeyboard</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="o">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nl">hideKeyboard</span><span class="p">:(</span><span class="kt">id</span><span class="p">)</span><span class="n">sender</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="n">textfield</span> <span class="nl">endEditing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">hideKeyboard</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">textfield</span> <span class="nf">endEditing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
 
 <p>If you are using code, and not Storyboard, then refer to <a href="http://stackoverflow.com/a/4132774/242682">this</a>.</p>
 
-<h2>2. Using a normal view</h2>
+<h2 id="using-a-normal-view">2. Using a normal view</h2>
 
 <p>If you are using UIView without UIScrollView, it is easier.</p>
 
 <p>You can override UIViewController touch events as such:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesBegan</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="n">textfield</span> <span class="nl">endEditing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan</span><span class="p">:(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent</span><span class="p">:(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">textfield</span> <span class="nf">endEditing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
 
 <p>But the above will not work for UIScrollView because:</p>
 
 <ul>
-<li>scroll view in inside the view</li>
-<li>scroll view will receive the touch first, and not pass it on the view (according to <a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html">responder chain</a>)</li>
+  <li>scroll view in inside the view</li>
+  <li>scroll view will receive the touch first, and not pass it on the view (according to <a href="https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html">responder chain</a>)</li>
 </ul>
 
 <p>A way to make that code work for UIScrollView is to disable interaction for UIScrollView. But whats the point of a scroll view that cannot be scrolled?  I guess I am just making a point of how views handle the touch events.</p>
 
 <p>An advise: While the code works for normal view, I suggest to use the same solution like scroll view using tap gesture recognizer. This will make your code more coherent.</p>
 
-<h2>3. Dismiss on drag for scroll view</h2>
+<h2 id="dismiss-on-drag-for-scroll-view">3. Dismiss on drag for scroll view</h2>
 
-<p>If you using storyboarding, select the scroll view. In the keyboard property, select &quot;Dismiss on drag&quot;.</p>
+<p>If you using storyboarding, select the scroll view. In the keyboard property, select “Dismiss on drag”.</p>
 
 <p>This will dismiss when you drag/scroll the scroll view.</p>
 
-<h2>A note on cancelsTouchesInView</h2>
+<h2 id="a-note-on-cancelstouchesinview">A note on cancelsTouchesInView</h2>
 
-<p>In using tap gesture recognizer, you might want to disable <code>cancelsTouchesInView</code> (set to NO), so that it pass the touch event to other views (eg table view cell).</p>
+<p>In using tap gesture recognizer, you might want to disable <code class="highlighter-rouge">cancelsTouchesInView</code> (set to NO), so that it pass the touch event to other views (eg table view cell).</p>
 
 <p>The default is YES, which means touch event will be consumed and not passed on.</p>
 
 <p>This is a checkbox if you are using storyboard.</p>
+
 
         </section>
         <footer class="post-footer">

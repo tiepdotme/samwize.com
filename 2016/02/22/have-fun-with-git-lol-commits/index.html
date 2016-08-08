@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -73,41 +73,54 @@
           <a name="topofpage"></a>
           
           <p><a href="https://github.com/mroth/lolcommits">lolcommits</a> is a fun library that takes a photo/gif of you whenever you make a commit.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># Install
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Install
 brew install imagemagick
 gem install lolcommits
 
 # To enable for a repository
 # cd to repos
 lolcommits --enable --delay=3
-</code></pre></div>
-<p>Note: Adding a delay helps to solve the problem of your webcam/isight camera adjusting to focus. If you didn&#39;t add a delay, you could see an all black photo!</p>
+</code></pre>
+</div>
 
-<p>The photo/gif are stored in <code>~/.lolcommits/yourproject/</code>.</p>
+<p>Note: Adding a delay helps to solve the problem of your webcam/isight camera adjusting to focus. If you didn’t add a delay, you could see an all black photo!</p>
 
-<h2>GIF</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text"># To take gif, you need to install ffmpeg
+<p>The photo/gif are stored in <code class="highlighter-rouge">~/.lolcommits/yourproject/</code>.</p>
+
+<h2 id="gif">GIF</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># To take gif, you need to install ffmpeg
 brew install ffmpeg --with-fdk-aac --with-ffplay --with-freetype --with-frei0r --with-libass --with-libvo-aacenc --with-libvorbis --with-libvpx --with-opencore-amr --with-openjpeg --with-opus --with-rtmpdump --with-schroedinger --with-speex --with-theora --with-tools
 
 #Then enable to animate (eg for 1 sec)
 lolcommits --enable --delay=3 --animate=1
-</code></pre></div>
-<h2>Enable for all projects</h2>
+</code></pre>
+</div>
 
-<p>For every project, you need to run <code>lolcommits --enable</code> so that it create a post commit hook.</p>
+<h2 id="enable-for-all-projects">Enable for all projects</h2>
+
+<p>For every project, you need to run <code class="highlighter-rouge">lolcommits --enable</code> so that it create a post commit hook.</p>
 
 <p>But you could <a href="https://github.com/mroth/lolcommits/wiki/Enabling-Lolcommits-for-all-your-Git-Repositories">enable for all repos</a>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">mkdir -p ~/.git_template/hooks
-git config --global init.templatedir &#39;~/.git_template&#39;
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mkdir -p ~/.git_template/hooks
+git config --global init.templatedir '~/.git_template'
 cp [path/to/lolcommit-enabled-repo]/.git/hooks/post-commit ~/.git_template/hooks/
-</code></pre></div>
-<p>Now, if you want to enable lolcommits for an existing repos, run <code>git init</code>.</p>
+</code></pre>
+</div>
 
-<p>For new repos, when you run <code>git init</code>, it will automatically get enabled.</p>
+<p>Now, if you want to enable lolcommits for an existing repos, run <code class="highlighter-rouge">git init</code>.</p>
 
-<h2>Create timelapse movie</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">convert `find . -type f -name &quot;*.jpg&quot; -print0 | xargs -0 ls -tlr | awk &#39;{print $9}&#39;` timelapse.mpeg
-</code></pre></div>
+<p>For new repos, when you run <code class="highlighter-rouge">git init</code>, it will automatically get enabled.</p>
+
+<h2 id="create-timelapse-movie">Create timelapse movie</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>convert `find . -type f -name "*.jpg" -print0 | xargs -0 ls -tlr | awk '{print $9}'` timelapse.mpeg
+</code></pre>
+</div>
+
+
         </section>
         <footer class="post-footer">
           <section class="share">

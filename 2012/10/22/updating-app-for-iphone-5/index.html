@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -74,105 +74,112 @@
           
           <p>This post is a guide to updating existing app for iPhone 5.</p>
 
-<p>As you already knew, the new iPhone 5 introduced a taller screen at 4 inch, while all iPhones before is at 3.5 inch. </p>
+<p>As you already knew, the new iPhone 5 introduced a taller screen at 4 inch, while all iPhones before is at 3.5 inch.</p>
 
-<p>There are a couple of steps that you have to do to support the taller screen, and it really depends on how you develop your app in the first place. You might use all of the techniques below, or none. </p>
+<p>There are a couple of steps that you have to do to support the taller screen, and it really depends on how you develop your app in the first place. You might use all of the techniques below, or none.</p>
 
-<p>These techniques are inspired by <a href="http://stackoverflow.com/questions/12395200/how-to-develop-or-migrate-apps-for-iphone-5-screen-resolution">answers</a> <a href="http://stackoverflow.com/questions/12518879/extend-app-for-iphone-5-best-practice">on</a> <a href="http://stackoverflow.com/questions/12519110/what-to-name-images-for-iphone-5-screen-size">Stackoverflow</a>. The result is a <code>Device</code> class I created at <a href="https://gist.github.com/3926123">https://gist.github.com/3926123</a></p>
+<p>These techniques are inspired by <a href="http://stackoverflow.com/questions/12395200/how-to-develop-or-migrate-apps-for-iphone-5-screen-resolution">answers</a> <a href="http://stackoverflow.com/questions/12518879/extend-app-for-iphone-5-best-practice">on</a> <a href="http://stackoverflow.com/questions/12519110/what-to-name-images-for-iphone-5-screen-size">Stackoverflow</a>. The result is a <code class="highlighter-rouge">Device</code> class I created at <a href="https://gist.github.com/3926123">https://gist.github.com/3926123</a></p>
 
 <!-- more -->
 
-<h2>1. <a href="mailto:Default-568h@2x.png">Default-568h@2x.png</a></h2>
+<h2 id="default-568h2xpng">1. Default-568h@2x.png</h2>
 
-<p>There isn&#39;t a setting to specify a project supports iPhone 5. Instead, a presence of a <code>Default-568h@2x.png</code> signify that it supports iPhone 5.</p>
+<p>There isn’t a setting to specify a project supports iPhone 5. Instead, a presence of a <code class="highlighter-rouge">Default-568h@2x.png</code> signify that it supports iPhone 5.</p>
 
 <p>The size is 640 x 1136.</p>
 
 <p>Xcode 4.5 will actually offer to add one automatically.</p>
 
-<h2>2. Set to Full Screen at launch for MainWindow.xib</h2>
+<h2 id="set-to-full-screen-at-launch-for-mainwindowxib">2. Set to Full Screen at launch for MainWindow.xib</h2>
 
-<p>If your tab bar didn&#39;t work properly (such as don&#39;t respond to click) after you added <code>Default-568h@2x.png</code>, then it is likely due to the nib configuration. </p>
+<p>If your tab bar didn’t work properly (such as don’t respond to click) after you added <code class="highlighter-rouge">Default-568h@2x.png</code>, then it is likely due to the nib configuration.</p>
 
-<p>You have to go to interface builder, select the window object, and <a href="http://stackoverflow.com/a/12699347/242682">enable</a> <code>Full Screen at launch</code>. </p>
+<p>You have to go to interface builder, select the window object, and <a href="http://stackoverflow.com/a/12699347/242682">enable</a> <code class="highlighter-rouge">Full Screen at launch</code>.</p>
 
-<h2>3. Code to detect 4-inch screen</h2>
+<h2 id="code-to-detect-4-inch-screen">3. Code to detect 4-inch screen</h2>
 
 <p>You can detect the 4-inch screen size with the following method:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cm">/** Returns true if it is a iPhone/iPod with 4 inch tall screen */</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">+(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">isScreen4Inch</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span><span class="p">(</span><span class="n">UI_USER_INTERFACE_IDIOM</span><span class="p">()</span> <span class="o">==</span> <span class="n">UIUserInterfaceIdiomPhone</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="bp">CGRect</span> <span class="n">screenBounds</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UIScreen</span> <span class="n">mainScreen</span><span class="p">]</span> <span class="n">bounds</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">if</span> <span class="p">(</span><span class="n">screenBounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">==</span> <span class="mi">568</span><span class="p">)</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>            <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="cm">/** Returns true if it is a iPhone/iPod with 4 inch tall screen */</span>
+<span class="k">+</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isScreen4Inch</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">UI_USER_INTERFACE_IDIOM</span><span class="p">()</span> <span class="o">==</span> <span class="n">UIUserInterfaceIdiomPhone</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">CGRect</span> <span class="n">screenBounds</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">]</span> <span class="nf">bounds</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">screenBounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">==</span> <span class="mi">568</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>I have this in <code>Device.h</code>, so import and use.</p>
+<p>I have this in <code class="highlighter-rouge">Device.h</code>, so import and use.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">if</span> <span class="p">([</span><span class="n">Device</span> <span class="n">isScreen4Inch</span><span class="p">])</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Code for 4 inch</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span> <span class="k">else</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Code for anything else (3.5 inch or iPad)</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">([</span><span class="n">Device</span> <span class="nf">isScreen4Inch</span><span class="p">])</span> <span class="p">{</span>
+	<span class="c1">// Code for 4 inch
+</span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	<span class="c1">// Code for anything else (3.5 inch or iPad)
+</span><span class="p">}</span>
+</code></pre>
+</div>
 
-<h2>4. Use Auto Layout for iOS6</h2>
+<h2 id="use-auto-layout-for-ios6">4. Use Auto Layout for iOS6</h2>
 
-<p>If you are supporting only iOS6 and above, you should use Auto Layout. </p>
+<p>If you are supporting only iOS6 and above, you should use Auto Layout.</p>
 
 <p>You can read up a tutorial by <a href="http://www.raywenderlich.com/20881/beginning-auto-layout-part-1-of-2">Ray Wenderlich</a>.</p>
 
-<h2>5. Set auto resizing mask for pre iOS6</h2>
+<h2 id="set-auto-resizing-mask-for-pre-ios6">5. Set auto resizing mask for pre iOS6</h2>
 
 <p>If you are still supporting pre iOS6, you still need auto resizing mask for your views to stretch and re-position automatically.</p>
 
-<p>Refer to <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/uiview_class/uiview/uiview.html">Apple UIView doc</a> on <code>UIViewAutoresizing</code>.</p>
+<p>Refer to <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/uiview_class/uiview/uiview.html">Apple UIView doc</a> on <code class="highlighter-rouge">UIViewAutoresizing</code>.</p>
 
-<p>This &#39;feature&#39; was in iOS ever since iOS is available. If you design your apps mostly using Xcode Interface Builder, this would one of the most needed change. </p>
+<p>This ‘feature’ was in iOS ever since iOS is available. If you design your apps mostly using Xcode Interface Builder, this would one of the most needed change.</p>
 
-<p>You could change a subview to auto resize its width/height, and fix it&#39;s margin to left/right/top/bottom. </p>
+<p>You could change a subview to auto resize its width/height, and fix it’s margin to left/right/top/bottom.</p>
 
-<h2>6. Stretch Images</h2>
+<h2 id="stretch-images">6. Stretch Images</h2>
 
-<p>If you are using Xcode Interface Builder, change the UIImageView <code>mode</code> to <code>Scale to Fill</code> (or others).</p>
+<p>If you are using Xcode Interface Builder, change the UIImageView <code class="highlighter-rouge">mode</code> to <code class="highlighter-rouge">Scale to Fill</code> (or others).</p>
 
-<p>Then change the <code>Stretching</code> properties. The values are a fraction of the image size. For example, X and Y are 0.5, and Width and Height are 0.1, it means stretch the portion of the image at center with 10% width and height.</p>
+<p>Then change the <code class="highlighter-rouge">Stretching</code> properties. The values are a fraction of the image size. For example, X and Y are 0.5, and Width and Height are 0.1, it means stretch the portion of the image at center with 10% width and height.</p>
 
-<p>Your images can also be <a href="http://mobiledevelopertips.com/user-interface/ios-5-uiimage-and-resizableimagewithcapinsets.html">stretched</a> with UIImage <code>resizableImageWithCapInsets:</code>.</p>
+<p>Your images can also be <a href="http://mobiledevelopertips.com/user-interface/ios-5-uiimage-and-resizableimagewithcapinsets.html">stretched</a> with UIImage <code class="highlighter-rouge">resizableImageWithCapInsets:</code>.</p>
 
-<p>But that works only if your image has portion that can be stretched without distortion. If it doesn&#39;t, you have to create a new image <code>-568@2x</code> image, and use the trick covered next to load it automatically.</p>
+<p>But that works only if your image has portion that can be stretched without distortion. If it doesn’t, you have to create a new image <code class="highlighter-rouge">-568@2x</code> image, and use the trick covered next to load it automatically.</p>
 
-<h2>7. Load -568h@2x images</h2>
+<h2 id="load--568h2x-images">7. Load -568h@2x images</h2>
 
-<p>Unlike <code>@2x</code> which are loaded automatically for Retina Display, the <code>-568h@2x</code> are not loaded automatically for the taller iPhone (except the <code>Default-568h@2x.png</code>).</p>
+<p>Unlike <code class="highlighter-rouge">@2x</code> which are loaded automatically for Retina Display, the <code class="highlighter-rouge">-568h@2x</code> are not loaded automatically for the taller iPhone (except the <code class="highlighter-rouge">Default-568h@2x.png</code>).</p>
 
 <p>I use a convenient method below:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">+(</span><span class="bp">UIImage</span><span class="o">*</span><span class="p">)</span><span class="nf">imageNamedFor568h:</span><span class="p">(</span><span class="bp">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">imageName</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">([</span><span class="n">Device</span> <span class="n">isScreen4Inch</span><span class="p">])</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="bp">NSString</span> <span class="o">*</span><span class="n">imageNameFor568h</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@&quot;%@-568h.%@&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">imageName</span> <span class="n">stringByDeletingPathExtension</span><span class="p">],</span> <span class="p">[</span><span class="n">imageName</span> <span class="n">pathExtension</span><span class="p">]];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">imageNameFor568h</span><span class="p">];</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">return</span> <span class="p">[</span><span class="bp">UIImage</span> <span class="nl">imageNamed</span><span class="p">:</span><span class="n">imageName</span><span class="p">];</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">+</span><span class="p">(</span><span class="n">UIImage</span><span class="o">*</span><span class="p">)</span><span class="nf">imageNamedFor568h</span><span class="p">:(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">imageName</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">([</span><span class="n">Device</span> <span class="nf">isScreen4Inch</span><span class="p">])</span> <span class="p">{</span>
+        <span class="n">NSString</span> <span class="o">*</span><span class="n">imageNameFor568h</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%@-568h.%@"</span><span class="p">,</span> <span class="p">[</span><span class="n">imageName</span> <span class="nf">stringByDeletingPathExtension</span><span class="p">],</span> <span class="p">[</span><span class="n">imageName</span> <span class="nf">pathExtension</span><span class="p">]];</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="n">imageNameFor568h</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="n">imageName</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
 <p>Using category, I introduced the method for UIImage.</p>
 
-<p>To use, I would have to change the methods <code>[UIImage imageName:@&quot;foo.png&quot;]</code> to <code>[UIImage imageNameFor568h:@&quot;foo.png&quot;]</code>.</p>
+<p>To use, I would have to change the methods <code class="highlighter-rouge">[UIImage imageName:@"foo.png"]</code> to <code class="highlighter-rouge">[UIImage imageNameFor568h:@"foo.png"]</code>.</p>
 
-<h2>8. iOS Simulator</h2>
+<h2 id="ios-simulator">8. iOS Simulator</h2>
 
 <p>To run and test on a 4 inch iPhone, select <strong>Hardware</strong> &gt; <strong>Device</strong> &gt; <strong>iPhone (Retina 4-inch)</strong>.</p>
 
-<h2>9. Last words..</h2>
+<h2 id="last-words">9. Last words..</h2>
 
-<p>It largely depends on how you code your existing apps. </p>
+<p>It largely depends on how you code your existing apps.</p>
 
 <p>Use the above techniques as needed, and handily use the <a href="https://gist.github.com/3926123">Device class</a> methods.</p>
 
-<p>If you use any third party libraries, you would also need to update their libs with support for <code>armv7s</code> (a new architecture for iPhone5). Popular libs are already updated at this point of writing eg. Flurry, Google Admob, and other ad networks.</p>
+<p>If you use any third party libraries, you would also need to update their libs with support for <code class="highlighter-rouge">armv7s</code> (a new architecture for iPhone5). Popular libs are already updated at this point of writing eg. Flurry, Google Admob, and other ad networks.</p>
+
 
         </section>
         <footer class="post-footer">

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -78,34 +78,45 @@
 
 <!-- more -->
 
-<h2>Device data</h2>
+<h2 id="device-data">Device data</h2>
 
 <p>You can use iExplorer to access the data on your real iPhone/iPad.</p>
 
 <p>Go to the app &gt; Library &gt; Application Support &gt; APP_NAME &gt; and the sqlite data will be there.</p>
 
-<h2>Simulator</h2>
+<h2 id="simulator">Simulator</h2>
 
 <p>For <a href="http://stackoverflow.com/a/3495426/242682">simulators</a>, they are in</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">~/Library/Application Support/iPhone Simulator/[OS version]/Applications/[appGUID]/
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>~/Library/Application Support/iPhone Simulator/[OS version]/Applications/[appGUID]/
+</code></pre>
+</div>
+
 <p>You can copy the data from device to simulator by simply copy and paste.</p>
 
 <p>For example, I can copy the sqlite file to:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">~/Library/Application Support/iPhone Simulator/7.1-64/Applications/9445759E-34C7-4080-9DC7-9A74032FCA60/Library/Application Support/Awesome App/
-</code></pre></div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>~/Library/Application Support/iPhone Simulator/7.1-64/Applications/9445759E-34C7-4080-9DC7-9A74032FCA60/Library/Application Support/Awesome App/
+</code></pre>
+</div>
+
 <p><em>UPDATE: Starting from iOS 8, the simulator data has moved</em></p>
 
 <p>It is now at:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">~/Library/Developer/CoreSimulator/Devices/&lt;DEVICE_GUID&gt;/data/Containers/Data/Application/&lt;APP_GUID&gt;/Library/Application Support/AwesomeApp/
-</code></pre></div>
-<h2>Code to print the path</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>~/Library/Developer/CoreSimulator/Devices/&lt;DEVICE_GUID&gt;/data/Containers/Data/Application/&lt;APP_GUID&gt;/Library/Application Support/AwesomeApp/
+</code></pre>
+</div>
+
+<h2 id="code-to-print-the-path">Code to print the path</h2>
 
 <p>Perhaps, more conveniently and robust, you could add this code:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#if TARGET_IPHONE_SIMULATOR</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;Application Support Directory: %@&quot;</span><span class="p">,</span> <span class="p">[[[</span><span class="bp">NSFileManager</span> <span class="n">defaultManager</span><span class="p">]</span> <span class="nl">URLsForDirectory</span><span class="p">:</span><span class="n">NSApplicationSupportDirectory</span> <span class="nl">inDomains</span><span class="p">:</span><span class="n">NSUserDomainMask</span><span class="p">]</span> <span class="n">lastObject</span><span class="p">]);</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="cp">#endif</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="cp">#if TARGET_IPHONE_SIMULATOR
+</span>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Application Support Directory: %@"</span><span class="p">,</span> <span class="p">[[[</span><span class="n">NSFileManager</span> <span class="nf">defaultManager</span><span class="p">]</span> <span class="nf">URLsForDirectory</span><span class="p">:</span><span class="n">NSApplicationSupportDirectory</span> <span class="nf">inDomains</span><span class="p">:</span><span class="nf">NSUserDomainMask</span><span class="p">]</span> <span class="n">lastObject</span><span class="p">]);</span>
+<span class="cp">#endif
+</span></code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

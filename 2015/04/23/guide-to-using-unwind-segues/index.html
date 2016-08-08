@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Guide to using Unwind Segues</title>
-  <meta name="description" content="Unwind segue is a very nice concept in iOS to &quot;go back&quot; to a previous view controller." />
+  <meta name="description" content="Unwind segue is a very nice concept in iOS to “go back” to a previous view controller." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Guide to using Unwind Segues" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="Unwind segue is a very nice concept in iOS to &quot;go back&quot; to a previous view controller." />
+    <meta name="twitter:description"  content="Unwind segue is a very nice concept in iOS to “go back” to a previous view controller." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Guide to using Unwind Segues"/>
   
-  <meta property="og:description" content="Unwind segue is a very nice concept in iOS to &quot;go back&quot; to a previous view controller." />
+  <meta property="og:description" content="Unwind segue is a very nice concept in iOS to “go back” to a previous view controller." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2015/04/23/guide-to-using-unwind-segues/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>Unwind segue is a very nice concept in iOS to &quot;go back&quot; to a previous view controller.</p>
+          <p>Unwind segue is a very nice concept in iOS to “go back” to a previous view controller.</p>
 
 <p>There is an <a href="https://developer.apple.com/library/ios/technotes/tn2298/_index.html">Apple Guide</a> to using it, and a good <a href="http://stackoverflow.com/a/15839298/242682">in a nutshell</a> about it.</p>
 
@@ -80,59 +80,70 @@
 
 <!-- more -->
 
-<h2>Basics and Pitfalls</h2>
+<h2 id="basics-and-pitfalls">Basics and Pitfalls</h2>
 
 <ul>
-<li><p>You create this method in the view controller which let others unwind to it:</p>
+  <li>
+    <p>You create this method in the view controller which let others unwind to it:</p>
 
-<p><code>- (IBAction)unwindToHere:(UIStoryboardSegue*)sender {...}</code></p></li>
-<li><p>The view controller MUST be present in the navigation hierarchy. Obvious perhaps, but good to note unwind is to &quot;go back&quot;, not jump to anywhere.</p></li>
-<li><p>The view controller should have appeared before performing other segues, otherwise you will encounter <a href="http://stackoverflow.com/q/20250481/242682">Warning: Attempt to present on whose view is not in the window hierarchy!</a></p></li>
+    <p><code class="highlighter-rouge">- (IBAction)unwindToHere:(UIStoryboardSegue*)sender {...}</code></p>
+  </li>
+  <li>The view controller MUST be present in the navigation hierarchy. Obvious perhaps, but good to note unwind is to “go back”, not jump to anywhere.</li>
+  <li>The view controller should have appeared before performing other segues, otherwise you will encounter <a href="http://stackoverflow.com/q/20250481/242682">Warning: Attempt to present on whose view is not in the window hierarchy!</a></li>
 </ul>
 
-<h2>How I use unwind</h2>
+<h2 id="how-i-use-unwind">How I use unwind</h2>
 
-<p>I always have a <code>FirstViewController</code> which is the initial view controller on my storyboard.</p>
+<p>I always have a <code class="highlighter-rouge">FirstViewController</code> which is the initial view controller on my storyboard.</p>
 
-<p>This <code>FirstViewController</code> is like a coordinator to other view controllers such as Login, Main, etc.. </p>
+<p>This <code class="highlighter-rouge">FirstViewController</code> is like a coordinator to other view controllers such as Login, Main, etc..</p>
 
 <p>The advantage of having that is since it is the initial view controller, it will always be in the navigation hierarchy. And thus, it is a good candidate to unwind to (will always succeed!).</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@interface</span> <span class="nc">FirstViewController</span> <span class="p">()</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Use this to coordinate unwind</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">strong</span><span class="p">)</span> <span class="bp">NSString</span> <span class="o">*</span><span class="n">segueIdentifierToUnwindTo</span><span class="p">;</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@end</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@implementation</span> <span class="nc">FirstViewController</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidAppear:</span><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">super</span> <span class="nl">viewDidAppear</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>   
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Handle unwind</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">if</span> <span class="p">(</span><span class="n">_segueIdentifierToUnwindTo</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">performSegueWithIdentifier</span><span class="p">:</span><span class="n">_segueIdentifierToUnwindTo</span> <span class="nl">sender</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="nb">self</span><span class="p">.</span><span class="n">segueIdentifierToUnwindTo</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>   <span class="c1">// reset</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="k">return</span><span class="p">;</span>
-</div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Logics to segue </span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// ...</span>
-</div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Example of an unwind segue &quot;gotoLogin&quot;</span>
-</div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">gotoLogin:</span><span class="p">(</span><span class="bp">UIStoryboardSegue</span><span class="o">*</span><span class="p">)</span><span class="nv">sender</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Don&#39;t perform segue directly here, because in unwind, this view is not in window hierarchy yet!</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// [self performSegueWithIdentifier:@&quot;Login&quot; sender:self];</span>
-</div></div><div data-line='25' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">self</span><span class="p">.</span><span class="n">segueIdentifierToUnwindTo</span> <span class="o">=</span> <span class="s">@&quot;Login&quot;</span><span class="p">;</span>
-</div></div><div data-line='26' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='27' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='28' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Example of another unwind segue &quot;gotoMain&quot;</span>
-</div></div><div data-line='29' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">gotoMain:</span><span class="p">(</span><span class="bp">UIStoryboardSegue</span><span class="o">*</span><span class="p">)</span><span class="nv">sender</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='30' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="nb">self</span><span class="p">.</span><span class="n">segueIdentifierToUnwindTo</span> <span class="o">=</span> <span class="s">@&quot;Main&quot;</span><span class="p">;</span>
-</div></div><div data-line='31' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span>
-</div></div><div data-line='32' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='33' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@end</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">FirstViewController</span> <span class="p">()</span>
+<span class="c1">// Use this to coordinate unwind
+</span><span class="k">@property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">strong</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">segueIdentifierToUnwindTo</span><span class="p">;</span>
+<span class="k">@end</span>
 
-<p>In the example above, I have 2 unwind segues <code>gotoLogin</code> and <code>gotoMain</code>. You could have as many unwind segues.</p>
+<span class="k">@implementation</span> <span class="nc">FirstViewController</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidAppear</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">animated</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">super</span> <span class="nf">viewDidAppear</span><span class="p">:</span><span class="n">animated</span><span class="p">];</span>   
 
-<p>When you add an unwind segue to a scene (read <a href="https://developer.apple.com/library/ios/technotes/tn2298/_index.html">here</a> on how), you could choose <code>gotoLogin</code>. That is bascially asking to unwind to <code>FirstViewController</code>, and then asking <code>FirstViewController</code> to go to Login next.</p>
+    <span class="c1">// Handle unwind
+</span>    <span class="k">if</span> <span class="p">(</span><span class="n">_segueIdentifierToUnwindTo</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[</span><span class="n">self</span> <span class="nf">performSegueWithIdentifier</span><span class="p">:</span><span class="n">_segueIdentifierToUnwindTo</span> <span class="nf">sender</span><span class="p">:</span><span class="n">self</span><span class="p">];</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">segueIdentifierToUnwindTo</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>   <span class="c1">// reset
+</span>        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="c1">// Logics to segue 
+</span>    <span class="c1">// ...
+</span><span class="p">}</span>
 
-<p>If it is an unwind operation, the segue is performed right after <code>viewDidAppear</code>. </p>
+<span class="c1">// Example of an unwind segue "gotoLogin"
+</span><span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">gotoLogin</span><span class="p">:(</span><span class="n">UIStoryboardSegue</span><span class="o">*</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+    <span class="c1">// Don't perform segue directly here, because in unwind, this view is not in window hierarchy yet!
+</span>    <span class="c1">// [self performSegueWithIdentifier:@"Login" sender:self];
+</span>    <span class="n">self</span><span class="p">.</span><span class="n">segueIdentifierToUnwindTo</span> <span class="o">=</span> <span class="s">@"Login"</span><span class="p">;</span>
+<span class="p">}</span>
 
-<p>If it is not an unwind operation, other logics could be added in <code>viewDidAppear</code> eg. go to Login if no logged in user.</p>
+<span class="c1">// Example of another unwind segue "gotoMain"
+</span><span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">gotoMain</span><span class="p">:(</span><span class="n">UIStoryboardSegue</span><span class="o">*</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">segueIdentifierToUnwindTo</span> <span class="o">=</span> <span class="s">@"Main"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre>
+</div>
+
+<p>In the example above, I have 2 unwind segues <code class="highlighter-rouge">gotoLogin</code> and <code class="highlighter-rouge">gotoMain</code>. You could have as many unwind segues.</p>
+
+<p>When you add an unwind segue to a scene (read <a href="https://developer.apple.com/library/ios/technotes/tn2298/_index.html">here</a> on how), you could choose <code class="highlighter-rouge">gotoLogin</code>. That is bascially asking to unwind to <code class="highlighter-rouge">FirstViewController</code>, and then asking <code class="highlighter-rouge">FirstViewController</code> to go to Login next.</p>
+
+<p>If it is an unwind operation, the segue is performed right after <code class="highlighter-rouge">viewDidAppear</code>.</p>
+
+<p>If it is not an unwind operation, other logics could be added in <code class="highlighter-rouge">viewDidAppear</code> eg. go to Login if no logged in user.</p>
+
 
         </section>
         <footer class="post-footer">

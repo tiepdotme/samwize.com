@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -83,20 +83,30 @@
 <p>To make them work together:</p>
 
 <ol>
-<li><p>Create the <code>RBStoryboardLink</code> suggorate view controller and setup <code>storyboardName</code> as per normal, but don&#39;t create any segue to it. It will be alone.</p></li>
-<li><p>Give it a storyboard ID eg. &quot;surrogate&quot;</p></li>
-<li><p>Don&#39;t use <code>SWRevealViewControllerSeguePushController</code> segue too</p></li>
-<li><p>Instead, call the revealViewController&#39;s <code>pushFrontViewController</code> method manually. </p></li>
+  <li>
+    <p>Create the <code class="highlighter-rouge">RBStoryboardLink</code> suggorate view controller and setup <code class="highlighter-rouge">storyboardName</code> as per normal, but don’t create any segue to it. It will be alone.</p>
+  </li>
+  <li>
+    <p>Give it a storyboard ID eg. “surrogate”</p>
+  </li>
+  <li>
+    <p>Don’t use <code class="highlighter-rouge">SWRevealViewControllerSeguePushController</code> segue too</p>
+  </li>
+  <li>
+    <p>Instead, call the revealViewController’s <code class="highlighter-rouge">pushFrontViewController</code> method manually.</p>
+  </li>
 </ol>
 
 <p>The code:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">IBAction</span><span class="p">)</span><span class="nf">buttonTapped:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="bp">UIViewController</span> <span class="o">*</span><span class="n">vc</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">storyboard</span> <span class="nl">instantiateViewControllerWithIdentifier</span><span class="p">:</span><span class="s">@&quot;surrogate&quot;</span><span class="p">];</span> 
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">revealViewController</span> <span class="nl">pushFrontViewController</span><span class="p">:</span><span class="n">vc</span> <span class="nl">animated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">buttonTapped</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+    <span class="n">UIViewController</span> <span class="o">*</span><span class="n">vc</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">storyboard</span> <span class="nf">instantiateViewControllerWithIdentifier</span><span class="p">:</span><span class="s">@"surrogate"</span><span class="p">];</span> 
+    <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">revealViewController</span> <span class="nf">pushFrontViewController</span><span class="p">:</span><span class="n">vc</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>If the view controller is not getting behind the status bar correctly, set <code>needsTopLayoutGuide</code> key to NO in the suggorate.</p>
+<p>If the view controller is not getting behind the status bar correctly, set <code class="highlighter-rouge">needsTopLayoutGuide</code> key to NO in the suggorate.</p>
 
         </section>
         <footer class="post-footer">

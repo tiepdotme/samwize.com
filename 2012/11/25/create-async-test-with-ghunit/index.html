@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Create Async Test with GHUnit</title>
-  <meta name="description" content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff. " />
+  <meta name="description" content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Create Async Test with GHUnit" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff. " />
+    <meta name="twitter:description"  content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Create Async Test with GHUnit"/>
   
-  <meta property="og:description" content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff. " />
+  <meta property="og:description" content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff." />
   
   <meta property="og:image" content="http://samwize.com" />
   <meta property="og:url" content="http://samwize.com/2012/11/25/create-async-test-with-ghunit/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>One of the <a href="/2012/10/03/sentestingkit-does-not-support-wait-for-blocks">greatest</a> feature with GHUnit is that it supports unit tests that perform asynchronous stuff. </p>
+          <p>One of the <a href="/2012/10/03/sentestingkit-does-not-support-wait-for-blocks">greatest</a> feature with GHUnit is that it supports unit tests that perform asynchronous stuff.</p>
 
 <p>The <a href="http://gabriel.github.com/gh-unit/docs/appledoc_include/guide_testing.html">ExampleAsyncTest</a> from GHUnit documentation provides a glimpse of what you need to do. However, it still lacks warning you on the <a href="http://stackoverflow.com/questions/7613761/why-does-a-false-assertion-in-async-test-in-ghunit-crash-the-app-instead-of-just">common pitfalls</a>.</p>
 
@@ -80,47 +80,59 @@
 
 <!-- more -->
 
-<h2>Subclass GHAsyncTestCase instead</h2>
+<h2 id="subclass-ghasynctestcase-instead">Subclass GHAsyncTestCase instead</h2>
 
-<p>Change the interface class to use <code>GHAsyncTestCase</code>.</p>
+<p>Change the interface class to use <code class="highlighter-rouge">GHAsyncTestCase</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">@interface</span> <span class="nc">ExampleAsyncTest</span> : <span class="nc">GHAsyncTestCase</span> <span class="p">&#x7b;</span> <span class="p">&#x7d;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">@end</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="k">@interface</span> <span class="nc">ExampleAsyncTest</span> <span class="p">:</span> <span class="nc">GHAsyncTestCase</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="k">@end</span>
+</code></pre>
+</div>
 
-<h2>Prepare and wait</h2>
+<h2 id="prepare-and-wait">Prepare and wait</h2>
 
 <p>Setup the test method with the asynchronous/block call like this:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">testAsync</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Prepare asynchronous action</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span> <span class="n">prepare</span><span class="p">];</span>
-</div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// The method call with block</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="k">static</span> <span class="bp">NSArray</span> <span class="o">*</span><span class="n">_objects</span><span class="p">;</span>
-</div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="n">Query</span> <span class="nl">findObjectsInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="bp">NSArray</span> <span class="o">*</span><span class="n">objects</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">&#x7b;</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// IMPORTANT: Do not call any assert here</span>
-</div></div><div data-line='9' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// If you want, do it after waitForStatus</span>
-</div></div><div data-line='10' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// GHAssertEquals(...) will crash!</span>
-</div></div><div data-line='11' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='12' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Instead, we assign to a static var for testing later</span>
-</div></div><div data-line='13' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="n">_objects</span> <span class="o">=</span> <span class="n">objects</span><span class="p">;</span>
-</div></div><div data-line='14' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='15' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="c1">// Notify that block method has completed</span>
-</div></div><div data-line='16' class='code-highlight-row numbered'><div class='code-highlight-line'>        <span class="p">[</span><span class="nb">self</span> <span class="nl">notify</span><span class="p">:</span><span class="n">kGHUnitWaitStatusSuccess</span> <span class="nl">forSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">testObjectRelationships</span><span class="p">)];</span>
-</div></div><div data-line='17' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">&#x7d;];</span>
-</div></div><div data-line='18' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='19' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Wait for block to finish, or timeout</span>
-</div></div><div data-line='20' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="p">[</span><span class="nb">self</span> <span class="nl">waitForStatus</span><span class="p">:</span><span class="n">kGHUnitWaitStatusSuccess</span> <span class="nl">timeout</span><span class="p">:</span><span class="mf">10.0</span><span class="p">];</span>
-</div></div><div data-line='21' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='22' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="c1">// Do asserts here instead</span>
-</div></div><div data-line='23' class='code-highlight-row numbered'><div class='code-highlight-line'>    <span class="n">GHAssertEquals</span><span class="p">(</span><span class="mi">99U</span><span class="p">,</span> <span class="p">[</span><span class="n">_objects</span> <span class="n">count</span><span class="p">],</span> <span class="nb">nil</span><span class="p">);</span>
-</div></div><div data-line='24' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="p">&#x7d;</span></div></div></pre></div></figure>
+<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">testAsync</span> <span class="p">{</span>
+    <span class="c1">// Prepare asynchronous action
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">prepare</span><span class="p">];</span>
+    
+    <span class="c1">// The method call with block
+</span>    <span class="k">static</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">_objects</span><span class="p">;</span>
+    <span class="p">[</span><span class="n">Query</span> <span class="nf">findObjectsInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">objects</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// IMPORTANT: Do not call any assert here
+</span>        <span class="c1">// If you want, do it after waitForStatus
+</span>        <span class="c1">// GHAssertEquals(...) will crash!
+</span>
+        <span class="c1">// Instead, we assign to a static var for testing later
+</span>        <span class="n">_objects</span> <span class="o">=</span> <span class="n">objects</span><span class="p">;</span>
 
-<h2>Pitfall: Assert in block</h2>
+        <span class="c1">// Notify that block method has completed
+</span>        <span class="p">[</span><span class="n">self</span> <span class="nf">notify</span><span class="p">:</span><span class="n">kGHUnitWaitStatusSuccess</span> <span class="nf">forSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">testObjectRelationships</span><span class="p">)];</span>
+    <span class="p">}];</span>
+    
+    <span class="c1">// Wait for block to finish, or timeout
+</span>    <span class="p">[</span><span class="n">self</span> <span class="nf">waitForStatus</span><span class="p">:</span><span class="n">kGHUnitWaitStatusSuccess</span> <span class="nf">timeout</span><span class="p">:</span><span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="p">];</span>
 
-<p>It is <a href="http://stackoverflow.com/questions/7613761/why-does-a-false-assertion-in-async-test-in-ghunit-crash-the-app-instead-of-just">common</a> that you assert within the block. </p>
+    <span class="c1">// Do asserts here instead
+</span>    <span class="n">GHAssertEquals</span><span class="p">(</span><span class="mi">99U</span><span class="p">,</span> <span class="p">[</span><span class="n">_objects</span> <span class="nf">count</span><span class="p">],</span> <span class="nb">nil</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="pitfall-assert-in-block">Pitfall: Assert in block</h2>
+
+<p>It is <a href="http://stackoverflow.com/questions/7613761/why-does-a-false-assertion-in-async-test-in-ghunit-crash-the-app-instead-of-just">common</a> that you assert within the block.</p>
 
 <p>But that will just give the following exception when the test fails.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Terminating app due to uncaught exception &#39;GHTestFailureException&#39;, reason: ...
-</code></pre></div>
-<p>To make it work, you don&#39;t call any asserts within the block.</p>
 
-<p>Leave it until <code>waitForStatus</code> is unblocked.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>Terminating app due to uncaught exception 'GHTestFailureException', reason: ...
+</code></pre>
+</div>
+
+<p>To make it work, you don’t call any asserts within the block.</p>
+
+<p>Leave it until <code class="highlighter-rouge">waitForStatus</code> is unblocked.</p>
 
         </section>
         <footer class="post-footer">

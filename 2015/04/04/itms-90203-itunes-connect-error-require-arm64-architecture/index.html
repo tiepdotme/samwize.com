@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -75,23 +75,27 @@
           <p>When I tried to publish an app with Watch Kit App/Extension, I have the error:</p>
 
 <blockquote>
-<p>ERROR ITMS-90203: &quot;Invalid architecture: Apps that include an app extension and a framework must support arm64</p>
+  <p>ERROR ITMS-90203: “Invalid architecture: Apps that include an app extension and a framework must support arm64</p>
 </blockquote>
 
 <!-- more -->
 
-<p>You can verify with <code>lipo</code> on your binary.</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">lipo -info &quot;/Users/junda/Library/Developer/Xcode/Archives/2015-04-04/AwesomeApp 4-4-15 8.49 pm.xcarchive/Products/Applications/AwesomeApp.app/AwesomeApp&quot; 
-</code></pre></div>
+<p>You can verify with <code class="highlighter-rouge">lipo</code> on your binary.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>lipo -info "/Users/junda/Library/Developer/Xcode/Archives/2015-04-04/AwesomeApp 4-4-15 8.49 pm.xcarchive/Products/Applications/AwesomeApp.app/AwesomeApp" 
+</code></pre>
+</div>
+
 <p>It must list arm64.</p>
 
-<p>If not, make sure all your targets includes arm64 in <strong>Build Settings &gt; Architectures</strong> and also <strong>Valid Architectures</strong>. </p>
+<p>If not, make sure all your targets includes arm64 in <strong>Build Settings &gt; Architectures</strong> and also <strong>Valid Architectures</strong>.</p>
 
-<p>The standard architecture is <strong>armv7</strong> and <strong>arm64</strong>. </p>
+<p>The standard architecture is <strong>armv7</strong> and <strong>arm64</strong>.</p>
 
 <p>NOTE: It is NOT <strong>armv64</strong>, it is <strong>arm64</strong>. A typo will result in not building for arm64 too.</p>
 
-<p>When you build/archive, disconnect any connecting device too, because that could trigger &quot;Build Active Architecture Only&quot;.</p>
+<p>When you build/archive, disconnect any connecting device too, because that could trigger “Build Active Architecture Only”.</p>
+
 
         </section>
         <footer class="post-footer">

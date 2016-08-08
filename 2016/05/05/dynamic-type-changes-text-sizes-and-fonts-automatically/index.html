@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-2eafd04c53bc4a51632c1f6aa4746ce3.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -76,70 +76,78 @@
 
 <p>To know your user preferred settings:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">UIApplication</span><span class="p">.</span><span class="n">sharedApplication</span><span class="p">().</span><span class="n">preferredContentSizeCategory</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kt">UIApplication</span><span class="o">.</span><span class="nf">sharedApplication</span><span class="p">()</span><span class="o">.</span><span class="n">preferredContentSizeCategory</span>
+</code></pre>
+</div>
 
-<p>Currently, there are <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/#//apple_ref/doc/constant_group/Content_Size_Category_Constants">7 different <code>UIContentSizeCategory</code> sizes</a>, ranging from XS-XXXL.</p>
+<p>Currently, there are <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/#//apple_ref/doc/constant_group/Content_Size_Category_Constants">7 different <code class="highlighter-rouge">UIContentSizeCategory</code> sizes</a>, ranging from XS-XXXL.</p>
 
-<h2>Text Styles</h2>
+<h2 id="text-styles">Text Styles</h2>
 
 <p><a href="https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/CustomTextProcessing/CustomTextProcessing.html#//apple_ref/doc/uid/TP40009542-CH4-SW65">Text Styles</a> are semantic descriptions.</p>
 
 <p>There are a fixed number of descriptions, and currently in iOS 9, <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIFontDescriptor_Class/index.html#//apple_ref/doc/constant_group/Text_Styles">10 styles are supported</a>:</p>
 
 <ul>
-<li>Title1, Title2, Title3</li>
-<li>Headline, Subheadline</li>
-<li>Body</li>
-<li>Footnote</li>
-<li>Caption1, Caption2</li>
-<li>Callout</li>
+  <li>Title1, Title2, Title3</li>
+  <li>Headline, Subheadline</li>
+  <li>Body</li>
+  <li>Footnote</li>
+  <li>Caption1, Caption2</li>
+  <li>Callout</li>
 </ul>
 
 <p>This <a href="http://stackoverflow.com/a/20510095/242682">table</a> shows the <em>actual font size</em> when you combine your text style and your user preferred text size:</p>
 
-<p><img src="http://i.stack.imgur.com/RiXd5.png"  ></p>
+<p><img src="http://i.stack.imgur.com/RiXd5.png" /></p>
 
-<h2>Font Descriptor</h2>
+<h2 id="font-descriptor">Font Descriptor</h2>
 
 <p>Knowing what text style you want to use, you can then:</p>
 
 <ol>
-<li><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIFont_Class/index.html#//apple_ref/occ/clm/UIFont/preferredFontForTextStyle:">Get the preferred UIFont</a> <code>preferredFontForTextStyle:</code></li>
-<li><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIFontDescriptor_Class/index.html#//apple_ref/occ/clm/UIFontDescriptor/preferredFontDescriptorWithTextStyle:">Get the preferred UIFontDescriptor</a> <code>preferredFontDescriptorWithTextStyle:</code></li>
+  <li><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIFont_Class/index.html#//apple_ref/occ/clm/UIFont/preferredFontForTextStyle:">Get the preferred UIFont</a> <code class="highlighter-rouge">preferredFontForTextStyle:</code></li>
+  <li><a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIFontDescriptor_Class/index.html#//apple_ref/occ/clm/UIFontDescriptor/preferredFontDescriptorWithTextStyle:">Get the preferred UIFontDescriptor</a> <code class="highlighter-rouge">preferredFontDescriptorWithTextStyle:</code></li>
 </ol>
 
-<p>We all (should) be familiar with <code>UIFont</code>.</p>
+<p>We all (should) be familiar with <code class="highlighter-rouge">UIFont</code>.</p>
 
-<p>What is this <code>UIFontDescriptor</code>?</p>
+<p>What is this <code class="highlighter-rouge">UIFontDescriptor</code>?</p>
 
-<p><code>UIFontDescriptor</code> is introduced together with Dynamic Type in iOS 7, to provide a way to describe the attributes of a font, without actually creating a font object (which is more expensive).</p>
+<p><code class="highlighter-rouge">UIFontDescriptor</code> is introduced together with Dynamic Type in iOS 7, to provide a way to describe the attributes of a font, without actually creating a font object (which is more expensive).</p>
 
-<h2>1. System Font using UIFont</h2>
+<h2 id="system-font-using-uifont">1. System Font using UIFont</h2>
 
 <p>If you are okay with using the system font, then simply get the font with this 1 liner:</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">titleFont</span> <span class="o">=</span> <span class="bp">UIFont</span><span class="p">.</span><span class="n">preferredFontForTextStyle</span><span class="p">(</span><span class="n">UIFontTextStyleTitle1</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">titleFont</span> <span class="o">=</span> <span class="kt">UIFont</span><span class="o">.</span><span class="nf">preferredFontForTextStyle</span><span class="p">(</span><span class="kt">UIFontTextStyleTitle1</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<h2>2. Custom Font using UIFontDescriptor</h2>
+<h2 id="custom-font-using-uifontdescriptor">2. Custom Font using UIFontDescriptor</h2>
 
 <p>If you want a custom font, then you have to use the intermediary.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Get the preferred descriptor instead</span>
-</div></div><div data-line='2' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">titleDescriptor</span> <span class="o">=</span> <span class="bp">UIFontDescriptor</span><span class="p">.</span><span class="n">preferredFontDescriptorWithTextStyle</span><span class="p">(</span><span class="n">UIFontTextStyleTitle1</span><span class="p">)</span>
-</div></div><div data-line='3' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='4' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Edit the trait and size, if needed</span>
-</div></div><div data-line='5' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">boldTitleDescriptor</span> <span class="o">=</span> <span class="n">titleDescriptor</span><span class="p">.</span><span class="n">fontDescriptorWithSymbolicTraits</span><span class="p">(.</span><span class="n">TraitBold</span><span class="p">)</span>
-</div></div><div data-line='6' class='code-highlight-row numbered'><div class='code-highlight-line'> </div></div><div data-line='7' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="c1">// Finally create the UIFont with the descriptor</span>
-</div></div><div data-line='8' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="k">let</span> <span class="n">titleFont</span> <span class="o">=</span> <span class="bp">UIFont</span><span class="p">(</span><span class="nl">descriptor</span><span class="p">:</span> <span class="n">boldTitleDescriptor</span><span class="p">,</span> <span class="nl">size</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Get the preferred descriptor instead</span>
+<span class="k">let</span> <span class="nv">titleDescriptor</span> <span class="o">=</span> <span class="kt">UIFontDescriptor</span><span class="o">.</span><span class="nf">preferredFontDescriptorWithTextStyle</span><span class="p">(</span><span class="kt">UIFontTextStyleTitle1</span><span class="p">)</span>
+
+<span class="c1">// Edit the trait and size, if needed</span>
+<span class="k">let</span> <span class="nv">boldTitleDescriptor</span> <span class="o">=</span> <span class="n">titleDescriptor</span><span class="o">.</span><span class="nf">fontDescriptorWithSymbolicTraits</span><span class="p">(</span><span class="o">.</span><span class="kt">TraitBold</span><span class="p">)</span>
+
+<span class="c1">// Finally create the UIFont with the descriptor</span>
+<span class="k">let</span> <span class="nv">titleFont</span> <span class="o">=</span> <span class="kt">UIFont</span><span class="p">(</span><span class="nv">descriptor</span><span class="p">:</span> <span class="n">boldTitleDescriptor</span><span class="p">,</span> <span class="nv">size</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre>
+</div>
 
 <p>While you can edit the font to make it bold and change the font size etc.. there is a <strong>pitfall</strong>: You cannot change the font familiy or face.</p>
 
-<p>To do that, you need to create <code>UIFontDescriptor</code> from scratch.</p>
+<p>To do that, you need to create <code class="highlighter-rouge">UIFontDescriptor</code> from scratch.</p>
 
 <p>You will probably want to <a href="http://stackoverflow.com/a/20510095/242682">scale your custom font</a> by a certain amount. Or use a <a href="http://useyourloaf.com/blog/scaling-dynamic-type-with-font-descriptors/">helper</a> method.</p>
 
-<h2>3. Storyboard</h2>
+<h2 id="storyboard">3. Storyboard</h2>
 
-<p>If you are using storyboard, you are limited to the system font. </p>
+<p>If you are using storyboard, you are limited to the system font.</p>
 
 <p>Simply change Font &gt; Text Style.</p>
 
@@ -147,23 +155,26 @@
 
 <p>As of Xcode 7.3, you cannot change the traits (eg. bold) from interface builder, but I belive the feature will come.</p>
 
-<h2>Detecting Settings Changes</h2>
+<h2 id="detecting-settings-changes">Detecting Settings Changes</h2>
 
-<p>When a user change his preferred text size in Settings, you need to listen to <code>UIContentSizeCategoryDidChangeNotification</code>.</p>
+<p>When a user change his preferred text size in Settings, you need to listen to <code class="highlighter-rouge">UIContentSizeCategoryDidChangeNotification</code>.</p>
 
-<figure class='code-highlight-figure'><div class='code-highlight'><pre class='code-highlight-pre'><div data-line='1' class='code-highlight-row numbered'><div class='code-highlight-line'><span class="bp">NSNotificationCenter</span><span class="p">.</span><span class="n">defaultCenter</span><span class="p">().</span><span class="n">addObserver</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">selector</span><span class="p">:</span> <span class="err">#</span><span class="n">selector</span><span class="p">(</span><span class="n">ViewController</span><span class="p">.</span><span class="n">didChangePreferredContentSize</span><span class="p">),</span> <span class="nl">name</span><span class="p">:</span> <span class="n">UIContentSizeCategoryDidChangeNotification</span><span class="p">,</span> <span class="nl">object</span><span class="p">:</span> <span class="nb">nil</span><span class="p">)</span></div></div></pre></div></figure>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kt">NSNotificationCenter</span><span class="o">.</span><span class="nf">defaultCenter</span><span class="p">()</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">selector</span><span class="p">:</span> <span class="kd">#selector(</span><span class="nf">ViewController.didChangePreferredContentSize</span><span class="kd">)</span><span class="p">,</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">UIContentSizeCategoryDidChangeNotification</span><span class="p">,</span> <span class="nv">object</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</code></pre>
+</div>
 
-<p>Then you need to update your views in your method <code>didChangePreferredContentSize</code>.</p>
+<p>Then you need to update your views in your method <code class="highlighter-rouge">didChangePreferredContentSize</code>.</p>
 
-<p>You might want to use <a href="https://github.com/bignerdranch/BNRDynamicTypeManager">BNRDynamicTypeManager</a> to &quot;watch&quot; over the views that need to be updated.</p>
+<p>You might want to use <a href="https://github.com/bignerdranch/BNRDynamicTypeManager">BNRDynamicTypeManager</a> to “watch” over the views that need to be updated.</p>
 
-<h2>Testing on Simulator</h2>
+<h2 id="testing-on-simulator">Testing on Simulator</h2>
 
 <p>Open Settings app, then go to <strong>General &gt; Accessibility &gt; Larger text</strong>.</p>
 
 <p>However, note that simulator running on iOS 9.3 has a <a href="https://github.com/lionheart/openradar-mirror/issues/14563">bug</a>, so in some cases it might not work.</p>
 
 <p>This is different from an actual device, which is under <strong>Display &amp; Brightness &gt; Text Size</strong>.</p>
+
 
         </section>
         <footer class="post-footer">
