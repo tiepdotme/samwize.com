@@ -34,4 +34,7 @@ permalink: /quotes/
 
 PS: The original copy at [Just2me.com](http://just2me.com/quotes)
 
+---
+
+Other Quotes: [Programmer Quotes](/programmers-quotes)
 

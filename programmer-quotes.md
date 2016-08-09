@@ -4,12 +4,6 @@ title: "Funny Programmers Quotes"
 permalink: /programmers-quotes/
 ---
 
-~~test~~
-
-http://yahoo.com
-
-ahsdhds_sdfdsf_sdfsdfs
-
 > Don’t worry if it doesn't work right. If everything did, you’d be out of a job.
 
 
@@ -31,7 +25,7 @@ ahsdhds_sdfdsf_sdfsdfs
 
 > Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.
 
-> Measuring programming progress by lines of code is like measuring aircraft building progress by weight. (Bill Gates)
+> Measuring programming progress by lines of code is like measuring aircraft building progress by weight.
 
 > Programming is like sex. One mistake and you have to support it for the rest of your life.
 
