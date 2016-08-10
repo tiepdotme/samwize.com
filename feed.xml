@@ -6,8 +6,8 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 08 Aug 2016 23:42:08 +0800</pubDate>
-    <lastBuildDate>Mon, 08 Aug 2016 23:42:08 +0800</lastBuildDate>
+    <pubDate>Wed, 10 Aug 2016 14:04:16 +0800</pubDate>
+    <lastBuildDate>Wed, 10 Aug 2016 14:04:16 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -268,6 +268,85 @@
         
         
         <category>Swift</category>
+        
+      </item>
+    
+      <item>
+        <title>MVVM for iOS &amp; Swift</title>
+        <description>&lt;p&gt;Following a &lt;a href=&quot;/2016/07/20/good-architecture-for-ios-app/&quot;&gt;research into better architectures&lt;/a&gt;, this is some learnings from &lt;a href=&quot;http://artsy.github.io/blog/2015/09/24/mvvm-in-swift/&quot;&gt;MVVM in Swift&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;view-model-vm&quot;&gt;View Model (VM)&lt;/h2&gt;
+
+&lt;p&gt;The VM is a 1-1 with view controller.&lt;/p&gt;
+
+&lt;p&gt;It is actually simply a composition pattern, by separating responsibility from the View Controller (VC).&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-view-model-responsible-for&quot;&gt;What is View Model responsible for?&lt;/h2&gt;
+
+&lt;p&gt;View Model stands between the Model and the View Controller, and provide the data that a view controller needs to display in it’s views.&lt;/p&gt;
+
+&lt;p&gt;View Controller NO longer access the model directly.&lt;/p&gt;
+
+&lt;p&gt;If the model has a &lt;code class=&quot;highlighter-rouge&quot;&gt;NSDate&lt;/code&gt;, then the VM will have the &lt;code class=&quot;highlighter-rouge&quot;&gt;NSDateFormatter&lt;/code&gt; that knows how to display the date as a string for the view.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-view-model-not-responsible-for&quot;&gt;What is View Model NOT responsible for?&lt;/h2&gt;
+
+&lt;p&gt;A VM does not know about the view.&lt;/p&gt;
+
+&lt;p&gt;It does not know stuff about presentation, but it does provide the data for presenting.&lt;/p&gt;
+
+&lt;p&gt;Note that is “data” for presenting is not the actual model, but a intermediatry object (aka boundary object).&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-grey&quot;&gt;What is grey?&lt;/h2&gt;
+
+&lt;p&gt;Networking call is a grey area. Neither VM nor VC defines where the network logic should go.&lt;/p&gt;
+
+&lt;p&gt;But it is safer to be in VM. Or use another composition pattern with a network object.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-different-is-mvvm-and-mvc&quot;&gt;How different is MVVM and MVC&lt;/h2&gt;
+
+&lt;p&gt;It is actually not much different.&lt;/p&gt;
+
+&lt;p&gt;The introduction of a View Model simply extract the business/app logics out of a View Controller.&lt;/p&gt;
+
+&lt;p&gt;It uses a composition pattern, so a VC now will have a VM. In doing so, you can now write tests for the VM (which has the important business logics).&lt;/p&gt;
+
+&lt;h2 id=&quot;how-view-model-vm-communicates-with-view-controller-vc&quot;&gt;How View Model (VM) communicates with View Controller (VC)?&lt;/h2&gt;
+
+&lt;p&gt;Remember, VM does not know anything about the VC.&lt;/p&gt;
+
+&lt;p&gt;Just like VC does not know anything about the model.&lt;/p&gt;
+
+&lt;p&gt;VM and VC can communicate via delegates or Functional Reactive Programming (FRP).&lt;/p&gt;
+
+&lt;p&gt;You would have have know delegate pattern, which is widely used in Apple’s frameworks. It can work, except it is verbose.&lt;/p&gt;
+
+&lt;p&gt;A better way is FRP, which you would have heard in the form of &lt;a href=&quot;https://github.com/ReactiveKit/ReactiveKit&quot;&gt;Reactive&lt;/a&gt;. A good introduction to FRP is the &lt;a href=&quot;https://www.raywenderlich.com/123108/bond-tutorial&quot;&gt;Swift Bond tutorial by raywenderlich&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;(alas, Swift does not support binding out of the box, so a tool like ReactiveKit is much needed)&lt;/p&gt;
+
+&lt;h2 id=&quot;reactivekit&quot;&gt;ReactiveKit&lt;/h2&gt;
+
+&lt;p&gt;This very cool framework was first known as &lt;a href=&quot;https://github.com/SwiftBond/Bond&quot;&gt;Bond&lt;/a&gt;, &lt;em&gt;Swift Bond&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;It’s successor is ReactiveKit, which is now made up of a few components:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/ReactiveKit/ReactiveKit&quot;&gt;ReactiveKit&lt;/a&gt; - The core&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/ReactiveKit/ReactiveUIKit&quot;&gt;ReactiveUIKit&lt;/a&gt; - provides extension to UIKit to provide binding&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/ReactiveKit/ReactiveAlamofire&quot;&gt;ReactiveAlamofire&lt;/a&gt; - provides extension to the popular networking library&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Compared to other libraries doing the same think (like Reactive Cocoa), ReactiveKit looks great.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 26 Jul 2016 16:14:37 +0800</pubDate>
+        <link>http://samwize.com/2016/07/26/mvvm-for-ios-and-swift/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/07/26/mvvm-for-ios-and-swift/</guid>
+        
+        
+        <category>Architecture</category>
+        
+        <category>iOS</category>
         
       </item>
     
@@ -1012,107 +1091,6 @@ let outImageFill = img.resizedImage(CGSize(width: 200, height: 200))
         <category>iOS</category>
         
         <category>Swift</category>
-        
-      </item>
-    
-      <item>
-        <title>Finding Retain Cycle With Instruments</title>
-        <description>&lt;p&gt;In the last post we have an &lt;a href=&quot;/2016/05/27/finding-memory-leak-using-instruments/&quot;&gt;introduction&lt;/a&gt; with using Instruments to finding memory leak.&lt;/p&gt;
-
-&lt;p&gt;This post, we will use a concrete, and a very common example, where memory is leaking because of retain cycle.&lt;/p&gt;
-
-&lt;h2 id=&quot;retain-cycle&quot;&gt;Retain Cycle&lt;/h2&gt;
-
-&lt;p&gt;A retain cycle happens when object A has a strong reference to B, and B also has a strong reference to A.&lt;/p&gt;
-
-&lt;p&gt;This cycle will prevent the memory from releasing, when it should.&lt;/p&gt;
-
-&lt;p&gt;You can read more about it from &lt;a href=&quot;https://realm.io/news/hector-matos-memory-management/&quot;&gt;realm.io talk&lt;/a&gt; or &lt;a href=&quot;http://krakendev.io/blog/weak-and-unowned-references-in-swift&quot;&gt;krakendev&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;We will use the example of a view controller (VC) which is having a retain cycle with some other object.&lt;/p&gt;
-
-&lt;p&gt;In a normal behaviour, when the VC is pushed and subsequently popped, it’s memory should be released.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-detect-memory-leak-with-deinit&quot;&gt;How to detect memory leak with deinit&lt;/h2&gt;
-
-&lt;p&gt;There are a few ways to detect a leak.&lt;/p&gt;
-
-&lt;p&gt;A easy way is to make sure &lt;code class=&quot;highlighter-rouge&quot;&gt;deinit&lt;/code&gt; is called. When memory is to be released, &lt;code class=&quot;highlighter-rouge&quot;&gt;deinit&lt;/code&gt; is always being called.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Memory to be released soon&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;When the VC is popped, you should see the method being called.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-detect-memory-leak-with-instruments&quot;&gt;How to detect memory leak with Instruments&lt;/h2&gt;
-
-&lt;p&gt;In the last post we have an &lt;a href=&quot;http://samwize.com/2016/05/27/finding-memory-leak-using-instruments/&quot;&gt;introduction&lt;/a&gt;. Profile the app with Leaks template.&lt;/p&gt;
-
-&lt;p&gt;For this case of finding memory leak for our view controller, it is easier if we configure to record only for objects that has the suffix “ViewController”.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/instruments-viewcontroller-records.png&quot; alt=&quot;Record only ViewController&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This will record only the relevant objects we are interested in, so it is easier to find what we want.&lt;/p&gt;
-
-&lt;p&gt;Record the session, and use the app and push the view controller.&lt;/p&gt;
-
-&lt;p&gt;Select &lt;strong&gt;All Heap &amp;amp; Anonymous VM&lt;/strong&gt;, and look under &lt;strong&gt;Details &amp;gt; Statistics&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/instruments-allocation-statistics.jpg&quot; alt=&quot;Allocation Statistics&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Now pop the view controller, and observe the memory allocation. The popped view controller should no longer be listed. If you still see it, then you have a memory leak!&lt;/p&gt;
-
-&lt;p&gt;If you now repeatedly push and pop the leaking VC, then you will see that the &lt;strong&gt;# Persistent&lt;/strong&gt; will increase. That is a count of the number of that object in memory.&lt;/p&gt;
-
-&lt;h2 id=&quot;who-is-retaining-me&quot;&gt;Who is retaining me?&lt;/h2&gt;
-
-&lt;p&gt;To fix the retain cycle, you have to know who is retaining the VC errorneously.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/a/29720892/242682&quot;&gt;Unfortunately&lt;/a&gt;, you’re never going to be able to get a list of objects retaining a certain object. This is because in ARC, an object only record a reference count, a counter on how many objects is referencing to it. To record &lt;em&gt;who&lt;/em&gt; is referencing to it will be inefficient.&lt;/p&gt;
-
-&lt;p&gt;While you will not be able to find out exactly who is retaining VC immediately, you will be able to deduce by doing some forensic.&lt;/p&gt;
-
-&lt;p&gt;Select the VC object in memory, and click on the right arrow button. This will show the &lt;strong&gt;Reference Count History&lt;/strong&gt;, with all the events that retain and release the VC.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/instruments-references-history.png&quot; alt=&quot;Reference History&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It is up to you to deduce which &lt;strong&gt;Responsible Caller&lt;/strong&gt; is causing the retain cycle. You might want to select a “Retain” and a “Release” and “Pair” them up, and slowly find the extra retain.&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus-view-controller---weak-delegate&quot;&gt;Bonus: View Controller - weak delegate&lt;/h2&gt;
-
-&lt;p&gt;I wrote this post when I was trying to find a memory leak for my view controller.&lt;/p&gt;
-
-&lt;p&gt;I guess this will be a pretty common pitfall for view controller. The culprit for my case is a custom delegate I wrote that is a &lt;code class=&quot;highlighter-rouge&quot;&gt;protocol&lt;/code&gt; like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyViewControllerDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;delegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyViewControllerDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The fix is to make the &lt;code class=&quot;highlighter-rouge&quot;&gt;delegate&lt;/code&gt; object &lt;code class=&quot;highlighter-rouge&quot;&gt;weak&lt;/code&gt;, so as to break the reference cycle.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DealCellDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;delegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyViewControllerDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;In doing so, realize that the protocol has a &lt;code class=&quot;highlighter-rouge&quot;&gt;class&lt;/code&gt; requirement, as weak cannot be applied to non-class type.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 30 May 2016 17:32:37 +0800</pubDate>
-        <link>http://samwize.com/2016/05/30/finding-retain-cycle-with-instruments/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/05/30/finding-retain-cycle-with-instruments/</guid>
-        
-        
-        <category>iOS</category>
-        
-        <category>Instruments</category>
         
       </item>
     
