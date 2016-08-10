@@ -11,6 +11,7 @@ Learning how to write clean code is the higher level every professional develope
 
 Here's what I learnt.
 
+
 ## Don't Write Comments
 
 If you need to write comments to describe your methods or variables, then you are probably not naming them well enough.
