@@ -5,6 +5,7 @@ date: 2016-07-26T16:14:37+08:00
 categories: [Architecture, iOS]
 ---
 
+Following a [research into better architectures](/2016/07/20/good-architecture-for-ios-app/), this is some learnings from [MVVM in Swift](http://artsy.github.io/blog/2015/09/24/mvvm-in-swift/).
 
 ## View Model (VM)
 
@@ -64,16 +65,12 @@ A better way is FRP, which you would have heard in the form of [Reactive](https:
 
 ## ReactiveKit
 
-This very cool framework was first known as [Bond](https://github.com/SwiftBond/Bond).
+This very cool framework was first known as [Bond](https://github.com/SwiftBond/Bond), _Swift Bond_.
 
 It's successor is ReactiveKit, which is now made up of a few components:
 
-- [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit)
+- [ReactiveKit](https://github.com/ReactiveKit/ReactiveKit) - The core
 - [ReactiveUIKit](https://github.com/ReactiveKit/ReactiveUIKit) - provides extension to UIKit to provide binding
 - [ReactiveAlamofire](https://github.com/ReactiveKit/ReactiveAlamofire) - provides extension to the popular networking library
 
-
-
-## Resources
-
-- http://artsy.github.io/blog/2015/09/24/mvvm-in-swift/
+Compared to other libraries doing the same think (like Reactive Cocoa), ReactiveKit looks great.
