@@ -4,8 +4,9 @@ title: "Funny Programmers Quotes"
 permalink: /programmers-quotes/
 ---
 
-> Don’t worry if it doesn't work right. If everything did, you’d be out of a job.
+> Complexity has the same impact on your codebase as compound interest has on your credit card balance.
 
+> Don’t worry if it doesn't work right. If everything did, you’d be out of a job.
 
 > The trouble with programmers is that you can never tell what a programmer is doing until it’s too late.
 
