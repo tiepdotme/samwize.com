@@ -106,6 +106,28 @@ image.drawAtPoint(point)
 ```
 
 
+### CGContext Transformation
+
+You can change the [Current Transformation Matix (CTM)](https://developer.apple.com/library/tvos/documentation/GraphicsImaging/Reference/CGContext/index.html) for the graphics context.
+
+For example, you can scale the drawing by 50%, then translate (20, 20):
+
+```swift
+let context = UIGraphicsGetCurrentContext()
+CGContextSaveGState(context)
+
+CGContextScaleCTM(context, 0.5, 0.5)
+CGContextTranslateCTM(context, 20, 20)
+
+// Draw and render your path etc, with respect to the origin.
+// However, the CTM transformation will affect the render.
+
+CGContextRestoreGState(context)
+```
+
+Notice that you should save and restore the graphics states.
+
+
 ### Rendering UIImage
 
 These are the steps to generate an `UIImage`:
