@@ -7,7 +7,7 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Tools</title>
+  <title>Core Libraries</title>
   <meta name="description" content="¯\_(ツ)_/¯" />
 
   <meta name="HandheldFriendly" content="True" />
@@ -17,7 +17,7 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Tools" />
+    <meta name="twitter:title" content="Core Libraries" />
     <meta name="twitter:image" content="http://samwize.com" />
     
     <meta name="twitter:description" content="¯\_(ツ)_/¯" />
@@ -25,16 +25,16 @@
   
   
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Tools"/>
+  <meta property="og:title" content="Core Libraries"/>
   
   <meta property="og:description" content="¯\_(ツ)_/¯" />
   
   <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/tools/" >
+  <meta property="og:url" content="http://samwize.com/libs/core/" >
   <meta property="og:type" content="blog" />
   
 
-  <link rel="canonical" href="http://samwize.com/tools/">
+  <link rel="canonical" href="http://samwize.com/libs/core/">
 
   <link rel="shortcut icon" href="/assets/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -54,7 +54,7 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Tools</h1>
+            <h1 class="post-title">Core Libraries</h1>
             <div class="cf post-meta-text">
               <div class="author-image" style="background-image: url()">Blog Logo</div>
               <h4 class="author-name" itemprop="author" itemscope itemtype="http://schema.org/Person"></h4>
@@ -67,32 +67,64 @@
         
         <section class="post-content">
           <a name="topofpage"></a>
-          <p>A list of tools for development.</p>
-
-<h2 id="twinehttpsgithubcommobiatatwine"><a href="https://github.com/mobiata/twine">twine</a></h2>
-
-<p>Solves the problem of different file formats (.strings, xml, .po, etc) required by different platforms. It uses an elegate intermediatry format.</p>
-
-<p><a href="https://developers.500px.com/consolidating-string-resources-across-android-ios-468932b84ccf">500px</a> forked and improved to support the plural formats too (pluralization is a nightmare)!</p>
-
-<h2 id="objc-dependency-visualizerhttpsgithubcompaultaykaloobjc-dependency-visualizer"><a href="https://github.com/PaulTaykalo/objc-dependency-visualizer">objc-dependency-visualizer</a></h2>
-
-<p>Visualize your object dependencies. Supports Swift too!</p>
-
-<h2 id="injectionforxcodehttpsgithubcomjohnno1962injectionforxcode"><a href="https://github.com/johnno1962/injectionforxcode/">injectionforxcode</a></h2>
-
-<p>Runtime Code Injection for Objective-C &amp; Swift. Saves you time from waiting for Xcode to compile!</p>
-
-<h2 id="others">Others</h2>
+          <h2 id="json-decoder">JSON Decoder</h2>
 
 <ul>
-  <li>objc_strings - check if any localisation unused, or not translated. Tried, but it didn’t do well for iRate, whereby the code use const string</li>
-  <li>MMLayershots - turned to PSD layers, good to use with framer.js</li>
-  <li>Armchair - Rate App, swift, and for mac too. From Urban Apps.</li>
-  <li><a href="http://app-stop.appspot.com">App Stop</a> - Autogen Website for your app</li>
-  <li>https://heatmaps.io/ - but closed signup</li>
-  <li>PaintCode - Like Sketch, but turn them into codes</li>
+  <li><a href="https://github.com/Hearst-DD/ObjectMapper">ObjectMapper</a> - Using <code class="highlighter-rouge">&lt;-</code> operator. Very popular, with <a href="https://github.com/tristanhimmelman/AlamofireObjectMapper">Alamofire extension</a></li>
+  <li><a href="https://github.com/JohnSundell/Unbox">Unbox</a></li>
+  <li><a href="https://github.com/Anviking/Decodable">Decodable</a></li>
 </ul>
+
+<h2 id="date-time">Date Time</h2>
+
+<ul>
+  <li><a href="https://github.com/MatthewYork/DateTools">DateTools</a>: Date time utility, and moments such as “4 seconds ago”</li>
+  <li><a href="https://github.com/samwize/YLMoment">YLMoment</a> (my fork) - easy format, and moments based on <a href="http://momentjs.com">moments.js</a></li>
+</ul>
+
+<p>But above 2 not complete enough. <a href="http://stackoverflow.com/questions/10075898/ios-friendly-nsdate-format">SO</a> suggested others:</p>
+
+<ul>
+  <li><a href="https://github.com/mattt/FormatterKit">FormatterKit</a> by matt (popular): Not only for formatting dates, but also addresses and location</li>
+  <li><a href="https://github.com/nikilster/NSDate-Time-Ago">NSDate+NVTimeAgo</a>: Facebook style</li>
+</ul>
+
+<h2 id="logging">Logging</h2>
+
+<ul>
+  <li><a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a></li>
+  <li><a href="https://github.com/SwiftyBeaver/SwiftyBeaver">SwiftyBeaver</a></li>
+</ul>
+
+<h2 id="encryption">Encryption</h2>
+
+<ul>
+  <li><a href="https://github.com/granoff/Lockbox">Lockbox</a>: save to keychain easily</li>
+  <li><a href="https://github.com/henrinormak/Heimdall">Heimdall</a>: He is the gatekeeper at the rainbow road (in Thor). Simple encrypt, decrypt and signing of text.</li>
+  <li><a href="https://github.com/deniskr/KeychainSwiftAPI">KeychainSwiftAPI</a></li>
+</ul>
+
+<h2 id="core-data">Core Data</h2>
+
+<ul>
+  <li><a href="https://github.com/hyperoslo/Sync">/hyperoslo/Sync</a>: Takes JSON sync into Core Data</li>
+  <li><a href="https://github.com/JohnEstropia/CoreStore">CoreStore</a>: Swift 2. Very well documented, and seems complete, and even have a <a href="http://floriankugler.com/2013/04/29/concurrent-core-data-stack-performance-shootout/">different/better? stack design</a> than MagicalRecord. But they have “transactions” instead of predicates.</li>
+</ul>
+
+<h2 id="autolayout">Autolayout</h2>
+
+<ul>
+  <li><a href="https://github.com/Masonry/Masonry">Masonry</a>: High level approach, but deprecated for Objc. The new swift version is known as <a href="https://github.com/SnapKit/SnapKit">SnapKit</a>.</li>
+  <li><a href="https://github.com/smileyborg/PureLayout">PureLayout</a>: Provide handy APIs to UIView</li>
+  <li><a href="https://github.com/robb/Cartography">Cartography</a>: Declarative style</li>
+</ul>
+
+<h2 id="unit-testing">Unit Testing</h2>
+
+<ul>
+  <li><a href="https://github.com/AliSoftware/OHHTTPStubs">OHHTTPStubs</a> - stub for networking frameworks</li>
+</ul>
+
 
         </section>
       </article>
