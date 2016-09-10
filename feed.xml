@@ -6,9 +6,75 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 29 Aug 2016 11:30:03 +0800</pubDate>
-    <lastBuildDate>Mon, 29 Aug 2016 11:30:03 +0800</lastBuildDate>
+    <pubDate>Sat, 10 Sep 2016 22:40:20 +0800</pubDate>
+    <lastBuildDate>Sat, 10 Sep 2016 22:40:20 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Setup Your Own $5 VPN With Docker, OpenVPN and Digital Ocean</title>
+        <description>&lt;p&gt;I have set up VPN on my virtual private servers before, but the experience has never been easy.&lt;/p&gt;
+
+&lt;p&gt;Recently, I tried again, using Docker approach, and it is amazingly smooth. Done in 5 minutes!&lt;/p&gt;
+
+&lt;p&gt;Stop spending a fortune on paid VPN services. You can get one at $5/month on Digital Ocean. For me, I didn’t spend a cent, since I am using existing instance that runs my stuff.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-pre-requisite&quot;&gt;The Pre-requisite&lt;/h2&gt;
+
+&lt;p&gt;First you need a &lt;a href=&quot;https://m.do.co/c/69baaaf5a07b&quot;&gt;DigitalOcean&lt;/a&gt; account.&lt;/p&gt;
+
+&lt;p&gt;I have been using Digital Ocean for a long time, and I recommend anyone who requires a dedicated server to use it, at just &lt;strong&gt;$5/month&lt;/strong&gt;. Use my &lt;a href=&quot;(https://m.do.co/c/69baaaf5a07b)&quot;&gt;referral link&lt;/a&gt;, and get FREE $10 (that’s 2 months!) to start with.&lt;/p&gt;
+
+&lt;p&gt;Set up droplet running Ubuntu 14.x, in a geographical location of your liking. I actually have 2 droplets with this VPN setup, 1 in Singapore and 1 in US.&lt;/p&gt;
+
+&lt;p&gt;Then &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-getting-started&quot;&gt;install Docker&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;setting-up-openvpn&quot;&gt;Setting Up OpenVPN&lt;/h2&gt;
+
+&lt;p&gt;We are using the work of &lt;a href=&quot;https://github.com/kylemanna/docker-openvpn&quot;&gt;kylemanna/docker-openvpn&lt;/a&gt; dockerfile.&lt;/p&gt;
+
+&lt;p&gt;To setup the docker container (change &lt;code class=&quot;highlighter-rouge&quot;&gt;vpn.samwize.com&lt;/code&gt; to your domain/IP):&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;OVPN_DATA=&quot;ovpn-data&quot;
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://vpn.samwize.com
+docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You will be prompted to enter your EasyRSA passphrase. These are kept in your data volume &lt;code class=&quot;highlighter-rouge&quot;&gt;ovpn-data&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Run the docker container:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -v $OVPN_DATA:/etc/openvpn -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Next, generate the ovpn file for your computer to connect to the VPN later.&lt;/p&gt;
+
+&lt;p&gt;Change &lt;code class=&quot;highlighter-rouge&quot;&gt;CLIENTNAME&lt;/code&gt; to your computer name (eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;MacBook-Supreme&lt;/code&gt; for me ^^).&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; CLIENTNAME.ovpn
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;setting-up-your-client&quot;&gt;Setting up your Client&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CLIENTNAME.ovpn&lt;/code&gt; is generated on your server.&lt;/p&gt;
+
+&lt;p&gt;You need to &lt;strong&gt;transfer the file to your computer&lt;/strong&gt;, eg. via SSH or &lt;a href=&quot;https://cyberduck.io&quot;&gt;Cyberduck&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Down a VPN software. For Mac, we can download &lt;a href=&quot;https://tunnelblick.net&quot;&gt;TunnelBlick&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Drag the &lt;code class=&quot;highlighter-rouge&quot;&gt;CLIENTNAME.ovpn&lt;/code&gt; file to TunnelBlick in the menu, and you should be good to use!&lt;/p&gt;
+</description>
+        <pubDate>Sat, 10 Sep 2016 22:09:52 +0800</pubDate>
+        <link>http://samwize.com/2016/09/10/setup-your-own-vpn-with-docker-openvpn-and-digital-ocean/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/09/10/setup-your-own-vpn-with-docker-openvpn-and-digital-ocean/</guid>
+        
+        
+        <category>VPS</category>
+        
+      </item>
     
       <item>
         <title>Drawing Images With UIBezierPath</title>
@@ -124,7 +190,8 @@
 &lt;span class=&quot;kt&quot;&gt;CGContextScaleCTM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;kt&quot;&gt;CGContextTranslateCTM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;// Draw and render your path etc&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Draw and render your path etc, with respect to the origin.&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// However, the CTM transformation will affect the render.&lt;/span&gt;
 
 &lt;span class=&quot;kt&quot;&gt;CGContextRestoreGState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
@@ -860,95 +927,6 @@ An &lt;a href=&quot;https://realm.io/news/benji-encz-unidirectional-data-flow-sw
         <category>Architecture</category>
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Refactor a Mega View Controller - A Live Coding!</title>
-        <description>&lt;p&gt;Andy Matuschak gave a good talk on refactoring a mega controller.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://realm.io/news/andy-matuschak-refactor-mega-controller/&quot;&gt;Watch it&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://realm.io/news/andy-matuschak-refactor-mega-controller/&quot;&gt;&lt;img src=&quot;/images/refactor-a-mega-view-controller-demo.png&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;It is a very good video by Andy Matuschak,
-performing delightful live coding
-and narrating his thoughts process.&lt;/p&gt;
-
-&lt;p&gt;You might recognize Andy,
-an ex-Apple engineer 
-who gave a great talk in &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2014/229/&quot;&gt;WWDC 2014&lt;/a&gt;
-on app architecture – &lt;strong&gt;where is the truth&lt;/strong&gt;?&lt;/p&gt;
-
-&lt;h2 id=&quot;the-usual-problem&quot;&gt;The Usual Problem&lt;/h2&gt;
-
-&lt;p&gt;We often got into
-is writing Massive View Controller,
-resulting in 1 single file that contains all kind of code!&lt;/p&gt;
-
-&lt;p&gt;Apple sample code 
-and programming guide
-didn’t help to guide us towards clean code/architecture.&lt;/p&gt;
-
-&lt;h2 id=&quot;techniques&quot;&gt;Techniques&lt;/h2&gt;
-
-&lt;p&gt;There is no magic.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Mostly Decomposition&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Or as Uncle Bob says: &lt;em&gt;Extract till you drop&lt;/em&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Where is the truth?&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Think hard which class should hold the truth.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;It is VERY RUDE for a view controller to change it’s parents properties&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;For example, don’t change your navigation bar tint color directly. Your view controller does not own the navigation bar. What if another (child) view controller also change the tint?&lt;/p&gt;
-
-&lt;p&gt;Test driven development (TDD) will force you
-to architect your code nicely.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-pasta-is-your-code&quot;&gt;What Pasta is Your Code?&lt;/h2&gt;
-
-&lt;p&gt;As you decompose/abstract/encapsulate your code, the structure changes.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Spaghetti code - messy&lt;/li&gt;
-  &lt;li&gt;Lasagna code - well layered&lt;/li&gt;
-  &lt;li&gt;Ravioli code - very much decoupled&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://www.proun-game.com/Oogst3D/BLOG/Italian%20Food%20Coding%20Ravioli.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It is up to you to find the balance,
-which is not easy.&lt;/p&gt;
-
-&lt;p&gt;You want to decompose as much, 
-but not to the extend
-that it difficult to follow the flow of data.&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus&quot;&gt;Bonus&lt;/h2&gt;
-
-&lt;p&gt;Storyboard instantiate your initial view controller
-so you have no chance to init yourself.&lt;/p&gt;
-
-&lt;p&gt;A trick is shown in the talk
-where you instantiate your VC manually in &lt;code class=&quot;highlighter-rouge&quot;&gt;AppDelegate&lt;/code&gt;
-and set it to the navigation VC (the root VC of window).&lt;/p&gt;
-</description>
-        <pubDate>Tue, 28 Jun 2016 17:06:36 +0800</pubDate>
-        <link>http://samwize.com/2016/06/28/refactor-a-mega-view-controller-demo/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/06/28/refactor-a-mega-view-controller-demo/</guid>
-        
-        
-        <category>Architecture</category>
         
       </item>
     
