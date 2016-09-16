@@ -9,6 +9,14 @@ I have yet to try these, but they look awesome.
 - [Deep Belief](https://github.com/jetpacapp/DeepBeliefSDK) - Image recognition
 
 
+## Segmented Controls
+
+- [Segmentio](https://github.com/Yalantis/Segmentio) - Animated segmented control
+- [HMSegmentedControl](https://github.com/HeshamMegid/HMSegmentedControl) - Google Currents like segments
+- [DZNSegmentedControl](https://github.com/dzenbot/DZNSegmentedControl) - Segmented Control views
+
+
+
 ## Others
 
 - KVOController - by Facebook for observing key-value easily
@@ -130,11 +138,10 @@ CCHMapClusterController
 
 ## Other Views
 
+- [Eureka](https://github.com/xmartlabs/Eureka) - Create forms eg section `+++` row
 - [SZTextView](https://github.com/glaszig/SZTextView) - UITextView with placeholder
 - [Flat UI](https://github.com/Grouper/FlatUIKit)
 - MDCSwipeToChoose
-- [DZNSegmentedControl](https://github.com/dzenbot/DZNSegmentedControl) - Segmented Control views
-- FXForms
 - [RAMReel](https://github.com/Ramotion/reel-search) - a text field and list selector, that animates beautifully
 - [RPSlidingMenu](https://github.com/RobotsAndPencils/RPSlidingMenu) - a parallax effect as you drag in the collection view
 - Chameleon - Auto color scheme

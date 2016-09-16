@@ -16,7 +16,7 @@ Stop spending a fortune on paid VPN services. You can get one at $5/month on Dig
 
 First you need a [DigitalOcean](https://m.do.co/c/69baaaf5a07b) account.
 
-I have been using Digital Ocean for a long time, and I recommend anyone who requires a dedicated server to use it. Register an account with my [referral link]((https://m.do.co/c/69baaaf5a07b)), and get FREE $10 (that's 2 months!) to start with.
+I have been using Digital Ocean for a long time, and I recommend anyone who requires a dedicated server to use it. Register an account with my [referral link](https://m.do.co/c/69baaaf5a07b), and get FREE $10 (that's 2 months!) to start with.
 
 Set up a droplet running Ubuntu 14.x, in a geographical location of your liking. I actually have 2 droplets with this VPN setup, 1 in Singapore and 1 in US.
 

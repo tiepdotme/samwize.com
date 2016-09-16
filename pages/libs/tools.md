@@ -6,6 +6,13 @@ permalink: /tools/
 
 A list of tools for development.
 
+## [PaintCode](http://www.paintcodeapp.com)
+
+Turns drawing into code, filling and stroking [bezier paths](http://samwize.com/2016/08/25/drawing-images-with-uibezierpath/).
+
+Similar tools: [Core Animator](http://www.coreanimator.com/#animatecode), [QuartzCode](http://www.quartzcodeapp.com/examples/) generates `CALayer`. [Squall](http://www.marcuseckert.com/squall/) generates from After Effects.
+
+
 ## [twine](https://github.com/mobiata/twine)
 
 Solves the problem of different file formats (.strings, xml, .po, etc) required by different platforms. It uses an elegate intermediatry format.
