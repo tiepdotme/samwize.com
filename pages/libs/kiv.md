@@ -6,6 +6,7 @@ permalink: /libs/kiv/
 
 I have yet to try these, but they look awesome.
 
+- [Ensemble](http://www.ensembles.io/) - sync Core Data to iCloud or Dropbox ($299)
 - [Deep Belief](https://github.com/jetpacapp/DeepBeliefSDK) - Image recognition
 
 
