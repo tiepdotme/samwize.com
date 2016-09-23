@@ -6,9 +6,63 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 17 Sep 2016 10:00:49 +0800</pubDate>
-    <lastBuildDate>Sat, 17 Sep 2016 10:00:49 +0800</lastBuildDate>
+    <pubDate>Fri, 23 Sep 2016 16:37:55 +0800</pubDate>
+    <lastBuildDate>Fri, 23 Sep 2016 16:37:55 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>The Thing About Top &amp; Bottom Autolayout Guide</title>
+        <description>&lt;p&gt;iOS 7 introduced the concept of a translucent tab/nav/status bar.&lt;/p&gt;
+
+&lt;p&gt;In doing so, view controllers “extend” their views so that it is beneath the bar, giving a &lt;em&gt;there-but-not-there-blurry&lt;/em&gt; effect.&lt;/p&gt;
+
+&lt;p&gt;To help view controllers to adapt to this iOS 7 concepts, know this:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;the view is now expanded to beneath the bar(s)&lt;/li&gt;
+  &lt;li&gt;to know the area that is NOT beneath the bar, you have to use the top &amp;amp; bottom layout guide (these are 2 properties in view controller)&lt;/li&gt;
+  &lt;li&gt;hence when you add subviews, they should usually be &lt;strong&gt;between&lt;/strong&gt; the layout guides&lt;/li&gt;
+  &lt;li&gt;however, for scroll view, they should &lt;strong&gt;extend&lt;/strong&gt; beyond the guides, with an inset using the layout guides&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;if-you-have-scroll-view-with-translucent-bar&quot;&gt;If you have Scroll View with Translucent Bar&lt;/h2&gt;
+
+&lt;p&gt;Assuming you use scroll view (including table/collection views) with a translucent nav and tab bar, this is how you configure your storyboard for the view controller:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Enable &lt;strong&gt;Adjust Scroll View Insets&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Enable &lt;strong&gt;Under Top Bars&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Enable &lt;strong&gt;Under Bottom Bars&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Pin the scroll view to &lt;strong&gt;Superview&lt;/strong&gt; top, bottom, left, right&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Why this works?&lt;/p&gt;
+
+&lt;p&gt;When you enable &lt;strong&gt;Under Top/Bottom Bars&lt;/strong&gt;, it tells the view controller’s root view to extend the edges. Programatically you can set &lt;a href=&quot;https://developer.apple.com/reference/uikit/uiviewcontroller/1621515-edgesforextendedlayout&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;edgesForExtendedLayout&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;We make the scroll view the same rect as it’s superview, that is the view controller’s root view.&lt;/p&gt;
+
+&lt;p&gt;Then enable &lt;strong&gt;Adjust Scroll View Insets&lt;/strong&gt; so that view controller automatically make the inset fall between the top &amp;amp; bottom layout guide!&lt;/p&gt;
+
+&lt;h2 id=&quot;trivial&quot;&gt;Trivial&lt;/h2&gt;
+
+&lt;p&gt;The top and bottom layout guides are &lt;a href=&quot;https://developer.apple.com/reference/uikit/uilayoutsupport&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UILayoutSupport&lt;/code&gt;&lt;/a&gt; protocol implemented by &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;It is not &lt;code class=&quot;highlighter-rouge&quot;&gt;UILayoutGuide&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uilayoutguide&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UILayoutGuide&lt;/code&gt;&lt;/a&gt; is a different object. It is a useful object if you have constructed &lt;em&gt;dummy views&lt;/em&gt;, or container views, merely to help with autolayout.&lt;/p&gt;
+
+&lt;p&gt;It replace the heavyweight dummy views with this lightweight object, which you can continue to place autolayout constraints with other views.&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 23 Sep 2016 15:32:08 +0800</pubDate>
+        <link>http://samwize.com/2016/09/23/the-thing-about-top-and-bottom-autolayout-guide/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/09/23/the-thing-about-top-and-bottom-autolayout-guide/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Setup Your Own $5 VPN With Docker, OpenVPN and Digital Ocean</title>
@@ -770,161 +824,6 @@ docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIE
         <link>http://samwize.com/2016/07/21/how-to-capture-multiple-groups-in-a-regex-with-swift/</link>
         <guid isPermaLink="true">http://samwize.com/2016/07/21/how-to-capture-multiple-groups-in-a-regex-with-swift/</guid>
         
-        
-        <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Good Architecture for iOS App</title>
-        <description>&lt;p&gt;This post discuss various architecture designs for an iOS app.&lt;/p&gt;
-
-&lt;p&gt;It is an ongoing post which I will update continously.&lt;/p&gt;
-
-&lt;h2 id=&quot;good-architecture&quot;&gt;Good Architecture&lt;/h2&gt;
-
-&lt;p&gt;I wrote this post because I was reading
-&lt;a href=&quot;http://slideslive.com/38897361/good-ios-application-architecture-en&quot;&gt;good iOS application architecture&lt;/a&gt;
-by Krzysztof Zabłocki&lt;/p&gt;
-
-&lt;p&gt;You might know him from &lt;a href=&quot;https://github.com/krzysztofzablocki/KZLinkedConsole&quot;&gt;KZLinkedConsole&lt;/a&gt;
-his popular Xcode plugin &lt;a href=&quot;http://merowing.info/2015/12/writing-xcode-plugin-in-swift/&quot;&gt;written in Swift&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Traits of Good Architecture:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Each object has a clear role&lt;/li&gt;
-  &lt;li&gt;Ability to follow data flow with ease&lt;/li&gt;
-  &lt;li&gt;Don’t depend on any particular framework&lt;/li&gt;
-  &lt;li&gt;Limited Dependencies&lt;/li&gt;
-  &lt;li&gt;Flexible because it is simple, not because it is over abstracted&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As Uncle Bob says, a good architecture is one when you look at it, eg an accounting software, it screams ACCOUNTING, not MVC/etc. A good architecture will defer the frameworks it use.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-you-know-it-is-bad&quot;&gt;How you know it is bad?&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# How many lines in your view controllers?
-find . -type f -exec wc -l {} + | sort -n
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/PaulTaykalo/objc-dependency-visualizer&quot;&gt;Dependency Visualizer&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;patterns&quot;&gt;Patterns&lt;/h2&gt;
-
-&lt;p&gt;How you use patterns
-determines it is good or bad&lt;/p&gt;
-
-&lt;p&gt;Singleton
-is very common
-but easily misused
-Eg. Logger - almost every class needs logging, so singleton is fine&lt;/p&gt;
-
-&lt;p&gt;But when you have a VC using a Singleton
-just so it is convenient
-then it is likely wrong&lt;/p&gt;
-
-&lt;p&gt;Composition
-is 1 pattern that you must know,
-which will lead to other great patterns&lt;/p&gt;
-
-&lt;p&gt;DI is good
-as it encourages reuse,
-and even Apple encourages it in WWDC 2016-06&lt;/p&gt;
-
-&lt;h2 id=&quot;mvc&quot;&gt;1. MVC&lt;/h2&gt;
-
-&lt;p&gt;Apple’s MVC is wrong
-because it’s View and Controller are too closely coupled&lt;/p&gt;
-
-&lt;p&gt;Only model can be reused&lt;/p&gt;
-
-&lt;p&gt;MVC is invented in the 80s
-but it can still be good
-if you do composition&lt;/p&gt;
-
-&lt;p&gt;Apple sample code –
-even they admit it is to merely to show a technology,
-not written in good architecture&lt;/p&gt;
-
-&lt;p&gt;Problems with our View Controller:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Knowing business logic&lt;/li&gt;
-  &lt;li&gt;Maintaining states&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;viper&quot;&gt;2. VIPER&lt;/h2&gt;
-
-&lt;p&gt;Good
-But lots of boilerplate&lt;/p&gt;
-
-&lt;h2 id=&quot;mvvm&quot;&gt;3. MVVM&lt;/h2&gt;
-
-&lt;p&gt;Most popular iOS Architecture?&lt;/p&gt;
-
-&lt;p&gt;View Model
-is UIKit independent
-and is testable&lt;/p&gt;
-
-&lt;p&gt;But no router&lt;/p&gt;
-
-&lt;h2 id=&quot;mvvm-1&quot;&gt;4. MVVM+&lt;/h2&gt;
-
-&lt;p&gt;With Flow Coordinators/Controller/Router&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://merowing.info/2016/01/improve-your-ios-architecture-with-flowcontrollers/&quot;&gt;Improving Architecture with Flow Controllers&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;At least 1 root flow controller&lt;/li&gt;
-  &lt;li&gt;Created by AppDelegate&lt;/li&gt;
-  &lt;li&gt;Has multiple child controllers (VCs)&lt;/li&gt;
-  &lt;li&gt;VC/VM does not know about other VC/VM&lt;/li&gt;
-  &lt;li&gt;Configures and coordinate different screens&lt;/li&gt;
-  &lt;li&gt;To support multiple devices, subclass the root flow controller&lt;/li&gt;
-  &lt;li&gt;You can use for MVC or any other architecture&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://khanlou.com/2015/10/coordinators-redux/&quot;&gt;Coordinator Redux&lt;/a&gt; by Khanlou&lt;/p&gt;
-
-&lt;p&gt;What’s wrong with such a line of code in a view controller?&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;navigationController&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pushViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;detailViewController&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;YES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;It’s bossing its parent around. In real life, children should never boss their parents around. In programming, I would argue children shouldn’t even know who their parents are!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Libraries vs frameworks&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;They say the distinction between libraries and frameworks is that you call libraries, and frameworks call you. I want to treat 3rd-party dependencies as much like libraries as possible.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A con of using flow coordinators:
-It does not play well with segue&lt;/p&gt;
-
-&lt;h2 id=&quot;reswifthttpsgithubcomreswiftreswift&quot;&gt;&lt;a href=&quot;https://github.com/ReSwift/ReSwift&quot;&gt;5. ReSwift&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;The new kid in the block, inspired by Redux.
-An &lt;a href=&quot;https://realm.io/news/benji-encz-unidirectional-data-flow-swift/&quot;&gt;introduction presented by Benjamin Encz&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Single point of truth&lt;/p&gt;
-
-&lt;p&gt;It can load a state - persisting state across application launches&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://reswift.github.io/ReSwift/master/getting-started-guide.html&quot;&gt;&lt;img src=&quot;http://reswift.github.io/ReSwift/master/img/reswift_detail.png&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
-
-</description>
-        <pubDate>Wed, 20 Jul 2016 17:17:01 +0800</pubDate>
-        <link>http://samwize.com/2016/07/20/good-architecture-for-ios-app/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/07/20/good-architecture-for-ios-app/</guid>
-        
-        
-        <category>Architecture</category>
         
         <category>iOS</category>
         
