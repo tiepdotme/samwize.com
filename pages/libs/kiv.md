@@ -139,6 +139,7 @@ CCHMapClusterController
 
 ## Other Views
 
+- [10Clock](https://github.com/joedaniels29/10Clock) - Circular sleep to wake period
 - [Eureka](https://github.com/xmartlabs/Eureka) - Create forms eg section `+++` row
 - [SZTextView](https://github.com/glaszig/SZTextView) - UITextView with placeholder
 - [Flat UI](https://github.com/Grouper/FlatUIKit)

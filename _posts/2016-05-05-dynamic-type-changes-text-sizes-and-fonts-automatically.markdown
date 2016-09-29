@@ -57,6 +57,13 @@ If you are okay with using the system font, then simply get the font with this 1
 let titleFont = UIFont.preferredFontForTextStyle(UIFontTextStyleTitle1)
 ```
 
+To have the bold version, do this:
+
+```swift
+let boldDescriptor = titleFont.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitBold)
+let boldFont = UIFont(descriptor: boldDescriptor!, size: 0)
+```
+
 
 ## 2. Custom Font using UIFontDescriptor
 
