@@ -16,7 +16,7 @@ I have a [$5/mth Digital Ocean VPS](https://www.digitalocean.com/?refcode=69baaa
 
 ## GitLab Installation Guide
 
-At the point of writing, I am using **GitLab 7.1 (stable)** on **Ubuntu 14.04**. 
+At the point of writing, I am using **GitLab 7.1 (stable)** on **Ubuntu 14.04**.
 
 Refer to their detailed [installation guide](https://github.com/gitlabhq/gitlabhq/blob/7-1-stable/doc/install/installation.md).
 
@@ -160,9 +160,9 @@ sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production
 
 ### Pitfall: Port 443 already binded
 
-In a [previous tutorial](http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/), I setup iRedMail, which actually runs on Apache, which listen on port 443. 
+In a [previous tutorial](http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/), I setup iRedMail, which actually runs on Apache, which listen on port 443.
 
-You will need to remove port 433 on apache, and probably do a reverse proxy from nginx for port 433. _This perhaps will be covered in another tutorial._
+You will need to remove port 443 on apache, and probably do a reverse proxy from nginx for port 443. _This perhaps will be covered in another tutorial._
 
 
 ### Pitfall: Sidekiq not running
