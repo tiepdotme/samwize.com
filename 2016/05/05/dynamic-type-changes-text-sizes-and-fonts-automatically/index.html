@@ -36,14 +36,14 @@
 
   <link rel="canonical" href="http://samwize.com/2016/05/05/dynamic-type-changes-text-sizes-and-fonts-automatically/">
 
-  <link rel="shortcut icon" href="/assets/images/favicon.ico">
+  <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-0419ecbe5c65e8f9dc66e3c2afb220bf.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -121,6 +121,13 @@
 <p>If you are okay with using the system font, then simply get the font with this 1 liner:</p>
 
 <div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">titleFont</span> <span class="o">=</span> <span class="kt">UIFont</span><span class="o">.</span><span class="nf">preferredFontForTextStyle</span><span class="p">(</span><span class="kt">UIFontTextStyleTitle1</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>To have the bold version, do this:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">boldDescriptor</span> <span class="o">=</span> <span class="n">titleFont</span><span class="o">.</span><span class="nf">fontDescriptor</span><span class="p">()</span><span class="o">.</span><span class="nf">fontDescriptorWithSymbolicTraits</span><span class="p">(</span><span class="o">.</span><span class="kt">TraitBold</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">boldFont</span> <span class="o">=</span> <span class="kt">UIFont</span><span class="p">(</span><span class="nv">descriptor</span><span class="p">:</span> <span class="n">boldDescriptor</span><span class="o">!</span><span class="p">,</span> <span class="nv">size</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
 </code></pre>
 </div>
 

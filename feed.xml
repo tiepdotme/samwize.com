@@ -6,9 +6,22 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 26 Sep 2016 11:19:37 +0800</pubDate>
-    <lastBuildDate>Mon, 26 Sep 2016 11:19:37 +0800</lastBuildDate>
+    <pubDate>Thu, 29 Sep 2016 22:51:33 +0800</pubDate>
+    <lastBuildDate>Thu, 29 Sep 2016 22:51:33 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>App Review Now Bans Facebook Single Sign-On</title>
+        <description>
+</description>
+        <pubDate>Thu, 29 Sep 2016 22:50:10 +0800</pubDate>
+        <link>http://samwize.com/2016/09/29/app-review-now-bans-facebook-single-sign-on/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/09/29/app-review-now-bans-facebook-single-sign-on/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Pitfall With Opening Universal Link</title>
@@ -735,85 +748,6 @@ docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIE
         
         
         <category>Swift</category>
-        
-      </item>
-    
-      <item>
-        <title>MVVM for iOS &amp; Swift</title>
-        <description>&lt;p&gt;Following a &lt;a href=&quot;/2016/07/20/good-architecture-for-ios-app/&quot;&gt;research into better architectures&lt;/a&gt;, this is some learnings from &lt;a href=&quot;http://artsy.github.io/blog/2015/09/24/mvvm-in-swift/&quot;&gt;MVVM in Swift&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;view-model-vm&quot;&gt;View Model (VM)&lt;/h2&gt;
-
-&lt;p&gt;The VM is a 1-1 with view controller.&lt;/p&gt;
-
-&lt;p&gt;It is actually simply a composition pattern, by separating responsibility from the View Controller (VC).&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-view-model-responsible-for&quot;&gt;What is View Model responsible for?&lt;/h2&gt;
-
-&lt;p&gt;View Model stands between the Model and the View Controller, and provide the data that a view controller needs to display in it’s views.&lt;/p&gt;
-
-&lt;p&gt;View Controller NO longer access the model directly.&lt;/p&gt;
-
-&lt;p&gt;If the model has a &lt;code class=&quot;highlighter-rouge&quot;&gt;NSDate&lt;/code&gt;, then the VM will have the &lt;code class=&quot;highlighter-rouge&quot;&gt;NSDateFormatter&lt;/code&gt; that knows how to display the date as a string for the view.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-view-model-not-responsible-for&quot;&gt;What is View Model NOT responsible for?&lt;/h2&gt;
-
-&lt;p&gt;A VM does not know about the view.&lt;/p&gt;
-
-&lt;p&gt;It does not know stuff about presentation, but it does provide the data for presenting.&lt;/p&gt;
-
-&lt;p&gt;Note that is “data” for presenting is not the actual model, but a intermediatry object (aka boundary object).&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-grey&quot;&gt;What is grey?&lt;/h2&gt;
-
-&lt;p&gt;Networking call is a grey area. Neither VM nor VC defines where the network logic should go.&lt;/p&gt;
-
-&lt;p&gt;But it is safer to be in VM. Or use another composition pattern with a network object.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-different-is-mvvm-and-mvc&quot;&gt;How different is MVVM and MVC&lt;/h2&gt;
-
-&lt;p&gt;It is actually not much different.&lt;/p&gt;
-
-&lt;p&gt;The introduction of a View Model simply extract the business/app logics out of a View Controller.&lt;/p&gt;
-
-&lt;p&gt;It uses a composition pattern, so a VC now will have a VM. In doing so, you can now write tests for the VM (which has the important business logics).&lt;/p&gt;
-
-&lt;h2 id=&quot;how-view-model-vm-communicates-with-view-controller-vc&quot;&gt;How View Model (VM) communicates with View Controller (VC)?&lt;/h2&gt;
-
-&lt;p&gt;Remember, VM does not know anything about the VC.&lt;/p&gt;
-
-&lt;p&gt;Just like VC does not know anything about the model.&lt;/p&gt;
-
-&lt;p&gt;VM and VC can communicate via delegates or Functional Reactive Programming (FRP).&lt;/p&gt;
-
-&lt;p&gt;You would have have know delegate pattern, which is widely used in Apple’s frameworks. It can work, except it is verbose.&lt;/p&gt;
-
-&lt;p&gt;A better way is FRP, which you would have heard in the form of &lt;a href=&quot;https://github.com/ReactiveKit/ReactiveKit&quot;&gt;Reactive&lt;/a&gt;. A good introduction to FRP is the &lt;a href=&quot;https://www.raywenderlich.com/123108/bond-tutorial&quot;&gt;Swift Bond tutorial by raywenderlich&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;(alas, Swift does not support binding out of the box, so a tool like ReactiveKit is much needed)&lt;/p&gt;
-
-&lt;h2 id=&quot;reactivekit&quot;&gt;ReactiveKit&lt;/h2&gt;
-
-&lt;p&gt;This very cool framework was first known as &lt;a href=&quot;https://github.com/SwiftBond/Bond&quot;&gt;Bond&lt;/a&gt;, &lt;em&gt;Swift Bond&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;It’s successor is ReactiveKit, which is now made up of a few components:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/ReactiveKit/ReactiveKit&quot;&gt;ReactiveKit&lt;/a&gt; - The core&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/ReactiveKit/ReactiveUIKit&quot;&gt;ReactiveUIKit&lt;/a&gt; - provides extension to UIKit to provide binding&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/ReactiveKit/ReactiveAlamofire&quot;&gt;ReactiveAlamofire&lt;/a&gt; - provides extension to the popular networking library&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Compared to other libraries doing the same think (like Reactive Cocoa), ReactiveKit looks great.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 26 Jul 2016 16:14:37 +0800</pubDate>
-        <link>http://samwize.com/2016/07/26/mvvm-for-ios-and-swift/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/07/26/mvvm-for-ios-and-swift/</guid>
-        
-        
-        <category>Architecture</category>
-        
-        <category>iOS</category>
         
       </item>
     
