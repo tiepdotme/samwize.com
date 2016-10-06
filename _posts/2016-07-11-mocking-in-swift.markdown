@@ -5,7 +5,7 @@ date: 2016-07-11T14:18:55+08:00
 categories: [Swift]
 ---
 
-https://realm.io/news/tryswift-veronica-ray-real-world-mocking-swift/
+[Real World Mocking in Swift](https://realm.io/news/tryswift-veronica-ray-real-world-mocking-swift/) by Veronica Ray:
 
 `OCMock` has severe limitations in Swift
 because Swift does not have reflection
@@ -13,21 +13,16 @@ because Swift does not have reflection
 If you are not using a DI framework
 you can still manually inject dependencies
 
-DI - simply means giving an object it's instance variables
+> DI - simply means giving an object it's instance variables
 
-Constructor Injection
-Have a default constructor with real ivar
+Constructor Injection - 
+have a default constructor with real ivar,
 have `convenience` constructor with DI injected objects
 
-Stubbs - fake a method call
-
-Partial Mocks
-anti-pattern
-_what is real? what is fake?_ 
-It decreases comprehensibility of tests
+Stubs - fake a method call
 
 Mocking with protocols
-better than subclassing
+is better than subclassing
 
 What makes a good mock?
 
@@ -35,16 +30,19 @@ What makes a good mock?
 - Relatively short and does not contain much information you don’t need
 - Legitimate reason to not use real object
 
-More value type
+More value type,
 less mocking needed
 
-https://www.destroyallsoftware.com/talks/boundaries
-https://realm.io/news/andy-matuschak-controlling-complexity/
+Related: [Boundaries](https://www.destroyallsoftware.com/talks/boundaries), [Complexity](https://realm.io/news/andy-matuschak-controlling-complexity/)
 
 
 ## Partial mock an anti-pattern?
 
-I disagree on this point [too](http://cleanswifter.com/swift-partial-mocks-are-not-an-bad/)
+_what is real? what is fake?_ 
+
+Partial mock decreases comprehensibility of tests
+
+I [disagree](http://cleanswifter.com/swift-partial-mocks-are-not-an-bad/) on this point too
 
 I get wary every time I hear a pattern is anti-pattern
 because a pattern is only anti because of the way you use it WRONGLY
