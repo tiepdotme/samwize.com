@@ -6,9 +6,57 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 06 Oct 2016 17:03:39 +0800</pubDate>
-    <lastBuildDate>Thu, 06 Oct 2016 17:03:39 +0800</lastBuildDate>
+    <pubDate>Sun, 16 Oct 2016 15:54:12 +0800</pubDate>
+    <lastBuildDate>Sun, 16 Oct 2016 15:54:12 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Continue Network Fetching Even When App Goes to Background</title>
+        <description>&lt;h2 id=&quot;problem&quot;&gt;Problem&lt;/h2&gt;
+
+&lt;p&gt;When an iOS app goes to background, network operations (GET/POST/Whatever) will be paused.&lt;/p&gt;
+
+&lt;p&gt;For long running network operations, this is a problem because the the operation is paused, and the app most likely at some point in time will be killed by the OS.&lt;/p&gt;
+
+&lt;p&gt;Then you have to start all over again.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+
+&lt;p&gt;iOS provides a way to register your long running tasks, so that it gets another minute or more in the background.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/reference/uikit/uiapplication/1623031-beginbackgroundtaskwithexpiratio&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;beginBackgroundTaskWithExpirationHandler&lt;/code&gt;&lt;/a&gt; is the magic.&lt;/p&gt;
+
+&lt;p&gt;Let’s see the code to using it:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;registerBackgroundTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// 1. Register task with expiration handler&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;backgroundTask&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;beginBackgroundTaskWithExpirationHandler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 2. If takes too long&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// Code for your long running task (synchronous case)&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// 3. End task&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;endBackgroundTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backgroundTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;more-than-just-network-operations&quot;&gt;More than just network operations&lt;/h2&gt;
+
+&lt;p&gt;While the situation cited in this post is on network operations, you should realize that any long running tasks can be registered.&lt;/p&gt;
+
+&lt;p&gt;For example, if you have an image processing task that could take minutes, it can be extended as well.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 16 Oct 2016 15:26:25 +0800</pubDate>
+        <link>http://samwize.com/2016/10/16/continue-network-fetching-even-when-app-goes-to-background/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/10/16/continue-network-fetching-even-when-app-goes-to-background/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Should An Engineer Write Technical Blog?</title>
@@ -552,94 +600,6 @@ docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIE
         
         
         <category>Architecture</category>
-        
-      </item>
-    
-      <item>
-        <title>Updating Jekyll to 3.0</title>
-        <description>&lt;p&gt;This blog was running on Jekyll 2.4.0 since the day I &lt;a href=&quot;/2015/09/30/migrating-octopress-2-to-octopress-3/&quot;&gt;migrated away&lt;/a&gt; from Wordpress.&lt;/p&gt;
-
-&lt;p&gt;Today, I updated Jekyll to 3.1.6, primarily because I want to use kramdown, instead of redcarpet.&lt;/p&gt;
-
-&lt;p&gt;Starting from &lt;a href=&quot;https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0&quot;&gt;Jekyll 3.0&lt;/a&gt;, kramdown is the default. It is acknowledged to be the de facto markdown library, along with Rouge over Pygments.&lt;/p&gt;
-
-&lt;p&gt;This is a post on how to update Jeykll, with fix to make things working.&lt;/p&gt;
-
-&lt;h2 id=&quot;update-gemfile-for-octopress&quot;&gt;Update Gemfile for Octopress&lt;/h2&gt;
-
-&lt;p&gt;Update &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt; for the octopress group. Many plugins are no longer necessary (at least for me) - codefence, video tag, quote tag, gist. I have in fact try to not to use octopress plugins, as they are not true markdown.&lt;/p&gt;
-
-&lt;p&gt;The last 2 gems for octopress hooks and paginate are necessary.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jekyll_plugins&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;octopress&#39;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;octopress-image-tag&#39;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;octopress-solarized&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:git&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;https://github.com/samwize/solarized&#39;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;octopress-hooks&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;git: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;https://github.com/octopress/hooks.git&#39;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;octopress-paginate&#39;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;bundle-update&quot;&gt;Bundle Update&lt;/h2&gt;
-
-&lt;p&gt;With that, update the gems with&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bundle update
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;If you have no error, then good luck!&lt;/p&gt;
-
-&lt;p&gt;I wasn’t in such luck. The first hurdle is to do with the terrible nokogiri. I have to &lt;a href=&quot;http://stackoverflow.com/a/19807558/242682&quot;&gt;install&lt;/a&gt; with this for El Capitan:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install nokogiri -- --with-xml2-include=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/usr/include/libxml2 --use-system-libraries
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;But should use this for future-proof:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install nokogiri -- --with-xml2-include=`xcrun --show-sdk-path`/usr/include/libxml2 --use-system-libraries
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;building&quot;&gt;Building&lt;/h2&gt;
-
-&lt;p&gt;Once the gems are installed, edit &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Specifically, REMOVE the markdown and highlighter.&lt;/p&gt;
-
-&lt;p&gt;You should not specify kramdown or pygments, because they have been superseded by the better defaults.&lt;/p&gt;
-
-&lt;p&gt;Build with &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll build&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;error-octopress-hooks--paginate&quot;&gt;Error: Octopress Hooks &amp;amp; Paginate&lt;/h3&gt;
-
-&lt;p&gt;If you follow my Gemfile, then you should not have the &lt;a href=&quot;https://github.com/octopress/paginate/issues/19&quot;&gt;error&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Liquid Exception: undefined method `start_with?&#39; for nil:NilClass in ...
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;error-liquid&quot;&gt;Error: Liquid&lt;/h3&gt;
-
-&lt;p&gt;There are liquid parsing exception in some my posts like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Liquid Exception: Variable &#39;{{..&#39; was not properly terminated with regexp 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This is because I have used &lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;/code&gt;, which are marker for liquid.&lt;/p&gt;
-
-&lt;p&gt;To fix, you need to surround with the &lt;a href=&quot;https://github.com/imathis/octopress/issues/466&quot;&gt;raw tags&lt;/a&gt;.&lt;/p&gt;
-
-</description>
-        <pubDate>Mon, 08 Aug 2016 21:28:34 +0800</pubDate>
-        <link>http://samwize.com/2016/08/08/updating-jekyll-to-3-0/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/08/08/updating-jekyll-to-3-0/</guid>
-        
-        
-        <category>Jekyll</category>
         
       </item>
     
