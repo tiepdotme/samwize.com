@@ -6,9 +6,137 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 16 Oct 2016 15:54:12 +0800</pubDate>
-    <lastBuildDate>Sun, 16 Oct 2016 15:54:12 +0800</lastBuildDate>
+    <pubDate>Mon, 24 Oct 2016 16:51:54 +0800</pubDate>
+    <lastBuildDate>Mon, 24 Oct 2016 16:51:54 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Swift Protocol Development Guide</title>
+        <description>&lt;p&gt;Not too long ago I briefly mentioned the use of protocol as the way of &lt;a href=&quot;http://samwize.com/2016/08/11/swift-is-a-protocol-oriented-programming-language/&quot;&gt;Protocol Oriented Programming&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Protocol is fantastic.&lt;/p&gt;
+
+&lt;p&gt;Here is a guide on some of the common use of this Swift “feature”.&lt;/p&gt;
+
+&lt;h2 id=&quot;declaring-a-protocol&quot;&gt;Declaring a Protocol&lt;/h2&gt;
+
+&lt;p&gt;Protocol are likes classes. You need to give it a name.&lt;/p&gt;
+
+&lt;p&gt;You will commonly find names with &lt;strong&gt;-able&lt;/strong&gt; suffixes eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;TextRepresentable&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s use a make up example of &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt;, a protocol with a single function &lt;code class=&quot;highlighter-rouge&quot;&gt;code&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Any class now that extends &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; will require the &lt;code class=&quot;highlighter-rouge&quot;&gt;code&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;h2 id=&quot;default-extension&quot;&gt;Default Extension&lt;/h2&gt;
+
+&lt;p&gt;Having a default &lt;code class=&quot;highlighter-rouge&quot;&gt;extension&lt;/code&gt; makes things very convenient to use.&lt;/p&gt;
+
+&lt;p&gt;For example, the default implementation below will always return true.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now, any type that implements the &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; protocol get the default implementation, for FREE!&lt;/p&gt;
+
+&lt;p&gt;Of course, you may still implement your own (and not use the default).&lt;/p&gt;
+
+&lt;h2 id=&quot;default-extension-with-type&quot;&gt;Default Extension with Type&lt;/h2&gt;
+
+&lt;p&gt;Now, suppose you want the default extension to use a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;You can enforce that the default extension be of the type &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hidden&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// self is now a UIViewController!&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Of course, now any type that implements the &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; protocol must be a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;, if it wants the default implementation.&lt;/p&gt;
+
+&lt;h2 id=&quot;protocol-of-class-type&quot;&gt;Protocol of class type&lt;/h2&gt;
+
+&lt;p&gt;You may enforce that a protocol is to be use by classes only (sorry structs and enums).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is needed especially for the scenario where you need a protocol to be &lt;code class=&quot;highlighter-rouge&quot;&gt;weak&lt;/code&gt; (to avoid &lt;a href=&quot;http://samwize.com/2016/08/05/reference-cycle-for-closures/&quot;&gt;retain cycle&lt;/a&gt;). Because:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;weak can only be applied to class or class-bound protocol.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;associated-types---using-self&quot;&gt;Associated Types - Using &lt;code class=&quot;highlighter-rouge&quot;&gt;Self&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Think of associated types as a placeholder for an unknown type.&lt;/p&gt;
+
+&lt;p&gt;You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;Self&lt;/code&gt; in the protocol declaration to refer to the actual type that implements it.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So if later your &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; implements it, &lt;code class=&quot;highlighter-rouge&quot;&gt;foo&lt;/code&gt; can be of the actual type.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;associated-types---using-associatedtype&quot;&gt;Associated Types - Using &lt;code class=&quot;highlighter-rouge&quot;&gt;associatedtype&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;You could in fact declare any generic type for a protocol.&lt;/p&gt;
+
+&lt;p&gt;Here, we declare &lt;code class=&quot;highlighter-rouge&quot;&gt;Code&lt;/code&gt; as a generic type to be used in the protocol.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;associatedtype&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Code&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now, you can implement the actual type of &lt;code class=&quot;highlighter-rouge&quot;&gt;Code&lt;/code&gt;. We use &lt;code class=&quot;highlighter-rouge&quot;&gt;Int&lt;/code&gt; in this example:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ActualCodable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can make the protocol &lt;a href=&quot;https://www.natashatherobot.com/swift-making-the-associated-type-parameter-readable-in-protocols/&quot;&gt;more readable&lt;/a&gt; if &lt;code class=&quot;highlighter-rouge&quot;&gt;foo&lt;/code&gt; does not describes your parameter name well. In the protocol declaration, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; instead of naming it &lt;code class=&quot;highlighter-rouge&quot;&gt;foo&lt;/code&gt;, then in implementation use any name you want.&lt;/p&gt;
+
+&lt;p&gt;Protocol is powerful :)&lt;/p&gt;
+</description>
+        <pubDate>Mon, 24 Oct 2016 15:43:06 +0800</pubDate>
+        <link>http://samwize.com/2016/10/24/swift-protocol-development-guide/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/10/24/swift-protocol-development-guide/</guid>
+        
+        
+        <category>Swift</category>
+        
+      </item>
     
       <item>
         <title>Continue Network Fetching Even When App Goes to Background</title>
@@ -31,12 +159,12 @@
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;registerBackgroundTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
   &lt;span class=&quot;c1&quot;&gt;// 1. Register task with expiration handler&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;backgroundTask&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;beginBackgroundTaskWithExpirationHandler&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// 2. If takes too long&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// 2. Code to handle if takes way too long&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-  &lt;span class=&quot;c1&quot;&gt;// Code for your long running task (synchronous case)&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// 3. Code for your long running task (synchronous case)&lt;/span&gt;
 
-  &lt;span class=&quot;c1&quot;&gt;// 3. End task&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// 4. End task&lt;/span&gt;
   &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;endBackgroundTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backgroundTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
@@ -577,29 +705,6 @@ docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIE
         
         
         <category>Swift</category>
-        
-      </item>
-    
-      <item>
-        <title>Complexity &amp; Out of the Tarpit</title>
-        <description>&lt;p&gt;&lt;a href=&quot;http://shaffner.us/cs/papers/tarpit.pdf&quot;&gt;Out of the Tarpit&lt;/a&gt; is a famous paper that discuss complexity of large-scale software systems. It discussed approach to eliminate “accidental complexity”.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://aestheticio.com/become-a-better-programmer-tame-complexity/&quot;&gt;Better Programmer&lt;/a&gt; wrote a post that is a easier read based on Out of the Tarpit.&lt;/p&gt;
-
-&lt;p&gt;Either is a must read for developers.&lt;/p&gt;
-
-&lt;p&gt;We must work hard to achieve simplicity, because:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Complexity has the same impact on your codebase as compound interest has on your credit card balance.&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Thu, 11 Aug 2016 14:56:55 +0800</pubDate>
-        <link>http://samwize.com/2016/08/11/complexity-and-out-of-the-tarpit/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/08/11/complexity-and-out-of-the-tarpit/</guid>
-        
-        
-        <category>Architecture</category>
         
       </item>
     
