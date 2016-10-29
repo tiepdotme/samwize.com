@@ -82,6 +82,8 @@ In NSDateFormatter, you should use `dateFormatFromTemplate:options:locale:` inst
 
 Refer to the [documentation](https://developer.apple.com/library/mac/documentation/cocoa/Reference/Foundation/Classes/NSDateFormatter_Class/Reference/Reference.html#//apple_ref/occ/clm/NSDateFormatter/dateFormatFromTemplate:options:locale:). Displaying dates is much harder than you think, with the punctuation and ordering all different.
 
+This is the string formats: [TR35-31](http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_Patterns)
+
 
 ## The right locale
 
