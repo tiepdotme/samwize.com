@@ -6,9 +6,65 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 24 Oct 2016 16:51:54 +0800</pubDate>
-    <lastBuildDate>Mon, 24 Oct 2016 16:51:54 +0800</lastBuildDate>
+    <pubDate>Sat, 29 Oct 2016 15:17:21 +0800</pubDate>
+    <lastBuildDate>Sat, 29 Oct 2016 15:17:21 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>The Thing About Responder Chain</title>
+        <description>&lt;h2 id=&quot;who-are-responders&quot;&gt;Who are Responders?&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;UIResponder&lt;/code&gt; type&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; is also &lt;code class=&quot;highlighter-rouge&quot;&gt;UIResponder&lt;/code&gt; type&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;They are the common classes that deals with responding to touches, motion events and etcs.&lt;/p&gt;
+
+&lt;h2 id=&quot;who-is-the-first-responder&quot;&gt;Who is the FIRST responder?&lt;/h2&gt;
+
+&lt;p&gt;When user tap on a view, the system has to first find out &lt;em&gt;who is the first responder?&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This is known as a &lt;strong&gt;hit-test phase&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;A hit testing phase starts from the lowest level (the window).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Hit test traverse up, while responder chain traverse down.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hitTest:withEvent:&lt;/code&gt; will be called &lt;a href=&quot;http://stackoverflow.com/a/4961484/242682&quot;&gt;recursively&lt;/a&gt; into subviews (traverse up), until it reaches the &lt;strong&gt;leaf view&lt;/strong&gt;. That responder is the first.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-chain&quot;&gt;The Chain&lt;/h2&gt;
+
+&lt;p&gt;After identifying the first responder, then the responder chain begins, starting with the first responder of course.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/Art/iOS_responder_chain_2x.png&quot; alt=&quot;Responder Chain&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;There are rules to finding the next responder.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The first responder passes the event to its view controller if it has one; if not, it passes to its superview.&lt;/li&gt;
+  &lt;li&gt;If a view or its view controller cannot handle the event, it passes to the next responder (superview or parent view controller).&lt;/li&gt;
+  &lt;li&gt;Each subsequent superview in the hierarchy follows the pattern described in the first two steps if it cannot handle the event or message.&lt;/li&gt;
+  &lt;li&gt;Topmost view in the view hierarchy, or next&lt;/li&gt;
+  &lt;li&gt;UIWindow, or next&lt;/li&gt;
+  &lt;li&gt;Lastly, App Delegate&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;the-target-action-trick&quot;&gt;The target-action trick&lt;/h2&gt;
+
+&lt;p&gt;You can set a target to nil, and it will traverse up the responder chain to find the action.&lt;/p&gt;
+
+&lt;p&gt;An example from &lt;a href=&quot;http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/&quot;&gt;swiftandpainless.com&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 29 Oct 2016 11:44:02 +0800</pubDate>
+        <link>http://samwize.com/2016/10/29/the-thing-about-responder-chain/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/10/29/the-thing-about-responder-chain/</guid>
+        
+        
+        <category>Swift</category>
+        
+      </item>
     
       <item>
         <title>Swift Protocol Development Guide</title>
@@ -620,91 +676,6 @@ docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIE
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Swift Is a Protocol Oriented Programming Language</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2015/408/&quot;&gt;WWDC 2015&lt;/a&gt; is where Protocol Oriented Programming (POP) is officially being preached.&lt;/p&gt;
-
-&lt;p&gt;It gave us a different perspective of programming, one that does NOT use &lt;strong&gt;class and inheritance&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Instead, POP use &lt;strong&gt;struct and protocol&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-problem-with-object-oriented-programming-language&quot;&gt;The Problem with Object Oriented Programming Language&lt;/h2&gt;
-
-&lt;p&gt;The problem is that in practice, using class inheritance is at times &lt;em&gt;not correct&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Or not flexible.&lt;/p&gt;
-
-&lt;p&gt;Because with inheritance, the only structure you can make is a &lt;strong&gt;hierarchy&lt;/strong&gt;. You are limited by that.&lt;/p&gt;
-
-&lt;p&gt;But with protocols, you are essentially giving your object traits.&lt;/p&gt;
-
-&lt;p&gt;With protocol extension for the trait, you can give it a default trait.&lt;/p&gt;
-
-&lt;p&gt;It makes resuable code, much more resuable (:&lt;/p&gt;
-
-&lt;p&gt;To build a component, you just need to specify these individual traits, like how building blocks should be!&lt;/p&gt;
-
-&lt;h2 id=&quot;an-examplehttpmatthijshollemanscom20150722mixins-and-traits-in-swift-2&quot;&gt;&lt;a href=&quot;http://matthijshollemans.com/2015/07/22/mixins-and-traits-in-swift-2/&quot;&gt;An Example&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;We look at an example of a login view controller, with a password text field.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LoginViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;passwordValidator&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PasswordValidator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-  &lt;span class=&quot;kd&quot;&gt;@IBAction&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loginButtonPressed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;passwordValidator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;isPasswordValid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;passwordTextField&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The above use a decompostion pattern, with a &lt;code class=&quot;highlighter-rouge&quot;&gt;PasswordValidator&lt;/code&gt; object.&lt;/p&gt;
-
-&lt;p&gt;This is nice and clean, as we put the validation logic in an object of it’s own.&lt;/p&gt;
-
-&lt;p&gt;Here is how you can improve it with POP, with a default implementation.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ValidatesPassword&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isPasswordValid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ValidatesPassword&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isPasswordValid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// A default implementation&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The validation logic is still a separate object, but now in a protocol extension.&lt;/p&gt;
-
-&lt;p&gt;To use,&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LoginViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ValidatesPassword&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;@IBAction&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;loginButtonPressed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;isPasswordValid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;passwordTextField&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;It is now even cleaner!&lt;/p&gt;
-
-&lt;p&gt;You can call &lt;code class=&quot;highlighter-rouge&quot;&gt;isPasswordValid&lt;/code&gt; because of &lt;code class=&quot;highlighter-rouge&quot;&gt;ValidatesPassword&lt;/code&gt;, the protocol which your view controller now has.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 11 Aug 2016 16:58:26 +0800</pubDate>
-        <link>http://samwize.com/2016/08/11/swift-is-a-protocol-oriented-programming-language/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/08/11/swift-is-a-protocol-oriented-programming-language/</guid>
-        
-        
-        <category>Swift</category>
         
       </item>
     
