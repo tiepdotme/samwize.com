@@ -6,9 +6,91 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 29 Oct 2016 15:17:21 +0800</pubDate>
-    <lastBuildDate>Sat, 29 Oct 2016 15:17:21 +0800</lastBuildDate>
+    <pubDate>Fri, 11 Nov 2016 15:10:30 +0800</pubDate>
+    <lastBuildDate>Fri, 11 Nov 2016 15:10:30 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>To Build, or to Pay, for a Service/Tool</title>
+        <description>&lt;h2 id=&quot;the-debate&quot;&gt;The Debate&lt;/h2&gt;
+
+&lt;p&gt;Foo says: &lt;em&gt;We should build XXX ourselves, so that we have control and can easily maintain it.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Bar says: &lt;em&gt;We should pay YYY to get started quickly, thus providing us all the advanced features which we could take months to develop.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Many times, I come across arguments of building XXX vs paying YYY:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Build a push notifcation system vs using &lt;a href=&quot;https://onesignal.com&quot;&gt;OneSignal&lt;/a&gt;/etc&lt;/li&gt;
+  &lt;li&gt;Manage your own service vs &lt;a href=&quot;https://aws.amazon.com&quot;&gt;AWS managed services&lt;/a&gt;/etc&lt;/li&gt;
+  &lt;li&gt;Develop email client VS &lt;a href=&quot;http://mailchimp.com&quot;&gt;Mailchimp&lt;/a&gt;/etc&lt;/li&gt;
+  &lt;li&gt;Host your own server hardware VS Google Compute/etc&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;both-are-right&quot;&gt;Both are Right&lt;/h2&gt;
+
+&lt;p&gt;Their reasons are facts.&lt;/p&gt;
+
+&lt;p&gt;There is nothing to counter argue on such factual reasons.&lt;/p&gt;
+
+&lt;p&gt;Yet, I often hear counter arguments that starts off by disagreeing.&lt;/p&gt;
+
+&lt;p&gt;There could be &lt;a href=&quot;http://just2me.com/2016/10/09/ego-is-the-enemy/&quot;&gt;ego&lt;/a&gt; at play. Or someone doesn’t know &lt;a href=&quot;http://just2me.com/2015/05/24/how-to-win-friends/&quot;&gt;how to win&lt;/a&gt; an argument.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-fair-middleground&quot;&gt;The Fair Middleground&lt;/h2&gt;
+
+&lt;p&gt;We must consider the context in this order:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Who to use? Who to build? Who to maintain?&lt;/li&gt;
+  &lt;li&gt;Do you have the luxury of time and resources to build?&lt;/li&gt;
+  &lt;li&gt;Do you have the skillset to build?&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The &lt;em&gt;who&lt;/em&gt; is especially important. The people determine the success of such undertaking.&lt;/p&gt;
+
+&lt;p&gt;Usually, if you are a startup, the answer is to use a service.&lt;/p&gt;
+
+&lt;p&gt;And, if you are a mature company with the resource to scale and optimize current processes, then you build your own service.&lt;/p&gt;
+
+&lt;p&gt;There is no right or wrong, but a matter of evaluating your current situation from a fair middleground, without ego.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 11 Nov 2016 12:07:43 +0800</pubDate>
+        <link>http://samwize.com/2016/11/11/to-build-or-to-pay-for-a-service-tool/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/11/11/to-build-or-to-pay-for-a-service-tool/</guid>
+        
+        
+        <category>Development</category>
+        
+      </item>
+    
+      <item>
+        <title>Error: Address/Port Already in Use</title>
+        <description>&lt;p&gt;I have encountered many times trying to run a service that use an existing port.&lt;/p&gt;
+
+&lt;p&gt;For example, my &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll 3.1.6 | Error:  Ad dress already in use - bind(2) for 127.0.0.1:4000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is because my jekyll process somehow wasn’t killed properly, and then I tried to run another process using the same port.&lt;/p&gt;
+
+&lt;p&gt;To solve, kill the process that is using the port (eg 4000):&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lsof -i :4000
+kill -9 &amp;lt;PID&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 07 Nov 2016 12:36:19 +0800</pubDate>
+        <link>http://samwize.com/2016/11/07/error-address-port-already-in-use/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/11/07/error-address-port-already-in-use/</guid>
+        
+        
+        <category>Pitfalls</category>
+        
+      </item>
     
       <item>
         <title>The Thing About Responder Chain</title>
@@ -487,195 +569,6 @@ docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIE
         
         
         <category>VPS</category>
-        
-      </item>
-    
-      <item>
-        <title>Drawing Images With UIBezierPath</title>
-        <description>&lt;h2 id=&quot;overview&quot;&gt;Overview&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/2DDrawing/Conceptual/DrawingPrintingiOS/Introduction/Introduction.html#//apple_ref/doc/uid/TP40010156-CH1-SW1&quot;&gt;iOS Graphics System&lt;/a&gt; consists of 3 frameworks:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;UIKit - provide views on a high level&lt;/li&gt;
-  &lt;li&gt;Core Graphics - lower level drawing support within UIKit views&lt;/li&gt;
-  &lt;li&gt;Core Animation - ability to apply animation and transformation to UIKit views&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;performance-of-uiimage-vs-drawing-with-code&quot;&gt;Performance of UIImage vs Drawing with code&lt;/h2&gt;
-
-&lt;p&gt;This &lt;a href=&quot;http://stackoverflow.com/a/22985255/242682&quot;&gt;answer&lt;/a&gt; explained well when is GPU used, and when is CPU used.&lt;/p&gt;
-
-&lt;p&gt;Displaying a UIImage is (generally) faster, because after loading the image file (via CPU), the image is loaded onto the GPU. If you now display the image 100 times, it will be very fast, because the GPU already contains the image/texture.&lt;/p&gt;
-
-&lt;p&gt;Drawing with code via Core Graphics is slower, because the drawing code happens in the CPU, before being loaded onto the GPU. If you are going to draw 100 times, there will be 100 trips from the CPU to the GPU.&lt;/p&gt;
-
-&lt;p&gt;Quoting from Apple Doc:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The use of custom drawing code should be limited to situations where the content you display needs to change dynamically.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;If you need to combine standard UI elements with custom drawing, consider using a Core Animation layer to superimpose a custom view with a standard view so that you draw as little as possible.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;animation-effects&quot;&gt;Animation Effects&lt;/h2&gt;
-
-&lt;p&gt;Before we jump into the large chunk of this post on drawing images, let’s know how animation effects can be applied to the image.&lt;/p&gt;
-
-&lt;p&gt;Core Animation has a layer object, and this is actually a &lt;strong&gt;model that encapsulates animations properties&lt;/strong&gt; - geometry, timing and visual properties.&lt;/p&gt;
-
-&lt;p&gt;By modifying this model, you achieve animation easily. The actual rendering is taken care of, and optimized for you.&lt;/p&gt;
-
-&lt;h2 id=&quot;drawingcreating-paths&quot;&gt;Drawing/Creating Paths&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIBezierPath_class/index.html#//apple_ref/occ/cl/UIBezierPath&quot;&gt;UIBezierPath&lt;/a&gt; is the class to create vector-based shapes.&lt;/p&gt;
-
-&lt;p&gt;You create paths with 2 types: &lt;strong&gt;straight lines&lt;/strong&gt; and &lt;strong&gt;curves&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;straight-lines&quot;&gt;1. Straight Lines&lt;/h3&gt;
-
-&lt;p&gt;Assume you have 2 points (&lt;code class=&quot;highlighter-rouge&quot;&gt;CGPoint&lt;/code&gt;), you can draw a line with &lt;code class=&quot;highlighter-rouge&quot;&gt;addLineToPoint&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIBezierPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;moveToPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;point1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addLineToPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;point2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;curves&quot;&gt;2. Curves&lt;/h3&gt;
-
-&lt;p&gt;There are 2 types of curves:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/types-of-bezier-curves.png&quot; alt=&quot;Types of curves&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Cubic curve - use &lt;code class=&quot;highlighter-rouge&quot;&gt;addCurve(to:controlPoint1:controlPoint2:)&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Quadratic curve - use &lt;code class=&quot;highlighter-rouge&quot;&gt;addQuadCurve(to:controlPoint:)&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The difference is that a cubic curve has 2 control points.&lt;/p&gt;
-
-&lt;p&gt;Bezier curve has &lt;a href=&quot;https://en.wikipedia.org/wiki/Bézier_curve&quot;&gt;complex mathematical relationship&lt;/a&gt;, if you are interested.&lt;/p&gt;
-
-&lt;h3 id=&quot;underlying-cgpathref&quot;&gt;Underlying &lt;code class=&quot;highlighter-rouge&quot;&gt;CGPathRef&lt;/code&gt;&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIBezierPath&lt;/code&gt; is really just a wrapper for &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CGPath/index.html#//apple_ref/c/tdef/CGPathRef&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CGPathRef&lt;/code&gt; data type&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;You can create &lt;code class=&quot;highlighter-rouge&quot;&gt;CGPath&lt;/code&gt;s directly then assign to a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIBezierPath&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;fill--stroke&quot;&gt;Fill &amp;amp; Stroke&lt;/h3&gt;
-
-&lt;p&gt;With a path constructed, you can then render by filling and stroking with colors.&lt;/p&gt;
-
-&lt;p&gt;The code below with fill with red, and stroke a blue line 2 point wide.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;UIColor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;redColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setFill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;UIColor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;blueColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setStroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lineWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s2&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;stroke&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;There is one thing about filling that you should know. The &lt;a href=&quot;http://stackoverflow.com/a/14841163/242682&quot;&gt;even-odd fill rule&lt;/a&gt; determines if a hole in a path is to be filled or not. By default, &lt;code class=&quot;highlighter-rouge&quot;&gt;usesEvenOddFillRule&lt;/code&gt; is false, so usually the hole will be filled.&lt;/p&gt;
-
-&lt;h3 id=&quot;drawing-an-image&quot;&gt;Drawing an Image&lt;/h3&gt;
-
-&lt;p&gt;You can also draw an image. Read the section on performance earlier. If you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;UIImageView&lt;/code&gt;, then you should.&lt;/p&gt;
-
-&lt;p&gt;Otherwize, you can use the draw methods in &lt;a href=&quot;https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIImage_Class/&quot;&gt;UIImage&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;drawAtPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;point&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;cgcontext-transformation&quot;&gt;CGContext Transformation&lt;/h3&gt;
-
-&lt;p&gt;You can change the &lt;a href=&quot;https://developer.apple.com/library/tvos/documentation/GraphicsImaging/Reference/CGContext/index.html&quot;&gt;Current Transformation Matix (CTM)&lt;/a&gt; for the graphics context.&lt;/p&gt;
-
-&lt;p&gt;For example, you can scale the drawing by 50%, then translate (20, 20):&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIGraphicsGetCurrentContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;CGContextSaveGState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;CGContextScaleCTM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;CGContextTranslateCTM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Draw and render your path etc, with respect to the origin.&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// However, the CTM transformation will affect the render.&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;CGContextRestoreGState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Notice that you should save and restore the graphics states.&lt;/p&gt;
-
-&lt;h3 id=&quot;rendering-uiimage&quot;&gt;Rendering UIImage&lt;/h3&gt;
-
-&lt;p&gt;These are the steps to generate an &lt;code class=&quot;highlighter-rouge&quot;&gt;UIImage&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;UIGraphicsBeginImageContextWithOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIGraphicsGetCurrentContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Create your bezier path, fill, stroke, etc..&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIGraphicsGetImageFromCurrentImageContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;UIGraphicsEndImageContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;It is important that you pass 0.0 to &lt;code class=&quot;highlighter-rouge&quot;&gt;UIGraphicsBeginImageContextWithOptions&lt;/code&gt; so that the &lt;a href=&quot;/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines/&quot;&gt;appropriate bitmap size&lt;/a&gt; is created for the (eg retina) device automatically.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 25 Aug 2016 10:36:49 +0800</pubDate>
-        <link>http://samwize.com/2016/08/25/drawing-images-with-uibezierpath/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/08/25/drawing-images-with-uibezierpath/</guid>
-        
-        
-        <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Out of Memory Crashes</title>
-        <description>&lt;p&gt;Crashlytics has released a new feature to &lt;a href=&quot;http://crashlytics.com/blog/introducing-oom-reporting&quot;&gt;report out of memory (OOM) crashes&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;We all know regular crashes - termination of an app due to some code (app or system libraries).&lt;/p&gt;
-
-&lt;p&gt;OOM is another type of crash, which has been &lt;em&gt;ignored&lt;/em&gt; in Crashlytics reports until now.&lt;/p&gt;
-
-&lt;p&gt;There are 2 types of OOM crashes:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Foreground OOM (FOOM) - this crashes like regular crashes&lt;/li&gt;
-  &lt;li&gt;Background OOM (BOOM) - app is evicted from iOS&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The method to detect OOM is first introducted by Facebook, using a &lt;a href=&quot;https://code.facebook.com/posts/1146930688654547/reducing-fooms-in-the-facebook-ios-app/&quot;&gt;process of elimination&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/oom-crashes-why-app-is-launching.jpg&quot; alt=&quot;Why is the app starting?&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;crashlytics-ooms&quot;&gt;Crashlytics OOMs&lt;/h2&gt;
-
-&lt;p&gt;Crashlytics has provided reporting on OOM-free sessions.&lt;/p&gt;
-
-&lt;p&gt;Specifically, that is a percentage of sessions that are crash free from FOOM. Note: This is only for &lt;strong&gt;FOOM (Foreground OOM)&lt;/strong&gt;, since FOOM are similar to regular crashes while the app is in the foreground.&lt;/p&gt;
-
-&lt;p&gt;Also, the number of sessions in Answers does NOT include OOM sessions that crashed.&lt;/p&gt;
-
-&lt;p&gt;Crashlytics thrives in providing analytics to crashes, and the inclusion of OOM crashes will be very useful.&lt;/p&gt;
-
-&lt;p&gt;Some &lt;a href=&quot;https://docs.fabric.io/apple/crashlytics/OOMs.html&quot;&gt;pointers&lt;/a&gt; on debugging and fixing these memory issues is provided.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 22 Aug 2016 10:29:21 +0800</pubDate>
-        <link>http://samwize.com/2016/08/22/out-of-memory-crashes/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/08/22/out-of-memory-crashes/</guid>
-        
-        
-        <category>iOS</category>
         
       </item>
     
