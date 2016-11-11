@@ -10,7 +10,7 @@ A list of tools for development.
 
 Turns drawing into code, filling and stroking [bezier paths](http://samwize.com/2016/08/25/drawing-images-with-uibezierpath/).
 
-Similar tools: [Core Animator](http://www.coreanimator.com/#animatecode), [QuartzCode](http://www.quartzcodeapp.com/examples/) generates `CALayer`. [Squall](http://www.marcuseckert.com/squall/) generates from After Effects.
+Similar tools: [Core Animator](http://www.coreanimator.com/), [QuartzCode](http://www.quartzcodeapp.com/examples/) generates `CALayer`. [Squall](http://www.marcuseckert.com/squall/) generates from After Effects.
 
 
 ## [twine](https://github.com/mobiata/twine)
@@ -28,6 +28,11 @@ Visualize your object dependencies. Supports Swift too!
 ## [injectionforxcode](https://github.com/johnno1962/injectionforxcode/)
 
 Runtime Code Injection for Objective-C & Swift. Saves you time from waiting for Xcode to compile!
+
+
+## [Swift Algorithm Club](https://github.com/raywenderlich/swift-algorithm-club)
+
+All the algorithms you ever need, in Swift!
 
 
 ## Others
