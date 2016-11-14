@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Swift Package Manager Development Guide"
-date: 2016-10-29T07:44:51+08:00
+date: 2016-11-14T07:44:51+08:00
 categories: [Swift]
 ---
 
@@ -9,17 +9,19 @@ categories: [Swift]
 
 Swift is moving fast, and now we have the official [Swift Package Manager](https://swift.org/package-manager/)!.
 
-Instead of writing a `Podfile`, you write a `Package.swift`, which is just Swift in it.
+Instead of writing a `Podfile`, you write a `Package.swift`, which is made up of Swift code declaring the dependencies.
 
-Then to get the dependency, just `swift build` as normal.
+Then to get the dependencies:
+
+    swift build
 
 
 ## More Commands 
 
-    # If you prefer to setup your with more templates, including .gitignore, Sources and Tests
+    # If you prefer to setup with a template, including .gitignore, Sources and Tests
     swift package init
 
-    # Generate the Xcode Project  
+    # Generate the Xcode Project
     swift package generate-xcodeproj
 
     # Update
