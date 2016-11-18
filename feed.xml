@@ -6,9 +6,28 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 14 Nov 2016 10:40:40 +0800</pubDate>
-    <lastBuildDate>Mon, 14 Nov 2016 10:40:40 +0800</lastBuildDate>
+    <pubDate>Fri, 18 Nov 2016 17:28:39 +0800</pubDate>
+    <lastBuildDate>Fri, 18 Nov 2016 17:28:39 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Never to Have Feelings for Your Code</title>
+        <description>&lt;p&gt;As a developer, never to have feelings for your code.&lt;/p&gt;
+
+&lt;p&gt;As a designer, never to have feelings for your mockups.&lt;/p&gt;
+
+&lt;p&gt;As a product manager, never to have feelings for your roadmap.&lt;/p&gt;
+
+&lt;p&gt;Never to have attachment to them, so that you can discard them, anytime.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 17 Nov 2016 14:39:44 +0800</pubDate>
+        <link>http://samwize.com/2016/11/17/never-to-have-feelings-for-your-code/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/11/17/never-to-have-feelings-for-your-code/</guid>
+        
+        
+        <category>Product</category>
+        
+      </item>
     
       <item>
         <title>Swift Package Manager Development Guide</title>
@@ -485,60 +504,6 @@ kill -9 &amp;lt;PID&amp;gt;
         <pubDate>Mon, 26 Sep 2016 10:59:41 +0800</pubDate>
         <link>http://samwize.com/2016/09/26/pitfall-with-opening-universal-link/</link>
         <guid isPermaLink="true">http://samwize.com/2016/09/26/pitfall-with-opening-universal-link/</guid>
-        
-        
-        <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>The Thing About Top &amp; Bottom Autolayout Guide</title>
-        <description>&lt;p&gt;iOS 7 introduced the concept of a translucent tab/nav/status bar.&lt;/p&gt;
-
-&lt;p&gt;In doing so, view controllers “extend” their views so that it is beneath the bar, giving a &lt;em&gt;there-but-not-there-blurry&lt;/em&gt; effect.&lt;/p&gt;
-
-&lt;p&gt;To help view controllers to adapt to this iOS 7 concepts, know this:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;the view is now expanded to beneath the bar(s)&lt;/li&gt;
-  &lt;li&gt;to know the area that is NOT beneath the bar, you have to use the top &amp;amp; bottom layout guide (these are 2 properties in view controller)&lt;/li&gt;
-  &lt;li&gt;hence when you add subviews, they should usually be &lt;strong&gt;between&lt;/strong&gt; the layout guides&lt;/li&gt;
-  &lt;li&gt;however, for scroll view, they should &lt;strong&gt;extend&lt;/strong&gt; beyond the guides, with an inset using the layout guides&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;if-you-have-scroll-view-with-translucent-bar&quot;&gt;If you have Scroll View with Translucent Bar&lt;/h2&gt;
-
-&lt;p&gt;Assuming you use scroll view (including table/collection views) with a translucent nav and tab bar, this is how you configure your storyboard for the view controller:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Enable &lt;strong&gt;Adjust Scroll View Insets&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;Enable &lt;strong&gt;Under Top Bars&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;Enable &lt;strong&gt;Under Bottom Bars&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;Pin the scroll view to &lt;strong&gt;Superview&lt;/strong&gt; top, bottom, left, right&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Why this works?&lt;/p&gt;
-
-&lt;p&gt;When you enable &lt;strong&gt;Under Top/Bottom Bars&lt;/strong&gt;, it tells the view controller’s root view to extend the edges. Programatically you can set &lt;a href=&quot;https://developer.apple.com/reference/uikit/uiviewcontroller/1621515-edgesforextendedlayout&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;edgesForExtendedLayout&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;We make the scroll view the same rect as it’s superview, that is the view controller’s root view.&lt;/p&gt;
-
-&lt;p&gt;Then enable &lt;strong&gt;Adjust Scroll View Insets&lt;/strong&gt; so that view controller automatically make the inset fall between the top &amp;amp; bottom layout guide!&lt;/p&gt;
-
-&lt;h2 id=&quot;trivial&quot;&gt;Trivial&lt;/h2&gt;
-
-&lt;p&gt;The top and bottom layout guides are &lt;a href=&quot;https://developer.apple.com/reference/uikit/uilayoutsupport&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UILayoutSupport&lt;/code&gt;&lt;/a&gt; protocol implemented by &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;It is not &lt;code class=&quot;highlighter-rouge&quot;&gt;UILayoutGuide&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uilayoutguide&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UILayoutGuide&lt;/code&gt;&lt;/a&gt; is a different object. It is a useful object if you have constructed &lt;em&gt;dummy views&lt;/em&gt;, or container views, merely to help with autolayout.&lt;/p&gt;
-
-&lt;p&gt;It replace the heavyweight dummy views with this lightweight object, which you can continue to place autolayout constraints with other views.&lt;/p&gt;
-
-</description>
-        <pubDate>Fri, 23 Sep 2016 15:32:08 +0800</pubDate>
-        <link>http://samwize.com/2016/09/23/the-thing-about-top-and-bottom-autolayout-guide/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/09/23/the-thing-about-top-and-bottom-autolayout-guide/</guid>
         
         
         <category>iOS</category>
