@@ -6,9 +6,136 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 18 Nov 2016 17:28:39 +0800</pubDate>
-    <lastBuildDate>Fri, 18 Nov 2016 17:28:39 +0800</lastBuildDate>
+    <pubDate>Mon, 28 Nov 2016 13:46:51 +0800</pubDate>
+    <lastBuildDate>Mon, 28 Nov 2016 13:46:51 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>UISearchController Development Guide</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchcontroller&quot;&gt;UISearchController&lt;/a&gt; is a new controller in iOS 8 to handle search.&lt;/p&gt;
+
+&lt;p&gt;Prior to iOS 8, we have &lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchdisplaycontroller&quot;&gt;UISearchDisplayController&lt;/a&gt;, which is deprecated. &lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchController&lt;/code&gt; more than replaced it, with a architectural change.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-architecture&quot;&gt;The Architecture&lt;/h2&gt;
+
+&lt;p&gt;There are two View Controllers (VC) involved in search. Let’s call them:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Presenting VC&lt;/strong&gt; - where the search is triggered&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Results VC&lt;/strong&gt; - where the results are displayed in&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You may also have the presenting VC display the results. In that case, they are the same VC.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchController&lt;/code&gt; also provides a &lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchBar&lt;/code&gt; object, because all search requires the search bar for input.&lt;/p&gt;
+
+&lt;h2 id=&quot;triggering-the-search&quot;&gt;Triggering the search&lt;/h2&gt;
+
+&lt;p&gt;There are 2 ways.&lt;/p&gt;
+
+&lt;h3 id=&quot;add-search-bar&quot;&gt;1. Add Search Bar&lt;/h3&gt;
+
+&lt;p&gt;Add the &lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchBar&lt;/code&gt; to your presenting VC.&lt;/p&gt;
+
+&lt;p&gt;This must be done programatically, because there is no library object for &lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchController&lt;/code&gt; in Xcode. And you have to use it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;searchBar&lt;/code&gt; object.&lt;/p&gt;
+
+&lt;p&gt;If you are using a &lt;code class=&quot;highlighter-rouge&quot;&gt;UITableView&lt;/code&gt;, a search bar can be added to the header easily:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tableHeaderView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchBar&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;add-search-button&quot;&gt;2. Add Search Button&lt;/h3&gt;
+
+&lt;p&gt;Another way is to have a button to trigger the search, instead of adding the whole search bar in like in (1).&lt;/p&gt;
+
+&lt;p&gt;Create the &lt;code class=&quot;highlighter-rouge&quot;&gt;IBAction&lt;/code&gt; for the button:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@IBAction&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;tapSearch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;presentViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Remember: &lt;code class=&quot;highlighter-rouge&quot;&gt;searchController&lt;/code&gt; is a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; (read in later section) so it can be called with &lt;code class=&quot;highlighter-rouge&quot;&gt;presentViewController&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;When the presenting VC has a navigation bar, you will need to configure search controller:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hidesNavigationBarDuringPresentation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;the-delegates&quot;&gt;The Delegates&lt;/h2&gt;
+
+&lt;h3 id=&quot;delegate-1---uisearchresultsupdating&quot;&gt;Delegate #1 - UISearchResultsUpdating&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchresultsupdating&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchResultsUpdating&lt;/code&gt;&lt;/a&gt; protocol has a callback when the user enters into the search bar.&lt;/p&gt;
+
+&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;searchResultsUpdater&lt;/code&gt;. Typically, the results VC will implement the protocol, so that it will update the results accordingly.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchResultsUpdater&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultsViewController&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Then in &lt;code class=&quot;highlighter-rouge&quot;&gt;resultsViewController&lt;/code&gt;, implement the method:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;updateSearchResultsForSearchController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UISearchController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;searchTerm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchBar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Update your results&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;delegate-2---uisearchbardelegate&quot;&gt;Delegate #2 - UISearchBarDelegate&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchbardelegate&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchBarDelegate&lt;/code&gt;&lt;/a&gt; protocol provides more events:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;text changed&lt;/li&gt;
+  &lt;li&gt;should text change&lt;/li&gt;
+  &lt;li&gt;should/begin/end editing&lt;/li&gt;
+  &lt;li&gt;tap on cancel button/etc&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;searchBar.delegate&lt;/code&gt;. Typically, the results VC.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchBar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultsViewController&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You might be thinking we have &lt;code class=&quot;highlighter-rouge&quot;&gt;searchResultsUpdater&lt;/code&gt;. Isn’t that enough? Usually so, unless you want to know when buttons such as &lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchbar/1624292-scopebuttontitles&quot;&gt;scopes button&lt;/a&gt; are tapped on.&lt;/p&gt;
+
+&lt;h3 id=&quot;delegate-3---uisearchcontrollerdelegate&quot;&gt;Delegate #3 - UISearchControllerDelegate&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchcontrollerdelegate&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchControllerDelegate&lt;/code&gt;&lt;/a&gt; protocol provides events when:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;the search controller is presented or dismissed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;delegate&lt;/code&gt; to the view controller that handles the calls, typically the presenting VC.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;uisearchcontroller-is-a-uiviewcontroller&quot;&gt;UISearchController is a UIViewController&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchController&lt;/code&gt; inherits from &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can present it modally with &lt;code class=&quot;highlighter-rouge&quot;&gt;presentViewController&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;BUT, you should never push to navigation controller or use it as a child etc. If you want that, you can use &lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchcontainerviewcontroller&quot;&gt;UISearchContainerViewController&lt;/a&gt; to wrap it first.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 27 Nov 2016 10:12:44 +0800</pubDate>
+        <link>http://samwize.com/2016/11/27/uisearchcontroller-development-guide/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/11/27/uisearchcontroller-development-guide/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Never to Have Feelings for Your Code</title>
@@ -457,56 +584,6 @@ kill -9 &amp;lt;PID&amp;gt;
         
         
         <category>Apple</category>
-        
-      </item>
-    
-      <item>
-        <title>Pitfall With Opening Universal Link</title>
-        <description>&lt;p&gt;Universal link are familiar http links that iOS apps can now use to open apps, rather than opening the link in Safari web browser.&lt;/p&gt;
-
-&lt;p&gt;If the app is installed, then the universal should work just fine.&lt;/p&gt;
-
-&lt;p&gt;One pitfall is when the user &lt;strong&gt;disassociate&lt;/strong&gt; the link; as if telling iOS that the link should NOT open the app.&lt;/p&gt;
-
-&lt;p&gt;We will explain how that happens and the solution.&lt;/p&gt;
-
-&lt;h2 id=&quot;opening-a-universal-link&quot;&gt;Opening a Universal Link&lt;/h2&gt;
-
-&lt;p&gt;We use Uber app as an example.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;https://m.uber.com/&quot;&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;openURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The above will open Uber app.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-pitfall&quot;&gt;The Pitfall&lt;/h2&gt;
-
-&lt;p&gt;The pitfall is when the user tap on the top right &lt;strong&gt;uber.com&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/uber-open-universal-link.jpg&quot; alt=&quot;Open Universal Link&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Tapping on that will tell iOS that you, the user, do NOT want Uber app to be opened for the link.&lt;/p&gt;
-
-&lt;p&gt;To be specific, it only affects the app that opened it. Other apps will still open fine. The reason is for user to &lt;em&gt;disable&lt;/em&gt; certain apps.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-solution&quot;&gt;The solution&lt;/h2&gt;
-
-&lt;p&gt;When the universal link &lt;em&gt;doesn’t work&lt;/em&gt;, it will open Safari instead.&lt;/p&gt;
-
-&lt;p&gt;In the webpage, you have to &lt;strong&gt;pull down&lt;/strong&gt; to reveal the &lt;em&gt;smart banner&lt;/em&gt; that will give you the option to re-open Uber app.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/uber-in-safari.jpg&quot; alt=&quot;Open Uber App, Again&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Tap on &lt;strong&gt;OPEN&lt;/strong&gt;, and iOS will re-associate the universal link to work for your app.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 26 Sep 2016 10:59:41 +0800</pubDate>
-        <link>http://samwize.com/2016/09/26/pitfall-with-opening-universal-link/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/09/26/pitfall-with-opening-universal-link/</guid>
-        
-        
-        <category>iOS</category>
         
       </item>
     
