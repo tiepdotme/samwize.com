@@ -120,3 +120,53 @@ You can present it modally with `presentViewController`.
 
 BUT, you should never push to navigation controller or use it as a child etc. If you want that, you can use [UISearchContainerViewController](https://developer.apple.com/reference/uikit/uisearchcontainerviewcontroller) to wrap it first.
 
+
+## Display Results Instead of Dimming
+
+The default behaviour dims the presenting VC when search is triggered.
+
+User has to type 1 character, then the results VC will be shown.
+
+It is common UX to display an intial set of results once search is triggered. Who knows, our smart filtering might already show up a good match?
+
+Firstly, we prevent the dim with:
+
+```swift
+searchController.dimsBackgroundDuringPresentation = false
+```
+
+To show the results VC, a [little hack](http://stackoverflow.com/a/30814194/242682) is needed in the results VC:
+
+```swift
+class ResultsViewController: UIViewController {
+
+  var context = 0
+
+  override func viewDidLoad() {
+      super.viewDidLoad()
+      setupToPreventHiddenBehaviour()
+  }
+
+  func setupToPreventHiddenBehaviour() {
+      view.addObserver(self, forKeyPath: "hidden", options: [ .New, .Old ], context: &context)
+  }
+  
+  deinit {
+      view.removeObserver(self, forKeyPath: "hidden")
+  }
+  
+  override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    guard context == &self.context else {
+        super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        return
+    }
+
+    if change?[NSKeyValueChangeNewKey] as? Bool == true {
+        view.hidden = false
+    }
+  }
+    
+}
+```
+
+It hacks around by observing for the view's `hidden` property, forcing it to never hide. Even when you clear the search bar, it gets back to this initial state.
