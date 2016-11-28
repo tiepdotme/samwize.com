@@ -187,6 +187,55 @@
 
 <p>BUT, you should never push to navigation controller or use it as a child etc. If you want that, you can use <a href="https://developer.apple.com/reference/uikit/uisearchcontainerviewcontroller">UISearchContainerViewController</a> to wrap it first.</p>
 
+<h2 id="display-results-instead-of-dimming">Display Results Instead of Dimming</h2>
+
+<p>The default behaviour dims the presenting VC when search is triggered.</p>
+
+<p>User has to type 1 character, then the results VC will be shown.</p>
+
+<p>It is common UX to display an intial set of results once search is triggered. Who knows, our smart filtering might already show up a good match?</p>
+
+<p>Firstly, we prevent the dim with:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">dimsBackgroundDuringPresentation</span> <span class="o">=</span> <span class="kc">false</span>
+</code></pre>
+</div>
+
+<p>To show the results VC, a <a href="http://stackoverflow.com/a/30814194/242682">little hack</a> is needed in the results VC:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ResultsViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+
+  <span class="k">var</span> <span class="nv">context</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+      <span class="nf">setupToPreventHiddenBehaviour</span><span class="p">()</span>
+  <span class="p">}</span>
+
+  <span class="kd">func</span> <span class="nf">setupToPreventHiddenBehaviour</span><span class="p">()</span> <span class="p">{</span>
+      <span class="n">view</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">forKeyPath</span><span class="p">:</span> <span class="s">"hidden"</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="p">[</span> <span class="o">.</span><span class="kt">New</span><span class="p">,</span> <span class="o">.</span><span class="kt">Old</span> <span class="p">],</span> <span class="nv">context</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">context</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="kd">deinit</span> <span class="p">{</span>
+      <span class="n">view</span><span class="o">.</span><span class="nf">removeObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">forKeyPath</span><span class="p">:</span> <span class="s">"hidden"</span><span class="p">)</span>
+  <span class="p">}</span>
+  
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">observeValueForKeyPath</span><span class="p">(</span><span class="nv">keyPath</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="n">ofObject</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">change</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="n">context</span> <span class="o">==</span> <span class="o">&amp;</span><span class="k">self</span><span class="o">.</span><span class="n">context</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">observeValueForKeyPath</span><span class="p">(</span><span class="n">keyPath</span><span class="p">,</span> <span class="nv">ofObject</span><span class="p">:</span> <span class="n">object</span><span class="p">,</span> <span class="nv">change</span><span class="p">:</span> <span class="n">change</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">change</span><span class="p">?[</span><span class="kt">NSKeyValueChangeNewKey</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">Bool</span> <span class="o">==</span> <span class="kc">true</span> <span class="p">{</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">hidden</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+    
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>It hacks around be observing for the view’s <code class="highlighter-rouge">hidden</code> property, forcing it to never hide. Even when you clear the search bar, it gets back to this initial state.</p>
 
         </section>
         <footer class="post-footer">
