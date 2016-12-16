@@ -6,9 +6,237 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 28 Nov 2016 15:11:41 +0800</pubDate>
-    <lastBuildDate>Mon, 28 Nov 2016 15:11:41 +0800</lastBuildDate>
+    <pubDate>Fri, 16 Dec 2016 17:33:55 +0800</pubDate>
+    <lastBuildDate>Fri, 16 Dec 2016 17:33:55 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Core Animation Guide</title>
+        <description>&lt;p&gt;There are many ways to perform animation, and using &lt;a href=&quot;https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/CoreAnimation_guide/CreatingBasicAnimations/CreatingBasicAnimations.html&quot;&gt;Core Animation&lt;/a&gt; is one great framework provided by Apple.&lt;/p&gt;
+
+&lt;p&gt;Core Animation operates on &lt;code class=&quot;highlighter-rouge&quot;&gt;CALayer&lt;/code&gt;, which is the &lt;code class=&quot;highlighter-rouge&quot;&gt;layer&lt;/code&gt; property that each &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; has. It is a presentation layer.&lt;/p&gt;
+
+&lt;h2 id=&quot;basic-animation&quot;&gt;Basic animation&lt;/h2&gt;
+
+&lt;p&gt;Let’s jump right into the code to “tell” a view to move right by 50 pt:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CABasicAnimation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;position.x&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;byValue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// Move right by 50 pt&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;duration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// 1 second&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timingFunction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CAMediaTimingFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kCAMediaTimingFunctionEaseInEaseOut&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fillMode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kCAFillModeForwards&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removedOnCompletion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;layer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addAnimation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;forKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;move&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Most of the code is self explanatory. We set the properties of &lt;code class=&quot;highlighter-rouge&quot;&gt;CABasicAnimation&lt;/code&gt; – the duration of the animation, with a ease-in-ease-out effect, moving it to the right by 50pt.&lt;/p&gt;
+
+&lt;p&gt;In the example, we change the &lt;code class=&quot;highlighter-rouge&quot;&gt;keyPath&lt;/code&gt; of “position.x”. We could change any of the &lt;a href=&quot;https://developer.apple.com/reference/quartzcore/cabasicanimation&quot;&gt;properties&lt;/a&gt;, such as “opacity”, “backgroundColor”, “transform.scale.x”, etc.&lt;/p&gt;
+
+&lt;h2 id=&quot;make-the-layer-remains-in-final-state&quot;&gt;Make the Layer Remains in Final State&lt;/h2&gt;
+
+&lt;p&gt;A &lt;a href=&quot;https://gist.github.com/d-ronnqvist/11266321&quot;&gt;controversial&lt;/a&gt;, but simple, way to make the view remain in the final state is:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fillMode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kCAFillModeForwards&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removedOnCompletion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This merely make the &lt;strong&gt;presentation&lt;/strong&gt; remains in the final state. The actual &lt;strong&gt;model&lt;/strong&gt; is not changed. This will affects hit-testing etc.&lt;/p&gt;
+
+&lt;p&gt;If the view does not require user interaction, then you could use this &lt;em&gt;easy&lt;/em&gt; way.&lt;/p&gt;
+
+&lt;p&gt;Otherwise, you have to update the model after the animation eg.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;layer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addAnimation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;forKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;move&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Set the final state&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;multiple-animations&quot;&gt;Multiple Animations&lt;/h2&gt;
+
+&lt;p&gt;You can combine multiple animations into an animation group.&lt;/p&gt;
+
+&lt;p&gt;We extend our example with a fade out effect.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CABasicAnimation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;position.x&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;byValue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;fade&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CABasicAnimation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fade&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;opacity&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fade&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;byValue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;group&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CAAnimationGroup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animations&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fade&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;duration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timingFunction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CAMediaTimingFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kCAMediaTimingFunctionEaseIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fillMode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kCAFillModeForwards&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removedOnCompletion&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;layer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addAnimation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;forKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;move-fadeout&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We use the &lt;code class=&quot;highlighter-rouge&quot;&gt;CAAnimationGroup&lt;/code&gt; and set the common properties to the group instead.&lt;/p&gt;
+
+&lt;h2 id=&quot;animate-key-frames&quot;&gt;Animate key frames&lt;/h2&gt;
+
+&lt;p&gt;We can also animate key frames using &lt;code class=&quot;highlighter-rouge&quot;&gt;CAKeyframeAnimation&lt;/code&gt;, by changing the values with precise timing:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;move&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CAKeyframeAnimation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;position.x&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;values&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyTimes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;on-animation-completion&quot;&gt;On Animation Completion&lt;/h2&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;CATransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;begin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        
+&lt;span class=&quot;kt&quot;&gt;CATransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCompletionBlock&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Perform this when animation has completed&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;layer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addAnimation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;animation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;forKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;animation&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;CATransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;commit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;        
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;pitfall-with-opacity-and-interaction&quot;&gt;Pitfall with Opacity and Interaction&lt;/h2&gt;
+
+&lt;p&gt;There is a pitfall when you animate a view’s opacity, yet wants to enable interaction.&lt;/p&gt;
+
+&lt;p&gt;When you set a view &lt;code class=&quot;highlighter-rouge&quot;&gt;opacity&lt;/code&gt; to 0 (hide it), iOS will actually implicity disable touches/interaction (though &lt;code class=&quot;highlighter-rouge&quot;&gt;userInteractionEnabled&lt;/code&gt; will still be true).&lt;/p&gt;
+
+&lt;p&gt;Then in a fade in animation, you increase the opacity back to 1, and expect the view to respond to touch.&lt;/p&gt;
+
+&lt;p&gt;BUT, remember: the animation code only affects the presentation, not the actual model. Read the section above on “Make View Remains in Final State”.&lt;/p&gt;
+
+&lt;p&gt;The solution is to explicitly set opacity back to 1 after the animation ended.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;CATransaction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCompletionBlock&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;layer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;opacity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Fri, 16 Dec 2016 16:30:39 +0800</pubDate>
+        <link>http://samwize.com/2016/12/16/core-animation-guide/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/12/16/core-animation-guide/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
+    
+      <item>
+        <title>On-Demand Resources Guide</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/content/documentation/FileManagement/Conceptual/On_Demand_Resources_Guide/Tagging.html&quot;&gt;On-Demand Resources&lt;/a&gt; is a new developer feature provided in iOS 8.&lt;/p&gt;
+
+&lt;p&gt;It is lazy loading of resources, so that app binary size can be reduced.&lt;/p&gt;
+
+&lt;p&gt;In other words, when you require a resource, you call the API to download it.&lt;/p&gt;
+
+&lt;h2 id=&quot;tagging&quot;&gt;Tagging&lt;/h2&gt;
+
+&lt;p&gt;To use, “tag” your resources (any files or assets).&lt;/p&gt;
+
+&lt;p&gt;You can assign multiple tags per resource.&lt;/p&gt;
+
+&lt;p&gt;Tagging is a way of grouping resources in a common bucket. When you need to use these individual resource, you have to download the tag (which will download ALL the resources, not individually).&lt;/p&gt;
+
+&lt;p&gt;So if you want to download only 1 resource, then have 1 unique tag for that resource.&lt;/p&gt;
+
+&lt;h2 id=&quot;types-of-resource-tag&quot;&gt;3 Types of Resource Tag&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Initial install tags&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Downloaded at the same time as the app&lt;/li&gt;
+      &lt;li&gt;Included in the total size for the app&lt;/li&gt;
+      &lt;li&gt;The only benefit – the tags can be purged after use&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Prefetch tag order&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Downloaded right after the app is installed, in the order listed&lt;/li&gt;
+      &lt;li&gt;Excluded in the total size for the app&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Dowloaded only on demand&lt;/strong&gt; (DEFAULT)
+    &lt;ul&gt;
+      &lt;li&gt;Downloaded when requested by the app&lt;/li&gt;
+      &lt;li&gt;Excluded in the total size for the app&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You can change the type by going to &lt;strong&gt;Target &amp;gt; Resource Tags &amp;gt; Prefetched&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;download-the-tags&quot;&gt;Download the Tags&lt;/h2&gt;
+
+&lt;p&gt;Use &lt;a href=&quot;https://developer.apple.com/reference/foundation/nsbundleresourcerequest&quot;&gt;NSBundleResourceRequest&lt;/a&gt; to specify the tag(s) to download.&lt;/p&gt;
+
+&lt;p&gt;Init &lt;code class=&quot;highlighter-rouge&quot;&gt;NSBundleResourceRequest&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;initWithTags:&lt;/code&gt;, which will download and put the resources in the main bundle.&lt;/p&gt;
+
+&lt;p&gt;The main API to use is &lt;code class=&quot;highlighter-rouge&quot;&gt;beginAccessingResourcesWithCompletionHandler:&lt;/code&gt;. This will start to download the resources, if they are not already in the device.&lt;/p&gt;
+
+&lt;p&gt;If the resources are already in the device, then it will just call the completion block.&lt;/p&gt;
+
+&lt;p&gt;Another method is &lt;code class=&quot;highlighter-rouge&quot;&gt;conditionallyBeginAccessingResourcesWithCompletionHandler:&lt;/code&gt;. This merely check if the resources are already on device (it will not download even if it is not present). I don’t see much use of calling this asynchronous method just to check.&lt;/p&gt;
+
+&lt;p&gt;Note: The completion block is not called on the main thread.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-the-resource&quot;&gt;Using the Resource&lt;/h2&gt;
+
+&lt;p&gt;You can use the main bundle, after the tags are downloaded.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;NSBundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;mainBundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;URLForResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;myvideo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;withExtension&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;mp4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;For &lt;code class=&quot;highlighter-rouge&quot;&gt;UIImage&lt;/code&gt;, as usual, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;imageNamed&lt;/code&gt;, and it will be there.&lt;/p&gt;
+
+&lt;p&gt;But remember, it is up to you to make sure the resources/tags are downloaded. You must ensure they are successfully downloaded before use.&lt;/p&gt;
+
+&lt;p&gt;If the resource is not on device, it could crash.&lt;/p&gt;
+
+&lt;h2 id=&quot;pitfall-bugs-during-development&quot;&gt;Pitfall: Bugs during Development&lt;/h2&gt;
+
+&lt;p&gt;However, things will &lt;a href=&quot;http://stackoverflow.com/q/39870159/242682&quot;&gt;not work&lt;/a&gt; (tested in Xcode 8.1).&lt;/p&gt;
+
+&lt;p&gt;Tags with &lt;strong&gt;Initial install tags&lt;/strong&gt; are not downloaded after app is installed on simulator. You can see it is not downloaded under &lt;strong&gt;Debug navigator &amp;gt; Disk&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is obviously a bug.&lt;/p&gt;
+
+&lt;p&gt;There is no workaround, other than to always ensure your resources are downloaded (which you definitely should) before use.&lt;/p&gt;
+
+&lt;h2 id=&quot;preservation-priority&quot;&gt;Preservation Priority&lt;/h2&gt;
+
+&lt;p&gt;The operating system could purge any resource that is not held by any &lt;code class=&quot;highlighter-rouge&quot;&gt;NSBundleResourceRequest&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Purging starts with resources with lowest preservation priority, between 0 and 1.&lt;/p&gt;
+
+&lt;p&gt;Use &lt;a href=&quot;https://developer.apple.com/reference/foundation/bundle/1614845-setpreservationpriority&quot;&gt;setPreservationPriority(_:forTags:)&lt;/a&gt; on the bundle.&lt;/p&gt;
+
+&lt;p&gt;It is still not clear when the OS will purge. But it could persist across multiple launches.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 05 Dec 2016 10:23:11 +0800</pubDate>
+        <link>http://samwize.com/2016/12/05/on-demand-resources-guide/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/12/05/on-demand-resources-guide/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>UISearchController Development Guide</title>
@@ -175,7 +403,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;It hacks around be observing for the view’s &lt;code class=&quot;highlighter-rouge&quot;&gt;hidden&lt;/code&gt; property, forcing it to never hide. Even when you clear the search bar, it gets back to this initial state.&lt;/p&gt;
+&lt;p&gt;It hacks around by observing for the view’s &lt;code class=&quot;highlighter-rouge&quot;&gt;hidden&lt;/code&gt; property, forcing it to never hide. Even when you clear the search bar, it gets back to this initial state.&lt;/p&gt;
 </description>
         <pubDate>Sun, 27 Nov 2016 10:12:44 +0800</pubDate>
         <link>http://samwize.com/2016/11/27/uisearchcontroller-development-guide/</link>
@@ -555,84 +783,6 @@ kill -9 &amp;lt;PID&amp;gt;
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Should An Engineer Write Technical Blog?</title>
-        <description>&lt;p&gt;Kristina Thai wrote &lt;a href=&quot;http://www.slideshare.net/KristinaThai/become-a-better-engineer-through-writing-62988419&quot;&gt;Become a Better Engineer Through Writing&lt;/a&gt;, and I felt she has made a good case on why we should all write.&lt;/p&gt;
-
-&lt;p&gt;To be a good developer, there are some soft skills:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Communicates Well&lt;/li&gt;
-  &lt;li&gt;Passion for learning&lt;/li&gt;
-  &lt;li&gt;Able to teach/mentor&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Quoting from &lt;a href=&quot;http://www.shubhro.com/2014/12/27/software-engineers-should-write/&quot;&gt;Shubhro Saha&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Code and essays have a lot more in common. The product is a sequence of logical statements, bundled into modular units– whether it be functions or paragraphs.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Like good prose, good code is concise.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Bad code wastes CPU cycles; bad essays waste brain cycles.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;There are 3 main channels where we could write:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Private journal&lt;/li&gt;
-  &lt;li&gt;Public blog&lt;/li&gt;
-  &lt;li&gt;StackOverflow&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;why-did-i-write-this-blog&quot;&gt;Why did I write this blog?&lt;/h2&gt;
-
-&lt;p&gt;Here (&lt;a href=&quot;http://samwize.com&quot;&gt;samwize.com&lt;/a&gt;) is my public blog for my technical writing.&lt;/p&gt;
-
-&lt;p&gt;But long before I started blogging, I have already been keeping a private journal, documenting the technical challenges I faced, the new things I learnt, the “cheatsheets” I need to refer to frequently, etc.&lt;/p&gt;
-
-&lt;p&gt;It was until &lt;a href=&quot;http://just2me.com/2006/12/17/first-blood/&quot;&gt;2006&lt;/a&gt; (10 years ago!), that I begun writing on a public blog.&lt;/p&gt;
-
-&lt;p&gt;I started blogging on my work with J2ME development (those were the days)!&lt;/p&gt;
-
-&lt;p&gt;I don’t have reason to write a public blog at first, but now I am glad for these reasons:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;I refer to my &lt;a href=&quot;http://samwize.com/2015/04/13/uiscrollview-content-view-constraints-autolayout/&quot;&gt;own&lt;/a&gt; &lt;a href=&quot;http://samwize.com/2016/02/28/everything-about-xcode-ui-testing-snapshot/&quot;&gt;guides&lt;/a&gt; &lt;a href=&quot;http://samwize.com/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/&quot;&gt;frequently&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;I have &lt;a href=&quot;http://samwize.com/2015/11/06/guide-to-customizing-uitableview-section-header-footer/&quot;&gt;helped&lt;/a&gt; &lt;a href=&quot;http://samwize.com/2014/03/14/how-to-use-uiscrollview-with-autolayout/&quot;&gt;others&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Others have &lt;a href=&quot;http://samwize.com/2016/04/04/the-bug-to-do-with-uicollectionview-content-offset/&quot;&gt;helped&lt;/a&gt; me&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;em&gt;Always be a student - keep learning.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Always be a teacher - help others and become even better.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 06 Oct 2016 16:19:30 +0800</pubDate>
-        <link>http://samwize.com/2016/10/06/should-an-engineer-write-technical-blog/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/10/06/should-an-engineer-write-technical-blog/</guid>
-        
-        
-        <category>Softskills</category>
-        
-      </item>
-    
-      <item>
-        <title>App Review Now Bans Facebook Single Sign-On</title>
-        <description>
-</description>
-        <pubDate>Thu, 29 Sep 2016 22:50:10 +0800</pubDate>
-        <link>http://samwize.com/2016/09/29/app-review-now-bans-facebook-single-sign-on/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/09/29/app-review-now-bans-facebook-single-sign-on/</guid>
-        
-        
-        <category>Apple</category>
         
       </item>
     

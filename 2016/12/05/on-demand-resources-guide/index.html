@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>On-Demand Resources Guide</title>
+  <meta name="description" content="On-Demand Resources is a new developer feature provided in iOS 8." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="On-Demand Resources Guide" />
+    <meta name="twitter:image" content="http://samwize.com" />
+    
+    <meta name="twitter:description"  content="On-Demand Resources is a new developer feature provided in iOS 8." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="On-Demand Resources Guide"/>
+  
+  <meta property="og:description" content="On-Demand Resources is a new developer feature provided in iOS 8." />
+  
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2016/12/05/on-demand-resources-guide/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2016-12-05T10:23:11+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2016/12/05/on-demand-resources-guide/">
+
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">On-Demand Resources Guide</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2016-12-05T10:23:11+08:00">05 December 2016</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p><a href="https://developer.apple.com/library/content/documentation/FileManagement/Conceptual/On_Demand_Resources_Guide/Tagging.html">On-Demand Resources</a> is a new developer feature provided in iOS 8.</p>
+
+<p>It is lazy loading of resources, so that app binary size can be reduced.</p>
+
+<p>In other words, when you require a resource, you call the API to download it.</p>
+
+<h2 id="tagging">Tagging</h2>
+
+<p>To use, “tag” your resources (any files or assets).</p>
+
+<p>You can assign multiple tags per resource.</p>
+
+<p>Tagging is a way of grouping resources in a common bucket. When you need to use these individual resource, you have to download the tag (which will download ALL the resources, not individually).</p>
+
+<p>So if you want to download only 1 resource, then have 1 unique tag for that resource.</p>
+
+<h2 id="types-of-resource-tag">3 Types of Resource Tag</h2>
+
+<ol>
+  <li><strong>Initial install tags</strong>
+    <ul>
+      <li>Downloaded at the same time as the app</li>
+      <li>Included in the total size for the app</li>
+      <li>The only benefit – the tags can be purged after use</li>
+    </ul>
+  </li>
+  <li><strong>Prefetch tag order</strong>
+    <ul>
+      <li>Downloaded right after the app is installed, in the order listed</li>
+      <li>Excluded in the total size for the app</li>
+    </ul>
+  </li>
+  <li><strong>Dowloaded only on demand</strong> (DEFAULT)
+    <ul>
+      <li>Downloaded when requested by the app</li>
+      <li>Excluded in the total size for the app</li>
+    </ul>
+  </li>
+</ol>
+
+<p>You can change the type by going to <strong>Target &gt; Resource Tags &gt; Prefetched</strong>.</p>
+
+<h2 id="download-the-tags">Download the Tags</h2>
+
+<p>Use <a href="https://developer.apple.com/reference/foundation/nsbundleresourcerequest">NSBundleResourceRequest</a> to specify the tag(s) to download.</p>
+
+<p>Init <code class="highlighter-rouge">NSBundleResourceRequest</code> with <code class="highlighter-rouge">initWithTags:</code>, which will download and put the resources in the main bundle.</p>
+
+<p>The main API to use is <code class="highlighter-rouge">beginAccessingResourcesWithCompletionHandler:</code>. This will start to download the resources, if they are not already in the device.</p>
+
+<p>If the resources are already in the device, then it will just call the completion block.</p>
+
+<p>Another method is <code class="highlighter-rouge">conditionallyBeginAccessingResourcesWithCompletionHandler:</code>. This merely check if the resources are already on device (it will not download even if it is not present). I don’t see much use of calling this asynchronous method just to check.</p>
+
+<p>Note: The completion block is not called on the main thread.</p>
+
+<h2 id="using-the-resource">Using the Resource</h2>
+
+<p>You can use the main bundle, after the tags are downloaded.</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kt">NSBundle</span><span class="o">.</span><span class="nf">mainBundle</span><span class="p">()</span><span class="o">.</span><span class="kt">URLForResource</span><span class="p">(</span><span class="s">"myvideo"</span><span class="p">,</span> <span class="nv">withExtension</span><span class="p">:</span> <span class="s">"mp4"</span><span class="p">)</span><span class="o">!</span>
+</code></pre>
+</div>
+
+<p>For <code class="highlighter-rouge">UIImage</code>, as usual, you can use <code class="highlighter-rouge">imageNamed</code>, and it will be there.</p>
+
+<p>But remember, it is up to you to make sure the resources/tags are downloaded. You must ensure they are successfully downloaded before use.</p>
+
+<p>If the resource is not on device, it could crash.</p>
+
+<h2 id="pitfall-bugs-during-development">Pitfall: Bugs during Development</h2>
+
+<p>However, things will <a href="http://stackoverflow.com/q/39870159/242682">not work</a> (tested in Xcode 8.1).</p>
+
+<p>Tags with <strong>Initial install tags</strong> are not downloaded after app is installed on simulator. You can see it is not downloaded under <strong>Debug navigator &gt; Disk</strong>.</p>
+
+<p>This is obviously a bug.</p>
+
+<p>There is no workaround, other than to always ensure your resources are downloaded (which you definitely should) before use.</p>
+
+<h2 id="preservation-priority">Preservation Priority</h2>
+
+<p>The operating system could purge any resource that is not held by any <code class="highlighter-rouge">NSBundleResourceRequest</code>.</p>
+
+<p>Purging starts with resources with lowest preservation priority, between 0 and 1.</p>
+
+<p>Use <a href="https://developer.apple.com/reference/foundation/bundle/1614845-setpreservationpriority">setPreservationPriority(_:forTags:)</a> on the bundle.</p>
+
+<p>It is still not clear when the OS will purge. But it could persist across multiple launches.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=On-Demand+Resources+Guide&amp;url=http://samwize.com/2016/12/05/on-demand-resources-guide"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=On-Demand+Resources+Guide&amp;u=http://samwize.com/2016/12/05/on-demand-resources-guide"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=On-Demand+Resources+Guide&amp;url=http://samwize.com/2016/12/05/on-demand-resources-guide"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
