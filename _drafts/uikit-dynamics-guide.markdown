@@ -10,13 +10,13 @@ UIKit Dynamics was unveiled in [WWDC 2013](https://developer.apple.com/videos/pl
 The goal was to make it easy to create animated views and transitions.
 
 
-## VS Core Animation, UIView Animation, etc
+## What about Core Animation, UIView Animation, etc
 
-We already can animate views using various techniques, such as using [animate(withDuration:animations:)](https://developer.apple.com/reference/uikit/uiview/1622418-animate).
+We already can animate views using various techniques, such as the popular [animate(withDuration:animations:)](https://developer.apple.com/reference/uikit/uiview/1622418-animate).
 
 So why need UIKit Dynamics?
 
-In short, it is a better framework.
+In short, UIKit Dynamics is a better framework.
 
 > A composable, reusable, declarative, real-world inspired animation, and interaction system.
 
@@ -38,7 +38,7 @@ UI Dynamics _is like_ Sprite Kit, for non-gaming apps.
   - Composable
   - Configure the parameters then add to animator
 3. View
-  - The are actually UIDynamicItem
+  - They are actually UIDynamicItem
   - Behaviour-View is n-n
 
 
@@ -63,7 +63,7 @@ You can create/compose your own `UIDynamicBehavior`, but these common ones are p
   
 ## [UIDynamicItem](https://developer.apple.com/reference/uikit/uidynamicitem) is a Protocol
 
-Describes what UIKit needs to animate an item. 
+Provides UIKit the information it needs in order to animate an item. 
 
 UIView implements it. 
 
@@ -80,5 +80,3 @@ objc.io has a good tutorial on [UICollectionView with dynamic animator](https://
 ## More Resources
 
 [WWDC 2015](https://developer.apple.com/videos/play/wwdc2015/229/) covered what's new.
-
-https://developer.apple.com/reference/uikit/uidynamicbehavior
