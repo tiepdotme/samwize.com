@@ -15,4 +15,8 @@ A list of awesome libraries I use:
 
 For libraries that I have never used (yet), but which I find awesome, I kept them all in [this list](/libs/kiv/).
 
-Also kept a list mentioning [what other apps use](/libs/what-did-this-app-use/).
+And more:
+
+- [Open Source Apps](/libs/open-source-apps/)
+- [Libraries used by some apps](/libs/what-did-this-app-use/).
+- [List of lists](/libs/list-of-lists/)
