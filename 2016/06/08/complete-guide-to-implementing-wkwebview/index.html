@@ -259,6 +259,14 @@
 </code></pre>
 </div>
 
+<h2 id="print-the-html-text">Print the HTML text</h2>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">webView</span><span class="o">.</span><span class="nf">evaluateJavaScript</span><span class="p">(</span><span class="s">"document.documentElement.outerHTML.toString()"</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="nv">html</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="k">in</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre>
+</div>
+
 <h2 id="pitfall-handling-javascript-dialog-boxes">Pitfall: Handling Javascript Dialog Boxes</h2>
 
 <p>This is often omitted in a custom implementation of <code class="highlighter-rouge">WKWebView</code>, yet it is very important.</p>

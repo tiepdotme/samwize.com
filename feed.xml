@@ -6,9 +6,143 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 19 Dec 2016 17:16:48 +0800</pubDate>
-    <lastBuildDate>Mon, 19 Dec 2016 17:16:48 +0800</lastBuildDate>
+    <pubDate>Fri, 06 Jan 2017 15:48:35 +0800</pubDate>
+    <lastBuildDate>Fri, 06 Jan 2017 15:48:35 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>React Native for iOS Swift Developer</title>
+        <description>&lt;p&gt;React Native is the biggest technology available for iOS developer in 2015.&lt;/p&gt;
+
+&lt;p&gt;It provides a new platform for iOS development, in the very popular (and familar language for web developers) - &lt;strong&gt;JavaScript&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This post is about learning/considering React Native for an iOS/Swift developer.&lt;/p&gt;
+
+&lt;p&gt;This post is not a development guide, because the official &lt;a href=&quot;https://facebook.github.io/react-native/releases/next/docs/getting-started.html&quot;&gt;Getting started&lt;/a&gt; is good, and &lt;a href=&quot;https://www.raywenderlich.com/136047/react-native-existing-app&quot;&gt;Ray Wenderlich&lt;/a&gt; provided a great guide for Swift iOS developers.&lt;/p&gt;
+
+&lt;p&gt;Instead, I will highlight important differences for Swift iOS developers.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-use-react-native&quot;&gt;Why use React Native?&lt;/h2&gt;
+
+&lt;p&gt;Instead of pure iOS/Android native development, React Native has the following benefits:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Render native UI (NOT web view), thus good user experience&lt;/li&gt;
+  &lt;li&gt;Learn once, write anywhere (on iOS/Android)&lt;/li&gt;
+  &lt;li&gt;Similar set of technology stack (JavaScript + React) with web developers&lt;/li&gt;
+  &lt;li&gt;JavaScript developers readily available, as compared to Swift/Android/Java&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I usually do not advocate non-native technology, because there are limitations and extra bugs because of the intermediary platform.&lt;/p&gt;
+
+&lt;p&gt;But React Native is created by Facebook, and they use it in Facebook app too, so there is lesser risk.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Not zero risk, because you should know Facebook &lt;a href=&quot;http://blog.parse.com/announcements/moving-on/&quot;&gt;kills Parse&lt;/a&gt; etc too..&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-react-native-works&quot;&gt;How React Native Works?&lt;/h2&gt;
+
+&lt;p&gt;In Facebook’s &lt;a href=&quot;https://code.facebook.com/posts/1014532261909640/react-native-bringing-modern-web-techniques-to-mobile/&quot;&gt;March 2015&lt;/a&gt; release post:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The only difference in the mobile environment is that instead of running React in the browser and rendering to divs and spans, we run it in an embedded instance of JavaScriptCore inside our apps and render to higher-level platform-specific components.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://nshipster.com/javascriptcore/&quot;&gt;JavaScriptCore&lt;/a&gt; is a framework provided on iOS/Android to run JavaScript.&lt;/p&gt;
+
+&lt;p&gt;React Native runs the JavaScript in JavaScriptCore, and then render the native UI views on the platform.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-trigger-point&quot;&gt;The Trigger Point&lt;/h2&gt;
+
+&lt;p&gt;In AppDelegate, there is boilerplate code that specify where to load the JavaScripts.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;NSURL&lt;/code&gt; either points to:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;http://localhost:8081 or&lt;/li&gt;
+  &lt;li&gt;NSBundle&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Loading JavaScript remotely from a URL is interesting, because then, it is possible to &lt;a href=&quot;https://microsoft.github.io/code-push/&quot;&gt;code push&lt;/a&gt; to live apps!&lt;/p&gt;
+
+&lt;h2 id=&quot;flexbox-for-ui-layout&quot;&gt;Flexbox for UI layout&lt;/h2&gt;
+
+&lt;p&gt;No more messing around with autolayout.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://facebook.github.io/react-native/docs/flexbox.html&quot;&gt;Flexbox&lt;/a&gt; is a simple way, specifying a weight value for the components, the flow direction, and the alignment.&lt;/p&gt;
+
+&lt;h2 id=&quot;persistant-storage&quot;&gt;Persistant Storage&lt;/h2&gt;
+
+&lt;p&gt;You can use &lt;a href=&quot;https://facebook.github.io/react-native/docs/asyncstorage.html&quot;&gt;AsyncStorage&lt;/a&gt; for simple key-value data, just like &lt;code class=&quot;highlighter-rouge&quot;&gt;NSUserDefault&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;For database, you could use &lt;a href=&quot;https://realm.io/news/introducing-realm-react-native/&quot;&gt;Realm&lt;/a&gt;! No more Core Data!&lt;/p&gt;
+
+&lt;h2 id=&quot;migrating-an-existing-swfit-project&quot;&gt;Migrating an existing Swfit project&lt;/h2&gt;
+
+&lt;p&gt;You can have a hybrid of native and react native.&lt;/p&gt;
+
+&lt;p&gt;To integrate react native into an existing project, follow their &lt;a href=&quot;https://facebook.github.io/react-native/docs/integration-with-existing-apps.html&quot;&gt;guide&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;However, note their guide is outdated for the dependencies version. As of Dec 2016, I updated the version to:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;dependencies&quot;: {
+  &quot;react&quot;: &quot;15.3.1&quot;,
+  &quot;react-native&quot;: &quot;0.34.0&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can update accordingly, but things move fast so if your project doesn’t compile, then it could be the versions (and Xcode/iOS) incompatibility.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-about-typescript&quot;&gt;What about TypeScript?&lt;/h2&gt;
+
+&lt;p&gt;TypeScript provides typing and optionals, making it a safer language like Swift.&lt;/p&gt;
+
+&lt;p&gt;I would choose to use TypeScript, if I had more experience with JavaScript (especially with the new ES2015). But being a newbie to JavaScript, it is better to learn the intricates of the language.&lt;/p&gt;
+
+&lt;p&gt;What’s more, most examples and libraries will be in pure JavaScript.&lt;/p&gt;
+
+&lt;h2 id=&quot;navigation&quot;&gt;Navigation&lt;/h2&gt;
+
+&lt;p&gt;Let’s take a look on a very basic UI subject. In iOS, we have &lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;In React Native, it gets complicated and there are more choices:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Facebook’s out of the box &lt;a href=&quot;https://facebook.github.io/react-native/docs/navigator.html&quot;&gt;Navigator&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Facebook’s abandoned &lt;a href=&quot;https://facebook.github.io/react-native/docs/navigatorios.html&quot;&gt;NavigatorIOS&lt;/a&gt;
+https://github.com/wix/react-native-navigation/wiki&lt;/li&gt;
+  &lt;li&gt;WIX’s &lt;a href=&quot;https://github.com/wix/react-native-navigation&quot;&gt;react-native-navigation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are lots of community contributions, and once you found the library that is suitable for your requirement, you could use it easily.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-not-great&quot;&gt;What is not great?&lt;/h2&gt;
+
+&lt;p&gt;Finally, there are some concerns over the use of React Native vs Pure Native:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Dependency on another technology stack&lt;/li&gt;
+  &lt;li&gt;You will not be able to use the latest iOS technology&lt;/li&gt;
+  &lt;li&gt;Swift is nicer than JavaScript&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;more-resources&quot;&gt;More Resources&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/jondot/awesome-react-native&quot;&gt;awesome-react-native&lt;/a&gt; - List of great libraries&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/fbsamples/f8app&quot;&gt;F8 - Facebook conference app&lt;/a&gt; - written in react native, fully open sourced&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://js.coach/react-native&quot;&gt;js.coach&lt;/a&gt; - Discover more JS&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 31 Dec 2016 10:20:38 +0800</pubDate>
+        <link>http://samwize.com/2016/12/31/react-native-for-ios-swift-developer/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/12/31/react-native-for-ios-swift-developer/</guid>
+        
+        
+        <category>react</category>
+        
+      </item>
     
       <item>
         <title>UIKit Dynamics Guide</title>
@@ -294,6 +428,14 @@
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h2 id=&quot;new-uiviewpropertyanimator-for-ios-10&quot;&gt;New: UIViewPropertyAnimator for iOS 10&lt;/h2&gt;
+
+&lt;p&gt;A new feature for &lt;strong&gt;iOS 10&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;An add-on to Core Animation, providing the power to move through the animation’s progress however we ant to. Well explained by &lt;a href=&quot;http://holko.pl/2016/07/07/popping-into-uiviewpropertyanimator/&quot;&gt;Arek Holko&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So if you want to controll the animation progress (reverse on cancel?), then &lt;a href=&quot;https://www.shinobicontrols.com/blog/ios-10-day-by-day-day-4-uiviewpropertyanimator&quot;&gt;learn the ropes&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Fri, 16 Dec 2016 16:30:39 +0800</pubDate>
         <link>http://samwize.com/2016/12/16/core-animation-guide/</link>
@@ -771,134 +913,6 @@ kill -9 &amp;lt;PID&amp;gt;
         <pubDate>Sat, 29 Oct 2016 11:44:02 +0800</pubDate>
         <link>http://samwize.com/2016/10/29/the-thing-about-responder-chain/</link>
         <guid isPermaLink="true">http://samwize.com/2016/10/29/the-thing-about-responder-chain/</guid>
-        
-        
-        <category>Swift</category>
-        
-      </item>
-    
-      <item>
-        <title>Swift Protocol Development Guide</title>
-        <description>&lt;p&gt;Not too long ago I briefly mentioned the use of protocol as the way of &lt;a href=&quot;http://samwize.com/2016/08/11/swift-is-a-protocol-oriented-programming-language/&quot;&gt;Protocol Oriented Programming&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Protocol is fantastic.&lt;/p&gt;
-
-&lt;p&gt;Here is a guide on some of the common use of this Swift “feature”.&lt;/p&gt;
-
-&lt;h2 id=&quot;declaring-a-protocol&quot;&gt;Declaring a Protocol&lt;/h2&gt;
-
-&lt;p&gt;Protocol are likes classes. You need to give it a name.&lt;/p&gt;
-
-&lt;p&gt;You will commonly find names with &lt;strong&gt;-able&lt;/strong&gt; suffixes eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;TextRepresentable&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Let’s use a make up example of &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt;, a protocol with a single function &lt;code class=&quot;highlighter-rouge&quot;&gt;code&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Any class now that extends &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; will require the &lt;code class=&quot;highlighter-rouge&quot;&gt;code&lt;/code&gt; method.&lt;/p&gt;
-
-&lt;h2 id=&quot;default-extension&quot;&gt;Default Extension&lt;/h2&gt;
-
-&lt;p&gt;Having a default &lt;code class=&quot;highlighter-rouge&quot;&gt;extension&lt;/code&gt; makes things very convenient to use.&lt;/p&gt;
-
-&lt;p&gt;For example, the default implementation below will always return true.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Now, any type that implements the &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; protocol get the default implementation, for FREE!&lt;/p&gt;
-
-&lt;p&gt;Of course, you may still implement your own (and not use the default).&lt;/p&gt;
-
-&lt;h2 id=&quot;default-extension-with-type&quot;&gt;Default Extension with Type&lt;/h2&gt;
-
-&lt;p&gt;Now, suppose you want the default extension to use a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; method.&lt;/p&gt;
-
-&lt;p&gt;You can enforce that the default extension be of the type &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;where&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hidden&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// self is now a UIViewController!&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Of course, now any type that implements the &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; protocol must be a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;, if it wants the default implementation.&lt;/p&gt;
-
-&lt;h2 id=&quot;protocol-of-class-type&quot;&gt;Protocol of class type&lt;/h2&gt;
-
-&lt;p&gt;You may enforce that a protocol is to be use by classes only (sorry structs and enums).&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This is needed especially for the scenario where you need a protocol to be &lt;code class=&quot;highlighter-rouge&quot;&gt;weak&lt;/code&gt; (to avoid &lt;a href=&quot;http://samwize.com/2016/08/05/reference-cycle-for-closures/&quot;&gt;retain cycle&lt;/a&gt;). Because:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;weak can only be applied to class or class-bound protocol.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;associated-types---using-self&quot;&gt;Associated Types - Using &lt;code class=&quot;highlighter-rouge&quot;&gt;Self&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;Think of associated types as a placeholder for an unknown type.&lt;/p&gt;
-
-&lt;p&gt;You can use &lt;code class=&quot;highlighter-rouge&quot;&gt;Self&lt;/code&gt; in the protocol declaration to refer to the actual type that implements it.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;Self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;So if later your &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; implements it, &lt;code class=&quot;highlighter-rouge&quot;&gt;foo&lt;/code&gt; can be of the actual type.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;associated-types---using-associatedtype&quot;&gt;Associated Types - Using &lt;code class=&quot;highlighter-rouge&quot;&gt;associatedtype&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;You could in fact declare any generic type for a protocol.&lt;/p&gt;
-
-&lt;p&gt;Here, we declare &lt;code class=&quot;highlighter-rouge&quot;&gt;Code&lt;/code&gt; as a generic type to be used in the protocol.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;associatedtype&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Code&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Now, you can implement the actual type of &lt;code class=&quot;highlighter-rouge&quot;&gt;Code&lt;/code&gt;. We use &lt;code class=&quot;highlighter-rouge&quot;&gt;Int&lt;/code&gt; in this example:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ActualCodable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Codable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You can make the protocol &lt;a href=&quot;https://www.natashatherobot.com/swift-making-the-associated-type-parameter-readable-in-protocols/&quot;&gt;more readable&lt;/a&gt; if &lt;code class=&quot;highlighter-rouge&quot;&gt;foo&lt;/code&gt; does not describes your parameter name well. In the protocol declaration, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; instead of naming it &lt;code class=&quot;highlighter-rouge&quot;&gt;foo&lt;/code&gt;, then in implementation use any name you want.&lt;/p&gt;
-
-&lt;p&gt;Protocol is powerful :)&lt;/p&gt;
-</description>
-        <pubDate>Mon, 24 Oct 2016 15:43:06 +0800</pubDate>
-        <link>http://samwize.com/2016/10/24/swift-protocol-development-guide/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/10/24/swift-protocol-development-guide/</guid>
         
         
         <category>Swift</category>
