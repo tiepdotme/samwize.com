@@ -21,3 +21,10 @@ Before Spring, there is [Pop](https://github.com/facebook/pop), a popular animat
 Show [Toast](https://github.com/scalessec/Toast) - your message encapsulated in a small popup - for a short duration. Toast is a native UI element from [Android](https://developer.android.com/guide/topics/ui/notifiers/toasts.html).
 
 [TSMessages](https://github.com/KrauseFx/TSMessages) by the fastlane guy, is a notification at the top, similar to Tweetboot.
+
+
+## Custom Modal Popup
+
+[Presentr](https://github.com/IcaliaLabs/Presentr) wraps around the iOS 8 custom view controller presentation API for you to easily present popup view. 
+
+_Archived [KLCPopup](https://github.com/jmascia/KLCPopup) because Presentr is in Swift!_

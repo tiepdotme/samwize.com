@@ -28,3 +28,5 @@ You can find me (and connect) on:
 - [Quora](http://www.quora.com/Junda-Ong)
 
 Or email me at [my first name]@just2us.com
+
+Here are some of my favorite: [quotes](/quotes/), [iOS third party libraries](/libs/)

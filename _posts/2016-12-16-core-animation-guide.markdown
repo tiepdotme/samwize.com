@@ -126,3 +126,12 @@ CATransaction.setCompletionBlock {
     self.view.layer.opacity = 1
 }
 ```
+
+
+## New: UIViewPropertyAnimator for iOS 10
+
+A new feature for **iOS 10**. 
+
+An add-on to Core Animation, providing the power to move through the animation's progress however we ant to. Well explained by [Arek Holko](http://holko.pl/2016/07/07/popping-into-uiviewpropertyanimator/).
+
+So if you want to controll the animation progress (reverse on cancel?), then [learn the ropes](https://www.shinobicontrols.com/blog/ios-10-day-by-day-day-4-uiviewpropertyanimator).

@@ -195,6 +195,14 @@ func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) 
 }
 ```
 
+## Print the HTML text
+
+```swift
+webView.evaluateJavaScript("document.documentElement.outerHTML.toString()", completionHandler: { (html: AnyObject?, error: NSError?) in
+    print(html)
+})
+```
+
 ## Pitfall: Handling Javascript Dialog Boxes
 
 This is often omitted in a custom implementation of `WKWebView`, yet it is very important.

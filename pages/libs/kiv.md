@@ -60,7 +60,6 @@ I have yet to try these, but they look awesome.
 - UIAlertView-Blocks - with blocks
 - [AMSmoothAlert](https://github.com/mtonio91/AMSmoothAlert) - catchy dropdown effect for 3 types: info, error, success
     + Author also has a [Login VC](https://github.com/mtonio91/AMLoginViewController/tree/master/AMLoginViewController) which plays a video for the background
-- [KLCPopup](https://github.com/jmascia/KLCPopup) - Popup a custom view, with animation and other configurations
 - [MZFormSheetPresentationController](https://github.com/m1entus/MZFormSheetPresentationController) - Can use storyboard to design, and it will simply fit it into a dialog/form
 - [DropdownMenu](https://github.com/nmattisson/DropdownMenu) - Drop menu from a button
 - [CWStatusBarNotification](https://github.com/cezarywojcik/CWStatusBarNotification) - very smart way of showing in status bar (or navigation bar). It uses snapshot, a fake image view temporarily.
