@@ -31,6 +31,10 @@ Uses [youtube-dl](https://rg3.github.io/youtube-dl/):
 
     youtube-dl -x --audio-format=mp3 https://www.youtube.com/watch?v=eu-5mvCNKbQ
 
+    # Other handy youtube-dl
+    # Download in mp4 video format
+    youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
+
 ## Download a file with curl
 
     curl -o myfile.mp3 https://the.domain.com/file
