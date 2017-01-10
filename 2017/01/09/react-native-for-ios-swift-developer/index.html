@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>React Native for iOS Swift Developer</title>
-  <meta name="description" content="React Native is the biggest technology available for iOS developer in 2015." />
+  <meta name="description" content="React Native is the biggest technology available for iOS developer, since 2015." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,21 +20,21 @@
     <meta name="twitter:title" content="React Native for iOS Swift Developer" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="React Native is the biggest technology available for iOS developer in 2015." />
+    <meta name="twitter:description"  content="React Native is the biggest technology available for iOS developer, since 2015." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="React Native for iOS Swift Developer"/>
   
-  <meta property="og:description" content="React Native is the biggest technology available for iOS developer in 2015." />
+  <meta property="og:description" content="React Native is the biggest technology available for iOS developer, since 2015." />
   
   <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/12/31/react-native-for-ios-swift-developer/" >
+  <meta property="og:url" content="http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/" >
   <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2016-12-31T10:20:38+08:00">
+  <meta property="article:published_time" content="2017-01-09T10:20:38+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/12/31/react-native-for-ios-swift-developer/">
+  <link rel="canonical" href="http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -57,7 +57,7 @@
           <div class="post-meta">
             <h1 class="post-title">React Native for iOS Swift Developer</h1>
             <div class="cf post-meta-text">
-              <time datetime="2016-12-31T10:20:38+08:00">31 December 2016</time>
+              <time datetime="2017-01-09T10:20:38+08:00">09 January 2017</time>
               <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
@@ -72,7 +72,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>React Native is the biggest technology available for iOS developer in 2015.</p>
+          <p>React Native is the biggest technology available for iOS developer, since 2015.</p>
 
 <p>It provides a new platform for iOS development, in the very popular (and familar language for web developers) - <strong>JavaScript</strong>.</p>
 
@@ -80,7 +80,7 @@
 
 <p>This post is not a development guide, because the official <a href="https://facebook.github.io/react-native/releases/next/docs/getting-started.html">Getting started</a> is good, and <a href="https://www.raywenderlich.com/136047/react-native-existing-app">Ray Wenderlich</a> provided a great guide for Swift iOS developers.</p>
 
-<p>Instead, I will highlight important differences for Swift iOS developers.</p>
+<p>Instead, I will highlight important considerations for Swift iOS developers.</p>
 
 <h2 id="why-use-react-native">Why use React Native?</h2>
 
@@ -88,8 +88,8 @@
 
 <ol>
   <li>Render native UI (NOT web view), thus good user experience</li>
-  <li>Learn once, write anywhere (on iOS/Android)</li>
-  <li>Similar set of technology stack (JavaScript + React) with web developers</li>
+  <li>Learn once, write anywhere (on both iOS &amp; Android)</li>
+  <li>Similar set of technology stack (JavaScript + React + millions of JS libs) with web developers</li>
   <li>JavaScript developers readily available, as compared to Swift/Android/Java</li>
 </ol>
 
@@ -98,6 +98,16 @@
 <p>But React Native is created by Facebook, and they use it in Facebook app too, so there is lesser risk.</p>
 
 <p><em>Not zero risk, because you should know Facebook <a href="http://blog.parse.com/announcements/moving-on/">kills Parse</a> etc too..</em></p>
+
+<h2 id="warning-javascript-world">Warning: JavaScript World</h2>
+
+<p>Before we dived into React Native, let me warn you if you are a JavaScript newbie like me.</p>
+
+<p><strong>JavaScript world is very messy.</strong></p>
+
+<p>How messy? See this <a href="https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f">conversation</a>.</p>
+
+<p>The ecosystem is <em>too healthy</em>, with lots of JS frameworks popping up and taking over the world, quickly. Check out the <a href="http://stateofjs.com/">state of JS in 2016</a>. There will be many frameworks that you need to learn, from everyone.</p>
 
 <h2 id="how-react-native-works">How React Native Works?</h2>
 
@@ -130,6 +140,8 @@
 
 <p><a href="https://facebook.github.io/react-native/docs/flexbox.html">Flexbox</a> is a simple way, specifying a weight value for the components, the flow direction, and the alignment.</p>
 
+<p>You will be glad that Boostrap 4 will use flexbox way, instead of the regular grid system they started with.</p>
+
 <h2 id="persistant-storage">Persistant Storage</h2>
 
 <p>You can use <a href="https://facebook.github.io/react-native/docs/asyncstorage.html">AsyncStorage</a> for simple key-value data, just like <code class="highlighter-rouge">NSUserDefault</code>.</p>
@@ -153,14 +165,6 @@
 
 <p>You can update accordingly, but things move fast so if your project doesn’t compile, then it could be the versions (and Xcode/iOS) incompatibility.</p>
 
-<h2 id="what-about-typescript">What about TypeScript?</h2>
-
-<p>TypeScript provides typing and optionals, making it a safer language like Swift.</p>
-
-<p>I would choose to use TypeScript, if I had more experience with JavaScript (especially with the new ES2015). But being a newbie to JavaScript, it is better to learn the intricates of the language.</p>
-
-<p>What’s more, most examples and libraries will be in pure JavaScript.</p>
-
 <h2 id="navigation">Navigation</h2>
 
 <p>Let’s take a look on a very basic UI subject. In iOS, we have <code class="highlighter-rouge">UINavigationController</code>.</p>
@@ -169,16 +173,48 @@
 
 <ul>
   <li>Facebook’s out of the box <a href="https://facebook.github.io/react-native/docs/navigator.html">Navigator</a></li>
-  <li>Facebook’s abandoned <a href="https://facebook.github.io/react-native/docs/navigatorios.html">NavigatorIOS</a>
-https://github.com/wix/react-native-navigation/wiki</li>
+  <li>Facebook’s abandoned <a href="https://facebook.github.io/react-native/docs/navigatorios.html">NavigatorIOS</a></li>
   <li>WIX’s <a href="https://github.com/wix/react-native-navigation">react-native-navigation</a></li>
 </ul>
 
 <p>There are lots of community contributions, and once you found the library that is suitable for your requirement, you could use it easily.</p>
 
-<h2 id="what-is-not-great">What is not great?</h2>
+<h2 id="macos-too">macOS too</h2>
 
-<p>Finally, there are some concerns over the use of React Native vs Pure Native:</p>
+<p>Not only for mobile, but you could learn once, and write for <a href="https://github.com/ptmt/react-native-macos">desktop app</a> too.</p>
+
+<h2 id="ide">IDE</h2>
+
+<p>Facebook has their own “IDE” - <a href="https://nuclide.io">nuclide</a> - which is <a href="https://atom.io/packages/nuclide">plugin for Atom</a>.</p>
+
+<h2 id="what-about-type">What about type?</h2>
+
+<p>One of the cons of JavaScript (compared to Swift) is that there is no type safety built into the language.</p>
+
+<p>If you prefer to deal with types (which you should, trust me), then you should use <a href="https://flowtype.org">Flow</a>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Install flow globally so that it is added to PATH
+npm install -g flow-bin
+</code></pre>
+</div>
+
+<p>I would recommend to setup Flow when you begin a project, because it gets harder to migrate <em>non-flow app</em> later on.</p>
+
+<h2 id="what-about-typescript">What about TypeScript?</h2>
+
+<p>TypeScript provides typing and optionals, in a new language of it’s own.</p>
+
+<p>I would choose to use TypeScript, if I had more experience with JavaScript (especially with the new ES2015). But being a newbie to JavaScript, it is better to learn the intricates of the language.</p>
+
+<p>What’s more, most examples and libraries will be in pure JavaScript.</p>
+
+<h2 id="project-generator">Project Generator</h2>
+
+<p><a href="https://github.com/infinitered/ignite">ignite</a> is extension of <a href="http://yeoman.io">yeoman</a>.</p>
+
+<p>Generate a best-practised project structure with state of the art setup.</p>
+
+<h2 id="what-is-not-so-great">What is not so great?</h2>
 
 <ul>
   <li>Dependency on another technology stack</li>
@@ -194,20 +230,23 @@ https://github.com/wix/react-native-navigation/wiki</li>
 
 <p><a href="https://js.coach/react-native">js.coach</a> - Discover more JS</p>
 
+<p><a href="https://github.com/stefalda/ReactNativeLocalization">Localization</a> library</p>
+
+<p><a href="https://github.com/react-native-community/react-native-elements">Many</a> <a href="https://github.com/GeekyAnts/NativeBase">native</a> components</p>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=React+Native+for+iOS+Swift+Developer&amp;url=http://samwize.com/2016/12/31/react-native-for-ios-swift-developer"
+                <a class="icon-twitter" href="http://twitter.com/share?text=React+Native+for+iOS+Swift+Developer&amp;url=http://samwize.com/2017/01/09/react-native-for-ios-swift-developer"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=React+Native+for+iOS+Swift+Developer&amp;u=http://samwize.com/2016/12/31/react-native-for-ios-swift-developer"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=React+Native+for+iOS+Swift+Developer&amp;u=http://samwize.com/2017/01/09/react-native-for-ios-swift-developer"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -216,7 +255,7 @@ https://github.com/wix/react-native-navigation/wiki</li>
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=React+Native+for+iOS+Swift+Developer&amp;url=http://samwize.com/2016/12/31/react-native-for-ios-swift-developer"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=React+Native+for+iOS+Swift+Developer&amp;url=http://samwize.com/2017/01/09/react-native-for-ios-swift-developer"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

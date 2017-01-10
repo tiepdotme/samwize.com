@@ -6,13 +6,13 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 06 Jan 2017 15:48:35 +0800</pubDate>
-    <lastBuildDate>Fri, 06 Jan 2017 15:48:35 +0800</lastBuildDate>
+    <pubDate>Tue, 10 Jan 2017 17:48:06 +0800</pubDate>
+    <lastBuildDate>Tue, 10 Jan 2017 17:48:06 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
         <title>React Native for iOS Swift Developer</title>
-        <description>&lt;p&gt;React Native is the biggest technology available for iOS developer in 2015.&lt;/p&gt;
+        <description>&lt;p&gt;React Native is the biggest technology available for iOS developer, since 2015.&lt;/p&gt;
 
 &lt;p&gt;It provides a new platform for iOS development, in the very popular (and familar language for web developers) - &lt;strong&gt;JavaScript&lt;/strong&gt;.&lt;/p&gt;
 
@@ -20,7 +20,7 @@
 
 &lt;p&gt;This post is not a development guide, because the official &lt;a href=&quot;https://facebook.github.io/react-native/releases/next/docs/getting-started.html&quot;&gt;Getting started&lt;/a&gt; is good, and &lt;a href=&quot;https://www.raywenderlich.com/136047/react-native-existing-app&quot;&gt;Ray Wenderlich&lt;/a&gt; provided a great guide for Swift iOS developers.&lt;/p&gt;
 
-&lt;p&gt;Instead, I will highlight important differences for Swift iOS developers.&lt;/p&gt;
+&lt;p&gt;Instead, I will highlight important considerations for Swift iOS developers.&lt;/p&gt;
 
 &lt;h2 id=&quot;why-use-react-native&quot;&gt;Why use React Native?&lt;/h2&gt;
 
@@ -28,8 +28,8 @@
 
 &lt;ol&gt;
   &lt;li&gt;Render native UI (NOT web view), thus good user experience&lt;/li&gt;
-  &lt;li&gt;Learn once, write anywhere (on iOS/Android)&lt;/li&gt;
-  &lt;li&gt;Similar set of technology stack (JavaScript + React) with web developers&lt;/li&gt;
+  &lt;li&gt;Learn once, write anywhere (on both iOS &amp;amp; Android)&lt;/li&gt;
+  &lt;li&gt;Similar set of technology stack (JavaScript + React + millions of JS libs) with web developers&lt;/li&gt;
   &lt;li&gt;JavaScript developers readily available, as compared to Swift/Android/Java&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -38,6 +38,16 @@
 &lt;p&gt;But React Native is created by Facebook, and they use it in Facebook app too, so there is lesser risk.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Not zero risk, because you should know Facebook &lt;a href=&quot;http://blog.parse.com/announcements/moving-on/&quot;&gt;kills Parse&lt;/a&gt; etc too..&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;warning-javascript-world&quot;&gt;Warning: JavaScript World&lt;/h2&gt;
+
+&lt;p&gt;Before we dived into React Native, let me warn you if you are a JavaScript newbie like me.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;JavaScript world is very messy.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;How messy? See this &lt;a href=&quot;https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f&quot;&gt;conversation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The ecosystem is &lt;em&gt;too healthy&lt;/em&gt;, with lots of JS frameworks popping up and taking over the world, quickly. Check out the &lt;a href=&quot;http://stateofjs.com/&quot;&gt;state of JS in 2016&lt;/a&gt;. There will be many frameworks that you need to learn, from everyone.&lt;/p&gt;
 
 &lt;h2 id=&quot;how-react-native-works&quot;&gt;How React Native Works?&lt;/h2&gt;
 
@@ -70,6 +80,8 @@
 
 &lt;p&gt;&lt;a href=&quot;https://facebook.github.io/react-native/docs/flexbox.html&quot;&gt;Flexbox&lt;/a&gt; is a simple way, specifying a weight value for the components, the flow direction, and the alignment.&lt;/p&gt;
 
+&lt;p&gt;You will be glad that Boostrap 4 will use flexbox way, instead of the regular grid system they started with.&lt;/p&gt;
+
 &lt;h2 id=&quot;persistant-storage&quot;&gt;Persistant Storage&lt;/h2&gt;
 
 &lt;p&gt;You can use &lt;a href=&quot;https://facebook.github.io/react-native/docs/asyncstorage.html&quot;&gt;AsyncStorage&lt;/a&gt; for simple key-value data, just like &lt;code class=&quot;highlighter-rouge&quot;&gt;NSUserDefault&lt;/code&gt;.&lt;/p&gt;
@@ -93,14 +105,6 @@
 
 &lt;p&gt;You can update accordingly, but things move fast so if your project doesn’t compile, then it could be the versions (and Xcode/iOS) incompatibility.&lt;/p&gt;
 
-&lt;h2 id=&quot;what-about-typescript&quot;&gt;What about TypeScript?&lt;/h2&gt;
-
-&lt;p&gt;TypeScript provides typing and optionals, making it a safer language like Swift.&lt;/p&gt;
-
-&lt;p&gt;I would choose to use TypeScript, if I had more experience with JavaScript (especially with the new ES2015). But being a newbie to JavaScript, it is better to learn the intricates of the language.&lt;/p&gt;
-
-&lt;p&gt;What’s more, most examples and libraries will be in pure JavaScript.&lt;/p&gt;
-
 &lt;h2 id=&quot;navigation&quot;&gt;Navigation&lt;/h2&gt;
 
 &lt;p&gt;Let’s take a look on a very basic UI subject. In iOS, we have &lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt;.&lt;/p&gt;
@@ -109,16 +113,48 @@
 
 &lt;ul&gt;
   &lt;li&gt;Facebook’s out of the box &lt;a href=&quot;https://facebook.github.io/react-native/docs/navigator.html&quot;&gt;Navigator&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Facebook’s abandoned &lt;a href=&quot;https://facebook.github.io/react-native/docs/navigatorios.html&quot;&gt;NavigatorIOS&lt;/a&gt;
-https://github.com/wix/react-native-navigation/wiki&lt;/li&gt;
+  &lt;li&gt;Facebook’s abandoned &lt;a href=&quot;https://facebook.github.io/react-native/docs/navigatorios.html&quot;&gt;NavigatorIOS&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;WIX’s &lt;a href=&quot;https://github.com/wix/react-native-navigation&quot;&gt;react-native-navigation&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;There are lots of community contributions, and once you found the library that is suitable for your requirement, you could use it easily.&lt;/p&gt;
 
-&lt;h2 id=&quot;what-is-not-great&quot;&gt;What is not great?&lt;/h2&gt;
+&lt;h2 id=&quot;macos-too&quot;&gt;macOS too&lt;/h2&gt;
 
-&lt;p&gt;Finally, there are some concerns over the use of React Native vs Pure Native:&lt;/p&gt;
+&lt;p&gt;Not only for mobile, but you could learn once, and write for &lt;a href=&quot;https://github.com/ptmt/react-native-macos&quot;&gt;desktop app&lt;/a&gt; too.&lt;/p&gt;
+
+&lt;h2 id=&quot;ide&quot;&gt;IDE&lt;/h2&gt;
+
+&lt;p&gt;Facebook has their own “IDE” - &lt;a href=&quot;https://nuclide.io&quot;&gt;nuclide&lt;/a&gt; - which is &lt;a href=&quot;https://atom.io/packages/nuclide&quot;&gt;plugin for Atom&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-about-type&quot;&gt;What about type?&lt;/h2&gt;
+
+&lt;p&gt;One of the cons of JavaScript (compared to Swift) is that there is no type safety built into the language.&lt;/p&gt;
+
+&lt;p&gt;If you prefer to deal with types (which you should, trust me), then you should use &lt;a href=&quot;https://flowtype.org&quot;&gt;Flow&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Install flow globally so that it is added to PATH
+npm install -g flow-bin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I would recommend to setup Flow when you begin a project, because it gets harder to migrate &lt;em&gt;non-flow app&lt;/em&gt; later on.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-about-typescript&quot;&gt;What about TypeScript?&lt;/h2&gt;
+
+&lt;p&gt;TypeScript provides typing and optionals, in a new language of it’s own.&lt;/p&gt;
+
+&lt;p&gt;I would choose to use TypeScript, if I had more experience with JavaScript (especially with the new ES2015). But being a newbie to JavaScript, it is better to learn the intricates of the language.&lt;/p&gt;
+
+&lt;p&gt;What’s more, most examples and libraries will be in pure JavaScript.&lt;/p&gt;
+
+&lt;h2 id=&quot;project-generator&quot;&gt;Project Generator&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/infinitered/ignite&quot;&gt;ignite&lt;/a&gt; is extension of &lt;a href=&quot;http://yeoman.io&quot;&gt;yeoman&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Generate a best-practised project structure with state of the art setup.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-not-so-great&quot;&gt;What is not so great?&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Dependency on another technology stack&lt;/li&gt;
@@ -134,13 +170,73 @@ https://github.com/wix/react-native-navigation/wiki&lt;/li&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://js.coach/react-native&quot;&gt;js.coach&lt;/a&gt; - Discover more JS&lt;/p&gt;
 
+&lt;p&gt;&lt;a href=&quot;https://github.com/stefalda/ReactNativeLocalization&quot;&gt;Localization&lt;/a&gt; library&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/react-native-community/react-native-elements&quot;&gt;Many&lt;/a&gt; &lt;a href=&quot;https://github.com/GeekyAnts/NativeBase&quot;&gt;native&lt;/a&gt; components&lt;/p&gt;
 </description>
-        <pubDate>Sat, 31 Dec 2016 10:20:38 +0800</pubDate>
-        <link>http://samwize.com/2016/12/31/react-native-for-ios-swift-developer/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/12/31/react-native-for-ios-swift-developer/</guid>
+        <pubDate>Mon, 09 Jan 2017 10:20:38 +0800</pubDate>
+        <link>http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/</guid>
         
         
         <category>react</category>
+        
+      </item>
+    
+      <item>
+        <title>Handy Bash Commands</title>
+        <description>&lt;h2 id=&quot;resize-image&quot;&gt;Resize Image&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Resize to max width/height 640
+sips -Z 640 *.jpg
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;list-process-running-on-a-port&quot;&gt;List Process Running on a Port&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# eg. Port 8080
+lsof -i :8080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;kill-process-running-on-a-port&quot;&gt;Kill Process running on a Port&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lsof -P | grep &#39;:8080&#39; | awk &#39;{print $2}&#39; | xargs kill -9
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;creating-markdown-journal&quot;&gt;Creating Markdown Journal&lt;/h2&gt;
+
+&lt;p&gt;Uses &lt;a href=&quot;https://github.com/samwize/journal/&quot;&gt;journal&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;journal new -d /path/to/journal &quot;My entry for today&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;extract-mp3-from-youtube&quot;&gt;Extract MP3 from Youtube&lt;/h2&gt;
+
+&lt;p&gt;Uses &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;youtube-dl -x --audio-format=mp3 https://www.youtube.com/watch?v=eu-5mvCNKbQ
+
+# Other handy youtube-dl
+# Download in mp4 video format
+youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;download-a-file-with-curl&quot;&gt;Download a file with curl&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -o myfile.mp3 https://the.domain.com/file
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Mon, 02 Jan 2017 12:30:28 +0800</pubDate>
+        <link>http://samwize.com/2017/01/02/handy-bash-commands/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/01/02/handy-bash-commands/</guid>
+        
+        
+        <category>bash</category>
         
       </item>
     
@@ -440,6 +536,71 @@ https://github.com/wix/react-native-navigation/wiki&lt;/li&gt;
         <pubDate>Fri, 16 Dec 2016 16:30:39 +0800</pubDate>
         <link>http://samwize.com/2016/12/16/core-animation-guide/</link>
         <guid isPermaLink="true">http://samwize.com/2016/12/16/core-animation-guide/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
+    
+      <item>
+        <title>Pitfall: Using WKWebView for Facebook Login</title>
+        <description>&lt;p&gt;When using &lt;code class=&quot;highlighter-rouge&quot;&gt;WKWebView&lt;/code&gt; (or &lt;code class=&quot;highlighter-rouge&quot;&gt;UIWebView&lt;/code&gt;), we are actually using only 1 window.&lt;/p&gt;
+
+&lt;p&gt;For website that has Facebook login, it &lt;em&gt;might&lt;/em&gt; open a new window (a popup) for the user to login. Once login is completed, this popup window will close, and it will use an obscure method to pass a message to the original window.&lt;/p&gt;
+
+&lt;p&gt;The message has a URL like the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;https://m.facebook.com/v2.7/dialog/oauth?access_token=...&amp;amp;redirect_uri=...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;pitfall-of-1-window&quot;&gt;Pitfall of 1 Window&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&quot;http://stackoverflow.com/q/8025082/242682&quot;&gt;pitfall&lt;/a&gt; is that when we use &lt;code class=&quot;highlighter-rouge&quot;&gt;WKWebView&lt;/code&gt;, by default, we have only 1 window.&lt;/p&gt;
+
+&lt;p&gt;A naive implementation to &lt;code class=&quot;highlighter-rouge&quot;&gt;WKUIDelegate&lt;/code&gt; is usually to load a request in that same web view:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WebViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKUIDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Handles when a new frame/window is to be opened&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;webView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;webView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKWebView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;createWebViewWithConfiguration&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;configuration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKWebViewConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;forNavigationAction&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;navigationAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKNavigationAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;windowFeatures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKWindowFeatures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKWebView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;webView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;loadRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;navigationAction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When Facebook login wants to pass that message to the original window, it could NOT find that window, and so therefore it get stuck in the page (usually a white screen of nothing).&lt;/p&gt;
+
+&lt;h2 id=&quot;handling-multiple-windows&quot;&gt;Handling Multiple Windows&lt;/h2&gt;
+
+&lt;p&gt;The solution is to support multiple windows.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;webView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;webView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKWebView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;createWebViewWithConfiguration&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;configuration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKWebViewConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;forNavigationAction&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;navigationAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKNavigationAction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;windowFeatures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKWindowFeatures&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WKWebView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// nil means new window&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;navigationAction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;targetFrame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// A omit `createWebView`. It creates a new web view and add to your view.&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;newWebView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;createWebView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withConfiguration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;configuration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newWebView&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;n&quot;&gt;webView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;loadRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;navigationAction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I did not include what happens after this new web view is shown. For Facebook login case, you will probably want to remove the new web view in &lt;code class=&quot;highlighter-rouge&quot;&gt;webView:didFinishNavigation:&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;edge-case-error-999&quot;&gt;Edge Case: Error 999&lt;/h2&gt;
+
+&lt;p&gt;In the code above, there is a weird scenario where some website will load  &lt;code class=&quot;highlighter-rouge&quot;&gt;https://m.facebook.com/v2.7/dialog/oauth?access_token=...&amp;amp;redirect_uri=...&lt;/code&gt; and result in &lt;code class=&quot;highlighter-rouge&quot;&gt;didFailNavigation&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A simple solution is to reload, after a few seconds.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 06 Dec 2016 17:51:26 +0800</pubDate>
+        <link>http://samwize.com/2016/12/06/pitfall-using-wkwebview-for-facebook-login/</link>
+        <guid isPermaLink="true">http://samwize.com/2016/12/06/pitfall-using-wkwebview-for-facebook-login/</guid>
         
         
         <category>iOS</category>
@@ -832,90 +993,6 @@ swift package show-dependencies
         
         
         <category>Development</category>
-        
-      </item>
-    
-      <item>
-        <title>Error: Address/Port Already in Use</title>
-        <description>&lt;p&gt;I have encountered many times trying to run a service that use an existing port.&lt;/p&gt;
-
-&lt;p&gt;For example, my &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll 3.1.6 | Error:  Ad dress already in use - bind(2) for 127.0.0.1:4000
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This is because my jekyll process somehow wasn’t killed properly, and then I tried to run another process using the same port.&lt;/p&gt;
-
-&lt;p&gt;To solve, kill the process that is using the port (eg 4000):&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lsof -i :4000
-kill -9 &amp;lt;PID&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Mon, 07 Nov 2016 12:36:19 +0800</pubDate>
-        <link>http://samwize.com/2016/11/07/error-address-port-already-in-use/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/11/07/error-address-port-already-in-use/</guid>
-        
-        
-        <category>Pitfalls</category>
-        
-      </item>
-    
-      <item>
-        <title>The Thing About Responder Chain</title>
-        <description>&lt;h2 id=&quot;who-are-responders&quot;&gt;Who are Responders?&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;UIResponder&lt;/code&gt; type&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; is also &lt;code class=&quot;highlighter-rouge&quot;&gt;UIResponder&lt;/code&gt; type&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;They are the common classes that deals with responding to touches, motion events and etcs.&lt;/p&gt;
-
-&lt;h2 id=&quot;who-is-the-first-responder&quot;&gt;Who is the FIRST responder?&lt;/h2&gt;
-
-&lt;p&gt;When user tap on a view, the system has to first find out &lt;em&gt;who is the first responder?&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;This is known as a &lt;strong&gt;hit-test phase&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;A hit testing phase starts from the lowest level (the window).&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Hit test traverse up, while responder chain traverse down.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hitTest:withEvent:&lt;/code&gt; will be called &lt;a href=&quot;http://stackoverflow.com/a/4961484/242682&quot;&gt;recursively&lt;/a&gt; into subviews (traverse up), until it reaches the &lt;strong&gt;leaf view&lt;/strong&gt;. That responder is the first.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-chain&quot;&gt;The Chain&lt;/h2&gt;
-
-&lt;p&gt;After identifying the first responder, then the responder chain begins, starting with the first responder of course.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/Art/iOS_responder_chain_2x.png&quot; alt=&quot;Responder Chain&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;There are rules to finding the next responder.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The first responder passes the event to its view controller if it has one; if not, it passes to its superview.&lt;/li&gt;
-  &lt;li&gt;If a view or its view controller cannot handle the event, it passes to the next responder (superview or parent view controller).&lt;/li&gt;
-  &lt;li&gt;Each subsequent superview in the hierarchy follows the pattern described in the first two steps if it cannot handle the event or message.&lt;/li&gt;
-  &lt;li&gt;Topmost view in the view hierarchy, or next&lt;/li&gt;
-  &lt;li&gt;UIWindow, or next&lt;/li&gt;
-  &lt;li&gt;Lastly, App Delegate&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;the-target-action-trick&quot;&gt;The target-action trick&lt;/h2&gt;
-
-&lt;p&gt;You can set a target to nil, and it will traverse up the responder chain to find the action.&lt;/p&gt;
-
-&lt;p&gt;An example from &lt;a href=&quot;http://swiftandpainless.com/utilize-the-responder-chain-for-target-action/&quot;&gt;swiftandpainless.com&lt;/a&gt;.&lt;/p&gt;
-
-</description>
-        <pubDate>Sat, 29 Oct 2016 11:44:02 +0800</pubDate>
-        <link>http://samwize.com/2016/10/29/the-thing-about-responder-chain/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/10/29/the-thing-about-responder-chain/</guid>
-        
-        
-        <category>Swift</category>
         
       </item>
     
