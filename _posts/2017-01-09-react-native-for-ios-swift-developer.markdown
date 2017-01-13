@@ -143,6 +143,10 @@ I would choose to use TypeScript, if I had more experience with JavaScript (espe
 
 What's more, most examples and libraries will be in pure JavaScript.
 
+And compared to Flow, Facebook has [preference](https://github.com/facebook/react-native/issues/2502) for Flow. The react library has Flow annotations.
+
+So my advise is to avoid TypeScript. But it is [possible](https://raygun.com/blog/2016/07/react-native-typescript/) [to use](https://medium.com/react-weekly/react-native-and-typescript-ad57b7413ead), just saying.
+
 
 ## Project Generator
 
