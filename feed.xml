@@ -6,8 +6,8 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 10 Jan 2017 17:48:06 +0800</pubDate>
-    <lastBuildDate>Tue, 10 Jan 2017 17:48:06 +0800</lastBuildDate>
+    <pubDate>Tue, 17 Jan 2017 15:12:34 +0800</pubDate>
+    <lastBuildDate>Tue, 17 Jan 2017 15:12:34 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -92,9 +92,7 @@
 
 &lt;p&gt;You can have a hybrid of native and react native.&lt;/p&gt;
 
-&lt;p&gt;To integrate react native into an existing project, follow their &lt;a href=&quot;https://facebook.github.io/react-native/docs/integration-with-existing-apps.html&quot;&gt;guide&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;However, note their guide is outdated for the dependencies version. As of Dec 2016, I updated the version to:&lt;/p&gt;
+&lt;p&gt;To integrate react native into an existing project, follow &lt;a href=&quot;https://www.raywenderlich.com/136047/react-native-existing-app&quot;&gt;raywenderlich’s guide&lt;/a&gt;. Facebook’s &lt;a href=&quot;https://facebook.github.io/react-native/docs/integration-with-existing-apps.html&quot;&gt;official guide&lt;/a&gt; is lacking, and outdated for the dependencies version. As of Dec 2016, I updated the version to:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;dependencies&quot;: {
   &quot;react&quot;: &quot;15.3.1&quot;,
@@ -104,6 +102,25 @@
 &lt;/div&gt;
 
 &lt;p&gt;You can update accordingly, but things move fast so if your project doesn’t compile, then it could be the versions (and Xcode/iOS) incompatibility.&lt;/p&gt;
+
+&lt;p&gt;One particular point missing in Facebook’s guide is how to run without depending on the packager running on eg. http://localhost:8081. Read on.&lt;/p&gt;
+
+&lt;h2 id=&quot;bundling-js-in-app&quot;&gt;Bundling JS in App&lt;/h2&gt;
+
+&lt;p&gt;React Native provided a script - &lt;code class=&quot;highlighter-rouge&quot;&gt;react-native-xcode.sh&lt;/code&gt; - to build and bundle the JS and all resources you need into your app.&lt;/p&gt;
+
+&lt;p&gt;When integrating into an existing app, you have to add a &lt;strong&gt;New Run Script Phase&lt;/strong&gt; with the following:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export NODE_BINARY=node
+./path/to/node_modules/react-native/packager/react-native-xcode.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Edit the path to &lt;code class=&quot;highlighter-rouge&quot;&gt;react-native-xcode.sh&lt;/code&gt; as necessary.&lt;/p&gt;
+
+&lt;p&gt;You will also need to edit/add your scheme’s &lt;strong&gt;Build Configuration&lt;/strong&gt; to &lt;strong&gt;Release&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Tip: If you are using fastlane gym, don’t worry because the default of gym is to use Release configuration, even if the scheme is set to Debug.&lt;/em&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;navigation&quot;&gt;Navigation&lt;/h2&gt;
 
@@ -147,6 +164,10 @@ npm install -g flow-bin
 &lt;p&gt;I would choose to use TypeScript, if I had more experience with JavaScript (especially with the new ES2015). But being a newbie to JavaScript, it is better to learn the intricates of the language.&lt;/p&gt;
 
 &lt;p&gt;What’s more, most examples and libraries will be in pure JavaScript.&lt;/p&gt;
+
+&lt;p&gt;And compared to Flow, Facebook has &lt;a href=&quot;https://github.com/facebook/react-native/issues/2502&quot;&gt;preference&lt;/a&gt; for Flow. The react library has Flow annotations.&lt;/p&gt;
+
+&lt;p&gt;So my advise is to avoid TypeScript. But it is &lt;a href=&quot;https://raygun.com/blog/2016/07/react-native-typescript/&quot;&gt;possible&lt;/a&gt; &lt;a href=&quot;https://medium.com/react-weekly/react-native-and-typescript-ad57b7413ead&quot;&gt;to use&lt;/a&gt;, just saying.&lt;/p&gt;
 
 &lt;h2 id=&quot;project-generator&quot;&gt;Project Generator&lt;/h2&gt;
 

@@ -152,9 +152,7 @@
 
 <p>You can have a hybrid of native and react native.</p>
 
-<p>To integrate react native into an existing project, follow their <a href="https://facebook.github.io/react-native/docs/integration-with-existing-apps.html">guide</a>.</p>
-
-<p>However, note their guide is outdated for the dependencies version. As of Dec 2016, I updated the version to:</p>
+<p>To integrate react native into an existing project, follow <a href="https://www.raywenderlich.com/136047/react-native-existing-app">raywenderlich’s guide</a>. Facebook’s <a href="https://facebook.github.io/react-native/docs/integration-with-existing-apps.html">official guide</a> is lacking, and outdated for the dependencies version. As of Dec 2016, I updated the version to:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>"dependencies": {
   "react": "15.3.1",
@@ -164,6 +162,25 @@
 </div>
 
 <p>You can update accordingly, but things move fast so if your project doesn’t compile, then it could be the versions (and Xcode/iOS) incompatibility.</p>
+
+<p>One particular point missing in Facebook’s guide is how to run without depending on the packager running on eg. http://localhost:8081. Read on.</p>
+
+<h2 id="bundling-js-in-app">Bundling JS in App</h2>
+
+<p>React Native provided a script - <code class="highlighter-rouge">react-native-xcode.sh</code> - to build and bundle the JS and all resources you need into your app.</p>
+
+<p>When integrating into an existing app, you have to add a <strong>New Run Script Phase</strong> with the following:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>export NODE_BINARY=node
+./path/to/node_modules/react-native/packager/react-native-xcode.sh
+</code></pre>
+</div>
+
+<p>Edit the path to <code class="highlighter-rouge">react-native-xcode.sh</code> as necessary.</p>
+
+<p>You will also need to edit/add your scheme’s <strong>Build Configuration</strong> to <strong>Release</strong>.</p>
+
+<p><em>Tip: If you are using fastlane gym, don’t worry because the default of gym is to use Release configuration, even if the scheme is set to Debug.</em></p>
 
 <h2 id="navigation">Navigation</h2>
 
@@ -207,6 +224,10 @@ npm install -g flow-bin
 <p>I would choose to use TypeScript, if I had more experience with JavaScript (especially with the new ES2015). But being a newbie to JavaScript, it is better to learn the intricates of the language.</p>
 
 <p>What’s more, most examples and libraries will be in pure JavaScript.</p>
+
+<p>And compared to Flow, Facebook has <a href="https://github.com/facebook/react-native/issues/2502">preference</a> for Flow. The react library has Flow annotations.</p>
+
+<p>So my advise is to avoid TypeScript. But it is <a href="https://raygun.com/blog/2016/07/react-native-typescript/">possible</a> <a href="https://medium.com/react-weekly/react-native-and-typescript-ad57b7413ead">to use</a>, just saying.</p>
 
 <h2 id="project-generator">Project Generator</h2>
 
