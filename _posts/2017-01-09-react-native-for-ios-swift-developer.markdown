@@ -86,9 +86,7 @@ For database, you could use [Realm](https://realm.io/news/introducing-realm-reac
 
 You can have a hybrid of native and react native.
 
-To integrate react native into an existing project, follow their [guide](https://facebook.github.io/react-native/docs/integration-with-existing-apps.html).
-
-However, note their guide is outdated for the dependencies version. As of Dec 2016, I updated the version to:
+To integrate react native into an existing project, follow [raywenderlich's guide](https://www.raywenderlich.com/136047/react-native-existing-app). Facebook's [official guide](https://facebook.github.io/react-native/docs/integration-with-existing-apps.html) is lacking, and outdated for the dependencies version. As of Dec 2016, I updated the version to:
 
 ```
 "dependencies": {
@@ -98,6 +96,24 @@ However, note their guide is outdated for the dependencies version. As of Dec 20
 ```
 
 You can update accordingly, but things move fast so if your project doesn't compile, then it could be the versions (and Xcode/iOS) incompatibility.
+
+One particular point missing in Facebook's guide is how to run without depending on the packager running on eg. http://localhost:8081. Read on.
+
+
+## Bundling JS in App
+
+React Native provided a script - `react-native-xcode.sh` - to build and bundle the JS and all resources you need into your app.
+
+When integrating into an existing app, you have to add a **New Run Script Phase** with the following:
+
+    export NODE_BINARY=node
+    ./path/to/node_modules/react-native/packager/react-native-xcode.sh
+
+Edit the path to `react-native-xcode.sh` as necessary.
+
+You will also need to edit/add your scheme's **Build Configuration** to **Release**.
+
+_Tip: If you are using fastlane, need not worry because the default of gym is to use Release configuration, even if the scheme is set to Debug._
 
 
 ## Navigation
