@@ -2,7 +2,7 @@
 layout: post
 title: "React Native for iOS Swift Developer"
 date: 2017-01-09T10:20:38+08:00
-categories: [react]
+categories: [react-native]
 ---
 
 React Native is the biggest technology available for iOS developer, since 2015.

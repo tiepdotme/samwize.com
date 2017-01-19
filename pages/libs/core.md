@@ -4,6 +4,10 @@ title: "Core Libraries"
 permalink: /libs/core/
 ---
 
+## Attributed String
+
+`NSAttributedString` is not that friendly. Checkout for a better world with [SwiftRichString](https://github.com/malcommac/SwiftRichString).
+
 
 ## JSON Decoder
 
