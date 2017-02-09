@@ -6,9 +6,223 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 19 Jan 2017 18:40:20 +0800</pubDate>
-    <lastBuildDate>Thu, 19 Jan 2017 18:40:20 +0800</lastBuildDate>
+    <pubDate>Thu, 09 Feb 2017 15:00:27 +0800</pubDate>
+    <lastBuildDate>Thu, 09 Feb 2017 15:00:27 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Calling a View Controller Function From React Native</title>
+        <description>&lt;p&gt;When you mix React Native with existing Swift/Objective-C code base, it gets complex for even the simplest of tasks.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://engineering.instagram.com/react-native-at-instagram-dd828a9a90c7&quot;&gt;Instagram admits the challenge of a hybrid app&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-set-up&quot;&gt;The Set Up&lt;/h2&gt;
+
+&lt;p&gt;My view controller is written in &lt;strong&gt;Swift&lt;/strong&gt;, and creates the &lt;code class=&quot;highlighter-rouge&quot;&gt;RCTRootView&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;viewDidLoad&lt;/code&gt;. It managers the react native view.&lt;/p&gt;
+
+&lt;p&gt;I was trying to call a function I have in my view controller, from my JavaScript code.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-long-documentation-again&quot;&gt;The Long Documentation, Again&lt;/h2&gt;
+
+&lt;p&gt;React Native provided a long documentation separated across three pages:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://facebook.github.io/react-native/docs/communication-ios.html&quot;&gt;Inter Communication&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://facebook.github.io/react-native/docs/native-modules-ios.html&quot;&gt;Native Modules&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://facebook.github.io/react-native/docs/native-components-ios.html&quot;&gt;Native UI Components&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It wasn’t clear nor simple.&lt;/p&gt;
+
+&lt;p&gt;Hope I can clear it up here (:&lt;/p&gt;
+
+&lt;h2 id=&quot;the-thing-about-swift&quot;&gt;The Thing about Swift&lt;/h2&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;http://facebook.github.io/react-native/docs/native-modules-ios.html#exporting-swift&quot;&gt;very last section&lt;/a&gt;, the documentation says this about using Swift:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Swift doesn’t have support for macros (which React Native requires for exposing native modules and methods)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;It is necessary that you have some Objective-C code because the macros provided only works with Objective-C.&lt;/p&gt;
+
+&lt;p&gt;Example: &lt;code class=&quot;highlighter-rouge&quot;&gt;RCT_EXTERN_MODULE&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;RCT_EXTERN_METHOD&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;If you use Swfit, then you need to deal with using &lt;a href=&quot;https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html&quot;&gt;bridging headers and stuff&lt;/a&gt;. Do not confuse this &lt;strong&gt;Swift and Objective-C bridging&lt;/strong&gt; with &lt;strong&gt;React Native and Objective-C bridging&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are just many bridges to cross.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-bridging-works&quot;&gt;How Bridging Works&lt;/h2&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;http://facebook.github.io/react-native/docs/native-modules-ios.html#ios-calendar-module-example&quot;&gt;very beginning section&lt;/a&gt;, it gives a hint about how the bridge (to React native) happens:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The CalendarManager module is instantiated on the Objective-C side using a [CalendarManager new] call.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;See how the JavaScript calls the method.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;NativeModules&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;react-native&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;CalendarManager&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;NativeModules&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;CalendarManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;CalendarManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;addEvent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Birthday Party&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;4 Privet Drive, Surrey&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;It &lt;em&gt;looks like&lt;/em&gt; the module is using a &lt;strong&gt;singleton&lt;/strong&gt; pattern. It is NOT!&lt;/p&gt;
+
+&lt;p&gt;It is calling with a newly created object.&lt;/p&gt;
+
+&lt;p&gt;It is confirmed in the &lt;a href=&quot;http://facebook.github.io/react-native/docs/native-components-ios.html#properties&quot;&gt;section on Native UI Components&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Native views are created and manipulated by subclasses of RCTViewManager. These subclasses are similar in function to view controllers, but are essentially singletons - only one instance of each is created by the bridge.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And finally, in a &lt;a href=&quot;http://facebook.github.io/react-native/docs/communication-ios.html#calling-native-functions-from-react-native-native-modules&quot;&gt;separate place&lt;/a&gt;, it warns the limitation when calling native functions from React Native (native modules):&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The fact that native modules are singletons limits the mechanism in context of embedding.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you still not clear what the problem entails.. let me explain with our view controller example.&lt;/p&gt;
+
+&lt;p&gt;We have an instance of our view controller. When JavaScript invokes a method (see &lt;code class=&quot;highlighter-rouge&quot;&gt;CalendarManager&lt;/code&gt; example), it will use the singleton instance, not the actual instance! This is limiting because you need an identifier to the actual instance, using perhaps a number or string, then pass it to the singleton instance, for it to identiy the actual instance.&lt;/p&gt;
+
+&lt;p&gt;Still confused? Look at how it is implemented in code in my weak attempt #1.&lt;/p&gt;
+
+&lt;h2 id=&quot;attempt-1&quot;&gt;Attempt #1&lt;/h2&gt;
+
+&lt;p&gt;Let’s start with our view controller:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AwesomeViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+        &lt;span class=&quot;kt&quot;&gt;AwesomeManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
+        
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rootView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RCTRootView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;moduleName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;AwesomeScreen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;initialProperties&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rootView&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;c1&quot;&gt;// The fun&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We are using the view controller &lt;code class=&quot;highlighter-rouge&quot;&gt;viewDidLoad&lt;/code&gt; to create the &lt;code class=&quot;highlighter-rouge&quot;&gt;RCTRootView&lt;/code&gt; (init your bridge accordingly).&lt;/p&gt;
+
+&lt;p&gt;The trick here is the part on &lt;code class=&quot;highlighter-rouge&quot;&gt;AwesomeManager.viewController = self&lt;/code&gt;. This is where the view controller tell the “manager” that &lt;em&gt;you may control me&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s look at the “manager” code, in Swift:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@objc(AwesomeManager)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AwesomeManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;viewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AwesomeViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;
+    
+    &lt;span class=&quot;kd&quot;&gt;@objc&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;viewController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AwesomeManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nf&quot;&gt;dispatch_async&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;dispatch_get_main_queue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;viewController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bar&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;attempt-2-&quot;&gt;Attempt #2 ?&lt;/h2&gt;
+
+&lt;p&gt;Ah, I’m exhausted. Gonna leave this till next time (:&lt;/p&gt;
+
+&lt;p&gt;You may attempt and comment below?&lt;/p&gt;
+</description>
+        <pubDate>Thu, 09 Feb 2017 14:02:35 +0800</pubDate>
+        <link>http://samwize.com/2017/02/09/calling-a-view-controller-function-from-react-native/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/02/09/calling-a-view-controller-function-from-react-native/</guid>
+        
+        
+        <category>React Native</category>
+        
+      </item>
+    
+      <item>
+        <title>Why I Hate React Native</title>
+        <description>&lt;p&gt;I have spent 2 weeks using React Native for an &lt;strong&gt;existing iOS app&lt;/strong&gt;, building a new feature that could be summed up as - providing a list of images which can be tapped on.&lt;/p&gt;
+
+&lt;p&gt;It is an easy task that I could do in a day with the beautiful Swift and familiar &lt;code class=&quot;highlighter-rouge&quot;&gt;UIKit&lt;/code&gt; framework. But things gets hairy with React Native..&lt;/p&gt;
+
+&lt;p&gt;React Native is changing rapidly, so what I mention here could only be relevant as of Jan 2017.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-i-like&quot;&gt;What I Like&lt;/h2&gt;
+
+&lt;p&gt;Let’s start with what I like because that will be short.&lt;/p&gt;
+
+&lt;p&gt;My first impression with it is awesome. It is refreshing. Going through the Hello World example and more is enlightening.&lt;/p&gt;
+
+&lt;p&gt;Then there is code push. No more waiting for app review.&lt;/p&gt;
+
+&lt;p&gt;So I went on to write a &lt;a href=&quot;http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/&quot;&gt;basic guide&lt;/a&gt; and about &lt;a href=&quot;http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/&quot;&gt;CodePush&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;mixing-react-native-with-true-native&quot;&gt;Mixing React Native with True Native&lt;/h2&gt;
+
+&lt;p&gt;By True Native, I am referring to all the frameworks provided by iOS: &lt;code class=&quot;highlighter-rouge&quot;&gt;UIKit&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Foundation&lt;/code&gt;, etc&lt;/p&gt;
+
+&lt;p&gt;It could be just me, because I have an existing code base that uses True Native. If you start a project from scratch using pure React Native, most likely you will not have the problem.&lt;/p&gt;
+
+&lt;p&gt;But if you are like me, you have to deal with extra problems.&lt;/p&gt;
+
+&lt;p&gt;The first is communication between the 2 platforms. &lt;a href=&quot;http://facebook.github.io/react-native/docs/communication-ios.html&quot;&gt;Quoted&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;But, when we mix React Native and native components, we need some special, cross-language mechanisms that would allow us to pass information between them.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And this cross-language (or cross-platform) mechanism is very messy.&lt;/p&gt;
+
+&lt;p&gt;They provided a few ways, but none is beautiful.&lt;/p&gt;
+
+&lt;p&gt;You will get your hands dirty with &lt;strong&gt;Objective-C&lt;/strong&gt; because React Native require macro to expose a module or function.&lt;/p&gt;
+
+&lt;h2 id=&quot;poor-documentation&quot;&gt;Poor Documentation&lt;/h2&gt;
+
+&lt;p&gt;It is written poorly, and lacking for some classes such as emitters.&lt;/p&gt;
+
+&lt;h2 id=&quot;deprecated-really&quot;&gt;Deprecated, really?&lt;/h2&gt;
+
+&lt;p&gt;I encountered this &lt;a href=&quot;https://github.com/facebook/react-native/issues/8714&quot;&gt;issue&lt;/a&gt; where they deprecate a method &lt;code class=&quot;highlighter-rouge&quot;&gt;sendAppEventWithName&lt;/code&gt;, and recommended to use a subclass of &lt;code class=&quot;highlighter-rouge&quot;&gt;RCTEventEmitter&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Yet, their &lt;a href=&quot;http://facebook.github.io/react-native/docs/native-modules-ios.html#sending-events-to-javascript&quot;&gt;documentation&lt;/a&gt; is still using the deprecated method.&lt;/p&gt;
+
+&lt;p&gt;Being a good developer, I use the new way. But alas! The new way didn’t work. It could be either one the reason: I do not know how to use because there is no documentation, or it has a bug.&lt;/p&gt;
+
+&lt;p&gt;I believe there is a bug.&lt;/p&gt;
+
+&lt;h2 id=&quot;buggy&quot;&gt;Buggy&lt;/h2&gt;
+
+&lt;p&gt;There are lots of bugs.&lt;/p&gt;
+
+&lt;p&gt;I filed an &lt;a href=&quot;https://github.com/facebook/react-native/issues/12049&quot;&gt;issue&lt;/a&gt; that is to do with a &lt;code class=&quot;highlighter-rouge&quot;&gt;Touchable&lt;/code&gt; being fired when it’s parent (a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollView&lt;/code&gt;) is being scrolled.&lt;/p&gt;
+
+&lt;p&gt;Somehow I believe my issue will be of a lesser priority because I am mixing a true native &lt;code class=&quot;highlighter-rouge&quot;&gt;UIScrollView&lt;/code&gt; with react native component.&lt;/p&gt;
+
+&lt;h2 id=&quot;time-wasted&quot;&gt;Time Wasted&lt;/h2&gt;
+
+&lt;p&gt;As an early-user of a piece of programming platform, you will use much of your time to help the community. Good if you have the time.&lt;/p&gt;
+
+&lt;p&gt;Otherwise, you will be wasting precious time.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 24 Jan 2017 17:27:17 +0800</pubDate>
+        <link>http://samwize.com/2017/01/24/why-i-hate-react-native/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/01/24/why-i-hate-react-native/</guid>
+        
+        
+        <category>React Native</category>
+        
+      </item>
     
       <item>
         <title>Guide to Integrating CodePush for iOS React Native Project</title>
@@ -156,7 +370,7 @@ pod &#39;CodePush&#39;, :path =&amp;gt; &#39;./react/node_modules/react-native-c
         <guid isPermaLink="true">http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/</guid>
         
         
-        <category>react-native</category>
+        <category>React Native</category>
         
       </item>
     
@@ -350,7 +564,7 @@ npm install -g flow-bin
         <guid isPermaLink="true">http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/</guid>
         
         
-        <category>react-native</category>
+        <category>React Native</category>
         
       </item>
     
@@ -1052,64 +1266,6 @@ youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Never to Have Feelings for Your Code</title>
-        <description>&lt;p&gt;As a developer, never to have feelings for your code.&lt;/p&gt;
-
-&lt;p&gt;As a designer, never to have feelings for your mockups.&lt;/p&gt;
-
-&lt;p&gt;As a product manager, never to have feelings for your roadmap.&lt;/p&gt;
-
-&lt;p&gt;Never to have attachment to them, so that you can discard them, anytime.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 17 Nov 2016 14:39:44 +0800</pubDate>
-        <link>http://samwize.com/2016/11/17/never-to-have-feelings-for-your-code/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/11/17/never-to-have-feelings-for-your-code/</guid>
-        
-        
-        <category>Product</category>
-        
-      </item>
-    
-      <item>
-        <title>Swift Package Manager Development Guide</title>
-        <description>&lt;p&gt;&lt;a href=&quot;http://samwize.com/2016/05/20/introduction-to-scripting-in-swift/&quot;&gt;Previously&lt;/a&gt;, we mentioned a Rome version of Cocoapods that you can use for your Swift scripts.&lt;/p&gt;
-
-&lt;p&gt;Swift is moving fast, and now we have the official &lt;a href=&quot;https://swift.org/package-manager/&quot;&gt;Swift Package Manager&lt;/a&gt;!.&lt;/p&gt;
-
-&lt;p&gt;Instead of writing a &lt;code class=&quot;highlighter-rouge&quot;&gt;Podfile&lt;/code&gt;, you write a &lt;code class=&quot;highlighter-rouge&quot;&gt;Package.swift&lt;/code&gt;, which is made up of Swift code declaring the dependencies.&lt;/p&gt;
-
-&lt;p&gt;Then to get the dependencies:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swift build
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;more-commands&quot;&gt;More Commands&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# If you prefer to setup with a template, including .gitignore, Sources and Tests
-swift package init
-
-# Generate the Xcode Project
-swift package generate-xcodeproj
-
-# Update
-swift package update
-
-# Show the dependency as a tree
-swift package show-dependencies
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Mon, 14 Nov 2016 07:44:51 +0800</pubDate>
-        <link>http://samwize.com/2016/11/14/swift-package-manager-development-guide/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/11/14/swift-package-manager-development-guide/</guid>
-        
-        
-        <category>Swift</category>
         
       </item>
     
