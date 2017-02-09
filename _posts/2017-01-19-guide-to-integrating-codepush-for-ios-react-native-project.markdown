@@ -2,7 +2,7 @@
 layout: post
 title: "Guide to Integrating CodePush for iOS React Native Project"
 date: 2017-01-19T16:55:28+08:00
-categories: [react-native]
+categories: [React Native]
 ---
 
 [CodePush](https://microsoft.github.io/code-push/) is a wonderful technology to make INSTANT changes to your app.

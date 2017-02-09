@@ -2,7 +2,7 @@
 layout: post
 title: "React Native Tips & Tricks"
 date: 2017-01-13T15:12:18+08:00
-categories: [react]
+categories: [React Native]
 ---
 
 The previous post was the first React Native post on this website. It is an introduction in consideration to a native iOS Swift developer.
