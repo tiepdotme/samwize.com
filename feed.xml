@@ -6,9 +6,79 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 09 Feb 2017 15:01:46 +0800</pubDate>
-    <lastBuildDate>Thu, 09 Feb 2017 15:01:46 +0800</lastBuildDate>
+    <pubDate>Tue, 14 Feb 2017 15:23:27 +0800</pubDate>
+    <lastBuildDate>Tue, 14 Feb 2017 15:23:27 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Migrating an iOS Project From Objective-C to Swift</title>
+        <description>&lt;h1 id=&quot;uiapplicationdelegate&quot;&gt;UIApplicationDelegate&lt;/h1&gt;
+
+&lt;p&gt;Start with the app delegate.&lt;/p&gt;
+
+&lt;p&gt;Add a &lt;code class=&quot;highlighter-rouge&quot;&gt;AppDelegate.swift&lt;/code&gt;, and mark the class with &lt;code class=&quot;highlighter-rouge&quot;&gt;@UIApplicationMain&lt;/code&gt; attribute.&lt;/p&gt;
+
+&lt;p&gt;Remove &lt;code class=&quot;highlighter-rouge&quot;&gt;main.m&lt;/code&gt;, because it is now unnecessary. With the use of &lt;code class=&quot;highlighter-rouge&quot;&gt;@UIApplicationMain&lt;/code&gt;, the target now knows the entry point.&lt;/p&gt;
+
+&lt;h1 id=&quot;adding-your-first-swift&quot;&gt;Adding your first Swift&lt;/h1&gt;
+
+&lt;p&gt;When you add your first Swift file (like &lt;code class=&quot;highlighter-rouge&quot;&gt;AppDelegate.swift&lt;/code&gt; above), Xcode will prompt to add a bridging header.&lt;/p&gt;
+
+&lt;p&gt;Add the bridging header.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;AwesomeApp-Bridging-Header.h&lt;/code&gt; is the place where you add your existing .h files, exposing them to Swift (as and when needed).&lt;/p&gt;
+
+&lt;h2 id=&quot;using-objective-c-in-swift&quot;&gt;1. Using Objective-C in Swift&lt;/h2&gt;
+
+&lt;p&gt;We come to the first of the 2 important parts in &lt;a href=&quot;https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html&quot;&gt;interoperability&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To use your existing Objective-C, there are a few things to do:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Bridging header to expose the Objective-C classes&lt;/li&gt;
+  &lt;li&gt;Declare nullability in the Objective-C files&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;We have mentioned (1) in the section above.&lt;/p&gt;
+
+&lt;p&gt;For (2), the reason is because Swift is strict on &lt;a href=&quot;https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html#//apple_ref/doc/uid/TP40014216-CH4-ID45&quot;&gt;nullability&lt;/a&gt;. Can an object be optional, or never?&lt;/p&gt;
+
+&lt;p&gt;In Objective-C days, way before Swfit was born, nullability was never explicit. You would have seen &lt;code class=&quot;highlighter-rouge&quot;&gt;EXEC_BAD_ACCESS&lt;/code&gt;, and many times the reason is because the object is nil, when is should not be.&lt;/p&gt;
+
+&lt;p&gt;Swift make our code safer with explicit nullability.&lt;/p&gt;
+
+&lt;p&gt;Hence, you need to make Objective-C code be explicit, so that Swift can use safely:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nullable&lt;/code&gt; - An optional&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;nonnull&lt;/code&gt; - Never an optional&lt;/li&gt;
+  &lt;li&gt;Otherwise, they are implicitly unwrapped optional (crash if nil!)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are also 2 convenient macros to help you: &lt;code class=&quot;highlighter-rouge&quot;&gt;NS_ASSUME_NONNULL_BEGIN&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;NS_ASSUME_NONNULL_END&lt;/code&gt;. Any properties between the macros are considered &lt;code class=&quot;highlighter-rouge&quot;&gt;nonnull&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-swift-in-objective-c&quot;&gt;2. Using Swift in Objective-C&lt;/h2&gt;
+
+&lt;p&gt;This is the second part, if you still need to write &lt;em&gt;more&lt;/em&gt; Objective-C.&lt;/p&gt;
+
+&lt;p&gt;To use the new Swift code in existing Objective-C, you have to&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#import &quot;AwesomeApp-Swift.h&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will expose all Swift code.&lt;/p&gt;
+
+&lt;p&gt;Don’t be alarm that you cannot find the aforementioned .h file in your project. It is a auto generated header from your Swift code.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 10 Feb 2017 19:09:55 +0800</pubDate>
+        <link>http://samwize.com/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift/</guid>
+        
+        
+        <category>Swift</category>
+        
+      </item>
     
       <item>
         <title>Calling a View Controller Function From React Native</title>
@@ -1087,182 +1157,6 @@ youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
         <pubDate>Mon, 05 Dec 2016 10:23:11 +0800</pubDate>
         <link>http://samwize.com/2016/12/05/on-demand-resources-guide/</link>
         <guid isPermaLink="true">http://samwize.com/2016/12/05/on-demand-resources-guide/</guid>
-        
-        
-        <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>UISearchController Development Guide</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchcontroller&quot;&gt;UISearchController&lt;/a&gt; is a new controller in iOS 8 to handle search.&lt;/p&gt;
-
-&lt;p&gt;Prior to iOS 8, we have &lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchdisplaycontroller&quot;&gt;UISearchDisplayController&lt;/a&gt;, which is deprecated. &lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchController&lt;/code&gt; more than replaced it, with a architectural change.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-architecture&quot;&gt;The Architecture&lt;/h2&gt;
-
-&lt;p&gt;There are two View Controllers (VC) involved in search. Let’s call them:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;strong&gt;Presenting VC&lt;/strong&gt; - where the search is triggered&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Results VC&lt;/strong&gt; - where the results are displayed in&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;You may also have the presenting VC display the results. In that case, they are the same VC.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchController&lt;/code&gt; also provides a &lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchBar&lt;/code&gt; object, because all search requires the search bar for input.&lt;/p&gt;
-
-&lt;h2 id=&quot;triggering-the-search&quot;&gt;Triggering the search&lt;/h2&gt;
-
-&lt;p&gt;There are 2 ways.&lt;/p&gt;
-
-&lt;h3 id=&quot;add-search-bar&quot;&gt;1. Add Search Bar&lt;/h3&gt;
-
-&lt;p&gt;Add the &lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchBar&lt;/code&gt; to your presenting VC.&lt;/p&gt;
-
-&lt;p&gt;This must be done programatically, because there is no library object for &lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchController&lt;/code&gt; in Xcode. And you have to use it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;searchBar&lt;/code&gt; object.&lt;/p&gt;
-
-&lt;p&gt;If you are using a &lt;code class=&quot;highlighter-rouge&quot;&gt;UITableView&lt;/code&gt;, a search bar can be added to the header easily:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tableHeaderView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchBar&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;add-search-button&quot;&gt;2. Add Search Button&lt;/h3&gt;
-
-&lt;p&gt;Another way is to have a button to trigger the search, instead of adding the whole search bar in like in (1).&lt;/p&gt;
-
-&lt;p&gt;Create the &lt;code class=&quot;highlighter-rouge&quot;&gt;IBAction&lt;/code&gt; for the button:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@IBAction&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;tapSearch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;presentViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;em&gt;Remember: &lt;code class=&quot;highlighter-rouge&quot;&gt;searchController&lt;/code&gt; is a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; (read in later section) so it can be called with &lt;code class=&quot;highlighter-rouge&quot;&gt;presentViewController&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When the presenting VC has a navigation bar, you will need to configure search controller:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hidesNavigationBarDuringPresentation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;the-delegates&quot;&gt;The Delegates&lt;/h2&gt;
-
-&lt;h3 id=&quot;delegate-1---uisearchresultsupdating&quot;&gt;Delegate #1 - UISearchResultsUpdating&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchresultsupdating&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchResultsUpdating&lt;/code&gt;&lt;/a&gt; protocol has a callback when the user enters into the search bar.&lt;/p&gt;
-
-&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;searchResultsUpdater&lt;/code&gt;. Typically, the results VC will implement the protocol, so that it will update the results accordingly.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchResultsUpdater&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultsViewController&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Then in &lt;code class=&quot;highlighter-rouge&quot;&gt;resultsViewController&lt;/code&gt;, implement the method:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;updateSearchResultsForSearchController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UISearchController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;searchTerm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchBar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;text&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// Update your results&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;delegate-2---uisearchbardelegate&quot;&gt;Delegate #2 - UISearchBarDelegate&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchbardelegate&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchBarDelegate&lt;/code&gt;&lt;/a&gt; protocol provides more events:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;text changed&lt;/li&gt;
-  &lt;li&gt;should text change&lt;/li&gt;
-  &lt;li&gt;should/begin/end editing&lt;/li&gt;
-  &lt;li&gt;tap on cancel button/etc&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;searchBar.delegate&lt;/code&gt;. Typically, the results VC.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;searchBar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resultsViewController&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You might be thinking we have &lt;code class=&quot;highlighter-rouge&quot;&gt;searchResultsUpdater&lt;/code&gt;. Isn’t that enough? Usually so, unless you want to know when buttons such as &lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchbar/1624292-scopebuttontitles&quot;&gt;scopes button&lt;/a&gt; are tapped on.&lt;/p&gt;
-
-&lt;h3 id=&quot;delegate-3---uisearchcontrollerdelegate&quot;&gt;Delegate #3 - UISearchControllerDelegate&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchcontrollerdelegate&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchControllerDelegate&lt;/code&gt;&lt;/a&gt; protocol provides events when:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;the search controller is presented or dismissed&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Set &lt;code class=&quot;highlighter-rouge&quot;&gt;delegate&lt;/code&gt; to the view controller that handles the calls, typically the presenting VC.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;uisearchcontroller-is-a-uiviewcontroller&quot;&gt;UISearchController is a UIViewController&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UISearchController&lt;/code&gt; inherits from &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;You can present it modally with &lt;code class=&quot;highlighter-rouge&quot;&gt;presentViewController&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;BUT, you should never push to navigation controller or use it as a child etc. If you want that, you can use &lt;a href=&quot;https://developer.apple.com/reference/uikit/uisearchcontainerviewcontroller&quot;&gt;UISearchContainerViewController&lt;/a&gt; to wrap it first.&lt;/p&gt;
-
-&lt;h2 id=&quot;display-results-instead-of-dimming&quot;&gt;Display Results Instead of Dimming&lt;/h2&gt;
-
-&lt;p&gt;The default behaviour dims the presenting VC when search is triggered.&lt;/p&gt;
-
-&lt;p&gt;User has to type 1 character, then the results VC will be shown.&lt;/p&gt;
-
-&lt;p&gt;It is common UX to display an intial set of results once search is triggered. Who knows, our smart filtering might already show up a good match?&lt;/p&gt;
-
-&lt;p&gt;Firstly, we prevent the dim with:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;searchController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dimsBackgroundDuringPresentation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;To show the results VC, a &lt;a href=&quot;http://stackoverflow.com/a/30814194/242682&quot;&gt;little hack&lt;/a&gt; is needed in the results VC:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ResultsViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-      &lt;span class=&quot;nf&quot;&gt;setupToPreventHiddenBehaviour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setupToPreventHiddenBehaviour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addObserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;forKeyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;New&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Old&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  
-  &lt;span class=&quot;kd&quot;&gt;deinit&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;removeObserver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;forKeyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;hidden&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  
-  &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;observeValueForKeyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ofObject&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;change&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]?,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UnsafeMutablePointer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;observeValueForKeyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ofObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;change&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;change&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;change&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;NSKeyValueChangeNewKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hidden&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;It hacks around by observing for the view’s &lt;code class=&quot;highlighter-rouge&quot;&gt;hidden&lt;/code&gt; property, forcing it to never hide. Even when you clear the search bar, it gets back to this initial state.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 27 Nov 2016 10:12:44 +0800</pubDate>
-        <link>http://samwize.com/2016/11/27/uisearchcontroller-development-guide/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/11/27/uisearchcontroller-development-guide/</guid>
         
         
         <category>iOS</category>
