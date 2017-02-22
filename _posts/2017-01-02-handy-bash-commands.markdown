@@ -10,6 +10,11 @@ categories: [bash]
     # Resize to max width/height 640
     sips -Z 640 *.jpg
 
+## Convert Image Format
+
+    # Convert png to jpg
+    sips -s format jpeg *.png --out mydirectory
+
 ## List Process Running on a Port
 
     # eg. Port 8080
