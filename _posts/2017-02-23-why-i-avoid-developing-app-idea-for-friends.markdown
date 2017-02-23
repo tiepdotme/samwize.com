@@ -10,7 +10,7 @@ In the last 10 years, I have more than a handful of friends, classmates, and acq
 
 > "I have a great idea for an app. How about we work together?"
 
-I am genuinely happy they are thinking about creating something -- be it creating something they want, or making a business out of it.
+I am genuinely happy that they are thinking about creating something they want, or making a business out of it.
 
 But often, all I can do for them is:
 
@@ -65,7 +65,7 @@ It is more hairy when you are friends before you become co-workers.
 
 Mobile app development cost is [much higher than you think](http://www.formotus.com/14018/blog-mobility/figuring-the-costs-of-custom-mobile-business-app-development). I cannot charge lower (or free!), because you are friend.
 
-And if the business fail ([90% will](http://www.forbes.com/sites/neilpatel/2015/01/16/90-of-startups-will-fail-heres-what-you-need-to-know-about-the-10/)), then the friendship will be awkward, because my friend would have lost, and transferred, a sum of money to me..
+And if the business fail ([90% will](http://www.forbes.com/sites/neilpatel/2015/01/16/90-of-startups-will-fail-heres-what-you-need-to-know-about-the-10/)), then the friendship will be awkward. Because my friend would have lost, and transferred, a sum of money to me..
 
 When things fail, we will find reasons. And many times, the "blame" will include: **product is not good enough**.
 
@@ -82,7 +82,7 @@ The "idea guy" often is the "CEO", promissing to cover the marketing, sales, and
 
 It is fair to split such responsibilities between 2 co-founders.
 
-Yet, very often, my "idea guy" friend is one with no experience in the area he is responsible for. Neither had he work in a startup before. If he tries to be the CPO (**P**roduct), it could get even uglier.
+Yet, very often, my “idea guy” friend is one with no experience in the area he handles. Neither had he work in a startup before. If he tries to be the CPO (**P**roduct), it could get even uglier.
 
 Having 2 co-founders with **unequal experience and skill** is a mismatch.
 
@@ -91,7 +91,7 @@ Having 2 co-founders with **unequal experience and skill** is a mismatch.
 
 I still enjoy working in a small team, contributing significantly and creatively.
 
-But after spending so much time with startup, I now have a better understanding of what kind of culture, environment and co-workers I want.
+After spending so much time with startup, I now have a better understanding of the kind of culture, environment and co-workers I want.
 
 I may even create that "startup".
 
