@@ -26,7 +26,6 @@ Assuming you have a repos on github already, issue the following [commands](http
 	git push -u origin master
 
 
-
 ## Setup Github to remember password ##
 
 The [instructions](https://help.github.com/articles/set-up-git). Basically,
@@ -44,8 +43,6 @@ Issue a `which git` and note the path of git. Assuming it is `/usr/bin/git`, you
 	sudo mv git-credential-osxkeychain /usr/bin/
 
 
-
-
 ## On Color Options ##
 
 One of the most important [configuration](http://git-scm.com/book/en/Customizing-Git-Git-Configuration)
@@ -53,8 +50,6 @@ One of the most important [configuration](http://git-scm.com/book/en/Customizing
 	git config --global color.ui true
 
 With that, commands like `git diff` and `git log -p` looks better
-
-
 
 
 ## What's changed ##
@@ -72,8 +67,6 @@ Then the actual code changes
 	 git log -p somefile.py
 
 
-
-
 ## Added new files, Updated changes, or Deleted files ##
 
 If you have added new files or updated tracked files
@@ -89,7 +82,6 @@ You could do both in a single step
 	git add -A
 
 
-
 ## What are my remotes/branches ##
 
 To know,
@@ -101,13 +93,11 @@ Or you can [list](http://gitref.org/remotes/) the remotes
 	git remote -v
 
 
-
 ## Change remote url
 
 With the list of remotes, you can change to a new URL (http or ssh). Eg. Change `origin` remote to a ssh url:
 
   git remote set-url origin git@github.com:USERNAME/REPOS.git
-
 
 
 ## Update your repos ##
@@ -125,9 +115,6 @@ Or Simply
 	git pull origin master
 
 If `origin` is a default remote and 'master' is default branch, you can drop it eg. `git pull`.
-
-
-
 
 
 ## Fix merge conflicts ##
@@ -158,7 +145,6 @@ At this point you use the GUI (eg FileMerge) to resolve the conflicts and save. 
 	git push
 
 Done!
-
 
 
 ## Revert a file
@@ -200,7 +186,6 @@ If you want to push to the tag, it works similarly like a branch.
 	git push origin v1.2
 
 
-
 ## Delete a commit that has been pushed ##
 
 This is usually when you accidentally commit [wrongly](http://stackoverflow.com/questions/1338728/how-to-delete-a-git-commit).
@@ -209,6 +194,23 @@ This is usually when you accidentally commit [wrongly](http://stackoverflow.com/
 	git reset --hard <sha1-commit-id>
 	git push origin HEAD --force
 
+
+## Remove untracked files and directories
+
+When you use `git reset`, you will still ended up with untracked files.
+
+To remove them,
+
+	git clean -f -d
+
+
+## Play Save, Test First
+
+For example, to test what a command like `git clean` will really do, add a `-n`:
+
+	git clean -f -d -n
+
+Git will list the changes it _could perform_.
 
 
 ## Github.com secret tricks

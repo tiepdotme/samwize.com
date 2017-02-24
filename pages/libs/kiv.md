@@ -12,6 +12,7 @@ I have yet to try these, but they look awesome.
 
 ## Segmented Controls
 
+- [BetterSegmentedControl](https://github.com/gmarm/BetterSegmentedControl) - Swift 3, with just 1 file cleverly creates a segmented control with selected text being masked
 - [Segmentio](https://github.com/Yalantis/Segmentio) - Animated segmented control
 - [HMSegmentedControl](https://github.com/HeshamMegid/HMSegmentedControl) - Google Currents like segments
 - [DZNSegmentedControl](https://github.com/dzenbot/DZNSegmentedControl) - Segmented Control views
