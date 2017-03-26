@@ -40,6 +40,14 @@ Uses [youtube-dl](https://rg3.github.io/youtube-dl/):
     # Download in mp4 video format
     youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
 
+## Download Youtube Live Stream
+
+For live streams, `youtube-dl` does not work well. We need another tool to the rescue - [livestreamer](https://github.com/chrippa/livestreamer/)
+
+    livestreamer https://www.youtube.com/watch?v=-62LWTsykcw best --hls-live-edge 99999 -o Live.ts
+
+The `hls-live-edge` [option](http://docs.livestreamer.io/cli.html#cmdoption--hls-live-edge) is how many segments from the END to begin downloading from. The large value makes it start from the very beginning.
+
 ## Download a file with curl
 
     curl -o myfile.mp3 https://the.domain.com/file
