@@ -119,6 +119,16 @@ youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
 </code></pre>
 </div>
 
+<h2 id="download-youtube-live-stream">Download Youtube Live Stream</h2>
+
+<p>For live streams, <code class="highlighter-rouge">youtube-dl</code> does not work well. We need another tool to the rescue - <a href="https://github.com/chrippa/livestreamer/">livestreamer</a></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>livestreamer https://www.youtube.com/watch?v=-62LWTsykcw best --hls-live-edge 99999 -o Live.ts
+</code></pre>
+</div>
+
+<p>The <code class="highlighter-rouge">hls-live-edge</code> <a href="http://docs.livestreamer.io/cli.html#cmdoption--hls-live-edge">option</a> is how many segments from the END to begin downloading from. The large value makes it start from the very beginning.</p>
+
 <h2 id="download-a-file-with-curl">Download a file with curl</h2>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>curl -o myfile.mp3 https://the.domain.com/file
