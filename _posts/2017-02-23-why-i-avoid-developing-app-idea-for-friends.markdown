@@ -1,98 +1,98 @@
 ---
 layout: post
-title: "Why I Avoid Developing App/Idea for Friends"
+title: "Why I don’t build apps for friends anymore"
 image: /images/lemons.jpg
 date: 2017-02-23T22:21:09+08:00
 categories: [startup]
 ---
 
-In the last 10 years, I have more than a handful of friends, classmates, and acquaintances telling me:
+Over the past 10 years, I’ve lots of friends and classmates say to me:
 
-> "I have a great idea for an app. How about we work together?"
+> “I have a great idea for an app. How about we work together?”
 
-I am genuinely happy that they are thinking about creating something they want, or making a business out of it.
+I’m happy that they’re thinking about creating something that they want to use or make a business out of it.
 
-But often, all I can do for them is:
+But often, all I can do for them is say:
 
-> "As a friend, I love to hear about your idea, and give advice on mobile app development. But most likely I wouldn't be able to develop for you."
+> “As a friend, I’d love to hear about your idea and give advice on mobile app development. But most likely, I wouldn’t be able to develop for you.”
 
 Why?
 
 
-## 1. Ideas Are Not Enough
+## 1. Ideas are not enough
 
-Often, the main motivation for creating their app is because they have an idea.
+Often, the main motivation people have for creating an app is because they have an idea.
 
 They think the idea is cool.
 
-My positive reply often is:
+My positive reply often is,
 
-> "Yes, this is a good idea. There will be people who would need/like to use the app."
+> “Yes, this is a good idea. There will be people who would like — maybe even need — to use your app.”
 
-Then my less positive reply goes:
+Then my less positive reply goes,
 
-> "Who is the closest competitor to your idea? Why do you think they didn't succeed?"
+> “Who is the closest competitor to your idea? Why do you think they didn’t succeed?”
 
-These are very important questions in grinding the idea.
+These are the most important questions in grinding an idea.
 
-It is also my polite way of saying: **Ideas Are Cheap**
+This is also my polite way of saying: **Ideas Are Cheap**.
 
-Ideas are nothing. Someone in this world must had the same idea, of some variation to yours. [Nothing is original](http://just2me.com/2014/03/13/steal-like-artist/).
+Ideas are nothing. Someone in this world must have the same idea, of some variation to yours. [Nothing is original](http://just2me.com/2014/03/13/steal-like-artist/).
 
-_You should not start a company just because of an idea._
-
-
-## 2. Startup Is Hard
-
-To **succeed** with one, is **hard**.
-
-And even if you did, it will **take many years**.
-
-I know because I have 10 years of experience with 2 startups.
-
-The first startup: I spent 7 years, as a founding member. The company is now 9 year old, yet it is still trying to become profitable. It didn't die only because the investor is also the co-founder, so think how much he has to lose first.
-
-The second startup: I joined after their Series A funding. It is now 3 year old, and recently had Series B, thus providing a 1+ year runway. Maintaining a hockey stick growth is not easy, and the end of a runway is always in sight.
-
-I don't know about you. But I don't have that many 10 years ahead.
-
-So I have to choose wisely for the path to take.
+You should not start a company just because of an idea.
 
 
-## 3. Risking Friendship
+## 2. Startups are hard
 
-It is more hairy when you are friends before you become co-workers.
+To **succeed** with one is even **harder**.
 
-Mobile app development cost is [much higher than you think](http://www.formotus.com/14018/blog-mobility/figuring-the-costs-of-custom-mobile-business-app-development). I cannot charge lower (or free!), because you are friend.
+And even if you do succeed, it will **take many years**.
 
-And if the business fail ([90% will](http://www.forbes.com/sites/neilpatel/2015/01/16/90-of-startups-will-fail-heres-what-you-need-to-know-about-the-10/)), then the friendship will be awkward. Because my friend would have lost, and transferred, a sum of money to me..
+I speak from 10 years of experience with 2 startups.
 
-When things fail, we will find reasons. And many times, the "blame" will include: **product is not good enough**.
+The first startup: I spent 7 years, as a founding member. The company is now 9 years old, yet it’s still struggling to become profitable. The only reason it hasn’t died is because the investor is also the co-founder, so think how much he has to lose first. How much stress can he endure?
 
-All eyes will be on the developer, but I am certain that is not fair.
+The second startup: I joined after their Series A funding. It’s now 3 years old and recently had Series B, thus providing an extra year’s runway. Maintaining hockey stick growth is not easy, and the end of a runway is always in sight.
 
-I value friendship, and with all risks considered, I will rather not sacrifice it.
+I don’t know about you. But I don’t have that many 10 years blocks of time ahead of me.
 
-
-## 4. Experience
-
-In a tech startup, you need the tech guy -- the CTO/programmer.
-
-The "idea guy" often is the "CEO", promissing to cover the marketing, sales, and fund raising.
-
-It is fair to split such responsibilities between 2 co-founders.
-
-Yet, very often, my “idea guy” friend is one with no experience in the area he handles. Neither had he work in a startup before. If he tries to be the CPO (**P**roduct), it could get even uglier.
-
-Having 2 co-founders with **unequal experience and skill** is a mismatch.
+So I have to choose wisely on which path to take.
 
 
-## Yet, I still want to work in startup
+## 3. It isn’t worth risking our friendship
 
-I still enjoy working in a small team, contributing significantly and creatively.
+Any conflict between you and your friend is compounded when you become co-workers.
 
-After spending so much time with startup, I now have a better understanding of the kind of culture, environment and co-workers I want.
+Mobile app development [costs much more than you think](http://www.formotus.com/14018/blog-mobility/figuring-the-costs-of-custom-mobile-business-app-development). I can’t charge you less (let alone do things for free!) just because you’re my friend.
 
-I may even create that "startup".
+And if the business fails ([90% will](http://www.forbes.com/sites/neilpatel/2015/01/16/90-of-startups-will-fail-heres-what-you-need-to-know-about-the-10/)), then the friendship will be awkward. You will have lost a lot of money — some of which will have gone to pay me.
 
-_This is the first post in samwize.com where I share a non-technical article. Hope you like it (:_
+When things fail, people find reasons. And many times, it’s natural to blame the developer. People will say: **the product wasn’t good enough**.
+
+All eyes will be on the developer, but that’s not really fair.
+
+I value friendship, and all risks considered, I don’t sacrifice it.
+
+
+## 4. Unequal bargains
+
+In a tech startup, you need at least one technical person — the CTO or lead developer.
+
+The “idea person” often becomes the “CEO” and promises to cover the marketing, sales, and fundraising.
+
+It’s fair to split such responsibilities between two cofounders.
+
+Yet, very often, my “idea person” friend is one with no experience in the area they handle. Neither has he worked in a startup before. And if they try to drive the product, it could get even uglier.
+
+Having two co-founders with **unequal experience and skill** is a mismatch.
+
+
+## I love startups. But I love friends even more.
+
+If only I had a friend who understood the risks startups face, had the experience to execute, and was psychologically prepared for failure.
+
+Until that magical person comes along, I’m going to stay focused on working for professional acquaintances, and tell any friends who get the startup itch to do the same.
+
+---
+
+_This is the first post in samwize.com where I share a non-technical article. Hope you like it (: It is also [published](https://medium.freecodecamp.com/why-i-avoid-developing-app-idea-for-friends-58dbc16959ba) in freecodecamp._
