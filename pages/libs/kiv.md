@@ -6,6 +6,7 @@ permalink: /libs/kiv/
 
 I have yet to try these, but they look awesome.
 
+- [R](https://github.com/mac-cain13/R.swift) - This is like Android's `R`, generating a file with constants to the strings
 - [Ensemble](http://www.ensembles.io/) - sync Core Data to iCloud or Dropbox ($299)
 - [Deep Belief](https://github.com/jetpacapp/DeepBeliefSDK) - Image recognition
 
@@ -18,7 +19,6 @@ I have yet to try these, but they look awesome.
 - [DZNSegmentedControl](https://github.com/dzenbot/DZNSegmentedControl) - Segmented Control views
 
 
-
 ## Others
 
 - KVOController - by Facebook for observing key-value easily
@@ -29,10 +29,6 @@ I have yet to try these, but they look awesome.
 - SHUIKitBlocks - UIKit replacement - block instead of delegates
 - Tweaks - a settings for on/off debug stuff, by Facebook
 - LocationManager - grab once easily
-
-
-
-
 
 
 ---
@@ -103,6 +99,7 @@ I have yet to try these, but they look awesome.
 - [TDImageColors](https://github.com/timominous/TDImageColors): Detect most used color
 - [UIImageViewModeScaleAspect](https://github.com/VivienCormier/UIImageViewModeScaleAspect) - Animate between 2 contentMode
 
+
 ## Graphics
 
 - [NXDrawKit](https://github.com/Nicejinux/NXDrawKit) - draw on view, written in Swift
@@ -149,18 +146,6 @@ CCHMapClusterController
 - Chameleon - Auto color scheme
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 ---
 
 ## VoIP/SMS/Calls
@@ -168,12 +153,10 @@ CCHMapClusterController
 [Sinch](https://www.sinch.com) - rebtel using? Seems mature. Talked about PushKit.
 
 
-
 ## Multiple libs-in-1
 
 twotoasters (pod subspecs! but not popular lib)
 DerpKit - KVO+blocks and others
-
 
 
 ## Swift Web Frameworks
@@ -184,7 +167,6 @@ This is not iOS, but Swift. And for sure many web frameworks will be created, ju
   - Inspired by Laravel. Pretty comprehensive on how to deploy to DO and Heroku.
 - https://github.com/PerfectlySoft/Perfect
 - https://github.com/izqui/Taylor
-
 
 
 ## Apple Watch
