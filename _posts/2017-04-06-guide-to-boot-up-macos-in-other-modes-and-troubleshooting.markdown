@@ -1,19 +1,26 @@
 ---
 layout: post
-title: "Guide to Boot Up macOS in Other Modes, and Troubleshooting"
+title: "Guide to Booting Up macOS in Other Modes, and Troubleshooting"
 date: 2017-04-06T23:02:29+08:00
-categories: []
+image: /images/macos-bootup-hang.jpg
+categories: [mac]
 ---
 
-This guide is for troubleshooting macOS in the scenario that it can't boot up. 
+This guide is for troubleshooting macOS in the scenario that it can't boot up.
 
-macOS provides many "secret" modes. You will need to hold down the keys when your machine is powered on. When you hear the startup sound and see the Apple logo, you may release the keys.
+I have personally encountered a couple of times, frightening scenarios, where my mac somehow could not boot up, or get stuck during login etc. macOS provides many "secret" modes to help to troubleshoot.
+
+Knowing them will be handy in time of crisis.
+
+You will need to hold down certain keys when your machine is powered on to enter these modes. When you hear the startup sound and see the Apple logo, you may release the keys.
 
 ## Resetting PRAM/NVRAM
 
 _Hold Command + Option + P + R_
 
-Parameter RAM stores default values, and it could get corrupted for some strange reasons. The number 1 troubleshooting resolution.
+Parameter RAM stores default values, and it could get corrupted for some reasons.
+
+This is **The Number 1** troubleshooting resolution. Always try this first.
 
 ## Resetting SCM
 
@@ -35,7 +42,7 @@ This will boot without loading third-party drivers and startup programs.
 
 _Hold Command + S_
 
-In single user mode, you have access to terminal, and you can run certain tools to troubleshoot.
+In single user mode, you have access to terminal, so you can run certain tools to troubleshoot.
 
 ```bash
 # Check and repair file system for consistency
@@ -48,7 +55,7 @@ _Hold D_
 
 You can perform a short test (around 3 min), or an extended test (around 1 hour).
 
-If you encountered "4HDD/11/40000000: SATA(0,0)", and could be a [false positive](https://support.apple.com/en-sg/HT203648). You can disabled looping by pressing _L_ before starting the test.
+Special case: If you encountered `4HDD/11/40000000: SATA(0,0)`, it could be a [false positive](https://support.apple.com/en-sg/HT203648). You can disable looping by pressing _L_ before starting the test. I encountered this, but I still managed to "fix" it - the SSD is not damaged in my case. So don't worry too much on this error.
 
 ## Recovery Mode
 
