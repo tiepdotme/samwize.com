@@ -6,9 +6,72 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 09 Apr 2017 18:48:11 +0800</pubDate>
-    <lastBuildDate>Sun, 09 Apr 2017 18:48:11 +0800</lastBuildDate>
+    <pubDate>Thu, 20 Apr 2017 13:26:56 +0800</pubDate>
+    <lastBuildDate>Thu, 20 Apr 2017 13:26:56 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Access Levels in Swift</title>
+        <description>&lt;p&gt;&lt;img src=&quot;/images/swift-access-levels.jpg&quot; alt=&quot;The 5 Access Levels in Swift&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-default&quot;&gt;The Default&lt;/h2&gt;
+
+&lt;p&gt;The default is &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;, which means access is restricted to within a module.&lt;/p&gt;
+
+&lt;p&gt;What is a module? An app is 1 module.&lt;/p&gt;
+
+&lt;p&gt;Hence, the default for an app is everything is accessible within the app.&lt;/p&gt;
+
+&lt;h2 id=&quot;which-to-use&quot;&gt;Which to use?&lt;/h2&gt;
+
+&lt;p&gt;The good practise is to start being extremely restrictive.&lt;/p&gt;
+
+&lt;p&gt;Start with &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt;, and expose more, only if necessary.&lt;/p&gt;
+
+&lt;h2 id=&quot;application-vs-framework-development&quot;&gt;Application vs Framework Development&lt;/h2&gt;
+
+&lt;p&gt;For regular application development, you will use only (1) to (3).&lt;/p&gt;
+
+&lt;p&gt;For developers working on framework/library/SDK, they will use (4) and (5), because their “module” is exposed to other developers. The difference between the last 2 levels is that &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt; does not allow the type/func to be subclassed/overriden, while &lt;code class=&quot;highlighter-rouge&quot;&gt;open&lt;/code&gt; let you do whatever you want.&lt;/p&gt;
+
+&lt;h2 id=&quot;implicit&quot;&gt;Implicit&lt;/h2&gt;
+
+&lt;p&gt;If a type has a certain access level, the properties within will have the same level, implicitly.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;X&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// implicitly private&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;specify-explicitly-for-top-level-definitions&quot;&gt;Specify explicitly for top-level definitions&lt;/h2&gt;
+
+&lt;p&gt;A &lt;a href=&quot;https://github.com/github/swift-style-guide&quot;&gt;good practise&lt;/a&gt; is to specify the access level explicitly for the top-level types and functions.&lt;/p&gt;
+
+&lt;p&gt;Don’t leave it to the default (&lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;). Think hard if you need other part of your app to access it.&lt;/p&gt;
+
+&lt;h2 id=&quot;testing&quot;&gt;Testing&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@testable import MyApp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In your unit tests, you can import with &lt;code class=&quot;highlighter-rouge&quot;&gt;@testable&lt;/code&gt; attribute, which is a superpower to &lt;a href=&quot;https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/04-writing_tests.html&quot;&gt;change access levels&lt;/a&gt; in the module/app, so that in your tests you can access them.&lt;/p&gt;
+
+&lt;p&gt;For example, an &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt; class is not accessible to test target, because a test target is an external module. With &lt;code class=&quot;highlighter-rouge&quot;&gt;@testable&lt;/code&gt;, the access level is increased to &lt;code class=&quot;highlighter-rouge&quot;&gt;open&lt;/code&gt;, and you can now access it (and may even subclass it)!&lt;/p&gt;
+
+&lt;h2 id=&quot;final&quot;&gt;Final&lt;/h2&gt;
+
+&lt;p&gt;Finally, another good practise is to lock down your definitions with &lt;code class=&quot;highlighter-rouge&quot;&gt;final&lt;/code&gt; (:&lt;/p&gt;
+
+&lt;p&gt;This attribute provides an additional restriction – prevent others from subclassing and overriding it.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 20 Apr 2017 11:31:44 +0800</pubDate>
+        <link>http://samwize.com/2017/04/20/access-levels-in-swift/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/04/20/access-levels-in-swift/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Guide to Booting Up macOS in Other Modes, and Troubleshooting</title>
@@ -1100,173 +1163,6 @@ youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
         
         
         <category>bash</category>
-        
-      </item>
-    
-      <item>
-        <title>UIKit Dynamics Guide</title>
-        <description>&lt;p&gt;UIKit Dynamics was unveiled in &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2013/206/&quot;&gt;WWDC 2013&lt;/a&gt;, for iOS 7.&lt;/p&gt;
-
-&lt;p&gt;The goal was to make it easy to create animated views and transitions, based on physics.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-about-core-animation-uiview-animation-etc&quot;&gt;What about Core Animation, UIView Animation, etc&lt;/h2&gt;
-
-&lt;p&gt;We already can animate views using various techniques, such as:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;the popular &lt;a href=&quot;https://developer.apple.com/reference/uikit/uiview/1622418-animate&quot;&gt;animate(withDuration:animations:)&lt;/a&gt;, and&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;/2016/12/16/core-animation-guide/&quot;&gt;Core Animation&lt;/a&gt;, which we covered earlier.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;So why need UIKit Dynamics?&lt;/p&gt;
-
-&lt;p&gt;In short, UIKit Dynamics is a better, physics-inspired framework.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;A composable, reusable, declarative, real-world inspired animation, and interaction system.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;UI Dynamics &lt;em&gt;is like&lt;/em&gt; Sprite Kit, but for non-gaming apps.&lt;/p&gt;
-
-&lt;p&gt;(Note: Core Animation is great, but it is for pure animation. It has no “physics engine”, no collision detection and sort. So choose the framework you need.)&lt;/p&gt;
-
-&lt;h2 id=&quot;architecture&quot;&gt;Architecture&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/uikit-dynamic-architecture.png&quot; alt=&quot;UIKit Dynamic Architecture Diagram&quot; /&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;UIDynamicAnimator
-    &lt;ul&gt;
-      &lt;li&gt;Has a reference view (think of it as a canvas)&lt;/li&gt;
-      &lt;li&gt;Provide overall context&lt;/li&gt;
-      &lt;li&gt;Keep track of all the behavioiurs&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;UIDynamicBehavior
-    &lt;ul&gt;
-      &lt;li&gt;Declarative&lt;/li&gt;
-      &lt;li&gt;Composable&lt;/li&gt;
-      &lt;li&gt;Configure the parameters then add to animator&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;UIDynamicItem/View
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;https://developer.apple.com/reference/uikit/uidynamicitem&quot;&gt;UIDynamicItem&lt;/a&gt; is a protocol, providing UIKit the information it needs to animate an item&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; implements it, but you can implement it too&lt;/li&gt;
-      &lt;li&gt;Behaviour-View is n-n&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;primitive-behaviours&quot;&gt;Primitive Behaviours&lt;/h2&gt;
-
-&lt;p&gt;You can create/compose your own &lt;code class=&quot;highlighter-rouge&quot;&gt;UIDynamicBehavior&lt;/code&gt;, but these common ones are provided out of the box:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Gravity
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;Earth Gravity&lt;/del&gt; UI Kit Gravity = 1000 point/sec^2&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Collision
-    &lt;ul&gt;
-      &lt;li&gt;Between items or boundary&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Attachment
-    &lt;ul&gt;
-      &lt;li&gt;Spring&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Snap
-    &lt;ul&gt;
-      &lt;li&gt;Snap in place&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Push
-    &lt;ul&gt;
-      &lt;li&gt;&lt;del&gt;Newton Force&lt;/del&gt; UIKit Newton = Accelerate (100,100) to 100 point/sec^2&lt;/li&gt;
-      &lt;li&gt;Continuous or instantenous&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;UIDynamicItemBehavior
-    &lt;ul&gt;
-      &lt;li&gt;Item-level properties: friction, elasticiy, density, etc&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;the-swift-code&quot;&gt;The Swift Code&lt;/h2&gt;
-
-&lt;p&gt;This is how you create a simple physics behaviour (actually made up of 3 &lt;code class=&quot;highlighter-rouge&quot;&gt;UIDynamicBehavior&lt;/code&gt;) of an image view falling through gravity and bouncing off the container view:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// The view controller must hold on to the animator object&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;animator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIDynamicAnimator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Create the animator&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;animator&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIDynamicAnimator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;referenceView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Create behaviour #1 - Gravity&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;gravity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIGravityBehavior&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;animator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addBehavior&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gravity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Create behaviour #2 - Collision&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;collision&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UICollisionBehavior&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;collision&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;translatesReferenceBoundsIntoBoundary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;animator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addBehavior&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;collision&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Create behaviour #3 - Elasticity etc&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;behaviour&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIDynamicItemBehavior&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;behaviour&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;allowsRotation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;behaviour&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;elasticity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;animator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addBehavior&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;behaviour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;with-autolayout&quot;&gt;With Autolayout&lt;/h2&gt;
-
-&lt;p&gt;Autolayout is &lt;em&gt;incompatitble&lt;/em&gt; with animation - using UIKit Dynamics or Core Animation.&lt;/p&gt;
-
-&lt;p&gt;In &lt;a href=&quot;/2016/12/16/core-animation-guide/&quot;&gt;Core Animation&lt;/a&gt;, the framework works on the &lt;strong&gt;presentation&lt;/strong&gt; layer, while the actual &lt;strong&gt;model&lt;/strong&gt; has to be explicitly updated when the animation is completed.&lt;/p&gt;
-
-&lt;p&gt;This is the same for UIKit Dynamics.&lt;/p&gt;
-
-&lt;p&gt;Use the animator’s &lt;a href=&quot;https://developer.apple.com/reference/uikit/uidynamicanimatordelegate#//apple_ref/occ/intfm/UIDynamicAnimatorDelegate/dynamicAnimatorDidPause&quot;&gt;delegate&lt;/a&gt; to know when the animation is completed, and update your autolayout constraints to the final state..&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// In `viewDidLoad`, set the delegate&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;animator&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
-  
-&lt;span class=&quot;c1&quot;&gt;// UIDynamicAnimatorDelegate&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;dynamicAnimatorDidPause&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;animator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIDynamicAnimator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Update the constraint to the final state&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;uicollectionview&quot;&gt;UICollectionView&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UICollectionViewLayoutAttributes&lt;/code&gt; also implements &lt;code class=&quot;highlighter-rouge&quot;&gt;UIDynamicItem&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;This provides some cool animation to all the items in a collection view.&lt;/p&gt;
-
-&lt;p&gt;objc.io has a good tutorial on &lt;a href=&quot;https://www.objc.io/issues/5-ios7/collection-views-and-uidynamics/&quot;&gt;UICollectionView with dynamic animator&lt;/a&gt;, with the &lt;a href=&quot;https://github.com/ashfurrow/ASHSpringyCollectionView/blob/master/ASHSpringyCollectionView/ASHSpringyCollectionViewFlowLayout.m&quot;&gt;source&lt;/a&gt; in github.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 19 Dec 2016 16:49:03 +0800</pubDate>
-        <link>http://samwize.com/2016/12/19/uikit-dynamics-guide/</link>
-        <guid isPermaLink="true">http://samwize.com/2016/12/19/uikit-dynamics-guide/</guid>
-        
-        
-        <category>iOS</category>
-        
-        <category>UIKit</category>
         
       </item>
     
