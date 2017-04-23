@@ -6,9 +6,136 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 20 Apr 2017 13:26:56 +0800</pubDate>
-    <lastBuildDate>Thu, 20 Apr 2017 13:26:56 +0800</lastBuildDate>
+    <pubDate>Sat, 22 Apr 2017 23:05:39 +0800</pubDate>
+    <lastBuildDate>Sat, 22 Apr 2017 23:05:39 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Guide to watchOS Development</title>
+        <description>&lt;p&gt;&lt;em&gt;A guide for watchOS 3, because the &lt;a href=&quot;https://developer.apple.com/library/content/documentation/General/Conceptual/WatchKitProgrammingGuide/&quot;&gt;watch app programming guide&lt;/a&gt; is not obvious.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;companion-app&quot;&gt;Companion App&lt;/h2&gt;
+
+&lt;p&gt;The companion app is the iOS app, aka the parent or host app.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You CANNOT open companion app programmatically&lt;/li&gt;
+  &lt;li&gt;You can communicate with the companion app, and at best put the app in background state&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;setup-bi-directional-session&quot;&gt;Setup bi-directional session&lt;/h2&gt;
+
+&lt;p&gt;First, setup sessions between watch app and companion app using &lt;a href=&quot;https://developer.apple.com/reference/watchconnectivity/wcsession&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;WCSession&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You need to setup for both directions.&lt;/p&gt;
+
+&lt;p&gt;On iOS’s app delegate, or watchOS’ extension delegate, setup the session like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setupWatchSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WCSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;isSupported&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WCSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;activate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/reference/watchconnectivity/wcsessiondelegate&quot;&gt;delegate&lt;/a&gt; manages state change, and also receiving of messages:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AppDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WCSessionDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WCSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;activationDidCompleteWith&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;activationState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WCSessionActivationState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sessionDidBecomeInactive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WCSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;      
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sessionDidDeactivate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WCSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WCSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didReceiveMessage&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;replyHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@escaping&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The first 3 delegate methods are mandatory, even if empty.&lt;/p&gt;
+
+&lt;p&gt;The 4th method &lt;code class=&quot;highlighter-rouge&quot;&gt;session:didReceiveMessage:&lt;/code&gt; is for receiving messages from the other side. It is optional method, but we use it in next section.&lt;/p&gt;
+
+&lt;h2 id=&quot;ways-to-communicate&quot;&gt;Ways to Communicate&lt;/h2&gt;
+
+&lt;p&gt;There are a number of ways, and you &lt;a href=&quot;https://developer.apple.com/library/content/documentation/General/Conceptual/WatchKitProgrammingGuide/SharingData.html#//apple_ref/doc/uid/TP40014969-CH29-SW1&quot;&gt;choose what is right&lt;/a&gt; for your app.&lt;/p&gt;
+
+&lt;p&gt;I will mention what is easiest – &lt;a href=&quot;https://developer.apple.com/reference/watchconnectivity/wcsession/1615687-sendmessage&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sendMessage&lt;/code&gt;&lt;/a&gt;. Let’s look at the signature:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;func sendMessage(_ message: [String : Any], replyHandler: (([String : Any]) -&amp;gt; Void)?, errorHandler: ((Error) -&amp;gt; Void)? = nil)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;You send a message payload in the form of a dictionary with &lt;code class=&quot;highlighter-rouge&quot;&gt;sendMessage&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;The other side recieve via &lt;a href=&quot;https://developer.apple.com/reference/watchconnectivity/wcsessiondelegate/1615677-session&quot;&gt;didReceiveMessage&lt;/a&gt; (one of &lt;code class=&quot;highlighter-rouge&quot;&gt;WKSessionDelegate&lt;/code&gt; method)&lt;/li&gt;
+  &lt;li&gt;The other side can reply via the &lt;code class=&quot;highlighter-rouge&quot;&gt;replyHandler&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;You get back the reply in your reply handler&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This is a simple send and reply mechanism, triggered by one side.&lt;/p&gt;
+
+&lt;h2 id=&quot;open-companion-app-in-active-state&quot;&gt;Open Companion App in Active State&lt;/h2&gt;
+
+&lt;p&gt;This is a very common scenario – watch app wants to open companion (iOS) app.&lt;/p&gt;
+
+&lt;p&gt;That is NOT possible.&lt;/p&gt;
+
+&lt;p&gt;The best we developers can manage is this:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Watch app communicates via &lt;code class=&quot;highlighter-rouge&quot;&gt;sendMessage&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;iOS app receives message&lt;/li&gt;
+  &lt;li&gt;iOS app reply it’s current state – active or not – using &lt;code class=&quot;highlighter-rouge&quot;&gt;UIApplication.shared.applicationState&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Watch app receives reply, and if state is not active, inform the user that he must open the iOS app&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The above can be slightly improved. When iOS app is opened, &lt;strong&gt;proactively&lt;/strong&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;sendMessage&lt;/code&gt; to watch app on it’s status.&lt;/p&gt;
+
+&lt;h2 id=&quot;debug-both-watch-and-ios-targets&quot;&gt;Debug BOTH watch and iOS targets&lt;/h2&gt;
+
+&lt;p&gt;It seems like Xcode cannot run and debug watchOS and iOS targets at the same time.&lt;/p&gt;
+
+&lt;p&gt;But it is actually possible, but &lt;a href=&quot;https://forums.developer.apple.com/thread/16003&quot;&gt;not obvious&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The steps:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Run watch app&lt;/li&gt;
+  &lt;li&gt;Xcode &amp;gt; Debug &amp;gt; Attach to process &amp;gt; select your iOS app&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If you want to debug your iOS app before it is being launched, you can “Attach to Process by PID or Name…”&lt;/p&gt;
+
+&lt;h2 id=&quot;pitfall-xcode-build-errors&quot;&gt;Pitfall: Xcode Build Errors&lt;/h2&gt;
+
+&lt;p&gt;I encountered Xcode bug where the watch app build settings does not include the correct build architecture.&lt;/p&gt;
+
+&lt;p&gt;Not sure why, but Xcode &lt;em&gt;always&lt;/em&gt; screw up with the build architecture.&lt;/p&gt;
+
+&lt;p&gt;Plus, Xcode throws confusing errors such as &lt;code class=&quot;highlighter-rouge&quot;&gt;WatchKit App doesn&#39;t contain any WatchKit Extensions. Verify that the value of NSExtensionPointIdentifier in your WatchKit Extension&#39;s Info.plist is set to com.apple.watchkit&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Embedded Binary Validation utility Error&lt;/code&gt;, but really, the root cause is that it didn’t build the watch extension.&lt;/p&gt;
+
+&lt;p&gt;Make sure under Watch Extension target &amp;gt; Build Settings &amp;gt; Valid Architectures, it includes &lt;code class=&quot;highlighter-rouge&quot;&gt;armv7k&lt;/code&gt; (for device) and &lt;code class=&quot;highlighter-rouge&quot;&gt;i386&lt;/code&gt; (for simulator).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/content/technotes/tn2424/_index.html&quot;&gt;Technical notes&lt;/a&gt; could be helpful.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 22 Apr 2017 14:31:36 +0800</pubDate>
+        <link>http://samwize.com/2017/04/22/all-you-need-to-know-about-watchos-development/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/04/22/all-you-need-to-know-about-watchos-development/</guid>
+        
+        
+        <category>watchOS</category>
+        
+      </item>
     
       <item>
         <title>Access Levels in Swift</title>
@@ -1089,80 +1216,6 @@ npm install -g flow-bin
         
         
         <category>React Native</category>
-        
-      </item>
-    
-      <item>
-        <title>Handy Bash Commands</title>
-        <description>&lt;h2 id=&quot;resize-image&quot;&gt;Resize Image&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Resize to max width/height 640
-sips -Z 640 *.jpg
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;convert-image-format&quot;&gt;Convert Image Format&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Convert png to jpg
-sips -s format jpeg *.png --out mydirectory
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;list-process-running-on-a-port&quot;&gt;List Process Running on a Port&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# eg. Port 8080
-lsof -i :8080
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;kill-process-running-on-a-port&quot;&gt;Kill Process running on a Port&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lsof -P | grep &#39;:8080&#39; | awk &#39;{print $2}&#39; | xargs kill -9
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;creating-markdown-journal&quot;&gt;Creating Markdown Journal&lt;/h2&gt;
-
-&lt;p&gt;Uses &lt;a href=&quot;https://github.com/samwize/journal/&quot;&gt;journal&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;journal new -d /path/to/journal &quot;My entry for today&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;extract-mp3-from-youtube&quot;&gt;Extract MP3 from Youtube&lt;/h2&gt;
-
-&lt;p&gt;Uses &lt;a href=&quot;https://rg3.github.io/youtube-dl/&quot;&gt;youtube-dl&lt;/a&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;youtube-dl -x --audio-format=mp3 https://www.youtube.com/watch?v=eu-5mvCNKbQ
-
-# Other handy youtube-dl
-# Download in mp4 video format
-youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;download-youtube-live-stream&quot;&gt;Download Youtube Live Stream&lt;/h2&gt;
-
-&lt;p&gt;For live streams, &lt;code class=&quot;highlighter-rouge&quot;&gt;youtube-dl&lt;/code&gt; does not work well. We need another tool to the rescue - &lt;a href=&quot;https://github.com/chrippa/livestreamer/&quot;&gt;livestreamer&lt;/a&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;livestreamer https://www.youtube.com/watch?v=-62LWTsykcw best --hls-live-edge 99999 -o Live.ts
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;hls-live-edge&lt;/code&gt; &lt;a href=&quot;http://docs.livestreamer.io/cli.html#cmdoption--hls-live-edge&quot;&gt;option&lt;/a&gt; is how many segments from the END to begin downloading from. The large value makes it start from the very beginning.&lt;/p&gt;
-
-&lt;h2 id=&quot;download-a-file-with-curl&quot;&gt;Download a file with curl&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -o myfile.mp3 https://the.domain.com/file
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-        <pubDate>Mon, 02 Jan 2017 12:30:28 +0800</pubDate>
-        <link>http://samwize.com/2017/01/02/handy-bash-commands/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/01/02/handy-bash-commands/</guid>
-        
-        
-        <category>bash</category>
         
       </item>
     
