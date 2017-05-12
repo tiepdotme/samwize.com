@@ -7,7 +7,7 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Core UI Libraries</title>
+  <title>Apple Coding Style</title>
   <meta name="description" content="¯\_(ツ)_/¯" />
 
   <meta name="HandheldFriendly" content="True" />
@@ -17,7 +17,7 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Core UI Libraries" />
+    <meta name="twitter:title" content="Apple Coding Style" />
     <meta name="twitter:image" content="http://samwize.com" />
     
     <meta name="twitter:description" content="¯\_(ツ)_/¯" />
@@ -25,16 +25,16 @@
   
   
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Core UI Libraries"/>
+  <meta property="og:title" content="Apple Coding Style"/>
   
   <meta property="og:description" content="¯\_(ツ)_/¯" />
   
   <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/libs/core-ui/" >
+  <meta property="og:url" content="http://samwize.com/development/apple-coding-style/" >
   <meta property="og:type" content="blog" />
   
 
-  <link rel="canonical" href="http://samwize.com/libs/core-ui/">
+  <link rel="canonical" href="http://samwize.com/development/apple-coding-style/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -54,7 +54,7 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Core UI Libraries</h1>
+            <h1 class="post-title">Apple Coding Style</h1>
             <div class="cf post-meta-text">
               <div class="author-image" style="background-image: url()">Blog Logo</div>
               <h4 class="author-name" itemprop="author" itemscope itemtype="http://schema.org/Person"></h4>
@@ -67,31 +67,45 @@
         
         <section class="post-content">
           <a name="topofpage"></a>
-          <h2 id="empty-state-for-tablecollection">Empty State for Table/Collection</h2>
+          <p>This coding style is for iOS, macOS, tvOS, watchOS, and whatever OS Apple adds to the family.</p>
 
-<p><a href="https://github.com/dzenbot/DZNEmptyDataSet">DZNEmptyDataSet</a> create a view when your table/collection view is empty. You customize it with attributed strings for the title, subtitle and the call-to-action-button. If the standard layout is too enough, you may return your own view.</p>
+<p>For simplicity let’s just call it Apple Coding Style. But we could have call it Xcode &amp; Swift Coding Style, because the IDE and language plays a big part.</p>
 
-<h2 id="keyboard--text-fields">Keyboard &amp; Text Fields</h2>
+<h2 id="project-structure">Project Structure</h2>
 
-<p><a href="https://github.com/hackiftekhar/IQKeyboardManager">IQManagerKeyboard</a> prevents keyboard from obscuring the text field, by automatically adjusting the views upwards.</p>
+<p>Organize your project like how you clean and organize your room. Put things where they belong to, so that you can find them when needed.</p>
 
-<h2 id="animations">Animations</h2>
+<p><strong>Project Structure</strong> is made up the Xcode’s groups and files.</p>
 
-<p><a href="https://github.com/MengTo/Spring">MengTo/Spring</a> simplify how you write animation code. You may even specify the animation properties in storyboard, without writing any code!</p>
+<p>A group is a container, and you can have smaller containers in it (subgroup).</p>
 
-<p>Before Spring, there is <a href="https://github.com/facebook/pop">Pop</a>, a popular animation engine written by Facebook, used in (the now defunct) Facebook Paper app.</p>
+<p>The files are placed in these containers.</p>
 
-<h2 id="messagenotification-view">Message/Notification View</h2>
+<p>Many developers will have a traditional structure. If they use MVC architecture, they have the groups “Models”, “Views” and “ViewControllers”.</p>
 
-<p>Show <a href="https://github.com/scalessec/Toast">Toast</a> - your message encapsulated in a small popup - for a short duration. Toast is a native UI element from <a href="https://developer.android.com/guide/topics/ui/notifiers/toasts.html">Android</a>.</p>
+<p>But no, your project structure should not reflect the architecture you use. Why?</p>
 
-<p><a href="https://github.com/KrauseFx/TSMessages">TSMessages</a> by the fastlane guy, is a notification at the top, similar to Tweetboot.</p>
+<p>What if you use multiple architectures? How would you mix in MVVM or VIPER?</p>
 
-<h2 id="custom-modal-popup">Custom Modal Popup</h2>
+<p>As Uncle Bob say, an accounting software should shout ACCOUNTING when you look at the project structure (he call that “project architecture”).</p>
 
-<p><a href="https://github.com/IcaliaLabs/Presentr">Presentr</a> wraps around the iOS 8 custom view controller presentation API for you to easily present popup view.</p>
+<h2 id="directory-structure">Directory Structure</h2>
 
-<p><em>Archived <a href="https://github.com/jmascia/KLCPopup">KLCPopup</a> because Presentr is in Swift!</em></p>
+<p>There is a secondary way of organizing.</p>
+
+<p><strong>Directory Structure</strong> are the actual folders and files.</p>
+
+<p>Many developers keep the Project and Directory structures in sync. But this is not a good use.</p>
+
+<p>Directory structure should organize by the type of files you have: swift, storyboard, xib, resources, etc</p>
+
+<p>As a project will have many swift files, you can further organize into the common type: View Controllers, Models, Managers, etc</p>
+
+<p>How is this good?</p>
+
+<p>We change Project Structure frequently, moving the groups, renaming it etc. That can be done without affecting the directory structure, and therefore in your git history, no change.</p>
+
+<p>Putting the same type of files together will also help in the internal representation of localization efforts. When you localize a storyboard, Xcode will create a directory for each language (eg “fr.lproj” for French). By placing all storyboards in the same directory, they share the same eg. “fr.lproj”.</p>
 
         </section>
       </article>

@@ -6,9 +6,137 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 22 Apr 2017 23:05:39 +0800</pubDate>
-    <lastBuildDate>Sat, 22 Apr 2017 23:05:39 +0800</lastBuildDate>
+    <pubDate>Fri, 12 May 2017 22:53:06 +0800</pubDate>
+    <lastBuildDate>Fri, 12 May 2017 22:53:06 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Xcode 8 File Templates</title>
+        <description>&lt;h2 id=&quot;the-secret-feature-of-xcode&quot;&gt;The secret feature of Xcode&lt;/h2&gt;
+
+&lt;p&gt;Ok, not exactly a secret, but it is definitely one of the less known features of Xcode, that was &lt;a href=&quot;https://developer.apple.com/search/?q=xcode%20template&quot;&gt;never documented&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Whenever you add a new file, you are using one of the provided &lt;strong&gt;File Templates&lt;/strong&gt;. Eg. When you choose a “Cocoa Touch Class” and subsequently selected a UIViewController subclass, it is simply generating the new file with a template.&lt;/p&gt;
+
+&lt;p&gt;Knowing how to make full use of it will speed up your development, similar to the &lt;a href=&quot;/2014/03/26/tip-use-xcode-snippets/&quot;&gt;tip on Xcode’s code snippets&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you are using a certain architecture that needs to create many files for a module, file template can help to create and generate boilerplate codes quickly.&lt;/p&gt;
+
+&lt;h2 id=&quot;creating-your-file-template&quot;&gt;Creating Your File Template&lt;/h2&gt;
+
+&lt;p&gt;You have to store Xcode file templates in&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/Library/Developer/Xcode/Templates/File Templates/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is stored under your user account. In the later section, we will share a tip using Dropbox to sync all your templates.&lt;/p&gt;
+
+&lt;p&gt;For now, let’s create your template under that directory. The &lt;code class=&quot;highlighter-rouge&quot;&gt;/Templates/File Templates/&lt;/code&gt; folders have to be created along with your template eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;MyTemplate.xctemplate&lt;/code&gt; (a directory with the extension .xctemplate)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p ~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There is another kind of template known as &lt;strong&gt;Project Templates&lt;/strong&gt;. We will not be discussing it, but you should have guessed where it should be – &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Library/Developer/Xcode/Templates/Project Templates/&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, let’s refer to the provided standard Xcode file templates, which are all in&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File Templates/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We will copy the simple swift template, and modify for our use later.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp -R \
+/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File\ Templates/Source/Swift\ File.xctemplate/ \
+~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You will see a few files in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use-your-template&quot;&gt;How to use your template&lt;/h2&gt;
+
+&lt;p&gt;At this point, your custom template can already be used.&lt;/p&gt;
+
+&lt;p&gt;In Xcode, add a new file, and search for “MyTemplate” (or scroll to File Templates at the bottom), and it will generate an empty Swift file.&lt;/p&gt;
+
+&lt;p&gt;You can also see your template under File Template Library. Or press &lt;code class=&quot;highlighter-rouge&quot;&gt;CMD + ALT + CTRL + 1&lt;/code&gt;. You might need to restart Xcode for it to find the newly created template. You can drag a template to your project navigation.&lt;/p&gt;
+
+&lt;h2 id=&quot;customize-the-template&quot;&gt;Customize the template&lt;/h2&gt;
+
+&lt;p&gt;Good, now let’s learn how to customize the template.&lt;/p&gt;
+
+&lt;p&gt;There are a few files in a template.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TemplateIcon.png&lt;/code&gt; (and the @2x) is obvious – a visual icon to represent your template in Xcode&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TemplateInfo.plist&lt;/code&gt; – like project Info.plist, this property file describes the template&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The rest of the files (eg &lt;code class=&quot;highlighter-rouge&quot;&gt;___FILEBASENAME___.swift&lt;/code&gt;) are the actual files that will be created. If you add more files eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;___FILEBASENAME___+Extension.swift&lt;/code&gt;, then that file will be created too.&lt;/p&gt;
+
+&lt;p&gt;Let’s dive deeper into &lt;code class=&quot;highlighter-rouge&quot;&gt;TemplateInfo.plist&lt;/code&gt;, which provides many options.&lt;/p&gt;
+
+&lt;p&gt;There are a few &lt;code class=&quot;highlighter-rouge&quot;&gt;Kind&lt;/code&gt; of templates. We usually use &lt;code class=&quot;highlighter-rouge&quot;&gt;Xcode.IDEFoundation.TextSubstitutionFileTemplateKind&lt;/code&gt;. Others are &lt;code class=&quot;highlighter-rouge&quot;&gt;Xcode.IDEKit.PlaygroundWithPlatformChoice&lt;/code&gt; etc.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Summary&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Description&lt;/code&gt; are obvious.&lt;/p&gt;
+
+&lt;h3 id=&quot;options&quot;&gt;Options&lt;/h3&gt;
+
+&lt;p&gt;You can provide many &lt;code class=&quot;highlighter-rouge&quot;&gt;Option&lt;/code&gt;s, an array of dictionary.&lt;/p&gt;
+
+&lt;p&gt;Let’s look at this example, with 1 item in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Option&lt;/code&gt; array.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/xcode-template-options.png&quot; alt=&quot;Example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Identifier&lt;/code&gt; is very important. It is the variable name that can be used in the file template.&lt;/p&gt;
+
+&lt;p&gt;Eg In &lt;code class=&quot;highlighter-rouge&quot;&gt;___FILEBASENAME___.swift&lt;/code&gt;, you can have this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;let ___VARIABLE_FOO___: String
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When you create the file, you will be prompted to enter for “Foo:”, with a default text “ohMyFoo”. The actual generated then becomes&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;let ohMyFoo: String
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You could have other &lt;code class=&quot;highlighter-rouge&quot;&gt;Type&lt;/code&gt;, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;popup&lt;/code&gt; with it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Values&lt;/code&gt; array.&lt;/p&gt;
+
+&lt;p&gt;As you can imagine, you can have multiple variables to be used in the file template.&lt;/p&gt;
+
+&lt;h2 id=&quot;sync-to-dropbox&quot;&gt;Sync to Dropbox&lt;/h2&gt;
+
+&lt;p&gt;If you are using multiple machine, you will like this tip.&lt;/p&gt;
+
+&lt;p&gt;We can store our templates in Dropbox, and using symlink to the Xcode folders. This is similar to the tip for &lt;a href=&quot;/2014/03/26/tip-use-xcode-snippets/&quot;&gt;syncing code snippets&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://db.tt/GRqFn03&quot;&gt;Signup for Dropbox&lt;/a&gt; if you don’t have an account.&lt;/p&gt;
+
+&lt;p&gt;I store them under &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Dropbox/Workspace/Xcode/Templates&lt;/code&gt;. It’s up to you where to store. Move your custom templates to the folder.&lt;/p&gt;
+
+&lt;p&gt;For our example, it will be in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Dropbox/Workspace/Xcode/Templates/File Templates/MyTemplate.xctemplate/&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Then create the symbolic link:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ln -s ~/Dropbox/Workspace/Xcode/Templates ~/Library/Developer/Xcode/Templates/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;That’s it! Remember to create the symbolic link for every machine.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 12 May 2017 14:40:33 +0800</pubDate>
+        <link>http://samwize.com/2017/05/12/xcode-8-file-templates/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/05/12/xcode-8-file-templates/</guid>
+        
+        
+        <category>Xcode</category>
+        
+      </item>
     
       <item>
         <title>Guide to watchOS Development</title>
@@ -192,6 +320,22 @@
 &lt;p&gt;Finally, another good practise is to lock down your definitions with &lt;code class=&quot;highlighter-rouge&quot;&gt;final&lt;/code&gt; (:&lt;/p&gt;
 
 &lt;p&gt;This attribute provides an additional restriction – prevent others from subclassing and overriding it.&lt;/p&gt;
+
+&lt;h2 id=&quot;wait-lastly-its-hell-of-a-mess-from-swift&quot;&gt;Wait. Lastly, it’s hell of a mess from Swift.&lt;/h2&gt;
+
+&lt;p&gt;This is a complain on how access levels have evolved, yet is still not great in Swift 3.&lt;/p&gt;
+
+&lt;p&gt;In Swift 1, there are 2 levels.&lt;br /&gt;
+In Swift 2, there are 3 levels.&lt;br /&gt;
+In Swift 3, there are 5 levels.&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;I believe it is a mistake in Swift 3 to adopt &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md&quot;&gt;SE-0025&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;My biggest gripe is this: I have extension X to a type T, keeping them in seperate files. If I want X to use a private member in T, it is impossible to do so with &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;fileprivate&lt;/code&gt;. I am forced to increase the access to &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;, which is not what I want.&lt;/p&gt;
+
+&lt;p&gt;There is no way to have type level private. The current &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; is local scope private, and &lt;code class=&quot;highlighter-rouge&quot;&gt;fileprivate&lt;/code&gt; is a &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034903.html&quot;&gt;weird brother&lt;/a&gt; that extends to within that file.&lt;/p&gt;
+
+&lt;p&gt;After Swift 3 was introduced, there is proposal &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0159-fix-private-access-levels.md&quot;&gt;SE-0159&lt;/a&gt; to fix the mistake, but was &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034902.html&quot;&gt;rejected&lt;/a&gt;. Clearly the core team acknowledged the shortcoming, but instead of changing the keywords again, they will likely introduce a “Type-based” &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; access in Swift 4.&lt;/p&gt;
 </description>
         <pubDate>Thu, 20 Apr 2017 11:31:44 +0800</pubDate>
         <link>http://samwize.com/2017/04/20/access-levels-in-swift/</link>
@@ -1019,200 +1163,6 @@ pod &#39;CodePush&#39;, :path =&amp;gt; &#39;./react/node_modules/react-native-c
         <pubDate>Thu, 19 Jan 2017 16:55:28 +0800</pubDate>
         <link>http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/</link>
         <guid isPermaLink="true">http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/</guid>
-        
-        
-        <category>React Native</category>
-        
-      </item>
-    
-      <item>
-        <title>React Native for iOS Swift Developer</title>
-        <description>&lt;p&gt;React Native is the biggest technology available for iOS developer, since 2015.&lt;/p&gt;
-
-&lt;p&gt;It provides a new platform for iOS development, in the very popular (and familar language for web developers) - &lt;strong&gt;JavaScript&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;This post is about learning/considering React Native for an iOS/Swift developer.&lt;/p&gt;
-
-&lt;p&gt;This post is not a development guide, because the official &lt;a href=&quot;https://facebook.github.io/react-native/releases/next/docs/getting-started.html&quot;&gt;Getting started&lt;/a&gt; is good, and &lt;a href=&quot;https://www.raywenderlich.com/136047/react-native-existing-app&quot;&gt;Ray Wenderlich&lt;/a&gt; provided a great guide for Swift iOS developers.&lt;/p&gt;
-
-&lt;p&gt;Instead, I will highlight important considerations for Swift iOS developers.&lt;/p&gt;
-
-&lt;h2 id=&quot;why-use-react-native&quot;&gt;Why use React Native?&lt;/h2&gt;
-
-&lt;p&gt;Instead of pure iOS/Android native development, React Native has the following benefits:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Render native UI (NOT web view), thus good user experience&lt;/li&gt;
-  &lt;li&gt;Learn once, write anywhere (on both iOS &amp;amp; Android)&lt;/li&gt;
-  &lt;li&gt;Similar set of technology stack (JavaScript + React + millions of JS libs) with web developers&lt;/li&gt;
-  &lt;li&gt;JavaScript developers readily available, as compared to Swift/Android/Java&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;I usually do not advocate non-native technology, because there are limitations and extra bugs because of the intermediary platform.&lt;/p&gt;
-
-&lt;p&gt;But React Native is created by Facebook, and they use it in Facebook app too, so there is lesser risk.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Not zero risk, because you should know Facebook &lt;a href=&quot;http://blog.parse.com/announcements/moving-on/&quot;&gt;kills Parse&lt;/a&gt; etc too..&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;warning-javascript-world&quot;&gt;Warning: JavaScript World&lt;/h2&gt;
-
-&lt;p&gt;Before we dived into React Native, let me warn you if you are a JavaScript newbie like me.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;JavaScript world is very messy.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;How messy? See this &lt;a href=&quot;https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f&quot;&gt;conversation&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The ecosystem is &lt;em&gt;too healthy&lt;/em&gt;, with lots of JS frameworks popping up and taking over the world, quickly. Check out the &lt;a href=&quot;http://stateofjs.com/&quot;&gt;state of JS in 2016&lt;/a&gt;. There will be many frameworks that you need to learn, from everyone.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-react-native-works&quot;&gt;How React Native Works?&lt;/h2&gt;
-
-&lt;p&gt;In Facebook’s &lt;a href=&quot;https://code.facebook.com/posts/1014532261909640/react-native-bringing-modern-web-techniques-to-mobile/&quot;&gt;March 2015&lt;/a&gt; release post:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The only difference in the mobile environment is that instead of running React in the browser and rendering to divs and spans, we run it in an embedded instance of JavaScriptCore inside our apps and render to higher-level platform-specific components.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://nshipster.com/javascriptcore/&quot;&gt;JavaScriptCore&lt;/a&gt; is a framework provided on iOS/Android to run JavaScript.&lt;/p&gt;
-
-&lt;p&gt;React Native runs the JavaScript in JavaScriptCore, and then render the native UI views on the platform.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-trigger-point&quot;&gt;The Trigger Point&lt;/h2&gt;
-
-&lt;p&gt;In AppDelegate, there is boilerplate code that specify where to load the JavaScripts.&lt;/p&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;NSURL&lt;/code&gt; either points to:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;http://localhost:8081 or&lt;/li&gt;
-  &lt;li&gt;NSBundle&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Loading JavaScript remotely from a URL is interesting, because then, it is possible to &lt;a href=&quot;https://microsoft.github.io/code-push/&quot;&gt;code push&lt;/a&gt; to live apps!&lt;/p&gt;
-
-&lt;h2 id=&quot;flexbox-for-ui-layout&quot;&gt;Flexbox for UI layout&lt;/h2&gt;
-
-&lt;p&gt;No more messing around with autolayout.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://facebook.github.io/react-native/docs/flexbox.html&quot;&gt;Flexbox&lt;/a&gt; is a simple way, specifying a weight value for the components, the flow direction, and the alignment.&lt;/p&gt;
-
-&lt;p&gt;You will be glad that Boostrap 4 will use flexbox way, instead of the regular grid system they started with.&lt;/p&gt;
-
-&lt;h2 id=&quot;persistant-storage&quot;&gt;Persistant Storage&lt;/h2&gt;
-
-&lt;p&gt;You can use &lt;a href=&quot;https://facebook.github.io/react-native/docs/asyncstorage.html&quot;&gt;AsyncStorage&lt;/a&gt; for simple key-value data, just like &lt;code class=&quot;highlighter-rouge&quot;&gt;NSUserDefault&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;For database, you could use &lt;a href=&quot;https://realm.io/news/introducing-realm-react-native/&quot;&gt;Realm&lt;/a&gt;! No more Core Data!&lt;/p&gt;
-
-&lt;h2 id=&quot;migrating-an-existing-swfit-project&quot;&gt;Migrating an existing Swfit project&lt;/h2&gt;
-
-&lt;p&gt;You can have a hybrid of native and react native.&lt;/p&gt;
-
-&lt;p&gt;To integrate react native into an existing project, follow &lt;a href=&quot;https://www.raywenderlich.com/136047/react-native-existing-app&quot;&gt;raywenderlich’s guide&lt;/a&gt;. Facebook’s &lt;a href=&quot;https://facebook.github.io/react-native/docs/integration-with-existing-apps.html&quot;&gt;official guide&lt;/a&gt; is lacking, and outdated for the dependencies version. As of Dec 2016, I updated the version to:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;dependencies&quot;: {
-  &quot;react&quot;: &quot;15.3.1&quot;,
-  &quot;react-native&quot;: &quot;0.34.0&quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You can update accordingly, but things move fast so if your project doesn’t compile, then it could be the versions (and Xcode/iOS) incompatibility.&lt;/p&gt;
-
-&lt;p&gt;One particular point missing in Facebook’s guide is how to run without depending on the packager running on eg. http://localhost:8081. Read on.&lt;/p&gt;
-
-&lt;h2 id=&quot;bundling-js-in-app&quot;&gt;Bundling JS in App&lt;/h2&gt;
-
-&lt;p&gt;React Native provided a script - &lt;code class=&quot;highlighter-rouge&quot;&gt;react-native-xcode.sh&lt;/code&gt; - to build and bundle the JS and all resources you need into your app.&lt;/p&gt;
-
-&lt;p&gt;When integrating into an existing app, you have to add a &lt;strong&gt;New Run Script Phase&lt;/strong&gt; with the following:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;export NODE_BINARY=node
-./path/to/node_modules/react-native/packager/react-native-xcode.sh
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Edit the path to &lt;code class=&quot;highlighter-rouge&quot;&gt;react-native-xcode.sh&lt;/code&gt; as necessary.&lt;/p&gt;
-
-&lt;p&gt;You will also need to edit/add your scheme’s &lt;strong&gt;Build Configuration&lt;/strong&gt; to &lt;strong&gt;Release&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Tip: If you are using fastlane, need not worry because the default of gym is to use Release configuration, even if the scheme is set to Debug.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;navigation&quot;&gt;Navigation&lt;/h2&gt;
-
-&lt;p&gt;Let’s take a look on a very basic UI subject. In iOS, we have &lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;In React Native, it gets complicated and there are more choices:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Facebook’s out of the box &lt;a href=&quot;https://facebook.github.io/react-native/docs/navigator.html&quot;&gt;Navigator&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Facebook’s abandoned &lt;a href=&quot;https://facebook.github.io/react-native/docs/navigatorios.html&quot;&gt;NavigatorIOS&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;WIX’s &lt;a href=&quot;https://github.com/wix/react-native-navigation&quot;&gt;react-native-navigation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There are lots of community contributions, and once you found the library that is suitable for your requirement, you could use it easily.&lt;/p&gt;
-
-&lt;h2 id=&quot;macos-too&quot;&gt;macOS too&lt;/h2&gt;
-
-&lt;p&gt;Not only for mobile, but you could learn once, and write for &lt;a href=&quot;https://github.com/ptmt/react-native-macos&quot;&gt;desktop app&lt;/a&gt; too.&lt;/p&gt;
-
-&lt;h2 id=&quot;ide&quot;&gt;IDE&lt;/h2&gt;
-
-&lt;p&gt;Facebook has their own “IDE” - &lt;a href=&quot;https://nuclide.io&quot;&gt;nuclide&lt;/a&gt; - which is &lt;a href=&quot;https://atom.io/packages/nuclide&quot;&gt;plugin for Atom&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-about-type&quot;&gt;What about type?&lt;/h2&gt;
-
-&lt;p&gt;One of the cons of JavaScript (compared to Swift) is that there is no type safety built into the language.&lt;/p&gt;
-
-&lt;p&gt;If you prefer to deal with types (which you should, trust me), then you should use &lt;a href=&quot;https://flowtype.org&quot;&gt;Flow&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Install flow globally so that it is added to PATH
-npm install -g flow-bin
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;I would recommend to setup Flow when you begin a project, because it gets harder to migrate &lt;em&gt;non-flow app&lt;/em&gt; later on.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-about-typescript&quot;&gt;What about TypeScript?&lt;/h2&gt;
-
-&lt;p&gt;TypeScript provides typing and optionals, in a new language of it’s own.&lt;/p&gt;
-
-&lt;p&gt;I would choose to use TypeScript, if I had more experience with JavaScript (especially with the new ES2015). But being a newbie to JavaScript, it is better to learn the intricates of the language.&lt;/p&gt;
-
-&lt;p&gt;What’s more, most examples and libraries will be in pure JavaScript.&lt;/p&gt;
-
-&lt;p&gt;And compared to Flow, Facebook has &lt;a href=&quot;https://github.com/facebook/react-native/issues/2502&quot;&gt;preference&lt;/a&gt; for Flow. The react library has Flow annotations.&lt;/p&gt;
-
-&lt;p&gt;So my advise is to avoid TypeScript. But it is &lt;a href=&quot;https://raygun.com/blog/2016/07/react-native-typescript/&quot;&gt;possible&lt;/a&gt; &lt;a href=&quot;https://medium.com/react-weekly/react-native-and-typescript-ad57b7413ead&quot;&gt;to use&lt;/a&gt;, just saying.&lt;/p&gt;
-
-&lt;h2 id=&quot;project-generator&quot;&gt;Project Generator&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/infinitered/ignite&quot;&gt;ignite&lt;/a&gt; is extension of &lt;a href=&quot;http://yeoman.io&quot;&gt;yeoman&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Generate a best-practised project structure with state of the art setup.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-not-so-great&quot;&gt;What is not so great?&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Dependency on another technology stack&lt;/li&gt;
-  &lt;li&gt;You will not be able to use the latest iOS technology&lt;/li&gt;
-  &lt;li&gt;Swift is nicer than JavaScript&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;more-resources&quot;&gt;More Resources&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/jondot/awesome-react-native&quot;&gt;awesome-react-native&lt;/a&gt; - List of great libraries&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/fbsamples/f8app&quot;&gt;F8 - Facebook conference app&lt;/a&gt; - written in react native, fully open sourced&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://js.coach/react-native&quot;&gt;js.coach&lt;/a&gt; - Discover more JS&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/stefalda/ReactNativeLocalization&quot;&gt;Localization&lt;/a&gt; library&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/react-native-community/react-native-elements&quot;&gt;Many&lt;/a&gt; &lt;a href=&quot;https://github.com/GeekyAnts/NativeBase&quot;&gt;native&lt;/a&gt; components&lt;/p&gt;
-</description>
-        <pubDate>Mon, 09 Jan 2017 10:20:38 +0800</pubDate>
-        <link>http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/</guid>
         
         
         <category>React Native</category>

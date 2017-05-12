@@ -126,6 +126,22 @@
 
 <p>This attribute provides an additional restriction – prevent others from subclassing and overriding it.</p>
 
+<h2 id="wait-lastly-its-hell-of-a-mess-from-swift">Wait. Lastly, it’s hell of a mess from Swift.</h2>
+
+<p>This is a complain on how access levels have evolved, yet is still not great in Swift 3.</p>
+
+<p>In Swift 1, there are 2 levels.<br />
+In Swift 2, there are 3 levels.<br />
+In Swift 3, there are 5 levels.<br /></p>
+
+<p>I believe it is a mistake in Swift 3 to adopt <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md">SE-0025</a>.</p>
+
+<p>My biggest gripe is this: I have extension X to a type T, keeping them in seperate files. If I want X to use a private member in T, it is impossible to do so with <code class="highlighter-rouge">private</code> or <code class="highlighter-rouge">fileprivate</code>. I am forced to increase the access to <code class="highlighter-rouge">internal</code>, which is not what I want.</p>
+
+<p>There is no way to have type level private. The current <code class="highlighter-rouge">private</code> is local scope private, and <code class="highlighter-rouge">fileprivate</code> is a <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034903.html">weird brother</a> that extends to within that file.</p>
+
+<p>After Swift 3 was introduced, there is proposal <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0159-fix-private-access-levels.md">SE-0159</a> to fix the mistake, but was <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034902.html">rejected</a>. Clearly the core team acknowledged the shortcoming, but instead of changing the keywords again, they will likely introduce a “Type-based” <code class="highlighter-rouge">private</code> access in Swift 4.</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">
