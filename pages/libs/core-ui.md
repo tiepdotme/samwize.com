@@ -4,10 +4,13 @@ title: "Core UI Libraries"
 permalink: /libs/core-ui/
 ---
 
+## Empty State for Table/Collection
+
+[DZNEmptyDataSet](https://github.com/dzenbot/DZNEmptyDataSet) create a view when your table/collection view is empty. You customize it with attributed strings for the title, subtitle and the call-to-action-button. If the standard layout is too enough, you may return your own view.
+
 ## Keyboard & Text Fields
 
 [IQManagerKeyboard](https://github.com/hackiftekhar/IQKeyboardManager) prevents keyboard from obscuring the text field, by automatically adjusting the views upwards.
-
 
 ## Animations
 
@@ -15,13 +18,11 @@ permalink: /libs/core-ui/
 
 Before Spring, there is [Pop](https://github.com/facebook/pop), a popular animation engine written by Facebook, used in (the now defunct) Facebook Paper app. 
 
-
 ## Message/Notification View
 
 Show [Toast](https://github.com/scalessec/Toast) - your message encapsulated in a small popup - for a short duration. Toast is a native UI element from [Android](https://developer.android.com/guide/topics/ui/notifiers/toasts.html).
 
 [TSMessages](https://github.com/KrauseFx/TSMessages) by the fastlane guy, is a notification at the top, similar to Tweetboot.
-
 
 ## Custom Modal Popup
 
