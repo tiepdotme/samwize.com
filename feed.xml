@@ -6,9 +6,55 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 12 May 2017 22:53:06 +0800</pubDate>
-    <lastBuildDate>Fri, 12 May 2017 22:53:06 +0800</lastBuildDate>
+    <pubDate>Tue, 06 Jun 2017 11:00:04 +0800</pubDate>
+    <lastBuildDate>Tue, 06 Jun 2017 11:00:04 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Tip: Debugging UI Calls in Background Threads</title>
+        <description>&lt;p&gt;We all know UI calls have to be run in the main thread.&lt;/p&gt;
+
+&lt;p&gt;But sometimes mistake happen, and you will see this in debug log:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This application is modifying the autolayout engine from a background thread after the engine was accessed from the main thread. This can lead to engine corruption and weird crashes.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;There is a easy way to trace which part of your code is casuing the problem.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Add Symbolic Breakpoint&lt;/li&gt;
+  &lt;li&gt;Symbol: &lt;code class=&quot;highlighter-rouge&quot;&gt;[UIView layoutIfNeeded]&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Condition: &lt;code class=&quot;highlighter-rouge&quot;&gt;!(BOOL)[NSThread isMainThread]&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;There are other “symbols” to catch. Create a symbolic breakpoint for &lt;strong&gt;each of these symbols&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[UIView updateConstraintsIfNeeded]&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[UIView setNeedsUpdateConstraints]&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[UIView setNeedsDisplay]&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[UIView setNeedsLayout]&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Run the app, and Xcode will break at the offending code.&lt;/p&gt;
+
+&lt;p&gt;Lastly, the fix as we all know:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;DispatchQueue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// The UI call&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+        <pubDate>Tue, 06 Jun 2017 09:52:50 +0800</pubDate>
+        <link>http://samwize.com/2017/06/06/debugging-ui-calls-in-background-threads/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/06/06/debugging-ui-calls-in-background-threads/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Xcode 8 File Templates</title>
@@ -1013,156 +1059,6 @@ In Swift 3, there are 5 levels.&lt;br /&gt;&lt;/p&gt;
         <pubDate>Tue, 24 Jan 2017 17:27:17 +0800</pubDate>
         <link>http://samwize.com/2017/01/24/why-i-hate-react-native/</link>
         <guid isPermaLink="true">http://samwize.com/2017/01/24/why-i-hate-react-native/</guid>
-        
-        
-        <category>React Native</category>
-        
-      </item>
-    
-      <item>
-        <title>Guide to Integrating CodePush for iOS React Native Project</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://microsoft.github.io/code-push/&quot;&gt;CodePush&lt;/a&gt; is a wonderful technology to make INSTANT changes to your app.&lt;/p&gt;
-
-&lt;p&gt;The problem with CodePush documentation is that it is toooo long, because it has to cover for multiple platforms. I ran into a few pitfalls, and missed some steps, because of that.&lt;/p&gt;
-
-&lt;p&gt;So this post will only cover for an iOS, React native app.&lt;/p&gt;
-
-&lt;h2 id=&quot;install-and-setup-the-cli&quot;&gt;Install and Setup the CLI&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Install the CLI
-npm install -g code-push-cli
-
-# Register for an account via github oauth
-code-push register
-
-# Register your app. We call it AwesomeApp.
-code-push app add AwesomeApp
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;setup-react-native-project&quot;&gt;Setup React Native Project&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to your React Native project and install the “plugin”.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm install --save react-native-code-push@latest
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Next, setup the &lt;code class=&quot;highlighter-rouge&quot;&gt;sync&lt;/code&gt; for your component. There are more &lt;a href=&quot;https://github.com/Microsoft/react-native-code-push#codepush&quot;&gt;options&lt;/a&gt; on the syncing of the code eg. frequency, install etc&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AwesomeApp&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Component&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;codePushOptions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; 
-  &lt;span class=&quot;na&quot;&gt;checkFrequency&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;codePush&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;CheckFrequency&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ON_APP_RESUME&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-  &lt;span class=&quot;na&quot;&gt;installMode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;codePush&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;InstallMode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ON_NEXT_RESUME&lt;/span&gt; 
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;nx&quot;&gt;AwesomeApp&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;codePush&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;codePushOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;AwesomeApp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;module&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;exports&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AwesomeApp&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;My configuration for above is to check for updates when app goes into foreground, and then install when it goes into foreground &lt;strong&gt;again&lt;/strong&gt;. I belive that’s good enough.&lt;/p&gt;
-
-&lt;p&gt;Pitfall: I made the mistake of writing &lt;code class=&quot;highlighter-rouge&quot;&gt;export default class AwesomeApp&lt;/code&gt; at first. Because &lt;code class=&quot;highlighter-rouge&quot;&gt;codePush&lt;/code&gt; wraps the component, you have to export it after that.&lt;/p&gt;
-
-&lt;h2 id=&quot;setup-ios-in-xcode&quot;&gt;Setup iOS in Xcode&lt;/h2&gt;
-
-&lt;p&gt;Next, you need to setup the project in Xcode.&lt;/p&gt;
-
-&lt;p&gt;Add the pod to &lt;code class=&quot;highlighter-rouge&quot;&gt;Podfile&lt;/code&gt;, and then &lt;code class=&quot;highlighter-rouge&quot;&gt;pod install&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Change your path accordingly. My React Native source is in ./react
-pod &#39;CodePush&#39;, :path =&amp;gt; &#39;./react/node_modules/react-native-code-push&#39;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Then in the code where you use the &lt;code class=&quot;highlighter-rouge&quot;&gt;NSURL&lt;/code&gt;, change it like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CodePush&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sourceURLForBridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RCTBridge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSURL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;#if DEBUG&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;http://localhost:8081/index.ios.bundle?platform=ios&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;#else&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CodePush&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;bundleURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;cp&quot;&gt;#endif&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;I have a &lt;code class=&quot;highlighter-rouge&quot;&gt;sourceURLForBridge&lt;/code&gt; function, which will return the appropriate &lt;code class=&quot;highlighter-rouge&quot;&gt;NSURL&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;RCTRootView&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Using preprocessor/macros, the code will use the packager running on &lt;code class=&quot;highlighter-rouge&quot;&gt;localhost:8081&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;DEBUG&lt;/code&gt; build configuration, and using CodePush URL for &lt;code class=&quot;highlighter-rouge&quot;&gt;RELEASE&lt;/code&gt; (or otherwise).&lt;/p&gt;
-
-&lt;h2 id=&quot;setup-codepush-keys-in-xcode&quot;&gt;Setup CodePush Keys in Xcode&lt;/h2&gt;
-
-&lt;p&gt;When you setup code-push CLI, in &lt;code class=&quot;highlighter-rouge&quot;&gt;code-push app add AwesomeApp&lt;/code&gt;, you were given 2 keys - Staging and Production.&lt;/p&gt;
-
-&lt;p&gt;You have to add these keys to your iOS project.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Add to &lt;code class=&quot;highlighter-rouge&quot;&gt;Info.plist&lt;/code&gt; with the key &lt;code class=&quot;highlighter-rouge&quot;&gt;CodePushDeploymentKey&lt;/code&gt;, and the value &lt;code class=&quot;highlighter-rouge&quot;&gt;$(CODEPUSH_KEY)&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;In project Build Settings, “Add User-Defined Settings” with the key &lt;code class=&quot;highlighter-rouge&quot;&gt;CODEPUSH_KEY&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Expand &lt;code class=&quot;highlighter-rouge&quot;&gt;CODEPUSH_KEY&lt;/code&gt;, and under &lt;strong&gt;Release&lt;/strong&gt;, set to the CodePush &lt;strong&gt;Production&lt;/strong&gt; key&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The above is setup to only use CodePush production deployment.&lt;/p&gt;
-
-&lt;p&gt;If you want to use a Staging deployment, you will have to add another build configuration. Go to Project &amp;gt; Info &amp;gt; Configurations and duplicate Release, and rename it to &lt;strong&gt;Staging&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Then similarly like you did for Production key in Build Settings, set &lt;code class=&quot;highlighter-rouge&quot;&gt;CODEPUSH_KEY&lt;/code&gt; for &lt;strong&gt;Staging&lt;/strong&gt; to CodePush staging key.&lt;/p&gt;
-
-&lt;p&gt;To recap, you have now 3 build configurations:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Debug - Use packager localhost:8081&lt;/li&gt;
-  &lt;li&gt;Release - Use CodePush Production&lt;/li&gt;
-  &lt;li&gt;Staging - Use COdePush Staging&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;push-live-code&quot;&gt;Push Live Code&lt;/h2&gt;
-
-&lt;p&gt;At last, we are ready to push live code! Let’s demo how you do for production.&lt;/p&gt;
-
-&lt;p&gt;Build the iOS app with Release build configuration (check your scheme), and run in Simulator or device.&lt;/p&gt;
-
-&lt;p&gt;While you have not yet push any code to Production, the app still runs fine, because for the first run, it will use the local main.jsbundle.&lt;/p&gt;
-
-&lt;p&gt;Make some changes to &lt;code class=&quot;highlighter-rouge&quot;&gt;AwesomeApp&lt;/code&gt; now. Perhaps change a &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;Text&amp;gt;&lt;/code&gt;? Or a color?&lt;/p&gt;
-
-&lt;p&gt;Then push it:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;code-push release-react AwesomeApp ios -d Production --plistFile &quot;../AwesomeApp/Info.plist&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;By default, -d is Staging, and plist is in ./ios. You may change as necessary.&lt;/p&gt;
-
-&lt;p&gt;Bring the app to foreground, and it should still be the same (though it has now fetched the update).&lt;/p&gt;
-
-&lt;p&gt;Bring the app to background, then foreground again, and viola! It will install the new code and reflect the changes!&lt;/p&gt;
-
-&lt;h2 id=&quot;pitfall-not-getting-updates&quot;&gt;Pitfall: Not Getting Updates&lt;/h2&gt;
-
-&lt;p&gt;There are quite some &lt;a href=&quot;https://microsoft.github.io/code-push/docs/react-native.html#link-13&quot;&gt;pitfalls&lt;/a&gt;, and the long documentation doesn’t help.&lt;/p&gt;
-
-&lt;p&gt;I hope this guide has been more concise (:&lt;/p&gt;
-
-&lt;p&gt;If you are not getting the update,&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;make sure the version of the iOS app (in &lt;code class=&quot;highlighter-rouge&quot;&gt;Info.plist&lt;/code&gt;), matches that when you &lt;a href=&quot;https://github.com/Microsoft/code-push/blob/master/cli/README.md#releasing-updates-general&quot;&gt;code push with targetBinaryVersion&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;make sure the app is using &lt;code class=&quot;highlighter-rouge&quot;&gt;CodePush.bundleURL()&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;make sure the keys are correct, and you deploy production/staging correctly&lt;/li&gt;
-  &lt;li&gt;debug with &lt;code class=&quot;highlighter-rouge&quot;&gt;code-push debug ios&lt;/code&gt; and run the simulator&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Thu, 19 Jan 2017 16:55:28 +0800</pubDate>
-        <link>http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/</guid>
         
         
         <category>React Native</category>
