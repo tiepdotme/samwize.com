@@ -13,16 +13,16 @@ You can [invoke shell](http://stackoverflow.com/a/26972043/242682) to execute:
 
 ```swift
 func shell(launchPath: String, arguments: [String]) -> String {
-    let task = NSTask()
+    let task = Process()
     task.launchPath = launchPath
     task.arguments = arguments
     
-    let pipe = NSPipe()
+    let pipe = Pipe()
     task.standardOutput = pipe
     task.launch()
     
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output: String = NSString(data: data, encoding: NSUTF8StringEncoding)! as String
+    let output: String = String(data: data, encoding: .utf8)! as String
     
     return output
 }
@@ -40,12 +40,13 @@ shell("/bin/cp", arguments: ["/path/to/file", "/path/to/another/file"])
 Pass in [launch arguments](http://ericasadun.com/2014/06/12/swift-at-the-command-line/) to your script with `NSProcessInfo`. 
 
 ```swift
-let arguments = NSProcessInfo.processInfo().arguments as [String]
+let arguments = ProcessInfo.processInfo.arguments as [String]
 let dashedArguments = arguments.filter({$0.hasPrefix("-")})
 
-for argument : NSString in dashedArguments {
-    let key = argument.substringFromIndex(1)
-    let value : AnyObject? = NSUserDefaults.standardUserDefaults().valueForKey(key)
+for argument : String in dashedArguments {
+    let index = argument.index(argument.startIndex, offsetBy: 1)
+    let key = argument.substring(from: index)
+    let value : Any? = UserDefaults.standard.value(forKey: key)
     print("\(key)=\(value)")
 }
 ```
