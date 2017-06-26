@@ -134,81 +134,83 @@
 
 <p>This is my nginx config that works:</p>
 
-<p>```nginx /etc/nginx/sites-enabled/gitlab
-upstream gitlab {
-  server unix:/home/git/gitlab/tmp/sockets/gitlab.socket;
-}</p>
+<div class="language-nginx highlighter-rouge"><pre class="highlight"><code><span class="c1"># /etc/nginx/sites-enabled/gitlab
+</span><span class="k">upstream</span> <span class="s">gitlab</span> <span class="p">{</span>
+  <span class="kn">server</span> <span class="s">unix:/home/git/gitlab/tmp/sockets/gitlab.socket</span><span class="p">;</span>
+<span class="p">}</span>
 
-<p>server {
-  listen 80;
-  server_name   git.okloh.com;
-  rewrite       ^ https://$server_name$request_uri? permanent;
-}</p>
+<span class="k">server</span> <span class="p">{</span>
+  <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+  <span class="kn">server_name</span>   <span class="s">git.okloh.com</span><span class="p">;</span>
+  <span class="kn">rewrite</span>       <span class="s">^</span> <span class="s">https://</span><span class="nv">$server_name$request_uri</span><span class="s">?</span> <span class="s">permanent</span><span class="p">;</span>
+<span class="p">}</span>
 
-<p>server {
-  listen        443 ssl;
-  server_name   git.okloh.com;
-  root          /home/git/gitlab/public;</p>
+<span class="k">server</span> <span class="p">{</span>
+  <span class="kn">listen</span>        <span class="mi">443</span> <span class="s">ssl</span><span class="p">;</span>
+  <span class="kn">server_name</span>   <span class="s">git.okloh.com</span><span class="p">;</span>
+  <span class="kn">root</span>          <span class="n">/home/git/gitlab/public</span><span class="p">;</span>
 
-<p>ssl                   on;
-  ssl_certificate       /etc/ssl/private/git-okloh-chain.pem;
-  ssl_certificate_key   /etc/ssl/private/git-okloh-decrypted.key;
-  ssl_prefer_server_ciphers on;
-  ssl_protocols         SSLv3 TLSv1;
-  ssl_ciphers           ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM;</p>
+  <span class="kn">ssl</span>                   <span class="no">on</span><span class="p">;</span>
+  <span class="kn">ssl_certificate</span>       <span class="n">/etc/ssl/private/git-okloh-chain.pem</span><span class="p">;</span>
+  <span class="kn">ssl_certificate_key</span>   <span class="n">/etc/ssl/private/git-okloh-decrypted.key</span><span class="p">;</span>
+  <span class="kn">ssl_prefer_server_ciphers</span> <span class="no">on</span><span class="p">;</span>
+  <span class="kn">ssl_protocols</span>         <span class="s">SSLv3</span> <span class="s">TLSv1</span><span class="p">;</span>
+  <span class="kn">ssl_ciphers</span>           <span class="s">ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM</span><span class="p">;</span>
 
-<p>client_max_body_size 20m;</p>
+  <span class="kn">client_max_body_size</span> <span class="mi">20m</span><span class="p">;</span>
 
-<p>access_log  /var/log/nginx/gitlab_access.log;
-  error_log   /var/log/nginx/gitlab_error.log;</p>
+  <span class="kn">access_log</span>  <span class="n">/var/log/nginx/gitlab_access.log</span><span class="p">;</span>
+  <span class="kn">error_log</span>   <span class="n">/var/log/nginx/gitlab_error.log</span><span class="p">;</span>
 
-<p>location / {
-    try_files $uri $uri/index.html $uri.html @gitlab;
-  }</p>
+  <span class="kn">location</span> <span class="n">/</span> <span class="p">{</span>
+    <span class="kn">try_files</span> <span class="nv">$uri</span> <span class="nv">$uri</span><span class="n">/index.html</span> <span class="nv">$uri</span><span class="s">.html</span> <span class="s">@gitlab</span><span class="p">;</span>
+  <span class="p">}</span>
 
-<p>location @gitlab {
-    proxy_read_timeout 300; # https://github.com/gitlabhq/gitlabhq/issues/694
-    proxy_connect_timeout 300; # https://github.com/gitlabhq/gitlabhq/issues/694
-    proxy_redirect     off;</p>
+  <span class="kn">location</span> <span class="s">@gitlab</span> <span class="p">{</span>
+    <span class="kn">proxy_read_timeout</span> <span class="mi">300</span><span class="p">;</span> <span class="c1"># https://github.com/gitlabhq/gitlabhq/issues/694
+</span>    <span class="kn">proxy_connect_timeout</span> <span class="mi">300</span><span class="p">;</span> <span class="c1"># https://github.com/gitlabhq/gitlabhq/issues/694
+</span>    <span class="kn">proxy_redirect</span>     <span class="no">off</span><span class="p">;</span>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>proxy_set_header   X-Forwarded-Proto $scheme;
-proxy_set_header   Host              $http_host;
-proxy_set_header   X-Real-IP         $remote_addr;
-proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-Proto</span> <span class="nv">$scheme</span><span class="p">;</span>
+    <span class="kn">proxy_set_header</span>   <span class="s">Host</span>              <span class="nv">$http_host</span><span class="p">;</span>
+    <span class="kn">proxy_set_header</span>   <span class="s">X-Real-IP</span>         <span class="nv">$remote_addr</span><span class="p">;</span>
+    <span class="kn">proxy_set_header</span>   <span class="s">X-Forwarded-For</span>   <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
 
-proxy_pass http://gitlab;   }
+    <span class="kn">proxy_pass</span> <span class="s">http://gitlab</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kn">location</span> <span class="p">~</span> <span class="sr">^/(assets)/</span>  <span class="p">{</span>
+    <span class="kn">root</span> <span class="n">/home/git/gitlab/public</span><span class="p">;</span>
+    <span class="kn">gzip_static</span> <span class="no">on</span><span class="p">;</span> <span class="c1"># to serve pre-gzipped version
+</span>    <span class="kn">expires</span> <span class="s">max</span><span class="p">;</span>
+    <span class="kn">add_header</span> <span class="s">Cache-Control</span> <span class="s">public</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="kn">error_page</span> <span class="mi">502</span> <span class="n">/502.html</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre>
 </div>
 
-<p>location ~ ^/(assets)/  {
-    root /home/git/gitlab/public;
-    gzip_static on; # to serve pre-gzipped version
-    expires max;
-    add_header Cache-Control public;
-  }</p>
-
-<p>error_page 502 /502.html;
-}
-```</p>
-
 <h3 id="gitlab-config">GitLab Config</h3>
 
-<p><code class="highlighter-rouge">yml /home/git/gitlab/config/gitlab.yml
-gitlab:
-  host: git.okloh.com
-  port: 443
-  https: true
-</code></p>
+<div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="c1"># /home/git/gitlab/config/gitlab.yml</span>
+<span class="s">gitlab</span><span class="pi">:</span>
+  <span class="s">host</span><span class="pi">:</span> <span class="s">git.okloh.com</span>
+  <span class="s">port</span><span class="pi">:</span> <span class="s">443</span>
+  <span class="s">https</span><span class="pi">:</span> <span class="s">true</span>
+</code></pre>
+</div>
 
 <h3 id="gitlab-shell-config">GitLab-Shell Config</h3>
 
-<p><code class="highlighter-rouge">yml /home/git/gitlab-shell/config.yml
-gitlab_url: "https://git.okloh.com/"
-http_settings:
-  self_signed_cert: false
-ca_file: "/etc/ssl/private/git-okloh-chain.pem"
-ca_path: "/etc/ssl/private"
-</code></p>
+<div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="c1"># /home/git/gitlab-shell/config.yml</span>
+<span class="s">gitlab_url</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://git.okloh.com/"</span>
+<span class="s">http_settings</span><span class="pi">:</span>
+  <span class="s">self_signed_cert</span><span class="pi">:</span> <span class="s">false</span>
+<span class="s">ca_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/etc/ssl/private/git-okloh-chain.pem"</span>
+<span class="s">ca_path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/etc/ssl/private"</span>
+</code></pre>
+</div>
 
 <h3 id="restart">Restart</h3>
 
@@ -242,7 +244,6 @@ ps -ef | grep sidekiq | grep -v grep
 sudo -u git -H RAILS_ENV=production bin/background_jobs start
 </code></pre>
 </div>
-
 
         </section>
         <footer class="post-footer">

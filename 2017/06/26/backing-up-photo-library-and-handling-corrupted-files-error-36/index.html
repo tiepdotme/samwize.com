@@ -7,8 +7,8 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Guide to Booting Up macOS in Other Modes, and Troubleshooting</title>
-  <meta name="description" content="This guide is for troubleshooting macOS in the scenario that it can’t boot up." />
+  <title>Backing Up Photos Library and Handling Corrupted Files Error -36</title>
+  <meta name="description" content="I was backing up my Photos Library, a huge 500 GB Photos Library.photoslibrary, and copying the file to my external drive, it had this error:" />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -17,24 +17,24 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Guide to Booting Up macOS in Other Modes, and Troubleshooting" />
+    <meta name="twitter:title" content="Backing Up Photos Library and Handling Corrupted Files Error -36" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="This guide is for troubleshooting macOS in the scenario that it can’t boot up." />
+    <meta name="twitter:description"  content="I was backing up my Photos Library, a huge 500 GB Photos Library.photoslibrary, and copying the file to my external drive, it had this error:" />
     
   
   
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Guide to Booting Up macOS in Other Modes, and Troubleshooting"/>
+  <meta property="og:title" content="Backing Up Photos Library and Handling Corrupted Files Error -36"/>
   
-  <meta property="og:description" content="This guide is for troubleshooting macOS in the scenario that it can’t boot up." />
+  <meta property="og:description" content="I was backing up my Photos Library, a huge 500 GB Photos Library.photoslibrary, and copying the file to my external drive, it had this error:" />
   
-  <meta property="og:image" content="http://samwize.com/images/macos-bootup-hang.jpg" />
-  <meta property="og:url" content="http://samwize.com/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting/" >
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2017/06/26/backing-up-photo-library-and-handling-corrupted-files-error-36/" >
   <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2017-04-06T23:02:29+08:00">
+  <meta property="article:published_time" content="2017-06-26T00:03:39+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting/">
+  <link rel="canonical" href="http://samwize.com/2017/06/26/backing-up-photo-library-and-handling-corrupted-files-error-36/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -53,21 +53,18 @@
     <main class="content" role="main">
       <article class="post">
         
-        <div class="article-image">
-          <div class="post-image-image" style="background-image: url(/images/macos-bootup-hang.jpg)">
-            Article Image
-          </div>
+        <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Guide to Booting Up macOS in Other Modes, and Troubleshooting</h1>
+            <h1 class="post-title">Backing Up Photos Library and Handling Corrupted Files Error -36</h1>
             <div class="cf post-meta-text">
-              <time datetime="2017-04-06 23:02">06 April 2017</time>
+              <time datetime="2017-06-26T00:03:39+08:00">26 June 2017</time>
               <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
-            </div>
-            <div style="text-align:center">
-              <a href="#topofpage" class="topofpage"><i class="fa fa-angle-down"></i></a>
             </div>
           </div>
         </div>
+        <br>
+        <br>
+        <br>
         
         <section class="post-content">
           <div class="post-reading">
@@ -75,90 +72,73 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>This guide is for troubleshooting macOS in the scenario that it can’t boot up.</p>
+          <p>I was backing up my Photos Library, a huge 500 GB <code class="highlighter-rouge">Photos Library.photoslibrary</code>, and copying the file to my external drive, it had this error:</p>
 
-<p>I have personally encountered a couple of times, frightening scenarios, where my mac somehow could not boot up, or get stuck during login etc. macOS provides many “secret” modes to help to troubleshoot.</p>
+<blockquote>
+  <p>The Finder can’t complete the operation because some data in Photos Library.photoslibrary” can’t be read or written. (Error code -36)</p>
+</blockquote>
 
-<p>Knowing them will be handy in time of crisis.</p>
+<p>As ambiguous as it can be, error code 36 turns out to be I/O problem, or corrupted files.</p>
 
-<p>You will need to hold down certain keys when your machine is powered on to enter these modes. When you hear the startup sound and see the Apple logo, you may release the keys.</p>
+<p>For my case, it is most likely a corrupted photo/video. I have no idea how they became corrupted in Photos. Either Photos app is buggy and corrupted it, or my harddrive is faulty..</p>
 
-<h2 id="resetting-pramnvram">Resetting PRAM/NVRAM</h2>
+<p>In any case, I have to recover them.</p>
 
-<p><em>Hold Command + Option + P + R</em></p>
+<p><a href="http://www.macworld.com/article/3189985/photography/how-to-fix-an-uncopyable-iphoto-or-photos-library.html">MacWorld has a tip</a> on creating a new “photoslibrary”, revealing the package, and manually copying the original files to the new directory. Doing so will reveal the exact files that are throwing the error.</p>
 
-<p>Parameter RAM stores default values, and it could get corrupted for some reasons.</p>
+<p>But if you have lots of photos/videos and there are lots of corrupted files, then you will save lots of time if you know how to use the command line.</p>
 
-<p>This is <strong>The Number 1</strong> troubleshooting resolution. Always try this first.</p>
-
-<h2 id="resetting-scm">Resetting SCM</h2>
-
-<p>Similar to resetting PRAM, but SCM involves cutting off power, hence it is different for MacBook and iMac. Read <a href="https://support.apple.com/en-sg/HT201295">this</a>.</p>
-
-<h2 id="verbose-mode">Verbose Mode</h2>
-
-<p><em>Hold Command + V</em></p>
-
-<p>If resetting fails, use verbose mode to identify what is causing the problem.</p>
-
-<h2 id="safe-mode">Safe Mode</h2>
-
-<p><em>Hold Shift</em></p>
-
-<p>This will boot without loading third-party drivers and startup programs.</p>
-
-<h2 id="single-user-mode">Single User Mode</h2>
-
-<p><em>Hold Command + S</em></p>
-
-<p>In single user mode, you have access to terminal, so you can run certain tools to troubleshoot.</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Check and repair file system for consistency</span>
-/sbin/fsck -fy
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>ditto -v ~/Pictures/Photos<span class="se">\ </span>Library.photoslibrary/ /Volumes/MyDrive/Photos<span class="se">\ </span>Library.photoslibrary/
 </code></pre>
 </div>
 
-<h2 id="apple-hardware-test">Apple Hardware Test</h2>
+<p>The <code class="highlighter-rouge">ditto</code> command will copy without stopping on failure. Instead, it will log the files with problem.</p>
 
-<p><em>Hold D</em></p>
+<h2 id="copying-corrupted-files">Copying Corrupted Files</h2>
 
-<p>You can perform a short test (around 3 min), or an extended test (around 1 hour).</p>
+<p>The above will skip the corrupted files. Not a big deal if you can afford losing some of the photos.</p>
 
-<p>Special case: If you encountered <code class="highlighter-rouge">4HDD/11/40000000: SATA(0,0)</code>, it could be a <a href="https://support.apple.com/en-sg/HT203648">false positive</a>. You can disable looping by pressing <em>L</em> before starting the test. I encountered this, but I still managed to “fix” it - the SSD is not damaged in my case. So don’t worry too much on this error.</p>
+<p>But some of these corrupted files are just partially corrupted eg. a video can be played ok in the first 50%</p>
 
-<h2 id="recovery-mode">Recovery Mode</h2>
+<p>There is still a way to copy the corrupted files.</p>
 
-<p><em>Hold Command + R</em></p>
+<p><a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dd.1.html"><code class="highlighter-rouge">dd</code></a> let you copy bit by bit, even if an input error occurs:</p>
 
-<p>If all else failed, you can try reinstalling macOS.</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>dd <span class="k">if</span><span class="o">=</span>myfile.MOV <span class="nv">of</span><span class="o">=</span>/Volumes/MyDrive/myfile.MOV <span class="nv">conv</span><span class="o">=</span>noerror,sync
+</code></pre>
+</div>
 
-<h2 id="startup-option">Startup Option</h2>
+<p>The above will copy “myfile.MOV” even if it is corrupted.</p>
 
-<p><em>Hold Option</em></p>
+<h2 id="check-your-disk-health-status">Check your disk health status</h2>
 
-<p>You can startup from other device such as external drive. It is possible to load the entire OS in an external drive, and boot from there.</p>
+<p>Using <a href="https://support.apple.com/kb/PH22243?locale=en_SG">Disk Utility</a>, run “First Aid” to repair. Sometimes you may need to boot into <a href="/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting/">Recovery mode</a> to run.</p>
 
-<hr />
+<p>Or run <code class="highlighter-rouge">/sbin/fsck -fy</code> (might need to be in <a href="/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting/">Single User mode</a>), which does the same as First Aid.</p>
 
-<h2 id="common-bootup-errors--fixes">Common Bootup Errors &amp; Fixes</h2>
+<h2 id="backing-up-frequently-is-important">Backing up frequently is important</h2>
 
-<p><code class="highlighter-rouge">Mac OS version not yet set</code> - Try boot with startup option (<em>Hold Option</em>) and select the disk with the OS</p>
+<p>It is my fault for losing my dear photos, though I also blame my 5 year old iMac (2012 model) which seems to be failing. It is either the OS fault or the drive is having bad sectors.</p>
 
-<p>If you have tried all ways and your Mac OS still refuses to boot, you can create a <a href="https://support.apple.com/en-sg/HT201372">bootable macOS on USB</a>. Then <em>hold option</em> while bootup to select the OS on USB.</p>
+<p>But it is user’s fault for not having a backup plan. I backup but only occassionally, and manually by copying to another external drive.</p>
+
+<p>I didn’t use Time Machine, because I didn’t have a hard disk that is big enough for my near 1 TB of data on iMac.</p>
+
+<p>I have since bought a <a href="http://amzn.to/2tblyR0">3 TB external drive</a> at $102 USD. This should serve well as a Time Machine backup drive for the next few years.</p>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Booting+Up+macOS+in+Other+Modes%2C+and+Troubleshooting&amp;url=http://samwize.com/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Backing+Up+Photos+Library+and+Handling+Corrupted+Files+Error+-36&amp;url=http://samwize.com/2017/06/26/backing-up-photo-library-and-handling-corrupted-files-error-36"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Booting+Up+macOS+in+Other+Modes%2C+and+Troubleshooting&amp;u=http://samwize.com/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Backing+Up+Photos+Library+and+Handling+Corrupted+Files+Error+-36&amp;u=http://samwize.com/2017/06/26/backing-up-photo-library-and-handling-corrupted-files-error-36"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -167,7 +147,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Booting+Up+macOS+in+Other+Modes%2C+and+Troubleshooting&amp;url=http://samwize.com/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Backing+Up+Photos+Library+and+Handling+Corrupted+Files+Error+-36&amp;url=http://samwize.com/2017/06/26/backing-up-photo-library-and-handling-corrupted-files-error-36"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

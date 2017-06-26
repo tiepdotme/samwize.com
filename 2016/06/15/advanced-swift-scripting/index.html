@@ -79,16 +79,16 @@
 <p>You can <a href="http://stackoverflow.com/a/26972043/242682">invoke shell</a> to execute:</p>
 
 <div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">shell</span><span class="p">(</span><span class="nv">launchPath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">arguments</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">task</span> <span class="o">=</span> <span class="kt">NSTask</span><span class="p">()</span>
+    <span class="k">let</span> <span class="nv">task</span> <span class="o">=</span> <span class="kt">Process</span><span class="p">()</span>
     <span class="n">task</span><span class="o">.</span><span class="n">launchPath</span> <span class="o">=</span> <span class="n">launchPath</span>
     <span class="n">task</span><span class="o">.</span><span class="n">arguments</span> <span class="o">=</span> <span class="n">arguments</span>
     
-    <span class="k">let</span> <span class="nv">pipe</span> <span class="o">=</span> <span class="kt">NSPipe</span><span class="p">()</span>
+    <span class="k">let</span> <span class="nv">pipe</span> <span class="o">=</span> <span class="kt">Pipe</span><span class="p">()</span>
     <span class="n">task</span><span class="o">.</span><span class="n">standardOutput</span> <span class="o">=</span> <span class="n">pipe</span>
     <span class="n">task</span><span class="o">.</span><span class="nf">launch</span><span class="p">()</span>
     
     <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">fileHandleForReading</span><span class="o">.</span><span class="nf">readDataToEndOfFile</span><span class="p">()</span>
-    <span class="k">let</span> <span class="nv">output</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="kt">NSString</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="kt">NSUTF8StringEncoding</span><span class="p">)</span><span class="o">!</span> <span class="k">as</span> <span class="kt">String</span>
+    <span class="k">let</span> <span class="nv">output</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">encoding</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span><span class="o">!</span> <span class="k">as</span> <span class="kt">String</span>
     
     <span class="k">return</span> <span class="n">output</span>
 <span class="p">}</span>
@@ -106,12 +106,13 @@
 
 <p>Pass in <a href="http://ericasadun.com/2014/06/12/swift-at-the-command-line/">launch arguments</a> to your script with <code class="highlighter-rouge">NSProcessInfo</code>.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">arguments</span> <span class="o">=</span> <span class="kt">NSProcessInfo</span><span class="o">.</span><span class="nf">processInfo</span><span class="p">()</span><span class="o">.</span><span class="n">arguments</span> <span class="k">as</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">arguments</span> <span class="o">=</span> <span class="kt">ProcessInfo</span><span class="o">.</span><span class="n">processInfo</span><span class="o">.</span><span class="n">arguments</span> <span class="k">as</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span>
 <span class="k">let</span> <span class="nv">dashedArguments</span> <span class="o">=</span> <span class="n">arguments</span><span class="o">.</span><span class="nf">filter</span><span class="p">({</span><span class="nv">$0</span><span class="o">.</span><span class="nf">hasPrefix</span><span class="p">(</span><span class="s">"-"</span><span class="p">)})</span>
 
-<span class="k">for</span> <span class="nv">argument</span> <span class="p">:</span> <span class="kt">NSString</span> <span class="k">in</span> <span class="n">dashedArguments</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">key</span> <span class="o">=</span> <span class="n">argument</span><span class="o">.</span><span class="nf">substringFromIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">value</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?</span> <span class="o">=</span> <span class="kt">NSUserDefaults</span><span class="o">.</span><span class="nf">standardUserDefaults</span><span class="p">()</span><span class="o">.</span><span class="nf">valueForKey</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="k">for</span> <span class="nv">argument</span> <span class="p">:</span> <span class="kt">String</span> <span class="k">in</span> <span class="n">dashedArguments</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">index</span> <span class="o">=</span> <span class="n">argument</span><span class="o">.</span><span class="nf">index</span><span class="p">(</span><span class="n">argument</span><span class="o">.</span><span class="n">startIndex</span><span class="p">,</span> <span class="nv">offsetBy</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">key</span> <span class="o">=</span> <span class="n">argument</span><span class="o">.</span><span class="nf">substring</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="n">index</span><span class="p">)</span>
+    <span class="k">let</span> <span class="nv">value</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">?</span> <span class="o">=</span> <span class="kt">UserDefaults</span><span class="o">.</span><span class="n">standard</span><span class="o">.</span><span class="nf">value</span><span class="p">(</span><span class="nv">forKey</span><span class="p">:</span> <span class="n">key</span><span class="p">)</span>
     <span class="nf">print</span><span class="p">(</span><span class="s">"</span><span class="se">\(</span><span class="n">key</span><span class="se">)</span><span class="s">=</span><span class="se">\(</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
