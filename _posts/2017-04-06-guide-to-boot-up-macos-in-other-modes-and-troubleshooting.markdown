@@ -68,3 +68,11 @@ If all else failed, you can try reinstalling macOS.
 _Hold Option_
 
 You can startup from other device such as external drive. It is possible to load the entire OS in an external drive, and boot from there.
+
+--- 
+
+## Common Bootup Errors & Fixes
+
+`Mac OS version not yet set` - Try boot with startup option (_Hold Option_) and select the disk with the OS
+
+If you have tried all ways and your Mac OS still refuses to boot, you can create a [bootable macOS on USB](https://support.apple.com/en-sg/HT201372). Then _hold option_ while bootup to select the OS on USB.

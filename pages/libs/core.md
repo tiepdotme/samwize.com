@@ -57,3 +57,14 @@ But above 2 not complete enough. [SO](http://stackoverflow.com/questions/1007589
 
 - [OHHTTPStubs](https://github.com/AliSoftware/OHHTTPStubs) - stub for networking frameworks
 
+
+## Avoid String Identifiers
+
+- [Reusable](https://github.com/AliSoftware/Reusable) - Avoid cells, xib views, storyboard view controller's string identifier with this convenient mixin
+- [SwiftGen](https://github.com/SwiftGen/SwiftGen) - Avoid more strings (eg. localization, assets) by generating code (like Android's R)
+- [R.swift](https://github.com/mac-cain13/R.swift) - An actual R for Swift
+
+
+## Parsers
+
+- [Kanna](https://github.com/tid-kijyun/Kanna) - Parse XML/HTML, inspired by Nokogiri

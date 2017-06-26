@@ -26,7 +26,6 @@ Their [installation guide](https://github.com/gitlabhq/gitlabhq/blob/7-1-stable/
 
 Follow their guide (except on the sections on HTTPS/SSL).
 
-
 ## Setting up for HTTPS/SSL
 
 For setting up HTTPS/SSL, refer to this [GitLab recipe](https://gitlab.com/gitlab-org/gitlab-recipes/tree/master/misc/ssl-certificate-implemented).
@@ -34,8 +33,6 @@ For setting up HTTPS/SSL, refer to this [GitLab recipe](https://gitlab.com/gitla
 But I still need some refinement to that recipe, so I will share my configs.
 
 I will be setting up for a fictional domain `git.okloh.com`.
-
-
 
 ### Create your FREE SSL Cert
 
@@ -57,12 +54,12 @@ A FREE class 1 SSL is provided by StartCom. Go to [StartCom](https://www.startss
 
 Note: In many tutorials, you would see that they use a `.crt` instead of a `.pem`. They are the same thing, but in [different format](http://info.ssl.com/article.aspx?id=12149). But it doesn't matter. You can use a `.pem` in place.
 
-
 ### Nginx
 
 This is my nginx config that works:
 
-```nginx /etc/nginx/sites-enabled/gitlab
+```nginx 
+# /etc/nginx/sites-enabled/gitlab
 upstream gitlab {
   server unix:/home/git/gitlab/tmp/sockets/gitlab.socket;
 }
@@ -118,27 +115,26 @@ server {
 }
 ```
 
-
 ### GitLab Config
 
-```yml /home/git/gitlab/config/gitlab.yml
+```yml 
+# /home/git/gitlab/config/gitlab.yml
 gitlab:
   host: git.okloh.com
   port: 443
   https: true
 ```
 
-
 ### GitLab-Shell Config
 
-```yml /home/git/gitlab-shell/config.yml
+```yml 
+# /home/git/gitlab-shell/config.yml
 gitlab_url: "https://git.okloh.com/"
 http_settings:
   self_signed_cert: false
 ca_file: "/etc/ssl/private/git-okloh-chain.pem"
 ca_path: "/etc/ssl/private"
 ```
-
 
 ### Restart
 
@@ -157,13 +153,11 @@ sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production
 sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production
 ```
 
-
 ### Pitfall: Port 443 already binded
 
 In a [previous tutorial](http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/), I setup iRedMail, which actually runs on Apache, which listen on port 443.
 
 You will need to remove port 443 on apache, and probably do a reverse proxy from nginx for port 443. _This perhaps will be covered in another tutorial._
-
 
 ### Pitfall: Sidekiq not running
 
@@ -174,4 +168,3 @@ ps -ef | grep sidekiq | grep -v grep
 # If not, run it
 sudo -u git -H RAILS_ENV=production bin/background_jobs start
 ```
-
