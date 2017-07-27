@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to Use Git Bisect to Find the First Bad Commit"
-date: 2017-07-27T16:47:55+08:00
+date: 2017-07-27T10:47:55+08:00
 categories: [Git]
 ---
 
