@@ -4,6 +4,10 @@ title: "Core UI Libraries"
 permalink: /libs/core-ui/
 ---
 
+## Animate views during transition
+
+[Hero](https://github.com/lkzhao/Hero) easily animate a view to another view during a transition. It is like Keynote's Magic Move, for iOS.
+
 ## Empty State for Table/Collection
 
 [DZNEmptyDataSet](https://github.com/dzenbot/DZNEmptyDataSet) create a view when your table/collection view is empty. You customize it with attributed strings for the title, subtitle and the call-to-action-button. If the standard layout is too enough, you may return your own view.
