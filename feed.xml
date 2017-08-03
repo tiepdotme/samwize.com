@@ -6,9 +6,80 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 27 Jul 2017 14:38:46 +0800</pubDate>
-    <lastBuildDate>Thu, 27 Jul 2017 14:38:46 +0800</lastBuildDate>
+    <pubDate>Thu, 03 Aug 2017 16:54:11 +0800</pubDate>
+    <lastBuildDate>Thu, 03 Aug 2017 16:54:11 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>WWDC 2017 - What&#39;s New in Foundation</title>
+        <description>&lt;p&gt;Summary of what’s new in Foundation, Swift 4, from &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2017/212/&quot;&gt;session 212&lt;/a&gt;. &lt;em&gt;Tip: You can download WWDC videos easily with &lt;a href=&quot;https://github.com/samwize/wwdc-dl&quot;&gt;wwdc-dl&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;key-paths&quot;&gt;Key Paths&lt;/h2&gt;
+
+&lt;p&gt;Apple calls it Smart, because it is statically safe, and fast.&lt;/p&gt;
+
+&lt;p&gt;It is built into Swift language, with a single &lt;code class=&quot;highlighter-rouge&quot;&gt;\&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-keypath.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// To get via keypath&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ben&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Kid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// To set via keypaht&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;ben&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Kid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nickname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Ben&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;appending-key-paths&quot;&gt;Appending Key Paths&lt;/h2&gt;
+
+&lt;p&gt;You can append key path, provided the type you “chain” is the same.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-keypath-appending.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So if you append, the final keypath is simply of type &lt;code class=&quot;highlighter-rouge&quot;&gt;Keypath&amp;lt;BirthdayParty, Double&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are more keypath types.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-keypath-more.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;key-value-observation&quot;&gt;Key-Value Observation&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-keypath-kvo.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// To use&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;observation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mia&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;observe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;observed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;change&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// observed is the updated &quot;mia&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;codablejson&quot;&gt;Codable/JSON&lt;/h2&gt;
+
+&lt;p&gt;Swift also finally recognize the importance of JSON.&lt;/p&gt;
+
+&lt;p&gt;You simply add the trait protocol &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; to your model, and it will work (because of &lt;a href=&quot;http://samwize.com/2016/10/24/swift-protocol-development-guide/&quot;&gt;default protocol extension&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-codable.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you want to customize the key names, you can simply add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;CodingKeys&lt;/code&gt; as an enum in your model. See how the camel case “comment_count” is customized:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CodingKeys&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CodingKey&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;commentCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;comment_count&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Ok, actually &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; is not only for JSON data, but for &lt;a href=&quot;https://developer.apple.com/documentation/foundation/archives_and_serialization&quot;&gt;other formats&lt;/a&gt; like Property List too. There is &lt;code class=&quot;highlighter-rouge&quot;&gt;JSONDecoder&lt;/code&gt;, and also &lt;code class=&quot;highlighter-rouge&quot;&gt;PropertyListDecoder&lt;/code&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 03 Aug 2017 16:17:08 +0800</pubDate>
+        <link>http://samwize.com/2017/08/03/wwdc-2017-whats-new-in-foundation/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/08/03/wwdc-2017-whats-new-in-foundation/</guid>
+        
+        
+        <category>Swift</category>
+        
+      </item>
     
       <item>
         <title>How to Use Git Bisect to Find the First Bad Commit</title>
@@ -853,111 +924,6 @@ In Swift 3, there are 5 levels.&lt;br /&gt;&lt;/p&gt;
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Why I don’t build apps for friends anymore</title>
-        <description>&lt;p&gt;Over the past 10 years, I’ve lots of friends and classmates say to me:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;“I have a great idea for an app. How about we work together?”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;I’m happy that they’re thinking about creating something that they want to use or make a business out of it.&lt;/p&gt;
-
-&lt;p&gt;But often, all I can do for them is say:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;“As a friend, I’d love to hear about your idea and give advice on mobile app development. But most likely, I wouldn’t be able to develop for you.”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Why?&lt;/p&gt;
-
-&lt;h2 id=&quot;ideas-are-not-enough&quot;&gt;1. Ideas are not enough&lt;/h2&gt;
-
-&lt;p&gt;Often, the main motivation people have for creating an app is because they have an idea.&lt;/p&gt;
-
-&lt;p&gt;They think the idea is cool.&lt;/p&gt;
-
-&lt;p&gt;My positive reply often is,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;“Yes, this is a good idea. There will be people who would like — maybe even need — to use your app.”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Then my less positive reply goes,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;“Who is the closest competitor to your idea? Why do you think they didn’t succeed?”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;These are the most important questions in grinding an idea.&lt;/p&gt;
-
-&lt;p&gt;This is also my polite way of saying: &lt;strong&gt;Ideas Are Cheap&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Ideas are nothing. Someone in this world must have the same idea, of some variation to yours. &lt;a href=&quot;http://just2me.com/2014/03/13/steal-like-artist/&quot;&gt;Nothing is original&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;You should not start a company just because of an idea.&lt;/p&gt;
-
-&lt;h2 id=&quot;startups-are-hard&quot;&gt;2. Startups are hard&lt;/h2&gt;
-
-&lt;p&gt;To &lt;strong&gt;succeed&lt;/strong&gt; with one is even &lt;strong&gt;harder&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;And even if you do succeed, it will &lt;strong&gt;take many years&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;I speak from 10 years of experience with 2 startups.&lt;/p&gt;
-
-&lt;p&gt;The first startup: I spent 7 years, as a founding member. The company is now 9 years old, yet it’s still struggling to become profitable. The only reason it hasn’t died is because the investor is also the co-founder, so think how much he has to lose first. How much stress can he endure?&lt;/p&gt;
-
-&lt;p&gt;The second startup: I joined after their Series A funding. It’s now 3 years old and recently had Series B, thus providing an extra year’s runway. Maintaining hockey stick growth is not easy, and the end of a runway is always in sight.&lt;/p&gt;
-
-&lt;p&gt;I don’t know about you. But I don’t have that many 10 years blocks of time ahead of me.&lt;/p&gt;
-
-&lt;p&gt;So I have to choose wisely on which path to take.&lt;/p&gt;
-
-&lt;h2 id=&quot;it-isnt-worth-risking-our-friendship&quot;&gt;3. It isn’t worth risking our friendship&lt;/h2&gt;
-
-&lt;p&gt;Any conflict between you and your friend is compounded when you become co-workers.&lt;/p&gt;
-
-&lt;p&gt;Mobile app development &lt;a href=&quot;http://www.formotus.com/14018/blog-mobility/figuring-the-costs-of-custom-mobile-business-app-development&quot;&gt;costs much more than you think&lt;/a&gt;. I can’t charge you less (let alone do things for free!) just because you’re my friend.&lt;/p&gt;
-
-&lt;p&gt;And if the business fails (&lt;a href=&quot;http://www.forbes.com/sites/neilpatel/2015/01/16/90-of-startups-will-fail-heres-what-you-need-to-know-about-the-10/&quot;&gt;90% will&lt;/a&gt;), then the friendship will be awkward. You will have lost a lot of money — some of which will have gone to pay me.&lt;/p&gt;
-
-&lt;p&gt;When things fail, people find reasons. And many times, it’s natural to blame the developer. People will say: &lt;strong&gt;the product wasn’t good enough&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;All eyes will be on the developer, but that’s not really fair.&lt;/p&gt;
-
-&lt;p&gt;I value friendship, and all risks considered, I don’t sacrifice it.&lt;/p&gt;
-
-&lt;h2 id=&quot;unequal-bargains&quot;&gt;4. Unequal bargains&lt;/h2&gt;
-
-&lt;p&gt;In a tech startup, you need at least one technical person — the CTO or lead developer.&lt;/p&gt;
-
-&lt;p&gt;The “idea person” often becomes the “CEO” and promises to cover the marketing, sales, and fundraising.&lt;/p&gt;
-
-&lt;p&gt;It’s fair to split such responsibilities between two cofounders.&lt;/p&gt;
-
-&lt;p&gt;Yet, very often, my “idea person” friend is one with no experience in the area they handle. Neither has he worked in a startup before. And if they try to drive the product, it could get even uglier.&lt;/p&gt;
-
-&lt;p&gt;Having two co-founders with &lt;strong&gt;unequal experience and skill&lt;/strong&gt; is a mismatch.&lt;/p&gt;
-
-&lt;h2 id=&quot;i-love-startups-but-i-love-friends-even-more&quot;&gt;I love startups. But I love friends even more.&lt;/h2&gt;
-
-&lt;p&gt;If only I had a friend who understood the risks startups face, had the experience to execute, and was psychologically prepared for failure.&lt;/p&gt;
-
-&lt;p&gt;Until that magical person comes along, I’m going to stay focused on working for professional acquaintances, and tell any friends who get the startup itch to do the same.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;&lt;em&gt;This is the first post in samwize.com where I share a non-technical article. Hope you like it (: It is also &lt;a href=&quot;https://medium.freecodecamp.com/why-i-avoid-developing-app-idea-for-friends-58dbc16959ba&quot;&gt;published&lt;/a&gt; in freecodecamp.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 23 Feb 2017 22:21:09 +0800</pubDate>
-        <link>http://samwize.com/2017/02/23/why-i-avoid-developing-app-idea-for-friends/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/02/23/why-i-avoid-developing-app-idea-for-friends/</guid>
-        
-        
-        <category>startup</category>
         
       </item>
     
