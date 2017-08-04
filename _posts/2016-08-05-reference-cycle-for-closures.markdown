@@ -127,46 +127,57 @@ The point to emphasize here is:
 
 ## The Case of Singleton
 
-It is more common that you have scenario (2) in the case of using a singleton:
+Singleton is a very common pattern, so let's discuss further. 
+
+Many developer "weak self" when they are not sure about retain cycle, like this:
+
+```swift
+func runClosure() {
+    Singleton.sharedInstance.runClosure { [weak self] in
+        ...
+    }
+}
+```
+
+Should you or should you not capture self as weak?
+
+Jumping the gun, the conclusion is -- it depends.
+
+### @noescape closure - no need weak it
+
+In Swift 3, closure is [by default non-escaping](https://github.com/apple/swift-evolution/blob/master/proposals/0103-make-noescape-default.md).
+
+For example, `closure` below is non-escaping, which means it will run before the function returns.
 
 ```swift
 class Singleton {
     static let sharedInstance = Singleton()    
     func runClosure(closure: (()->Void)) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(3 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            closure()
-        }
-    }
-}
-
-class MyHolder {
-    ...
-    func runClosure() {
-        Singleton.sharedInstance.runClosure { 
-            print("Value of MyHolderWithSingleton: \(self.value)")
-        }
+        closure()
     }
 }
 ```
 
-The above code is similar to (2) -- the closure has a strong reference to self, but self does NOT have strong reference tot he closure, nor to the singleton.
+The benefit of non-escaping closure is that you don't need to capture self as weak; you may capture self strongly.
 
-I have seen many codes that **superfluously** capture self as `weak` like this:
+Quoting Chris Latner:
+
+> ... pushing the language to prefer noescape closures. noescape closures have also always been the preferred default, since they eliminate a class of retain cycle issues.
+
+Because the closure is non-escaping, it is not retained, therefore there will not cause retain cycle.
+
+### @escaping closure - better weak it
+
+If the closure is `@escaping`, like this:
 
 ```swift
-func runClosure() {
-    Singleton.sharedInstance.runClosure { [weak self] in
-        print("Value of MyHolderWithSingleton: \(self?.value)")
-    }
-}
+func runClosure(closure: @escaping (()->Void)) { ... }
 ```
 
-Usually `self` is a view controller, and the superfluous code above have the closure reference the view controller weakly. 
+Then you it is recommended to "weak self", unless you are sure it will not retain the closure.
 
-BUT, `self` is not referencing the closure strongly in the first place!
+Why is there an uncertainty?
 
-There is no need to avoid a reference cycle, because there isn't one in the first place.
+With an escaping closure, it depends on how the singleton retain and release the closure. It might hold on to it perpetually, or it could release after a timeout.
 
-Once again:
-
-**If self does NOT have a strong reference to the closure, it is okay to have the closure capture self strongly.**
+If you are not sure, it is safer to "weak self".
