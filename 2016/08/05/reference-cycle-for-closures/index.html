@@ -190,49 +190,62 @@
 
 <h2 id="the-case-of-singleton">The Case of Singleton</h2>
 
-<p>It is more common that you have scenario (2) in the case of using a singleton:</p>
+<p>Singleton is a very common pattern, so let’s discuss further.</p>
+
+<p>Many developer “weak self” when they are not sure about retain cycle, like this:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kt">Singleton</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="n">runClosure</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
+        <span class="o">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Should you or should you not capture self as weak?</p>
+
+<p>Jumping the gun, the conclusion is – it depends.</p>
+
+<h3 id="noescape-closure---no-need-weak-it">@noescape closure - no need weak it</h3>
+
+<p>In Swift 3, closure is <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0103-make-noescape-default.md">by default non-escaping</a>.</p>
+
+<p>For example, <code class="highlighter-rouge">closure</code> below is non-escaping, which means it will run before the function returns.</p>
 
 <div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Singleton</span> <span class="p">{</span>
     <span class="kd">static</span> <span class="k">let</span> <span class="nv">sharedInstance</span> <span class="o">=</span> <span class="kt">Singleton</span><span class="p">()</span>    
     <span class="kd">func</span> <span class="nf">runClosure</span><span class="p">(</span><span class="nv">closure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">))</span> <span class="p">{</span>
-        <span class="nf">dispatch_after</span><span class="p">(</span><span class="nf">dispatch_time</span><span class="p">(</span><span class="kt">DISPATCH_TIME_NOW</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="kt">Double</span><span class="p">(</span><span class="kt">NSEC_PER_SEC</span><span class="p">))),</span> <span class="nf">dispatch_get_main_queue</span><span class="p">())</span> <span class="p">{</span>
-            <span class="nf">closure</span><span class="p">()</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">class</span> <span class="kt">MyHolder</span> <span class="p">{</span>
-    <span class="o">...</span>
-    <span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
-        <span class="kt">Singleton</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="n">runClosure</span> <span class="p">{</span> 
-            <span class="nf">print</span><span class="p">(</span><span class="s">"Value of MyHolderWithSingleton: </span><span class="se">\(</span><span class="k">self</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-        <span class="p">}</span>
+        <span class="nf">closure</span><span class="p">()</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 </div>
 
-<p>The above code is similar to (2) – the closure has a strong reference to self, but self does NOT have strong reference tot he closure, nor to the singleton.</p>
+<p>The benefit of non-escaping closure is that you don’t need to capture self as weak; you may capture self strongly.</p>
 
-<p>I have seen many codes that <strong>superfluously</strong> capture self as <code class="highlighter-rouge">weak</code> like this:</p>
+<p>Quoting Chris Latner:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kt">Singleton</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="n">runClosure</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
-        <span class="nf">print</span><span class="p">(</span><span class="s">"Value of MyHolderWithSingleton: </span><span class="se">\(</span><span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">value</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<blockquote>
+  <p>… pushing the language to prefer noescape closures. noescape closures have also always been the preferred default, since they eliminate a class of retain cycle issues.</p>
+</blockquote>
+
+<p>Because the closure is non-escaping, it is not retained, therefore there will not cause retain cycle.</p>
+
+<h3 id="escaping-closure---better-weak-it">@escaping closure - better weak it</h3>
+
+<p>If the closure is <code class="highlighter-rouge">@escaping</code>, like this:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">runClosure</span><span class="p">(</span><span class="nv">closure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">))</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
 </code></pre>
 </div>
 
-<p>Usually <code class="highlighter-rouge">self</code> is a view controller, and the superfluous code above have the closure reference the view controller weakly.</p>
+<p>Then you it is recommended to “weak self”, unless you are sure it will not retain the closure.</p>
 
-<p>BUT, <code class="highlighter-rouge">self</code> is not referencing the closure strongly in the first place!</p>
+<p>Why is there an uncertainty?</p>
 
-<p>There is no need to avoid a reference cycle, because there isn’t one in the first place.</p>
+<p>With an escaping closure, it depends on how the singleton retain and release the closure. It might hold on to it perpetually, or it could release after a timeout.</p>
 
-<p>Once again:</p>
-
-<p><strong>If self does NOT have a strong reference to the closure, it is okay to have the closure capture self strongly.</strong></p>
+<p>If you are not sure, it is safer to “weak self”.</p>
 
         </section>
         <footer class="post-footer">
