@@ -19,13 +19,20 @@ tableView.separatorColor = UIColor.clearColor()
 
 This will hide all separator lines, including the top and bottom which bound the section. Read next section to hide only the lines between cells.
 
-
 ## Hide separator lines betweeen cells
 
 ```swift
 cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
 ```
 
+## Hide separator lines for the empty cells
+
+Somehow, table view will have separator lines in the empty space when there ain't enough rows to fill a screen. This is a workaround.
+
+```swift
+# Set an empty footer
+tableView.tableFooterView = UIView()
+```
 
 ## Full width separtor line
 
@@ -33,7 +40,6 @@ cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width, 0, 0);
 cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
 cell.layoutMargins = UIEdgeInsetsMake(0, 0, 0, 0);
 ```
-
 
 ## Make a cell unselectable
 
@@ -59,7 +65,7 @@ override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfa
 }
 ```
 
-## Using custom cell in nib 
+## Using custom cell in nib
 
 A [similar tutorial on using nib for UICollectionViewCell](/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard/) was written. `UITable` is smiliar.
 
