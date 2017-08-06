@@ -6,9 +6,103 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 04 Aug 2017 10:09:51 +0800</pubDate>
-    <lastBuildDate>Fri, 04 Aug 2017 10:09:51 +0800</lastBuildDate>
+    <pubDate>Sun, 06 Aug 2017 14:35:30 +0800</pubDate>
+    <lastBuildDate>Sun, 06 Aug 2017 14:35:30 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>How Oracle screwed me for 2 months with an UNDERSCORE</title>
+        <description>&lt;p&gt;&lt;em&gt;tldr; Don’t use an enterprise product. In this case Oracle’s Responsys/PushIO sucks badly.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This post is my rant on how bad an enterprise product from Oracle is.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-ridiculous-bug&quot;&gt;The ridiculous bug&lt;/h2&gt;
+
+&lt;p&gt;I spent 2 months to figure out why our iOS app did not display rich message pushed from Oracle’s platform. It boils down to an UNDERSCORE.&lt;/p&gt;
+
+&lt;p&gt;Yes, freaking &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt;, generated in their API key is the reason why our app didn’t work.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/pushio-ridiculous-bug.jpg&quot; alt=&quot;&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Quoting reply from developer support:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The bug is that your API key was generated with an underscore “_” and that is an invalid character for how the API key is used downstream.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The fix should be pretty straighforward… create a new platform until you get one without underscores in the API key.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Wow.&lt;/p&gt;
+
+&lt;p&gt;It is an embarassing bug, but what appal me more is how they deal with it.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-major-bug&quot;&gt;A major bug&lt;/h2&gt;
+
+&lt;p&gt;Firstly, the bug affects majority of their users, since it took me 3 tries, before getting a “valid” one.&lt;/p&gt;
+
+&lt;p&gt;I estimate &lt;strong&gt;66% of users&lt;/strong&gt; could have generated “invalid” keys.&lt;/p&gt;
+
+&lt;h2 id=&quot;not-fixing-their-sdk-quickly&quot;&gt;Not fixing their SDK quickly&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/pushio/PushIOManager_iOS/tags&quot;&gt;PushIO last release&lt;/a&gt; of their SDK is 16 Jun 2017, that is 2 months ago as of writing.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;I give them the benefit of doubt, as I assume the bug only appear in that release, though I do believe the bug happens way before version 6.32.1.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The point is, a major bug should be fixed quickly, yet it wasn’t.&lt;/p&gt;
+
+&lt;p&gt;Not to mention this should be a easy fix. They could fix their API key generator probably in a few lines of code. Somehow they did not.&lt;/p&gt;
+
+&lt;h2 id=&quot;lack-of-knowledge-on-the-issue&quot;&gt;Lack of knowledge on the issue&lt;/h2&gt;
+
+&lt;p&gt;Our account manager and a couple of customer support officers did not know about the &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; issue, until it escalates to their developer.&lt;/p&gt;
+
+&lt;p&gt;It could mean:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;They don’t have many users and this issue never came up&lt;/li&gt;
+  &lt;li&gt;They have a problem with communicating and sharing of such knowledge&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Either way, as a user, I am less confident with Oracle.&lt;/p&gt;
+
+&lt;h2 id=&quot;we-took-2-long-months&quot;&gt;We took 2 long months&lt;/h2&gt;
+
+&lt;p&gt;Why so long?&lt;/p&gt;
+
+&lt;p&gt;While trying to investigate the issue and isolate the problem, I asked a simple quesion: &lt;em&gt;&lt;strong&gt;Is there an iOS sample code?&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;It took 2 weeks, before they finally have an answer – no, they don’t. Again, it reveals a lack of knowledgebase to such FAQ.&lt;/p&gt;
+
+&lt;p&gt;Analyzing why a push fails is tedious and slow, because I have to &lt;strong&gt;wait till the next day&lt;/strong&gt; to check the logs from an &lt;strong&gt;FTP server&lt;/strong&gt;. It feels so 1990s.&lt;/p&gt;
+
+&lt;p&gt;Reply from “enterprise support” isn’t lightning fast either. &lt;em&gt;I admit I don’t reply them fast too, but I have much more meaningful features to develop.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;a-problem-with-the-enterprise-suite-of-products&quot;&gt;A problem with the enterprise suite of products&lt;/h2&gt;
+
+&lt;p&gt;Responsys is an enterprise email marketing tool – a slow and complicated web app. &lt;a href=&quot;https://mailchimp.com&quot;&gt;Mail Chimp&lt;/a&gt; will be it’s rival that is cool and user friendly.&lt;/p&gt;
+
+&lt;p&gt;PushIO is a mobile push SDK, in a very crowded space since 2009 when Apple revolutionized push. Cool rivals include &lt;a href=&quot;https://www.urbanairship.com&quot;&gt;Urban Airship&lt;/a&gt; and &lt;a href=&quot;https://onesignal.com/&quot;&gt;OneSignal&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In 2014, Oracle &lt;em&gt;eat&lt;/em&gt; Responsys, who in turn &lt;em&gt;eat&lt;/em&gt; PushIO – a &lt;a href=&quot;https://www.bizjournals.com/denver/blog/boosters_bits/2014/01/repsonsys-buys-push-io-before-being.html&quot;&gt;&lt;strong&gt;$1.5 billion acquisition&lt;/strong&gt;&lt;/a&gt;!&lt;/p&gt;
+
+&lt;p&gt;When a large corporation acquires a team and it’s product, it is the &lt;strong&gt;start of a downfall&lt;/strong&gt;. This case will be messier since a fat clumpsy fish eat a fish which eat another small fish.&lt;/p&gt;
+
+&lt;p&gt;The small fish (PushIO) probably died tragically.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/pushio-big-fish-eat-little-fish.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 06 Aug 2017 00:25:18 +0800</pubDate>
+        <link>http://samwize.com/2017/08/06/how-oracle-screwed-me-with-an-underscore/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/08/06/how-oracle-screwed-me-with-an-underscore/</guid>
+        
+        
+        <category>Rant</category>
+        
+        <category>API</category>
+        
+      </item>
     
       <item>
         <title>WWDC 2017 - What&#39;s New in Foundation</title>
@@ -712,218 +806,6 @@ In Swift 3, there are 5 levels.&lt;br /&gt;&lt;/p&gt;
         
         
         <category>mac</category>
-        
-      </item>
-    
-      <item>
-        <title>Guide to UICollectionView With Custom Layout</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/content/documentation/WindowsViews/Conceptual/CollectionViewPGforIOS/CollectionViewBasics/CollectionViewBasics.html&quot;&gt;UICollectionView&lt;/a&gt; is the most powerful view controller in UIKit.&lt;/p&gt;
-
-&lt;p&gt;iOS started with the very basic view controller for displaying a list - in the form of UITableView. But a table is simply a top down display of rows.&lt;/p&gt;
-
-&lt;p&gt;UICollectionView brings you to the next level and you can layout each of these cells (like rows) anywhere you want.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-basic&quot;&gt;The Basic&lt;/h2&gt;
-
-&lt;p&gt;There are 3 types of view in a collection view.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Collection view cells&lt;/li&gt;
-  &lt;li&gt;Supplementary views&lt;/li&gt;
-  &lt;li&gt;Decoration views&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;You have to be clear between &lt;strong&gt;content&lt;/strong&gt; and &lt;strong&gt;layout&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/reference/uikit/uicollectionviewdatasource&quot;&gt;datasource protocol&lt;/a&gt; provides the content to 1) collection view cells and 2) supplementary views. &lt;em&gt;Decoration views are views with no content.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/reference/uikit/uicollectionviewlayout&quot;&gt;layout object&lt;/a&gt; generates the layout information for all the 3 types of view.&lt;/p&gt;
-
-&lt;p&gt;It is this layout object that you can use to create your custom layout.&lt;/p&gt;
-
-&lt;p&gt;Before we go on how to customize the layout, let’s dig into supplementary and decoration views, because their roles are often confused.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-are-supplementary-views&quot;&gt;What are supplementary views?&lt;/h2&gt;
-
-&lt;p&gt;They are the accompanying views for each section.&lt;/p&gt;
-
-&lt;p&gt;Note that I said views, with a plural. You can have multiple supplementary views for each section. In a flow layout, a provided grid layout, you have header and footer – that’s 2 supplementary views.&lt;/p&gt;
-
-&lt;p&gt;In your custom layout, you can have as many different supplementary views you want. They are distinguished by &lt;code class=&quot;highlighter-rouge&quot;&gt;kind&lt;/code&gt; (a string). The layout object controls how many &lt;code class=&quot;highlighter-rouge&quot;&gt;kind&lt;/code&gt; of views there are. Data source populate it after dequeuing.&lt;/p&gt;
-
-&lt;p&gt;You must return a resuable view in the data source method &lt;code class=&quot;highlighter-rouge&quot;&gt;collectionView(_:viewForSupplementaryElementOfKind:at:)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you do now want a supplementary view in a particular case, then your custom layout should not create the attribute for it. Another simpler way is to set the attribute to hide.&lt;/p&gt;
-
-&lt;h2 id=&quot;and-there-is-decoration-view&quot;&gt;And there is decoration view&lt;/h2&gt;
-
-&lt;p&gt;The 3rd view in a collection view is a decoration view.&lt;/p&gt;
-
-&lt;p&gt;This view is purely for decoration, and is managed by the layout object – they do NOT get content from data source.&lt;/p&gt;
-
-&lt;p&gt;On the other hand, once again, collection view cells and supplementary views get their content from &lt;a href=&quot;https://developer.apple.com/reference/uikit/uicollectionviewdatasource&quot;&gt;UICollection​View​Data​Source&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;creating-a-layout&quot;&gt;Creating a layout&lt;/h2&gt;
-
-&lt;p&gt;It’s easier to use an example to illustrate.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Disclosure&lt;/em&gt;: I read &lt;a href=&quot;https://www.raywenderlich.com/107439/uicollectionview-custom-layout-tutorial-pinterest&quot;&gt;raywenderlich tutorial&lt;/a&gt; to come up with this guide. We will create a pinterest layout that looks like &lt;a href=&quot;https://koenig-media.raywenderlich.com/uploads/2015/05/customlayout-calculations1-667x500.png&quot;&gt;this&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The changes that I had was:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Use Swift 3&lt;/li&gt;
-  &lt;li&gt;Delegate to provide the cell’s height (instead of separately the heights of photo and annotation)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Similarly, we will keep things simple to have only 2 columns, and no annotation and decoration views.&lt;/p&gt;
-
-&lt;h2 id=&quot;layout-delegate&quot;&gt;Layout Delegate&lt;/h2&gt;
-
-&lt;p&gt;Let’s start with &lt;code class=&quot;highlighter-rouge&quot;&gt;PinterestLayoutDelegate&lt;/code&gt;, the delegate protocol that provides &lt;code class=&quot;highlighter-rouge&quot;&gt;PinterestLayout&lt;/code&gt; (see later) the height, given the width.&lt;/p&gt;
-
-&lt;p&gt;Although the layout role is to set the frames - size and position - it would still need help for attributes that &lt;strong&gt;depends on the content&lt;/strong&gt;. Remember: The layout does NOT know the content.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;protocol&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PinterestLayoutDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UICollectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;heightForCellAt&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;IndexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;withWidth&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This delegate is like data source protocol, which your view controller must implement to return the height that is needed for the cell. In the case of Pinterest, we want cells height to be accordingly to the image aspect ratio.&lt;/p&gt;
-
-&lt;p&gt;Let’s now look at the beef of the subject - &lt;code class=&quot;highlighter-rouge&quot;&gt;PinterestLayout&lt;/code&gt;. We are going to break down the class into a few parts.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-data&quot;&gt;The Data&lt;/h2&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PinterestLayout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UICollectionViewLayout&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;delegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PinterestLayoutDelegate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;numberOfColumns&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UICollectionViewLayoutAttributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;contentHeight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.0&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;contentWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;insets&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentInset&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;left&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;insets&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;right&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The delegate is obvious. In your view controller, you have to assign the delegate, and implement the method to provide the height, as said in the previous section.&lt;/p&gt;
-
-&lt;p&gt;We hardcoded the number of columns to 2, for simplicity. But it could change depending on the device width.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cache&lt;/code&gt; is a collection of &lt;code class=&quot;highlighter-rouge&quot;&gt;UICollectionViewLayoutAttributes&lt;/code&gt;. The cache is to help to optimize the tedious calculation in &lt;code class=&quot;highlighter-rouge&quot;&gt;prepare()&lt;/code&gt; (next section).&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;contentHeight&lt;/code&gt; is the total height of the layout that we will calculate, in &lt;code class=&quot;highlighter-rouge&quot;&gt;prepare()&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;prepare-the-layout&quot;&gt;Prepare The Layout&lt;/h2&gt;
-
-&lt;p&gt;The gist of a custom layout lies in &lt;code class=&quot;highlighter-rouge&quot;&gt;prepare()&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Collection view will call &lt;code class=&quot;highlighter-rouge&quot;&gt;prepare()&lt;/code&gt; to give the layout object the chance &lt;a href=&quot;https://developer.apple.com/reference/uikit/uicollectionviewlayout/1617752-prepare&quot;&gt;to perform initial computations&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In our case, our goal is to create all the &lt;code class=&quot;highlighter-rouge&quot;&gt;UICollectionViewLayoutAttributes&lt;/code&gt; for each cell.&lt;/p&gt;
-
-&lt;p&gt;We loop for each item in the collection view, and calculate the (x, y) coordinate to place them. &lt;code class=&quot;highlighter-rouge&quot;&gt;UICollectionViewLayoutAttributes&lt;/code&gt; is created with the frame, and added to &lt;code class=&quot;highlighter-rouge&quot;&gt;cache&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;You would customize this method for the layout you want.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PinterestLayout&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prepare&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// Reset&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UICollectionViewLayoutAttributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;contentHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;columnWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contentWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;numberOfColumns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-        &lt;span class=&quot;c1&quot;&gt;// xOffset tracks for each column. This is fixed, unlike yOffset.&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;xOffset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;column&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;..&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numberOfColumns&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;xOffset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;column&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;columnWidth&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;c1&quot;&gt;// yOffset tracks the last y-offset in each column&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;yOffset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;repeating&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numberOfColumns&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-        &lt;span class=&quot;c1&quot;&gt;// Start calculating for each item&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;..&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;numberOfItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;inSection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;indexPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;IndexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;columnWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cellPadding&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;cellHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;collectionView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;heightForCellAt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;withWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cellHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;2*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cellPadding&lt;/span&gt;
-
-            &lt;span class=&quot;c1&quot;&gt;// Find the shortest column to place this item&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;shortestColumn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;minYOffset&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yOffset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;shortestColumn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yOffset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;minYOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;??&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;xOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shortestColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shortestColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;columnWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;insetFrame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;insetBy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;dx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cellPadding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;dy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cellPadding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-            &lt;span class=&quot;c1&quot;&gt;// Create our attributes&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;attributes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UICollectionViewLayoutAttributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;forCellWith&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;attributes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;insetFrame&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-            &lt;span class=&quot;c1&quot;&gt;// Updates&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;contentHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentHeight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;maxY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-            &lt;span class=&quot;n&quot;&gt;yOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shortestColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;yOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shortestColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;xOffset&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;yOffset&lt;/code&gt; are arrays to keep track of the last (x, y), for each column.&lt;/p&gt;
-
-&lt;h2 id=&quot;other-layout-methods&quot;&gt;Other Layout Methods&lt;/h2&gt;
-
-&lt;p&gt;There are some other methods that the collection view will ask from your layout object. You can return from the cache.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PinterestLayout&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;layoutAttributesForElements&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UICollectionViewLayoutAttributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;layoutAttributes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UICollectionViewLayoutAttributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;attributes&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;attributes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;intersects&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;n&quot;&gt;layoutAttributes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;attributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;layoutAttributes&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;layoutAttributesForItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;at&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;indexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;IndexPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UICollectionViewLayoutAttributes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;attributes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;attributes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;indexPath&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;what-about-autolayout&quot;&gt;What about autolayout?&lt;/h2&gt;
-
-&lt;p&gt;You don’t use autolayout for layout object.&lt;/p&gt;
-
-&lt;p&gt;It is “manual layout”, that is to calculate the frames, like good old days.&lt;/p&gt;
-
-&lt;p&gt;But you still can use autolayout for WITHIN the cells, supplementary and decoration views.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 26 Mar 2017 11:10:24 +0800</pubDate>
-        <link>http://samwize.com/2017/03/26/guide-to-uicollectionview-with-custom-layout/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/03/26/guide-to-uicollectionview-with-custom-layout/</guid>
-        
-        
-        <category>iOS</category>
         
       </item>
     
