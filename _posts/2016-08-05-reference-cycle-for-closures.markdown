@@ -180,4 +180,6 @@ Why is there an uncertainty?
 
 With an escaping closure, it depends on how the singleton retain and release the closure. It might hold on to it perpetually, or it could release after a timeout.
 
+For example, PromiseKit uses escaping closure, however, they promised (pun intended) [in their FAQ](http://promisekit.org/faq/), that it is safe not to "weak self", because they will eventually release.
+
 If you are not sure, it is safer to "weak self".
