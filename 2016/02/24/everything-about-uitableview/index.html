@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -89,6 +89,15 @@
 <h2 id="hide-separator-lines-betweeen-cells">Hide separator lines betweeen cells</h2>
 
 <div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">cell</span><span class="o">.</span><span class="n">separatorInset</span> <span class="o">=</span> <span class="kt">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h2 id="hide-separator-lines-for-the-empty-cells">Hide separator lines for the empty cells</h2>
+
+<p>Somehow, table view will have separator lines in the empty space when there ain’t enough rows to fill a screen. This is a workaround.</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="cp"># Set an empty footer</span>
+<span class="n">tableView</span><span class="o">.</span><span class="n">tableFooterView</span> <span class="o">=</span> <span class="kt">UIView</span><span class="p">()</span>
 </code></pre>
 </div>
 
