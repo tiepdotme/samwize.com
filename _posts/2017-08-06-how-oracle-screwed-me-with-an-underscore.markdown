@@ -18,7 +18,7 @@ Yes, freaking `_`, generated in their API key is the reason why our app didn't w
 
 ![](/images/pushio-ridiculous-bug.jpg){:.border}
 
-Quoting reply from developer support:
+Quoting reply from Oracle developer:
 
 > The bug is that your API key was generated with an underscore "_" and that is an invalid character for how the API key is used downstream.
 
@@ -46,7 +46,7 @@ Not to mention this should be a easy fix. They could fix their API key generator
 
 ## Lack of knowledge on the issue
 
-Our account manager and a couple of customer support officers did not know about the `_` issue, until it escalates to their developer.
+Our account manager and a couple of customer support officers did not know about the `_` issue, until it escalated to their developer.
 
 It could mean:
 
@@ -69,9 +69,9 @@ Reply from "enterprise support" isn't lightning fast either. _I admit I don't re
 
 ## A problem with the enterprise suite of products
 
-Responsys is an enterprise email marketing tool -- a slow and complicated web app. [Mail Chimp](https://mailchimp.com) will be it's rival that is cool and user friendly.
+Responsys is an enterprise email marketing tool -- a slow and complicated web app. [Mail Chimp](https://mailchimp.com) on the other hand, is a rival, is cool and user friendly.
 
-PushIO is a mobile push SDK, in a very crowded space since 2009 when Apple revolutionized push. Cool rivals include [Urban Airship](https://www.urbanairship.com) and [OneSignal](https://onesignal.com/).
+PushIO is a mobile push SDK, in a very crowded space since 2009, when Apple revolutionized push. It's better rivals include [Urban Airship](https://www.urbanairship.com) and [OneSignal](https://onesignal.com/) (free!).
 
 In 2014, Oracle _eat_ Responsys, who in turn _eat_ PushIO -- a [**$1.5 billion acquisition**](https://www.bizjournals.com/denver/blog/boosters_bits/2014/01/repsonsys-buys-push-io-before-being.html)!
 
