@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "How to Change iOS App Icon Programmatically (iOS 10.3)"
-date: 2017-08-17T16:09:07+08:00
-categories: []
+date: 2017-08-20T16:09:07+08:00
+categories: [iOS]
 ---
 
 Changing the app icon is just [1 line of code](https://developer.apple.com/documentation/uikit/uiapplication/2806818-setalternateiconname) with `setAlternateIconName`, but there are many pitfalls, and the lack of guide on how to do it.
@@ -14,7 +14,7 @@ Let's start with the easy part, which is the code to change the app icon program
 ```swift
 if #available(iOS 10.3, *) {
     let newAppIconName = "AppIcon-2"
-    
+
     guard UIApplication.shared.alternateIconName != newAppIconName else { return }
 
     UIApplication.shared.setAlternateIconName(newAppIconName)
@@ -33,19 +33,19 @@ Why?
 
 Because the user will be shown this alert:
 
-[screenshot]
+![](/images/appicon-change-alert.jpg)
 
 _If you want to run the code in app delegate, make sure it is run in main queue, and visible in the main window._
 
 ## Pitfall: You cannot avoid the system alert
 
-The alert and the text "You have changed the icon for ..." cannot be changed, nor removed. 
+The alert and the text "You have changed the icon for ..." cannot be changed, nor removed.
 
 In [Apple Human Interface Guildeline (HIG)](https://developer.apple.com/ios/human-interface-guidelines/graphics/app-icon/), they did mention that changing the app icon is a user triggered action.
 
 _You can perform tricks to dismiss the alert, or cover with another screen, but that is against the HIG._
 
-This is also why in the code there is a `guard` statement. It prevents setting the icon name again, and therefore triggering the alert, if it already is that icon. 
+This is also why in the code there is a `guard` statement. It prevents setting the icon name again, and therefore triggering the alert, if it already is that icon.
 
 ## The Info.plist
 
