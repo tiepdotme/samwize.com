@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>How Oracle screwed me for 2 months with an UNDERSCORE</title>
-  <meta name="description" content="tldr; Don’t use an enterprise product. In this case Oracle’s Responsys/PushIO sucks badly." />
+  <meta name="description" content="tldr; I was integrating Oracle’s mobile push SDK and was stuck for 2 months. Turned out they have an embarassing bug involving an underscore! Oracle’s Responsys/PushIO proved right – enterprise pro..." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="How Oracle screwed me for 2 months with an UNDERSCORE" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="tldr; Don’t use an enterprise product. In this case Oracle’s Responsys/PushIO sucks badly." />
+    <meta name="twitter:description"  content="tldr; I was integrating Oracle’s mobile push SDK and was stuck for 2 months. Turned out they have an embarassing bug involving an underscore! Oracle’s Responsys/PushIO proved right – enterprise pro..." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="How Oracle screwed me for 2 months with an UNDERSCORE"/>
   
-  <meta property="og:description" content="tldr; Don’t use an enterprise product. In this case Oracle’s Responsys/PushIO sucks badly." />
+  <meta property="og:description" content="tldr; I was integrating Oracle’s mobile push SDK and was stuck for 2 months. Turned out they have an embarassing bug involving an underscore! Oracle’s Responsys/PushIO proved right – enterprise pro..." />
   
   <meta property="og:image" content="http://samwize.com/images/pushio-screw-me.jpg" />
   <meta property="og:url" content="http://samwize.com/2017/08/06/how-oracle-screwed-me-with-an-underscore/" >
@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -75,9 +75,9 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><em>tldr; Don’t use an enterprise product. In this case Oracle’s Responsys/PushIO sucks badly.</em></p>
+          <p><em>tldr; I was integrating Oracle’s mobile push SDK and was stuck for 2 months. Turned out they have an embarassing bug involving an underscore! Oracle’s Responsys/PushIO proved right – enterprise product sucks.</em></p>
 
-<p>This post is my rant on how bad an enterprise product from Oracle is.</p>
+<p>This post is my rant on how bad Oracle’s product is.</p>
 
 <h2 id="the-ridiculous-bug">The ridiculous bug</h2>
 
@@ -87,7 +87,7 @@
 
 <p><img src="/images/pushio-ridiculous-bug.jpg" alt="" class="border" /></p>
 
-<p>Quoting reply from Oracle developer:</p>
+<p>From Oracle’s developer support:</p>
 
 <blockquote>
   <p>The bug is that your API key was generated with an underscore “_” and that is an invalid character for how the API key is used downstream.</p>
@@ -103,9 +103,11 @@
 
 <h2 id="a-major-bug">A major bug</h2>
 
-<p>Firstly, the bug affects majority of their users, since it took me 3 tries, before getting a “valid” one.</p>
+<p>Firstly, the bug affects majority of their users, since I took 3 tries, before getting a “valid” one.</p>
 
 <p>I estimate <strong>66% of users</strong> could have generated “invalid” keys.</p>
+
+<p>The bug has big impact. All rich push messages will NOT be displayed in the app!</p>
 
 <h2 id="not-fixing-their-sdk-quickly">Not fixing their SDK quickly</h2>
 
@@ -113,13 +115,13 @@
 
 <p><em>I give them the benefit of doubt, as I assume the bug only appear in that release, though I do believe the bug happens way before version 6.32.1.</em></p>
 
-<p>The point is, a major bug should be fixed quickly, yet it wasn’t.</p>
+<p>The point is, a major bug should be fixed quickly. But Oracle did not.</p>
 
-<p>Not to mention this should be a easy fix. They could fix their API key generator probably in a few lines of code. Somehow they did not.</p>
+<p>Not to mention this should be an easy fix. They could fix their API key generator, probably in a few lines of code. Somehow Oracle choose not to.</p>
 
 <h2 id="lack-of-knowledge-on-the-issue">Lack of knowledge on the issue</h2>
 
-<p>Our account manager and a couple of customer support officers did not know about the <code class="highlighter-rouge">_</code> issue, until it escalated to their developer.</p>
+<p>Our account manager and a couple of customer support officers did not know about the embarassing <code class="highlighter-rouge">_</code> issue, until it escalated to their developer.</p>
 
 <p>It could mean:</p>
 
@@ -136,21 +138,21 @@
 
 <p>While trying to investigate the issue and isolate the problem, I asked a simple quesion: <em><strong>Is there an iOS sample code?</strong></em></p>
 
+<p>Replies from “enterprise support” ain’t lightning fast.</p>
+
 <p>It took 2 weeks, before they finally have an answer – no, they don’t. Again, it reveals a lack of knowledgebase to such FAQ.</p>
 
-<p>Analyzing why a push fails is tedious and slow, because I have to <strong>wait till the next day</strong> to check the logs from an <strong>FTP server</strong>. It feels so 1990s.</p>
-
-<p>Reply from “enterprise support” isn’t lightning fast either. <em>I admit I don’t reply them fast too, but I have much more meaningful features to develop.</em></p>
+<p>Investigating why our push failed is tedious and slow, because I have to <strong>wait till the next day</strong> to check the logs from an <strong>FTP server</strong>. It feels so 1990s.</p>
 
 <h2 id="a-problem-with-the-enterprise-suite-of-products">A problem with the enterprise suite of products</h2>
 
-<p>Responsys is an enterprise email marketing tool – a slow and complicated web app. <a href="https://mailchimp.com">Mail Chimp</a> on the other hand, is a rival, is cool and user friendly.</p>
+<p>Responsys is an enterprise email marketing tool – a slow and complicated web app. <a href="https://mailchimp.com">Mail Chimp</a> on the other hand, a rival, is cool and user friendly.</p>
 
 <p>PushIO is a mobile push SDK, in a very crowded space since 2009, when Apple revolutionized push. It’s better rivals include <a href="https://www.urbanairship.com">Urban Airship</a> and <a href="https://onesignal.com/">OneSignal</a> (free!).</p>
 
-<p>In 2014, Oracle <em>eat</em> Responsys, who in turn <em>eat</em> PushIO – a <a href="https://www.bizjournals.com/denver/blog/boosters_bits/2014/01/repsonsys-buys-push-io-before-being.html"><strong>$1.5 billion acquisition</strong></a>!</p>
+<p>In 2014, Oracle <em>eat</em> Responsys, who in turn <em>eat</em> PushIO – a in <a href="https://www.bizjournals.com/denver/blog/boosters_bits/2014/01/repsonsys-buys-push-io-before-being.html"><strong>$1.5 billion acquisition</strong></a>!</p>
 
-<p>When a large corporation acquires a team and it’s product, it is the <strong>start of a downfall</strong>. This case will be messier since a fat clumpsy fish eat a fish which eat another small fish.</p>
+<p>When a large corporation acquires a team and it’s product, it is the <strong>start of a downfall</strong>. This case is messier since a fat clumpsy fish eat a fish which eat another small fish.</p>
 
 <p>The small fish (PushIO) probably died tragically.</p>
 

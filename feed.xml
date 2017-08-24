@@ -6,15 +6,125 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 07 Aug 2017 10:05:57 +0800</pubDate>
-    <lastBuildDate>Mon, 07 Aug 2017 10:05:57 +0800</lastBuildDate>
+    <pubDate>Thu, 24 Aug 2017 17:28:54 +0800</pubDate>
+    <lastBuildDate>Thu, 24 Aug 2017 17:28:54 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
-        <title>How Oracle screwed me for 2 months with an UNDERSCORE</title>
-        <description>&lt;p&gt;&lt;em&gt;tldr; Don’t use an enterprise product. In this case Oracle’s Responsys/PushIO sucks badly.&lt;/em&gt;&lt;/p&gt;
+        <title>How to Change iOS App Icon Programmatically (iOS 10.3)</title>
+        <description>&lt;p&gt;Changing the app icon is just &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiapplication/2806818-setalternateiconname&quot;&gt;1 line of code&lt;/a&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;setAlternateIconName&lt;/code&gt;, but there are many pitfalls, and the lack of guide on how to do it.&lt;/p&gt;
 
-&lt;p&gt;This post is my rant on how bad an enterprise product from Oracle is.&lt;/p&gt;
+&lt;h2 id=&quot;the-code&quot;&gt;The Code&lt;/h2&gt;
+
+&lt;p&gt;Let’s start with the easy part, which is the code to change the app icon programmatically.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(iOS 10.3, *)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;newAppIconName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;AppIcon-2&quot;&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alternateIconName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newAppIconName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setAlternateIconName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newAppIconName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You might thought you can put the code in app delegate when the app is launched, but no, that will have this un-helpful error:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Error Domain=NSCocoaErrorDomain Code=3072 “The operation was cancelled.”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;pitfall-code-must-be-called-in-view-controller&quot;&gt;Pitfall: Code must be called in view controller&lt;/h2&gt;
+
+&lt;p&gt;You must call &lt;code class=&quot;highlighter-rouge&quot;&gt;setAlternateIconName&lt;/code&gt; only in view controller, and in main thread.&lt;/p&gt;
+
+&lt;p&gt;Why?&lt;/p&gt;
+
+&lt;p&gt;Because the user will be shown this alert:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/appicon-change-alert.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;If you want to run the code in app delegate, make sure it is run in main queue, and visible in the main window.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;pitfall-you-cannot-avoid-the-system-alert&quot;&gt;Pitfall: You cannot avoid the system alert&lt;/h2&gt;
+
+&lt;p&gt;The alert and the text “You have changed the icon for …” cannot be changed, nor removed.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&quot;https://developer.apple.com/ios/human-interface-guidelines/graphics/app-icon/&quot;&gt;Apple Human Interface Guildeline (HIG)&lt;/a&gt;, they did mention that changing the app icon is a user triggered action.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;You can perform tricks to dismiss the alert, or cover with another screen, but that is against the HIG.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This is also why in the code there is a &lt;code class=&quot;highlighter-rouge&quot;&gt;guard&lt;/code&gt; statement. It prevents setting the icon name again, and therefore triggering the alert, if it already is that icon.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-infoplist&quot;&gt;The Info.plist&lt;/h2&gt;
+
+&lt;p&gt;Now that you understand the code and how it works, let’s setup the app’s Info.plist.&lt;/p&gt;
+
+&lt;p&gt;The following has to be added:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-plist&quot;&gt;&amp;lt;key&amp;gt;CFBundleIcons&amp;lt;/key&amp;gt;
+&amp;lt;dict&amp;gt;
+  &amp;lt;key&amp;gt;CFBundlePrimaryIcon&amp;lt;/key&amp;gt;
+  &amp;lt;dict&amp;gt;
+    &amp;lt;key&amp;gt;CFBundleIconFiles&amp;lt;/key&amp;gt;
+    &amp;lt;array&amp;gt;
+      &amp;lt;string&amp;gt;AppIcon&amp;lt;/string&amp;gt;
+    &amp;lt;/array&amp;gt;
+    &amp;lt;key&amp;gt;UIPrerenderedIcon&amp;lt;/key&amp;gt;
+    &amp;lt;true/&amp;gt;
+  &amp;lt;/dict&amp;gt;
+  &amp;lt;key&amp;gt;CFBundleAlternateIcons&amp;lt;/key&amp;gt;
+  &amp;lt;dict&amp;gt;
+    &amp;lt;key&amp;gt;AppIcon-2&amp;lt;/key&amp;gt;
+    &amp;lt;dict&amp;gt;
+      &amp;lt;key&amp;gt;CFBundleIconFiles&amp;lt;/key&amp;gt;
+      &amp;lt;array&amp;gt;
+        &amp;lt;string&amp;gt;AppIcon-2&amp;lt;/string&amp;gt;
+      &amp;lt;/array&amp;gt;
+      &amp;lt;key&amp;gt;UIPrerenderedIcon&amp;lt;/key&amp;gt;
+      &amp;lt;true/&amp;gt;
+    &amp;lt;/dict&amp;gt;
+  &amp;lt;/dict&amp;gt;
+&amp;lt;/dict&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW13&quot;&gt;keys are explained&lt;/a&gt;, but in short:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIcons&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundlePrimaryIcon&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleAlternateIcons&lt;/code&gt; - dictionary of alternative icons, with the key name as the name that you will use in code eg. “AppIcon-2”&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You may wonder what why “AppIcon-2” is repeated in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIconFiles&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;That is actually the image file name (less the “png” or “@2x”). It need not be necessary the same as the key in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleAlternateIcons&lt;/code&gt;. For simplicity we used the same name.&lt;/p&gt;
+
+&lt;h2 id=&quot;pitfall-cannot-use-asset-catalog&quot;&gt;Pitfall: Cannot use asset catalog&lt;/h2&gt;
+
+&lt;p&gt;Strangely, alternative icons CANNOT be added to your asset catalog, unlike the primary icon.&lt;/p&gt;
+
+&lt;p&gt;If you do that, you will see an un-helpful error again.&lt;/p&gt;
+
+&lt;p&gt;You have to add “AppIcon-2.png”, “AppIcon-2@2x.png”, “AppIcon-2@3x.png” (180x180) to your app target.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 20 Aug 2017 16:09:07 +0800</pubDate>
+        <link>http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
+    
+      <item>
+        <title>How Oracle screwed me for 2 months with an UNDERSCORE</title>
+        <description>&lt;p&gt;&lt;em&gt;tldr; I was integrating Oracle’s mobile push SDK and was stuck for 2 months. Turned out they have an embarassing bug involving an underscore! Oracle’s Responsys/PushIO proved right – enterprise product sucks.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This post is my rant on how bad Oracle’s product is.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-ridiculous-bug&quot;&gt;The ridiculous bug&lt;/h2&gt;
 
@@ -24,7 +134,7 @@
 
 &lt;p&gt;&lt;img src=&quot;/images/pushio-ridiculous-bug.jpg&quot; alt=&quot;&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Quoting reply from Oracle developer:&lt;/p&gt;
+&lt;p&gt;From Oracle’s developer support:&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;The bug is that your API key was generated with an underscore “_” and that is an invalid character for how the API key is used downstream.&lt;/p&gt;
@@ -40,9 +150,11 @@
 
 &lt;h2 id=&quot;a-major-bug&quot;&gt;A major bug&lt;/h2&gt;
 
-&lt;p&gt;Firstly, the bug affects majority of their users, since it took me 3 tries, before getting a “valid” one.&lt;/p&gt;
+&lt;p&gt;Firstly, the bug affects majority of their users, since I took 3 tries, before getting a “valid” one.&lt;/p&gt;
 
 &lt;p&gt;I estimate &lt;strong&gt;66% of users&lt;/strong&gt; could have generated “invalid” keys.&lt;/p&gt;
+
+&lt;p&gt;The bug has big impact. All rich push messages will NOT be displayed in the app!&lt;/p&gt;
 
 &lt;h2 id=&quot;not-fixing-their-sdk-quickly&quot;&gt;Not fixing their SDK quickly&lt;/h2&gt;
 
@@ -50,13 +162,13 @@
 
 &lt;p&gt;&lt;em&gt;I give them the benefit of doubt, as I assume the bug only appear in that release, though I do believe the bug happens way before version 6.32.1.&lt;/em&gt;&lt;/p&gt;
 
-&lt;p&gt;The point is, a major bug should be fixed quickly, yet it wasn’t.&lt;/p&gt;
+&lt;p&gt;The point is, a major bug should be fixed quickly. But Oracle did not.&lt;/p&gt;
 
-&lt;p&gt;Not to mention this should be a easy fix. They could fix their API key generator probably in a few lines of code. Somehow they did not.&lt;/p&gt;
+&lt;p&gt;Not to mention this should be an easy fix. They could fix their API key generator, probably in a few lines of code. Somehow Oracle choose not to.&lt;/p&gt;
 
 &lt;h2 id=&quot;lack-of-knowledge-on-the-issue&quot;&gt;Lack of knowledge on the issue&lt;/h2&gt;
 
-&lt;p&gt;Our account manager and a couple of customer support officers did not know about the &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; issue, until it escalated to their developer.&lt;/p&gt;
+&lt;p&gt;Our account manager and a couple of customer support officers did not know about the embarassing &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; issue, until it escalated to their developer.&lt;/p&gt;
 
 &lt;p&gt;It could mean:&lt;/p&gt;
 
@@ -73,21 +185,21 @@
 
 &lt;p&gt;While trying to investigate the issue and isolate the problem, I asked a simple quesion: &lt;em&gt;&lt;strong&gt;Is there an iOS sample code?&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 
+&lt;p&gt;Replies from “enterprise support” ain’t lightning fast.&lt;/p&gt;
+
 &lt;p&gt;It took 2 weeks, before they finally have an answer – no, they don’t. Again, it reveals a lack of knowledgebase to such FAQ.&lt;/p&gt;
 
-&lt;p&gt;Analyzing why a push fails is tedious and slow, because I have to &lt;strong&gt;wait till the next day&lt;/strong&gt; to check the logs from an &lt;strong&gt;FTP server&lt;/strong&gt;. It feels so 1990s.&lt;/p&gt;
-
-&lt;p&gt;Reply from “enterprise support” isn’t lightning fast either. &lt;em&gt;I admit I don’t reply them fast too, but I have much more meaningful features to develop.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Investigating why our push failed is tedious and slow, because I have to &lt;strong&gt;wait till the next day&lt;/strong&gt; to check the logs from an &lt;strong&gt;FTP server&lt;/strong&gt;. It feels so 1990s.&lt;/p&gt;
 
 &lt;h2 id=&quot;a-problem-with-the-enterprise-suite-of-products&quot;&gt;A problem with the enterprise suite of products&lt;/h2&gt;
 
-&lt;p&gt;Responsys is an enterprise email marketing tool – a slow and complicated web app. &lt;a href=&quot;https://mailchimp.com&quot;&gt;Mail Chimp&lt;/a&gt; on the other hand, is a rival, is cool and user friendly.&lt;/p&gt;
+&lt;p&gt;Responsys is an enterprise email marketing tool – a slow and complicated web app. &lt;a href=&quot;https://mailchimp.com&quot;&gt;Mail Chimp&lt;/a&gt; on the other hand, a rival, is cool and user friendly.&lt;/p&gt;
 
 &lt;p&gt;PushIO is a mobile push SDK, in a very crowded space since 2009, when Apple revolutionized push. It’s better rivals include &lt;a href=&quot;https://www.urbanairship.com&quot;&gt;Urban Airship&lt;/a&gt; and &lt;a href=&quot;https://onesignal.com/&quot;&gt;OneSignal&lt;/a&gt; (free!).&lt;/p&gt;
 
-&lt;p&gt;In 2014, Oracle &lt;em&gt;eat&lt;/em&gt; Responsys, who in turn &lt;em&gt;eat&lt;/em&gt; PushIO – a &lt;a href=&quot;https://www.bizjournals.com/denver/blog/boosters_bits/2014/01/repsonsys-buys-push-io-before-being.html&quot;&gt;&lt;strong&gt;$1.5 billion acquisition&lt;/strong&gt;&lt;/a&gt;!&lt;/p&gt;
+&lt;p&gt;In 2014, Oracle &lt;em&gt;eat&lt;/em&gt; Responsys, who in turn &lt;em&gt;eat&lt;/em&gt; PushIO – a in &lt;a href=&quot;https://www.bizjournals.com/denver/blog/boosters_bits/2014/01/repsonsys-buys-push-io-before-being.html&quot;&gt;&lt;strong&gt;$1.5 billion acquisition&lt;/strong&gt;&lt;/a&gt;!&lt;/p&gt;
 
-&lt;p&gt;When a large corporation acquires a team and it’s product, it is the &lt;strong&gt;start of a downfall&lt;/strong&gt;. This case will be messier since a fat clumpsy fish eat a fish which eat another small fish.&lt;/p&gt;
+&lt;p&gt;When a large corporation acquires a team and it’s product, it is the &lt;strong&gt;start of a downfall&lt;/strong&gt;. This case is messier since a fat clumpsy fish eat a fish which eat another small fish.&lt;/p&gt;
 
 &lt;p&gt;The small fish (PushIO) probably died tragically.&lt;/p&gt;
 
@@ -724,88 +836,6 @@ In Swift 3, there are 5 levels.&lt;br /&gt;&lt;/p&gt;
         <link>http://samwize.com/2017/04/20/access-levels-in-swift/</link>
         <guid isPermaLink="true">http://samwize.com/2017/04/20/access-levels-in-swift/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>Guide to Booting Up macOS in Other Modes, and Troubleshooting</title>
-        <description>&lt;p&gt;This guide is for troubleshooting macOS in the scenario that it can’t boot up.&lt;/p&gt;
-
-&lt;p&gt;I have personally encountered a couple of times, frightening scenarios, where my mac somehow could not boot up, or get stuck during login etc. macOS provides many “secret” modes to help to troubleshoot.&lt;/p&gt;
-
-&lt;p&gt;Knowing them will be handy in time of crisis.&lt;/p&gt;
-
-&lt;p&gt;You will need to hold down certain keys when your machine is powered on to enter these modes. When you hear the startup sound and see the Apple logo, you may release the keys.&lt;/p&gt;
-
-&lt;h2 id=&quot;resetting-pramnvram&quot;&gt;Resetting PRAM/NVRAM&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Hold Command + Option + P + R&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Parameter RAM stores default values, and it could get corrupted for some reasons.&lt;/p&gt;
-
-&lt;p&gt;This is &lt;strong&gt;The Number 1&lt;/strong&gt; troubleshooting resolution. Always try this first.&lt;/p&gt;
-
-&lt;h2 id=&quot;resetting-scm&quot;&gt;Resetting SCM&lt;/h2&gt;
-
-&lt;p&gt;Similar to resetting PRAM, but SCM involves cutting off power, hence it is different for MacBook and iMac. Read &lt;a href=&quot;https://support.apple.com/en-sg/HT201295&quot;&gt;this&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;verbose-mode&quot;&gt;Verbose Mode&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Hold Command + V&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;If resetting fails, use verbose mode to identify what is causing the problem.&lt;/p&gt;
-
-&lt;h2 id=&quot;safe-mode&quot;&gt;Safe Mode&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Hold Shift&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;This will boot without loading third-party drivers and startup programs.&lt;/p&gt;
-
-&lt;h2 id=&quot;single-user-mode&quot;&gt;Single User Mode&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Hold Command + S&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;In single user mode, you have access to terminal, so you can run certain tools to troubleshoot.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Check and repair file system for consistency&lt;/span&gt;
-/sbin/fsck -fy
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;apple-hardware-test&quot;&gt;Apple Hardware Test&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Hold D&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;You can perform a short test (around 3 min), or an extended test (around 1 hour).&lt;/p&gt;
-
-&lt;p&gt;Special case: If you encountered &lt;code class=&quot;highlighter-rouge&quot;&gt;4HDD/11/40000000: SATA(0,0)&lt;/code&gt;, it could be a &lt;a href=&quot;https://support.apple.com/en-sg/HT203648&quot;&gt;false positive&lt;/a&gt;. You can disable looping by pressing &lt;em&gt;L&lt;/em&gt; before starting the test. I encountered this, but I still managed to “fix” it - the SSD is not damaged in my case. So don’t worry too much on this error.&lt;/p&gt;
-
-&lt;h2 id=&quot;recovery-mode&quot;&gt;Recovery Mode&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Hold Command + R&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;If all else failed, you can try reinstalling macOS.&lt;/p&gt;
-
-&lt;h2 id=&quot;startup-option&quot;&gt;Startup Option&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Hold Option&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;You can startup from other device such as external drive. It is possible to load the entire OS in an external drive, and boot from there.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;common-bootup-errors--fixes&quot;&gt;Common Bootup Errors &amp;amp; Fixes&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Mac OS version not yet set&lt;/code&gt; - Try boot with startup option (&lt;em&gt;Hold Option&lt;/em&gt;) and select the disk with the OS&lt;/p&gt;
-
-&lt;p&gt;If you have tried all ways and your Mac OS still refuses to boot, you can create a &lt;a href=&quot;https://support.apple.com/en-sg/HT201372&quot;&gt;bootable macOS on USB&lt;/a&gt;. Then &lt;em&gt;hold option&lt;/em&gt; while bootup to select the OS on USB.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 06 Apr 2017 23:02:29 +0800</pubDate>
-        <link>http://samwize.com/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting/</guid>
-        
-        
-        <category>mac</category>
         
       </item>
     
