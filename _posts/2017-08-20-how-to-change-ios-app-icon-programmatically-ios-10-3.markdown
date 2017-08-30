@@ -90,6 +90,8 @@ You may wonder what why "AppIcon-2" is repeated in `CFBundleIconFiles`?
 
 That is actually the image file name (less the "png" or "@2x"). It need not be necessary the same as the key in `CFBundleAlternateIcons`. For simplicity we used the same name.
 
+**Important**: If you need to support for iPad, read the last section on a critical pitfall.
+
 ## Pitfall: Cannot use asset catalog
 
 Strangely, alternative icons CANNOT be added to your asset catalog, unlike the primary icon.
@@ -97,3 +99,23 @@ Strangely, alternative icons CANNOT be added to your asset catalog, unlike the p
 If you do that, you will see an un-helpful error again.
 
 You have to add "AppIcon-2.png", "AppIcon-2@2x.png", "AppIcon-2@3x.png" (180x180) to your app target.
+
+## Pitfall: You need `completionHandler`
+
+Although `setAlternateIconName` can accept a nil `completionHandler`, as declared in its signature, you shouldn't because the app with CRASH, if somehow there is error.
+
+As [dlbuckley](https://forums.developer.apple.com/thread/71463) pointed out (as of Aug 2017),
+
+> This API isn't quite ready to be released to us thugs 
+
+## Pitfall: Not working or Crash in iPad
+
+This is another common one, and critical, because for the neglected iPad.
+
+In Apple's [obscure documentation](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW14), it pointed out:
+
+> Important: If your app contains iPad-specific versions of its icons, the system does not fall back to the alternate icons declared in the platform-agnostic version of CFBundleIcons key. Therefore, if you include any alternate icons in the CFBundleIcons key, you must include them again in your CFBundleIcons~ipad variant.
+
+That means, in your "Info.plist", you need to have a separate entry with `CFBundleIcons~ipad` key!
+
+So, copy whatever in `CFBundleIcons` and add for `CFBundleIcons~ipad`.
