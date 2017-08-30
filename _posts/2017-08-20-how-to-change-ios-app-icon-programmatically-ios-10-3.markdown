@@ -112,6 +112,12 @@ As [dlbuckley](https://forums.developer.apple.com/thread/71463) pointed out (as 
 
 This is another common one, and critical, because for the neglected iPad.
 
+You could run into error like this:
+
+```
+Error Domain=NSCocoaErrorDomain Code=4 "The file doesn’t exist." UserInfo={NSUnderlyingError=0x60000005e0c0 {Error Domain=LSApplicationWorkspaceErrorDomain Code=-105 "iconName not found in CFBundleAlternateIcons entry" UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons entry}}}
+```
+
 In Apple's [obscure documentation](https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW14), it pointed out:
 
 > Important: If your app contains iPad-specific versions of its icons, the system does not fall back to the alternate icons declared in the platform-agnostic version of CFBundleIcons key. Therefore, if you include any alternate icons in the CFBundleIcons key, you must include them again in your CFBundleIcons~ipad variant.
