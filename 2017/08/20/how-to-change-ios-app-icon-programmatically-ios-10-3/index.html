@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -163,6 +163,8 @@
 
 <p>That is actually the image file name (less the “png” or “@2x”). It need not be necessary the same as the key in <code class="highlighter-rouge">CFBundleAlternateIcons</code>. For simplicity we used the same name.</p>
 
+<p><strong>Important</strong>: If you need to support for iPad, read the last section on a critical pitfall.</p>
+
 <h2 id="pitfall-cannot-use-asset-catalog">Pitfall: Cannot use asset catalog</h2>
 
 <p>Strangely, alternative icons CANNOT be added to your asset catalog, unlike the primary icon.</p>
@@ -170,6 +172,30 @@
 <p>If you do that, you will see an un-helpful error again.</p>
 
 <p>You have to add “AppIcon-2.png”, “AppIcon-2@2x.png”, “AppIcon-2@3x.png” (180x180) to your app target.</p>
+
+<h2 id="pitfall-you-need-completionhandler">Pitfall: You need <code class="highlighter-rouge">completionHandler</code></h2>
+
+<p>Although <code class="highlighter-rouge">setAlternateIconName</code> can accept a nil <code class="highlighter-rouge">completionHandler</code>, as declared in its signature, you shouldn’t because the app with CRASH, if somehow there is error.</p>
+
+<p>As <a href="https://forums.developer.apple.com/thread/71463">dlbuckley</a> pointed out (as of Aug 2017),</p>
+
+<blockquote>
+  <p>This API isn’t quite ready to be released to us thugs</p>
+</blockquote>
+
+<h2 id="pitfall-not-working-or-crash-in-ipad">Pitfall: Not working or Crash in iPad</h2>
+
+<p>This is another common one, and critical, because for the neglected iPad.</p>
+
+<p>In Apple’s <a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW14">obscure documentation</a>, it pointed out:</p>
+
+<blockquote>
+  <p>Important: If your app contains iPad-specific versions of its icons, the system does not fall back to the alternate icons declared in the platform-agnostic version of CFBundleIcons key. Therefore, if you include any alternate icons in the CFBundleIcons key, you must include them again in your CFBundleIcons~ipad variant.</p>
+</blockquote>
+
+<p>That means, in your “Info.plist”, you need to have a separate entry with <code class="highlighter-rouge">CFBundleIcons~ipad</code> key!</p>
+
+<p>So, copy whatever in <code class="highlighter-rouge">CFBundleIcons</code> and add for <code class="highlighter-rouge">CFBundleIcons~ipad</code>.</p>
 
         </section>
         <footer class="post-footer">

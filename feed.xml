@@ -6,8 +6,8 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 24 Aug 2017 17:28:54 +0800</pubDate>
-    <lastBuildDate>Thu, 24 Aug 2017 17:28:54 +0800</lastBuildDate>
+    <pubDate>Wed, 30 Aug 2017 11:20:19 +0800</pubDate>
+    <lastBuildDate>Wed, 30 Aug 2017 11:20:19 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -103,6 +103,8 @@
 
 &lt;p&gt;That is actually the image file name (less the “png” or “@2x”). It need not be necessary the same as the key in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleAlternateIcons&lt;/code&gt;. For simplicity we used the same name.&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;Important&lt;/strong&gt;: If you need to support for iPad, read the last section on a critical pitfall.&lt;/p&gt;
+
 &lt;h2 id=&quot;pitfall-cannot-use-asset-catalog&quot;&gt;Pitfall: Cannot use asset catalog&lt;/h2&gt;
 
 &lt;p&gt;Strangely, alternative icons CANNOT be added to your asset catalog, unlike the primary icon.&lt;/p&gt;
@@ -110,6 +112,30 @@
 &lt;p&gt;If you do that, you will see an un-helpful error again.&lt;/p&gt;
 
 &lt;p&gt;You have to add “AppIcon-2.png”, “AppIcon-2@2x.png”, “AppIcon-2@3x.png” (180x180) to your app target.&lt;/p&gt;
+
+&lt;h2 id=&quot;pitfall-you-need-completionhandler&quot;&gt;Pitfall: You need &lt;code class=&quot;highlighter-rouge&quot;&gt;completionHandler&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Although &lt;code class=&quot;highlighter-rouge&quot;&gt;setAlternateIconName&lt;/code&gt; can accept a nil &lt;code class=&quot;highlighter-rouge&quot;&gt;completionHandler&lt;/code&gt;, as declared in its signature, you shouldn’t because the app with CRASH, if somehow there is error.&lt;/p&gt;
+
+&lt;p&gt;As &lt;a href=&quot;https://forums.developer.apple.com/thread/71463&quot;&gt;dlbuckley&lt;/a&gt; pointed out (as of Aug 2017),&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This API isn’t quite ready to be released to us thugs&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;pitfall-not-working-or-crash-in-ipad&quot;&gt;Pitfall: Not working or Crash in iPad&lt;/h2&gt;
+
+&lt;p&gt;This is another common one, and critical, because for the neglected iPad.&lt;/p&gt;
+
+&lt;p&gt;In Apple’s &lt;a href=&quot;https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW14&quot;&gt;obscure documentation&lt;/a&gt;, it pointed out:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Important: If your app contains iPad-specific versions of its icons, the system does not fall back to the alternate icons declared in the platform-agnostic version of CFBundleIcons key. Therefore, if you include any alternate icons in the CFBundleIcons key, you must include them again in your CFBundleIcons~ipad variant.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;That means, in your “Info.plist”, you need to have a separate entry with &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIcons~ipad&lt;/code&gt; key!&lt;/p&gt;
+
+&lt;p&gt;So, copy whatever in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIcons&lt;/code&gt; and add for &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIcons~ipad&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sun, 20 Aug 2017 16:09:07 +0800</pubDate>
         <link>http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/</link>
