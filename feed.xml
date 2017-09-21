@@ -6,9 +6,100 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 30 Aug 2017 13:08:10 +0800</pubDate>
-    <lastBuildDate>Wed, 30 Aug 2017 13:08:10 +0800</lastBuildDate>
+    <pubDate>Thu, 21 Sep 2017 11:29:32 +0800</pubDate>
+    <lastBuildDate>Thu, 21 Sep 2017 11:29:32 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Migrating to Swift 4 and @objc</title>
+        <description>&lt;p&gt;Swift’s official &lt;a href=&quot;https://swift.org/migration-guide-swift4/&quot;&gt;migration guide&lt;/a&gt; gives a good overview.&lt;/p&gt;
+
+&lt;p&gt;Using the migration assistant in the new Xcode 9 would have helped to rename most of the SDK changes, such as moving string contants to enum cases.&lt;/p&gt;
+
+&lt;p&gt;This post will highlight the other trickly cases.&lt;/p&gt;
+
+&lt;h2 id=&quot;distinguish-single-tuple-from-multiple-argument-function-types-se-0110&quot;&gt;Distinguish single-tuple from multiple-argument function types [SE-0110]&lt;/h2&gt;
+
+&lt;p&gt;There is an issue with Swift 3 in distinguishing between the type of the argument in a closure.&lt;/p&gt;
+
+&lt;p&gt;Is it a tuple with 2 arguments?&lt;/p&gt;
+
+&lt;p&gt;Or is it 2 arguments?&lt;/p&gt;
+
+&lt;p&gt;Proposal &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0110-distingish-single-tuple-arg.md&quot;&gt;SE-0110&lt;/a&gt; seeks to correct that.&lt;/p&gt;
+
+&lt;p&gt;In short, to declare a function type with 1 tuple, you will need to double enclose with brackets:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Xcode will also suggest rewriting &lt;code class=&quot;highlighter-rouge&quot;&gt;f: (Void) -&amp;gt; ()&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;f: () -&amp;gt; ()&lt;/code&gt;, because your probably just mean that.&lt;/p&gt;
+
+&lt;h2 id=&quot;objc-has-to-be-explicit-se-0160&quot;&gt;@objc has to be explicit [SE-0160]&lt;/h2&gt;
+
+&lt;p&gt;The biggest change is to do with Objective-C inference.&lt;/p&gt;
+
+&lt;p&gt;The details is in the proposal &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0160-objc-inference.md&quot;&gt;SE-0160&lt;/a&gt; (it’s long).&lt;/p&gt;
+
+&lt;p&gt;The change is not only source breaking, but worse, could introduce bugs unknowingly. This is because you could still build and run, but if some of your type/method is no longer available to Objective-C runtime (because @objc is no longer inferred anymore), the method will just fail to respond.&lt;/p&gt;
+
+&lt;p&gt;That’s why this change is big, and you should test all parts of your user flow.&lt;/p&gt;
+
+&lt;h4 id=&quot;the-switch-in-project-settings&quot;&gt;The switch in project settings&lt;/h4&gt;
+
+&lt;p&gt;After migrating to Swift 4, &lt;strong&gt;Swift 3 @objc Inference&lt;/strong&gt; remains &lt;strong&gt;On&lt;/strong&gt;, for good reason because as we said, this change is breaking.&lt;/p&gt;
+
+&lt;p&gt;There is benefits to switching it to off – that is not to infer @objc for all types. Things will be faster, binary smaller.&lt;/p&gt;
+
+&lt;p&gt;When you switch to &lt;strong&gt;Off&lt;/strong&gt; (default), make sure your app still works well. You could unknowingly introduce bugs (likely not crash) because some functions are no longer inferred to be available to Objective-C runtime.&lt;/p&gt;
+
+&lt;h4 id=&quot;when-it-doesnt-work&quot;&gt;When it doesn’t work..&lt;/h4&gt;
+
+&lt;p&gt;To fix, you can add 2 annotations to tell the compiler it is to be available for Objective-C runtime.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@objc&lt;/code&gt; can be added to a function.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@objcMembers&lt;/code&gt; can  be added to a type, and all members and functions will be infered, unless, of course, if the function uses pure Swift features eg. tuple.&lt;/p&gt;
+
+&lt;h4 id=&quot;extensions-cannot-override-yet&quot;&gt;Extensions cannot override yet&lt;/h4&gt;
+
+&lt;p&gt;Another common error as a result is to do with extension methods that are overriden.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Super&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Remember, without @objc, this is not available to objc &lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Sub&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Super&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The above code will have error “declarations in extensions cannot override yet”.&lt;/p&gt;
+
+&lt;p&gt;The fix is to add @objc to the function in the extension.&lt;/p&gt;
+
+&lt;h4 id=&quot;summary-of-code-impact&quot;&gt;Summary of code impact&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Subclass of &lt;code class=&quot;highlighter-rouge&quot;&gt;NSObject&lt;/code&gt; no NOT infer as @objc&lt;/li&gt;
+  &lt;li&gt;Run your tests&lt;/li&gt;
+  &lt;li&gt;Check all app flow to make sure they are working, if not add &lt;code class=&quot;highlighter-rouge&quot;&gt;@objc&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;@objcMembers&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Add @objc to extension functions that needs to be overriden&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dynamic&lt;/code&gt; must have @objc – this is easy to fix because compiler will have error&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Wed, 20 Sep 2017 16:37:53 +0800</pubDate>
+        <link>http://samwize.com/2017/09/20/migrating-to-swift-4-and-xcode-9/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/09/20/migrating-to-swift-4-and-xcode-9/</guid>
+        
+        
+        <category>Swift</category>
+        
+        <category>Xcode</category>
+        
+      </item>
     
       <item>
         <title>How to Change iOS App Icon Programmatically (iOS 10.3)</title>
@@ -792,85 +883,6 @@ git bisect unfixed
         
         
         <category>watchOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Access Levels in Swift</title>
-        <description>&lt;p&gt;&lt;img src=&quot;/images/swift-access-levels.jpg&quot; alt=&quot;The 5 Access Levels in Swift&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;the-default&quot;&gt;The Default&lt;/h2&gt;
-
-&lt;p&gt;The default is &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;, which means access is restricted to within a module.&lt;/p&gt;
-
-&lt;p&gt;What is a module? An app is 1 module.&lt;/p&gt;
-
-&lt;p&gt;Hence, the default for an app is everything is accessible within the app.&lt;/p&gt;
-
-&lt;h2 id=&quot;which-to-use&quot;&gt;Which to use?&lt;/h2&gt;
-
-&lt;p&gt;The good practise is to start being extremely restrictive.&lt;/p&gt;
-
-&lt;p&gt;Start with &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt;, and expose more, only if necessary.&lt;/p&gt;
-
-&lt;h2 id=&quot;application-vs-framework-development&quot;&gt;Application vs Framework Development&lt;/h2&gt;
-
-&lt;p&gt;For regular application development, you will use only (1) to (3).&lt;/p&gt;
-
-&lt;p&gt;For developers working on framework/library/SDK, they will use (4) and (5), because their “module” is exposed to other developers. The difference between the last 2 levels is that &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt; does not allow the type/func to be subclassed/overriden, while &lt;code class=&quot;highlighter-rouge&quot;&gt;open&lt;/code&gt; let you do whatever you want.&lt;/p&gt;
-
-&lt;h2 id=&quot;implicit&quot;&gt;Implicit&lt;/h2&gt;
-
-&lt;p&gt;If a type has a certain access level, the properties within will have the same level, implicitly.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;X&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;// implicitly private&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;specify-explicitly-for-top-level-definitions&quot;&gt;Specify explicitly for top-level definitions&lt;/h2&gt;
-
-&lt;p&gt;A &lt;a href=&quot;https://github.com/github/swift-style-guide&quot;&gt;good practise&lt;/a&gt; is to specify the access level explicitly for the top-level types and functions.&lt;/p&gt;
-
-&lt;p&gt;Don’t leave it to the default (&lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;). Think hard if you need other part of your app to access it.&lt;/p&gt;
-
-&lt;h2 id=&quot;testing&quot;&gt;Testing&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@testable import MyApp
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;In your unit tests, you can import with &lt;code class=&quot;highlighter-rouge&quot;&gt;@testable&lt;/code&gt; attribute, which is a superpower to &lt;a href=&quot;https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/04-writing_tests.html&quot;&gt;change access levels&lt;/a&gt; in the module/app, so that in your tests you can access them.&lt;/p&gt;
-
-&lt;p&gt;For example, an &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt; class is not accessible to test target, because a test target is an external module. With &lt;code class=&quot;highlighter-rouge&quot;&gt;@testable&lt;/code&gt;, the access level is increased to &lt;code class=&quot;highlighter-rouge&quot;&gt;open&lt;/code&gt;, and you can now access it (and may even subclass it)!&lt;/p&gt;
-
-&lt;h2 id=&quot;final&quot;&gt;Final&lt;/h2&gt;
-
-&lt;p&gt;Finally, another good practise is to lock down your definitions with &lt;code class=&quot;highlighter-rouge&quot;&gt;final&lt;/code&gt; (:&lt;/p&gt;
-
-&lt;p&gt;This attribute provides an additional restriction – prevent others from subclassing and overriding it.&lt;/p&gt;
-
-&lt;h2 id=&quot;wait-lastly-its-hell-of-a-mess-from-swift&quot;&gt;Wait. Lastly, it’s hell of a mess from Swift.&lt;/h2&gt;
-
-&lt;p&gt;This is a complain on how access levels have evolved, yet is still not great in Swift 3.&lt;/p&gt;
-
-&lt;p&gt;In Swift 1, there are 2 levels.&lt;br /&gt;
-In Swift 2, there are 3 levels.&lt;br /&gt;
-In Swift 3, there are 5 levels.&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;I believe it is a mistake in Swift 3 to adopt &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md&quot;&gt;SE-0025&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;My biggest gripe is this: I have extension X to a type T, keeping them in seperate files. If I want X to use a private member in T, it is impossible to do so with &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;fileprivate&lt;/code&gt;. I am forced to increase the access to &lt;code class=&quot;highlighter-rouge&quot;&gt;internal&lt;/code&gt;, which is not what I want.&lt;/p&gt;
-
-&lt;p&gt;There is no way to have type level private. The current &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; is local scope private, and &lt;code class=&quot;highlighter-rouge&quot;&gt;fileprivate&lt;/code&gt; is a &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034903.html&quot;&gt;weird brother&lt;/a&gt; that extends to within that file.&lt;/p&gt;
-
-&lt;p&gt;After Swift 3 was introduced, there is proposal &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0159-fix-private-access-levels.md&quot;&gt;SE-0159&lt;/a&gt; to fix the mistake, but was &lt;a href=&quot;https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034902.html&quot;&gt;rejected&lt;/a&gt;. Clearly the core team acknowledged the shortcoming, but instead of changing the keywords again, they will likely introduce a “Type-based” &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; access in Swift 4.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 20 Apr 2017 11:31:44 +0800</pubDate>
-        <link>http://samwize.com/2017/04/20/access-levels-in-swift/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/04/20/access-levels-in-swift/</guid>
-        
         
       </item>
     
