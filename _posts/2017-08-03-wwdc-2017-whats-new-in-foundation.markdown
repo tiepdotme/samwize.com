@@ -64,3 +64,17 @@ private enum CodingKeys : String, CodingKey {
 ```
 
 Ok, actually `Codable` is not only for JSON data, but for [other formats](https://developer.apple.com/documentation/foundation/archives_and_serialization) like Property List too. There is `JSONDecoder`, and also `PropertyListDecoder`
+
+## What Else ?
+
+There is [more](https://www.raywenderlich.com/163857/whats-new-swift-4) in Swift 4, some small, some advanced API. Many were not touched in session 212.
+
+Not going to cover all, but here are some teasers:
+
+- String is now a Collection
+- Multi-line string with `"""`
+- Collection has more API such as `mapValues`, `MutableCollection.swapAt(_:_:)`, default Dictionary value
+- Infer one-sided range eg. infer start and end index
+- Generic subscript
+- `fileprivate` [access level](/2017/04/20/access-levels-in-swift/) for extension across files
+- [No more](/2017/09/20/migrating-to-swift-4-and-xcode-9/) @objc inference
