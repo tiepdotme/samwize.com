@@ -5,6 +5,8 @@ date: 2017-09-26T12:30:24+08:00
 categories: [Swift]
 ---
 
+`Codable` is a new feature introduced along with Swfit 4 for encoding and decoding models easily, making third party libraries such as SwiftyJSON and Unbox obsolete. It is part of Foundation framework, and is a must know if you use JSON format.
+
 ## The Basic
 
 ```swift
@@ -17,9 +19,15 @@ Add `Codable` as a trait to your type, and that's it.
 
 You enjoy **automatic encoding and decoding**, thanks to default extension for the `Codable` protocol.
 
-It works automatically as long as the members are `Codable` type. Later section will explain what to do if they are not supported.
+```
+{
+    "numberOfLegs" : 2
+}
+```
 
-`Codable` is actually made up of 2 protocols -- `Encodable` and `Decodable` -- and you can just use one if you don't need the other. In this post, we will highlight for both encoding and decoding, but feel free to decouple them.
+It works automatically as long as the members are `Codable` type. Later section will explain what to do if your type cannot conform to `Codable`.
+
+`Codable` is actually made up of 2 protocols -- `Encodable` and `Decodable` -- and you can use one if you don't need the other. In this post, we will highlight for both encoding and decoding, but feel free to decouple them.
 
 ## Encoding to JSON string
 
@@ -103,8 +111,11 @@ Then you implement `Encodable` and `Decodable`.
 ```swift
 extension Animal: Encodable {
     func encode(to encoder: Encoder) throws {
+        // #1
         var container = encoder.container(keyedBy: CodingKeys.self)
+        // #2 and #3
         var anatomyContainer = container.nestedContainer(keyedBy: AnatomyCodingKeys.self, forKey: .anatomy)
+        // #4
         try anatomyContainer.encode(numberOfLegs, forKey: .numberOfLegs)
     }
 }
@@ -144,15 +155,13 @@ struct Sword: Codable {
     Type 'Sword' does not conform to protocol 'Encodable'
     Type 'Sword' does not conform to protocol 'Decodable'
 
-The problem is because a `Dictionary` is not a Codable, even thought the values in it is Codable.
+The problem is because a `Dictionary` is not a Codable, even thought the values in it is.
 
-It such case, you will need dynamic coding keys.
+It such case, you will need dynamic coding keys, an advanced topic.
 
 ## Dynamic Coding Keys
 
-This is an advanced topic.
-
-[Apple codable playground](https://developer.apple.com/documentation/foundation/archives_and_serialization/using_json_with_custom_types) provided the sample code on how you can have a dynamic key eg. the keys are not defined exhausively in the `CodingKeys` enum.
+[Apple codable playground](https://developer.apple.com/documentation/foundation/archives_and_serialization/using_json_with_custom_types) provides a sample code on how you can have a dynamic key eg. the keys are not defined exhausively in the `CodingKeys` enum.
 
 In our scenario, that's what we want for the Dictionary, where the keys in it can be any string.
 
@@ -198,6 +207,8 @@ if let properties = properties {
 ```
 
 I will leave the implementation of `KeyedDecodingContainer` as an exercise :)
+
+Or check [my gist](https://gist.github.com/samwize/a82f29a1fb34091cd61fc06934568f82).
 
 ## What is a container?
 
