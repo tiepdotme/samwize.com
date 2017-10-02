@@ -6,9 +6,101 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 28 Sep 2017 15:00:02 +0800</pubDate>
-    <lastBuildDate>Thu, 28 Sep 2017 15:00:02 +0800</lastBuildDate>
+    <pubDate>Mon, 02 Oct 2017 11:10:00 +0800</pubDate>
+    <lastBuildDate>Mon, 02 Oct 2017 11:10:00 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Steps to Create Swift Framework + Cocoapods</title>
+        <description>&lt;h2 id=&quot;create-framework-project&quot;&gt;1. Create framework project&lt;/h2&gt;
+
+&lt;p&gt;Select Xcode &amp;gt; File &amp;gt; New &amp;gt; Project &amp;gt; iOS &amp;gt; &lt;strong&gt;Cocoa Touch Framework&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/xcode-template-ios-cocoa-touch-framework.jpg&quot; alt=&quot;Cocoa Touch Framework&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A Cocoa Touch Framework is for iOS, and can use UIKit framework. If you are developing a framework that does not require UIKit, you may select iMac &amp;gt; &lt;strong&gt;Cocoa Framework&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;add-your-source&quot;&gt;2. Add your source&lt;/h2&gt;
+
+&lt;p&gt;As a simple example, add &lt;code class=&quot;highlighter-rouge&quot;&gt;MyFramework.swift&lt;/code&gt;. I tend to keep my source file under &lt;code class=&quot;highlighter-rouge&quot;&gt;/Source&lt;/code&gt;, but it’s to your own preference.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyFramework&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;shared&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyFramework&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This provide the client/app &lt;code class=&quot;highlighter-rouge&quot;&gt;MyFramework.shared.foo()&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Notice that the class is &lt;strong&gt;public&lt;/strong&gt;, and the members are implicitly public too.&lt;/p&gt;
+
+&lt;p&gt;Read about &lt;a href=&quot;/2017/04/20/access-levels-in-swift/&quot;&gt;access level&lt;/a&gt;, if needed. In short, to expose your classes and methods, it need to be public or open.&lt;/p&gt;
+
+&lt;h2 id=&quot;create-cocoapods-spec&quot;&gt;3. Create Cocoapods Spec&lt;/h2&gt;
+
+&lt;p&gt;In your framework root directory, run&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pod spec create MyFramework
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will create a default &lt;code class=&quot;highlighter-rouge&quot;&gt;MyFramework.podspec&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You will need to edit the podspec file to your needs. My bare minimum:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Pod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;         &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;MyFramework&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;version&lt;/span&gt;      &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;0.0.1&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;summary&lt;/span&gt;      &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;A short description of MyFramework.&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;description&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;DESC&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+  A much much longer description of MyFramework.
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;                   DESC&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;homepage&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;http://EXAMPLE/MyFramework&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;license&lt;/span&gt;      &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Copyleft&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;author&lt;/span&gt;       &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Junda&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;junda@just2us.com&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;source&lt;/span&gt;       &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;.&#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# s.source       = { :git =&amp;gt; &quot;https://github/samwize/MyFramework&quot;, :tag =&amp;gt; &quot;#{s.version}&quot; }&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;source_files&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Source/**/*.swift&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;s.name&lt;/code&gt; is the pod name, that will subsequently be used in Podfile&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;s.source&lt;/code&gt; is using path to its current directory. This is temporary and you should uncomment and edit the source that points to the repository URL, when you have pushed to git.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;s.source_files&lt;/code&gt; is edited to include those  in &lt;code class=&quot;highlighter-rouge&quot;&gt;/Source&lt;/code&gt; directory and only for Swift files.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;pod spec lint&lt;/code&gt; to check if the podspec is ok. There will be 1 error on “Unsupported download strategy”, but we can ignore that for now.&lt;/p&gt;
+
+&lt;h2 id=&quot;add-pod-to-project&quot;&gt;4. Add pod to project&lt;/h2&gt;
+
+&lt;p&gt;Open the project that will be using the pod.&lt;/p&gt;
+
+&lt;p&gt;Add to &lt;code class=&quot;highlighter-rouge&quot;&gt;Podfile&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;pod&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;MyFramework&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;../MyFramework&#39;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# pod &#39;MyFramework&#39;, :git =&amp;gt; &#39;https://github.com/samwize/MyFramework&#39;, :branch =&amp;gt; &#39;master&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;We use the local path, assuming MyFramework and the project are in the same folder.&lt;/p&gt;
+
+&lt;p&gt;Once again, uncomment the 2nd line that points to the git repository when you have pushed it.&lt;/p&gt;
+
+&lt;p&gt;With that, &lt;code class=&quot;highlighter-rouge&quot;&gt;pod install&lt;/code&gt; and start developing with the pod!&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note: The benefit of a local path is that you can make edit a Swift file in MyFramework, and it will be reflected right away in the project – very convenient.&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 01 Oct 2017 15:32:49 +0800</pubDate>
+        <link>http://samwize.com/2017/10/01/creating-a-swift-framework-cocoapods/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/10/01/creating-a-swift-framework-cocoapods/</guid>
+        
+        
+        <category>Swift</category>
+        
+      </item>
     
       <item>
         <title>Guide to Using Codable Struct for JSON</title>
@@ -888,134 +980,6 @@ git bisect unfixed
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Xcode 8 File Templates</title>
-        <description>&lt;h2 id=&quot;the-secret-feature-of-xcode&quot;&gt;The secret feature of Xcode&lt;/h2&gt;
-
-&lt;p&gt;Ok, not exactly a secret, but it is definitely one of the less known features of Xcode, that was &lt;a href=&quot;https://developer.apple.com/search/?q=xcode%20template&quot;&gt;never documented&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Whenever you add a new file, you are using one of the provided &lt;strong&gt;File Templates&lt;/strong&gt;. Eg. When you choose a “Cocoa Touch Class” and subsequently selected a UIViewController subclass, it is simply generating the new file with a template.&lt;/p&gt;
-
-&lt;p&gt;Knowing how to make full use of it will speed up your development, similar to the &lt;a href=&quot;/2014/03/26/tip-use-xcode-snippets/&quot;&gt;tip on Xcode’s code snippets&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you are using a certain architecture that needs to create many files for a module, file template can help to create and generate boilerplate codes quickly.&lt;/p&gt;
-
-&lt;h2 id=&quot;creating-your-file-template&quot;&gt;Creating Your File Template&lt;/h2&gt;
-
-&lt;p&gt;You have to store Xcode file templates in&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/Library/Developer/Xcode/Templates/File Templates/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This is stored under your user account. In the later section, we will share a tip using Dropbox to sync all your templates.&lt;/p&gt;
-
-&lt;p&gt;For now, let’s create your template under that directory. The &lt;code class=&quot;highlighter-rouge&quot;&gt;/Templates/File Templates/&lt;/code&gt; folders have to be created along with your template eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;MyTemplate.xctemplate&lt;/code&gt; (a directory with the extension .xctemplate)&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir -p ~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;There is another kind of template known as &lt;strong&gt;Project Templates&lt;/strong&gt;. We will not be discussing it, but you should have guessed where it should be – &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Library/Developer/Xcode/Templates/Project Templates/&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Now, let’s refer to the provided standard Xcode file templates, which are all in&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File Templates/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;We will copy the simple swift template, and modify for our use later.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cp -R \
-/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File\ Templates/Source/Swift\ File.xctemplate/ \
-~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You will see a few files in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-use-your-template&quot;&gt;How to use your template&lt;/h2&gt;
-
-&lt;p&gt;At this point, your custom template can already be used.&lt;/p&gt;
-
-&lt;p&gt;In Xcode, add a new file, and search for “MyTemplate” (or scroll to File Templates at the bottom), and it will generate an empty Swift file.&lt;/p&gt;
-
-&lt;p&gt;You can also see your template under File Template Library. Or press &lt;code class=&quot;highlighter-rouge&quot;&gt;CMD + ALT + CTRL + 1&lt;/code&gt;. You might need to restart Xcode for it to find the newly created template. You can drag a template to your project navigation.&lt;/p&gt;
-
-&lt;h2 id=&quot;customize-the-template&quot;&gt;Customize the template&lt;/h2&gt;
-
-&lt;p&gt;Good, now let’s learn how to customize the template.&lt;/p&gt;
-
-&lt;p&gt;There are a few files in a template.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TemplateIcon.png&lt;/code&gt; (and the @2x) is obvious – a visual icon to represent your template in Xcode&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TemplateInfo.plist&lt;/code&gt; – like project Info.plist, this property file describes the template&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The rest of the files (eg &lt;code class=&quot;highlighter-rouge&quot;&gt;___FILEBASENAME___.swift&lt;/code&gt;) are the actual files that will be created. If you add more files eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;___FILEBASENAME___+Extension.swift&lt;/code&gt;, then that file will be created too.&lt;/p&gt;
-
-&lt;p&gt;Let’s dive deeper into &lt;code class=&quot;highlighter-rouge&quot;&gt;TemplateInfo.plist&lt;/code&gt;, which provides many options.&lt;/p&gt;
-
-&lt;p&gt;There are a few &lt;code class=&quot;highlighter-rouge&quot;&gt;Kind&lt;/code&gt; of templates. We usually use &lt;code class=&quot;highlighter-rouge&quot;&gt;Xcode.IDEFoundation.TextSubstitutionFileTemplateKind&lt;/code&gt;. Others are &lt;code class=&quot;highlighter-rouge&quot;&gt;Xcode.IDEKit.PlaygroundWithPlatformChoice&lt;/code&gt; etc.&lt;/p&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Summary&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Description&lt;/code&gt; are obvious.&lt;/p&gt;
-
-&lt;h3 id=&quot;options&quot;&gt;Options&lt;/h3&gt;
-
-&lt;p&gt;You can provide many &lt;code class=&quot;highlighter-rouge&quot;&gt;Option&lt;/code&gt;s, an array of dictionary.&lt;/p&gt;
-
-&lt;p&gt;Let’s look at this example, with 1 item in the &lt;code class=&quot;highlighter-rouge&quot;&gt;Option&lt;/code&gt; array.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/xcode-template-options.png&quot; alt=&quot;Example&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Identifier&lt;/code&gt; is very important. It is the variable name that can be used in the file template.&lt;/p&gt;
-
-&lt;p&gt;Eg In &lt;code class=&quot;highlighter-rouge&quot;&gt;___FILEBASENAME___.swift&lt;/code&gt;, you can have this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;let ___VARIABLE_FOO___: String
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;When you create the file, you will be prompted to enter for “Foo:”, with a default text “ohMyFoo”. The actual generated then becomes&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;let ohMyFoo: String
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You could have other &lt;code class=&quot;highlighter-rouge&quot;&gt;Type&lt;/code&gt;, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;popup&lt;/code&gt; with it’s &lt;code class=&quot;highlighter-rouge&quot;&gt;Values&lt;/code&gt; array.&lt;/p&gt;
-
-&lt;p&gt;As you can imagine, you can have multiple variables to be used in the file template.&lt;/p&gt;
-
-&lt;h2 id=&quot;sync-to-dropbox&quot;&gt;Sync to Dropbox&lt;/h2&gt;
-
-&lt;p&gt;If you are using multiple machine, you will like this tip.&lt;/p&gt;
-
-&lt;p&gt;We can store our templates in Dropbox, and using symlink to the Xcode folders. This is similar to the tip for &lt;a href=&quot;/2014/03/26/tip-use-xcode-snippets/&quot;&gt;syncing code snippets&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://db.tt/GRqFn03&quot;&gt;Signup for Dropbox&lt;/a&gt; if you don’t have an account.&lt;/p&gt;
-
-&lt;p&gt;I store them under &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Dropbox/Workspace/Xcode/Templates&lt;/code&gt;. It’s up to you where to store. Move your custom templates to the folder.&lt;/p&gt;
-
-&lt;p&gt;For our example, it will be in &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Dropbox/Workspace/Xcode/Templates/File Templates/MyTemplate.xctemplate/&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Then create the symbolic link:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ln -s ~/Dropbox/Workspace/Xcode/Templates ~/Library/Developer/Xcode/Templates/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;That’s it! Remember to create the symbolic link for every machine.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 12 May 2017 14:40:33 +0800</pubDate>
-        <link>http://samwize.com/2017/05/12/xcode-8-file-templates/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/05/12/xcode-8-file-templates/</guid>
-        
-        
-        <category>Xcode</category>
         
       </item>
     
