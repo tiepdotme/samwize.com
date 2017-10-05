@@ -29,11 +29,11 @@ For developers working on framework/library/SDK, they will use (4) and (5), beca
 
 ## Implicit
 
-If a type has a certain access level, the properties within will have the same level, implicitly.
+If an access level is omitted, it will be implicitly the default -- `internal`
 
 ```swift
-private class X {
-    int i   // implicitly private
+public class X {
+    let i = 1   // implicitly internal
 }
 ```
 
