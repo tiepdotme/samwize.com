@@ -7,8 +7,8 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Access Levels in Swift</title>
-  <meta name="description" content="" />
+  <title>Adding Playground to an Existing Project</title>
+  <meta name="description" content="Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -17,24 +17,24 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Access Levels in Swift" />
+    <meta name="twitter:title" content="Adding Playground to an Existing Project" />
     <meta name="twitter:image" content="http://samwize.com" />
     
-    <meta name="twitter:description"  content="" />
+    <meta name="twitter:description"  content="Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator." />
     
   
   
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Access Levels in Swift"/>
+  <meta property="og:title" content="Adding Playground to an Existing Project"/>
   
-  <meta property="og:description" content="" />
+  <meta property="og:description" content="Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator." />
   
   <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/04/20/access-levels-in-swift/" >
+  <meta property="og:url" content="http://samwize.com/2017/10/05/adding-playground-to-an-existing-project/" >
   <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2017-04-20T11:31:44+08:00">
+  <meta property="article:published_time" content="2017-10-05T16:26:25+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/04/20/access-levels-in-swift/">
+  <link rel="canonical" href="http://samwize.com/2017/10/05/adding-playground-to-an-existing-project/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -55,9 +55,9 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Access Levels in Swift</h1>
+            <h1 class="post-title">Adding Playground to an Existing Project</h1>
             <div class="cf post-meta-text">
-              <time datetime="2017-04-20T11:31:44+08:00">20 April 2017</time>
+              <time datetime="2017-10-05T16:26:25+08:00">05 October 2017</time>
               <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
@@ -72,89 +72,102 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><img src="/images/swift-access-levels.jpg" alt="The 5 Access Levels in Swift" /></p>
+          <p>Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator.</p>
 
-<h2 id="the-default">The Default</h2>
+<p>New in Xcode 9, we can now <a href="http://help.apple.com/xcode/mac/9.0/#/devc9b33111c">add custom framework to Playground</a>, therefore providing a quick way to integrate with existing project.</p>
 
-<p>The default is <code class="highlighter-rouge">internal</code>, which means access is restricted to within a module.</p>
+<p>This post will show how to add Playground to an existing project, using Cocoapods along in it, and interacting with UI controls for instant feedback.</p>
 
-<p>What is a module? An app is 1 module.</p>
+<p><img src="/images/xcode-playground-ui-live.jpg" alt="" /></p>
 
-<p>Hence, the default for an app is everything is accessible within the app.</p>
+<h2 id="open-your-project-workspace">1. Open your project workspace</h2>
 
-<h2 id="which-to-use">Which to use?</h2>
+<p>I am assuming you are already using workspace.</p>
 
-<p>The good practise is to start being extremely restrictive.</p>
+<p>But if you are not, open the .xcodeproj and File &gt; Save As Workspace.</p>
 
-<p>Start with <code class="highlighter-rouge">private</code>, and expose more, only if necessary.</p>
+<h2 id="add-new-target">2. Add new target</h2>
 
-<h2 id="application-vs-framework-development">Application vs Framework Development</h2>
+<p>Select <strong>File &gt; New &gt; Target &gt; Cocoa Touch Framework</strong>.</p>
 
-<p>For regular application development, you will use only (1) to (3).</p>
+<p><img src="/images/xcode-template-ios-cocoa-touch-framework.jpg" alt="" /></p>
 
-<p>For developers working on framework/library/SDK, they will use (4) and (5), because their “module” is exposed to other developers. The difference between the last 2 levels is that <code class="highlighter-rouge">public</code> does not allow the type/func to be subclassed/overriden, while <code class="highlighter-rouge">open</code> let you do whatever you want.</p>
+<p>Let’s name the target “MyUIFramework”.</p>
 
-<h2 id="implicit">Implicit</h2>
+<p>This target builds the framework, which provides code available to use in Playground.</p>
 
-<p>If an access level is omitted, it will be implicitly the default – <code class="highlighter-rouge">internal</code></p>
+<h2 id="add-files-to-target">3. Add files to target</h2>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">X</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">i</span> <span class="o">=</span> <span class="mi">1</span>   <span class="c1">// implicitly internal</span>
+<p>Add a new Swift file, making sure it is available to the target.</p>
+
+<p>In File Inspector, make sure the target “MyUIFramework” is checked.</p>
+
+<p>You can also add existing files to the framework, exposing them to Playground later.</p>
+
+<h2 id="build-the-framework">4. Build the framework</h2>
+
+<p>Select the Scheme and Build.</p>
+
+<p>You must manually build each time you made changes to the framework.</p>
+
+<h2 id="add-playground">5. Add Playground</h2>
+
+<p>In the workspace, <strong>File &gt; New &gt; Playground &gt; Single View</strong>.</p>
+
+<p>In the Playground page, we can import the framwork, and set up a live view.</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">PlaygroundSupport</span>
+<span class="kd">import</span> <span class="kt">UIKit</span>
+<span class="kd">import</span> <span class="kt">MyUIFramework</span>
+
+<span class="kd">class</span> <span class="kt">MyViewController</span> <span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">loadView</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">view</span> <span class="o">=</span> <span class="kt">UIView</span><span class="p">()</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">red</span>
+        <span class="c1">// Add subviews ...</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">view</span>
+    <span class="p">}</span>
 <span class="p">}</span>
+
+<span class="kt">PlaygroundPage</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">liveView</span> <span class="o">=</span> <span class="kt">MyViewController</span><span class="p">()</span>
 </code></pre>
 </div>
 
-<h2 id="specify-explicitly-for-top-level-definitions">Specify explicitly for top-level definitions</h2>
+<p>You create your views in <code class="highlighter-rouge">loadView</code>, and see them in Live View (select Show Assistant Editor).</p>
 
-<p>A <a href="https://github.com/github/swift-style-guide">good practise</a> is to specify the access level explicitly for the top-level types and functions.</p>
+<p>Just like Playground, code changes will be reflected <em>almost</em> right away.</p>
 
-<p>Don’t leave it to the default (<code class="highlighter-rouge">internal</code>). Think hard if you need other part of your app to access it.</p>
+<h2 id="using-cocoapods">6. Using Cocoapods</h2>
 
-<h2 id="testing">Testing</h2>
+<p>You cannot import a Cocoapods module in playground, yet.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@testable import MyApp
+<p>If the Swift file requires the use of Cocoapods, you have to make it available to the target as specified in Podfile.</p>
+
+<p>We make <a href="https://github.com/robb/Cartography">Cartography</a>, an awesome library for constructing autolayout, for the framework:</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">target</span> <span class="s1">'MyUIFramework'</span> <span class="k">do</span>
+    <span class="n">pod</span> <span class="s1">'Cartography'</span><span class="p">,</span> <span class="s1">'~&gt; 1.1.0'</span>
+<span class="k">end</span>
 </code></pre>
 </div>
 
-<p>In your unit tests, you can import with <code class="highlighter-rouge">@testable</code> attribute, which is a superpower to <a href="https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/04-writing_tests.html">change access levels</a> in the module/app, so that in your tests you can access them.</p>
+<p><code class="highlighter-rouge">pod install</code>, build framework again, and you will now be able to <code class="highlighter-rouge">import Cartography</code> in Playground too.</p>
 
-<p>For example, an <code class="highlighter-rouge">internal</code> class is not accessible to test target, because a test target is an external module. With <code class="highlighter-rouge">@testable</code>, the access level is increased to <code class="highlighter-rouge">open</code>, and you can now access it (and may even subclass it)!</p>
-
-<h2 id="final">Final</h2>
-
-<p>Finally, another good practise is to lock down your definitions with <code class="highlighter-rouge">final</code> (:</p>
-
-<p>This attribute provides an additional restriction – prevent others from subclassing and overriding it.</p>
-
-<h2 id="wait-lastly-its-hell-of-a-mess-from-swift">Wait. Lastly, it’s hell of a mess from Swift.</h2>
-
-<p>This is a complain on how access levels have evolved, yet is still not great in Swift 3.</p>
-
-<p>In Swift 1, there are 2 levels.<br />
-In Swift 2, there are 3 levels.<br />
-In Swift 3, there are 5 levels.<br /></p>
-
-<p>I believe it is a mistake in Swift 3 to adopt <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md">SE-0025</a>.</p>
-
-<p>My biggest gripe is this: I have extension X to a type T, keeping them in seperate files. If I want X to use a private member in T, it is impossible to do so with <code class="highlighter-rouge">private</code> or <code class="highlighter-rouge">fileprivate</code>. I am forced to increase the access to <code class="highlighter-rouge">internal</code>, which is not what I want.</p>
-
-<p>There is no way to have type level private. The current <code class="highlighter-rouge">private</code> is local scope private, and <code class="highlighter-rouge">fileprivate</code> is a <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034903.html">weird brother</a> that extends to within that file.</p>
-
-<p>After Swift 3 was introduced, there is proposal <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0159-fix-private-access-levels.md">SE-0159</a> to fix the mistake, but was <a href="https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034902.html">rejected</a>. Clearly the core team acknowledged the shortcoming, but instead of changing the keywords again, they will likely introduce a “Type-based” <code class="highlighter-rouge">private</code> access in Swift 4.</p>
+<p>Because now 2 targets are using the same Cargography lib, it is cleaner to <a href="https://www.natashatherobot.com/cocoapods-installing-same-pod-multiple-targets/">define shared pods</a> in Podfile. We leave that as an exercise for you.</p>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Access+Levels+in+Swift&amp;url=http://samwize.com/2017/04/20/access-levels-in-swift"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Adding+Playground+to+an+Existing+Project&amp;url=http://samwize.com/2017/10/05/adding-playground-to-an-existing-project"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Access+Levels+in+Swift&amp;u=http://samwize.com/2017/04/20/access-levels-in-swift"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Adding+Playground+to+an+Existing+Project&amp;u=http://samwize.com/2017/10/05/adding-playground-to-an-existing-project"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -163,7 +176,7 @@ In Swift 3, there are 5 levels.<br /></p>
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Access+Levels+in+Swift&amp;url=http://samwize.com/2017/04/20/access-levels-in-swift"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Adding+Playground+to+an+Existing+Project&amp;url=http://samwize.com/2017/10/05/adding-playground-to-an-existing-project"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>
