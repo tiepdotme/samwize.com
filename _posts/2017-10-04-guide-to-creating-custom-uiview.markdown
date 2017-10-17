@@ -6,23 +6,58 @@ categories: [UI]
 published: false
 ---
 
-TBC with concise subtopics
+This is a guide to creating custom `UIView` using Auto Layout, without Nib/Storyboard, and in Swift 4.
 
-## About Initializer
+## Why custom `UIView`?
 
-It is important to learn the fundamental about [Swift initialization](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Initialization.html). It is a complex and lengthy topic, but will be useful in understanding as we subclass `UIView` later.
+We create custom view when the controls from UIKit is not sufficient to provide.
 
-We keep a short version here anyway.
+The custom view will be made up of other views, with certain custom behaviours.
 
-`required` and `convenience` are both used to specify restrictions on subclasses.
+There are often times when you construct your storyboard or init your view controller with multiple views, but they could be accomplish with a custom view.
 
-`convenience` is secondary/optional, and they are simply shortcut to calling designated initializer.
+Let's look at an example.
 
-How do you specify designated initializer?
+UIImageView + UILabel in a UIStack
 
-You _don't_ specify `convenience`, which means simply `init(){ ... }`
+A custom view will be an AppIconView. Init with image and text.
+
+## About Initializers
+
+It is important to learn the fundamental about [Swift initialization](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Initialization.html). It is a complex and lengthy topic, but will be useful in understanding because our custom view subclass `UIView`.
+
+### Designated initializer
+
+You _don't_ specify `convenience`, it is default, which means simply `init(){ ... }`
 
 Subclass MUST call it's superclass designated initializer -- not difficult to reason because without so, the superclass would not be completely initialized.
+
+### Convenience initializer
+
+`convenience` is secondary/optional, and is simply shortcut to calling designated initializer.
+
+### Required init
+
+`required` specify that subclasses must implement the initialization. `UIView` has such an init because it conforms to [`NSCoding`](https://developer.apple.com/documentation/foundation/nscoding), a protocol for the view to be encoded and decoded for archiving. 
+
+Our custom view has to implement (it is an override, but without the override modifier), and decode to init the view.
+
+```swift
+public required init?(coder aDecoder: NSCoder) {
+  super.init(coder: aDecoder)
+  // Custom decoding..
+}
+```
+
+But, you probably will not have any custom decoding, because archiving a view is a bad idea (instead you should archive the model). 
+
+The corresponding func is [encoding](https://developer.apple.com/documentation/foundation/nscoding/1413933-encode).
+
+### Custom view initializers
+
+...
+
+http://www.edwardhuynh.com/blog/2015/02/16/swift-initializer-confusion/
 
 ## translatesAutoresizingMaskIntoConstraints
 
@@ -80,3 +115,7 @@ It doesn't make sense to specify your own position.
 But sometimes you want to constraint your size. This is where intrinsic content size comes in.
 
 If any dimension has no intrinsic size, then use `UIViewNoIntrinsicMetric`.
+
+
+## IBDesignable 
+
