@@ -197,3 +197,13 @@ For environment variables, you will use `app.launchEnvironment` and `NSProcessIn
 
 Note that `XCUIApplication` [is not a singleton](http://drekka.ghost.io/xcuiapplication-youre-probably-doing-it-wrong/)! So don't try to have multiple `XCUIApplication()` in your test case. Have 1 object variable `var app: XCUIApplication!` in your test case that is used in all methods.
 
+## System Alerts
+
+If you have a `UIAlertController` showing up, or even a system dialog, you can interact with it using [`addUIInterruptionMonitorWithDescription`](https://developer.apple.com/documentation/xctest/xctestcase/1496273-adduiinterruptionmonitorwithdesc).
+
+```
+addUIInterruptionMonitor(withDescription: "System permission prompt") { alert -> Bool in
+  alert.buttons["Allow"].tap()
+  return true
+}
+```

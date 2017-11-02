@@ -8,13 +8,11 @@ permalink: /libs/core/
 
 `NSAttributedString` is not that friendly. Checkout for a better world with [SwiftRichString](https://github.com/malcommac/SwiftRichString).
 
-
 ## JSON Decoder
 
 - [ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) - Using `<-` operator. Very popular, with [Alamofire extension](https://github.com/tristanhimmelman/AlamofireObjectMapper)
 - [Unbox](https://github.com/JohnSundell/Unbox)
 - [Decodable](https://github.com/Anviking/Decodable)
-
 
 ## Date Time
 
@@ -26,12 +24,10 @@ But above 2 not complete enough. [SO](http://stackoverflow.com/questions/1007589
 - [FormatterKit](https://github.com/mattt/FormatterKit) by matt (popular): Not only for formatting dates, but also addresses and location
 - [NSDate+NVTimeAgo](https://github.com/nikilster/NSDate-Time-Ago): Facebook style
 
-
 ## Logging
 
 - [CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack)
 - [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver)
-
 
 ## Encryption
 
@@ -39,12 +35,10 @@ But above 2 not complete enough. [SO](http://stackoverflow.com/questions/1007589
 - [Heimdall](https://github.com/henrinormak/Heimdall): He is the gatekeeper at the rainbow road (in Thor). Simple encrypt, decrypt and signing of text.
 - [KeychainSwiftAPI](https://github.com/deniskr/KeychainSwiftAPI)
 
-
 ## Core Data
 
 - [/hyperoslo/Sync](https://github.com/hyperoslo/Sync): Takes JSON sync into Core Data
 - [CoreStore](https://github.com/JohnEstropia/CoreStore): Swift 2. Very well documented, and seems complete, and even have a [different/better? stack design](http://floriankugler.com/2013/04/29/concurrent-core-data-stack-performance-shootout/) than MagicalRecord. But they have "transactions" instead of predicates.
-
 
 ## Autolayout
 
@@ -52,11 +46,9 @@ But above 2 not complete enough. [SO](http://stackoverflow.com/questions/1007589
 - [PureLayout](https://github.com/smileyborg/PureLayout): Provide handy APIs to UIView
 - [Cartography](https://github.com/robb/Cartography): Declarative style
 
-
 ## Unit Testing
 
 - [OHHTTPStubs](https://github.com/AliSoftware/OHHTTPStubs) - stub for networking frameworks
-
 
 ## Avoid String Identifiers
 
@@ -64,7 +56,10 @@ But above 2 not complete enough. [SO](http://stackoverflow.com/questions/1007589
 - [SwiftGen](https://github.com/SwiftGen/SwiftGen) - Avoid more strings (eg. localization, assets) by generating code (like Android's R)
 - [R.swift](https://github.com/mac-cain13/R.swift) - An actual R for Swift
 
-
 ## Parsers
 
 - [Kanna](https://github.com/tid-kijyun/Kanna) - Parse XML/HTML, inspired by Nokogiri
+
+## Deeplinks
+
+- [Appz](https://github.com/SwiftKitz/Appz) - provides (as much) external apps deeplink schema as opening them is a breeze
