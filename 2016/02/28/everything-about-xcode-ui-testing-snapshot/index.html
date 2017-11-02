@@ -249,6 +249,16 @@
 
 <p>Note that <code class="highlighter-rouge">XCUIApplication</code> <a href="http://drekka.ghost.io/xcuiapplication-youre-probably-doing-it-wrong/">is not a singleton</a>! So don’t try to have multiple <code class="highlighter-rouge">XCUIApplication()</code> in your test case. Have 1 object variable <code class="highlighter-rouge">var app: XCUIApplication!</code> in your test case that is used in all methods.</p>
 
+<h2 id="system-alerts">System Alerts</h2>
+
+<p>If you have a <code class="highlighter-rouge">UIAlertController</code> showing up, or even a system dialog, you can interact with it using <a href="https://developer.apple.com/documentation/xctest/xctestcase/1496273-adduiinterruptionmonitorwithdesc"><code class="highlighter-rouge">addUIInterruptionMonitorWithDescription</code></a>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>addUIInterruptionMonitor(withDescription: "System permission prompt") { alert -&gt; Bool in
+  alert.buttons["Allow"].tap()
+  return true
+}
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">

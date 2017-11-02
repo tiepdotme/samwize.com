@@ -6,9 +6,168 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 06 Oct 2017 15:05:56 +0800</pubDate>
-    <lastBuildDate>Fri, 06 Oct 2017 15:05:56 +0800</lastBuildDate>
+    <pubDate>Thu, 02 Nov 2017 17:53:56 +0800</pubDate>
+    <lastBuildDate>Thu, 02 Nov 2017 17:53:56 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Guide to Creating Custom UIView</title>
+        <description>&lt;p&gt;This is a guide to creating custom &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; using Auto Layout, without Nib/Storyboard, and in Swift 4.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-custom-uiview&quot;&gt;Why custom UIView?&lt;/h2&gt;
+
+&lt;p&gt;We create custom view when the controls from UIKit is not sufficient to do your job.&lt;/p&gt;
+
+&lt;p&gt;Custom view will be composed of other views, with certain custom behaviours.&lt;/p&gt;
+
+&lt;p&gt;There are often times when you construct your storyboard or init your view controller with multiple views, but they could – alternatively – be accomplished with a custom view.&lt;/p&gt;
+
+&lt;h2 id=&quot;about-initializers&quot;&gt;About Initializers&lt;/h2&gt;
+
+&lt;p&gt;It is important to learn the fundamental about &lt;a href=&quot;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Initialization.html&quot;&gt;Swift initialization&lt;/a&gt;. It is a complex and lengthy topic, but will be useful in understanding because our custom view subclass &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;designated-initializer&quot;&gt;Designated initializer&lt;/h3&gt;
+
+&lt;p&gt;You specify a designated initializer by &lt;em&gt;not&lt;/em&gt; specifying &lt;code class=&quot;highlighter-rouge&quot;&gt;convenience&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Subclass MUST call it’s superclass designated initializer – not difficult to reason because without so, the superclass would not be completely initialized.&lt;/p&gt;
+
+&lt;h3 id=&quot;convenience-initializer&quot;&gt;Convenience initializer&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;convenience&lt;/code&gt; is secondary/optional, and is simply shortcut to calling designated initializer.&lt;/p&gt;
+
+&lt;h3 id=&quot;required-init&quot;&gt;Required init&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;required&lt;/code&gt; specify that subclasses must implement the initialization. &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; has such an init because it conforms to &lt;a href=&quot;https://developer.apple.com/documentation/foundation/nscoding&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSCoding&lt;/code&gt;&lt;/a&gt;, a protocol for the view to be encoded and decoded for archiving.&lt;/p&gt;
+
+&lt;p&gt;Our custom view has to implement (it is an override, but without the override modifier), and decode to init the view.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;required&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coder&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSCoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;coder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Custom decoding..&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;But, you probably will not have any custom decoding, because archiving a view is a bad idea (instead you should archive the model).&lt;/p&gt;
+
+&lt;p&gt;The corresponding func is &lt;a href=&quot;https://developer.apple.com/documentation/foundation/nscoding/1413933-encode&quot;&gt;encoding&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;our-custom-view-initializers&quot;&gt;Our custom view initializers&lt;/h2&gt;
+
+&lt;p&gt;With the basics of initializers explained, a custom view will usually need a few inits like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AppIconView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    
+    &lt;span class=&quot;c1&quot;&gt;// #1&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;required&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coder&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSCoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;coder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;setupView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// #2&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;setupView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;    
+    
+    &lt;span class=&quot;c1&quot;&gt;// #3&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;convenience&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zero&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;setupView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setupView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;translatesAutoresizingMaskIntoConstraints&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+        
+        &lt;span class=&quot;c1&quot;&gt;// Create, add and layout the children views ..&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There are 3 inits and here is why:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Because &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; &lt;strong&gt;required&lt;/strong&gt; it&lt;/li&gt;
+  &lt;li&gt;Because #3 will need to call a designated initializer (we choose #2 over #1)&lt;/li&gt;
+  &lt;li&gt;Our own initializer with the data for the view&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In each of the init, we will call &lt;code class=&quot;highlighter-rouge&quot;&gt;setupView()&lt;/code&gt; – which is the one place where we will layout the custom view.&lt;/p&gt;
+
+&lt;h3 id=&quot;translatesautoresizingmaskintoconstraints&quot;&gt;translatesAutoresizingMaskIntoConstraints&lt;/h3&gt;
+
+&lt;p&gt;Every view that uses auto layout should set &lt;code class=&quot;highlighter-rouge&quot;&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; to false. That is the very first thing to do in &lt;code class=&quot;highlighter-rouge&quot;&gt;setupView()&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This is because in days before we have Auto Layout, there is the concept of auto resizing. Via &lt;code class=&quot;highlighter-rouge&quot;&gt;autoresizingMask&lt;/code&gt;, a view will auto resize, similar to auto layout.&lt;/p&gt;
+
+&lt;p&gt;But we don’t use auto resize anymore, now that we have auto layout.&lt;/p&gt;
+
+&lt;h3 id=&quot;intrinsic-content-size&quot;&gt;Intrinsic Content Size&lt;/h3&gt;
+
+&lt;p&gt;The &lt;strong&gt;natural size&lt;/strong&gt; for it’s content eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;UILabel&lt;/code&gt; intrinsic size is the length of the text.&lt;/p&gt;
+
+&lt;p&gt;Apple’s &lt;a href=&quot;https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21&quot;&gt;auto layout guide&lt;/a&gt; has a section on it, and a &lt;a href=&quot;https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/ViewswithIntrinsicContentSize.html&quot;&gt;cook book&lt;/a&gt; of common scenarios.&lt;/p&gt;
+
+&lt;p&gt;How does it work?&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;It generates a pair of constraints for each dimension (width &amp;amp; height). The pair constrain the compression resistance (priority 750) and content hugging (priority 250).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Intrinsic content size simplifies auto layout, reducing number of constraints needed, because those constraints are added for you. You only need to manage the priority.&lt;/p&gt;
+
+&lt;p&gt;It is a helper, and you ought to understand that it adds constraints for you.&lt;/p&gt;
+
+&lt;p&gt;Let’s say we want our custom view to have a fixed height, but varying width, we can override the &lt;code class=&quot;highlighter-rouge&quot;&gt;intrinsicContentSize&lt;/code&gt; like this.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;intrinsicContentSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Your calculated or fixed height&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewNoIntrinsicMetric&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As a rule of thumb: &lt;strong&gt;custom view should never create constraint for it’s own width and height&lt;/strong&gt; (obviously also not for it’s postion x &amp;amp; y).&lt;/p&gt;
+
+&lt;p&gt;But sometimes you want to &lt;em&gt;conveniently constraint your size&lt;/em&gt;. This is where intrinsic content size comes in.&lt;/p&gt;
+
+&lt;h3 id=&quot;fitting-size&quot;&gt;Fitting Size&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Intrinsic size is an input&lt;/strong&gt; to Auto Layout engine (which in turn generates/output constraints about it’s size).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Fitting size is an output&lt;/strong&gt; from Auto Layout engine.&lt;/p&gt;
+
+&lt;p&gt;Fitting size is the size calculated to fit the content.&lt;/p&gt;
+
+&lt;p&gt;Use &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiview/1622624-systemlayoutsizefitting&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;systemLayoutSizeFitting(_:)&lt;/code&gt;&lt;/a&gt;. The parameter &lt;code class=&quot;highlighter-rouge&quot;&gt;targetSize&lt;/code&gt; is the smallest or largest size that meets the constraint.&lt;/p&gt;
+
+&lt;p&gt;Eg. To know the smallest possible size of our content view, call &lt;code class=&quot;highlighter-rouge&quot;&gt;appView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;the-thing-with-uistackview&quot;&gt;The thing with UIStackView&lt;/h3&gt;
+
+&lt;p&gt;It is easily misled to think stack view has intrinsic size. Using a stack view, it seems the width and height constraints are not required.&lt;/p&gt;
+
+&lt;p&gt;But NO, stack view intrinsic size is always &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewNoIntrinsicMetric&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;What really happened is that Auto Layout engine calculate the fitting size (an output) for the stack.&lt;/p&gt;
+
+&lt;p&gt;So how do you get the fitting size?&lt;/p&gt;
+
+&lt;p&gt;Simply &lt;code class=&quot;highlighter-rouge&quot;&gt;stack.systemLayoutSizeFitting(UILayoutFittingCompressedSize)&lt;/code&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 01 Nov 2017 10:42:21 +0800</pubDate>
+        <link>http://samwize.com/2017/11/01/guide-to-creating-custom-uiview/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/11/01/guide-to-creating-custom-uiview/</guid>
+        
+        
+        <category>UI</category>
+        
+      </item>
     
       <item>
         <title>Adding Playground to an Existing Project</title>
@@ -965,69 +1124,6 @@ git bisect unfixed
         
         
         <category>React Native</category>
-        
-      </item>
-    
-      <item>
-        <title>Backing Up Photos Library and Handling Corrupted Files Error -36</title>
-        <description>&lt;p&gt;I was backing up my Photos Library, a huge 500 GB &lt;code class=&quot;highlighter-rouge&quot;&gt;Photos Library.photoslibrary&lt;/code&gt;, and copying the file to my external drive, it had this error:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The Finder can’t complete the operation because some data in Photos Library.photoslibrary” can’t be read or written. (Error code -36)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;As ambiguous as it can be, error code 36 turns out to be I/O problem, or corrupted files.&lt;/p&gt;
-
-&lt;p&gt;For my case, it is most likely a corrupted photo/video. I have no idea how they became corrupted in Photos. Either Photos app is buggy and corrupted it, or my harddrive is faulty..&lt;/p&gt;
-
-&lt;p&gt;In any case, I have to recover them.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.macworld.com/article/3189985/photography/how-to-fix-an-uncopyable-iphoto-or-photos-library.html&quot;&gt;MacWorld has a tip&lt;/a&gt; on creating a new “photoslibrary”, revealing the package, and manually copying the original files to the new directory. Doing so will reveal the exact files that are throwing the error.&lt;/p&gt;
-
-&lt;p&gt;But if you have lots of photos/videos and there are lots of corrupted files, then you will save lots of time if you know how to use the command line.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ditto -v ~/Pictures/Photos&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;Library.photoslibrary/ /Volumes/MyDrive/Photos&lt;span class=&quot;se&quot;&gt;\ &lt;/span&gt;Library.photoslibrary/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;ditto&lt;/code&gt; command will copy without stopping on failure. Instead, it will log the files with problem.&lt;/p&gt;
-
-&lt;h2 id=&quot;copying-corrupted-files&quot;&gt;Copying Corrupted Files&lt;/h2&gt;
-
-&lt;p&gt;The above will skip the corrupted files. Not a big deal if you can afford losing some of the photos.&lt;/p&gt;
-
-&lt;p&gt;But some of these corrupted files are just partially corrupted eg. a video can be played ok in the first 50%&lt;/p&gt;
-
-&lt;p&gt;There is still a way to copy the corrupted files.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/dd.1.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dd&lt;/code&gt;&lt;/a&gt; let you copy bit by bit, even if an input error occurs:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dd &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;myfile.MOV &lt;span class=&quot;nv&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/Volumes/MyDrive/myfile.MOV &lt;span class=&quot;nv&quot;&gt;conv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;noerror,sync
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The above will copy “myfile.MOV” even if it is corrupted.&lt;/p&gt;
-
-&lt;h2 id=&quot;check-your-disk-health-status&quot;&gt;Check your disk health status&lt;/h2&gt;
-
-&lt;p&gt;Using &lt;a href=&quot;https://support.apple.com/kb/PH22243?locale=en_SG&quot;&gt;Disk Utility&lt;/a&gt;, run “First Aid” to repair. Sometimes you may need to boot into &lt;a href=&quot;/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting/&quot;&gt;Recovery mode&lt;/a&gt; to run.&lt;/p&gt;
-
-&lt;p&gt;Or run &lt;code class=&quot;highlighter-rouge&quot;&gt;/sbin/fsck -fy&lt;/code&gt; (might need to be in &lt;a href=&quot;/2017/04/06/guide-to-boot-up-macos-in-other-modes-and-troubleshooting/&quot;&gt;Single User mode&lt;/a&gt;), which does the same as First Aid.&lt;/p&gt;
-
-&lt;h2 id=&quot;backing-up-frequently-is-important&quot;&gt;Backing up frequently is important&lt;/h2&gt;
-
-&lt;p&gt;It is my fault for losing my dear photos, though I also blame my 5 year old iMac (2012 model) which seems to be failing. It is either the OS fault or the drive is having bad sectors.&lt;/p&gt;
-
-&lt;p&gt;But it is user’s fault for not having a backup plan. I backup but only occassionally, and manually by copying to another external drive.&lt;/p&gt;
-
-&lt;p&gt;I didn’t use Time Machine, because I didn’t have a hard disk that is big enough for my near 1 TB of data on iMac.&lt;/p&gt;
-
-&lt;p&gt;I have since bought a &lt;a href=&quot;http://amzn.to/2tblyR0&quot;&gt;3 TB external drive&lt;/a&gt; at $102 USD. This should serve well as a Time Machine backup drive for the next few years.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 26 Jun 2017 00:03:39 +0800</pubDate>
-        <link>http://samwize.com/2017/06/26/backing-up-photo-library-and-handling-corrupted-files-error-36/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/06/26/backing-up-photo-library-and-handling-corrupted-files-error-36/</guid>
-        
         
       </item>
     
