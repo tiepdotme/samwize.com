@@ -6,9 +6,182 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 02 Nov 2017 17:53:56 +0800</pubDate>
-    <lastBuildDate>Thu, 02 Nov 2017 17:53:56 +0800</lastBuildDate>
+    <pubDate>Thu, 16 Nov 2017 13:00:49 +0800</pubDate>
+    <lastBuildDate>Thu, 16 Nov 2017 13:00:49 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Guide to Universal Links</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/content/documentation/General/Conceptual/AppSearch/UniversalLinks.html&quot;&gt;Universal links&lt;/a&gt; are HTTP links that open your app, instead of the website in Safari.&lt;/p&gt;
+
+&lt;p&gt;The old way is called deeplink – where every app register it’s own schema eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;myapp://&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Universal links bring closer synergy between web and app with the familiar &lt;code class=&quot;highlighter-rouge&quot;&gt;https://&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;step-1-apple-app-site-association-json-file&quot;&gt;Step 1. apple-app-site-association JSON file&lt;/h2&gt;
+
+&lt;p&gt;This &lt;strong&gt;association file&lt;/strong&gt; (AASA) is to establish the trust between your domain/server/website with your app.&lt;/p&gt;
+
+&lt;p&gt;Among the 3 steps, this step is the most complicated.&lt;/p&gt;
+
+&lt;p&gt;Let’s use an example of a &lt;code class=&quot;highlighter-rouge&quot;&gt;apple-app-site-association&lt;/code&gt; file (note, there is no file extension):&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;applinks&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;apps&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;details&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;appID&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;9JA89QQLNQ.com.apple.wwdc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;paths&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/wwdc/news/&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;NOT /videos/wwdc/2010/*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/videos/wwdc/201?/*&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;appID&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ABCD1234.com.apple.messaging&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;paths&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;*&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;details&lt;/code&gt; array is a list, with implicit priority in matching the paths.&lt;/p&gt;
+
+&lt;p&gt;You can support multiple apps as each detail has it’s own &lt;code class=&quot;highlighter-rouge&quot;&gt;appID&lt;/code&gt;. The &lt;code class=&quot;highlighter-rouge&quot;&gt;appID&lt;/code&gt; is made up of the team ID and the bundle ID.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;paths&lt;/code&gt; is a list of paths and:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You can exclude paths by using &lt;code class=&quot;highlighter-rouge&quot;&gt;NOT&lt;/code&gt; prefix&lt;/li&gt;
+  &lt;li&gt;The system evaluate each path in order&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;step-15-optional-sign-it-or-not&quot;&gt;Step 1.5 (Optional) Sign it or not&lt;/h2&gt;
+
+&lt;p&gt;If you only need universal link, this is optional.&lt;/p&gt;
+
+&lt;p&gt;But if you want to support &lt;a href=&quot;https://developer.apple.com/documentation/security/shared_web_credentials&quot;&gt;Shared Web Credentials&lt;/a&gt; and Handsoff, then you must sign the AASA file.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-2-upload-to-server&quot;&gt;Step 2. Upload to server&lt;/h2&gt;
+
+&lt;p&gt;You must make the AASA file crawlable by Apple bot, and can either place in:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;https://mydomain.com/apple-app-site-association&lt;/li&gt;
+  &lt;li&gt;https://mydomain.com/.well-known/apple-app-site-association&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The following is important, yet it is not stated in the Apple’s guide (but you can find in the &lt;a href=&quot;https://developer.apple.com/library/content/qa/qa1916/_index.html&quot;&gt;troubleshooting FAQ&lt;/a&gt;):&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The AASA file must NOT be served through a 3xx redirect. Make sure this file is served without any redirects.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And via HTTPS/SSL. And HTTP Content-type must be &lt;code class=&quot;highlighter-rouge&quot;&gt;application/json&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;&lt;a href=&quot;https://search.developer.apple.com/appsearch-validation-tool&quot;&gt;Validate with Apple Bot&lt;/a&gt;, and &lt;strong&gt;Link to Application&lt;/strong&gt; should pass.&lt;/del&gt; Apple’s tool is unreliable, so instead use &lt;a href=&quot;https://limitless-sierra-4673.herokuapp.com&quot;&gt;this&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-3-add-entitlement-in-app&quot;&gt;Step 3. Add entitlement in app&lt;/h2&gt;
+
+&lt;p&gt;Go to your target &amp;gt; Capabilities &amp;gt; Associated Domains, and include the domains that your app wants to handle.&lt;/p&gt;
+
+&lt;p&gt;You MUST prefix with &lt;code class=&quot;highlighter-rouge&quot;&gt;applinks:&lt;/code&gt; eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;applinks:mydomain.com&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The system uses the longest substring matching.&lt;/p&gt;
+
+&lt;p&gt;When matched, it will trigger an NSUserActivity in your app delegate.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-4-handle-nsuseractivity&quot;&gt;Step 4. Handle NSUserActivity&lt;/h2&gt;
+
+&lt;p&gt;Implement &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623072-application&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;application:continueUserActivity:restorationHandler:&lt;/code&gt;&lt;/a&gt; in your app delegate.&lt;/p&gt;
+
+&lt;p&gt;The same handler is used for Handsoff or Spotlight search. So how do you differentiate it is handling for tapping universal links? Look at &lt;code class=&quot;highlighter-rouge&quot;&gt;activityType&lt;/code&gt; of &lt;a href=&quot;https://developer.apple.com/documentation/foundation/nsuseractivity&quot;&gt;NSUserActivity&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;continue&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSUserActivity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;restorationHandler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@escaping&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]?)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;activityType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;  &lt;span class=&quot;kt&quot;&gt;NSUserActivityTypeBrowsingWeb&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// Handle universal link&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;webpageURL&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// Handle it..&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;userActivity&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;activityType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CSSearchableItemActionType&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;// Handle spotlight search&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;step-5-test-it&quot;&gt;Step 5. Test it&lt;/h2&gt;
+
+&lt;p&gt;Your integration test flow:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Uninstall your app&lt;/li&gt;
+  &lt;li&gt;Install from Xcode (or TestFlight)&lt;/li&gt;
+  &lt;li&gt;Test a universal link in eg Email, Notes&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;It seems like when you install your app during development, or beta from TestFlight, Apple bot will crawl the AASA file. That’s the trigger. That’s how you test universal links during development.&lt;/p&gt;
+
+&lt;h2 id=&quot;when-will-it-open-app&quot;&gt;When will it open app?&lt;/h2&gt;
+
+&lt;p&gt;If you reach here, then your app should be working with universal links.&lt;/p&gt;
+
+&lt;p&gt;But there are many pitfalls with universal links.&lt;/p&gt;
+
+&lt;p&gt;Sometimes, it doesn’t open as expected. Here is why it does NOT open your app:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;In Safari, if user enter the domain in URL search bar&lt;/li&gt;
+  &lt;li&gt;In Safari, clicking on the same domain&lt;/li&gt;
+  &lt;li&gt;When your app is opened, but user tap on the top left breadcrumb that “Opens Safari”&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;more-on-the-breadcrumb&quot;&gt;More on the breadcrumb&lt;/h2&gt;
+
+&lt;p&gt;iOS remembers the choice the user made when opening the universal link the first time.&lt;/p&gt;
+
+&lt;p&gt;Users could tap on the top left breadcrumb in status bar that says “Back to Safari”, and iOS will remember that the user does NOT want to open that in app!&lt;/p&gt;
+
+&lt;p&gt;Afterwhich, iOS continues to open your website in Safari until the user chooses to open your app &lt;strong&gt;by tapping OPEN in the Smart App Banner&lt;/strong&gt; on the webpage. See these &lt;a href=&quot;https://stackoverflow.com/a/39694208/242682&quot;&gt;screenshots&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Another way could be by long pressing a link. This will provide 2 options:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Open in Safari&lt;/li&gt;
+  &lt;li&gt;Open in “Your App”&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Whichever the user chooses, iOS will remember as The Choice.&lt;/p&gt;
+
+&lt;h2 id=&quot;wkwebviewuiwebview&quot;&gt;WKWebView/UIWebView&lt;/h2&gt;
+
+&lt;p&gt;We know universal links when tapped in Safari or Messages or etc will open the app (if possible).&lt;/p&gt;
+
+&lt;p&gt;What about in web views in other apps?&lt;/p&gt;
+
+&lt;p&gt;Quoting my previous &lt;a href=&quot;http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview/&quot;&gt;guide in WKWebView&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;As noted in Apple Doc, iOS 9 users can tap on universal links in WKWebView, and it will open the app. It is the same for UIWebView and SFSafariViewController.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;However, recently there seems to be a &lt;a href=&quot;https://stackoverflow.com/a/44942814/242682&quot;&gt;hack&lt;/a&gt; to NOT open the app. Use it to your advantage.&lt;/p&gt;
+
+&lt;h2 id=&quot;troubleshooting&quot;&gt;Troubleshooting&lt;/h2&gt;
+
+&lt;p&gt;It could be frustrating to troubleshoot, so here is a list &lt;a href=&quot;http://building.usebutton.com/debugging/ios/deep-linking/links/universal-links/2016/03/31/debugging-universal-links/&quot;&gt;things to debug&lt;/a&gt;, more on the &lt;a href=&quot;https://sailthru.zendesk.com/hc/en-us/articles/217102466-Universal-Links-Troubleshooting-and-FAQ&quot;&gt;paths in AASA&lt;/a&gt;, the previously mentioned non-Apple &lt;a href=&quot;https://limitless-sierra-4673.herokuapp.com&quot;&gt;AASA validation tool&lt;/a&gt;, and good to know that it seems like the AASA file is fetched on the device everytime the app is &lt;a href=&quot;https://stackoverflow.com/a/35616335/242682&quot;&gt;installed/updated&lt;/a&gt;, and then cached.&lt;/p&gt;
+
+&lt;p&gt;If still didn’t work, at least know there are others who &lt;a href=&quot;https://medium.com/mobile-growth/the-things-i-hate-and-you-should-know-about-apple-universal-links-5beb15f88a29&quot;&gt;hate&lt;/a&gt; it too.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 10 Nov 2017 11:32:18 +0800</pubDate>
+        <link>http://samwize.com/2017/11/10/guide-to-universal-links/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/11/10/guide-to-universal-links/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Guide to Creating Custom UIView</title>
@@ -1079,51 +1252,6 @@ git bisect unfixed
         
         
         <category>Git</category>
-        
-      </item>
-    
-      <item>
-        <title>What Steve Jobs Thinks of React Native</title>
-        <description>&lt;p&gt;Adobe announced they are &lt;a href=&quot;https://www.theverge.com/2017/7/25/16026236/adobe-flash-end-of-support-2020&quot;&gt;killing Flash&lt;/a&gt; in 2020.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.apple.com/hotnews/thoughts-on-flash/&quot;&gt;7 years ago&lt;/a&gt;, Steve Jobs explained why Apple and iPhone doesn’t support Flash.&lt;/p&gt;
-
-&lt;p&gt;He was right.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-most-important-reason&quot;&gt;The most important reason&lt;/h2&gt;
-
-&lt;p&gt;The sixth reason, the most important, he said:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;We know from painful experience that letting a third party layer of software come between the platform and the developer ultimately results in sub-standard apps and hinders the enhancement and progress of the platform.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;If developers grow dependent on third party development libraries and tools, they can only take advantage of platform enhancements if and when the third party chooses to adopt the new features.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;We cannot be at the mercy of a third party deciding if and when they will make our enhancements available to our developers.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;This becomes even worse if the third party is supplying a cross platform development tool.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Flash was a cross platform development tool.&lt;/p&gt;
-
-&lt;p&gt;React Native is a cross platform development tool, too.&lt;/p&gt;
-
-&lt;p&gt;I &lt;a href=&quot;http://samwize.com/2017/01/24/why-i-hate-react-native/&quot;&gt;hate React Native&lt;/a&gt;, and I briefly mentioned the &lt;a href=&quot;http://samwize.com/2017/01/09/react-native-for-ios-swift-developer/&quot;&gt;disadvantage of using another big dependency&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;These past events have once again reminded us to “bet” on good technologies, and who to trust.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 26 Jul 2017 13:32:02 +0800</pubDate>
-        <link>http://samwize.com/2017/07/26/what-steve-jobs-thinks-of-react-native/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/07/26/what-steve-jobs-thinks-of-react-native/</guid>
-        
-        
-        <category>React Native</category>
         
       </item>
     
