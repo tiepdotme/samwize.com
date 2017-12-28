@@ -128,12 +128,18 @@ Users could tap on the top left breadcrumb in status bar that says "Back to Safa
 
 Afterwhich, iOS continues to open your website in Safari until the user chooses to open your app **by tapping OPEN in the Smart App Banner** on the webpage. See these [screenshots](https://stackoverflow.com/a/39694208/242682).
 
-Another way could be by long pressing a link. This will provide 2 options:
+## A BIG Tip
+
+Another way is **long pressing a link**. 
+
+This will provide 2 options in a alert:
 
 1. Open in Safari
 2. Open in "Your App"
 
-Whichever the user chooses, iOS will remember as The Choice.
+If you see (2), you know your universal link integration worked.
+
+And now, whichever option the user chooses, iOS will remember it as The Choice.
 
 ## WKWebView/UIWebView
 

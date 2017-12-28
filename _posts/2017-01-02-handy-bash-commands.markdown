@@ -51,3 +51,9 @@ The `hls-live-edge` [option](http://docs.livestreamer.io/cli.html#cmdoption--hls
 ## Download a file with curl
 
     curl -o myfile.mp3 https://the.domain.com/file
+
+## Search/grep
+
+    # Find recursively in the directory for the string 'needle'
+    grep -R 'needle' path/to/dir/
+    
