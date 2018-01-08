@@ -72,3 +72,16 @@ A [similar tutorial on using nib for UICollectionViewCell](/2016/04/06/using-cus
 ```swift
 tableView.registerNib(UINib(nibName: "MyCell", bundle: nil), forCellReuseIdentifier: "cell")
 ```
+
+## Highlighting cell
+
+Cell is highlighted when a touch is held on it.
+
+UITableView provides a default behaviour:
+
+1. It will change the `cell.backgroundColor` to gray
+2. It will change **ALL** subviews backgroundColor to clear
+
+The result of (2) will cause your [subview to "disappear"](https://stackoverflow.com/q/6745919/242682). The solution is to add another UIView/CALayer to your custom subview as a background.
+
+If you don't like gray, you can change the [`selectionStyle`](https://developer.apple.com/documentation/uikit/uitableviewcellselectionstyle) or `selectedBackgroundView`.

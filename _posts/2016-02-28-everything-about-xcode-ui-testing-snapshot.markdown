@@ -34,6 +34,11 @@ You should NOT be using the accessibility name since that could be localized, so
 
 Pitfall: Some components such as `UIBarButtonItem` don't have the accessibility identifier field under identifier inspector. You could still add it as user defined runtime attributes `accessibilityIdentifier` with type String.
 
+## Tool: Accessibility Inspector
+
+You can open the tool from Xcode > Open Developer Tool > Accessibility Inspector
+
+Run in the simulator, click on the button in top toolbar to start inspection.
 
 ## Print UI Hierarchy
 
@@ -56,15 +61,12 @@ Other 0x7ff0014a3bc0: traits: 8589934592, {{0.0, 0.0}, {414.0, 736.0}}
 
 You can easily see the views hierarchy, type, and identifier. This will come in very handy.
 
-
-
 ## Selecting row in table view
 
 ```swift
 # To select row 0
 app.tables.cells.elementBoundByIndex(0).tap()
 ```
-
 
 ## Selecting Children/Descendants
 
@@ -73,8 +75,6 @@ Using `childrenMatchingType`, you can get elements that are direct children of a
 ```swift
 anElement.childrenMatchingType(.Image).elementBoundByIndex(2)
 ```
-
-
 
 ## Tests if element exists
 
@@ -88,7 +88,6 @@ if app.buttons["back"].exists {
 }
 ```
 
-
 ## Wait for an element to appear
 
 Sometimes, it takes a while for an element to appear (and be "existed").
@@ -96,15 +95,10 @@ Sometimes, it takes a while for an element to appear (and be "existed").
 The following waits for 5 sec for the back button to appear.
 
 ```swift
-let backButton = app.buttons["back"]
-let exists = NSPredicate(format: "exists == true")
-expectationForPredicate(exists, evaluatedWithObject: backButton, handler: nil)
-waitForExpectationsWithTimeout(5, handler: nil)
+XCTAssert(app.buttons["back"].waitForExistence(timeout: 5))
 ```
 
-Or use a [helper](http://averagepro.com/tag/xctest/).
-
-
+~~Or use a [helper](http://averagepro.com/tag/xctest/).~~
 
 ## Force Tap
 
@@ -207,3 +201,27 @@ addUIInterruptionMonitor(withDescription: "System permission prompt") { alert ->
   return true
 }
 ```
+
+## The Real Line Number
+
+When using `XCTAssert` method, it automatically print the line that it fails.
+
+But if you wrap your own function around the `XCTAssert`, then it will print the line without giving helpful info. Say you have a `customAssert` that is being called in many places, then you can show the real line and file like this:
+
+```swift
+    func customAssert(_ element: XCUIElement, file: StaticString = #file, line: UInt = #line) {
+      XCTAssert(someExpression, file: file, line: line)
+    }
+```
+
+The default `#file` and `#line` will refer to the caller.
+
+## Pitfall: If it is not an interactive element..
+
+If you have elements that are NOT interactable with users, including containers, yet in UI tests you want to refer to it with identifier, read this.
+
+You could set the accessibility identifier for such elements, but you should DISABLE the accessibility element.
+
+![Disable Accessibility, but with identifier](/images/disable-accessibility-element-but-with-identifier.png)
+
+Firstly, users will not be able to "access it" (in fact it confuses them if accessible). Secondly, using Accessibility Inspector will be cleaner. And very importantly, XCTest will not be screwed up with selection of element. Heed this advise!

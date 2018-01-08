@@ -81,9 +81,29 @@ For iOS, the deploy phase could be pushing the build to Testflight.
 
 https://docs.travis-ci.com/user/build-stages/
 
-## Encrypting and decrypting secure
+## Encrypting secure env var
 
-In `travis.yml`, you will frequently see `secure` key.
+In `.travis.yml`, you will frequently see `secure` key.
+
+These are [environment variables](https://docs.travis-ci.com/user/environment-variables/) that you can use everywhere - travis.yml, Fastfile or any script.
+
+As they are sensitive values, you have to encrypt them in `.travis.yml`.
+
+    # Install the tool
+    gem install travis
+
+    # Login
+    travis login --pro
+
+    # Encrypt the env var and add to travis.yml
+    travis encrypt SOMEVAR="secretvalue" --add
+
+For every key-value, it will add a "secure" to the env.global list
+
+    env:
+      global:
+      - secure: some-encrypted-value
+      - secure: another-encrypted-value
 
 ## More resources
 

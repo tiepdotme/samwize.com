@@ -65,7 +65,7 @@ The following is important, yet it is not stated in the Apple's guide (but you c
 
 And via HTTPS/SSL. And HTTP Content-type must be `application/json`.
 
-~~[Validate with Apple Bot](https://search.developer.apple.com/appsearch-validation-tool), and **Link to Application** should pass.~~ Apple's tool is unreliable, so instead use [this](https://limitless-sierra-4673.herokuapp.com).
+~~[Validate with Apple Bot](https://search.developer.apple.com/appsearch-validation-tool), and **Link to Application** should pass.~~ Apple's tool is unreliable, so instead use [Branch.io's tool](http://branch.io/resources/aasa-validator/),or [this heroku app](https://limitless-sierra-4673.herokuapp.com).
 
 ## Step 3. Add entitlement in app
 
@@ -159,3 +159,5 @@ However, recently there seems to be a [hack](https://stackoverflow.com/a/4494281
 It could be frustrating to troubleshoot, so here is a list [things to debug](http://building.usebutton.com/debugging/ios/deep-linking/links/universal-links/2016/03/31/debugging-universal-links/), more on the [paths in AASA](https://sailthru.zendesk.com/hc/en-us/articles/217102466-Universal-Links-Troubleshooting-and-FAQ), the previously mentioned non-Apple [AASA validation tool](https://limitless-sierra-4673.herokuapp.com), and good to know that it seems like the AASA file is fetched on the device everytime the app is [installed/updated](https://stackoverflow.com/a/35616335/242682), and then cached.
 
 If still didn't work, at least know there are others who [hate](https://medium.com/mobile-growth/the-things-i-hate-and-you-should-know-about-apple-universal-links-5beb15f88a29) it too.
+
+Try restarting your device too. It did happen to me once during development where it just won't fetch from any of the applinks domain, until I restart my phone.
