@@ -98,6 +98,12 @@
 
 <p>Pitfall: Some components such as <code class="highlighter-rouge">UIBarButtonItem</code> don’t have the accessibility identifier field under identifier inspector. You could still add it as user defined runtime attributes <code class="highlighter-rouge">accessibilityIdentifier</code> with type String.</p>
 
+<h2 id="tool-accessibility-inspector">Tool: Accessibility Inspector</h2>
+
+<p>You can open the tool from Xcode &gt; Open Developer Tool &gt; Accessibility Inspector</p>
+
+<p>Run in the simulator, click on the button in top toolbar to start inspection.</p>
+
 <h2 id="print-ui-hierarchy">Print UI Hierarchy</h2>
 
 <p>Before we learnt how to select elements, it is useful to print out the UI hierarchy. You could write print statements with the element <code class="highlighter-rouge">debugDescription</code>.</p>
@@ -150,14 +156,11 @@
 
 <p>The following waits for 5 sec for the back button to appear.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">backButton</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="s">"back"</span><span class="p">]</span>
-<span class="k">let</span> <span class="nv">exists</span> <span class="o">=</span> <span class="kt">NSPredicate</span><span class="p">(</span><span class="nv">format</span><span class="p">:</span> <span class="s">"exists == true"</span><span class="p">)</span>
-<span class="nf">expectationForPredicate</span><span class="p">(</span><span class="n">exists</span><span class="p">,</span> <span class="nv">evaluatedWithObject</span><span class="p">:</span> <span class="n">backButton</span><span class="p">,</span> <span class="nv">handler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-<span class="nf">waitForExpectationsWithTimeout</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nv">handler</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kt">XCTAssert</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="s">"back"</span><span class="p">]</span><span class="o">.</span><span class="nf">waitForExistence</span><span class="p">(</span><span class="nv">timeout</span><span class="p">:</span> <span class="mi">5</span><span class="p">))</span>
 </code></pre>
 </div>
 
-<p>Or use a <a href="http://averagepro.com/tag/xctest/">helper</a>.</p>
+<p><del>Or use a <a href="http://averagepro.com/tag/xctest/">helper</a>.</del></p>
 
 <h2 id="force-tap">Force Tap</h2>
 
@@ -259,6 +262,30 @@
 }
 </code></pre>
 </div>
+
+<h2 id="the-real-line-number">The Real Line Number</h2>
+
+<p>When using <code class="highlighter-rouge">XCTAssert</code> method, it automatically print the line that it fails.</p>
+
+<p>But if you wrap your own function around the <code class="highlighter-rouge">XCTAssert</code>, then it will print the line without giving helpful info. Say you have a <code class="highlighter-rouge">customAssert</code> that is being called in many places, then you can show the real line and file like this:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code>    <span class="kd">func</span> <span class="nf">customAssert</span><span class="p">(</span><span class="n">_</span> <span class="nv">element</span><span class="p">:</span> <span class="kt">XCUIElement</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="kt">StaticString</span> <span class="o">=</span> <span class="err">#</span><span class="n">file</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="err">#</span><span class="n">line</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kt">XCTAssert</span><span class="p">(</span><span class="n">someExpression</span><span class="p">,</span> <span class="nv">file</span><span class="p">:</span> <span class="n">file</span><span class="p">,</span> <span class="nv">line</span><span class="p">:</span> <span class="n">line</span><span class="p">)</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>The default <code class="highlighter-rouge">#file</code> and <code class="highlighter-rouge">#line</code> will refer to the caller.</p>
+
+<h2 id="pitfall-if-it-is-not-an-interactive-element">Pitfall: If it is not an interactive element..</h2>
+
+<p>If you have elements that are NOT interactable with users, including containers, yet in UI tests you want to refer to it with identifier, read this.</p>
+
+<p>You could set the accessibility identifier for such elements, but you should DISABLE the accessibility element.</p>
+
+<p><img src="/images/disable-accessibility-element-but-with-identifier.png" alt="Disable Accessibility, but with identifier" /></p>
+
+<p>Firstly, users will not be able to “access it” (in fact it confuses them if accessible). Secondly, using Accessibility Inspector will be cleaner. And very importantly, XCTest will not be screwed up with selection of element. Heed this advise!</p>
 
         </section>
         <footer class="post-footer">

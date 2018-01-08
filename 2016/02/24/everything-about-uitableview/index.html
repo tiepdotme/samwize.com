@@ -140,6 +140,21 @@
 </code></pre>
 </div>
 
+<h2 id="highlighting-cell">Highlighting cell</h2>
+
+<p>Cell is highlighted when a touch is held on it.</p>
+
+<p>UITableView provides a default behaviour:</p>
+
+<ol>
+  <li>It will change the <code class="highlighter-rouge">cell.backgroundColor</code> to gray</li>
+  <li>It will change <strong>ALL</strong> subviews backgroundColor to clear</li>
+</ol>
+
+<p>The result of (2) will cause your <a href="https://stackoverflow.com/q/6745919/242682">subview to “disappear”</a>. The solution is to add another UIView/CALayer to your custom subview as a background.</p>
+
+<p>If you don’t like gray, you can change the <a href="https://developer.apple.com/documentation/uikit/uitableviewcellselectionstyle"><code class="highlighter-rouge">selectionStyle</code></a> or <code class="highlighter-rouge">selectedBackgroundView</code>.</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">

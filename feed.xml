@@ -6,9 +6,127 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 16 Nov 2017 13:00:49 +0800</pubDate>
-    <lastBuildDate>Thu, 16 Nov 2017 13:00:49 +0800</lastBuildDate>
+    <pubDate>Mon, 08 Jan 2018 16:20:15 +0800</pubDate>
+    <lastBuildDate>Mon, 08 Jan 2018 16:20:15 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Developer Guide to Support iPhone X</title>
+        <description>&lt;p&gt;iPhone X introduced The Notch, The Home Indicator, Safe Area, and a different resolution form factor..&lt;/p&gt;
+
+&lt;p&gt;UI design is much affected.&lt;/p&gt;
+
+&lt;p&gt;This post is a guide walking through various aspect and how it affects development.&lt;/p&gt;
+
+&lt;p&gt;Let’s start with the biggest change in the phone.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-notch&quot;&gt;The Notch&lt;/h2&gt;
+
+&lt;p&gt;I like &lt;a href=&quot;http://blog.maxrudberg.com/post/166045445103/ui-design-for-iphone-x-top-elements-and-the-notch&quot;&gt;maxrudberg’s mentality&lt;/a&gt; towards The Notch:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Eventually, they will get rid of the notch. It could be 2, 5, or even 10 years, but it’s a stop gap, not a permanent design solution. In the meantime, treat it like the elephant in the room. We all know it’s there, but for the most part, you should design as if it’s not.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Apple’s Music app and etc uses Card style, and that is against their guideline towards the top notch space.&lt;/p&gt;
+
+&lt;p&gt;So, don’t always follow guidelines.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-home-indicator&quot;&gt;The Home Indicator&lt;/h2&gt;
+
+&lt;p&gt;Unlike The Notch, the home indicator is a software element. It is a UI on the screen, at the bottom.&lt;/p&gt;
+
+&lt;p&gt;To allow auto hide (after user not touching screen) for a view controller:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prefersHomeIndicatorAutoHidden&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;nav-bar&quot;&gt;Nav bar&lt;/h2&gt;
+
+&lt;p&gt;iOS automatically fills a nav bar background for the extra space at the top.&lt;/p&gt;
+
+&lt;p&gt;Use &lt;strong&gt;black&lt;/strong&gt; and it blends with the Notch.&lt;/p&gt;
+
+&lt;p&gt;Use &lt;strong&gt;transparent&lt;/strong&gt; and extend your content view beyond.&lt;/p&gt;
+
+&lt;h2 id=&quot;status-bar-when-you-have-nav-bar&quot;&gt;Status Bar when you have Nav Bar&lt;/h2&gt;
+
+&lt;p&gt;There is an &lt;a href=&quot;https://forums.developer.apple.com/thread/88962&quot;&gt;undocumented behaviour&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;If you want to hide the status bar on iPhone X, you should also hide the navigation bar, otherwise you should leave both visible. This is the behavior that UINavigationController implements.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you implemented &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621440-prefersstatusbarhidden&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;prefersStatusBarHidden&lt;/code&gt;&lt;/a&gt; or &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621451-childviewcontrollerforstatusbarh&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;childViewControllerForStatusBarHidden&lt;/code&gt;&lt;/a&gt;, they will NOT work as intended, if you have the navigation bar shown.&lt;/p&gt;
+
+&lt;p&gt;Status bar will always be shown, if navigation bar is shown.&lt;/p&gt;
+
+&lt;p&gt;You may only &lt;strong&gt;control the color&lt;/strong&gt; of the status bar.&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;This &lt;a href=&quot;http://stackoverflow.com/a/19513714/242682&quot;&gt;method is weird&lt;/a&gt;, but yes it works.&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;This &lt;a href=&quot;https://stackoverflow.com/a/42301499/242682&quot;&gt;extension&lt;/a&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt; is the cleanest solution (another alternative is subclass it).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UINavigationController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;childViewControllerForStatusBarStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;topViewController&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;table-view&quot;&gt;Table View&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UITableView&lt;/code&gt; should still layout edge to edge (NOT to safe area).&lt;/p&gt;
+
+&lt;p&gt;Instead, the &lt;strong&gt;content inset&lt;/strong&gt; should be mark safe via &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uitableview/2921665-insetscontentviewstosafearea&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;insetsContentViewsToSafeArea&lt;/code&gt;&lt;/a&gt; (new in iOS 11).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(iOS 11.0, *)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insetsContentViewsToSafeArea&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;scroll-view&quot;&gt;Scroll View&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiscrollview/2902261-contentinsetadjustmentbehavior&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInsetAdjustmentBehavior&lt;/code&gt;&lt;/a&gt; provides more control on how safe area modifies the content inset.&lt;/p&gt;
+
+&lt;h2 id=&quot;search-controller&quot;&gt;Search Controller&lt;/h2&gt;
+
+&lt;p&gt;iOS seems to be not adjusting correctly for search controller. Fixed with:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentInsetAdjustmentBehavior&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;never&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;/2016/11/27/uisearchcontroller-development-guide/&quot;&gt;Search controller&lt;/a&gt; is a difficult topic, and with iPhone X the recommended way is to set the search bar in the nav bar.&lt;/p&gt;
+
+&lt;h2 id=&quot;storyboard&quot;&gt;Storyboard&lt;/h2&gt;
+
+&lt;p&gt;If you use storyboard, in File Inspector, check &lt;strong&gt;Use Safe Area Layout Guides&lt;/strong&gt;, and interface builder will replace the old top bottom layout guides with the new safe area.&lt;/p&gt;
+
+&lt;p&gt;After which, it is up to you to make changes depending on your UI.&lt;/p&gt;
+
+&lt;p&gt;Some pointers:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;For table view, don’t &lt;strong&gt;Clip to Bounds&lt;/strong&gt; (under Attributes Inspector)&lt;/li&gt;
+  &lt;li&gt;For cutom bottom tool bar, you can provide a background for the void occupied by Home Indicator&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There are more guides. &lt;a href=&quot;https://developer.apple.com/ios/update-apps-for-iphone-x/&quot;&gt;Apple official guide&lt;/a&gt;, and &lt;a href=&quot;https://useyourloaf.com/blog/supporting-iphone-x/&quot;&gt;many&lt;/a&gt; &lt;a href=&quot;https://medium.com/rosberryapps/ios-safe-area-ca10e919526f&quot;&gt;more&lt;/a&gt;. &lt;a href=&quot;https://designcode.io/ios11-iphone-x&quot;&gt;Designcode.io&lt;/a&gt; summed up well, with many valuable resources for design. &lt;a href=&quot;https://iosdesignkit.io/ios-11-gui/&quot;&gt;Sketch file&lt;/a&gt; &amp;amp; &lt;a href=&quot;http://v1.designcode.io/angle&quot;&gt;device mockups&lt;/a&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 21 Dec 2017 11:49:22 +0800</pubDate>
+        <link>http://samwize.com/2017/12/21/developer-guide-to-support-iphone-x/</link>
+        <guid isPermaLink="true">http://samwize.com/2017/12/21/developer-guide-to-support-iphone-x/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Guide to Universal Links</title>
@@ -78,7 +196,7 @@
 
 &lt;p&gt;And via HTTPS/SSL. And HTTP Content-type must be &lt;code class=&quot;highlighter-rouge&quot;&gt;application/json&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;del&gt;&lt;a href=&quot;https://search.developer.apple.com/appsearch-validation-tool&quot;&gt;Validate with Apple Bot&lt;/a&gt;, and &lt;strong&gt;Link to Application&lt;/strong&gt; should pass.&lt;/del&gt; Apple’s tool is unreliable, so instead use &lt;a href=&quot;https://limitless-sierra-4673.herokuapp.com&quot;&gt;this&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;&lt;a href=&quot;https://search.developer.apple.com/appsearch-validation-tool&quot;&gt;Validate with Apple Bot&lt;/a&gt;, and &lt;strong&gt;Link to Application&lt;/strong&gt; should pass.&lt;/del&gt; Apple’s tool is unreliable, so instead use &lt;a href=&quot;http://branch.io/resources/aasa-validator/&quot;&gt;Branch.io’s tool&lt;/a&gt;,or &lt;a href=&quot;https://limitless-sierra-4673.herokuapp.com&quot;&gt;this heroku app&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;step-3-add-entitlement-in-app&quot;&gt;Step 3. Add entitlement in app&lt;/h2&gt;
 
@@ -145,14 +263,20 @@
 
 &lt;p&gt;Afterwhich, iOS continues to open your website in Safari until the user chooses to open your app &lt;strong&gt;by tapping OPEN in the Smart App Banner&lt;/strong&gt; on the webpage. See these &lt;a href=&quot;https://stackoverflow.com/a/39694208/242682&quot;&gt;screenshots&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Another way could be by long pressing a link. This will provide 2 options:&lt;/p&gt;
+&lt;h2 id=&quot;a-big-tip&quot;&gt;A BIG Tip&lt;/h2&gt;
+
+&lt;p&gt;Another way is &lt;strong&gt;long pressing a link&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This will provide 2 options in a alert:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;Open in Safari&lt;/li&gt;
   &lt;li&gt;Open in “Your App”&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Whichever the user chooses, iOS will remember as The Choice.&lt;/p&gt;
+&lt;p&gt;If you see (2), you know your universal link integration worked.&lt;/p&gt;
+
+&lt;p&gt;And now, whichever option the user chooses, iOS will remember it as The Choice.&lt;/p&gt;
 
 &lt;h2 id=&quot;wkwebviewuiwebview&quot;&gt;WKWebView/UIWebView&lt;/h2&gt;
 
@@ -173,6 +297,8 @@
 &lt;p&gt;It could be frustrating to troubleshoot, so here is a list &lt;a href=&quot;http://building.usebutton.com/debugging/ios/deep-linking/links/universal-links/2016/03/31/debugging-universal-links/&quot;&gt;things to debug&lt;/a&gt;, more on the &lt;a href=&quot;https://sailthru.zendesk.com/hc/en-us/articles/217102466-Universal-Links-Troubleshooting-and-FAQ&quot;&gt;paths in AASA&lt;/a&gt;, the previously mentioned non-Apple &lt;a href=&quot;https://limitless-sierra-4673.herokuapp.com&quot;&gt;AASA validation tool&lt;/a&gt;, and good to know that it seems like the AASA file is fetched on the device everytime the app is &lt;a href=&quot;https://stackoverflow.com/a/35616335/242682&quot;&gt;installed/updated&lt;/a&gt;, and then cached.&lt;/p&gt;
 
 &lt;p&gt;If still didn’t work, at least know there are others who &lt;a href=&quot;https://medium.com/mobile-growth/the-things-i-hate-and-you-should-know-about-apple-universal-links-5beb15f88a29&quot;&gt;hate&lt;/a&gt; it too.&lt;/p&gt;
+
+&lt;p&gt;Try restarting your device too. It did happen to me once during development where it just won’t fetch from any of the applinks domain, until I restart my phone.&lt;/p&gt;
 </description>
         <pubDate>Fri, 10 Nov 2017 11:32:18 +0800</pubDate>
         <link>http://samwize.com/2017/11/10/guide-to-universal-links/</link>
@@ -1188,70 +1314,6 @@ UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons en
         
         
         <category>Swift</category>
-        
-      </item>
-    
-      <item>
-        <title>How to Use Git Bisect to Find the First Bad Commit</title>
-        <description>&lt;p&gt;Git has a very powerful command for developers to &lt;strong&gt;systematically find the commit&lt;/strong&gt; that introduce a bug.&lt;/p&gt;
-
-&lt;p&gt;You mark commits as &lt;code class=&quot;highlighter-rouge&quot;&gt;good&lt;/code&gt; OR &lt;code class=&quot;highlighter-rouge&quot;&gt;bad&lt;/code&gt;, and using divide-and-conquer strategy, you will find the first bad commit in a few pass (even with hundreds of commits).&lt;/p&gt;
-
-&lt;h2 id=&quot;steps&quot;&gt;Steps&lt;/h2&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 1. Mark current branch that has the bug
-git bisect bad
-
-# 2. Mark a tag that is working, or use a commit SHA directly
-git bisect good v1.2.3
-
-# 3. Git will automatically checkout the commit between the good and bad
-#    You will have to identify if that commit is good or bad, and mark with 
-git bisect bad
-# OR
-git bisect good
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Eventually, you will find the first bad commit.&lt;/p&gt;
-
-&lt;p&gt;You can return to your previous branch with &lt;code class=&quot;highlighter-rouge&quot;&gt;git bisect reset&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;For more features, refer to &lt;a href=&quot;https://git-scm.com/docs/git-bisect/&quot;&gt;git-scm doc&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-if-you-are-looking-for-the-first-change&quot;&gt;What if you are looking for the first change?&lt;/h2&gt;
-
-&lt;p&gt;Sometimes, you are not finding the first commit that is &lt;strong&gt;bad&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Rather, you want to find the first commit that has &lt;strong&gt;new changes&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Since Git v2.7.0, they introduced &lt;code class=&quot;highlighter-rouge&quot;&gt;new&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;bad&lt;/code&gt; as new terms. If you want to use your own terms, or if you are using older version of git, you can define your terms.&lt;/p&gt;
-
-&lt;p&gt;Example to have  &lt;code class=&quot;highlighter-rouge&quot;&gt;fixed&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;unfixed&lt;/code&gt;,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git bisect start --term-new=fixed --term-old=unfixed
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Then mark with,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git bisect fixed
-git bisect unfixed
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;what-is-the-very-first-commit-sha&quot;&gt;What is the very first commit SHA?&lt;/h2&gt;
-
-&lt;p&gt;The “Initial Commit” SHA can be retrieved with:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git rev-list --max-parents=0 HEAD&lt;/code&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 27 Jul 2017 10:47:55 +0800</pubDate>
-        <link>http://samwize.com/2017/07/27/how-to-use-git-bisect-to-find-the-first-bad-commit/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/07/27/how-to-use-git-bisect-to-find-the-first-bad-commit/</guid>
-        
-        
-        <category>Git</category>
         
       </item>
     

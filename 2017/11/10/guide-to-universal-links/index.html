@@ -138,7 +138,7 @@
 
 <p>And via HTTPS/SSL. And HTTP Content-type must be <code class="highlighter-rouge">application/json</code>.</p>
 
-<p><del><a href="https://search.developer.apple.com/appsearch-validation-tool">Validate with Apple Bot</a>, and <strong>Link to Application</strong> should pass.</del> Apple’s tool is unreliable, so instead use <a href="https://limitless-sierra-4673.herokuapp.com">this</a>.</p>
+<p><del><a href="https://search.developer.apple.com/appsearch-validation-tool">Validate with Apple Bot</a>, and <strong>Link to Application</strong> should pass.</del> Apple’s tool is unreliable, so instead use <a href="http://branch.io/resources/aasa-validator/">Branch.io’s tool</a>,or <a href="https://limitless-sierra-4673.herokuapp.com">this heroku app</a>.</p>
 
 <h2 id="step-3-add-entitlement-in-app">Step 3. Add entitlement in app</h2>
 
@@ -205,14 +205,20 @@
 
 <p>Afterwhich, iOS continues to open your website in Safari until the user chooses to open your app <strong>by tapping OPEN in the Smart App Banner</strong> on the webpage. See these <a href="https://stackoverflow.com/a/39694208/242682">screenshots</a>.</p>
 
-<p>Another way could be by long pressing a link. This will provide 2 options:</p>
+<h2 id="a-big-tip">A BIG Tip</h2>
+
+<p>Another way is <strong>long pressing a link</strong>.</p>
+
+<p>This will provide 2 options in a alert:</p>
 
 <ol>
   <li>Open in Safari</li>
   <li>Open in “Your App”</li>
 </ol>
 
-<p>Whichever the user chooses, iOS will remember as The Choice.</p>
+<p>If you see (2), you know your universal link integration worked.</p>
+
+<p>And now, whichever option the user chooses, iOS will remember it as The Choice.</p>
 
 <h2 id="wkwebviewuiwebview">WKWebView/UIWebView</h2>
 
@@ -233,6 +239,8 @@
 <p>It could be frustrating to troubleshoot, so here is a list <a href="http://building.usebutton.com/debugging/ios/deep-linking/links/universal-links/2016/03/31/debugging-universal-links/">things to debug</a>, more on the <a href="https://sailthru.zendesk.com/hc/en-us/articles/217102466-Universal-Links-Troubleshooting-and-FAQ">paths in AASA</a>, the previously mentioned non-Apple <a href="https://limitless-sierra-4673.herokuapp.com">AASA validation tool</a>, and good to know that it seems like the AASA file is fetched on the device everytime the app is <a href="https://stackoverflow.com/a/35616335/242682">installed/updated</a>, and then cached.</p>
 
 <p>If still didn’t work, at least know there are others who <a href="https://medium.com/mobile-growth/the-things-i-hate-and-you-should-know-about-apple-universal-links-5beb15f88a29">hate</a> it too.</p>
+
+<p>Try restarting your device too. It did happen to me once during development where it just won’t fetch from any of the applinks domain, until I restart my phone.</p>
 
         </section>
         <footer class="post-footer">
