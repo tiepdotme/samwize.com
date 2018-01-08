@@ -52,8 +52,12 @@ The `hls-live-edge` [option](http://docs.livestreamer.io/cli.html#cmdoption--hls
 
     curl -o myfile.mp3 https://the.domain.com/file
 
+## Rename multiple files in a directory
+
+    # Add a prefix "XXX_" to every file
+    for f in * ; do mv "$f" "XXX_$f" ; done
+
 ## Search/grep
 
     # Find recursively in the directory for the string 'needle'
     grep -R 'needle' path/to/dir/
-    
