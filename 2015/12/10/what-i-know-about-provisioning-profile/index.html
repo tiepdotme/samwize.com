@@ -127,6 +127,64 @@ sigh --development
   <p>Because you would rather spend your time building stuff than fighting provisioning</p>
 </blockquote>
 
+<h2 id="project-schemes--configurations">Project Schemes &amp; Configurations</h2>
+
+<p>Your project should have 2 configurations (by default). Go to Project &gt; Info &gt; Configurations:</p>
+
+<ol>
+  <li>Debug</li>
+  <li>Release</li>
+</ol>
+
+<p>Configurations are basically for different build settings, etc.</p>
+
+<p>By default, Xcode will enable “Automatically manage signing”. My preference is to use Fastlane match, disable this setting, and manually select the match’s provisioning profiles:</p>
+
+<ol>
+  <li>Signing (Debug) – “match Development com.just2us.myproject”</li>
+  <li>Signing (Release) – “match AppStore com.just2us.myproject”</li>
+</ol>
+
+<p>By default, your project has 1 scheme. Edit Scheme, and you should see:</p>
+
+<ul>
+  <li>Under Run, Build Configuration is “Debug”, therefore signs with development provisioning profile.</li>
+  <li>Under Archive, Build Configuration is “Release”, therefore signs with distribution provisioning profile.</li>
+</ul>
+
+<p>But after you archive, you may still re-sign with another provisioning profile eg. Ad Hoc!</p>
+
+<p><img src="https://developer.apple.com/library/content/documentation/IDEs/Conceptual/AppDistributionGuide/Art/6_ios_createappstorepackage_1_2x.png" alt="Exporting an archive" /></p>
+
+<h2 id="fastlane-gym">Fastlane gym</h2>
+
+<p>Fastlane gym makes building a Xcode project easy. You could provide options to manually select the provisioning profiles and the export method.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">gym</span><span class="p">(</span>
+  <span class="ss">workspace: </span><span class="s2">"MyProject.xcworkspace"</span><span class="p">,</span>
+  <span class="ss">scheme: </span><span class="s2">"MyProject"</span><span class="p">,</span>
+  <span class="ss">export_options: </span><span class="p">{</span>
+    <span class="ss">provisioningProfiles: </span><span class="p">{</span> 
+      <span class="s2">"com.just2us.myproject"" =&gt; "</span><span class="n">match</span> <span class="no">AdHoc</span> <span class="n">com</span><span class="p">.</span><span class="nf">just2us</span><span class="p">.</span><span class="nf">myproject</span><span class="s2">""</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="ss">skip_profile_detection: </span><span class="kp">true</span><span class="p">,</span>
+  <span class="ss">export_method: </span><span class="s1">'ad-hoc'</span>
+<span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Though using Fastlane match, it should be able to auto detect, but you need to add a <strong>new</strong> project configuration – I call mine “Staging” – and select the provisioning profile for <strong>Signing (Staging)</strong> respectively, then gym with the new configuration like this:</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">gym</span><span class="p">(</span>
+  <span class="ss">workspace: </span><span class="s2">"MyProject.xcworkspace"</span><span class="p">,</span>
+  <span class="ss">scheme: </span><span class="s2">"MyProject"</span><span class="p">,</span>
+  <span class="ss">configuration: </span><span class="s2">"Staging"</span><span class="p">,</span>
+  <span class="ss">export_method: </span><span class="s1">'ad-hoc'</span>
+<span class="p">)</span>
+</code></pre>
+</div>
+
         </section>
         <footer class="post-footer">
           <section class="share">

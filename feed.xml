@@ -6,9 +6,107 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 08 Jan 2018 16:20:15 +0800</pubDate>
-    <lastBuildDate>Mon, 08 Jan 2018 16:20:15 +0800</lastBuildDate>
+    <pubDate>Wed, 10 Jan 2018 12:35:50 +0800</pubDate>
+    <lastBuildDate>Wed, 10 Jan 2018 12:35:50 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>UI Testing With BrowserStack Cloud Devices</title>
+        <description>&lt;p&gt;This guide is on using BrowserStack to run UI Tests on cloud devices.&lt;/p&gt;
+
+&lt;p&gt;I don’t recommend using BrowserStack, unless you need:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;UI Testing with cloud devices&lt;/li&gt;
+  &lt;li&gt;Want the same stack for testing across all platforms (Android, iOS, Web)&lt;/li&gt;
+  &lt;li&gt;Probably a dedicated QA engineer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;if-you-are-an-indie&quot;&gt;If you are an indie..&lt;/h2&gt;
+
+&lt;p&gt;If you don’t need all of the above, and is just an indie, focusing on iOS, then keep it simple.&lt;/p&gt;
+
+&lt;p&gt;For UI Testing, use &lt;code class=&quot;highlighter-rouge&quot;&gt;XCUITest&lt;/code&gt; framework and add test cases to the project in Xcode. Make use of the UI recorder.&lt;/p&gt;
+
+&lt;p&gt;Run on as many simulators.&lt;/p&gt;
+
+&lt;p&gt;Integrate to your CI tool eg. travis.&lt;/p&gt;
+
+&lt;h2 id=&quot;ok-so-you-want-browserstack&quot;&gt;Ok, so you want BrowserStack..&lt;/h2&gt;
+
+&lt;p&gt;But if you are still here, ok, I have &lt;em&gt;some guide&lt;/em&gt; for you, because the ecosystem is just too complicated. Many things are never explained.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.browserstack.com/app-automate/appium-webdriverio#integration-with-browserstack&quot;&gt;BrowserStack documentation&lt;/a&gt; is terrible. They will guide you on how to set up with Appium, that’s all.&lt;/p&gt;
+
+&lt;p&gt;BrowserStack main contribution is their cloud devices, aka the &lt;a href=&quot;https://www.browserstack.com/app-automate/capabilities&quot;&gt;capabilities&lt;/a&gt; you can use.&lt;/p&gt;
+
+&lt;h2 id=&quot;its-all-about-appium&quot;&gt;It’s all about Appium&lt;/h2&gt;
+
+&lt;p&gt;You need to &lt;a href=&quot;http://appium.io/docs/en/about-appium/intro/?lang=en&quot;&gt;understand Appium&lt;/a&gt;, know the goals, and how they achieve it.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;You test on the same compiled app you ship to App Store&lt;/li&gt;
+  &lt;li&gt;Appium use vendor supplied framework eg XCUITest under the hood&lt;/li&gt;
+  &lt;li&gt;WebDriver API wraps the hood, providing a REST + JSON API to drive the tests&lt;/li&gt;
+  &lt;li&gt;WebDriver is the same protocol as Selenium&lt;/li&gt;
+  &lt;li&gt;Extend WebDriver for mobile automation&lt;/li&gt;
+  &lt;li&gt;Appium is open source&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Appium has a &lt;strong&gt;server-client architecture&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;BrowserStack simply runs the server part.&lt;/p&gt;
+
+&lt;h2 id=&quot;webdriverio-as-client&quot;&gt;WebDriver.io as client&lt;/h2&gt;
+
+&lt;p&gt;You need to use a client and write the tests, and WebDriver.io is one such client. There are &lt;a href=&quot;https://github.com/webdriverio/webdriverio/issues/138&quot;&gt;others&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s look at the JS code that uses webdriver.&lt;/p&gt;
+
+&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;it&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;should show do something&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;browser&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;waitForVisible&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;//XCUIElementTypeOther[@name=&quot;container-foo&quot;]/XCUIElementTypeCollectionView/XCUIElementTypeCell[1]/&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;visible&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;visible&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;~some-accessibility-id&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Each of the API called from &lt;code class=&quot;highlighter-rouge&quot;&gt;browser&lt;/code&gt; is &lt;a href=&quot;http://webdriver.io/api.html&quot;&gt;WebDriver’s API&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;selector&quot;&gt;Selector&lt;/h2&gt;
+
+&lt;p&gt;In the code, we illustrated 2 ways you can refer to UI elements.&lt;/p&gt;
+
+&lt;p&gt;Using &lt;strong&gt;accessibility identifer&lt;/strong&gt; such as &lt;code class=&quot;highlighter-rouge&quot;&gt;~some-accessibility-id&lt;/code&gt; is the preferred way.&lt;/p&gt;
+
+&lt;p&gt;Because &lt;strong&gt;Xpath&lt;/strong&gt; is not stable on Appium!&lt;/p&gt;
+
+&lt;p&gt;Note: Don’t use the &lt;a href=&quot;https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/migrating-to-xcuitest.md&quot;&gt;old UIAutomation framework selector&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;appium-inspector&quot;&gt;Appium Inspector&lt;/h2&gt;
+
+&lt;p&gt;You can easily find the Xpath by using the &lt;a href=&quot;https://github.com/appium/appium-desktop&quot;&gt;Appium Desktop Inspector app&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Start Server&lt;/li&gt;
+  &lt;li&gt;Start Inspector Session&lt;/li&gt;
+  &lt;li&gt;Create and save a capability&lt;/li&gt;
+  &lt;li&gt;One of the capability you must add is &lt;code class=&quot;highlighter-rouge&quot;&gt;app&lt;/code&gt; which points to your IPA file eg &lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/junda/Library/Developer/Xcode/DerivedData/MyApp-avrefqcpyqccstgkxgaottezlrvt/Build/Products/Debug-iphonesimulator/MyAPp.app&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Start Session&lt;/li&gt;
+  &lt;li&gt;Xcode simulator will run and you can inspect!&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Tue, 09 Jan 2018 16:53:56 +0800</pubDate>
+        <link>http://samwize.com/2018/01/09/ui-testing-with-browserstack-cloud-devices/</link>
+        <guid isPermaLink="true">http://samwize.com/2018/01/09/ui-testing-with-browserstack-cloud-devices/</guid>
+        
+        
+        <category>Testing</category>
+        
+      </item>
     
       <item>
         <title>Developer Guide to Support iPhone X</title>
@@ -1227,93 +1325,6 @@ UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons en
         <category>Rant</category>
         
         <category>API</category>
-        
-      </item>
-    
-      <item>
-        <title>WWDC 2017 - What&#39;s New in Foundation</title>
-        <description>&lt;p&gt;Summary of what’s new in Foundation, Swift 4, from &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2017/212/&quot;&gt;session 212&lt;/a&gt;. &lt;em&gt;Tip: You can download WWDC videos easily with &lt;a href=&quot;https://github.com/samwize/wwdc-dl&quot;&gt;wwdc-dl&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;key-paths&quot;&gt;Key Paths&lt;/h2&gt;
-
-&lt;p&gt;Apple calls it Smart, because it is statically safe, and fast.&lt;/p&gt;
-
-&lt;p&gt;It is built into Swift language, with a single &lt;code class=&quot;highlighter-rouge&quot;&gt;\&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-keypath.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// To get via keypath&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ben&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Kid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// To set via keypaht&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;ben&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;keyPath&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Kid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nickname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Ben&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;appending-key-paths&quot;&gt;Appending Key Paths&lt;/h2&gt;
-
-&lt;p&gt;You can append key path, provided the type you “chain” is the same.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-keypath-appending.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;So if you append, the final keypath is simply of type &lt;code class=&quot;highlighter-rouge&quot;&gt;Keypath&amp;lt;BirthdayParty, Double&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;There are more keypath types.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-keypath-more.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;key-value-observation&quot;&gt;Key-Value Observation&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-keypath-kvo.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// To use&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;observation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mia&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;observe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;observed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;change&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// observed is the updated &quot;mia&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;codablejson&quot;&gt;Codable/JSON&lt;/h2&gt;
-
-&lt;p&gt;Swift also finally recognize the importance of JSON.&lt;/p&gt;
-
-&lt;p&gt;You simply add the trait protocol &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; to your model, and it will work (because of &lt;a href=&quot;http://samwize.com/2016/10/24/swift-protocol-development-guide/&quot;&gt;default protocol extension&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/wwdc-foundation-codable.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;If you want to customize the key names, you can simply add your own &lt;code class=&quot;highlighter-rouge&quot;&gt;CodingKeys&lt;/code&gt; as an enum in your model. See how the camel case “comment_count” is customized:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CodingKeys&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CodingKey&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;commentCount&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;comment_count&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Ok, actually &lt;code class=&quot;highlighter-rouge&quot;&gt;Codable&lt;/code&gt; is not only for JSON data, but for &lt;a href=&quot;https://developer.apple.com/documentation/foundation/archives_and_serialization&quot;&gt;other formats&lt;/a&gt; like Property List too. There is &lt;code class=&quot;highlighter-rouge&quot;&gt;JSONDecoder&lt;/code&gt;, and also &lt;code class=&quot;highlighter-rouge&quot;&gt;PropertyListDecoder&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;what-else-&quot;&gt;What Else ?&lt;/h2&gt;
-
-&lt;p&gt;There is &lt;a href=&quot;https://www.raywenderlich.com/163857/whats-new-swift-4&quot;&gt;more&lt;/a&gt; in Swift 4, some small, some advanced API. Many were not touched in session 212.&lt;/p&gt;
-
-&lt;p&gt;Not going to cover all, but here are some teasers:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;String is now a Collection&lt;/li&gt;
-  &lt;li&gt;Multi-line string with &lt;code class=&quot;highlighter-rouge&quot;&gt;&quot;&quot;&quot;&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Collection has more API such as &lt;code class=&quot;highlighter-rouge&quot;&gt;mapValues&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;MutableCollection.swapAt(_:_:)&lt;/code&gt;, default Dictionary value&lt;/li&gt;
-  &lt;li&gt;Infer one-sided range eg. infer start and end index&lt;/li&gt;
-  &lt;li&gt;Generic subscript&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fileprivate&lt;/code&gt; &lt;a href=&quot;/2017/04/20/access-levels-in-swift/&quot;&gt;access level&lt;/a&gt; for extension across files&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;/2017/09/20/migrating-to-swift-4-and-xcode-9/&quot;&gt;No more&lt;/a&gt; @objc inference&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Thu, 03 Aug 2017 16:17:08 +0800</pubDate>
-        <link>http://samwize.com/2017/08/03/wwdc-2017-whats-new-in-foundation/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/08/03/wwdc-2017-whats-new-in-foundation/</guid>
-        
-        
-        <category>Swift</category>
         
       </item>
     
