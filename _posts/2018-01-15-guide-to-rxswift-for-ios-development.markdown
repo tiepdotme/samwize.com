@@ -3,6 +3,7 @@ layout: post
 title: "Guide to RxSwift for iOS Development"
 date: 2018-01-15T11:16:05+08:00
 categories: [rx, iOS]
+published: false
 ---
 
 [RxSwift](https://github.com/ReactiveX/RxSwift), the gem from ReactiveX community (providing also familiar RxJava, RxEtc).
@@ -27,7 +28,7 @@ There are 3 types of events: `next` with the next data, `completed` and `error`.
 
 ## 2. Operators
 
-`Observable`'s methods are called [operators](http://reactivex.io/documentation/operators.html). 
+`Observable`'s methods are called [operators](http://reactivex.io/documentation/operators.html).
 
 There are hundreds of operators, but probably just a handful that you will be using. It is like a toolbox with hundreds of tool, some you use more than others.
 
@@ -45,7 +46,7 @@ There are hundreds of operators, but probably just a handful that you will be us
 - Transformation
 - Mathematical Transformation
 - Combining
-- Conditional 
+- Conditional
 - Utility
   - `share` - does not emit old events
   - `shareReplay` - keeps a buffer of last items and replay them
@@ -79,7 +80,7 @@ During development and learning, you will want to use the `debug` operator, whic
 Does 2 operations:
 
 1. For each emitted item, apply a function and returns an `Observable` (instead of transform to an item like in `map`)
-2. Merge the `Observable`s 
+2. Merge the `Observable`s
 
 Note that the merge could overlap. Use `concatMap` to have strict ordering. `flatMap` is aka `mergeMap`.
 
@@ -120,7 +121,7 @@ To ensure your `Observable` won't fail, you can use `catchErrorJustReturn(valueT
 
 ## 6. MVVM & in Practice
 
-Firstly, Rx can be used with _any architecture_, be it MVC or MVP. 
+Firstly, Rx can be used with _any architecture_, be it MVC or MVP.
 
 But we will highlight for MVVM here, because MVVM plays nice with Rx. In esscense, View Model expose `Observable`, which can can bind to the views in View Controller.
 
@@ -137,7 +138,7 @@ Both an Observable and Observer.
 
 1. `PublishSubject` - observers get only new events
 2. `BehaviorSubject` - observers get the last event (buffer of 1) and new events
-3. `ReplaySubject` - has a buffer to replay 
+3. `ReplaySubject` - has a buffer to replay
 4. `Variable` - has a `current`, never emit errors, but will emit completed
 
 But [Variable is deprecated](https://github.com/ReactiveX/RxSwift/issues/1501).
@@ -146,9 +147,9 @@ But [Variable is deprecated](https://github.com/ReactiveX/RxSwift/issues/1501).
 
 ??
 
-### Functional? 
+### Functional?
 
-RxSwift is in between imperative and functional. It declares the behaviour imperatively, then 
+RxSwift is in between imperative and functional. It declares the behaviour imperatively, then
 
 ### How to write good reactive code
 
