@@ -6,9 +6,124 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 10 Jan 2018 12:35:50 +0800</pubDate>
-    <lastBuildDate>Wed, 10 Jan 2018 12:35:50 +0800</lastBuildDate>
+    <pubDate>Tue, 23 Jan 2018 23:33:19 +0800</pubDate>
+    <lastBuildDate>Tue, 23 Jan 2018 23:33:19 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Localization - Fallback to Base Language</title>
+        <description>&lt;p&gt;This post explains how iOS determines the language to use in an app, and how Apple fallback to the next-best default language when necessary.&lt;/p&gt;
+
+&lt;p&gt;Throughout this post, we use the example where &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; (English) is the developmen and base language, while &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt; (Chinese) is an additional supported language.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# en Localizable.strings
+&quot;awesome-title&quot; = &quot;Hello World&quot;;
+&quot;another-title&quot; = &quot;Localization Rocks&quot;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# zh-Hans Localizable.strings
+&quot;awesome-title&quot; = &quot;你好&quot;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Deliberately, the &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt; strings file is 50% localized (&lt;code class=&quot;highlighter-rouge&quot;&gt;another-title&lt;/code&gt; is not translated).&lt;/p&gt;
+
+&lt;h2 id=&quot;how-apple-determines-the-langauge&quot;&gt;How Apple determines the langauge&lt;/h2&gt;
+
+&lt;p&gt;Apple &lt;a href=&quot;https://developer.apple.com/library/content/qa/qa1828/_index.html&quot;&gt;explains the process&lt;/a&gt;. Here is the “alogrithm” in pseudocode:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;func determineTheLanguageToUse():
+  for each user&#39;s preferredLanguages
+    if app supports the language
+      return the language
+    if app supports a more generic dialect
+      return the generic language
+
+  # Exhausted preferredLanguages and still cannot determine..
+  return CFBundleDevelopmentRegion
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;User’s &lt;code class=&quot;highlighter-rouge&quot;&gt;preferredLanguages&lt;/code&gt; is those listed in &lt;strong&gt;Settings App &amp;gt; General &amp;gt; Language &amp;amp; Region&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;The algo starts with the most preferred language, checks if the app supports it (or a more generic dialect), before finally using &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleDevelopmentRegion&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;There are different cases of fallback. Let’s look at them in detail.&lt;/p&gt;
+
+&lt;h2 id=&quot;fallback-1-generic-dialect&quot;&gt;Fallback 1: Generic Dialect&lt;/h2&gt;
+
+&lt;p&gt;In the algo, iOS will check if there is a more generic dialect for the preferred language, and if so return that.&lt;/p&gt;
+
+&lt;p&gt;What is a &lt;strong&gt;more generic dialect&lt;/strong&gt;? &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; is more generic than &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; (British English). In our example, if user prefers &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt;, then &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; will be used.&lt;/p&gt;
+
+&lt;p&gt;This is because the app does NOT have &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt;, but &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; is good enough.&lt;/p&gt;
+
+&lt;p&gt;The other way round is not true. If the app supports &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; (and not &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt;), then if user prefers &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt;, then &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; will not be the fallback – because &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; is &lt;em&gt;not&lt;/em&gt; more generic.&lt;/p&gt;
+
+&lt;h2 id=&quot;fallback-2-unsupported-language&quot;&gt;Fallback 2: Unsupported Language&lt;/h2&gt;
+
+&lt;p&gt;An unsupported language is when all &lt;code class=&quot;highlighter-rouge&quot;&gt;preferredLanguages&lt;/code&gt; is exhausted, and the app does not have a suitable language to use.&lt;/p&gt;
+
+&lt;p&gt;For example if a user prefers &lt;code class=&quot;highlighter-rouge&quot;&gt;ms&lt;/code&gt; (Malay), but which the app does not support at all, then the language specified in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleDevelopmentRegion&lt;/code&gt; of the Info.plist will be used. This is aka the &lt;strong&gt;localization native development region&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is a very common case. When we lanuch an app, we probably support only a few languages, or just one!&lt;/p&gt;
+
+&lt;h2 id=&quot;fallback-3-unsupported-phrase&quot;&gt;Fallback 3: Unsupported Phrase&lt;/h2&gt;
+
+&lt;p&gt;This is an obscure case, and is not mention in Apple’s documentation, nor in the alogrithm.&lt;/p&gt;
+
+&lt;p&gt;Let’s take the example where a user prefers &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;What happens when iOS try to get the &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt; of “another-title”?&lt;/p&gt;
+
+&lt;p&gt;Remember, &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt; is not fully translated. It does not have “another-title”. What do you think will happen?&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Fallback to development language &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; or&lt;/li&gt;
+  &lt;li&gt;Return “another-title”&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Many developers think it is (1). Unfortunately, it is (2), with that ugly key name!&lt;/p&gt;
+
+&lt;p&gt;If you refer to the &lt;code class=&quot;highlighter-rouge&quot;&gt;determineTheLanguageToUse&lt;/code&gt; algo, the language to use is still &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt;, regardless that it is incomplete. It can’t find “another-title”, so it just return the key as value..&lt;/p&gt;
+
+&lt;p&gt;iOS should really improve on this fallback behaviour.. for now, we need some custom code.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-fallback-code&quot;&gt;The Fallback Code&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LS&lt;/code&gt; is a global function to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt;. It is a shorthand, with added fallback capability:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSLocalizedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSLocale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preferredLanguages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// Fall back to en&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;forResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ofType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;lproj&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSLocalizedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When a phrase is not yet translated, it will be &lt;code class=&quot;highlighter-rouge&quot;&gt;value == key&lt;/code&gt;, which is dumb, so we fall back to using &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The rest of the code is simply geting &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt; from the en bundle.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 23 Jan 2018 15:49:41 +0800</pubDate>
+        <link>http://samwize.com/2018/01/23/localization-fall-back-to-base-language/</link>
+        <guid isPermaLink="true">http://samwize.com/2018/01/23/localization-fall-back-to-base-language/</guid>
+        
+        
+        <category>Localization</category>
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>UI Testing With BrowserStack Cloud Devices</title>
@@ -1229,102 +1344,6 @@ UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons en
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>How Oracle screwed me for 2 months with an UNDERSCORE</title>
-        <description>&lt;p&gt;&lt;em&gt;tldr; I was integrating Oracle’s mobile push SDK and was stuck for 2 months. Turned out they have an embarassing bug involving an underscore! Oracle’s Responsys/PushIO proved right – enterprise product sucks.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;This post is my rant on how bad Oracle’s product is.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-ridiculous-bug&quot;&gt;The ridiculous bug&lt;/h2&gt;
-
-&lt;p&gt;I spent 2 months to figure out why our iOS app did not display rich message pushed from Oracle’s platform. It boils down to an UNDERSCORE.&lt;/p&gt;
-
-&lt;p&gt;Yes, freaking &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt;, generated in their API key is the reason why our app didn’t work.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/pushio-ridiculous-bug.jpg&quot; alt=&quot;&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;From Oracle’s developer support:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The bug is that your API key was generated with an underscore “_” and that is an invalid character for how the API key is used downstream.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The fix should be pretty straighforward… create a new platform until you get one without underscores in the API key.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Wow.&lt;/p&gt;
-
-&lt;p&gt;It is an embarassing bug, but what appal me more is how they deal with it.&lt;/p&gt;
-
-&lt;h2 id=&quot;a-major-bug&quot;&gt;A major bug&lt;/h2&gt;
-
-&lt;p&gt;Firstly, the bug affects majority of their users, since I took 3 tries, before getting a “valid” one.&lt;/p&gt;
-
-&lt;p&gt;I estimate &lt;strong&gt;66% of users&lt;/strong&gt; could have generated “invalid” keys.&lt;/p&gt;
-
-&lt;p&gt;The bug has big impact. All rich push messages will NOT be displayed in the app!&lt;/p&gt;
-
-&lt;h2 id=&quot;not-fixing-their-sdk-quickly&quot;&gt;Not fixing their SDK quickly&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/pushio/PushIOManager_iOS/tags&quot;&gt;PushIO last release&lt;/a&gt; of their SDK is 16 Jun 2017, that is 2 months ago as of writing.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;I give them the benefit of doubt, as I assume the bug only appear in that release, though I do believe the bug happens way before version 6.32.1.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;The point is, a major bug should be fixed quickly. But Oracle did not.&lt;/p&gt;
-
-&lt;p&gt;Not to mention this should be an easy fix. They could fix their API key generator, probably in a few lines of code. Somehow Oracle choose not to.&lt;/p&gt;
-
-&lt;h2 id=&quot;lack-of-knowledge-on-the-issue&quot;&gt;Lack of knowledge on the issue&lt;/h2&gt;
-
-&lt;p&gt;Our account manager and a couple of customer support officers did not know about the embarassing &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt; issue, until it escalated to their developer.&lt;/p&gt;
-
-&lt;p&gt;It could mean:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;They don’t have many users and this issue never came up&lt;/li&gt;
-  &lt;li&gt;They have a problem with communicating and sharing of such knowledge&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Either way, as a user, I am less confident with Oracle.&lt;/p&gt;
-
-&lt;h2 id=&quot;we-took-2-long-months&quot;&gt;We took 2 long months&lt;/h2&gt;
-
-&lt;p&gt;Why so long?&lt;/p&gt;
-
-&lt;p&gt;While trying to investigate the issue and isolate the problem, I asked a simple quesion: &lt;em&gt;&lt;strong&gt;Is there an iOS sample code?&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Replies from “enterprise support” ain’t lightning fast.&lt;/p&gt;
-
-&lt;p&gt;It took 2 weeks, before they finally have an answer – no, they don’t. Again, it reveals a lack of knowledgebase to such FAQ.&lt;/p&gt;
-
-&lt;p&gt;Investigating why our push failed is tedious and slow, because I have to &lt;strong&gt;wait till the next day&lt;/strong&gt; to check the logs from an &lt;strong&gt;FTP server&lt;/strong&gt;. It feels so 1990s.&lt;/p&gt;
-
-&lt;h2 id=&quot;a-problem-with-the-enterprise-suite-of-products&quot;&gt;A problem with the enterprise suite of products&lt;/h2&gt;
-
-&lt;p&gt;Responsys is an enterprise email marketing tool – a slow and complicated web app. &lt;a href=&quot;https://mailchimp.com&quot;&gt;Mail Chimp&lt;/a&gt; on the other hand, a rival, is cool and user friendly.&lt;/p&gt;
-
-&lt;p&gt;PushIO is a mobile push SDK, in a very crowded space since 2009, when Apple revolutionized push. It’s better rivals include &lt;a href=&quot;https://www.urbanairship.com&quot;&gt;Urban Airship&lt;/a&gt; and &lt;a href=&quot;https://onesignal.com/&quot;&gt;OneSignal&lt;/a&gt; (free!).&lt;/p&gt;
-
-&lt;p&gt;In 2014, Oracle &lt;em&gt;eat&lt;/em&gt; Responsys, who in turn &lt;em&gt;eat&lt;/em&gt; PushIO – a in &lt;a href=&quot;https://www.bizjournals.com/denver/blog/boosters_bits/2014/01/repsonsys-buys-push-io-before-being.html&quot;&gt;&lt;strong&gt;$1.5 billion acquisition&lt;/strong&gt;&lt;/a&gt;!&lt;/p&gt;
-
-&lt;p&gt;When a large corporation acquires a team and it’s product, it is the &lt;strong&gt;start of a downfall&lt;/strong&gt;. This case is messier since a fat clumpsy fish eat a fish which eat another small fish.&lt;/p&gt;
-
-&lt;p&gt;The small fish (PushIO) probably died tragically.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/pushio-big-fish-eat-little-fish.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sun, 06 Aug 2017 00:25:18 +0800</pubDate>
-        <link>http://samwize.com/2017/08/06/how-oracle-screwed-me-with-an-underscore/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/08/06/how-oracle-screwed-me-with-an-underscore/</guid>
-        
-        
-        <category>Rant</category>
-        
-        <category>API</category>
         
       </item>
     
