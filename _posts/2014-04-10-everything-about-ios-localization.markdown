@@ -144,3 +144,7 @@ But if you still want to, you can use the [REST API](https://developers.google.c
 Or use [poeditor](https://poeditor.com) which comes with free 10,000 character.
 
 Or manually use the [Google Translate web](http://translate.google.com) for free.
+
+## Fallback to base language
+
+Sometimes, you have incomplete translation, and would need the app to fallback to the base language. For that to happen, read this.
