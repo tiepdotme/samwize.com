@@ -147,4 +147,4 @@ Or manually use the [Google Translate web](http://translate.google.com) for free
 
 ## Fallback to base language
 
-Sometimes, you have incomplete translation, and would need the app to fallback to the base language. For that to happen, read this.
+Sometimes, you have incomplete translation, and would need the app to fallback to the base language. Read [this](/2018/01/23/localization-fall-back-to-base-language/).
