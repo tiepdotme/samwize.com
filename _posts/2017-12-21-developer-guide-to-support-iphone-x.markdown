@@ -35,6 +35,10 @@ override func prefersHomeIndicatorAutoHidden() -> Bool {
 }
 ```
 
+But [note](https://medium.com/the-traveled-ios-developers-guide/iphone-x-dealing-with-home-indicator-2e8e47f5647f) the comment in the doc:
+
+> The system takes your preference into account, but returning YES is not a guarantee that an indicator will be hidden.
+
 ## Nav bar
 
 iOS automatically fills a nav bar background for the extra space at the top.

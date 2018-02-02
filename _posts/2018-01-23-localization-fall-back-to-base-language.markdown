@@ -104,3 +104,7 @@ public func LS(_ key: String) -> String {
 When a phrase is not yet translated, it will be `value == key`, which is dumb, so we fall back to using `en`.
 
 The rest of the code is simply geting `NSLocalizedString` from the en bundle.
+
+## More Resourses
+
+Apple's [Technical Note on language identifiers](https://developer.apple.com/library/content/technotes/tn2418/_index.html)
