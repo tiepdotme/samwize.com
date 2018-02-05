@@ -33,7 +33,7 @@ init(viewModel: MyViewModel, someDependency: SomeDependency, ...) {
 }
 ```
 
-You may setup lightweight initialization in `init`, but you should never setup your views (see later where to do that). 
+You may setup lightweight initialization in `init`, but you should never setup your views (read on where to do that later). 
 
 ## No Need for `init(coder:)`
 
@@ -55,7 +55,15 @@ If your view is then asked to appear again, it needs to re-loaded.
 
 `viewDidLoad` is where you should create your view, or more specifically, create all your subviews in `self.view`.
 
-I break the creation of views into 2 stages, in 2 `private func`.
+I break the creation of views into 2 stages, in 2 `private func`s.
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    setupViews()
+    bindViews()
+}
+```
 
 ### 1. `setupViews()`
 
@@ -86,15 +94,28 @@ This is equivalent to how you configure a view in Storyboard, but in code, and w
 
 ### 2. `bindViews()`
 
-The stage of a view creation is to bind the views with the model. It set the actual content of the views.
+This 2nd stage is to bind the views with the model. It sets the actual content of the views.
 
-Note that we are "binding" without using any frameworks (such as RxSwift).
+In a very simple example, we set the transparency level `subview1.alpha` with a view model.
 
 ```swift
 private func bindViews() {
+    subview1.alpha = viewModel.alpha
+}
 ```
 
-## Do NOT set self.view.autoconstraint
+Note that we are "binding" without using any frameworks (such as RxSwift), so this binding is one-time only. If subsequently `viewModel.alpha` is changed, the function `bindViews()` must be called again to update the view.
 
-...
+## The Reactive Way
 
+Contrast this with using [RxSwift](https://github.com/ReactiveX/RxSwift):
+
+```swift
+private func bindViews() {
+    viewModel.alpha
+        .bind(to: subview1.rx.alpha)
+        .disposed(by: disposeBag)
+}
+```
+
+Using RxSwift, `viewModel.alpha` is an observable, and whenever it observes a new value of alpha, the binding `subview1` will be updated automatically.
