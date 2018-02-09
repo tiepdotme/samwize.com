@@ -88,6 +88,21 @@ You could have other `Type`, such as `popup` with it's `Values` array.
 
 As you can imagine, you can have multiple variables to be used in the file template.
 
+## Special identifier `productName`
+
+There is a special identifier which you would want to use if you do NOT want Xcode to ask for filename(s), especially if you are creating multiple files.
+
+Add to options a `productName` identifer, with type `text`.
+
+Now, if user provide "Awesome" as the `productName`,
+
+- `___FILEBASENAME___ViewController.swift` becomes `AwesomeViewController.swift`
+- `___FILEBASENAME___ViewModel.swift` becomes `AwesomeViewModel.swift`
+- In a file, `___VARIABLE_productName:identifier___ViewModel` becomes `AwesomeViewModel` (weird macro [explained](https://help.apple.com/xcode/mac/9.0/index.html?localePath=en.lproj#/devc8a500cb9))
+- In a file, `___FILEBASENAMEASIDENTIFIER___` becomes the filename without extension eg. `AwesomeViewModel`
+
+With that, you can create multiple files easily. Even VIPER becomes less intimidating :p
+
 ## Sync to Dropbox
 
 If you are using multiple machine, you will like this tip.
@@ -102,6 +117,6 @@ For our example, it will be in `~/Dropbox/Workspace/Xcode/Templates/File Templat
 
 Then create the symbolic link:
 
-    ln -s ~/Dropbox/Workspace/Xcode/Templates ~/Library/Developer/Xcode/Templates/
+    ln -s ~/Dropbox/Workspace/Xcode/Templates ~/Library/Developer/Xcode/
 
 That's it! Remember to create the symbolic link for every machine.

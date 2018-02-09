@@ -67,8 +67,18 @@ In Swift 3, there are 5 levels.<br />
 
 I believe it is a mistake in Swift 3 to adopt [SE-0025](https://github.com/apple/swift-evolution/blob/master/proposals/0025-scoped-access-level.md). 
 
-My biggest gripe is this: I have extension X to a type T, keeping them in seperate files. If I want X to use a private member in T, it is impossible to do so with `private` or `fileprivate`. I am forced to increase the access to `internal`, which is not what I want. 
+My biggest gripe is this: I have extension X to a type T, keeping them in separate files. If I want X to use a private member in T, it is impossible to do so with `private` or `fileprivate`. I am forced to increase the access to `internal`, which is not what I want. 
 
 There is no way to have type level private. The current `private` is local scope private, and `fileprivate` is a [weird brother](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034903.html) that extends to within that file.
 
 After Swift 3 was introduced, there is proposal [SE-0159](https://github.com/apple/swift-evolution/blob/master/proposals/0159-fix-private-access-levels.md) to fix the mistake, but was [rejected](https://lists.swift.org/pipermail/swift-evolution/Week-of-Mon-20170403/034902.html). Clearly the core team acknowledged the shortcoming, but instead of changing the keywords again, they will likely introduce a "Type-based" `private` access in Swift 4.
+
+## _UPDATED: New in Swift 4_
+
+Unsurprisingly, Swift 4 [improved](https://github.com/apple/swift-evolution/blob/master/proposals/0169-improve-interaction-between-private-declarations-and-extensions.md), with a change:
+
+- `private` is now also **accessible in extensions, if within same file**
+
+With just 1 change to `private`, it improves the situation where we use extensions. But, the same source file restrictions remain. So, if not necessary, don't create separate file for an extension.
+
+`fileprivate` remains the same, but now it's usage can be reduced to rarer cases. Eg. Type A and B are in the same source file, and Type A somehow wants to access a `fileprivate` of Type B.
