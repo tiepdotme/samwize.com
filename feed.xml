@@ -6,9 +6,135 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 23 Jan 2018 23:33:19 +0800</pubDate>
-    <lastBuildDate>Tue, 23 Jan 2018 23:33:19 +0800</lastBuildDate>
+    <pubDate>Tue, 13 Feb 2018 10:36:45 +0800</pubDate>
+    <lastBuildDate>Tue, 13 Feb 2018 10:36:45 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Guide to Creating UIViewController Without Storyboard</title>
+        <description>&lt;p&gt;This is a guide on creating your custom &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt; with code, without any storyboard/nibs/xibs. You may also be interested in reading &lt;a href=&quot;/2017/11/01/guide-to-creating-custom-uiview/&quot;&gt;guide to creating custom &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;initializer&quot;&gt;Initializer&lt;/h2&gt;
+
+&lt;p&gt;The view controller’s initializer can be bare minimal, but it must use the &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621359-init&quot;&gt;designated initializer &lt;code class=&quot;highlighter-rouge&quot;&gt;init(nibName:bundle:)&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;nibName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As silly as it sound, you will find the documentation stating:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;If you subclass UIViewController, you must call the super implementation of this method, even if you aren’t using a NIB… and specify nil for both …&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Yup, that’s proof that Apple prefers storyboard, but we know what’s good for ourselves.&lt;/p&gt;
+
+&lt;p&gt;If you use MVVM, or you require any dependency injection to the view controller, then it will look like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;viewModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyViewModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;someDependency&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomeDependency&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;nibName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewModel&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someDependency&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someDependency&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You may setup lightweight initialization in &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt;, but you should never setup your views (read on where to do that later).&lt;/p&gt;
+
+&lt;h2 id=&quot;no-need-for-initcoder&quot;&gt;No Need for &lt;code class=&quot;highlighter-rouge&quot;&gt;init(coder:)&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;init(coder:)&lt;/code&gt; is called only when you create your views from storyboard. It will never be invoked since we are going with no-storyboard so we can safely fatal out.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;required&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coder&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSCoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;fatalError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Never will happen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;create-your-view-in-viewdidload&quot;&gt;Create your view in &lt;code class=&quot;highlighter-rouge&quot;&gt;viewDidLoad&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Take a look at the &lt;a href=&quot;https://rdkw.wordpress.com/2013/02/24/ios-uiviewcontroller-lifecycle/&quot;&gt;life cycle diagram&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Importantly, the diagram is saying that &lt;em&gt;view will be unloaded/deallocated when memory is low&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;If your view is then asked to appear again, it needs to re-loaded.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;viewDidLoad&lt;/code&gt; is where you should create your view, or more specifically, create all your subviews in &lt;code class=&quot;highlighter-rouge&quot;&gt;self.view&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;I break the creation of views into 2 stages, in 2 &lt;code class=&quot;highlighter-rouge&quot;&gt;private func&lt;/code&gt;s.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;setupViews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;bindViews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;setupviews&quot;&gt;1. &lt;code class=&quot;highlighter-rouge&quot;&gt;setupViews()&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;Add each subview with &lt;code class=&quot;highlighter-rouge&quot;&gt;view.addSubview(someSubview)&lt;/code&gt;, then setup the layout constraints (we use &lt;a href=&quot;https://github.com/robb/Cartography&quot;&gt;Cartography&lt;/a&gt;, a autolayout helper).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setupViews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addSubview&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subview1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;constrain&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subview1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subview1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;subview1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edges&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;edges&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+    &lt;span class=&quot;c1&quot;&gt;// Similarly for subview2, subview3, ...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;subview1&lt;/code&gt; is being initialized via lazy loading.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;lazy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;subview1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backgroundColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;red&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is equivalent to how you configure a view in Storyboard, but in code, and within the lazy load code block. It is the initial configuration. Afterwhich, you may of course programmatically change any of the properties.&lt;/p&gt;
+
+&lt;h3 id=&quot;bindviews&quot;&gt;2. &lt;code class=&quot;highlighter-rouge&quot;&gt;bindViews()&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;This 2nd stage is to bind the views with the model. It sets the actual content of the views.&lt;/p&gt;
+
+&lt;p&gt;In a very simple example, we set the transparency level &lt;code class=&quot;highlighter-rouge&quot;&gt;subview1.alpha&lt;/code&gt; with a view model.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bindViews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;subview1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Note that we are “binding” without using any frameworks (such as RxSwift), so this binding is one-time only. If subsequently &lt;code class=&quot;highlighter-rouge&quot;&gt;viewModel.alpha&lt;/code&gt; is changed, the function &lt;code class=&quot;highlighter-rouge&quot;&gt;bindViews()&lt;/code&gt; must be called again to update the view.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-reactive-way&quot;&gt;The Reactive Way&lt;/h2&gt;
+
+&lt;p&gt;Contrast this with using &lt;a href=&quot;https://github.com/ReactiveX/RxSwift&quot;&gt;RxSwift&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;bindViews&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;viewModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;bind&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;subview1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alpha&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;disposed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;by&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;disposeBag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Using RxSwift, &lt;code class=&quot;highlighter-rouge&quot;&gt;viewModel.alpha&lt;/code&gt; is an observable, and whenever it observes a new value of alpha, the binding &lt;code class=&quot;highlighter-rouge&quot;&gt;subview1&lt;/code&gt; will be updated automatically.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 31 Jan 2018 16:43:53 +0800</pubDate>
+        <link>http://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/</link>
+        <guid isPermaLink="true">http://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Localization - Fallback to Base Language</title>
@@ -113,6 +239,10 @@
 &lt;p&gt;When a phrase is not yet translated, it will be &lt;code class=&quot;highlighter-rouge&quot;&gt;value == key&lt;/code&gt;, which is dumb, so we fall back to using &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;The rest of the code is simply geting &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt; from the en bundle.&lt;/p&gt;
+
+&lt;h2 id=&quot;more-resourses&quot;&gt;More Resourses&lt;/h2&gt;
+
+&lt;p&gt;Apple’s &lt;a href=&quot;https://developer.apple.com/library/content/technotes/tn2418/_index.html&quot;&gt;Technical Note on language identifiers&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 23 Jan 2018 15:49:41 +0800</pubDate>
         <link>http://samwize.com/2018/01/23/localization-fall-back-to-base-language/</link>
@@ -256,6 +386,12 @@
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;But &lt;a href=&quot;https://medium.com/the-traveled-ios-developers-guide/iphone-x-dealing-with-home-indicator-2e8e47f5647f&quot;&gt;note&lt;/a&gt; the comment in the doc:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The system takes your preference into account, but returning YES is not a guarantee that an indicator will be hidden.&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;h2 id=&quot;nav-bar&quot;&gt;Nav bar&lt;/h2&gt;
 
@@ -765,6 +901,23 @@
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pod install&lt;/code&gt;, build framework again, and you will now be able to &lt;code class=&quot;highlighter-rouge&quot;&gt;import Cartography&lt;/code&gt; in Playground too.&lt;/p&gt;
 
 &lt;p&gt;Because now 2 targets are using the same Cargography lib, it is cleaner to &lt;a href=&quot;https://www.natashatherobot.com/cocoapods-installing-same-pod-multiple-targets/&quot;&gt;define shared pods&lt;/a&gt; in Podfile. We leave that as an exercise for you.&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus-custom-device-size&quot;&gt;Bonus: Custom Device Size&lt;/h2&gt;
+
+&lt;p&gt;You can live view the UI with custom device size eg. iPhone 8 Plus, iPhone X, iPad, etc&lt;/p&gt;
+
+&lt;p&gt;Objc.io has provided a helpful &lt;a href=&quot;https://github.com/objcio/S01E51-playground-driven-development-at-kickstarter/blob/master/MyPlayground.playground/Sources/playground-wrapper.swift&quot;&gt;Playground wrapper for devices&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Sample usage:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;parent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;playgroundWrapper&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;vc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+  &lt;span class=&quot;nv&quot;&gt;device&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;phone4_7inch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+  &lt;span class=&quot;nv&quot;&gt;orientation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;landscape&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+  &lt;span class=&quot;nv&quot;&gt;contentSizeCategory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;large&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;PlaygroundPage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;liveView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 </description>
         <pubDate>Thu, 05 Oct 2017 16:26:25 +0800</pubDate>
         <link>http://samwize.com/2017/10/05/adding-playground-to-an-existing-project/</link>
@@ -1199,151 +1352,6 @@ Type &#39;Sword&#39; does not conform to protocol &#39;Decodable&#39;
         <category>Swift</category>
         
         <category>Xcode</category>
-        
-      </item>
-    
-      <item>
-        <title>How to Change iOS App Icon Programmatically (iOS 10.3)</title>
-        <description>&lt;p&gt;Changing the app icon is just &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiapplication/2806818-setalternateiconname&quot;&gt;1 line of code&lt;/a&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;setAlternateIconName&lt;/code&gt;, but there are many pitfalls, and the lack of guide on how to do it.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-code&quot;&gt;The Code&lt;/h2&gt;
-
-&lt;p&gt;Let’s start with the easy part, which is the code to change the app icon programmatically.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(iOS 10.3, *)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;newAppIconName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;AppIcon-2&quot;&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alternateIconName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newAppIconName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setAlternateIconName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newAppIconName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You might thought you can put the code in app delegate when the app is launched, but no, that will have this un-helpful error:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Error Domain=NSCocoaErrorDomain Code=3072 “The operation was cancelled.”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;pitfall-code-must-be-called-in-view-controller&quot;&gt;Pitfall: Code must be called in view controller&lt;/h2&gt;
-
-&lt;p&gt;You must call &lt;code class=&quot;highlighter-rouge&quot;&gt;setAlternateIconName&lt;/code&gt; only in view controller, and in main thread.&lt;/p&gt;
-
-&lt;p&gt;Why?&lt;/p&gt;
-
-&lt;p&gt;Because the user will be shown this alert:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/appicon-change-alert.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;If you want to run the code in app delegate, make sure it is run in main queue, and visible in the main window.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;pitfall-you-cannot-avoid-the-system-alert&quot;&gt;Pitfall: You cannot avoid the system alert&lt;/h2&gt;
-
-&lt;p&gt;The alert and the text “You have changed the icon for …” cannot be changed, nor removed.&lt;/p&gt;
-
-&lt;p&gt;In &lt;a href=&quot;https://developer.apple.com/ios/human-interface-guidelines/graphics/app-icon/&quot;&gt;Apple Human Interface Guildeline (HIG)&lt;/a&gt;, they did mention that changing the app icon is a user triggered action.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;You can perform tricks to dismiss the alert, or cover with another screen, but that is against the HIG.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;This is also why in the code there is a &lt;code class=&quot;highlighter-rouge&quot;&gt;guard&lt;/code&gt; statement. It prevents setting the icon name again, and therefore triggering the alert, if it already is that icon.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-infoplist&quot;&gt;The Info.plist&lt;/h2&gt;
-
-&lt;p&gt;Now that you understand the code and how it works, let’s setup the app’s Info.plist.&lt;/p&gt;
-
-&lt;p&gt;The following has to be added:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-plist&quot;&gt;&amp;lt;key&amp;gt;CFBundleIcons&amp;lt;/key&amp;gt;
-&amp;lt;dict&amp;gt;
-  &amp;lt;key&amp;gt;CFBundlePrimaryIcon&amp;lt;/key&amp;gt;
-  &amp;lt;dict&amp;gt;
-    &amp;lt;key&amp;gt;CFBundleIconFiles&amp;lt;/key&amp;gt;
-    &amp;lt;array&amp;gt;
-      &amp;lt;string&amp;gt;AppIcon&amp;lt;/string&amp;gt;
-    &amp;lt;/array&amp;gt;
-    &amp;lt;key&amp;gt;UIPrerenderedIcon&amp;lt;/key&amp;gt;
-    &amp;lt;true/&amp;gt;
-  &amp;lt;/dict&amp;gt;
-  &amp;lt;key&amp;gt;CFBundleAlternateIcons&amp;lt;/key&amp;gt;
-  &amp;lt;dict&amp;gt;
-    &amp;lt;key&amp;gt;AppIcon-2&amp;lt;/key&amp;gt;
-    &amp;lt;dict&amp;gt;
-      &amp;lt;key&amp;gt;CFBundleIconFiles&amp;lt;/key&amp;gt;
-      &amp;lt;array&amp;gt;
-        &amp;lt;string&amp;gt;AppIcon-2&amp;lt;/string&amp;gt;
-      &amp;lt;/array&amp;gt;
-      &amp;lt;key&amp;gt;UIPrerenderedIcon&amp;lt;/key&amp;gt;
-      &amp;lt;true/&amp;gt;
-    &amp;lt;/dict&amp;gt;
-  &amp;lt;/dict&amp;gt;
-&amp;lt;/dict&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW13&quot;&gt;keys are explained&lt;/a&gt;, but in short:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIcons&lt;/code&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundlePrimaryIcon&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleAlternateIcons&lt;/code&gt; - dictionary of alternative icons, with the key name as the name that you will use in code eg. “AppIcon-2”&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You may wonder what why “AppIcon-2” is repeated in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIconFiles&lt;/code&gt;?&lt;/p&gt;
-
-&lt;p&gt;That is actually the image file name (less the “png” or “@2x”). It need not be necessary the same as the key in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleAlternateIcons&lt;/code&gt;. For simplicity we used the same name.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Important&lt;/strong&gt;: If you need to support for iPad, read the last section on a critical pitfall.&lt;/p&gt;
-
-&lt;h2 id=&quot;pitfall-cannot-use-asset-catalog&quot;&gt;Pitfall: Cannot use asset catalog&lt;/h2&gt;
-
-&lt;p&gt;Strangely, alternative icons CANNOT be added to your asset catalog, unlike the primary icon.&lt;/p&gt;
-
-&lt;p&gt;If you do that, you will see an un-helpful error again.&lt;/p&gt;
-
-&lt;p&gt;You have to add “AppIcon-2.png”, “AppIcon-2@2x.png”, “AppIcon-2@3x.png” (180x180) to your app target.&lt;/p&gt;
-
-&lt;h2 id=&quot;pitfall-you-need-completionhandler&quot;&gt;Pitfall: You need &lt;code class=&quot;highlighter-rouge&quot;&gt;completionHandler&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;Although &lt;code class=&quot;highlighter-rouge&quot;&gt;setAlternateIconName&lt;/code&gt; can accept a nil &lt;code class=&quot;highlighter-rouge&quot;&gt;completionHandler&lt;/code&gt;, as declared in its signature, you shouldn’t because the app with CRASH, if somehow there is error.&lt;/p&gt;
-
-&lt;p&gt;As &lt;a href=&quot;https://forums.developer.apple.com/thread/71463&quot;&gt;dlbuckley&lt;/a&gt; pointed out (as of Aug 2017),&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;This API isn’t quite ready to be released to us thugs&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;pitfall-not-working-or-crash-in-ipad&quot;&gt;Pitfall: Not working or Crash in iPad&lt;/h2&gt;
-
-&lt;p&gt;This is another common one, and critical, because for the neglected iPad.&lt;/p&gt;
-
-&lt;p&gt;You could run into error like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Error Domain=NSCocoaErrorDomain Code=4 &quot;The file doesn’t exist.&quot; 
-UserInfo={NSUnderlyingError=0x60000005e0c0 {Error Domain=LSApplicationWorkspaceErrorDomain 
-Code=-105 &quot;iconName not found in CFBundleAlternateIcons entry&quot; 
-UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons entry}}}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;In Apple’s &lt;a href=&quot;https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW14&quot;&gt;obscure documentation&lt;/a&gt;, it pointed out:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Important: If your app contains iPad-specific versions of its icons, the system does not fall back to the alternate icons declared in the platform-agnostic version of CFBundleIcons key. Therefore, if you include any alternate icons in the CFBundleIcons key, you must include them again in your CFBundleIcons~ipad variant.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;That means, in your “Info.plist”, you need to have a separate entry with &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIcons~ipad&lt;/code&gt; key!&lt;/p&gt;
-
-&lt;p&gt;So, copy whatever in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIcons&lt;/code&gt; and add for &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleIcons~ipad&lt;/code&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 20 Aug 2017 16:09:07 +0800</pubDate>
-        <link>http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/</guid>
-        
-        
-        <category>iOS</category>
         
       </item>
     

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -169,6 +169,23 @@
 
 <p>As you can imagine, you can have multiple variables to be used in the file template.</p>
 
+<h2 id="special-identifier-productname">Special identifier <code class="highlighter-rouge">productName</code></h2>
+
+<p>There is a special identifier which you would want to use if you do NOT want Xcode to ask for filename(s), especially if you are creating multiple files.</p>
+
+<p>Add to options a <code class="highlighter-rouge">productName</code> identifer, with type <code class="highlighter-rouge">text</code>.</p>
+
+<p>Now, if user provide “Awesome” as the <code class="highlighter-rouge">productName</code>,</p>
+
+<ul>
+  <li><code class="highlighter-rouge">___FILEBASENAME___ViewController.swift</code> becomes <code class="highlighter-rouge">AwesomeViewController.swift</code></li>
+  <li><code class="highlighter-rouge">___FILEBASENAME___ViewModel.swift</code> becomes <code class="highlighter-rouge">AwesomeViewModel.swift</code></li>
+  <li>In a file, <code class="highlighter-rouge">___VARIABLE_productName:identifier___ViewModel</code> becomes <code class="highlighter-rouge">AwesomeViewModel</code> (weird macro <a href="https://help.apple.com/xcode/mac/9.0/index.html?localePath=en.lproj#/devc8a500cb9">explained</a>)</li>
+  <li>In a file, <code class="highlighter-rouge">___FILEBASENAMEASIDENTIFIER___</code> becomes the filename without extension eg. <code class="highlighter-rouge">AwesomeViewModel</code></li>
+</ul>
+
+<p>With that, you can create multiple files easily. Even VIPER becomes less intimidating :p</p>
+
 <h2 id="sync-to-dropbox">Sync to Dropbox</h2>
 
 <p>If you are using multiple machine, you will like this tip.</p>
@@ -183,7 +200,7 @@
 
 <p>Then create the symbolic link:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ln -s ~/Dropbox/Workspace/Xcode/Templates ~/Library/Developer/Xcode/Templates/
+<div class="highlighter-rouge"><pre class="highlight"><code>ln -s ~/Dropbox/Workspace/Xcode/Templates ~/Library/Developer/Xcode/
 </code></pre>
 </div>
 

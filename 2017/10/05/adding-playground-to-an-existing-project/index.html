@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -154,6 +154,23 @@
 <p><code class="highlighter-rouge">pod install</code>, build framework again, and you will now be able to <code class="highlighter-rouge">import Cartography</code> in Playground too.</p>
 
 <p>Because now 2 targets are using the same Cargography lib, it is cleaner to <a href="https://www.natashatherobot.com/cocoapods-installing-same-pod-multiple-targets/">define shared pods</a> in Podfile. We leave that as an exercise for you.</p>
+
+<h2 id="bonus-custom-device-size">Bonus: Custom Device Size</h2>
+
+<p>You can live view the UI with custom device size eg. iPhone 8 Plus, iPhone X, iPad, etc</p>
+
+<p>Objc.io has provided a helpful <a href="https://github.com/objcio/S01E51-playground-driven-development-at-kickstarter/blob/master/MyPlayground.playground/Sources/playground-wrapper.swift">Playground wrapper for devices</a>.</p>
+
+<p>Sample usage:</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">parent</span> <span class="o">=</span> <span class="nf">playgroundWrapper</span><span class="p">(</span>
+  <span class="nv">child</span><span class="p">:</span> <span class="n">vc</span><span class="p">,</span> 
+  <span class="nv">device</span><span class="p">:</span> <span class="o">.</span><span class="n">phone4_7inch</span><span class="p">,</span> 
+  <span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">landscape</span><span class="p">,</span> 
+  <span class="nv">contentSizeCategory</span><span class="p">:</span> <span class="o">.</span><span class="n">large</span><span class="p">)</span>
+<span class="kt">PlaygroundPage</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">liveView</span> <span class="o">=</span> <span class="n">parent</span>
+</code></pre>
+</div>
 
         </section>
         <footer class="post-footer">
