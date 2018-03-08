@@ -2,11 +2,10 @@
 layout: post
 title: "Creating a Autoresizing UITableView Programmatically"
 date: 2017-05-25T09:27:42+08:00
-published: false
 categories: [iOS]
 ---
 
-_This is an incomplete guide because `estimatedRowHeight` SUCKS. Should NOT use it._
+_This is an incomplete guide because `estimatedRowHeight` has [bug](http://www.openradar.me/20829131). Should NOT use it._
 
 ---
 
@@ -17,10 +16,9 @@ We will do this programmatically (no storyboard), in Swift, and also make use of
 1. [Reusable](https://github.com/AliSoftware/Reusable) - Instead of messing with cell identifiers (_Strings!_) for `UITableViewCell`/etc, you can safely and conveniently use this mixin.
 2. [SDWebImage](https://github.com/rs/SDWebImage) - Asynchrously downloads images with caching
 
-
 ## Setup
 
-In `viewDidLoad`, setup the table view. 
+In `viewDidLoad`, setup the table view.
 
 ```swift
 private func setupTableView() {
@@ -48,9 +46,9 @@ class MyTableViewCell: UITableViewCell, NibReusable {
 
 Remember we said we will be using `Reusable`? How it works is simply extending the cell with `NibReusable`. That's all.
 
-Okay, there is a Xib that goes along with this. The cell is not fully programmatically created. Because it is easier to use autolayout in the xib. 
+Okay, there is a Xib that goes along with this. The cell is not fully programmatically created. Because it is easier to use autolayout in the xib.
 
-What is important is that there is a `theImageViewHeightConstraint`, which will will change when the image is downloaded. 
+What is important is that there is a `theImageViewHeightConstraint`, which will will change when the image is downloaded.
 
 ## The method to set the image
 
@@ -59,19 +57,19 @@ The cell provides a method to set the image URL string.
 ```swift
 func setImage(withUrlString urlString: String, completion: @escaping () -> Void) {
     // Need to store the URL because cells will be reused. The check is in adjustBannerHeightToFitImage.
-    self.urlString = urlString  
-    
+    self.urlString = urlString
+
     // Flush first. Or placeholder if you have.
-    bannerImageView.image = nil 
-    
+    bannerImageView.image = nil
+
     guard let url = URL(string: bannerUrlString) else { return }
-    
+
     // Loads the image asynchronously
     bannerImageView.sd_setImage(with: url) { [weak self] (image, error, cacheType, url) in
         self?.adjustHeightToFitImage(image: image, url: url, completion: completion)
     }
 }
-```    
+```
 
 We split the code up with `adjustHeightToFitImage`, which calculate the image aspect ratio, and adjust the height (while occupying full/fixed width in the cell).
 
@@ -79,10 +77,10 @@ We split the code up with `adjustHeightToFitImage`, which calculate the image as
 private func adjustHeightToFitImage(image: UIImage?, url: URL?, completion: @escaping () -> Void) {
     guard let bannerUrlString = bannerUrlString, bannerUrlString == url?.absoluteString else { return }
     guard let image = image else { return }
-    
+
     let aspectRatio = image.size.width / image.size.height
     let bannerHeightToFit = bannerImageView.bounds.size.width / aspectRatio
-    
+
     if bannerImageViewHeightConstraint.constant != bannerHeightToFit {
         bannerImageViewHeightConstraint.constant = bannerHeightToFit
         completion()
@@ -92,7 +90,7 @@ private func adjustHeightToFitImage(image: UIImage?, url: URL?, completion: @esc
 
 The `completion` is necessary for the table view to know that the image is downloaded, and the height is adjusted.
 
-## Configuring the cell 
+## Configuring the cell
 
 We will omit the unnecessary code in the table view. What is most important is in the cell configuration.
 
@@ -100,13 +98,13 @@ We will omit the unnecessary code in the table view. What is most important is i
 func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     // Dequeue without cell identifer!
     let cell: MyTableViewCell = tableView.dequeueReusableCell(for: indexPath)
-    
+
     cell.setImage(withUrlString: imageUrlString, completion: { [weak self] in
         // A trick. The begin/end calls will reload just the height.
         self?.tableView.beginUpdates()
         self?.tableView.endUpdates()
     })
-    
+
     return cell
 }
 ```
@@ -123,7 +121,7 @@ Hence, if you want to use `scrollToRow`, then go use the archaic approach since 
 
 ## Bonus: Table Header/Footer
 
-Read [this post](/2015/11/06/guide-to-customizing-uitableview-section-header-footer/) on adding header/footer. 
+Read [this post](/2015/11/06/guide-to-customizing-uitableview-section-header-footer/) on adding header/footer.
 
 With Resuable, register the view.
 
