@@ -6,9 +6,185 @@
 </description>
     <link>http://samwize.com/</link>
     <atom:link href="http://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 13 Feb 2018 10:36:45 +0800</pubDate>
-    <lastBuildDate>Tue, 13 Feb 2018 10:36:45 +0800</lastBuildDate>
+    <pubDate>Thu, 08 Mar 2018 22:00:26 +0800</pubDate>
+    <lastBuildDate>Thu, 08 Mar 2018 22:00:26 +0800</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
+    
+      <item>
+        <title>Swift Lint to Improve Code Quality</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/realm/SwiftLint&quot;&gt;SwiftLint&lt;/a&gt; helps to enforce coding style.&lt;/p&gt;
+
+&lt;p&gt;It is useful when working in a team because warnings &amp;amp; errors are produced when the code is &lt;em&gt;not up to standard&lt;/em&gt;. The rules are fully customizable according to a team needs.&lt;/p&gt;
+
+&lt;p&gt;This guide will be on how to setup &lt;a href=&quot;https://github.com/realm/SwiftLint&quot;&gt;SwiftLint&lt;/a&gt; for an existing project, and with Fastlane.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-1-install-the-tool&quot;&gt;Step 1. Install the tool&lt;/h2&gt;
+
+&lt;p&gt;Add to &lt;code class=&quot;highlighter-rouge&quot;&gt;Podfile&lt;/code&gt; and do a &lt;code class=&quot;highlighter-rouge&quot;&gt;pod install&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pod &#39;SwiftLint&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;step-2-run-script-on-build&quot;&gt;Step 2. Run script on build&lt;/h2&gt;
+
+&lt;p&gt;In &lt;strong&gt;Target &amp;gt; Build Phases &amp;gt; New Run Script Phase&lt;/strong&gt;, add&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;${PODS_ROOT}/SwiftLint/swiftlint&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Now, whenever you build the target, swiftlint will run.&lt;/p&gt;
+
+&lt;p&gt;If you run with an existing project, it is likely to have warnings/errors. This is because the default rules are being used.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-3-customize-the-rules&quot;&gt;Step 3. Customize the rules&lt;/h2&gt;
+
+&lt;p&gt;You can find &lt;a href=&quot;https://github.com/realm/SwiftLint/blob/master/Rules.md&quot;&gt;all the rules&lt;/a&gt; in the wiki. By default, around 70% are enabled.&lt;/p&gt;
+
+&lt;p&gt;You can &lt;a href=&quot;https://github.com/realm/SwiftLint#configuration&quot;&gt;customize the rules&lt;/a&gt; with a &lt;code class=&quot;highlighter-rouge&quot;&gt;.swiftlint.yml&lt;/code&gt; file in the root folder.&lt;/p&gt;
+
+&lt;p&gt;Let’s take a look at how the configuration file works:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# You can disable rules that have been enabled by default&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;disabled_rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;identifier_name&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;force_cast&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Similarly, you can enable rules that have been disabled by default&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;opt_in_rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;first_where&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Exclude directories that you don&#39;t want to lint&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;excluded&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Pods&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fastlane&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Use &quot;xcode&quot; so that when you build, the result will be shown in Xcode&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;reporter&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;xcode&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Other reporters: json, csv, checkstyle, junit, html, emoji&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# The rule `function_body_length` by default triggers warning at 40, error at 100&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# This example increases by 3 times&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;function_body_length&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;warning&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;120&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;300&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Sometimes, you want to dig into the &lt;a href=&quot;https://github.com/realm/SwiftLint/tree/master/Source/SwiftLintFramework/Rules&quot;&gt;code for each rule&lt;/a&gt; to understand how it works.&lt;/p&gt;
+
+&lt;p&gt;And you can also create &lt;a href=&quot;https://github.com/realm/SwiftLint#defining-custom-rules&quot;&gt;custom rules&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-4-integrate-with-fastlane&quot;&gt;Step 4. Integrate with fastlane&lt;/h2&gt;
+
+&lt;p&gt;You can already see the warnings whenever you build in Xcode.&lt;/p&gt;
+
+&lt;p&gt;Integrating with Fastlane is for another purpose – to generate a HTML report.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Add a lane in Fastfile&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;desc&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Run lint&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;lane&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:lint&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;swiftlint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;mode: :lint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;executable: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Pods/SwiftLint/swiftlint&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;reporter: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;output_file: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;swiftlint-results.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;ignore_exit_status: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The difference with using fastlane is that the reporter is set to &lt;strong&gt;html&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can run &lt;code class=&quot;highlighter-rouge&quot;&gt;fastlane lint&lt;/code&gt; manually, and open up swiftlint-results.html to see all the violations.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-5-autocorrect&quot;&gt;Step 5. Autocorrect&lt;/h2&gt;
+
+&lt;p&gt;Swiftlint has magic.&lt;/p&gt;
+
+&lt;p&gt;For some rules, the tool can automatically fix your code! You are lucky if a rule &lt;a href=&quot;https://github.com/realm/SwiftLint/blob/master/Rules.md&quot;&gt;&lt;strong&gt;supports autocorrection&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Add another lane that run autocorrect mode&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;desc&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Run lint autocorrect&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;lane&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:lint_autocorrect&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;swiftlint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;mode: :autocorrect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;executable: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Pods/SwiftLint/swiftlint&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;ss&quot;&gt;config_file: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.swiftlint-autocorrect.yml&quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Note that we use a different config file &lt;code class=&quot;highlighter-rouge&quot;&gt;.swiftlint-autocorrect.yml&lt;/code&gt;. And in this file, we use another approach to specify the rules – whitelisting.&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Only work with these rules&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;whitelist_rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;trailing_whitespace&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;trailing_newline&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;vertical_whitespace&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;fastlane lint_autocorrect&lt;/code&gt; and watch the magic happens.&lt;/p&gt;
+
+&lt;h2 id=&quot;step-6-disable-rules-in-code&quot;&gt;Step 6: Disable rules in code&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Rules are meant to be broken.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Sometimes, you knowingly break rules.&lt;/p&gt;
+
+&lt;p&gt;When that happens, and you really want it that way, you can disable the rule &lt;a href=&quot;https://github.com/realm/SwiftLint#disable-rules-in-code&quot;&gt;in code&lt;/a&gt; on a case-by-case basis.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// swiftlint:disable force_cast&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Now the rule force_cast is disabled&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;noWarning&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as!&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// Re-enable back the rules&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// swiftlint:enable force_cast&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Disable with `this` (inline), `next` (next line) or `previous`&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;noWarning&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as!&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// swiftlint:disable:this force_cast&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;summary-the-approach-for-an-existing-project&quot;&gt;Summary: The approach for an existing project&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Use the default rules&lt;/li&gt;
+  &lt;li&gt;Build&lt;/li&gt;
+  &lt;li&gt;Fix a rule by either:
+    &lt;ol&gt;
+      &lt;li&gt;Autocorrect, if possible&lt;/li&gt;
+      &lt;li&gt;Remove it by adding to &lt;code class=&quot;highlighter-rouge&quot;&gt;disabled_rules&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;Customize it&lt;/li&gt;
+      &lt;li&gt;Disable in code&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When all the default rules are “fixed”, go through the rules that are disabled by default. Add them to &lt;code class=&quot;highlighter-rouge&quot;&gt;opt_in_rules&lt;/code&gt;, if useful.&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus-rule-trailingwhitespace&quot;&gt;Bonus: Rule trailing_whitespace&lt;/h2&gt;
+
+&lt;p&gt;“Lines should not have trailing whitespace.”&lt;/p&gt;
+
+&lt;p&gt;Xcode by default will have whitespace for empty lines, following the indentation. This is unecessary, a bad default, which you can change.&lt;/p&gt;
+
+&lt;p&gt;Enable in &lt;strong&gt;Xcode Preferences &amp;gt; Text Editing &amp;gt; Including whitespace-only lines&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/xcode-preference-whitelines.jpg&quot; alt=&quot;Xcode Preferences&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 08 Mar 2018 13:43:08 +0800</pubDate>
+        <link>http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/</link>
+        <guid isPermaLink="true">http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/</guid>
+        
+        
+        <category>Swift</category>
+        
+        <category>Code</category>
+        
+      </item>
     
       <item>
         <title>Guide to Creating UIViewController Without Storyboard</title>
@@ -861,7 +1037,7 @@
 
 &lt;p&gt;In the workspace, &lt;strong&gt;File &amp;gt; New &amp;gt; Playground &amp;gt; Single View&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;In the Playground page, we can import the framwork, and set up a live view.&lt;/p&gt;
+&lt;p&gt;In the Playground page, we can import the framework, and set up a live view.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PlaygroundSupport&lt;/span&gt;
 &lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIKit&lt;/span&gt;
@@ -901,6 +1077,16 @@
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pod install&lt;/code&gt;, build framework again, and you will now be able to &lt;code class=&quot;highlighter-rouge&quot;&gt;import Cartography&lt;/code&gt; in Playground too.&lt;/p&gt;
 
 &lt;p&gt;Because now 2 targets are using the same Cargography lib, it is cleaner to &lt;a href=&quot;https://www.natashatherobot.com/cocoapods-installing-same-pod-multiple-targets/&quot;&gt;define shared pods&lt;/a&gt; in Podfile. We leave that as an exercise for you.&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus-expose-public&quot;&gt;Bonus: Expose &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;The trick to make playground UI work is by importing &lt;code class=&quot;highlighter-rouge&quot;&gt;MyUIFramework&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;So if you are going to use any of your app’s custom view/controller/model/etc in the playground DIRECTLY, you need to expose them with &lt;a href=&quot;/2017/04/20/access-levels-in-swift/&quot;&gt;public access level&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Limit what you gonna expose.&lt;/p&gt;
+
+&lt;p&gt;The use of playground here is merely to play with the UI, so exposing custom &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt; is ok, but probably not other types.&lt;/p&gt;
 
 &lt;h2 id=&quot;bonus-custom-device-size&quot;&gt;Bonus: Custom Device Size&lt;/h2&gt;
 
@@ -1261,97 +1447,6 @@ Type &#39;Sword&#39; does not conform to protocol &#39;Decodable&#39;
         
         
         <category>Swift</category>
-        
-      </item>
-    
-      <item>
-        <title>Migrating to Swift 4 and @objc</title>
-        <description>&lt;p&gt;Swift’s official &lt;a href=&quot;https://swift.org/migration-guide-swift4/&quot;&gt;migration guide&lt;/a&gt; gives a good overview.&lt;/p&gt;
-
-&lt;p&gt;Using the migration assistant in the new Xcode 9 would have helped to rename most of the SDK changes, such as moving string contants to enum cases.&lt;/p&gt;
-
-&lt;p&gt;This post will highlight the other trickly cases.&lt;/p&gt;
-
-&lt;h2 id=&quot;distinguish-single-tuple-from-multiple-argument-function-types-se-0110&quot;&gt;Distinguish single-tuple from multiple-argument function types [SE-0110]&lt;/h2&gt;
-
-&lt;p&gt;There is an issue with Swift 3 in distinguishing between the type of the argument in a closure.&lt;/p&gt;
-
-&lt;p&gt;Is it a tuple with 2 arguments?&lt;/p&gt;
-
-&lt;p&gt;Or is it 2 arguments?&lt;/p&gt;
-
-&lt;p&gt;Proposal &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0110-distingish-single-tuple-arg.md&quot;&gt;SE-0110&lt;/a&gt; seeks to correct that.&lt;/p&gt;
-
-&lt;p&gt;In short, to declare a function type with 1 tuple, you will need to double enclose with brackets:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Xcode will also suggest rewriting &lt;code class=&quot;highlighter-rouge&quot;&gt;f: (Void) -&amp;gt; ()&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;f: () -&amp;gt; ()&lt;/code&gt;, because your probably just mean that.&lt;/p&gt;
-
-&lt;h2 id=&quot;objc-has-to-be-explicit-se-0160&quot;&gt;@objc has to be explicit [SE-0160]&lt;/h2&gt;
-
-&lt;p&gt;The biggest change is to do with Objective-C inference.&lt;/p&gt;
-
-&lt;p&gt;The details is in the proposal &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0160-objc-inference.md&quot;&gt;SE-0160&lt;/a&gt; (it’s long).&lt;/p&gt;
-
-&lt;p&gt;The change is not only source breaking, but worse, could introduce bugs unknowingly. This is because you could still build and run, but if some of your type/method is no longer available to Objective-C runtime (because @objc is no longer inferred anymore), the method will just fail to respond.&lt;/p&gt;
-
-&lt;p&gt;That’s why this change is big, and you should test all parts of your user flow.&lt;/p&gt;
-
-&lt;h4 id=&quot;the-switch-in-project-settings&quot;&gt;The switch in project settings&lt;/h4&gt;
-
-&lt;p&gt;After migrating to Swift 4, &lt;strong&gt;Swift 3 @objc Inference&lt;/strong&gt; remains &lt;strong&gt;On&lt;/strong&gt;, for good reason because as we said, this change is breaking.&lt;/p&gt;
-
-&lt;p&gt;There is benefits to switching it to off – that is not to infer @objc for all types. Things will be faster, binary smaller.&lt;/p&gt;
-
-&lt;p&gt;When you switch to &lt;strong&gt;Off&lt;/strong&gt; (default), make sure your app still works well. You could unknowingly introduce bugs (likely not crash) because some functions are no longer inferred to be available to Objective-C runtime.&lt;/p&gt;
-
-&lt;h4 id=&quot;when-it-doesnt-work&quot;&gt;When it doesn’t work..&lt;/h4&gt;
-
-&lt;p&gt;To fix, you can add 2 annotations to tell the compiler it is to be available for Objective-C runtime.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@objc&lt;/code&gt; can be added to a function.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@objcMembers&lt;/code&gt; can  be added to a type, and all members and functions will be infered, unless, of course, if the function uses pure Swift features eg. tuple.&lt;/p&gt;
-
-&lt;h4 id=&quot;extensions-cannot-override-yet&quot;&gt;Extensions cannot override yet&lt;/h4&gt;
-
-&lt;p&gt;Another common error as a result is to do with extension methods that are overriden.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Super&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Remember, without @objc, this is not available to objc &lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Sub&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Super&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The above code will have error “declarations in extensions cannot override yet”.&lt;/p&gt;
-
-&lt;p&gt;The fix is to add @objc to the function in the extension.&lt;/p&gt;
-
-&lt;h4 id=&quot;summary-of-code-impact&quot;&gt;Summary of code impact&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Subclass of &lt;code class=&quot;highlighter-rouge&quot;&gt;NSObject&lt;/code&gt; no NOT infer as @objc&lt;/li&gt;
-  &lt;li&gt;Run your tests&lt;/li&gt;
-  &lt;li&gt;Check all app flow to make sure they are working, if not add &lt;code class=&quot;highlighter-rouge&quot;&gt;@objc&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;@objcMembers&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Add @objc to extension functions that needs to be overriden&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;dynamic&lt;/code&gt; must have @objc – this is easy to fix because compiler will have error&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Wed, 20 Sep 2017 16:37:53 +0800</pubDate>
-        <link>http://samwize.com/2017/09/20/migrating-to-swift-4-and-xcode-9/</link>
-        <guid isPermaLink="true">http://samwize.com/2017/09/20/migrating-to-swift-4-and-xcode-9/</guid>
-        
-        
-        <category>Swift</category>
-        
-        <category>Xcode</category>
         
       </item>
     

@@ -43,7 +43,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
   <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
 </head>
-  <link href='/stylesheets/all-f033e05b1d8b6b4ecd377e59f100fec0.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -114,7 +114,7 @@
 
 <p>In the workspace, <strong>File &gt; New &gt; Playground &gt; Single View</strong>.</p>
 
-<p>In the Playground page, we can import the framwork, and set up a live view.</p>
+<p>In the Playground page, we can import the framework, and set up a live view.</p>
 
 <div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">PlaygroundSupport</span>
 <span class="kd">import</span> <span class="kt">UIKit</span>
@@ -154,6 +154,16 @@
 <p><code class="highlighter-rouge">pod install</code>, build framework again, and you will now be able to <code class="highlighter-rouge">import Cartography</code> in Playground too.</p>
 
 <p>Because now 2 targets are using the same Cargography lib, it is cleaner to <a href="https://www.natashatherobot.com/cocoapods-installing-same-pod-multiple-targets/">define shared pods</a> in Podfile. We leave that as an exercise for you.</p>
+
+<h2 id="bonus-expose-public">Bonus: Expose <code class="highlighter-rouge">public</code></h2>
+
+<p>The trick to make playground UI work is by importing <code class="highlighter-rouge">MyUIFramework</code>.</p>
+
+<p>So if you are going to use any of your app’s custom view/controller/model/etc in the playground DIRECTLY, you need to expose them with <a href="/2017/04/20/access-levels-in-swift/">public access level</a>.</p>
+
+<p>Limit what you gonna expose.</p>
+
+<p>The use of playground here is merely to play with the UI, so exposing custom <code class="highlighter-rouge">UIView</code> to <code class="highlighter-rouge">public</code> is ok, but probably not other types.</p>
 
 <h2 id="bonus-custom-device-size">Bonus: Custom Device Size</h2>
 

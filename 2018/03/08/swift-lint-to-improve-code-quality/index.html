@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Swift Lint to Improve Code Quality</title>
+  <meta name="description" content="SwiftLint helps to enforce coding style." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Swift Lint to Improve Code Quality" />
+    <meta name="twitter:image" content="http://samwize.com" />
+    
+    <meta name="twitter:description"  content="SwiftLint helps to enforce coding style." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Swift Lint to Improve Code Quality"/>
+  
+  <meta property="og:description" content="SwiftLint helps to enforce coding style." />
+  
+  <meta property="og:image" content="http://samwize.com" />
+  <meta property="og:url" content="http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2018-03-08T13:43:08+08:00">
+
+  <link rel="canonical" href="http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/">
+
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Swift Lint to Improve Code Quality</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2018-03-08T13:43:08+08:00">08 March 2018</time>
+              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p><a href="https://github.com/realm/SwiftLint">SwiftLint</a> helps to enforce coding style.</p>
+
+<p>It is useful when working in a team because warnings &amp; errors are produced when the code is <em>not up to standard</em>. The rules are fully customizable according to a team needs.</p>
+
+<p>This guide will be on how to setup <a href="https://github.com/realm/SwiftLint">SwiftLint</a> for an existing project, and with Fastlane.</p>
+
+<h2 id="step-1-install-the-tool">Step 1. Install the tool</h2>
+
+<p>Add to <code class="highlighter-rouge">Podfile</code> and do a <code class="highlighter-rouge">pod install</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pod 'SwiftLint'
+</code></pre>
+</div>
+
+<h2 id="step-2-run-script-on-build">Step 2. Run script on build</h2>
+
+<p>In <strong>Target &gt; Build Phases &gt; New Run Script Phase</strong>, add</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"${PODS_ROOT}/SwiftLint/swiftlint"
+</code></pre>
+</div>
+
+<p>Now, whenever you build the target, swiftlint will run.</p>
+
+<p>If you run with an existing project, it is likely to have warnings/errors. This is because the default rules are being used.</p>
+
+<h2 id="step-3-customize-the-rules">Step 3. Customize the rules</h2>
+
+<p>You can find <a href="https://github.com/realm/SwiftLint/blob/master/Rules.md">all the rules</a> in the wiki. By default, around 70% are enabled.</p>
+
+<p>You can <a href="https://github.com/realm/SwiftLint#configuration">customize the rules</a> with a <code class="highlighter-rouge">.swiftlint.yml</code> file in the root folder.</p>
+
+<p>Let’s take a look at how the configuration file works:</p>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># You can disable rules that have been enabled by default</span>
+<span class="s">disabled_rules</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">identifier_name</span>
+  <span class="pi">-</span> <span class="s">force_cast</span>
+
+<span class="c1"># Similarly, you can enable rules that have been disabled by default</span>
+<span class="s">opt_in_rules</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">first_where</span>
+
+<span class="c1"># Exclude directories that you don't want to lint</span>
+<span class="s">excluded</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">Pods</span>
+  <span class="pi">-</span> <span class="s">fastlane</span>
+
+<span class="c1"># Use "xcode" so that when you build, the result will be shown in Xcode</span>
+<span class="s">reporter</span><span class="pi">:</span> <span class="s2">"</span><span class="s">xcode"</span> <span class="c1"># Other reporters: json, csv, checkstyle, junit, html, emoji</span>
+
+<span class="c1"># The rule `function_body_length` by default triggers warning at 40, error at 100</span>
+<span class="c1"># This example increases by 3 times</span>
+<span class="s">function_body_length</span><span class="pi">:</span>
+  <span class="s">warning</span><span class="pi">:</span> <span class="s">120</span>
+  <span class="s">error</span><span class="pi">:</span> <span class="s">300</span>
+</code></pre>
+</div>
+
+<p>Sometimes, you want to dig into the <a href="https://github.com/realm/SwiftLint/tree/master/Source/SwiftLintFramework/Rules">code for each rule</a> to understand how it works.</p>
+
+<p>And you can also create <a href="https://github.com/realm/SwiftLint#defining-custom-rules">custom rules</a>.</p>
+
+<h2 id="step-4-integrate-with-fastlane">Step 4. Integrate with fastlane</h2>
+
+<p>You can already see the warnings whenever you build in Xcode.</p>
+
+<p>Integrating with Fastlane is for another purpose – to generate a HTML report.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Add a lane in Fastfile</span>
+<span class="n">desc</span> <span class="s2">"Run lint"</span>
+<span class="n">lane</span> <span class="ss">:lint</span> <span class="k">do</span>
+  <span class="n">swiftlint</span><span class="p">(</span>
+    <span class="ss">mode: :lint</span><span class="p">,</span>
+    <span class="ss">executable: </span><span class="s2">"Pods/SwiftLint/swiftlint"</span><span class="p">,</span>
+    <span class="ss">reporter: </span><span class="s2">"html"</span><span class="p">,</span>
+    <span class="ss">output_file: </span><span class="s2">"swiftlint-results.html"</span><span class="p">,</span>
+    <span class="ss">ignore_exit_status: </span><span class="kp">true</span>
+  <span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>The difference with using fastlane is that the reporter is set to <strong>html</strong>.</p>
+
+<p>You can run <code class="highlighter-rouge">fastlane lint</code> manually, and open up swiftlint-results.html to see all the violations.</p>
+
+<h2 id="step-5-autocorrect">Step 5. Autocorrect</h2>
+
+<p>Swiftlint has magic.</p>
+
+<p>For some rules, the tool can automatically fix your code! You are lucky if a rule <a href="https://github.com/realm/SwiftLint/blob/master/Rules.md"><strong>supports autocorrection</strong></a>.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Add another lane that run autocorrect mode</span>
+<span class="n">desc</span> <span class="s2">"Run lint autocorrect"</span>
+<span class="n">lane</span> <span class="ss">:lint_autocorrect</span> <span class="k">do</span>
+  <span class="n">swiftlint</span><span class="p">(</span>
+    <span class="ss">mode: :autocorrect</span><span class="p">,</span>
+    <span class="ss">executable: </span><span class="s2">"Pods/SwiftLint/swiftlint"</span><span class="p">,</span>
+    <span class="ss">config_file: </span><span class="s2">".swiftlint-autocorrect.yml"</span>
+  <span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>Note that we use a different config file <code class="highlighter-rouge">.swiftlint-autocorrect.yml</code>. And in this file, we use another approach to specify the rules – whitelisting.</p>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># Only work with these rules</span>
+<span class="s">whitelist_rules</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">trailing_whitespace</span>
+  <span class="pi">-</span> <span class="s">trailing_newline</span>
+  <span class="pi">-</span> <span class="s">vertical_whitespace</span>
+</code></pre>
+</div>
+
+<p>Run <code class="highlighter-rouge">fastlane lint_autocorrect</code> and watch the magic happens.</p>
+
+<h2 id="step-6-disable-rules-in-code">Step 6: Disable rules in code</h2>
+
+<p><em>Rules are meant to be broken.</em></p>
+
+<p>Sometimes, you knowingly break rules.</p>
+
+<p>When that happens, and you really want it that way, you can disable the rule <a href="https://github.com/realm/SwiftLint#disable-rules-in-code">in code</a> on a case-by-case basis.</p>
+
+<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// swiftlint:disable force_cast</span>
+<span class="c1">// Now the rule force_cast is disabled</span>
+<span class="k">let</span> <span class="nv">noWarning</span> <span class="o">=</span> <span class="kt">NSNumber</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">Int</span>
+<span class="c1">// Re-enable back the rules</span>
+<span class="c1">// swiftlint:enable force_cast</span>
+
+<span class="c1">// Disable with `this` (inline), `next` (next line) or `previous`</span>
+<span class="k">let</span> <span class="nv">noWarning</span> <span class="o">=</span> <span class="kt">NSNumber</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">Int</span> <span class="c1">// swiftlint:disable:this force_cast</span>
+</code></pre>
+</div>
+
+<h2 id="summary-the-approach-for-an-existing-project">Summary: The approach for an existing project</h2>
+
+<ul>
+  <li>Use the default rules</li>
+  <li>Build</li>
+  <li>Fix a rule by either:
+    <ol>
+      <li>Autocorrect, if possible</li>
+      <li>Remove it by adding to <code class="highlighter-rouge">disabled_rules</code></li>
+      <li>Customize it</li>
+      <li>Disable in code</li>
+    </ol>
+  </li>
+</ul>
+
+<p>When all the default rules are “fixed”, go through the rules that are disabled by default. Add them to <code class="highlighter-rouge">opt_in_rules</code>, if useful.</p>
+
+<h2 id="bonus-rule-trailingwhitespace">Bonus: Rule trailing_whitespace</h2>
+
+<p>“Lines should not have trailing whitespace.”</p>
+
+<p>Xcode by default will have whitespace for empty lines, following the indentation. This is unecessary, a bad default, which you can change.</p>
+
+<p>Enable in <strong>Xcode Preferences &gt; Text Editing &gt; Including whitespace-only lines</strong>.</p>
+
+<p><img src="/images/xcode-preference-whitelines.jpg" alt="Xcode Preferences" /></p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Swift+Lint+to+Improve+Code+Quality&amp;url=http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Swift+Lint+to+Improve+Code+Quality&amp;u=http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Swift+Lint+to+Improve+Code+Quality&amp;url=http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
