@@ -6,9 +6,15 @@ categories: [rx, iOS]
 published: false
 ---
 
+https://www.thedroidsonroids.com/blog/ios/rxswift-by-examples-2-observable-and-the-bind
+Good examples
+
+https://medium.com/@benlesh/hot-vs-cold-observables-f8094ed53339
+Good Hot vs Cold -- producer created outside vs inside
+
 [RxSwift](https://github.com/ReactiveX/RxSwift), the gem from ReactiveX community (providing also familiar RxJava, RxEtc).
 
-[RxSwift Community](https://github.com/rxswiftcommunity) for more open source power.
+[RxSwift Community](https://github.com/rxswiftcommunity) for more open source power, such as [RxDataSources](https://github.com/RxSwiftCommunity/RxDataSources).
 
 ## Why RxSwift?
 

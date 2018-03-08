@@ -47,7 +47,7 @@ You must manually build each time you made changes to the framework.
 
 In the workspace, **File > New > Playground > Single View**.
 
-In the Playground page, we can import the framwork, and set up a live view.
+In the Playground page, we can import the framework, and set up a live view.
 
 ```swift
 import PlaygroundSupport
@@ -87,3 +87,30 @@ end
 `pod install`, build framework again, and you will now be able to `import Cartography` in Playground too.
 
 Because now 2 targets are using the same Cargography lib, it is cleaner to [define shared pods](https://www.natashatherobot.com/cocoapods-installing-same-pod-multiple-targets/) in Podfile. We leave that as an exercise for you.
+
+## Bonus: Expose `public`
+
+The trick to make playground UI work is by importing `MyUIFramework`.
+
+So if you are going to use any of your app's custom view/controller/model/etc in the playground DIRECTLY, you need to expose them with [public access level](/2017/04/20/access-levels-in-swift/).
+
+Limit what you gonna expose.
+
+The use of playground here is merely to play with the UI, so exposing custom `UIView` to `public` is ok, but probably not other types.
+
+## Bonus: Custom Device Size
+
+You can live view the UI with custom device size eg. iPhone 8 Plus, iPhone X, iPad, etc
+
+Objc.io has provided a helpful [Playground wrapper for devices](https://github.com/objcio/S01E51-playground-driven-development-at-kickstarter/blob/master/MyPlayground.playground/Sources/playground-wrapper.swift).
+
+Sample usage:
+
+```swift
+let parent = playgroundWrapper(
+  child: vc, 
+  device: .phone4_7inch, 
+  orientation: .landscape, 
+  contentSizeCategory: .large)
+PlaygroundPage.current.liveView = parent
+```
