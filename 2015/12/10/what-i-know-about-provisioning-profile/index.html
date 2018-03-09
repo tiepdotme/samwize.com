@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="What I Know About Provisioning Profile" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="All Apple developers have to face the mystical provisioning profile." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="All Apple developers have to face the mystical provisioning profile." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/12/10/what-i-know-about-provisioning-profile/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-12-10T12:04:26+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile/">
+  <link rel="canonical" href="http://localhost:4000/2015/12/10/what-i-know-about-provisioning-profile/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">What I Know About Provisioning Profile</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-12-10T12:04:26+08:00">10 December 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -110,7 +109,7 @@
 
 <p><a href="https://github.com/fastlane/sigh"><code class="highlighter-rouge">sigh</code></a> takes care of that.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Create an App Store Distribution profile, download and install
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Create an App Store Distribution profile, download and install
 sigh
 
 # For Adhoc
@@ -118,8 +117,7 @@ sigh --adhoc
 
 # For Development
 sigh --development
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can also manage all profiles that were installed locally via <code class="highlighter-rouge">sigh manage</code>, and delete the expired one with <code class="highlighter-rouge">sigh manage -e</code>. It’s handly when you have hundreds of profiles.</p>
 
@@ -160,7 +158,7 @@ sigh --development
 
 <p>Fastlane gym makes building a Xcode project easy. You could provide options to manually select the provisioning profiles and the export method.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">gym</span><span class="p">(</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gym</span><span class="p">(</span>
   <span class="ss">workspace: </span><span class="s2">"MyProject.xcworkspace"</span><span class="p">,</span>
   <span class="ss">scheme: </span><span class="s2">"MyProject"</span><span class="p">,</span>
   <span class="ss">export_options: </span><span class="p">{</span>
@@ -171,33 +169,31 @@ sigh --development
   <span class="ss">skip_profile_detection: </span><span class="kp">true</span><span class="p">,</span>
   <span class="ss">export_method: </span><span class="s1">'ad-hoc'</span>
 <span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Though using Fastlane match, it should be able to auto detect, but you need to add a <strong>new</strong> project configuration – I call mine “Staging” – and select the provisioning profile for <strong>Signing (Staging)</strong> respectively, then gym with the new configuration like this:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">gym</span><span class="p">(</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gym</span><span class="p">(</span>
   <span class="ss">workspace: </span><span class="s2">"MyProject.xcworkspace"</span><span class="p">,</span>
   <span class="ss">scheme: </span><span class="s2">"MyProject"</span><span class="p">,</span>
   <span class="ss">configuration: </span><span class="s2">"Staging"</span><span class="p">,</span>
   <span class="ss">export_method: </span><span class="s1">'ad-hoc'</span>
 <span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=What+I+Know+About+Provisioning+Profile&amp;url=http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile"
+                <a class="icon-twitter" href="http://twitter.com/share?text=What+I+Know+About+Provisioning+Profile&amp;url=http://localhost:4000/2015/12/10/what-i-know-about-provisioning-profile"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=What+I+Know+About+Provisioning+Profile&amp;u=http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=What+I+Know+About+Provisioning+Profile&amp;u=http://localhost:4000/2015/12/10/what-i-know-about-provisioning-profile"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -206,7 +202,7 @@ sigh --development
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=What+I+Know+About+Provisioning+Profile&amp;url=http://samwize.com/2015/12/10/what-i-know-about-provisioning-profile"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=What+I+Know+About+Provisioning+Profile&amp;url=http://localhost:4000/2015/12/10/what-i-know-about-provisioning-profile"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

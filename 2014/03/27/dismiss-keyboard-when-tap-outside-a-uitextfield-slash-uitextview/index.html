@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Dismiss keyboard when tap outside a UITextField/UITextView" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it’s the same), start editing, and you will soon need to learn how to d..." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="This is another common problem which all beginners will face. Drop in a UITextField (we will omit UITextView from now on, but it’s the same), start editing, and you will soon need to learn how to d..." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-03-27T10:36:27+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview/">
+  <link rel="canonical" href="http://localhost:4000/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Dismiss keyboard when tap outside a UITextField/UITextView</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-03-27T10:36:27+08:00">27 March 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -76,9 +75,8 @@
 
 <p>The code to dismiss is simple:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[textfield endEditing:YES];
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[textfield endEditing:YES];
+</code></pre></div></div>
 
 <p>The difficulty is where to put this code.</p>
 
@@ -86,7 +84,7 @@
 
 <p>There are 2 scenarios - using a scroll view, or not.</p>
 
-<h2 id="using-a-scroll-view">1. Using a scroll view</h2>
+<h2 id="1-using-a-scroll-view">1. Using a scroll view</h2>
 
 <p>If you are using a UIScrollView (or UITableView), then you will need to add a tap gesture recognizer to it.</p>
 
@@ -94,25 +92,23 @@
 
 <p>In the tap gesture recognizer, control-drag the “Sent Actions” to your .m implementation file, and add a method eg. <code class="highlighter-rouge">hideKeyboard</code>.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">hideKeyboard</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">hideKeyboard</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
         <span class="p">[</span><span class="n">textfield</span> <span class="nf">endEditing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
     <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you are using code, and not Storyboard, then refer to <a href="http://stackoverflow.com/a/4132774/242682">this</a>.</p>
 
-<h2 id="using-a-normal-view">2. Using a normal view</h2>
+<h2 id="2-using-a-normal-view">2. Using a normal view</h2>
 
 <p>If you are using UIView without UIScrollView, it is easier.</p>
 
 <p>You can override UIViewController touch events as such:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan</span><span class="p">:(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent</span><span class="p">:(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span> <span class="p">{</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">touchesBegan</span><span class="p">:(</span><span class="n">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="nv">touches</span> <span class="nf">withEvent</span><span class="p">:(</span><span class="n">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="nv">event</span> <span class="p">{</span>
         <span class="p">[</span><span class="n">textfield</span> <span class="nf">endEditing</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
     <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But the above will not work for UIScrollView because:</p>
 
@@ -125,7 +121,7 @@
 
 <p>An advise: While the code works for normal view, I suggest to use the same solution like scroll view using tap gesture recognizer. This will make your code more coherent.</p>
 
-<h2 id="dismiss-on-drag-for-scroll-view">3. Dismiss on drag for scroll view</h2>
+<h2 id="3-dismiss-on-drag-for-scroll-view">3. Dismiss on drag for scroll view</h2>
 
 <p>If you using storyboarding, select the scroll view. In the keyboard property, select “Dismiss on drag”.</p>
 
@@ -145,14 +141,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Dismiss+keyboard+when+tap+outside+a+UITextField%2FUITextView&amp;url=http://samwize.com/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Dismiss+keyboard+when+tap+outside+a+UITextField%2FUITextView&amp;url=http://localhost:4000/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Dismiss+keyboard+when+tap+outside+a+UITextField%2FUITextView&amp;u=http://samwize.com/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Dismiss+keyboard+when+tap+outside+a+UITextField%2FUITextView&amp;u=http://localhost:4000/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -161,7 +157,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Dismiss+keyboard+when+tap+outside+a+UITextField%2FUITextView&amp;url=http://samwize.com/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Dismiss+keyboard+when+tap+outside+a+UITextField%2FUITextView&amp;url=http://localhost:4000/2014/03/27/dismiss-keyboard-when-tap-outside-a-uitextfield-slash-uitextview"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

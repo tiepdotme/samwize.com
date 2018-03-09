@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Installing multiple node apps on VPS" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Digital Ocean has a guide on installing node, and another guide on installing multiple node apps on 1 instance." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Digital Ocean has a guide on installing node, and another guide on installing multiple node apps on 1 instance." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/05/20/installing-multiple-node-apps-on-vps/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-05-20T14:24:47+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps/">
+  <link rel="canonical" href="http://localhost:4000/2014/05/20/installing-multiple-node-apps-on-vps/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Installing multiple node apps on VPS</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-05-20T14:24:47+08:00">20 May 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -84,27 +83,24 @@
 
 <p>The example use nvm version 0.7.0. You can <a href="https://github.com/creationix/nvm">update accordingly</a>.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> ~
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~
 curl https://raw.githubusercontent.com/creationix/nvm/v0.7.0/install.sh | sh
 <span class="nb">source</span> ~/.profile
 apt-get install git
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then install <code class="highlighter-rouge">node</code>.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># List the versions</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List the versions</span>
 nvm ls-remote
 <span class="c"># Assuming we want 0.10.28</span>
 nvm install 0.10.28
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Finally, you probably want to copy the active version into <code class="highlighter-rouge">/usr/local</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>n=$(which node);n=${n%/bin/node}; chmod -R 755 $n/bin/*; sudo cp -r $n/{bin,lib,share} /usr/local
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>n=$(which node);n=${n%/bin/node}; chmod -R 755 $n/bin/*; sudo cp -r $n/{bin,lib,share} /usr/local
+</code></pre></div></div>
 
 <h2 id="deploying-your-app">Deploying your app</h2>
 
@@ -123,7 +119,7 @@ nvm install 0.10.28
     server {
             listen  80;</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>        root  /var/www/nodeapp.com/;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        root  /var/www/nodeapp.com/;
         index   index.html index.htm;
 
         server_name   nodeapp.com;
@@ -138,8 +134,7 @@ nvm install 0.10.28
           proxy_cache_bypass $http_upgrade;
         }
 } ```
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Restart nginx with <code class="highlighter-rouge">sudo service nginx restart</code>.</p>
 
@@ -147,22 +142,20 @@ nvm install 0.10.28
 
 <p><a href="https://github.com/nodejitsu/forever">Forever</a> is to ensure your node app gets run <em>forever</em>. That means if it crashes, it will restart for you.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>npm install forever -g
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install forever <span class="nt">-g</span>
+</code></pre></div></div>
 
 <h2 id="start-with-forever">Start with Forever</h2>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /var/www/nodeapp.com/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /var/www/nodeapp.com/
 
 <span class="c"># Install the packages, if you haven't</span>
 npm install
 
 <span class="c"># Start forever, with minimum uptime 10 sec between launches if restart</span>
 <span class="c"># Assuming app.js is your application main script</span>
-forever start --spinSleepTime 10000 app.js
-</code></pre>
-</div>
+forever start <span class="nt">--spinSleepTime</span> 10000 app.js
+</code></pre></div></div>
 
 <h2 id="start-with-forever-truly-forever">Start with Forever, truly forever</h2>
 
@@ -179,14 +172,13 @@ forever start --spinSleepTime 10000 app.js
 then
         export PATH=/usr/local/bin:$PATH
         forever start –spinSleepTime 10000 –sourceDir /var/www/nodeapp.com app.js » /var/www/nodeapp.com/log.txt 2&gt;&amp;1
-fi
-```</p>
+fi</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+Then `crontab -e`, and add the following:
 
-<p>Then <code class="highlighter-rouge">crontab -e</code>, and add the following:</p>
-
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>@reboot /path/to/starter.sh
-</code></pre>
-</div>
+```bash
+@reboot /path/to/starter.sh
+</code></pre></div></div>
 
 <p>To know where your path to <code class="highlighter-rouge">starter.sh</code> is, use <code class="highlighter-rouge">pwd</code> at the directory.</p>
 
@@ -194,14 +186,13 @@ fi
 
 <p>To test your script is correct, you can:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>forever stopall
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>forever stopall
 # Make sure the script can be executed
 chmod +x starter.sh
 ~/starter.sh
 forever list
 # Should see 1 running process
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Or reboot your VPS to see that it gets truly run forever and ever :)</p>
 
@@ -223,14 +214,14 @@ forever list
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Installing+multiple+node+apps+on+VPS&amp;url=http://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Installing+multiple+node+apps+on+VPS&amp;url=http://localhost:4000/2014/05/20/installing-multiple-node-apps-on-vps"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Installing+multiple+node+apps+on+VPS&amp;u=http://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Installing+multiple+node+apps+on+VPS&amp;u=http://localhost:4000/2014/05/20/installing-multiple-node-apps-on-vps"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -239,7 +230,7 @@ forever list
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Installing+multiple+node+apps+on+VPS&amp;url=http://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Installing+multiple+node+apps+on+VPS&amp;url=http://localhost:4000/2014/05/20/installing-multiple-node-apps-on-vps"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

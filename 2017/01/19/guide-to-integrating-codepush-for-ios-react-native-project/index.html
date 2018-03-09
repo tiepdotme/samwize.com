@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Guide to Integrating CodePush for iOS React Native Project" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="CodePush is a wonderful technology to make INSTANT changes to your app." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="CodePush is a wonderful technology to make INSTANT changes to your app." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-01-19T16:55:28+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/">
+  <link rel="canonical" href="http://localhost:4000/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Guide to Integrating CodePush for iOS React Native Project</h1>
             <div class="cf post-meta-text">
               <time datetime="2017-01-19T16:55:28+08:00">19 January 2017</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -80,7 +79,7 @@
 
 <h2 id="install-and-setup-the-cli">Install and Setup the CLI</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Install the CLI
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Install the CLI
 npm install -g code-push-cli
 
 # Register for an account via github oauth
@@ -88,20 +87,18 @@ code-push register
 
 # Register your app. We call it AwesomeApp.
 code-push app add AwesomeApp
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="setup-react-native-project">Setup React Native Project</h2>
 
 <p><code class="highlighter-rouge">cd</code> to your React Native project and install the “plugin”.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install --save react-native-code-push@latest
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --save react-native-code-push@latest
+</code></pre></div></div>
 
 <p>Next, setup the <code class="highlighter-rouge">sync</code> for your component. There are more <a href="https://github.com/Microsoft/react-native-code-push#codepush">options</a> on the syncing of the code eg. frequency, install etc</p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">class</span> <span class="nx">AwesomeApp</span> <span class="kr">extends</span> <span class="nx">Component</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">AwesomeApp</span> <span class="kd">extends</span> <span class="nx">Component</span> <span class="p">{</span>
   <span class="p">...</span>
 <span class="p">}</span>
 
@@ -112,8 +109,7 @@ code-push app add AwesomeApp
 <span class="nx">AwesomeApp</span> <span class="o">=</span> <span class="nx">codePush</span><span class="p">(</span><span class="nx">codePushOptions</span><span class="p">)(</span><span class="nx">AwesomeApp</span><span class="p">);</span>
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">AwesomeApp</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>My configuration for above is to check for updates when app goes into foreground, and then install when it goes into foreground <strong>again</strong>. I belive that’s good enough.</p>
 
@@ -125,14 +121,13 @@ code-push app add AwesomeApp
 
 <p>Add the pod to <code class="highlighter-rouge">Podfile</code>, and then <code class="highlighter-rouge">pod install</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Change your path accordingly. My React Native source is in ./react
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Change your path accordingly. My React Native source is in ./react
 pod 'CodePush', :path =&gt; './react/node_modules/react-native-code-push'
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then in the code where you use the <code class="highlighter-rouge">NSURL</code>, change it like this:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">CodePush</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">CodePush</span>
 
 <span class="kd">func</span> <span class="nf">sourceURLForBridge</span><span class="p">(</span><span class="nv">bridge</span><span class="p">:</span> <span class="kt">RCTBridge</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSURL</span><span class="o">!</span> <span class="p">{</span>
     <span class="cp">#if DEBUG</span>
@@ -141,8 +136,7 @@ pod 'CodePush', :path =&gt; './react/node_modules/react-native-code-push'
         <span class="k">return</span> <span class="kt">CodePush</span><span class="o">.</span><span class="nf">bundleURL</span><span class="p">()</span>
     <span class="cp">#endif</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>I have a <code class="highlighter-rouge">sourceURLForBridge</code> function, which will return the appropriate <code class="highlighter-rouge">NSURL</code> to <code class="highlighter-rouge">RCTRootView</code>.</p>
 
@@ -186,9 +180,8 @@ pod 'CodePush', :path =&gt; './react/node_modules/react-native-code-push'
 
 <p>Then push it:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>code-push release-react AwesomeApp ios -d Production --plistFile "../AwesomeApp/Info.plist"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>code-push release-react AwesomeApp ios -d Production --plistFile "../AwesomeApp/Info.plist"
+</code></pre></div></div>
 
 <p>By default, -d is Staging, and plist is in ./ios. You may change as necessary.</p>
 
@@ -216,14 +209,14 @@ pod 'CodePush', :path =&gt; './react/node_modules/react-native-code-push'
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Integrating+CodePush+for+iOS+React+Native+Project&amp;url=http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Integrating+CodePush+for+iOS+React+Native+Project&amp;url=http://localhost:4000/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Integrating+CodePush+for+iOS+React+Native+Project&amp;u=http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Integrating+CodePush+for+iOS+React+Native+Project&amp;u=http://localhost:4000/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -232,7 +225,7 @@ pod 'CodePush', :path =&gt; './react/node_modules/react-native-code-push'
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Integrating+CodePush+for+iOS+React+Native+Project&amp;url=http://samwize.com/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Integrating+CodePush+for+iOS+React+Native+Project&amp;url=http://localhost:4000/2017/01/19/guide-to-integrating-codepush-for-ios-react-native-project"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

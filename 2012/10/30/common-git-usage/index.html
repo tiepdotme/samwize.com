@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Common Git Usage" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="I am never good at using Git." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="I am never good at using Git." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/10/30/common-git-usage/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/10/30/common-git-usage/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-10-30T21:35:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/10/30/common-git-usage/">
+  <link rel="canonical" href="http://localhost:4000/2012/10/30/common-git-usage/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Common Git Usage</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-10-30T21:35:00+08:00">30 October 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -86,41 +85,36 @@
 
 <p>Assuming you have a repos on github already, issue the following <a href="https://gist.github.com/868939">commands</a>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cd existing_git_repo
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd existing_git_repo
 git remote add origin git@github.com:[user]/[reponame].git
 git push -u origin master
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="setup-github-to-remember-password">Setup Github to remember password</h2>
 
 <p>The <a href="https://help.github.com/articles/set-up-git">instructions</a>. Basically,</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git config --global user.name "Your Name Here"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --global user.name "Your Name Here"
 git config --global user.email "your_email@youremail.com"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then download and setup <code class="highlighter-rouge">git-credential-osxkeychain</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>curl -s -O http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -s -O http://github-media-downloads.s3.amazonaws.com/osx/git-credential-osxkeychain
 chmod u+x git-credential-osxkeychain
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Issue a <code class="highlighter-rouge">which git</code> and note the path of git. Assuming it is <code class="highlighter-rouge">/usr/bin/git</code>, you have have to move to <code class="highlighter-rouge">/usr/bin/</code> (IMPORTANT: less the git part!).</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo mv git-credential-osxkeychain /usr/bin/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo mv git-credential-osxkeychain /usr/bin/
+</code></pre></div></div>
 
 <h2 id="on-color-options">On Color Options</h2>
 
 <p>One of the most important <a href="http://git-scm.com/book/en/Customizing-Git-Git-Configuration">configuration</a></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git config --global color.ui true
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --global color.ui true
+</code></pre></div></div>
 
 <p>With that, commands like <code class="highlighter-rouge">git diff</code> and <code class="highlighter-rouge">git log -p</code> looks better</p>
 
@@ -128,55 +122,47 @@ chmod u+x git-credential-osxkeychain
 
 <p>Sometimes, you want to see what are the changes in your working directory (compared to HEAD/the last commit).</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git diff somefile.py
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git diff somefile.py
+</code></pre></div></div>
 
 <p>Or you want to see what are the overall changes between the last 2 commits</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git whatchanged -n 1
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git whatchanged -n 1
+</code></pre></div></div>
 
 <p>Then the actual code changes</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code> git log -p somefile.py
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git log -p somefile.py
+</code></pre></div></div>
 
 <h2 id="added-new-files-updated-changes-or-deleted-files">Added new files, Updated changes, or Deleted files</h2>
 
 <p>If you have added new files or updated tracked files</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git add .
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add .
+</code></pre></div></div>
 
 <p>If you have deleted files or updated tracked files</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git add -u
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add -u
+</code></pre></div></div>
 
 <p>You could do both in a single step</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git add -A
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add -A
+</code></pre></div></div>
 
 <h2 id="what-are-my-remotesbranches">What are my remotes/branches</h2>
 
 <p>To know,</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cat .git/config
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat .git/config
+</code></pre></div></div>
 
 <p>Or you can <a href="http://gitref.org/remotes/">list</a> the remotes</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git remote -v
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote -v
+</code></pre></div></div>
 
 <h2 id="change-remote-url">Change remote url</h2>
 
@@ -188,21 +174,18 @@ chmod u+x git-credential-osxkeychain
 
 <p>It’s a 2 step process. First you fetch the changes from a remote named <code class="highlighter-rouge">origin</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git fetch origin
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch origin
+</code></pre></div></div>
 
 <p>Then you merge a branch <code class="highlighter-rouge">master</code> to local</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git merge origin/master
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git merge origin/master
+</code></pre></div></div>
 
 <p>Or Simply</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git pull origin master
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull origin master
+</code></pre></div></div>
 
 <p>If <code class="highlighter-rouge">origin</code> is a default remote and ‘master’ is default branch, you can drop it eg. <code class="highlighter-rouge">git pull</code>.</p>
 
@@ -212,34 +195,30 @@ chmod u+x git-credential-osxkeychain
 
 <p>It usually goes like this.. You tried to update</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git fetch
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git fetch
 git pull
 ... not uptodate. Cannot merge.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So you commit your local changes</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git add .
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add .
 git commit -m "some changes"
 ...
 Automatic merge failed; fix conflicts and then commit the result.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So you need to resolve the conflict</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git mergetool -y
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git mergetool -y
+</code></pre></div></div>
 
 <p>At this point you use the GUI (eg FileMerge) to resolve the conflicts and save. Then you commit</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git add .
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add .
 git commit -m "fixed conflicts"
 git push
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Done!</p>
 
@@ -247,21 +226,18 @@ git push
 
 <p>You can checkout a file to a particular commmit.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git checkout &lt;sha1-commit-id&gt; filename.c
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout &lt;sha1-commit-id&gt; filename.c
+</code></pre></div></div>
 
 <p>In the case when you have a merge conflict, and you know it should just take your file,</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git checkout --ours filename.c
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout --ours filename.c
+</code></pre></div></div>
 
 <p>Or if it should be their file,</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git checkout --theirs filename.c
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout --theirs filename.c
+</code></pre></div></div>
 
 <h2 id="revert-a-commit">Revert a commit</h2>
 
@@ -271,9 +247,8 @@ git push
 
 <p>For example, to revert to the fourth last commit:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git revert -n HEAD~3
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git revert -n HEAD~3
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">-n</code> is <code class="highlighter-rouge">--no-commit</code>, which is not to create a new commit with the reverted changes.</p>
 
@@ -281,25 +256,22 @@ git push
 
 <p>Useful when you want to <a href="http://git-scm.com/book/en/Git-Basics-Tagging">tag a version</a>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git tag -a v1.2
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git tag -a v1.2
+</code></pre></div></div>
 
 <p>If you want to push to the tag, it works similarly like a branch.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git push origin v1.2
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push origin v1.2
+</code></pre></div></div>
 
 <h2 id="delete-a-commit-that-has-been-pushed">Delete a commit that has been pushed</h2>
 
 <p>This is usually when you accidentally commit <a href="http://stackoverflow.com/questions/1338728/how-to-delete-a-git-commit">wrongly</a>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git log
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git log
 git reset --hard &lt;sha1-commit-id&gt;
 git push origin HEAD --force
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="remove-untracked-files-and-directories">Remove untracked files and directories</h2>
 
@@ -307,17 +279,15 @@ git push origin HEAD --force
 
 <p>To remove them,</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git clean -f -d
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clean -f -d
+</code></pre></div></div>
 
 <h2 id="play-save-test-first">Play Save, Test First</h2>
 
 <p>For example, to test what a command like <code class="highlighter-rouge">git clean</code> will really do, add a <code class="highlighter-rouge">-n</code>:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git clean -f -d -n
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clean -f -d -n
+</code></pre></div></div>
 
 <p>Git will list the changes it <em>could perform</em>.</p>
 
@@ -331,14 +301,14 @@ git push origin HEAD --force
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Common+Git+Usage&amp;url=http://samwize.com/2012/10/30/common-git-usage"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Common+Git+Usage&amp;url=http://localhost:4000/2012/10/30/common-git-usage"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Common+Git+Usage&amp;u=http://samwize.com/2012/10/30/common-git-usage"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Common+Git+Usage&amp;u=http://localhost:4000/2012/10/30/common-git-usage"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -347,7 +317,7 @@ git push origin HEAD --force
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Common+Git+Usage&amp;url=http://samwize.com/2012/10/30/common-git-usage"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Common+Git+Usage&amp;url=http://localhost:4000/2012/10/30/common-git-usage"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

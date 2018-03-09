@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Step-by-step Guide to using MagicalRecord and mogenerator" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Core Data remains a nightmare framework, with many lines of code to get started." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Core Data remains a nightmare framework, with many lines of code to get started." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-03-27T16:55:30+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator/">
+  <link rel="canonical" href="http://localhost:4000/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Step-by-step Guide to using MagicalRecord and mogenerator</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-03-27T16:55:30+08:00">27 March 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -82,44 +81,41 @@
 
 <!-- more -->
 
-<h2 id="install-magicalrecords">1. Install MagicalRecords</h2>
+<h2 id="1-install-magicalrecords">1. Install MagicalRecords</h2>
 
 <p>Using CocoaPods, add this to your podfile:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>pod 'MagicalRecord/Shorthand', '~&gt; 2.2'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pod 'MagicalRecord/Shorthand', '~&gt; 2.2'
+</code></pre></div></div>
 
 <p>Then <code class="highlighter-rouge">pod install</code>.</p>
 
 <p>Note: We want to used shorthand, therefore the additional “/Shorthand” in the podfile. Shorthand is recommended, so that you use <code class="highlighter-rouge">findAll</code> instead of <code class="highlighter-rouge">MR_findAll</code>.</p>
 
-<h2 id="setup-pch">2. Setup pch</h2>
+<h2 id="2-setup-pch">2. Setup pch</h2>
 
 <p>Your pch file should look like this:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="cp">#ifdef __OBJC__
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifdef __OBJC__
 </span>    <span class="cp">#define MR_SHORTHAND
 </span>    <span class="cp">#import &lt;CoreData+MagicalRecord.h&gt;
 #endif
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
-<h2 id="setup-when-application-loadexit">3. Setup when application load/exit</h2>
+<h2 id="3-setup-when-application-loadexit">3. Setup when application load/exit</h2>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span> <span class="p">{</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span> <span class="p">{</span>
     <span class="p">[</span><span class="n">MagicalRecord</span> <span class="nf">setupCoreDataStack</span><span class="p">];</span>
 <span class="p">}</span>
 
 <span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">applicationWillTerminate</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="p">{</span>
     <span class="p">[</span><span class="n">MagicalRecord</span> <span class="nf">cleanUp</span><span class="p">];</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Or if you want to setup with a different sqlite name, or deal with migration, refer to this <a href="https://github.com/magicalpanda/MagicalRecord/blob/master/Docs/GettingStarted.md">documentation</a>.</p>
 
-<h2 id="using-magicalrecord-api">4. Using MagicalRecord API</h2>
+<h2 id="4-using-magicalrecord-api">4. Using MagicalRecord API</h2>
 
 <p><a href="https://github.com/magicalpanda/MagicalRecord">MagicalRecord</a> documentation is kind of messy. Here’s a orderly guide to using:</p>
 
@@ -135,7 +131,7 @@
 
 <p>But it is better to use mogenerator to generate the entitiy classes. I will explain setting up of mogenerator in the rest of the sections. But if you are not using mogenerator, stop here.</p>
 
-<h2 id="install-mogenerator">5. Install mogenerator</h2>
+<h2 id="5-install-mogenerator">5. Install mogenerator</h2>
 
 <p>The value of mogenerator is:</p>
 
@@ -145,14 +141,13 @@
 
 <p>It is a command-line tool, which you can install using brew:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// On your command line
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// On your command line
 $ sudo brew install mogenerator
 // Or if you need to update
 $ sudo brew update &amp;&amp; brew upgrade mogenerator
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="add-a-model">6. Add a Model</h2>
+<h2 id="6-add-a-model">6. Add a Model</h2>
 
 <p>Next, add a core data model (if you have not).</p>
 
@@ -160,21 +155,20 @@ $ sudo brew update &amp;&amp; brew upgrade mogenerator
 
 <p>You should save <code class="highlighter-rouge">Model.xcdatamodeld</code> in a <code class="highlighter-rouge">Models</code> directory.</p>
 
-<h2 id="add-new-entity">7. Add new Entity</h2>
+<h2 id="7-add-new-entity">7. Add new Entity</h2>
 
 <p>Add a new entity into the model. Assume the entity name is <code class="highlighter-rouge">Person</code>.</p>
 
 <p>Change the entity name, <a href="http://stackoverflow.com/questions/14183895/mogenerator-error-skipping-entity-myobjectname-nsmanagedobject-because-it-doe">and also class name</a> to <code class="highlighter-rouge">Person</code> too.</p>
 
-<h2 id="setup-target-and-build-script">8. Setup target and build script</h2>
+<h2 id="8-setup-target-and-build-script">8. Setup target and build script</h2>
 
 <p>Follow the guide to setup a <a href="http://raptureinvenice.com/getting-started-with-mogenerator/">target for mogenerator</a>. That creates a mogenerator target that you can build everytime you change your model.</p>
 
 <p>Here’s my build script:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mogenerator -m "MyApp/Models/Model.xcdatamodeld/Model.xcdatamodel" -O MyApp/Models --template-var arc=true
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mogenerator -m "MyApp/Models/Model.xcdatamodeld/Model.xcdatamodel" -O MyApp/Models --template-var arc=true
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">MyApp/Models/</code> is the directory containing all my models related file, which is also where I save the data model when I created it. You may make changes accordingly.</p>
 
@@ -182,17 +176,15 @@ $ sudo brew update &amp;&amp; brew upgrade mogenerator
 
 <p><em>UPDATE: If you are using v1.28 (Sep 2014), and wants to use ARC, the shorter command is:</em></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mogenerator --v2 -m "MyApp/Models/Model.xcdatamodeld" -O "Jade/Models"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mogenerator --v2 -m "MyApp/Models/Model.xcdatamodeld" -O "Jade/Models"
+</code></pre></div></div>
 
 <p>Note that if you have a new version of your model, you should edit the build script correspondingly. eg. I have a “Model 2.xcdatamodel”:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mogenerator -m "MyApp/Models/Model.xcdatamodeld/Model 2.xcdatamodel" -O MyApp/Models --template-var arc=true
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mogenerator -m "MyApp/Models/Model.xcdatamodeld/Model 2.xcdatamodel" -O MyApp/Models --template-var arc=true
+</code></pre></div></div>
 
-<h2 id="build-mogenerator-target">9. Build mogenerator target</h2>
+<h2 id="9-build-mogenerator-target">9. Build mogenerator target</h2>
 
 <p>Select the mogenerator target and build. This will generate all the files.</p>
 
@@ -200,7 +192,7 @@ $ sudo brew update &amp;&amp; brew upgrade mogenerator
 
 <p><code class="highlighter-rouge">_Person.h/m</code> is the file for machines, which you should never touch.</p>
 
-<h2 id="add-the-files-to-project">10. Add the files to project</h2>
+<h2 id="10-add-the-files-to-project">10. Add the files to project</h2>
 
 <p>Add <code class="highlighter-rouge">_Person.h/m</code> into <code class="highlighter-rouge">Models</code> group in your project.</p>
 
@@ -213,14 +205,14 @@ $ sudo brew update &amp;&amp; brew upgrade mogenerator
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Step-by-step+Guide+to+using+MagicalRecord+and+mogenerator&amp;url=http://samwize.com/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Step-by-step+Guide+to+using+MagicalRecord+and+mogenerator&amp;url=http://localhost:4000/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Step-by-step+Guide+to+using+MagicalRecord+and+mogenerator&amp;u=http://samwize.com/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Step-by-step+Guide+to+using+MagicalRecord+and+mogenerator&amp;u=http://localhost:4000/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -229,7 +221,7 @@ $ sudo brew update &amp;&amp; brew upgrade mogenerator
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Step-by-step+Guide+to+using+MagicalRecord+and+mogenerator&amp;url=http://samwize.com/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Step-by-step+Guide+to+using+MagicalRecord+and+mogenerator&amp;url=http://localhost:4000/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

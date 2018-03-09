@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Localization - Fallback to Base Language" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="This post explains how iOS determines the language to use in an app, and how Apple fallback to the next-best default language when necessary." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="This post explains how iOS determines the language to use in an app, and how Apple fallback to the next-best default language when necessary." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2018/01/23/localization-fall-back-to-base-language/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2018/01/23/localization-fall-back-to-base-language/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2018-01-23T15:49:41+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2018/01/23/localization-fall-back-to-base-language/">
+  <link rel="canonical" href="http://localhost:4000/2018/01/23/localization-fall-back-to-base-language/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Localization - Fallback to Base Language</h1>
             <div class="cf post-meta-text">
               <time datetime="2018-01-23T15:49:41+08:00">23 January 2018</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -76,16 +75,14 @@
 
 <p>Throughout this post, we use the example where <code class="highlighter-rouge">en</code> (English) is the developmen and base language, while <code class="highlighter-rouge">zh-Hans</code> (Chinese) is an additional supported language.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># en Localizable.strings
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># en Localizable.strings
 "awesome-title" = "Hello World";
 "another-title" = "Localization Rocks";
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># zh-Hans Localizable.strings
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># zh-Hans Localizable.strings
 "awesome-title" = "你好";
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Deliberately, the <code class="highlighter-rouge">zh-Hans</code> strings file is 50% localized (<code class="highlighter-rouge">another-title</code> is not translated).</p>
 
@@ -93,7 +90,7 @@
 
 <p>Apple <a href="https://developer.apple.com/library/content/qa/qa1828/_index.html">explains the process</a>. Here is the “alogrithm” in pseudocode:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>func determineTheLanguageToUse():
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>func determineTheLanguageToUse():
   for each user's preferredLanguages
     if app supports the language
       return the language
@@ -102,8 +99,7 @@
 
   # Exhausted preferredLanguages and still cannot determine..
   return CFBundleDevelopmentRegion
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>User’s <code class="highlighter-rouge">preferredLanguages</code> is those listed in <strong>Settings App &gt; General &gt; Language &amp; Region</strong>.</p>
 
@@ -154,7 +150,7 @@
 
 <p><code class="highlighter-rouge">LS</code> is a global function to replace <code class="highlighter-rouge">NSLocalizedString</code>. It is a shorthand, with added fallback capability:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">LS</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="kt">LS</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="p">{</span>
     <span class="k">let</span> <span class="nv">value</span> <span class="o">=</span> <span class="kt">NSLocalizedString</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">""</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">key</span> <span class="o">||</span> <span class="kt">NSLocale</span><span class="o">.</span><span class="n">preferredLanguages</span><span class="o">.</span><span class="n">first</span> <span class="o">==</span> <span class="s">"en"</span> <span class="p">{</span>
         <span class="k">return</span> <span class="n">value</span>
@@ -167,8 +163,7 @@
         <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="n">value</span> <span class="p">}</span>
     <span class="k">return</span> <span class="kt">NSLocalizedString</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="n">bundle</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">""</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When a phrase is not yet translated, it will be <code class="highlighter-rouge">value == key</code>, which is dumb, so we fall back to using <code class="highlighter-rouge">en</code>.</p>
 
@@ -183,14 +178,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Localization+-+Fallback+to+Base+Language&amp;url=http://samwize.com/2018/01/23/localization-fall-back-to-base-language"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Localization+-+Fallback+to+Base+Language&amp;url=http://localhost:4000/2018/01/23/localization-fall-back-to-base-language"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Localization+-+Fallback+to+Base+Language&amp;u=http://samwize.com/2018/01/23/localization-fall-back-to-base-language"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Localization+-+Fallback+to+Base+Language&amp;u=http://localhost:4000/2018/01/23/localization-fall-back-to-base-language"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -199,7 +194,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Localization+-+Fallback+to+Base+Language&amp;url=http://samwize.com/2018/01/23/localization-fall-back-to-base-language"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Localization+-+Fallback+to+Base+Language&amp;url=http://localhost:4000/2018/01/23/localization-fall-back-to-base-language"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

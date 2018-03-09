@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Migrate mongodb data from Dotcloud to MongoLab" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Similar to how you transfer data away from Dotcloud, you can do the same for your mongodb database." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Similar to how you transfer data away from Dotcloud, you can do the same for your mongodb database." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2013-04-17T02:50:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab/">
+  <link rel="canonical" href="http://localhost:4000/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Migrate mongodb data from Dotcloud to MongoLab</h1>
             <div class="cf post-meta-text">
               <time datetime="2013-04-17T02:50:00+08:00">17 April 2013</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,15 +77,14 @@
 
 <!-- more -->
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// ssh into mongo db instance first
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// ssh into mongo db instance first
 dot cloud run db
 
 // dump the data, then transfer via ftp
 mongodump -h mongo.MYAPP.dotcloud.com:MYPORT -u root -p MYPASSWORD -d MYDBNAME
 tar -czf MYDBNAME.tgz dump
 curl -u myftpusername:myftppassword -sST MYDBNAME.tgz ftp://myftpdomain.com
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>I use FTP, but if you prefer S3, you could do <a href="http://icodesnip.com/snippet/bash/dotcloud-mongodb-backup-script">this</a>.</p>
 
@@ -94,10 +92,9 @@ curl -u myftpusername:myftppassword -sST MYDBNAME.tgz ftp://myftpdomain.com
 
 <p>Create a database in mongolab.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>// On local machine, do a mongorestore to mongolab
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// On local machine, do a mongorestore to mongolab
 mongorestore -h xxx037077.mongolab.com:37077 -d MYDBNAME -u root -p MYPASSWORD2 dump/MYAPP/
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
         </section>
@@ -105,14 +102,14 @@ mongorestore -h xxx037077.mongolab.com:37077 -d MYDBNAME -u root -p MYPASSWORD2 
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Migrate+mongodb+data+from+Dotcloud+to+MongoLab&amp;url=http://samwize.com/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Migrate+mongodb+data+from+Dotcloud+to+MongoLab&amp;url=http://localhost:4000/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Migrate+mongodb+data+from+Dotcloud+to+MongoLab&amp;u=http://samwize.com/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Migrate+mongodb+data+from+Dotcloud+to+MongoLab&amp;u=http://localhost:4000/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -121,7 +118,7 @@ mongorestore -h xxx037077.mongolab.com:37077 -d MYDBNAME -u root -p MYPASSWORD2 
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Migrate+mongodb+data+from+Dotcloud+to+MongoLab&amp;url=http://samwize.com/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Migrate+mongodb+data+from+Dotcloud+to+MongoLab&amp;url=http://localhost:4000/2013/04/17/migrate-mongodb-data-from-dotcloud-to-mongolab"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

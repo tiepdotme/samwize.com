@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Everything About UITableView and UITableViewCell" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="To configure tableView, you will typically set it’s properties in viewDidLoad." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="To configure tableView, you will typically set it’s properties in viewDidLoad." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/02/24/everything-about-uitableview/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/02/24/everything-about-uitableview/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-02-24T16:25:31+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/02/24/everything-about-uitableview/">
+  <link rel="canonical" href="http://localhost:4000/2016/02/24/everything-about-uitableview/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Everything About UITableView and UITableViewCell</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-02-24T16:25:31+08:00">24 February 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,67 +77,59 @@
 
 <h2 id="hide-all-separator-lines">Hide all separator lines</h2>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="n">separatorStyle</span> <span class="o">=</span> <span class="o">.</span><span class="kt">None</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="n">separatorStyle</span> <span class="o">=</span> <span class="o">.</span><span class="kt">None</span>
 <span class="c1">// Or</span>
 <span class="n">tableView</span><span class="o">.</span><span class="n">separatorColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">clearColor</span><span class="p">()</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This will hide all separator lines, including the top and bottom which bound the section. Read next section to hide only the lines between cells.</p>
 
 <h2 id="hide-separator-lines-betweeen-cells">Hide separator lines betweeen cells</h2>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">cell</span><span class="o">.</span><span class="n">separatorInset</span> <span class="o">=</span> <span class="kt">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cell</span><span class="o">.</span><span class="n">separatorInset</span> <span class="o">=</span> <span class="kt">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cell</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">size</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h2 id="hide-separator-lines-for-the-empty-cells">Hide separator lines for the empty cells</h2>
 
 <p>Somehow, table view will have separator lines in the empty space when there ain’t enough rows to fill a screen. This is a workaround.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="cp"># Set an empty footer</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp"># Set an empty footer</span>
 <span class="n">tableView</span><span class="o">.</span><span class="n">tableFooterView</span> <span class="o">=</span> <span class="kt">UIView</span><span class="p">()</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="full-width-separtor-line">Full width separtor line</h2>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">cell</span><span class="o">.</span><span class="n">separatorInset</span> <span class="o">=</span> <span class="kt">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cell</span><span class="o">.</span><span class="n">separatorInset</span> <span class="o">=</span> <span class="kt">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 <span class="n">cell</span><span class="o">.</span><span class="n">layoutMargins</span> <span class="o">=</span> <span class="kt">UIEdgeInsetsMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="make-a-cell-unselectable">Make a cell unselectable</h2>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">cell</span><span class="o">.</span><span class="n">selectionStyle</span> <span class="o">=</span> <span class="o">.</span><span class="kt">None</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cell</span><span class="o">.</span><span class="n">selectionStyle</span> <span class="o">=</span> <span class="o">.</span><span class="kt">None</span>
+</code></pre></div></div>
 
 <h2 id="change-cell-selection-background-color">Change cell selection background color</h2>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">bg</span> <span class="o">=</span> <span class="kt">UIView</span><span class="p">()</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">bg</span> <span class="o">=</span> <span class="kt">UIView</span><span class="p">()</span>
 <span class="n">bg</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">redColor</span><span class="p">()</span>
 <span class="n">cell</span><span class="o">.</span><span class="n">selectedBackgroundView</span> <span class="o">=</span> <span class="n">bg</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="handling-rotation">Handling rotation</h2>
 
 <p>When device rotate, you should reload data so that the cells will reload.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">willRotateToInterfaceOrientation</span><span class="p">(</span><span class="nv">toInterfaceOrientation</span><span class="p">:</span> <span class="kt">UIInterfaceOrientation</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">NSTimeInterval</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">willRotateToInterfaceOrientation</span><span class="p">(</span><span class="nv">toInterfaceOrientation</span><span class="p">:</span> <span class="kt">UIInterfaceOrientation</span><span class="p">,</span> <span class="nv">duration</span><span class="p">:</span> <span class="kt">NSTimeInterval</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">tableView</span><span class="o">.</span><span class="nf">reloadData</span><span class="p">()</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="using-custom-cell-in-nib">Using custom cell in nib</h2>
 
 <p>A <a href="/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard/">similar tutorial on using nib for UICollectionViewCell</a> was written. <code class="highlighter-rouge">UITable</code> is smiliar.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="nf">registerNib</span><span class="p">(</span><span class="kt">UINib</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="s">"MyCell"</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">),</span> <span class="nv">forCellReuseIdentifier</span><span class="p">:</span> <span class="s">"cell"</span><span class="p">)</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="nf">registerNib</span><span class="p">(</span><span class="kt">UINib</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="s">"MyCell"</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">),</span> <span class="nv">forCellReuseIdentifier</span><span class="p">:</span> <span class="s">"cell"</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h2 id="highlighting-cell">Highlighting cell</h2>
 
@@ -160,14 +151,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Everything+About+UITableView+and+UITableViewCell&amp;url=http://samwize.com/2016/02/24/everything-about-uitableview"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Everything+About+UITableView+and+UITableViewCell&amp;url=http://localhost:4000/2016/02/24/everything-about-uitableview"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Everything+About+UITableView+and+UITableViewCell&amp;u=http://samwize.com/2016/02/24/everything-about-uitableview"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Everything+About+UITableView+and+UITableViewCell&amp;u=http://localhost:4000/2016/02/24/everything-about-uitableview"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -176,7 +167,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Everything+About+UITableView+and+UITableViewCell&amp;url=http://samwize.com/2016/02/24/everything-about-uitableview"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Everything+About+UITableView+and+UITableViewCell&amp;url=http://localhost:4000/2016/02/24/everything-about-uitableview"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

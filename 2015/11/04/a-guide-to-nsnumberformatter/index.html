@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="A Guide to NSNumberFormatter" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="NSNumberFormatter is a helpful class when you need to display numbers as well-formatted string." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="NSNumberFormatter is a helpful class when you need to display numbers as well-formatted string." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/11/04/a-guide-to-nsnumberformatter/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/11/04/a-guide-to-nsnumberformatter/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-11-04T09:23:06+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/11/04/a-guide-to-nsnumberformatter/">
+  <link rel="canonical" href="http://localhost:4000/2015/11/04/a-guide-to-nsnumberformatter/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">A Guide to NSNumberFormatter</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-11-04T09:23:06+08:00">04 November 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -88,25 +87,23 @@
 
 <p><code class="highlighter-rouge">usesSignificantDigits</code> = <code class="highlighter-rouge">false</code> means the formatter will not use the significant digits (aka SF), even though it is set to 1-6. And since the fractional digits (aka DP) is set to 0-0, it will not show any decimal places.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">num</span> <span class="o">=</span> <span class="mf">1.23456789</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">num</span> <span class="o">=</span> <span class="mf">1.23456789</span>
 <span class="k">var</span> <span class="nv">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
 <span class="nf">print</span><span class="p">(</span><span class="s">"SF: </span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">minimumSignificantDigits</span><span class="se">)</span><span class="s">-</span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span><span class="se">)</span><span class="s"> [Uses SD: </span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="se">)</span><span class="s">]"</span><span class="p">)</span>
 <span class="nf">print</span><span class="p">(</span><span class="s">"DP: </span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">minimumFractionDigits</span><span class="se">)</span><span class="s">-</span><span class="se">\(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumFractionDigits</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 
 <span class="c1">/// Prints "1"</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="set-the-decimal-places">Set the Decimal Places</h2>
 
 <p>This is straight forward:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumFractionDigits</span> <span class="o">=</span> <span class="mi">3</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumFractionDigits</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="c1">/// Prints "1.235" (3 DP)</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Also note that it actually rounded up, because the default mode is <code class="highlighter-rouge">RoundHalfEven</code>.</p>
 
@@ -116,15 +113,14 @@
 
 <p>If you want to use significant figures, you can set <code class="highlighter-rouge">usesSignificantDigits</code> to <code class="highlighter-rouge">true</code> to activate the default.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">true</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">true</span>
 <span class="c1">/// Prints "1.23457" (6 SF)</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But you can also just set <code class="highlighter-rouge">minimum/maximumSignificantDigits</code>, with a caveat..</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
 <span class="nf">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// "false" by default</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="n">minimumSignificantDigits</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1">// Set the SF</span>
 <span class="nf">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// "true", somehow it auto set</span>
@@ -132,8 +128,7 @@
 <span class="nf">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// "false"</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="n">minimumSignificantDigits</span> <span class="o">=</span> <span class="mi">1</span>    <span class="c1">// Subsequent set</span>
 <span class="nf">print</span><span class="p">(</span><span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span><span class="p">)</span>    <span class="c1">// Remains false</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In line 3, setting <code class="highlighter-rouge">minimumSignificantDigits</code> causes <code class="highlighter-rouge">usesSignificantDigits</code> to be auto set to <code class="highlighter-rouge">true</code>.</p>
 
@@ -153,7 +148,7 @@
 
 <p>An example of a function that control the use of DP or SF depending on the number:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span>    <span class="o">=</span> <span class="mi">4</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span>    <span class="o">=</span> <span class="mi">4</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumFractionDigits</span>       <span class="o">=</span> <span class="mi">2</span>
 
 <span class="c1">// If num &gt; 1, use DP, else use SF</span>
@@ -168,8 +163,7 @@
 
 <span class="nf">stringFromNum</span><span class="p">(</span><span class="mf">0.123456789</span><span class="p">)</span>      <span class="c1">// "0.1235" (4 SF)</span>
 <span class="nf">stringFromNum</span><span class="p">(</span><span class="mf">9876.123456789</span><span class="p">)</span>   <span class="c1">// "9876.12" (2 DP)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="bug-with-usessignificantdigits">Bug with usesSignificantDigits</h2>
 
@@ -179,22 +173,20 @@
 
 <p>Reproduce bug:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">false</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="mf">3.8765432</span><span class="p">)</span>  <span class="c1">// Expected "4" (0 DP), but printed "3.9" (2 SF)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Solution:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numberFormatter</span> <span class="o">=</span> <span class="kt">NSNumberFormatter</span><span class="p">()</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>    <span class="c1">// This is the WORKAROUND</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="n">maximumSignificantDigits</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="n">usesSignificantDigits</span> <span class="o">=</span> <span class="kc">false</span>
 <span class="n">numberFormatter</span><span class="o">.</span><span class="nf">stringFromNumber</span><span class="p">(</span><span class="mf">3.8765432</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As weird as it seems, using <code class="highlighter-rouge">stringFromNumber</code> once right after init-ing will set things correct!</p>
 
@@ -205,14 +197,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=A+Guide+to+NSNumberFormatter&amp;url=http://samwize.com/2015/11/04/a-guide-to-nsnumberformatter"
+                <a class="icon-twitter" href="http://twitter.com/share?text=A+Guide+to+NSNumberFormatter&amp;url=http://localhost:4000/2015/11/04/a-guide-to-nsnumberformatter"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=A+Guide+to+NSNumberFormatter&amp;u=http://samwize.com/2015/11/04/a-guide-to-nsnumberformatter"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=A+Guide+to+NSNumberFormatter&amp;u=http://localhost:4000/2015/11/04/a-guide-to-nsnumberformatter"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -221,7 +213,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=A+Guide+to+NSNumberFormatter&amp;url=http://samwize.com/2015/11/04/a-guide-to-nsnumberformatter"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=A+Guide+to+NSNumberFormatter&amp;url=http://localhost:4000/2015/11/04/a-guide-to-nsnumberformatter"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

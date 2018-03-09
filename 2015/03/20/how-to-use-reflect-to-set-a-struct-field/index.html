@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="How to use Reflect to set a struct field" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Golang reflect package is one of the hardest to understand." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Golang reflect package is one of the hardest to understand." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/03/20/how-to-use-reflect-to-set-a-struct-field/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/03/20/how-to-use-reflect-to-set-a-struct-field/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-03-20T14:45:20+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/03/20/how-to-use-reflect-to-set-a-struct-field/">
+  <link rel="canonical" href="http://localhost:4000/2015/03/20/how-to-use-reflect-to-set-a-struct-field/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">How to use Reflect to set a struct field</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-03-20T14:45:20+08:00">20 March 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -84,40 +83,38 @@
 
 <p>In short, if you want to set a struct <code class="highlighter-rouge">foo</code> object when you know the field name to set, this is the code:</p>
 
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="n">setFoo</span><span class="p">(</span><span class="n">foo</span><span class="x"> </span><span class="o">*</span><span class="n">Foo</span><span class="p">,</span><span class="x"> </span><span class="n">field</span><span class="x"> </span><span class="kt">string</span><span class="p">,</span><span class="x"> </span><span class="n">value</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span><span class="x"> </span><span class="n">setFoo</span><span class="p">(</span><span class="n">foo</span><span class="x"> </span><span class="o">*</span><span class="n">Foo</span><span class="p">,</span><span class="x"> </span><span class="n">field</span><span class="x"> </span><span class="kt">string</span><span class="p">,</span><span class="x"> </span><span class="n">value</span><span class="x"> </span><span class="kt">string</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
     </span><span class="n">v</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">reflect</span><span class="o">.</span><span class="n">ValueOf</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">Elem</span><span class="p">()</span><span class="o">.</span><span class="n">FieldByName</span><span class="p">(</span><span class="n">field</span><span class="p">)</span><span class="x">
     </span><span class="k">if</span><span class="x"> </span><span class="n">v</span><span class="o">.</span><span class="n">IsValid</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
         </span><span class="n">v</span><span class="o">.</span><span class="n">SetString</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="x">
     </span><span class="p">}</span><span class="x">
 </span><span class="p">}</span><span class="x">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>If you want to print all the fields of <code class="highlighter-rouge">foo</code>, this is the code:</p>
 
-<div class="language-go highlighter-rouge"><pre class="highlight"><code><span class="n">s</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">reflect</span><span class="o">.</span><span class="n">ValueOf</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">Elem</span><span class="p">()</span><span class="x">
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">reflect</span><span class="o">.</span><span class="n">ValueOf</span><span class="p">(</span><span class="n">foo</span><span class="p">)</span><span class="o">.</span><span class="n">Elem</span><span class="p">()</span><span class="x">
 </span><span class="n">typeOfT</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">s</span><span class="o">.</span><span class="n">Type</span><span class="p">()</span><span class="x">
 </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">s</span><span class="o">.</span><span class="n">NumField</span><span class="p">();</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
     </span><span class="n">f</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">s</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="x">
     </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"%d: %s %s = %v</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="x">
         </span><span class="n">typeOfT</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">Name</span><span class="p">,</span><span class="x"> </span><span class="n">f</span><span class="o">.</span><span class="n">Type</span><span class="p">(),</span><span class="x"> </span><span class="n">f</span><span class="o">.</span><span class="n">Interface</span><span class="p">())</span><span class="x">
 </span><span class="p">}</span><span class="x">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+use+Reflect+to+set+a+struct+field&amp;url=http://samwize.com/2015/03/20/how-to-use-reflect-to-set-a-struct-field"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+use+Reflect+to+set+a+struct+field&amp;url=http://localhost:4000/2015/03/20/how-to-use-reflect-to-set-a-struct-field"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+use+Reflect+to+set+a+struct+field&amp;u=http://samwize.com/2015/03/20/how-to-use-reflect-to-set-a-struct-field"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+use+Reflect+to+set+a+struct+field&amp;u=http://localhost:4000/2015/03/20/how-to-use-reflect-to-set-a-struct-field"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -126,7 +123,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+use+Reflect+to+set+a+struct+field&amp;url=http://samwize.com/2015/03/20/how-to-use-reflect-to-set-a-struct-field"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+use+Reflect+to+set+a+struct+field&amp;url=http://localhost:4000/2015/03/20/how-to-use-reflect-to-set-a-struct-field"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

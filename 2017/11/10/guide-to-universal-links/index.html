@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Guide to Universal Links" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Universal links are HTTP links that open your app, instead of the website in Safari." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Universal links are HTTP links that open your app, instead of the website in Safari." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/11/10/guide-to-universal-links/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/11/10/guide-to-universal-links/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-11-10T11:32:18+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/11/10/guide-to-universal-links/">
+  <link rel="canonical" href="http://localhost:4000/2017/11/10/guide-to-universal-links/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Guide to Universal Links</h1>
             <div class="cf post-meta-text">
               <time datetime="2017-11-10T11:32:18+08:00">10 November 2017</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -86,23 +85,22 @@
 
 <p>Let’s use an example of a <code class="highlighter-rouge">apple-app-site-association</code> file (note, there is no file extension):</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nt">"applinks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"apps"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-        </span><span class="nt">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"applinks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"apps"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="s2">"details"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
             </span><span class="p">{</span><span class="w">
-                </span><span class="nt">"appID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9JA89QQLNQ.com.apple.wwdc"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"/wwdc/news/"</span><span class="p">,</span><span class="w"> </span><span class="s2">"NOT /videos/wwdc/2010/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/videos/wwdc/201?/*"</span><span class="p">]</span><span class="w">
+                </span><span class="s2">"appID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9JA89QQLNQ.com.apple.wwdc"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"/wwdc/news/"</span><span class="p">,</span><span class="w"> </span><span class="s2">"NOT /videos/wwdc/2010/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/videos/wwdc/201?/*"</span><span class="p">]</span><span class="w">
             </span><span class="p">},</span><span class="w">
             </span><span class="p">{</span><span class="w">
-                </span><span class="nt">"appID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ABCD1234.com.apple.messaging"</span><span class="p">,</span><span class="w">
-                </span><span class="nt">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"*"</span><span class="w"> </span><span class="p">]</span><span class="w">
+                </span><span class="s2">"appID"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ABCD1234.com.apple.messaging"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"paths"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"*"</span><span class="w"> </span><span class="p">]</span><span class="w">
             </span><span class="p">}</span><span class="w">
         </span><span class="p">]</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">details</code> array is a list, with implicit priority in matching the paths.</p>
 
@@ -158,7 +156,7 @@
 
 <p>Example:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="k">continue</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kt">NSUserActivity</span><span class="p">,</span> <span class="nv">restorationHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="k">continue</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kt">NSUserActivity</span><span class="p">,</span> <span class="nv">restorationHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
         <span class="k">if</span> <span class="n">userActivity</span><span class="o">.</span><span class="n">activityType</span> <span class="o">==</span>  <span class="kt">NSUserActivityTypeBrowsingWeb</span> <span class="p">{</span>
             <span class="c1">// Handle universal link</span>
             <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="n">userActivity</span><span class="o">.</span><span class="n">webpageURL</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">false</span> <span class="p">}</span>
@@ -168,8 +166,7 @@
             <span class="c1">// Handle spotlight search</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="kc">false</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="step-5-test-it">Step 5. Test it</h2>
 
@@ -247,14 +244,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Universal+Links&amp;url=http://samwize.com/2017/11/10/guide-to-universal-links"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Universal+Links&amp;url=http://localhost:4000/2017/11/10/guide-to-universal-links"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Universal+Links&amp;u=http://samwize.com/2017/11/10/guide-to-universal-links"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Universal+Links&amp;u=http://localhost:4000/2017/11/10/guide-to-universal-links"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -263,7 +260,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Universal+Links&amp;url=http://samwize.com/2017/11/10/guide-to-universal-links"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Universal+Links&amp;url=http://localhost:4000/2017/11/10/guide-to-universal-links"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

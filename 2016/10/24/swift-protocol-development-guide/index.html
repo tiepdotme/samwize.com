@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Swift Protocol Development Guide" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Not too long ago I briefly mentioned the use of protocol as the way of Protocol Oriented Programming." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Not too long ago I briefly mentioned the use of protocol as the way of Protocol Oriented Programming." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/10/24/swift-protocol-development-guide/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/10/24/swift-protocol-development-guide/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-10-24T15:43:06+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/10/24/swift-protocol-development-guide/">
+  <link rel="canonical" href="http://localhost:4000/2016/10/24/swift-protocol-development-guide/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Swift Protocol Development Guide</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-10-24T15:43:06+08:00">24 October 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -86,11 +85,10 @@
 
 <p>Let’s use a make up example of <code class="highlighter-rouge">Codable</code>, a protocol with a single function <code class="highlighter-rouge">code</code>:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span> <span class="p">{</span>
   <span class="kd">func</span> <span class="nf">code</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Any class now that extends <code class="highlighter-rouge">Codable</code> will require the <code class="highlighter-rouge">code</code> method.</p>
 
@@ -100,13 +98,12 @@
 
 <p>For example, the default implementation below will always return true.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Codable</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Codable</span> <span class="p">{</span>
   <span class="kd">func</span> <span class="nf">code</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kc">true</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now, any type that implements the <code class="highlighter-rouge">Codable</code> protocol get the default implementation, for FREE!</p>
 
@@ -118,13 +115,12 @@
 
 <p>You can enforce that the default extension be of the type <code class="highlighter-rouge">UIViewController</code>.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Codable</span> <span class="k">where</span> <span class="k">Self</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">Codable</span> <span class="k">where</span> <span class="k">Self</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
   <span class="kd">func</span> <span class="nf">code</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
     <span class="k">return</span> <span class="k">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">hidden</span>   <span class="c1">// self is now a UIViewController!</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Of course, now any type that implements the <code class="highlighter-rouge">Codable</code> protocol must be a <code class="highlighter-rouge">UIViewController</code>, if it wants the default implementation.</p>
 
@@ -132,9 +128,8 @@
 
 <p>You may enforce that a protocol is to be use by classes only (sorry structs and enums).</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span><span class="p">:</span> <span class="kd">class</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span><span class="p">:</span> <span class="kd">class</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+</code></pre></div></div>
 
 <p>This is needed especially for the scenario where you need a protocol to be <code class="highlighter-rouge">weak</code> (to avoid <a href="http://samwize.com/2016/08/05/reference-cycle-for-closures/">retain cycle</a>). Because:</p>
 
@@ -148,19 +143,17 @@
 
 <p>You can use <code class="highlighter-rouge">Self</code> in the protocol declaration to refer to the actual type that implements it.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span> <span class="p">{</span>
   <span class="kd">func</span> <span class="nf">code</span><span class="p">(</span><span class="nv">foo</span><span class="p">:</span> <span class="k">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>So if later your <code class="highlighter-rouge">UIViewController</code> implements it, <code class="highlighter-rouge">foo</code> can be of the actual type.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">MyViewController</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">MyViewController</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
   <span class="kd">func</span> <span class="nf">code</span><span class="p">(</span><span class="nv">foo</span><span class="p">:</span> <span class="kt">MyViewController</span><span class="p">)</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="associated-types---using-associatedtype">Associated Types - Using <code class="highlighter-rouge">associatedtype</code></h2>
 
@@ -168,22 +161,20 @@
 
 <p>Here, we declare <code class="highlighter-rouge">Code</code> as a generic type to be used in the protocol.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span> <span class="p">{</span>
-  <span class="k">associatedtype</span> <span class="kt">Code</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span> <span class="p">{</span>
+  <span class="kd">associatedtype</span> <span class="kt">Code</span>
   <span class="kd">func</span> <span class="nf">code</span><span class="p">(</span><span class="nv">foo</span><span class="p">:</span> <span class="kt">Code</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now, you can implement the actual type of <code class="highlighter-rouge">Code</code>. We use <code class="highlighter-rouge">Int</code> in this example:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ActualCodable</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ActualCodable</span><span class="p">:</span> <span class="kt">Codable</span> <span class="p">{</span>
   <span class="kd">func</span> <span class="nf">code</span><span class="p">(</span><span class="nv">foo</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
     <span class="k">return</span> <span class="n">foo</span> <span class="o">&gt;</span> <span class="mi">10</span>
   <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can make the protocol <a href="https://www.natashatherobot.com/swift-making-the-associated-type-parameter-readable-in-protocols/">more readable</a> if <code class="highlighter-rouge">foo</code> does not describes your parameter name well. In the protocol declaration, you can use <code class="highlighter-rouge">_</code> instead of naming it <code class="highlighter-rouge">foo</code>, then in implementation use any name you want.</p>
 
@@ -194,14 +185,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Swift+Protocol+Development+Guide&amp;url=http://samwize.com/2016/10/24/swift-protocol-development-guide"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Swift+Protocol+Development+Guide&amp;url=http://localhost:4000/2016/10/24/swift-protocol-development-guide"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Swift+Protocol+Development+Guide&amp;u=http://samwize.com/2016/10/24/swift-protocol-development-guide"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Swift+Protocol+Development+Guide&amp;u=http://localhost:4000/2016/10/24/swift-protocol-development-guide"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -210,7 +201,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Swift+Protocol+Development+Guide&amp;url=http://samwize.com/2016/10/24/swift-protocol-development-guide"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Swift+Protocol+Development+Guide&amp;url=http://localhost:4000/2016/10/24/swift-protocol-development-guide"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

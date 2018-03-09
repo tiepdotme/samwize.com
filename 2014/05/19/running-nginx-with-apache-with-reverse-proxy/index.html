@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Running Nginx with Apache, with reverse proxy" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="When I migrate my wordpress-es to VPS, Apache was the default setup." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="When I migrate my wordpress-es to VPS, Apache was the default setup." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/05/19/running-nginx-with-apache-with-reverse-proxy/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/05/19/running-nginx-with-apache-with-reverse-proxy/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-05-19T12:20:28+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/05/19/running-nginx-with-apache-with-reverse-proxy/">
+  <link rel="canonical" href="http://localhost:4000/2014/05/19/running-nginx-with-apache-with-reverse-proxy/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Running Nginx with Apache, with reverse proxy</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-05-19T12:20:28+08:00">19 May 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -103,7 +102,7 @@
     server {
             listen  80;</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>        root  /var/www/nginxapp.com/;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        root  /var/www/nginxapp.com/;
         index   index.html index.htm;
 
         server_name   nginxapp.com;
@@ -124,8 +123,7 @@
         #  proxy_cache_bypass $http_upgrade;
         #}
 } ```
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note: You should setup your node app and listen on 8021. In the meanwhile (testing), you can put a dummy index.html in <code class="highlighter-rouge">/var/www/nginxapp.com/</code>.</p>
 
@@ -135,7 +133,7 @@
     server {
             listen  80 default_server;</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>        location / {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        location / {
 
                 proxy_set_header X-Real-IP  $remote_addr;
                 proxy_set_header X-Forwarded-For $remote_addr;
@@ -148,15 +146,13 @@
                 deny all;
         }
 } ```
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Enable the nginx conf with these commands:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo ln -s /etc/nginx/sites-available/nginxapp.com.conf /etc/nginx/sites-enabled/nginxapp.com.conf
-sudo ln -s /etc/nginx/sites-available/apache-proxy.conf /etc/nginx/sites-enabled/apache-proxy.conf
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ln <span class="nt">-s</span> /etc/nginx/sites-available/nginxapp.com.conf /etc/nginx/sites-enabled/nginxapp.com.conf
+<span class="nb">sudo </span>ln <span class="nt">-s</span> /etc/nginx/sites-available/apache-proxy.conf /etc/nginx/sites-enabled/apache-proxy.conf
+</code></pre></div></div>
 
 <h2 id="apache">Apache</h2>
 
@@ -165,26 +161,25 @@ sudo ln -s /etc/nginx/sites-available/apache-proxy.conf /etc/nginx/sites-enabled
 <p>```apache /etc/apache2/ports.conf
     Listen 8011</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># As per default configuration ```
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># As per default configuration ```
+</code></pre></div></div>
 
 <p>Below is a sample of a virtual host file. You need to change for all. The change is again on the listening port.</p>
 
-<p><code class="highlighter-rouge">apache /etc/apache2/sites-available/awesome.com.conf
+<p>```apache /etc/apache2/sites-available/awesome.com.conf
     &lt;VirtualHost *:8011&gt;
         # as per your configuration
-    &lt;/VirtualHost&gt;
-</code></p>
+    &lt;/VirtualHost&gt;</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 
-<h2 id="restart">Restart</h2>
+## Restart
 
-<p>With that, restart each service with apache first, then nginx.</p>
+With that, restart each service with apache first, then nginx.
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo service apache restart
+```bash
+sudo service apache restart
 sudo service nginx restart
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now, you if you go to <code class="highlighter-rouge">http://apacheapp.com</code>, it should work, and it is because nginx is proxying nicely to apache.</p>
 
@@ -208,14 +203,14 @@ sudo service nginx restart
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Running+Nginx+with+Apache%2C+with+reverse+proxy&amp;url=http://samwize.com/2014/05/19/running-nginx-with-apache-with-reverse-proxy"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Running+Nginx+with+Apache%2C+with+reverse+proxy&amp;url=http://localhost:4000/2014/05/19/running-nginx-with-apache-with-reverse-proxy"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Running+Nginx+with+Apache%2C+with+reverse+proxy&amp;u=http://samwize.com/2014/05/19/running-nginx-with-apache-with-reverse-proxy"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Running+Nginx+with+Apache%2C+with+reverse+proxy&amp;u=http://localhost:4000/2014/05/19/running-nginx-with-apache-with-reverse-proxy"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -224,7 +219,7 @@ sudo service nginx restart
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Running+Nginx+with+Apache%2C+with+reverse+proxy&amp;url=http://samwize.com/2014/05/19/running-nginx-with-apache-with-reverse-proxy"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Running+Nginx+with+Apache%2C+with+reverse+proxy&amp;url=http://localhost:4000/2014/05/19/running-nginx-with-apache-with-reverse-proxy"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

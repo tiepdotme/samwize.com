@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Octopress would not deploy" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="I encountered a problem when I did a rake deploy. Somehow it does not get deployed." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="I encountered a problem when I did a rake deploy. Somehow it does not get deployed." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/09/30/octopress-would-not-deploy/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/09/30/octopress-would-not-deploy/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-09-30T21:59:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/09/30/octopress-would-not-deploy/">
+  <link rel="canonical" href="http://localhost:4000/2012/09/30/octopress-would-not-deploy/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Octopress would not deploy</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-09-30T21:59:00+08:00">30 September 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -76,10 +75,9 @@
 
 <p>The only error I got was:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>The following paths are ignored by one of your .gitignore files:
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The following paths are ignored by one of your .gitignore files:
 _deploy
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <!-- more -->
 
@@ -87,25 +85,22 @@ _deploy
 
 <p>It turns out to be an issue when you clone the repos. You <a href="https://github.com/imathis/octopress/issues/412">must setup the Github pages</a> again.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>rake setup_github_pages 
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rake setup_github_pages 
+</code></pre></div></div>
 
 <p>Just that. Wasted a few hours. Hopes this help others.</p>
 
-<h2 id="another-error-deploy-not-found">Another Error: _deploy not found</h2>
+<h2 id="another-error-_deploy-not-found">Another Error: _deploy not found</h2>
 
 <p>If you deploy and there is error complaining:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Errno::ENOENT: No such file or directory - _deploy
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Errno::ENOENT: No such file or directory - _deploy
+</code></pre></div></div>
 
 <p>You will have to git clone the master branch into _deploy first.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/samwize/samwize.github.com.git _deploy
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/samwize/samwize.github.com.git _deploy
+</code></pre></div></div>
 
 
         </section>
@@ -113,14 +108,14 @@ _deploy
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Octopress+would+not+deploy&amp;url=http://samwize.com/2012/09/30/octopress-would-not-deploy"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Octopress+would+not+deploy&amp;url=http://localhost:4000/2012/09/30/octopress-would-not-deploy"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Octopress+would+not+deploy&amp;u=http://samwize.com/2012/09/30/octopress-would-not-deploy"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Octopress+would+not+deploy&amp;u=http://localhost:4000/2012/09/30/octopress-would-not-deploy"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -129,7 +124,7 @@ _deploy
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Octopress+would+not+deploy&amp;url=http://samwize.com/2012/09/30/octopress-would-not-deploy"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Octopress+would+not+deploy&amp;url=http://localhost:4000/2012/09/30/octopress-would-not-deploy"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

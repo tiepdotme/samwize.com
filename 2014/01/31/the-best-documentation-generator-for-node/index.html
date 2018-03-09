@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="The best documentation generator for Node" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="After researching on the various modules available, I find the best documentation generator is JSDoc, and also Docco." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="After researching on the various modules available, I find the best documentation generator is JSDoc, and also Docco." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/01/31/the-best-documentation-generator-for-node/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/01/31/the-best-documentation-generator-for-node/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-01-31T16:21:45+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/01/31/the-best-documentation-generator-for-node/">
+  <link rel="canonical" href="http://localhost:4000/2014/01/31/the-best-documentation-generator-for-node/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">The best documentation generator for Node</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-01-31T16:21:45+08:00">31 January 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -109,17 +108,15 @@
 
 <p>I made a mistake to install the module globally with npm <code class="highlighter-rouge">-g</code>, which is WRONG. Install locally with:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>npm install jsdoc
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install jsdoc
+</code></pre></div></div>
 
 <p>This is because you need to edit the config file in the module at <code class="highlighter-rouge">./node_modules/jsdoc/config.json</code>. And this part of the information is at <a href="http://usejsdoc.org/about-configuring-jsdoc.html">usejsdoc.org</a>..</p>
 
 <p>To generate, run this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>./node_modules/.bin/jsdoc yourJavaScriptFile.js
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./node_modules/.bin/jsdoc yourJavaScriptFile.js
+</code></pre></div></div>
 
 <p>The doc will appear in <code class="highlighter-rouge">./out</code> (default directory).</p>
 
@@ -133,29 +130,27 @@
 
 <p>To use docstrap, you have to <code class="highlighter-rouge">npm install ink-docstrap</code>, then edit <code class="highlighter-rouge">config.json</code> in <em>jsdoc</em>, and add the following to <code class="highlighter-rouge">templates</code> key.  Note the <code class="highlighter-rouge">theme</code> used is cerulean below.</p>
 
-<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="w">    </span><span class="s2">"templates"</span><span class="err">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nt">"cleverLinks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"monospaceLinks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nt">"outputSourceFiles"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="s2">"templates"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"cleverLinks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"monospaceLinks"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"outputSourceFiles"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
         </span><span class="p">},</span><span class="w">
-        </span><span class="nt">"systemName"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"DocStrap"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"footer"</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"copyright"</span><span class="w">       </span><span class="p">:</span><span class="w"> </span><span class="s2">"DocStrap Copyright © 2012-2013 The contributors to the JSDoc3 and DocStrap projects."</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"navType"</span><span class="w">         </span><span class="p">:</span><span class="w"> </span><span class="s2">"vertical"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"theme"</span><span class="w">           </span><span class="p">:</span><span class="w"> </span><span class="s2">"cerulean"</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"linenums"</span><span class="w">        </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"collapseSymbols"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nt">"inverseNav"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-    </span><span class="p">}</span><span class="err">,</span><span class="w">
-</span></code></pre>
-</div>
+        </span><span class="s2">"systemName"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="s2">"DocStrap"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"footer"</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"copyright"</span><span class="w">       </span><span class="p">:</span><span class="w"> </span><span class="s2">"DocStrap Copyright © 2012-2013 The contributors to the JSDoc3 and DocStrap projects."</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"navType"</span><span class="w">         </span><span class="p">:</span><span class="w"> </span><span class="s2">"vertical"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"theme"</span><span class="w">           </span><span class="p">:</span><span class="w"> </span><span class="s2">"cerulean"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"linenums"</span><span class="w">        </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"collapseSymbols"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"inverseNav"</span><span class="w">      </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Then this is how you generate:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>./node_modules/.bin/jsdoc yourJavaScriptFile.js -t ./node_modules/ink-docstrap/template -c ./node_modules/jsdoc/conf.json
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./node_modules/.bin/jsdoc yourJavaScriptFile.js <span class="nt">-t</span> ./node_modules/ink-docstrap/template <span class="nt">-c</span> ./node_modules/jsdoc/conf.json
+</code></pre></div></div>
 
 <p>And that’s how you have a much better looking website.</p>
 
@@ -165,19 +160,17 @@
 
 <p>Install <a href="http://gruntjs.com/">Grunt</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>npm install -g grunt-cli
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install <span class="nt">-g</span> grunt-cli
+</code></pre></div></div>
 
 <p>Then install the plugin <a href="https://npmjs.org/package/grunt-jsdoc">Grunt-Jsdoc</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>npm install grunt-jsdoc --save-dev
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install grunt-jsdoc <span class="nt">--save-dev</span>
+</code></pre></div></div>
 
 <p>Configure the Gruntfile and use <a href="https://npmjs.org/package/grunt-jsdoc">accordingly</a>. This is mine after configuring:</p>
 
-<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
 
   <span class="c1">// Project configuration.</span>
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
@@ -197,8 +190,7 @@
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">'grunt-jsdoc'</span><span class="p">);</span>
 
 <span class="p">};</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now, you can simple run <code class="highlighter-rouge">grunt jsdoc</code>.</p>
 
@@ -217,14 +209,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=The+best+documentation+generator+for+Node&amp;url=http://samwize.com/2014/01/31/the-best-documentation-generator-for-node"
+                <a class="icon-twitter" href="http://twitter.com/share?text=The+best+documentation+generator+for+Node&amp;url=http://localhost:4000/2014/01/31/the-best-documentation-generator-for-node"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=The+best+documentation+generator+for+Node&amp;u=http://samwize.com/2014/01/31/the-best-documentation-generator-for-node"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=The+best+documentation+generator+for+Node&amp;u=http://localhost:4000/2014/01/31/the-best-documentation-generator-for-node"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -233,7 +225,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=The+best+documentation+generator+for+Node&amp;url=http://samwize.com/2014/01/31/the-best-documentation-generator-for-node"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=The+best+documentation+generator+for+Node&amp;url=http://localhost:4000/2014/01/31/the-best-documentation-generator-for-node"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

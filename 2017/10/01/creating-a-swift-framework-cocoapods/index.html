@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Steps to Create Swift Framework + Cocoapods" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="1. Create framework project" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="1. Create framework project" />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/10/01/creating-a-swift-framework-cocoapods/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/10/01/creating-a-swift-framework-cocoapods/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-10-01T15:32:49+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/10/01/creating-a-swift-framework-cocoapods/">
+  <link rel="canonical" href="http://localhost:4000/2017/10/01/creating-a-swift-framework-cocoapods/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Steps to Create Swift Framework + Cocoapods</h1>
             <div class="cf post-meta-text">
               <time datetime="2017-10-01T15:32:49+08:00">01 October 2017</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -72,7 +71,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <h2 id="create-framework-project">1. Create framework project</h2>
+          <h2 id="1-create-framework-project">1. Create framework project</h2>
 
 <p>Select Xcode &gt; File &gt; New &gt; Project &gt; iOS &gt; <strong>Cocoa Touch Framework</strong></p>
 
@@ -80,16 +79,15 @@
 
 <p>A Cocoa Touch Framework is for iOS, and can use UIKit framework. If you are developing a framework that does not require UIKit, you may select iMac &gt; <strong>Cocoa Framework</strong>.</p>
 
-<h2 id="add-your-source">2. Add your source</h2>
+<h2 id="2-add-your-source">2. Add your source</h2>
 
 <p>As a simple example, add <code class="highlighter-rouge">MyFramework.swift</code>. I tend to keep my source file under <code class="highlighter-rouge">/Source</code>, but it’s to your own preference.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">MyFramework</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">MyFramework</span> <span class="p">{</span>
   <span class="kd">static</span> <span class="k">let</span> <span class="nv">shared</span> <span class="o">=</span> <span class="kt">MyFramework</span><span class="p">()</span>
   <span class="kd">func</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">{}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This provide the client/app <code class="highlighter-rouge">MyFramework.shared.foo()</code>.</p>
 
@@ -97,19 +95,18 @@
 
 <p>Read about <a href="/2017/04/20/access-levels-in-swift/">access level</a>, if needed. In short, to expose your classes and methods, it need to be public or open.</p>
 
-<h2 id="create-cocoapods-spec">3. Create Cocoapods Spec</h2>
+<h2 id="3-create-cocoapods-spec">3. Create Cocoapods Spec</h2>
 
 <p>In your framework root directory, run</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>pod spec create MyFramework
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pod spec create MyFramework
+</code></pre></div></div>
 
 <p>This will create a default <code class="highlighter-rouge">MyFramework.podspec</code>.</p>
 
 <p>You will need to edit the podspec file to your needs. My bare minimum:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">Pod</span><span class="o">::</span><span class="no">Spec</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Pod</span><span class="o">::</span><span class="no">Spec</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
   <span class="n">s</span><span class="p">.</span><span class="nf">name</span>         <span class="o">=</span> <span class="s2">"MyFramework"</span>
   <span class="n">s</span><span class="p">.</span><span class="nf">version</span>      <span class="o">=</span> <span class="s2">"0.0.1"</span>
   <span class="n">s</span><span class="p">.</span><span class="nf">summary</span>      <span class="o">=</span> <span class="s2">"A short description of MyFramework."</span>
@@ -123,8 +120,7 @@
   <span class="c1"># s.source       = { :git =&gt; "https://github/samwize/MyFramework", :tag =&gt; "#{s.version}" }</span>
   <span class="n">s</span><span class="p">.</span><span class="nf">source_files</span>  <span class="o">=</span> <span class="s2">"Source/**/*.swift"</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ul>
   <li><code class="highlighter-rouge">s.name</code> is the pod name, that will subsequently be used in Podfile</li>
@@ -134,16 +130,15 @@
 
 <p>Run <code class="highlighter-rouge">pod spec lint</code> to check if the podspec is ok. There will be 1 error on “Unsupported download strategy”, but we can ignore that for now.</p>
 
-<h2 id="add-pod-to-project">4. Add pod to project</h2>
+<h2 id="4-add-pod-to-project">4. Add pod to project</h2>
 
 <p>Open the project that will be using the pod.</p>
 
 <p>Add to <code class="highlighter-rouge">Podfile</code></p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">pod</span> <span class="s1">'MyFramework'</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">'../MyFramework'</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pod</span> <span class="s1">'MyFramework'</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s1">'../MyFramework'</span>
 <span class="c1"># pod 'MyFramework', :git =&gt; 'https://github.com/samwize/MyFramework', :branch =&gt; 'master'</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We use the local path, assuming MyFramework and the project are in the same folder.</p>
 
@@ -158,14 +153,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Steps+to+Create+Swift+Framework+%2B+Cocoapods&amp;url=http://samwize.com/2017/10/01/creating-a-swift-framework-cocoapods"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Steps+to+Create+Swift+Framework+%2B+Cocoapods&amp;url=http://localhost:4000/2017/10/01/creating-a-swift-framework-cocoapods"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Steps+to+Create+Swift+Framework+%2B+Cocoapods&amp;u=http://samwize.com/2017/10/01/creating-a-swift-framework-cocoapods"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Steps+to+Create+Swift+Framework+%2B+Cocoapods&amp;u=http://localhost:4000/2017/10/01/creating-a-swift-framework-cocoapods"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -174,7 +169,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Steps+to+Create+Swift+Framework+%2B+Cocoapods&amp;url=http://samwize.com/2017/10/01/creating-a-swift-framework-cocoapods"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Steps+to+Create+Swift+Framework+%2B+Cocoapods&amp;url=http://localhost:4000/2017/10/01/creating-a-swift-framework-cocoapods"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

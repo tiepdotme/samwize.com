@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="iMac Shutdown Suddenly and Randomly" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="I have recently faced a critical issue with my iMac (early 2013 model)." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="I have recently faced a critical issue with my iMac (early 2013 model)." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2013/10/13/imac-shutdown-suddenly-and-randomly/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2013/10/13/imac-shutdown-suddenly-and-randomly/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2013-10-13T15:29:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2013/10/13/imac-shutdown-suddenly-and-randomly/">
+  <link rel="canonical" href="http://localhost:4000/2013/10/13/imac-shutdown-suddenly-and-randomly/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">iMac Shutdown Suddenly and Randomly</h1>
             <div class="cf post-meta-text">
               <time datetime="2013-10-13T15:29:00+08:00">13 October 2013</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -84,19 +83,18 @@
 
 <!-- more -->
 
-<h1 id="console-says-cause-0">1. Console says Cause 0</h1>
+<h1 id="1-console-says-cause-0">1. Console says Cause 0</h1>
 
 <p>I checked Console.app, and it logged:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>kernel: Previous Shutdown Cause: 0
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kernel: Previous Shutdown Cause: 0
+</code></pre></div></div>
 
 <p>It was said on the <a href="https://discussions.apple.com/thread/3128527?start=0&amp;tstart=0">forum</a> that a Cause 0 means the power was disconnected. This gives me some clue how it gets shut off.</p>
 
 <p>It will be Casue 5 if triggered from the menu.</p>
 
-<h1 id="running-apple-hardware-test">2. Running Apple Hardware Test</h1>
+<h1 id="2-running-apple-hardware-test">2. Running Apple Hardware Test</h1>
 
 <p>To isolate that the problem, I tried running <a href="http://support.apple.com/kb/ht1509">AHT (Apple Hardware Test)</a>.</p>
 
@@ -104,25 +102,25 @@
 
 <p>But the test said the hardware is fine. But I can’t be 100% sure. In fact I am thinking it could be caused by the SSD or RAM.</p>
 
-<h1 id="installing-temperature-monitor">3. Installing Temperature Monitor</h1>
+<h1 id="3-installing-temperature-monitor">3. Installing Temperature Monitor</h1>
 
 <p>I installed <a href="http://www.macupdate.com/info.php/id/12381/temperature-monitor">Temperature Monitor app</a> to log the temperature of the CPU, GPU, etc.</p>
 
 <p>That again didn’t shed light on the cause. The temperatures were all okay when the system crashed.</p>
 
-<h1 id="learnt-about-resetting-smc">4. Learnt about resetting SMC</h1>
+<h1 id="4-learnt-about-resetting-smc">4. Learnt about resetting SMC</h1>
 
 <p>I learnt that what I have been doing - pulling off the power plug - is the way to <a href="http://support.apple.com/kb/HT3964">reset System Management Controller (SMC)</a>.</p>
 
 <p>For my case, it seems a bit different. I need to power off for 1 minute instead of 20 seconds.</p>
 
-<h1 id="run-memtest">5. Run memtest</h1>
+<h1 id="5-run-memtest">5. Run memtest</h1>
 
 <p>Suspecting it could be a RAM that turned faulty, I run <a href="http://osxdaily.com/2011/05/03/memtest-mac-ram-test/">memtest</a>. That is basically a command line tools that write random data to all of the RAM and verify it is correct.</p>
 
 <p>I run <code class="highlighter-rouge">memtest all 2</code> and nothing bad turned up.</p>
 
-<h1 id="pram-reset">6. PRAM Reset</h1>
+<h1 id="6-pram-reset">6. PRAM Reset</h1>
 
 <p>Finally, I called Apple support for advise. One thing new they asked me to perform is the <a href="http://support.apple.com/kb/HT1379">PRAM reset</a>.</p>
 
@@ -134,11 +132,11 @@
 
 <p>Hence, I got to bring the Mac down to a service center..</p>
 
-<h1 id="apple-forum">7. Apple forum</h1>
+<h1 id="7-apple-forum">7. Apple forum</h1>
 
 <p><a href="https://discussions.apple.com/message/23389173#23389173">Apple forum</a> didn’t provide a clear resolution. At least I knew I am not the only one affected.</p>
 
-<h1 id="sending-in-for-repair">8. Sending in for repair</h1>
+<h1 id="8-sending-in-for-repair">8. Sending in for repair</h1>
 
 <p>Alas, I carried the giant iMac down to a service center for repair. This is my most dreaded.</p>
 
@@ -152,14 +150,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=iMac+Shutdown+Suddenly+and+Randomly&amp;url=http://samwize.com/2013/10/13/imac-shutdown-suddenly-and-randomly"
+                <a class="icon-twitter" href="http://twitter.com/share?text=iMac+Shutdown+Suddenly+and+Randomly&amp;url=http://localhost:4000/2013/10/13/imac-shutdown-suddenly-and-randomly"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=iMac+Shutdown+Suddenly+and+Randomly&amp;u=http://samwize.com/2013/10/13/imac-shutdown-suddenly-and-randomly"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=iMac+Shutdown+Suddenly+and+Randomly&amp;u=http://localhost:4000/2013/10/13/imac-shutdown-suddenly-and-randomly"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -168,7 +166,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=iMac+Shutdown+Suddenly+and+Randomly&amp;url=http://samwize.com/2013/10/13/imac-shutdown-suddenly-and-randomly"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=iMac+Shutdown+Suddenly+and+Randomly&amp;url=http://localhost:4000/2013/10/13/imac-shutdown-suddenly-and-randomly"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

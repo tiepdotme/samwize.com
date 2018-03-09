@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Pitfall: Core Graphics Drawing Blurry Lines" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="There is a common pitfall with using Core Graphics API to draw." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="There is a common pitfall with using Core Graphics API to draw." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-04-19T16:47:18+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines/">
+  <link rel="canonical" href="http://localhost:4000/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Pitfall: Core Graphics Drawing Blurry Lines</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-04-19T16:47:18+08:00">19 April 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,7 +77,7 @@
 
 <p>Take this example of drawing a round rect:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Draw a 1 pt border line with radius 5 in the rect</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Draw a 1 pt border line with radius 5 in the rect</span>
 <span class="k">let</span> <span class="nv">rect</span> <span class="o">=</span> <span class="kt">CGRect</span><span class="p">(</span><span class="nv">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">width</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">100</span><span class="p">)</span>
 <span class="k">let</span> <span class="nv">borderWidth</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="k">let</span> <span class="nv">radius</span><span class="p">:</span> <span class="kt">CGFloat</span> <span class="o">=</span> <span class="mi">5</span>
@@ -104,16 +103,14 @@
 <span class="c1">// Get the final image from context</span>
 <span class="k">let</span> <span class="nv">img</span> <span class="o">=</span> <span class="kt">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">()</span>
 <span class="kt">UIGraphicsEndImageContext</span><span class="p">()</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>When the image is shown on a retina device (@2x or @3x), the 1pt line border will be blurry.</p>
 
 <p>The <a href="http://stackoverflow.com/a/6965894/242682">solution</a> is simple:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kt">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">UIGraphicsBeginImageContextWithOptions</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>Use <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIKitFunctionReference/#//apple_ref/c/func/UIGraphicsBeginImageContextWithOptions"><code class="highlighter-rouge">UIGraphicsBeginImageContextWithOptions</code> API</a> instead of the old <code class="highlighter-rouge">UIGraphicsBeginImageContext</code>.</p>
 
@@ -126,14 +123,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Pitfall%3A+Core+Graphics+Drawing+Blurry+Lines&amp;url=http://samwize.com/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Pitfall%3A+Core+Graphics+Drawing+Blurry+Lines&amp;url=http://localhost:4000/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Pitfall%3A+Core+Graphics+Drawing+Blurry+Lines&amp;u=http://samwize.com/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Pitfall%3A+Core+Graphics+Drawing+Blurry+Lines&amp;u=http://localhost:4000/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -142,7 +139,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Pitfall%3A+Core+Graphics+Drawing+Blurry+Lines&amp;url=http://samwize.com/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Pitfall%3A+Core+Graphics+Drawing+Blurry+Lines&amp;url=http://localhost:4000/2016/04/19/pitfall-drawing-with-core-graphics-gives-blurry-lines"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

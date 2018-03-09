@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Setting up an email server for multiple subdomains (on Digital Ocean)" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Why would someone setup an email server when there is Gmail?" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Why would someone setup an email server when there is Gmail?" />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-07-11T21:47:11+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/">
+  <link rel="canonical" href="http://localhost:4000/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Setting up an email server for multiple subdomains (on Digital Ocean)</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-07-11T21:47:11+08:00">11 July 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -96,17 +95,15 @@
 
 <p>A Record</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mail &gt; 128.123.213.132
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mail &gt; 128.123.213.132
+</code></pre></div></div>
 
 <p>MX Records</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@ &gt; mail.wahhh.com
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@ &gt; mail.wahhh.com
 app1 &gt; mail.wahhh.com
 app2 &gt; mail.wahhh.com
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>An example of how the configuration will work:</p>
 
@@ -118,11 +115,10 @@ app2 &gt; mail.wahhh.com
 
 <p>Find out the <a href="http://www.iredmail.org/download.html">latest version</a> (0.8.7 is latest in Jul 2014) and install accordingly:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>wget https://bitbucket.org/zhb/iredmail/downloads/iRedMail-0.8.7.tar.bz2
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://bitbucket.org/zhb/iredmail/downloads/iRedMail-0.8.7.tar.bz2
 tar jxvf iRedMail-0.8.7.tar.bz2 &amp;&amp; cd iRedMail-0.8.7
 bash iRedMail.sh
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Follow through the GUI installer.</p>
 
@@ -136,17 +132,15 @@ bash iRedMail.sh
 
 <p>The TXT Record looks like the following (must have the quotes):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>dkim_domainkey &gt; "v=DKIM1; p=ABCDEFG...XYZ"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dkim_domainkey &gt; "v=DKIM1; p=ABCDEFG...XYZ"
+</code></pre></div></div>
 
 <p>Add another one for SPF, which includes your IP address:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>@ &gt; "v=spf1 ip4:128.123.213.132 -all"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@ &gt; "v=spf1 ip4:128.123.213.132 -all"
 app1 &gt; "v=spf1 ip4:128.123.213.132 -all"
 app2 &gt; "v=spf1 ip4:128.123.213.132 -all"
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="adding-virtual-domains-and-users">Adding Virtual Domains and Users</h2>
 
@@ -207,10 +201,9 @@ app2 &gt; "v=spf1 ip4:128.123.213.132 -all"
   <li>
     <p><code class="highlighter-rouge">nano /etc/apache2/sites-available/default-ssl.conf</code> &gt; Edit the key and cert path</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code>SSLCertificateFile /etc/ssl/private/mail-wahhh-chain.pem
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SSLCertificateFile /etc/ssl/private/mail-wahhh-chain.pem
 SSLCertificateKeyFile /etc/ssl/private/mail-wahhh-decrypted.key
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>
     <p><code class="highlighter-rouge">service apache2 restart</code></p>
@@ -224,14 +217,14 @@ SSLCertificateKeyFile /etc/ssl/private/mail-wahhh-decrypted.key
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Setting+up+an+email+server+for+multiple+subdomains+%28on+Digital+Ocean%29&amp;url=http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Setting+up+an+email+server+for+multiple+subdomains+%28on+Digital+Ocean%29&amp;url=http://localhost:4000/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Setting+up+an+email+server+for+multiple+subdomains+%28on+Digital+Ocean%29&amp;u=http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Setting+up+an+email+server+for+multiple+subdomains+%28on+Digital+Ocean%29&amp;u=http://localhost:4000/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -240,7 +233,7 @@ SSLCertificateKeyFile /etc/ssl/private/mail-wahhh-decrypted.key
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Setting+up+an+email+server+for+multiple+subdomains+%28on+Digital+Ocean%29&amp;url=http://samwize.com/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Setting+up+an+email+server+for+multiple+subdomains+%28on+Digital+Ocean%29&amp;url=http://localhost:4000/2014/07/11/setting-up-an-email-server-for-multiple-subdomains-on-digital-ocean"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

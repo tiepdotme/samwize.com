@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Using Custom UICollectionViewCell Xib in Storyboard" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="There are many methods to creating your user interface - storyboard, xib, pure code, with custom cell, using view tags.." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="There are many methods to creating your user interface - storyboard, xib, pure code, with custom cell, using view tags.." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-04-06T11:46:17+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard/">
+  <link rel="canonical" href="http://localhost:4000/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Using Custom UICollectionViewCell Xib in Storyboard</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-04-06T11:46:17+08:00">06 April 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,34 +77,32 @@
 
 <p>This post will briefly describe the different methods, with a focus on using custom <code class="highlighter-rouge">UICollectionViewCell</code> in a xib, which will be used in a view controller in a storyboard.</p>
 
-<h2 id="using-view-tags">1. Using view tags</h2>
+<h2 id="1-using-view-tags">1. Using view tags</h2>
 
 <p>As always, we have a <code class="highlighter-rouge">configureCell:</code> method in <code class="highlighter-rouge">collectionView:cellForItemAtIndexPath:</code> for configuring the cell.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="nv">collectionView</span><span class="p">:</span> <span class="kt">UICollectionView</span><span class="p">,</span> <span class="n">cellForItemAtIndexPath</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UICollectionViewCell</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">collectionView</span><span class="p">(</span><span class="nv">collectionView</span><span class="p">:</span> <span class="kt">UICollectionView</span><span class="p">,</span> <span class="n">cellForItemAtIndexPath</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">NSIndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UICollectionViewCell</span> <span class="p">{</span>
     <span class="k">let</span> <span class="nv">cell</span> <span class="o">=</span> <span class="n">collectionView</span><span class="o">.</span><span class="nf">dequeueReusableCellWithReuseIdentifier</span><span class="p">(</span><span class="s">"cell"</span><span class="p">,</span> <span class="nv">forIndexPath</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
     <span class="nf">configureCell</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="nv">atIndexPath</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cell</span>
 <span class="p">}</span>    
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Our simple example will have just a <code class="highlighter-rouge">UILabel</code> in the cell, and set to a certain name.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">configureCell</span><span class="p">(</span><span class="nv">cell</span><span class="p">:</span> <span class="kt">UICollectionViewCell</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">configureCell</span><span class="p">(</span><span class="nv">cell</span><span class="p">:</span> <span class="kt">UICollectionViewCell</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">let</span> <span class="nv">nameLabel</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="nf">viewWithTag</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">UILabel</span>
     <span class="n">nameLabel</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="o">...</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Using view tags is the quickest way to develop. All you need is to set a unique tag for each view in the cell in the storyboard.</p>
 
-<h2 id="using-custom-cell">2. Using Custom cell</h2>
+<h2 id="2-using-custom-cell">2. Using Custom cell</h2>
 
 <p>Creating a custom cell is the most popular way, because you separate the view code nicely.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyCell</span><span class="p">:</span> <span class="kt">UICollectionViewCell</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyCell</span><span class="p">:</span> <span class="kt">UICollectionViewCell</span> <span class="p">{</span>
     
     <span class="kd">@IBOutlet</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">nameLabel</span><span class="p">:</span> <span class="kt">UILabel</span><span class="o">!</span>
     
@@ -115,22 +112,20 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In your storyboard, you will set the cell class to <code class="highlighter-rouge">MyCell</code>, and connect a <code class="highlighter-rouge">UILabel</code> in the cell to the IBOutlet.</p>
 
 <p>Then in <code class="highlighter-rouge">configureCell:</code>, you will instead now use the subclass <code class="highlighter-rouge">MyCell</code> instead of <code class="highlighter-rouge">UICollectionViewCell</code>.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">configureCell</span><span class="p">(</span><span class="nv">cell</span><span class="p">:</span> <span class="kt">MyCell</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">configureCell</span><span class="p">(</span><span class="nv">cell</span><span class="p">:</span> <span class="kt">MyCell</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">cell</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="o">...</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that you set the <code class="highlighter-rouge">name</code> property, instead of the views directly. This is a good separation of view and model code.</p>
 
-<h2 id="using-custom-cell-in-a-xib">3. Using Custom cell in a xib</h2>
+<h2 id="3-using-custom-cell-in-a-xib">3. Using Custom cell in a xib</h2>
 
 <p>Using an xib instead of constructing the cell in a storyboard is useful if you want to <strong>reuse the cell in multiple scenes</strong>.</p>
 
@@ -144,11 +139,10 @@
 
 <p>Instead, in the view controller, this is how you set it up:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">collectionView</span><span class="o">.</span><span class="nf">registerNib</span><span class="p">(</span><span class="kt">UINib</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="s">"MyCell"</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">),</span> <span class="nv">forCellWithReuseIdentifier</span><span class="p">:</span> <span class="s">"cell"</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You must register the cell xib so that the collection view knows about the cell.</p>
 
@@ -160,14 +154,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Using+Custom+UICollectionViewCell+Xib+in+Storyboard&amp;url=http://samwize.com/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Using+Custom+UICollectionViewCell+Xib+in+Storyboard&amp;url=http://localhost:4000/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Using+Custom+UICollectionViewCell+Xib+in+Storyboard&amp;u=http://samwize.com/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Using+Custom+UICollectionViewCell+Xib+in+Storyboard&amp;u=http://localhost:4000/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -176,7 +170,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Using+Custom+UICollectionViewCell+Xib+in+Storyboard&amp;url=http://samwize.com/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Using+Custom+UICollectionViewCell+Xib+in+Storyboard&amp;url=http://localhost:4000/2016/04/06/using-custom-uicollectionviewcell-xib-in-storyboard"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

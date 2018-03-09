@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Guide to Installing KZPlayground/Code Injection for Xcode" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="NOT WORKING (as of Nov 2016): #171" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="NOT WORKING (as of Nov 2016): #171" />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-10-31T13:06:04+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode/">
+  <link rel="canonical" href="http://localhost:4000/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Guide to Installing KZPlayground/Code Injection for Xcode</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-10-31T13:06:04+08:00">31 October 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -92,22 +91,20 @@
 
 <p><a href="https://github.com/nrbrook/MakeXcodePluginsWork">MakeXcodePluginsWork</a>, provides a way to unsign (and also to revert to signed) Xcode.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/nrbrook/MakeXcodePluginsWork
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/nrbrook/MakeXcodePluginsWork
 cd MakeXcodePluginsWork
 # Edit makeXcodePluginsWork if you Xcode path is different
 # Eg. My Xcode is /Applications/Xcode 8.app
 ./makeXcodePluginsWork
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>There <a href="https://github.com/inket/update_xcode_plugins">are</a> <a href="https://github.com/johntmcintosh/xcunsign">other</a> <a href="https://github.com/fpg1503/MakeXcodeGr8Again">tools</a>. All similarly uses steakknife’s <a href="https://github.com/steakknife/unsign">unsign</a>.</p>
 
 <h2 id="build-code-injection-plugin">Build Code Injection Plugin</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/johnno1962/injectionforxcode
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/johnno1962/injectionforxcode
 open injectionforxcode/InjectionPluginLite/InjectionPlugin.xcodeproj
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In Xcode, go to the target and make sure you select your signing team.</p>
 
@@ -127,11 +124,10 @@ open injectionforxcode/InjectionPluginLite/InjectionPlugin.xcodeproj
 
 <p>Let’s test by adding this special func to a view controller:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">injected</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">injected</span><span class="p">()</span> <span class="p">{</span>
     <span class="nf">print</span><span class="p">(</span><span class="s">"I've been injected: </span><span class="se">\(</span><span class="k">self</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This <code class="highlighter-rouge">injected</code> func is special as it is the entry point for any code injection. You can write your injected code within.</p>
 
@@ -152,14 +148,14 @@ open injectionforxcode/InjectionPluginLite/InjectionPlugin.xcodeproj
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Installing+KZPlayground%2FCode+Injection+for+Xcode&amp;url=http://samwize.com/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Installing+KZPlayground%2FCode+Injection+for+Xcode&amp;url=http://localhost:4000/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Installing+KZPlayground%2FCode+Injection+for+Xcode&amp;u=http://samwize.com/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Installing+KZPlayground%2FCode+Injection+for+Xcode&amp;u=http://localhost:4000/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -168,7 +164,7 @@ open injectionforxcode/InjectionPluginLite/InjectionPlugin.xcodeproj
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Installing+KZPlayground%2FCode+Injection+for+Xcode&amp;url=http://samwize.com/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Installing+KZPlayground%2FCode+Injection+for+Xcode&amp;url=http://localhost:4000/2016/10/31/guide-to-installing-kzplayground-code-injection-for-xcode"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

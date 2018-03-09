@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Guide on using OCMock" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="OCMock is a great framework for Objective-C (iOS or Mac OS) for test driven development." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="OCMock is a great framework for Objective-C (iOS or Mac OS) for test driven development." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/06/16/guide-on-using-ocmock/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/06/16/guide-on-using-ocmock/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-06-16T22:31:33+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/06/16/guide-on-using-ocmock/">
+  <link rel="canonical" href="http://localhost:4000/2015/06/16/guide-on-using-ocmock/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Guide on using OCMock</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-06-16T22:31:33+08:00">16 June 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -80,11 +79,11 @@
 
 <!-- more -->
 
-<h2 id="mock-an-instance-method">1.  Mock an instance method</h2>
+<h2 id="1--mock-an-instance-method">1.  Mock an instance method</h2>
 
 <p>If you have a class <code class="highlighter-rouge">MyClass</code>, an instance <code class="highlighter-rouge">anObject</code>, and an instance method <code class="highlighter-rouge">foo</code>, you can change the return value of <code class="highlighter-rouge">foo</code> during testing:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="c1">// Create a mock for the class
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create a mock for the class
 </span><span class="n">id</span> <span class="n">myClassMock</span> <span class="o">=</span> <span class="n">OCMClassMock</span><span class="p">([</span><span class="n">MyClass</span> <span class="nf">class</span><span class="p">]);</span>
 
 <span class="c1">// Change the method's behaviour for MyClass with a stub
@@ -95,66 +94,59 @@
 
 <span class="c1">// If you want to return Apple for all fruits
 </span><span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="nf">fruitWithColor</span><span class="p">:[</span><span class="n">OCMArg</span> <span class="nf">any</span><span class="p">]]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@"Apple"</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="mock-a-class-method">2. Mock a class method</h2>
+<h2 id="2-mock-a-class-method">2. Mock a class method</h2>
 
 <p>Mocking a class method is exactly the same as mocking for instance method.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">id</span> <span class="n">myClassMock</span> <span class="o">=</span> <span class="n">OCMClassMock</span><span class="p">([</span><span class="n">MyClass</span> <span class="nf">class</span><span class="p">]);</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">id</span> <span class="n">myClassMock</span> <span class="o">=</span> <span class="n">OCMClassMock</span><span class="p">([</span><span class="n">MyClass</span> <span class="nf">class</span><span class="p">]);</span>
 <span class="n">OCMStub</span><span class="p">([</span><span class="n">myClassMock</span> <span class="nf">classMethod</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@"bar"</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="mock-an-object-partial-mock">3. Mock an object (Partial mock)</h2>
+<h2 id="3-mock-an-object-partial-mock">3. Mock an object (Partial mock)</h2>
 
 <p>If you have the instance <code class="highlighter-rouge">anObject</code>, you can use <code class="highlighter-rouge">OCMPartialMock</code> to create the mock.</p>
 
 <p>This mock in effect is the same as mocking the class.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">id</span> <span class="n">partialMock</span> <span class="o">=</span> <span class="n">OCMPartialMock</span><span class="p">(</span><span class="n">anObject</span><span class="p">);</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">id</span> <span class="n">partialMock</span> <span class="o">=</span> <span class="n">OCMPartialMock</span><span class="p">(</span><span class="n">anObject</span><span class="p">);</span>
 <span class="n">OCMStub</span><span class="p">([</span><span class="n">partialMock</span> <span class="nf">foo</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="s">@"bar"</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Pitfall: You might assume partial mock applies to only that instance <code class="highlighter-rouge">anObject</code>. That’s wrong. If you have <code class="highlighter-rouge">anotherObject2</code>, it will be affected by whatever was mocked because partial mock actually mock the whole class.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">anObject</span> <span class="nf">foo</span><span class="p">];</span>     <span class="c1">// Will return @"bar"
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">anObject</span> <span class="nf">foo</span><span class="p">];</span>     <span class="c1">// Will return @"bar"
 </span><span class="p">[</span><span class="n">anObject2</span> <span class="nf">foo</span><span class="p">];</span>    <span class="c1">// Will return @"bar" too!
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
-<h2 id="stop-mocking">4. Stop mocking</h2>
+<h2 id="4-stop-mocking">4. Stop mocking</h2>
 
 <p>You can stop mocking to return to the real object and reset it’s behaviours.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">anObject</span> <span class="nf">foo</span><span class="p">];</span>     <span class="c1">// Will return @"bar"
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">anObject</span> <span class="nf">foo</span><span class="p">];</span>     <span class="c1">// Will return @"bar"
 </span><span class="p">[</span><span class="n">anObject</span> <span class="nf">stopMocking</span><span class="p">];</span>
 <span class="p">[</span><span class="n">anObject2</span> <span class="nf">foo</span><span class="p">];</span>    <span class="c1">// Will return as per normal
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>We use the example of partial mock, but you could call <code class="highlighter-rouge">[MyClass stopMocking]</code> and it will have the same effects.</p>
 
-<h2 id="stub-methods-and-chaining">5. Stub methods and chaining</h2>
+<h2 id="5-stub-methods-and-chaining">5. Stub methods and chaining</h2>
 
 <p>You can stub the methods with different actions: return object, return native values, throw, post notification, forward to real object or do nothing.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="n">anObject</span><span class="p">);</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="n">anObject</span><span class="p">);</span>
 <span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">aMethodReturningABoolean</span><span class="p">]).</span><span class="n">andReturn</span><span class="p">(</span><span class="nb">YES</span><span class="p">);</span>
 <span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andThrow</span><span class="p">(</span><span class="n">anException</span><span class="p">);</span>
 <span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andPost</span><span class="p">(</span><span class="n">aNotification</span><span class="p">);</span>
 <span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andForwardToRealObject</span><span class="p">();</span>
 <span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andDo</span><span class="p">(</span><span class="n">anInvocation</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You can also <a href="http://ocmock.org/reference/#stubing-methods">chain</a> <code class="highlighter-rouge">andPost</code> and <code class="highlighter-rouge">andReturn</code> with other actions.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andPost</span><span class="p">(</span><span class="n">aNotification</span><span class="p">).</span><span class="n">andReturn</span><span class="p">(</span><span class="n">aValue</span><span class="p">);</span>
-</code></pre>
-</div>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">OCMStub</span><span class="p">([</span><span class="n">mock</span> <span class="nf">someMethod</span><span class="p">]).</span><span class="n">andPost</span><span class="p">(</span><span class="n">aNotification</span><span class="p">).</span><span class="n">andReturn</span><span class="p">(</span><span class="n">aValue</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h2 id="limitations---especially-core-data">Limitations - Especially Core Data</h2>
 
@@ -171,14 +163,14 @@ but there are other limitations.</p>
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+on+using+OCMock&amp;url=http://samwize.com/2015/06/16/guide-on-using-ocmock"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+on+using+OCMock&amp;url=http://localhost:4000/2015/06/16/guide-on-using-ocmock"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+on+using+OCMock&amp;u=http://samwize.com/2015/06/16/guide-on-using-ocmock"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+on+using+OCMock&amp;u=http://localhost:4000/2015/06/16/guide-on-using-ocmock"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -187,7 +179,7 @@ but there are other limitations.</p>
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+on+using+OCMock&amp;url=http://samwize.com/2015/06/16/guide-on-using-ocmock"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+on+using+OCMock&amp;url=http://localhost:4000/2015/06/16/guide-on-using-ocmock"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="How to write Getter/Setter for static variables" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="In the last post, I blogged about how you should write Getter/Setter for member variables." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="In the last post, I blogged about how you should write Getter/Setter for member variables." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/09/20/how-to-write-getter-slash-setter-for-static-variables/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/09/20/how-to-write-getter-slash-setter-for-static-variables/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-09-20T14:14:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/09/20/how-to-write-getter-slash-setter-for-static-variables/">
+  <link rel="canonical" href="http://localhost:4000/2012/09/20/how-to-write-getter-slash-setter-for-static-variables/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">How to write Getter/Setter for static variables</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-09-20T14:14:00+08:00">20 September 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -82,7 +81,7 @@
 
 <p>The best answer for me is this:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">_foo</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="k">class</span> <span class="nc">__metaclass__</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
         <span class="nd">@property</span>
@@ -92,34 +91,32 @@
         <span class="nd">@foo.setter</span>
         <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
                 <span class="n">cls</span><span class="o">.</span><span class="n">_foo</span> <span class="o">=</span> <span class="n">value</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>It uses <code class="highlighter-rouge">__metaclass__</code>, some kind of <a href="http://www.voidspace.org.uk/python/articles/five-minutes.shtml">black magic</a> in Python.</p>
 
 <p>With that, you can use the getter/setter on the static variable.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span>
 <span class="mi">5</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">foo</span>
 <span class="mi">3</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+write+Getter%2FSetter+for+static+variables&amp;url=http://samwize.com/2012/09/20/how-to-write-getter-slash-setter-for-static-variables"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+write+Getter%2FSetter+for+static+variables&amp;url=http://localhost:4000/2012/09/20/how-to-write-getter-slash-setter-for-static-variables"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+write+Getter%2FSetter+for+static+variables&amp;u=http://samwize.com/2012/09/20/how-to-write-getter-slash-setter-for-static-variables"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+write+Getter%2FSetter+for+static+variables&amp;u=http://localhost:4000/2012/09/20/how-to-write-getter-slash-setter-for-static-variables"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -128,7 +125,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+write+Getter%2FSetter+for+static+variables&amp;url=http://samwize.com/2012/09/20/how-to-write-getter-slash-setter-for-static-variables"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+write+Getter%2FSetter+for+static+variables&amp;url=http://localhost:4000/2012/09/20/how-to-write-getter-slash-setter-for-static-variables"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

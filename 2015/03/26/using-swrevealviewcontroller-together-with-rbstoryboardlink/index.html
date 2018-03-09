@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Using SWRevealViewController together with RBStoryboardLink" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="I posted about how to modularize storyboard using RBStoryboardLink and how to use SWRevealViewController." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="I posted about how to modularize storyboard using RBStoryboardLink and how to use SWRevealViewController." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-03-26T11:08:32+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink/">
+  <link rel="canonical" href="http://localhost:4000/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Using SWRevealViewController together with RBStoryboardLink</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-03-26T11:08:32+08:00">26 March 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -99,12 +98,11 @@
 
 <p>The code:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">buttonTapped</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">buttonTapped</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">sender</span> <span class="p">{</span>
     <span class="n">UIViewController</span> <span class="o">*</span><span class="n">vc</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">storyboard</span> <span class="nf">instantiateViewControllerWithIdentifier</span><span class="p">:</span><span class="s">@"surrogate"</span><span class="p">];</span> 
     <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">revealViewController</span> <span class="nf">pushFrontViewController</span><span class="p">:</span><span class="n">vc</span> <span class="nf">animated</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If the view controller is not getting behind the status bar correctly, set <code class="highlighter-rouge">needsTopLayoutGuide</code> key to NO in the suggorate.</p>
 
@@ -113,14 +111,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Using+SWRevealViewController+together+with+RBStoryboardLink&amp;url=http://samwize.com/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Using+SWRevealViewController+together+with+RBStoryboardLink&amp;url=http://localhost:4000/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Using+SWRevealViewController+together+with+RBStoryboardLink&amp;u=http://samwize.com/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Using+SWRevealViewController+together+with+RBStoryboardLink&amp;u=http://localhost:4000/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -129,7 +127,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Using+SWRevealViewController+together+with+RBStoryboardLink&amp;url=http://samwize.com/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Using+SWRevealViewController+together+with+RBStoryboardLink&amp;url=http://localhost:4000/2015/03/26/using-swrevealviewcontroller-together-with-rbstoryboardlink"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

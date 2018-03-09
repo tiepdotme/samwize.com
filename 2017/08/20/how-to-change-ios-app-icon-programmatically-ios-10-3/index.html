@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="How to Change iOS App Icon Programmatically (iOS 10.3)" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Changing the app icon is just 1 line of code with setAlternateIconName, but there are many pitfalls, and the lack of guide on how to do it." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Changing the app icon is just 1 line of code with setAlternateIconName, but there are many pitfalls, and the lack of guide on how to do it." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-08-20T16:09:07+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/">
+  <link rel="canonical" href="http://localhost:4000/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">How to Change iOS App Icon Programmatically (iOS 10.3)</h1>
             <div class="cf post-meta-text">
               <time datetime="2017-08-20T16:09:07+08:00">20 August 2017</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,15 +77,14 @@
 
 <p>Let’s start with the easy part, which is the code to change the app icon programmatically.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="kd">#available(iOS 10.3, *)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="kd">#available(iOS 10.3, *)</span> <span class="p">{</span>
     <span class="k">let</span> <span class="nv">newAppIconName</span> <span class="o">=</span> <span class="s">"AppIcon-2"</span>
 
     <span class="k">guard</span> <span class="kt">UIApplication</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="n">alternateIconName</span> <span class="o">!=</span> <span class="n">newAppIconName</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
 
     <span class="kt">UIApplication</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">setAlternateIconName</span><span class="p">(</span><span class="n">newAppIconName</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You might thought you can put the code in app delegate when the app is launched, but no, that will have this un-helpful error:</p>
 
@@ -122,31 +120,31 @@
 
 <p>The following has to be added:</p>
 
-<pre><code class="language-plist">&lt;key&gt;CFBundleIcons&lt;/key&gt;
-&lt;dict&gt;
-  &lt;key&gt;CFBundlePrimaryIcon&lt;/key&gt;
-  &lt;dict&gt;
-    &lt;key&gt;CFBundleIconFiles&lt;/key&gt;
-    &lt;array&gt;
-      &lt;string&gt;AppIcon&lt;/string&gt;
-    &lt;/array&gt;
-    &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;
-    &lt;true/&gt;
-  &lt;/dict&gt;
-  &lt;key&gt;CFBundleAlternateIcons&lt;/key&gt;
-  &lt;dict&gt;
-    &lt;key&gt;AppIcon-2&lt;/key&gt;
-    &lt;dict&gt;
-      &lt;key&gt;CFBundleIconFiles&lt;/key&gt;
-      &lt;array&gt;
-        &lt;string&gt;AppIcon-2&lt;/string&gt;
-      &lt;/array&gt;
-      &lt;key&gt;UIPrerenderedIcon&lt;/key&gt;
-      &lt;true/&gt;
-    &lt;/dict&gt;
-  &lt;/dict&gt;
-&lt;/dict&gt;
-</code></pre>
+<div class="language-plist highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="err">k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="l">CFBundleIcons</span><span class="p">&lt;</span><span class="err">/k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+</span><span class="p">&lt;</span><span class="mh">d</span><span class="err">i</span><span class="mh">c</span><span class="err">t</span><span class="p">&gt;</span><span class="w">
+  </span><span class="p">&lt;</span><span class="err">k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="l">CFBundlePrimaryIcon</span><span class="p">&lt;</span><span class="err">/k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+  </span><span class="p">&lt;</span><span class="mh">d</span><span class="err">i</span><span class="mh">c</span><span class="err">t</span><span class="p">&gt;</span><span class="w">
+    </span><span class="p">&lt;</span><span class="err">k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="l">CFBundleIconFiles</span><span class="p">&lt;</span><span class="err">/k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+    </span><span class="p">&lt;</span><span class="mh">a</span><span class="err">rr</span><span class="mh">a</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+      </span><span class="p">&lt;</span><span class="err">string</span><span class="p">&gt;</span><span class="l">AppIcon</span><span class="p">&lt;</span><span class="err">/string</span><span class="p">&gt;</span><span class="w">
+    </span><span class="p">&lt;</span><span class="err">/</span><span class="mh">a</span><span class="err">rr</span><span class="mh">a</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+    </span><span class="p">&lt;</span><span class="err">k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="l">UIPrerenderedIcon</span><span class="p">&lt;</span><span class="err">/k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+    </span><span class="p">&lt;</span><span class="err">tru</span><span class="mh">e</span><span class="err">/</span><span class="p">&gt;</span><span class="w">
+  </span><span class="p">&lt;</span><span class="err">/</span><span class="mh">d</span><span class="err">i</span><span class="mh">c</span><span class="err">t</span><span class="p">&gt;</span><span class="w">
+  </span><span class="p">&lt;</span><span class="err">k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="l">CFBundleAlternateIcons</span><span class="p">&lt;</span><span class="err">/k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+  </span><span class="p">&lt;</span><span class="mh">d</span><span class="err">i</span><span class="mh">c</span><span class="err">t</span><span class="p">&gt;</span><span class="w">
+    </span><span class="p">&lt;</span><span class="err">k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="l">AppIcon-2</span><span class="p">&lt;</span><span class="err">/k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+    </span><span class="p">&lt;</span><span class="mh">d</span><span class="err">i</span><span class="mh">c</span><span class="err">t</span><span class="p">&gt;</span><span class="w">
+      </span><span class="p">&lt;</span><span class="err">k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="l">CFBundleIconFiles</span><span class="p">&lt;</span><span class="err">/k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+      </span><span class="p">&lt;</span><span class="mh">a</span><span class="err">rr</span><span class="mh">a</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+        </span><span class="p">&lt;</span><span class="err">string</span><span class="p">&gt;</span><span class="l">AppIcon-2</span><span class="p">&lt;</span><span class="err">/string</span><span class="p">&gt;</span><span class="w">
+      </span><span class="p">&lt;</span><span class="err">/</span><span class="mh">a</span><span class="err">rr</span><span class="mh">a</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+      </span><span class="p">&lt;</span><span class="err">k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="l">UIPrerenderedIcon</span><span class="p">&lt;</span><span class="err">/k</span><span class="mh">e</span><span class="err">y</span><span class="p">&gt;</span><span class="w">
+      </span><span class="p">&lt;</span><span class="err">tru</span><span class="mh">e</span><span class="err">/</span><span class="p">&gt;</span><span class="w">
+    </span><span class="p">&lt;</span><span class="err">/</span><span class="mh">d</span><span class="err">i</span><span class="mh">c</span><span class="err">t</span><span class="p">&gt;</span><span class="w">
+  </span><span class="p">&lt;</span><span class="err">/</span><span class="mh">d</span><span class="err">i</span><span class="mh">c</span><span class="err">t</span><span class="p">&gt;</span><span class="w">
+</span><span class="p">&lt;</span><span class="err">/</span><span class="mh">d</span><span class="err">i</span><span class="mh">c</span><span class="err">t</span><span class="p">&gt;</span><span class="w">
+</span></code></pre></div></div>
 
 <p>The <a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW13">keys are explained</a>, but in short:</p>
 
@@ -189,12 +187,11 @@
 
 <p>You could run into error like this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Error Domain=NSCocoaErrorDomain Code=4 "The file doesn’t exist." 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error Domain=NSCocoaErrorDomain Code=4 "The file doesn’t exist." 
 UserInfo={NSUnderlyingError=0x60000005e0c0 {Error Domain=LSApplicationWorkspaceErrorDomain 
 Code=-105 "iconName not found in CFBundleAlternateIcons entry" 
 UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons entry}}}
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In Apple’s <a href="https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/TP40009249-SW14">obscure documentation</a>, it pointed out:</p>
 
@@ -211,14 +208,14 @@ UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons en
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+Change+iOS+App+Icon+Programmatically+%28iOS+10.3%29&amp;url=http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+Change+iOS+App+Icon+Programmatically+%28iOS+10.3%29&amp;url=http://localhost:4000/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+Change+iOS+App+Icon+Programmatically+%28iOS+10.3%29&amp;u=http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+Change+iOS+App+Icon+Programmatically+%28iOS+10.3%29&amp;u=http://localhost:4000/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -227,7 +224,7 @@ UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons en
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+Change+iOS+App+Icon+Programmatically+%28iOS+10.3%29&amp;url=http://samwize.com/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+Change+iOS+App+Icon+Programmatically+%28iOS+10.3%29&amp;url=http://localhost:4000/2017/08/20/how-to-change-ios-app-icon-programmatically-ios-10-3"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

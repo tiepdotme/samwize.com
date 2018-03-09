@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Migrating an iOS Project From Objective-C to Swift" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="UIApplicationDelegate" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="UIApplicationDelegate" />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-02-10T19:09:55+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift/">
+  <link rel="canonical" href="http://localhost:4000/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Migrating an iOS Project From Objective-C to Swift</h1>
             <div class="cf post-meta-text">
               <time datetime="2017-02-10T19:09:55+08:00">10 February 2017</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -88,7 +87,7 @@
 
 <p>The <code class="highlighter-rouge">AwesomeApp-Bridging-Header.h</code> is the place where you add your existing .h files, exposing them to Swift (as and when needed).</p>
 
-<h2 id="using-objective-c-in-swift">1. Using Objective-C in Swift</h2>
+<h2 id="1-using-objective-c-in-swift">1. Using Objective-C in Swift</h2>
 
 <p>We come to the first of the 2 important parts in <a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/BuildingCocoaApps/InteractingWithObjective-CAPIs.html">interoperability</a>.</p>
 
@@ -117,15 +116,14 @@
 
 <p>There are also 2 convenient macros to help you: <code class="highlighter-rouge">NS_ASSUME_NONNULL_BEGIN</code> and <code class="highlighter-rouge">NS_ASSUME_NONNULL_END</code>. Any properties between the macros are considered <code class="highlighter-rouge">nonnull</code>.</p>
 
-<h2 id="using-swift-in-objective-c">2. Using Swift in Objective-C</h2>
+<h2 id="2-using-swift-in-objective-c">2. Using Swift in Objective-C</h2>
 
 <p>This is the second part, if you still need to write <em>more</em> Objective-C.</p>
 
 <p>To use the new Swift code in existing Objective-C, you have to</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>#import "AwesomeApp-Swift.h"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "AwesomeApp-Swift.h"
+</code></pre></div></div>
 
 <p>This will expose all Swift code.</p>
 
@@ -136,14 +134,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Migrating+an+iOS+Project+From+Objective-C+to+Swift&amp;url=http://samwize.com/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Migrating+an+iOS+Project+From+Objective-C+to+Swift&amp;url=http://localhost:4000/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Migrating+an+iOS+Project+From+Objective-C+to+Swift&amp;u=http://samwize.com/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Migrating+an+iOS+Project+From+Objective-C+to+Swift&amp;u=http://localhost:4000/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -152,7 +150,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Migrating+an+iOS+Project+From+Objective-C+to+Swift&amp;url=http://samwize.com/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Migrating+an+iOS+Project+From+Objective-C+to+Swift&amp;url=http://localhost:4000/2017/02/10/migrating-an-ios-project-from-objective-c-to-swift"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

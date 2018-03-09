@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Tutorial on using AFNetworking 2.0" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="This is a follow-up post to the tutorial on using AFNetworking 1.0." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="This is a follow-up post to the tutorial on using AFNetworking 1.0." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-05-10T09:42:16+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/">
+  <link rel="canonical" href="http://localhost:4000/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Tutorial on using AFNetworking 2.0</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-05-10T09:42:16+08:00">10 May 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -80,7 +79,7 @@
 
 <h2 id="get">GET</h2>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
     <span class="p">[</span><span class="n">manager</span> <span class="nf">GET</span><span class="p">:</span><span class="s">@"http://samwize.com/api/poos/"</span>
       <span class="nf">parameters</span><span class="p">:</span><span class="nb">nil</span>
          <span class="n">success</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
@@ -88,12 +87,11 @@
     <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
     <span class="p">}];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="post">POST</h2>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
     <span class="p">[</span><span class="n">manager</span> <span class="nf">POST</span><span class="p">:</span><span class="s">@"http://samwize.com/api/poo/"</span>
        <span class="nf">parameters</span><span class="p">:@{</span><span class="s">@"color"</span><span class="o">:</span> <span class="s">@"green"</span><span class="p">}</span>
           <span class="n">success</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
@@ -101,14 +99,13 @@
     <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
     <span class="p">}];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="post-multi-part">POST Multi-Part</h2>
 
 <p>Similar to POST, but with data (in this case an image) in the body in multi-parts.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
     <span class="n">NSURL</span> <span class="o">*</span><span class="n">filePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">fileURLWithPath</span><span class="p">:</span><span class="s">@"file://path/to/image.png"</span><span class="p">];</span>
     <span class="p">[</span><span class="n">manager</span> <span class="nf">POST</span><span class="p">:</span><span class="s">@"http://samwize.com/api/poo/"</span>
        <span class="nf">parameters</span><span class="p">:@{</span><span class="s">@"color"</span><span class="o">:</span> <span class="s">@"green"</span><span class="p">}</span>
@@ -119,8 +116,7 @@
     <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
     <span class="p">}];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="batch-of-operations">Batch of Operations</h2>
 
@@ -130,7 +126,7 @@
 
 <p>The <a href="https://github.com/AFNetworking/AFNetworking#afhttprequestoperation">sample code</a> below is directly from AFNetworking:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">mutableOperations</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">array</span><span class="p">];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">mutableOperations</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">array</span><span class="p">];</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">NSURL</span> <span class="o">*</span><span class="n">fileURL</span> <span class="k">in</span> <span class="n">filesToUpload</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestSerializer</span> <span class="nf">serializer</span><span class="p">]</span> <span class="nf">multipartFormRequestWithMethod</span><span class="p">:</span><span class="s">@"POST"</span> <span class="nf">URLString</span><span class="p">:</span><span class="s">@"http://example.com/upload"</span> <span class="n">parameters</span><span class="o">:</span><span class="nb">nil</span> <span class="n">constructingBodyWithBlock</span><span class="o">:^</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span> <span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
             <span class="p">[</span><span class="n">formData</span> <span class="nf">appendPartWithFileURL</span><span class="p">:</span><span class="n">fileURL</span> <span class="nf">name</span><span class="p">:</span><span class="s">@"images[]"</span> <span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
@@ -147,8 +143,7 @@
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"All operations in batch complete"</span><span class="p">);</span>
     <span class="p">}];</span>
     <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="nf">mainQueue</span><span class="p">]</span> <span class="nf">addOperations</span><span class="p">:</span><span class="n">operations</span> <span class="nf">waitUntilFinished</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 
@@ -158,36 +153,34 @@
 
 <p>If you are handling XML or data, then you want to use a <a href="https://github.com/AFNetworking/AFNetworking#serialization">different serializer</a>.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// To handle XML
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// To handle XML
 </span>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
     <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFXMLParserResponseSerializer</span> <span class="nf">new</span><span class="p">];</span>
     <span class="c1">// Or data
 </span>    <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPResponseSerializer</span> <span class="nf">new</span><span class="p">];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>AFNetworking is strict with the <code class="highlighter-rouge">Content-Type</code>.</p>
 
 <p>So if your response is a “text/plain” when you are using a JSON serializer, you can do this:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="c1">// Tip by dStudios
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// Tip by dStudios
 </span>    <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span><span class="p">.</span><span class="n">acceptableContentTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSSet</span> <span class="nf">setWithObject</span><span class="p">:</span><span class="s">@"text/plain"</span><span class="p">];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Tutorial+on+using+AFNetworking+2.0&amp;url=http://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Tutorial+on+using+AFNetworking+2.0&amp;url=http://localhost:4000/2014/05/10/tutorial-on-using-afnetworking-2-dot-0"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Tutorial+on+using+AFNetworking+2.0&amp;u=http://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Tutorial+on+using+AFNetworking+2.0&amp;u=http://localhost:4000/2014/05/10/tutorial-on-using-afnetworking-2-dot-0"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -196,7 +189,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Tutorial+on+using+AFNetworking+2.0&amp;url=http://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Tutorial+on+using+AFNetworking+2.0&amp;url=http://localhost:4000/2014/05/10/tutorial-on-using-afnetworking-2-dot-0"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

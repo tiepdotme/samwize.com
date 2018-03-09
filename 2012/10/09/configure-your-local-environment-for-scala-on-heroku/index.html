@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Configure your local environment for Scala on Heroku" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Heroku has a good getting started guide with Scala." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Heroku has a good getting started guide with Scala." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/10/09/configure-your-local-environment-for-scala-on-heroku/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/10/09/configure-your-local-environment-for-scala-on-heroku/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-10-09T00:35:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/10/09/configure-your-local-environment-for-scala-on-heroku/">
+  <link rel="canonical" href="http://localhost:4000/2012/10/09/configure-your-local-environment-for-scala-on-heroku/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Configure your local environment for Scala on Heroku</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-10-09T00:35:00+08:00">09 October 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -86,35 +85,31 @@
 
 <p>Create the file <code class="highlighter-rouge">project/build.sbt</code> with this</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>resolvers += Classpaths.typesafeResolver
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resolvers += Classpaths.typesafeResolver
 
 addSbtPlugin("com.typesafe.startscript" % "xsbt-start-script-plugin" % "0.5.3")
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="procfile">Procfile</h2>
 
 <p>Create the file <code class="highlighter-rouge">Procfile</code> in the root folder. Enter this line:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>web: target/start Web
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>web: target/start Web
+</code></pre></div></div>
 
 <h2 id="build-your-app-locally">Build your app locally</h2>
 
 <p>You need to run this EVERYTIME before you run the app</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ sbt clean compile stage
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sbt clean compile stage
+</code></pre></div></div>
 
 <h2 id="run-your-app-locally">Run your app locally</h2>
 
 <p>Run your app using <a href="http://blog.daviddollar.org/2011/05/06/introducing-foreman.html">foreman</a></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ foreman run
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ foreman run
+</code></pre></div></div>
 
 <p>The app will run on port 5000 (instead of usual 9000).</p>
 
@@ -128,23 +123,20 @@ addSbtPlugin("com.typesafe.startscript" % "xsbt-start-script-plugin" % "0.5.3")
 
 <p>Enter your local environment variables in <code class="highlighter-rouge">.env</code> like this</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>S3_KEY=mykey
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>S3_KEY=mykey
 S3_SECRET=mysecret
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Enter your production environment variables using heroku command as such</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ heroku config:add S3_KEY=superkey
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ heroku config:add S3_KEY=superkey
 $ heroku config:add S3_SECRET=supersecret
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then in your scala code, you can access the respective environment variables as such:</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">val</span> <span class="n">s3Key</span> <span class="k">=</span> <span class="nc">System</span><span class="o">.</span><span class="n">getenv</span><span class="o">(</span><span class="s">"S3_KEY"</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">val</span> <span class="n">s3Key</span> <span class="k">=</span> <span class="nc">System</span><span class="o">.</span><span class="n">getenv</span><span class="o">(</span><span class="s">"S3_KEY"</span><span class="o">)</span>
+</code></pre></div></div>
 
 <h2 id="better-way-to-run-your-app-locally">Better way to run your app locally</h2>
 
@@ -154,15 +146,13 @@ $ heroku config:add S3_SECRET=supersecret
 
 <p>So the better way is to store directly in your computer’s environment variables.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ export S3_KEY=mykey
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ export S3_KEY=mykey
+</code></pre></div></div>
 
 <p>To ensure it’s stored</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ echo $S3_KEY
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo $S3_KEY
+</code></pre></div></div>
 
 <p>With that, your could <code class="highlighter-rouge">sbt run</code> as per normal.</p>
 
@@ -172,14 +162,14 @@ $ heroku config:add S3_SECRET=supersecret
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Configure+your+local+environment+for+Scala+on+Heroku&amp;url=http://samwize.com/2012/10/09/configure-your-local-environment-for-scala-on-heroku"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Configure+your+local+environment+for+Scala+on+Heroku&amp;url=http://localhost:4000/2012/10/09/configure-your-local-environment-for-scala-on-heroku"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Configure+your+local+environment+for+Scala+on+Heroku&amp;u=http://samwize.com/2012/10/09/configure-your-local-environment-for-scala-on-heroku"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Configure+your+local+environment+for+Scala+on+Heroku&amp;u=http://localhost:4000/2012/10/09/configure-your-local-environment-for-scala-on-heroku"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -188,7 +178,7 @@ $ heroku config:add S3_SECRET=supersecret
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Configure+your+local+environment+for+Scala+on+Heroku&amp;url=http://samwize.com/2012/10/09/configure-your-local-environment-for-scala-on-heroku"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Configure+your+local+environment+for+Scala+on+Heroku&amp;url=http://localhost:4000/2012/10/09/configure-your-local-environment-for-scala-on-heroku"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

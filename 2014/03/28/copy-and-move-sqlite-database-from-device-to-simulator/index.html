@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Copy and move sqlite database from device to simulator" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="There are times when you want to have the same database in both a device and a simulator. For my case, I have a photo application which takes photo using the camera. That cannot be nicely tested us..." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="There are times when you want to have the same database in both a device and a simulator. For my case, I have a photo application which takes photo using the camera. That cannot be nicely tested us..." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-03-28T08:54:08+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator/">
+  <link rel="canonical" href="http://localhost:4000/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Copy and move sqlite database from device to simulator</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-03-28T08:54:08+08:00">28 March 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -80,43 +79,39 @@
 
 <!-- more -->
 
-<h2 id="copy-using-iexplorer">1. Copy using iExplorer</h2>
+<h2 id="1-copy-using-iexplorer">1. Copy using iExplorer</h2>
 
 <p>I use the demo version of <a href="http://www.macroplant.com/iexplorer/">iExplorer</a> to explore the file system of my iPhone.</p>
 
 <p>Navigate to your app (eg MyApp), and the database is in:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/Library/Application Support/MyApp/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Library/Application Support/MyApp/
+</code></pre></div></div>
 
 <p>Copy the 3 database files (MyApp.sqlite, MyApp.sqlite-shm, MyApp.sqlite-wal), and if you use external storage, copy the folder (.MyApp_SUPPORT) too. Note that this folder is prefix with a <code class="highlighter-rouge">.</code>, hence it will be hidden in your file system.</p>
 
 <p>Make sure these database files are in your computer, as you need to copy them to your simulator.</p>
 
-<h2 id="find-out-the-path-to-your-simulator">2. Find out the path to your simulator</h2>
+<h2 id="2-find-out-the-path-to-your-simulator">2. Find out the path to your simulator</h2>
 
 <p>To know the path to your simulator, you can print a path directory in your app.</p>
 
 <p>For example, the code below I used print the full Document path (using <a href="https://github.com/nicklockwood/StandardPaths">StandardPaths library</a>):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>NSLog(@"Doc Path: %@", [[NSFileManager defaultManager] publicDataPath]);
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSLog(@"Doc Path: %@", [[NSFileManager defaultManager] publicDataPath]);
+</code></pre></div></div>
 
 <p>This is where my simulator is at:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/
+</code></pre></div></div>
 
-<h2 id="copy-the-files-over">3. Copy the files over</h2>
+<h2 id="3-copy-the-files-over">3. Copy the files over</h2>
 
 <p>Copy the database files from (1) to the simulator. Preserve the path, hence the files should be copied to the following:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/Library/Application Support/MyApp/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Users/junda/Library/Application Support/iPhone Simulator/7.1/Applications/9B6E8432-1B84-4BB1-B9FF-838DB9DAB915/Library/Application Support/MyApp/
+</code></pre></div></div>
 
 <p>If you use Finder, you can copy the visible files easily. If you have external storage and the folder is hidden, you have to use the command line and <code class="highlighter-rouge">mv .MyApp_Support /to/the/simulator/path/above/</code>.</p>
 
@@ -129,14 +124,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Copy+and+move+sqlite+database+from+device+to+simulator&amp;url=http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Copy+and+move+sqlite+database+from+device+to+simulator&amp;url=http://localhost:4000/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Copy+and+move+sqlite+database+from+device+to+simulator&amp;u=http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Copy+and+move+sqlite+database+from+device+to+simulator&amp;u=http://localhost:4000/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -145,7 +140,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Copy+and+move+sqlite+database+from+device+to+simulator&amp;url=http://samwize.com/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Copy+and+move+sqlite+database+from+device+to+simulator&amp;url=http://localhost:4000/2014/03/28/copy-and-move-sqlite-database-from-device-to-simulator"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

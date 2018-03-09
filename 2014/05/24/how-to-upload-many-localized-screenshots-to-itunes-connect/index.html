@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="How to upload (many) localized screenshots to iTunes Connect" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="UPDATE (Feb 2015): I have replaced these tools with Fastlane." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="UPDATE (Feb 2015): I have replaced these tools with Fastlane." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-05-24T11:34:49+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect/">
+  <link rel="canonical" href="http://localhost:4000/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">How to upload (many) localized screenshots to iTunes Connect</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-05-24T11:34:49+08:00">24 May 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -118,17 +117,15 @@
 
 <p>You can add this to your .bash_profile, or just run in on your bash:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>alias itms='`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/MacOS/itms/bin/iTMSTransporter'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alias itms='`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/MacOS/itms/bin/iTMSTransporter'
+</code></pre></div></div>
 
 <p>For myself, I use <a href="http://samwize.com/2014/01/12/getting-started-with-dotfiles/">dotfiles</a>, hence I added the alias to my <code class="highlighter-rouge">~/dotfiles/.aliases</code>, and make sure my zsh <a href="http://samwize.com/2014/01/19/load-dotfiles-aliases-in-zsh/">work nicely</a> with it.</p>
 
 <p><em>UPDATE: In Xcode 7.2, the itms path is changed slightly:</em></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>alias itms='`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alias itms='`xcode-select --print-path`/../Applications/Application\ Loader.app/Contents/itms/bin/iTMSTransporter'
+</code></pre></div></div>
 
 <h1 id="screenshot-uploader">Screenshot Uploader</h1>
 
@@ -145,9 +142,8 @@
   <li>
     <p>Change the ui-screen-shooter format to the required format. Run this command in <code class="highlighter-rouge">~/Desktop/screenshots</code>:</p>
 
-    <div class="highlighter-rouge"><pre class="highlight"><code> for a in */*; do d=$(dirname $a); f=$(basename $a); mv $a ${d}___${f}; done; rmdir */
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> for a in */*; do d=$(dirname $a); f=$(basename $a); mv $a ${d}___${f}; done; rmdir */
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Download your app metadata package:</p>
@@ -185,7 +181,7 @@
 
 <p>Automating it subsequently is much easier:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Fetch the latest itmsp
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Fetch the latest itmsp
 ITMSUSER=YourItunesUsername
 ITMSPASS=YourItunesPassword
 ITMSSKU=YourAppSKU
@@ -203,8 +199,7 @@ php screenshots.php
 # Copy all files to itmsp and upload
 cp ~/Desktop/screenshots/* ~/Desktop/*.itmsp
 itms -m upload -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itmsp
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="common-pitfalls">Common Pitfalls</h1>
 
@@ -214,9 +209,8 @@ itms -m upload -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itms
 
 <p>After itms <code class="highlighter-rouge">lookup</code>, you can find out the locale identifiers with</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>grep locale ~/Desktop/*.itmsp/metadata.xml  | grep name | sort -u
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grep locale ~/Desktop/*.itmsp/metadata.xml  | grep name | sort -u
+</code></pre></div></div>
 
 <p>You must use these for the languages.</p>
 
@@ -246,14 +240,14 @@ itms -m upload -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itms
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+upload+%28many%29+localized+screenshots+to+iTunes+Connect&amp;url=http://samwize.com/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+upload+%28many%29+localized+screenshots+to+iTunes+Connect&amp;url=http://localhost:4000/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+upload+%28many%29+localized+screenshots+to+iTunes+Connect&amp;u=http://samwize.com/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+upload+%28many%29+localized+screenshots+to+iTunes+Connect&amp;u=http://localhost:4000/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -262,7 +256,7 @@ itms -m upload -u $ITMSUSER -p $ITMSPASS -vendor_id $ITMSSKU -f ~/Desktop/*.itms
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+upload+%28many%29+localized+screenshots+to+iTunes+Connect&amp;url=http://samwize.com/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+upload+%28many%29+localized+screenshots+to+iTunes+Connect&amp;url=http://localhost:4000/2014/05/24/how-to-upload-many-localized-screenshots-to-itunes-connect"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

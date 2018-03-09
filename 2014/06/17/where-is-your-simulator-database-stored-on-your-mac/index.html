@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Where is your Simulator database stored on your Mac?" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="There are times when you want to have the same data across your simulator and devices." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="There are times when you want to have the same data across your simulator and devices." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/06/17/where-is-your-simulator-database-stored-on-your-mac/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/06/17/where-is-your-simulator-database-stored-on-your-mac/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-06-17T13:51:18+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/06/17/where-is-your-simulator-database-stored-on-your-mac/">
+  <link rel="canonical" href="http://localhost:4000/2014/06/17/where-is-your-simulator-database-stored-on-your-mac/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Where is your Simulator database stored on your Mac?</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-06-17T13:51:18+08:00">17 June 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -88,49 +87,45 @@
 
 <p>For <a href="http://stackoverflow.com/a/3495426/242682">simulators</a>, they are in</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>~/Library/Application Support/iPhone Simulator/[OS version]/Applications/[appGUID]/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Library/Application Support/iPhone Simulator/[OS version]/Applications/[appGUID]/
+</code></pre></div></div>
 
 <p>You can copy the data from device to simulator by simply copy and paste.</p>
 
 <p>For example, I can copy the sqlite file to:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>~/Library/Application Support/iPhone Simulator/7.1-64/Applications/9445759E-34C7-4080-9DC7-9A74032FCA60/Library/Application Support/Awesome App/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Library/Application Support/iPhone Simulator/7.1-64/Applications/9445759E-34C7-4080-9DC7-9A74032FCA60/Library/Application Support/Awesome App/
+</code></pre></div></div>
 
 <p><em>UPDATE: Starting from iOS 8, the simulator data has moved</em></p>
 
 <p>It is now at:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>~/Library/Developer/CoreSimulator/Devices/&lt;DEVICE_GUID&gt;/data/Containers/Data/Application/&lt;APP_GUID&gt;/Library/Application Support/AwesomeApp/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Library/Developer/CoreSimulator/Devices/&lt;DEVICE_GUID&gt;/data/Containers/Data/Application/&lt;APP_GUID&gt;/Library/Application Support/AwesomeApp/
+</code></pre></div></div>
 
 <h2 id="code-to-print-the-path">Code to print the path</h2>
 
 <p>Perhaps, more conveniently and robust, you could add this code:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="cp">#if TARGET_IPHONE_SIMULATOR
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#if TARGET_IPHONE_SIMULATOR
 </span>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Application Support Directory: %@"</span><span class="p">,</span> <span class="p">[[[</span><span class="n">NSFileManager</span> <span class="nf">defaultManager</span><span class="p">]</span> <span class="nf">URLsForDirectory</span><span class="p">:</span><span class="n">NSApplicationSupportDirectory</span> <span class="nf">inDomains</span><span class="p">:</span><span class="nf">NSUserDomainMask</span><span class="p">]</span> <span class="n">lastObject</span><span class="p">]);</span>
 <span class="cp">#endif
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Where+is+your+Simulator+database+stored+on+your+Mac%3F&amp;url=http://samwize.com/2014/06/17/where-is-your-simulator-database-stored-on-your-mac"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Where+is+your+Simulator+database+stored+on+your+Mac%3F&amp;url=http://localhost:4000/2014/06/17/where-is-your-simulator-database-stored-on-your-mac"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Where+is+your+Simulator+database+stored+on+your+Mac%3F&amp;u=http://samwize.com/2014/06/17/where-is-your-simulator-database-stored-on-your-mac"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Where+is+your+Simulator+database+stored+on+your+Mac%3F&amp;u=http://localhost:4000/2014/06/17/where-is-your-simulator-database-stored-on-your-mac"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -139,7 +134,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Where+is+your+Simulator+database+stored+on+your+Mac%3F&amp;url=http://samwize.com/2014/06/17/where-is-your-simulator-database-stored-on-your-mac"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Where+is+your+Simulator+database+stored+on+your+Mac%3F&amp;url=http://localhost:4000/2014/06/17/where-is-your-simulator-database-stored-on-your-mac"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

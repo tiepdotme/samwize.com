@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="UISearchController Development Guide" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="UISearchController is a new controller in iOS 8 to handle search." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="UISearchController is a new controller in iOS 8 to handle search." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/11/27/uisearchcontroller-development-guide/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/11/27/uisearchcontroller-development-guide/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-11-27T10:12:44+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/11/27/uisearchcontroller-development-guide/">
+  <link rel="canonical" href="http://localhost:4000/2016/11/27/uisearchcontroller-development-guide/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">UISearchController Development Guide</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-11-27T10:12:44+08:00">27 November 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -93,7 +92,7 @@
 
 <p>There are 2 ways.</p>
 
-<h3 id="add-search-bar">1. Add Search Bar</h3>
+<h3 id="1-add-search-bar">1. Add Search Bar</h3>
 
 <p>Add the <code class="highlighter-rouge">UISearchBar</code> to your presenting VC.</p>
 
@@ -101,29 +100,26 @@
 
 <p>If you are using a <code class="highlighter-rouge">UITableView</code>, a search bar can be added to the header easily:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="n">tableHeaderView</span> <span class="o">=</span> <span class="n">searchController</span><span class="o">.</span><span class="n">searchBar</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="n">tableHeaderView</span> <span class="o">=</span> <span class="n">searchController</span><span class="o">.</span><span class="n">searchBar</span>
+</code></pre></div></div>
 
-<h3 id="add-search-button">2. Add Search Button</h3>
+<h3 id="2-add-search-button">2. Add Search Button</h3>
 
 <p>Another way is to have a button to trigger the search, instead of adding the whole search bar in like in (1).</p>
 
 <p>Create the <code class="highlighter-rouge">IBAction</code> for the button:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">tapSearch</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">tapSearch</span><span class="p">(</span><span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">)</span> <span class="p">{</span>
     <span class="nf">presentViewController</span><span class="p">(</span><span class="n">searchController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><em>Remember: <code class="highlighter-rouge">searchController</code> is a <code class="highlighter-rouge">UIViewController</code> (read in later section) so it can be called with <code class="highlighter-rouge">presentViewController</code>.</em></p>
 
 <p>When the presenting VC has a navigation bar, you will need to configure search controller:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">hidesNavigationBarDuringPresentation</span> <span class="o">=</span> <span class="kc">false</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">hidesNavigationBarDuringPresentation</span> <span class="o">=</span> <span class="kc">false</span>
+</code></pre></div></div>
 
 <h2 id="the-delegates">The Delegates</h2>
 
@@ -133,18 +129,16 @@
 
 <p>Set <code class="highlighter-rouge">searchResultsUpdater</code>. Typically, the results VC will implement the protocol, so that it will update the results accordingly.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">searchResultsUpdater</span> <span class="o">=</span> <span class="n">resultsViewController</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">searchResultsUpdater</span> <span class="o">=</span> <span class="n">resultsViewController</span>
+</code></pre></div></div>
 
 <p>Then in <code class="highlighter-rouge">resultsViewController</code>, implement the method:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">updateSearchResultsForSearchController</span><span class="p">(</span><span class="nv">searchController</span><span class="p">:</span> <span class="kt">UISearchController</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">updateSearchResultsForSearchController</span><span class="p">(</span><span class="nv">searchController</span><span class="p">:</span> <span class="kt">UISearchController</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">let</span> <span class="nv">searchTerm</span> <span class="o">=</span> <span class="n">searchController</span><span class="o">.</span><span class="n">searchBar</span><span class="o">.</span><span class="n">text</span>
         <span class="c1">// Update your results</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="delegate-2---uisearchbardelegate">Delegate #2 - UISearchBarDelegate</h3>
 
@@ -159,9 +153,8 @@
 
 <p>Set <code class="highlighter-rouge">searchBar.delegate</code>. Typically, the results VC.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">searchBar</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">resultsViewController</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">searchBar</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="n">resultsViewController</span>
+</code></pre></div></div>
 
 <p>You might be thinking we have <code class="highlighter-rouge">searchResultsUpdater</code>. Isn’t that enough? Usually so, unless you want to know when buttons such as <a href="https://developer.apple.com/reference/uikit/uisearchbar/1624292-scopebuttontitles">scopes button</a> are tapped on.</p>
 
@@ -175,9 +168,8 @@
 
 <p>Set <code class="highlighter-rouge">delegate</code> to the view controller that handles the calls, typically the presenting VC.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">delegate</span> <span class="o">=</span> <span class="k">self</span>
+</code></pre></div></div>
 
 <h2 id="uisearchcontroller-is-a-uiviewcontroller">UISearchController is a UIViewController</h2>
 
@@ -197,13 +189,12 @@
 
 <p>Firstly, we prevent the dim with:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">dimsBackgroundDuringPresentation</span> <span class="o">=</span> <span class="kc">false</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">searchController</span><span class="o">.</span><span class="n">dimsBackgroundDuringPresentation</span> <span class="o">=</span> <span class="kc">false</span>
+</code></pre></div></div>
 
 <p>To show the results VC, a <a href="http://stackoverflow.com/a/30814194/242682">little hack</a> is needed in the results VC:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ResultsViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">ResultsViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
 
   <span class="k">var</span> <span class="nv">context</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -232,8 +223,7 @@
   <span class="p">}</span>
     
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>It hacks around by observing for the view’s <code class="highlighter-rouge">hidden</code> property, forcing it to never hide. Even when you clear the search bar, it gets back to this initial state.</p>
 
@@ -242,14 +232,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=UISearchController+Development+Guide&amp;url=http://samwize.com/2016/11/27/uisearchcontroller-development-guide"
+                <a class="icon-twitter" href="http://twitter.com/share?text=UISearchController+Development+Guide&amp;url=http://localhost:4000/2016/11/27/uisearchcontroller-development-guide"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=UISearchController+Development+Guide&amp;u=http://samwize.com/2016/11/27/uisearchcontroller-development-guide"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=UISearchController+Development+Guide&amp;u=http://localhost:4000/2016/11/27/uisearchcontroller-development-guide"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -258,7 +248,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=UISearchController+Development+Guide&amp;url=http://samwize.com/2016/11/27/uisearchcontroller-development-guide"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=UISearchController+Development+Guide&amp;url=http://localhost:4000/2016/11/27/uisearchcontroller-development-guide"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

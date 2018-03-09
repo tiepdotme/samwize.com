@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Finding Memory Leak Using Instruments" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Often, developers do not put much effort into finding memory leak. While technology like ARC and Swift has helped to prevent us from creating memory leak, it is still unavoidable." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Often, developers do not put much effort into finding memory leak. While technology like ARC and Swift has helped to prevent us from creating memory leak, it is still unavoidable." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/05/27/finding-memory-leak-using-instruments/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/05/27/finding-memory-leak-using-instruments/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-05-27T16:19:55+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/05/27/finding-memory-leak-using-instruments/">
+  <link rel="canonical" href="http://localhost:4000/2016/05/27/finding-memory-leak-using-instruments/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Finding Memory Leak Using Instruments</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-05-27T16:19:55+08:00">27 May 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -82,7 +81,7 @@
 
 <p>But it could be complex at first, so this guide is to run through how to use Instruments to find potential memory leaks.</p>
 
-<h3 id="profile-the-app">1. Profile the App</h3>
+<h3 id="1-profile-the-app">1. Profile the App</h3>
 
 <p>From Xcode, select <strong>Product &gt; Profile</strong>.</p>
 
@@ -90,7 +89,7 @@
 
 <p>From Instruments, select <strong>Leaks</strong> as the profiling template to use.</p>
 
-<h3 id="configure">2. Configure</h3>
+<h3 id="2-configure">2. Configure</h3>
 
 <p>On the left pane, <strong>Record Settings</strong> (CMD+1) has a few configurations that should be set for our memory leak investigation.</p>
 
@@ -103,13 +102,13 @@
   <li>check the flags in <strong>Recorded Types</strong> to ignore types with prefixes NS, CF and Malloc, as these are low level functions</li>
 </ul>
 
-<h3 id="start-recording">3. Start Recording</h3>
+<h3 id="3-start-recording">3. Start Recording</h3>
 
 <p>Click on the red record button on the top left to start profiling the app.</p>
 
 <p>As you use the app, you will see the memory usuage being recorded/snapshotted.</p>
 
-<h3 id="mark-generation">4. Mark Generation</h3>
+<h3 id="4-mark-generation">4. Mark Generation</h3>
 
 <p>In <strong>Display Settings</strong> (CMD+2), a very important button is there - <strong>Mark Generation</strong></p>
 
@@ -125,7 +124,7 @@
 
 <p>If it is not zero, then it would mean there is a memory leak, and you have to find out why.</p>
 
-<h3 id="analysing-call-tree">5. Analysing Call Tree</h3>
+<h3 id="5-analysing-call-tree">5. Analysing Call Tree</h3>
 
 <p>Let say Generation B is not zero, hence you need to find which object is leaking memory.</p>
 
@@ -159,14 +158,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Finding+Memory+Leak+Using+Instruments&amp;url=http://samwize.com/2016/05/27/finding-memory-leak-using-instruments"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Finding+Memory+Leak+Using+Instruments&amp;url=http://localhost:4000/2016/05/27/finding-memory-leak-using-instruments"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Finding+Memory+Leak+Using+Instruments&amp;u=http://samwize.com/2016/05/27/finding-memory-leak-using-instruments"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Finding+Memory+Leak+Using+Instruments&amp;u=http://localhost:4000/2016/05/27/finding-memory-leak-using-instruments"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -175,7 +174,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Finding+Memory+Leak+Using+Instruments&amp;url=http://samwize.com/2016/05/27/finding-memory-leak-using-instruments"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Finding+Memory+Leak+Using+Instruments&amp;url=http://localhost:4000/2016/05/27/finding-memory-leak-using-instruments"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

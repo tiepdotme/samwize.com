@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Create Async Test with GHUnit" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="One of the greatest feature with GHUnit is that it supports unit tests that perform asynchronous stuff." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/11/25/create-async-test-with-ghunit/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/11/25/create-async-test-with-ghunit/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-11-25T01:44:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/11/25/create-async-test-with-ghunit/">
+  <link rel="canonical" href="http://localhost:4000/2012/11/25/create-async-test-with-ghunit/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Create Async Test with GHUnit</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-11-25T01:44:00+08:00">25 November 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -84,16 +83,15 @@
 
 <p>Change the interface class to use <code class="highlighter-rouge">GHAsyncTestCase</code>.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="k">@interface</span> <span class="nc">ExampleAsyncTest</span> <span class="p">:</span> <span class="nc">GHAsyncTestCase</span> <span class="p">{</span> <span class="p">}</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">@interface</span> <span class="nc">ExampleAsyncTest</span> <span class="p">:</span> <span class="nc">GHAsyncTestCase</span> <span class="p">{</span> <span class="p">}</span>
     <span class="k">@end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="prepare-and-wait">Prepare and wait</h2>
 
 <p>Setup the test method with the asynchronous/block call like this:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">testAsync</span> <span class="p">{</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">testAsync</span> <span class="p">{</span>
     <span class="c1">// Prepare asynchronous action
 </span>    <span class="p">[</span><span class="n">self</span> <span class="nf">prepare</span><span class="p">];</span>
     
@@ -117,8 +115,7 @@
     <span class="c1">// Do asserts here instead
 </span>    <span class="n">GHAssertEquals</span><span class="p">(</span><span class="mi">99U</span><span class="p">,</span> <span class="p">[</span><span class="n">_objects</span> <span class="nf">count</span><span class="p">],</span> <span class="nb">nil</span><span class="p">);</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="pitfall-assert-in-block">Pitfall: Assert in block</h2>
 
@@ -126,9 +123,8 @@
 
 <p>But that will just give the following exception when the test fails.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Terminating app due to uncaught exception 'GHTestFailureException', reason: ...
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Terminating app due to uncaught exception 'GHTestFailureException', reason: ...
+</code></pre></div></div>
 
 <p>To make it work, you don’t call any asserts within the block.</p>
 
@@ -139,14 +135,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Create+Async+Test+with+GHUnit&amp;url=http://samwize.com/2012/11/25/create-async-test-with-ghunit"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Create+Async+Test+with+GHUnit&amp;url=http://localhost:4000/2012/11/25/create-async-test-with-ghunit"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Create+Async+Test+with+GHUnit&amp;u=http://samwize.com/2012/11/25/create-async-test-with-ghunit"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Create+Async+Test+with+GHUnit&amp;u=http://localhost:4000/2012/11/25/create-async-test-with-ghunit"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -155,7 +151,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Create+Async+Test+with+GHUnit&amp;url=http://samwize.com/2012/11/25/create-async-test-with-ghunit"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Create+Async+Test+with+GHUnit&amp;url=http://localhost:4000/2012/11/25/create-async-test-with-ghunit"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

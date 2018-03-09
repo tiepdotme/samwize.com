@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Auto Increment Build Number in Xcode" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="You can auto increase the number with this build script." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="You can auto increase the number with this build script." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/06/15/auto-increment-build-number-in-xcode/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/06/15/auto-increment-build-number-in-xcode/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-06-15T16:35:05+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/06/15/auto-increment-build-number-in-xcode/">
+  <link rel="canonical" href="http://localhost:4000/2014/06/15/auto-increment-build-number-in-xcode/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Auto Increment Build Number in Xcode</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-06-15T16:35:05+08:00">15 June 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -84,13 +83,12 @@
 
 <p>Add it to your build phase’s run script:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="k">)</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="k">)</span>
 <span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
 <span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
-/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
-</code></pre>
-</div>
+/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
+</code></pre></div></div>
 
 <p>I will usually set <code class="highlighter-rouge">CFBundleVersion</code> (build number) to <code class="highlighter-rouge">1000</code> for a new project to begin with.</p>
 
@@ -102,14 +100,13 @@
 
 <p>And so I adapted the above solution by adding a <code class="highlighter-rouge">Info-CFBundleVersion.plist</code> that contains the common number.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span><span class="k">)</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span><span class="k">)</span>
 <span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
 <span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
-/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
-/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span>
-</code></pre>
-</div>
+/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
+/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span>
+</code></pre></div></div>
 
 
         </section>
@@ -117,14 +114,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Auto+Increment+Build+Number+in+Xcode&amp;url=http://samwize.com/2014/06/15/auto-increment-build-number-in-xcode"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Auto+Increment+Build+Number+in+Xcode&amp;url=http://localhost:4000/2014/06/15/auto-increment-build-number-in-xcode"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Auto+Increment+Build+Number+in+Xcode&amp;u=http://samwize.com/2014/06/15/auto-increment-build-number-in-xcode"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Auto+Increment+Build+Number+in+Xcode&amp;u=http://localhost:4000/2014/06/15/auto-increment-build-number-in-xcode"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -133,7 +130,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Auto+Increment+Build+Number+in+Xcode&amp;url=http://samwize.com/2014/06/15/auto-increment-build-number-in-xcode"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Auto+Increment+Build+Number+in+Xcode&amp;url=http://localhost:4000/2014/06/15/auto-increment-build-number-in-xcode"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

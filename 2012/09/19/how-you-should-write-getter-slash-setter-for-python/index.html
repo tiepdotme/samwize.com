@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="How you should write getter/setter for Python" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Coming from the Java world, I am used to writing getter/setter for every member variables that I want to expose. (truth is I made use of IDE to auto generate)" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Coming from the Java world, I am used to writing getter/setter for every member variables that I want to expose. (truth is I made use of IDE to auto generate)" />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/09/19/how-you-should-write-getter-slash-setter-for-python/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-09-19T18:49:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/">
+  <link rel="canonical" href="http://localhost:4000/2012/09/19/how-you-should-write-getter-slash-setter-for-python/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">How you should write getter/setter for Python</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-09-19T18:49:00+08:00">19 September 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -84,7 +83,7 @@
 
 <p>To write a getter for this member <code class="highlighter-rouge">foo</code>:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 	
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_foo</span> <span class="o">=</span> <span class="mi">1</span>
@@ -92,29 +91,26 @@
 	<span class="nd">@property</span>
 	<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_foo</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>It uses an annotation <code class="highlighter-rouge"><span class="k">@property</span></code>. Then to access the property:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">my_class</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_class</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
 <span class="k">print</span> <span class="n">my_class</span><span class="o">.</span><span class="n">foo</span>
 <span class="c"># 1</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="setter">Setter</h3>
 
 <p>To set a memter, use the annotation <code class="highlighter-rouge">@foo.setter</code> (replace foo with your member name).</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 	<span class="o">...</span>
 
 	<span class="nd">@foo.setter</span>
 	<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_foo</span> <span class="o">=</span> <span class="n">value</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <!-- http://stackoverflow.com/questions/6618002/python-property-versus-getters-and-setters -->
 
@@ -123,14 +119,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=How+you+should+write+getter%2Fsetter+for+Python&amp;url=http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+you+should+write+getter%2Fsetter+for+Python&amp;url=http://localhost:4000/2012/09/19/how-you-should-write-getter-slash-setter-for-python"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+you+should+write+getter%2Fsetter+for+Python&amp;u=http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+you+should+write+getter%2Fsetter+for+Python&amp;u=http://localhost:4000/2012/09/19/how-you-should-write-getter-slash-setter-for-python"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -139,7 +135,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+you+should+write+getter%2Fsetter+for+Python&amp;url=http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+you+should+write+getter%2Fsetter+for+Python&amp;url=http://localhost:4000/2012/09/19/how-you-should-write-getter-slash-setter-for-python"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="New CocoaPods hang when pod install/update" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="CocoaPods kept having breaking changes." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="CocoaPods kept having breaking changes." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/10/14/cocoapods-hang-when-pod-install-slash-update/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/10/14/cocoapods-hang-when-pod-install-slash-update/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-10-14T18:43:25+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/10/14/cocoapods-hang-when-pod-install-slash-update/">
+  <link rel="canonical" href="http://localhost:4000/2014/10/14/cocoapods-hang-when-pod-install-slash-update/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">New CocoaPods hang when pod install/update</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-10-14T18:43:25+08:00">14 October 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -102,15 +101,14 @@
 
 <p>With that, you can push your podspec with:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>pod repo push SPEC_NAME POD_NAME.podspec --verbose --allow-warnings
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pod repo push SPEC_NAME POD_NAME.podspec --verbose --allow-warnings
+</code></pre></div></div>
 
 <h2 id="missing-lpod">Missing lpod</h2>
 
 <p>For error “library not found for lpods-xxx”, you might be able to <a href="http://samwize.com/2014/05/15/resolving-cocoapods-build-error-due-to-targets-building-for-only-active-architecture/">solve</a> with in podfile:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Most lib require to build for all arch
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Most lib require to build for all arch
 post_install do |installer_representation|
     installer_representation.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
@@ -118,8 +116,7 @@ post_install do |installer_representation|
         end
     end
 end
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="json-or-ruby-podspec">JSON or Ruby podspec</h2>
 
@@ -143,14 +140,14 @@ end
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=New+CocoaPods+hang+when+pod+install%2Fupdate&amp;url=http://samwize.com/2014/10/14/cocoapods-hang-when-pod-install-slash-update"
+                <a class="icon-twitter" href="http://twitter.com/share?text=New+CocoaPods+hang+when+pod+install%2Fupdate&amp;url=http://localhost:4000/2014/10/14/cocoapods-hang-when-pod-install-slash-update"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=New+CocoaPods+hang+when+pod+install%2Fupdate&amp;u=http://samwize.com/2014/10/14/cocoapods-hang-when-pod-install-slash-update"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=New+CocoaPods+hang+when+pod+install%2Fupdate&amp;u=http://localhost:4000/2014/10/14/cocoapods-hang-when-pod-install-slash-update"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -159,7 +156,7 @@ end
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=New+CocoaPods+hang+when+pod+install%2Fupdate&amp;url=http://samwize.com/2014/10/14/cocoapods-hang-when-pod-install-slash-update"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=New+CocoaPods+hang+when+pod+install%2Fupdate&amp;url=http://localhost:4000/2014/10/14/cocoapods-hang-when-pod-install-slash-update"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

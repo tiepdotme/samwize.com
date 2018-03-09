@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="A short Scala tutorial for Java Developers" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="This post is a tutorial guide for Java programmers who want to learn Scala." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="This post is a tutorial guide for Java programmers who want to learn Scala." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/10/07/a-short-scala-tutorial-for-java-developers/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-10-07T21:10:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers/">
+  <link rel="canonical" href="http://localhost:4000/2012/10/07/a-short-scala-tutorial-for-java-developers/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">A short Scala tutorial for Java Developers</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-10-07T21:10:00+08:00">07 October 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -86,54 +85,47 @@
 
 <p>You do it like this, in a single line.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span>
+</code></pre></div></div>
 
 <p>Or, you can skip the return type (Int in this case) and let the compiler infer.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span>
+</code></pre></div></div>
 
 <p>If the method is more than a single line, you can wrap with curly braces.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span> 
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span> 
 		<span class="c1">// More lines of code ..
 </span>		<span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span> 
 	<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You might have already notice. The <code class="highlighter-rouge">return</code> keyword is actually optional in Scala.  If omitted, the last expression is the value that will be returned.</p>
 
 <p>To be verbose, you can specify the return type with the <code class="highlighter-rouge">return</code> keyword.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span> 
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span> 
 		<span class="k">return</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">)</span> <span class="n">y</span> <span class="k">else</span> <span class="n">x</span> 
 	<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="method-with-0-parameter-is-special">Method with 0 parameter is Special</h2>
 
 <p>If you have the following method</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="s">"foo!"</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="s">"foo!"</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>You may call it in 2 ways</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">foo</span><span class="o">()</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">foo</span><span class="o">()</span>
+</code></pre></div></div>
 
 <p>Or simply</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">foo</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">foo</span>
+</code></pre></div></div>
 
 <p>However, there is a guideline when to use which style. If there is a side effect, you should use the parenthesis. In other words, a getter method can skip the parenthesis.</p>
 
@@ -141,15 +133,13 @@
 
 <p>Int has a method <code class="highlighter-rouge">to</code> that takes 1 parameter of Int to return a sequence.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="mf">0.</span><span class="n">to</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="mf">0.</span><span class="n">to</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>You can drop the . and ( ) and simplify to</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="mi">0</span> <span class="n">to</span> <span class="mi">10</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="mi">0</span> <span class="n">to</span> <span class="mi">10</span>
+</code></pre></div></div>
 
 <p>This alone makes the Scala language beautiful in many ways.</p>
 
@@ -159,31 +149,27 @@
 
 <p>But it can have a method name ‘+’. So an expression <code class="highlighter-rouge">1 + 2</code> is actually</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="mf">1.</span><span class="o">+(</span><span class="mi">2</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="mf">1.</span><span class="o">+(</span><span class="mi">2</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>But since <em>Method with 1 parameter is Special</em> (read above), 1.+(2) can be simplified to</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span>
+</code></pre></div></div>
 
 <h2 id="val-and-var-declarations">val and var declarations</h2>
 
 <p>To declare a variable,</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">var</span> <span class="n">foo</span> <span class="k">=</span> <span class="mi">1</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">var</span> <span class="n">foo</span> <span class="k">=</span> <span class="mi">1</span>
 	<span class="n">foo</span> <span class="k">=</span> <span class="mi">2</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To declare a value, which does not allow you to change/reassign,</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">val</span> <span class="n">foo</span> <span class="k">=</span> <span class="mi">1</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">val</span> <span class="n">foo</span> <span class="k">=</span> <span class="mi">1</span>
 	<span class="c1">// foo = 2 is not possible
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>Also, a semi-colon at the end of a line is optional.</p>
 
@@ -191,7 +177,7 @@
 
 <p>The constructor is the class declaration itself, and any constructor parameters can be used in other methods</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
 		<span class="c1">// foo() uses color
 </span>		<span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">color</span><span class="o">)</span>
 	<span class="o">}</span>
@@ -199,12 +185,11 @@
 	<span class="c1">// Usage
 </span>	<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Color</span><span class="o">(</span><span class="s">"Blue"</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
 	<span class="n">c</span><span class="o">.</span><span class="n">foo</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you need to have some code in the constructor, you could write it right in the class body, right after the declaration.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
 
 		<span class="k">if</span> <span class="o">(</span><span class="n">color</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
 			<span class="k">throw</span> <span class="k">new</span> <span class="nc">NullPointerException</span><span class="o">(</span><span class="s">"Color is null"</span><span class="o">)</span>
@@ -214,12 +199,11 @@
 
 		<span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">color</span><span class="o">)</span>
 	<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If you have multiple constructors, you can add them with <code class="highlighter-rouge">this</code> method.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
 
 		<span class="k">def</span> <span class="k">this</span><span class="o">(</span><span class="n">color</span><span class="k">:</span><span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="k">this</span><span class="o">(</span><span class="n">color</span><span class="o">,</span> <span class="mi">0</span><span class="o">)</span>
 
@@ -228,8 +212,7 @@
 
 	<span class="c1">// Usage
 </span>	<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Color</span><span class="o">(</span><span class="s">"Blue"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="staticsingleton-object">Static/Singleton object</h2>
 
@@ -237,51 +220,47 @@
 
 <p>Instead, if you want to add a static method, you have to use the <code class="highlighter-rouge">object</code> declaration, also known as Singleton objects.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">object</span> <span class="nc">Color</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">object</span> <span class="nc">Color</span> <span class="o">{</span>
 		<span class="k">def</span> <span class="n">exclaim</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">s</span> <span class="o">+</span> <span class="s">" color!"</span><span class="o">)</span>
 	<span class="o">}</span>
 
 	<span class="c1">// Usage
 </span>	<span class="nc">Color</span><span class="o">.</span><span class="n">exclaim</span><span class="o">(</span><span class="s">"Pink"</span><span class="o">)</span>
 	<span class="c1">// Prints "Pink color!"
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <p>You can also use the static method in the class method.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Color</span><span class="o">(</span><span class="n">color</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">index</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span>
 		<span class="k">def</span> <span class="n">foo</span><span class="o">()</span> <span class="k">=</span> <span class="nc">Color</span><span class="o">.</span><span class="n">exclaim</span><span class="o">(</span><span class="n">color</span><span class="o">)</span>
 	<span class="o">}</span>
 
 	<span class="k">object</span> <span class="nc">Color</span> <span class="o">{</span>
 		<span class="k">def</span> <span class="n">exclaim</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">s</span> <span class="o">+</span> <span class="s">" color!"</span><span class="o">)</span>
 	<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="interface-is-traits">Interface is traits</h2>
 
 <p>In Java, you have <code class="highlighter-rouge">Interface</code>. In Scala, you use <code class="highlighter-rouge">traits</code>. Moreover, you can have non-abstract methods in <code class="highlighter-rouge">traits</code>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">trait</span> <span class="nc">Friendly</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">trait</span> <span class="nc">Friendly</span> <span class="o">{</span>
 		<span class="k">def</span> <span class="n">greet</span><span class="o">()</span> <span class="k">=</span> <span class="s">"Hi"</span>
 	<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To have a <code class="highlighter-rouge">class</code> implement the <code class="highlighter-rouge">traits</code>, you use the <code class="highlighter-rouge">extends</code> keyword. And if you need to override the method, you need to explicitly use <code class="highlighter-rouge">override def</code>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Dog</span> <span class="k">extends</span> <span class="nc">Friendly</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">class</span> <span class="nc">Dog</span> <span class="k">extends</span> <span class="nc">Friendly</span> <span class="o">{</span>
 		<span class="k">override</span> <span class="k">def</span> <span class="n">greet</span><span class="o">()</span> <span class="k">=</span> <span class="s">"Woof"</span>
 	<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Similar to Java, a class can extend 1 class and multiple traits.</p>
 
 <p>Another difference is that Scala can mix in traits at instantiation time. In the following, we create another trait and use the <code class="highlighter-rouge">with</code> keyword to instantiate a Dog with that trait.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">trait</span> <span class="nc">ExclamatoryGreeter</span> <span class="k">extends</span> <span class="nc">Friendly</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">trait</span> <span class="nc">ExclamatoryGreeter</span> <span class="k">extends</span> <span class="nc">Friendly</span> <span class="o">{</span>
 	  <span class="k">override</span> <span class="k">def</span> <span class="n">greet</span><span class="o">()</span> <span class="k">=</span> <span class="k">super</span><span class="o">.</span><span class="n">greet</span><span class="o">()</span> <span class="o">+</span> <span class="s">"!"</span>
 	<span class="o">}</span>
 
@@ -289,8 +268,7 @@
 </span>	<span class="k">val</span> <span class="n">pup</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Dog</span> <span class="k">with</span> <span class="nc">ExclamatoryGreeter</span>
 	<span class="n">println</span><span class="o">(</span><span class="n">pup</span><span class="o">.</span><span class="n">greet</span><span class="o">())</span>
 	<span class="c1">// Prints "Woof!"
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h2 id="array-does-not-use-subscript--">Array does not use subscript [ ]</h2>
 
@@ -298,27 +276,23 @@
 
 <p>To access the 4th element of an array, you write</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">myArray</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">myArray</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>Behind the scene, it is in fact calling a method <code class="highlighter-rouge">apply</code>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">myArray</span><span class="o">.</span><span class="n">apply</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">myArray</span><span class="o">.</span><span class="n">apply</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>Similarly, for setting an array element, you write</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">myArray</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="k">=</span> <span class="s">"foo"</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">myArray</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span> <span class="k">=</span> <span class="s">"foo"</span>
+</code></pre></div></div>
 
 <p>Which is interpreted as</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">myArray</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"foo"</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">myArray</span><span class="o">.</span><span class="n">update</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"foo"</span><span class="o">)</span>
+</code></pre></div></div>
 
 <h2 id="functions-are-first-class-constructs">Functions are first class constructs</h2>
 
@@ -326,15 +300,13 @@
 
 <p>Being a functional language, functions are first class constructs. We use an example of printing <code class="highlighter-rouge">args</code>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">arg</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">arg</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">foreach</code> is being passed a function</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">arg</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">arg</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>The above function has a few characteristics:</p>
 
@@ -347,37 +319,33 @@
 
 <p>A more complete example of an anonymous method with explicit parameter type</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
 		<span class="c1">// More code
 </span>		<span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 	<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As we said, functions are first class constructs, so you basically could assign it to a variable</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">var</span> <span class="n">add</span> <span class="k">=</span> <span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">var</span> <span class="n">add</span> <span class="k">=</span> <span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="o">{</span>
 		<span class="c1">// More code
 </span>		<span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
 	<span class="o">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then use it</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">add</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">add</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
 	<span class="c1">// returns 5
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h2 id="for-arg-in-args">for arg in args</h2>
 
 <p>This is how you use <code class="highlighter-rouge">for (arg in args)</code></p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">for</span> <span class="o">(</span><span class="n">arg</span> <span class="k">&lt;-</span> <span class="n">args</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">for</span> <span class="o">(</span><span class="n">arg</span> <span class="k">&lt;-</span> <span class="n">args</span><span class="o">)</span>
   		<span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Some characteristics:</p>
 
@@ -401,16 +369,14 @@
 
 <p>However, I would want to point out about Tuple, as that is never heard of in Java. In Java, when you want to return multiple objects, you will probably create a POJO (plain old java object) to contain the multiple objects. Using tuple, you can avoid POJO like classes.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">val</span> <span class="n">color</span> <span class="k">=</span> <span class="o">(</span><span class="s">"blue"</span><span class="o">,</span> <span class="mi">258</span><span class="o">,</span> <span class="sc">'b'</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">val</span> <span class="n">color</span> <span class="k">=</span> <span class="o">(</span><span class="s">"blue"</span><span class="o">,</span> <span class="mi">258</span><span class="o">,</span> <span class="sc">'b'</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>You can then access the tuple using a dot, underscore, and the one-based index of the element.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">println</span><span class="o">(</span><span class="n">color</span><span class="o">.</span><span class="n">_1</span><span class="o">)</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">println</span><span class="o">(</span><span class="n">color</span><span class="o">.</span><span class="n">_1</span><span class="o">)</span>
 	<span class="c1">// Prints blue
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
 <h2 id="set-and-map">Set and Map</h2>
 
@@ -418,57 +384,50 @@
 
 <p>To use a mutable Set, you import the mutable HashSet.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">import</span> <span class="nn">scala.collection.mutable.HashSet</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">import</span> <span class="nn">scala.collection.mutable.HashSet</span>
 
 	<span class="k">val</span> <span class="n">colorSet</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HashSet</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
 	<span class="n">colorSet</span> <span class="o">+=</span> <span class="s">"blue"</span>
 	<span class="n">colorSet</span> <span class="o">+=</span> <span class="o">(</span><span class="s">"red"</span><span class="o">,</span> <span class="s">"green"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To use an immutable Set, you import the <em>immutable version</em>.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">import</span> <span class="nn">scala.collection.immutable.HashSet</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">import</span> <span class="nn">scala.collection.immutable.HashSet</span>
 
 	<span class="k">val</span> <span class="n">colorSet</span> <span class="k">=</span> <span class="nc">HashSet</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"blue"</span><span class="o">,</span> <span class="s">"red"</span><span class="o">,</span> <span class="s">"green"</span><span class="o">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Similarly for map, there is a mutable and immutable version. Let’s take a look at just the mutable HashMap.</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">import</span> <span class="nn">scala.collection.mutable.HashMap</span>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">import</span> <span class="nn">scala.collection.mutable.HashMap</span>
 
 	<span class="k">val</span> <span class="n">colorMap</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">]</span>
 	<span class="n">colorMap</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">"Blue"</span>
 	<span class="n">colorMap</span> <span class="o">+=</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">"Red"</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The expression <code class="highlighter-rouge">1 -&gt; "Blue"</code> means <code class="highlighter-rouge">1.-&gt;("Blue")</code>. The method <code class="highlighter-rouge">-&gt;</code> is available for any object in Scala, and it returns a 2-element tuple. So basically a 2-element tuple of (Int, String) is added to colorMap.</p>
 
 <p>You might think the equivalent is</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">colorMap</span> <span class="o">+=</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Blue"</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">colorMap</span> <span class="o">+=</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Blue"</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>However, that would not work as <code class="highlighter-rouge">+=</code> method will interpret as you want to add 2 elements - a Int and a String - where in fact you want to add a tuple (Int, String). Hence you need to add ( ) for the tuple</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="n">colorMap</span> <span class="o">+=</span> <span class="o">((</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Blue"</span><span class="o">))</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">colorMap</span> <span class="o">+=</span> <span class="o">((</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Blue"</span><span class="o">))</span>
+</code></pre></div></div>
 
 <p>You can also create Map with a shorthand</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">var</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">"Blue"</span><span class="o">,</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">"Red"</span><span class="o">,</span> <span class="mi">3</span> <span class="o">-&gt;</span> <span class="s">"Green"</span><span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">var</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">"Blue"</span><span class="o">,</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="s">"Red"</span><span class="o">,</span> <span class="mi">3</span> <span class="o">-&gt;</span> <span class="s">"Green"</span><span class="o">)</span>
+</code></pre></div></div>
 
 <p>Once again, that’s same as</p>
 
-<div class="language-scala highlighter-rouge"><pre class="highlight"><code>	<span class="k">var</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Blue"</span><span class="o">),</span> <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Red"</span><span class="o">),</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"Green"</span><span class="o">)</span> <span class="o">)</span>
-</code></pre>
-</div>
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">var</span> <span class="n">a</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Blue"</span><span class="o">),</span> <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Red"</span><span class="o">),</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"Green"</span><span class="o">)</span> <span class="o">)</span>
+</code></pre></div></div>
 
 
         </section>
@@ -476,14 +435,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=A+short+Scala+tutorial+for+Java+Developers&amp;url=http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers"
+                <a class="icon-twitter" href="http://twitter.com/share?text=A+short+Scala+tutorial+for+Java+Developers&amp;url=http://localhost:4000/2012/10/07/a-short-scala-tutorial-for-java-developers"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=A+short+Scala+tutorial+for+Java+Developers&amp;u=http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=A+short+Scala+tutorial+for+Java+Developers&amp;u=http://localhost:4000/2012/10/07/a-short-scala-tutorial-for-java-developers"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -492,7 +451,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=A+short+Scala+tutorial+for+Java+Developers&amp;url=http://samwize.com/2012/10/07/a-short-scala-tutorial-for-java-developers"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=A+short+Scala+tutorial+for+Java+Developers&amp;url=http://localhost:4000/2012/10/07/a-short-scala-tutorial-for-java-developers"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

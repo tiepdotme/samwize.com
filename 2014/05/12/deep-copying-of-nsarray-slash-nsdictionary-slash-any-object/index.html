@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Deep Copying of NSArray/NSDictionary/Any Object" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="When you use [array copy] or [array mutableCopy], you expect to get a complete new copy of the array/dictionary." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="When you use [array copy] or [array mutableCopy], you expect to get a complete new copy of the array/dictionary." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-05-12T13:25:16+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object/">
+  <link rel="canonical" href="http://localhost:4000/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Deep Copying of NSArray/NSDictionary/Any Object</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-05-12T13:25:16+08:00">12 May 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -84,17 +83,15 @@
 
 <p>If your array has only 1 level (it is not nested), then you can use this:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">NSArray</span> <span class="o">*</span><span class="n">deepCopyArray</span><span class="o">=</span><span class="p">[[</span><span class="n">NSArray</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithArray</span><span class="p">:</span><span class="n">someArray</span> <span class="nf">copyItems</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
-</code></pre>
-</div>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSArray</span> <span class="o">*</span><span class="n">deepCopyArray</span><span class="o">=</span><span class="p">[[</span><span class="n">NSArray</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithArray</span><span class="p">:</span><span class="n">someArray</span> <span class="nf">copyItems</span><span class="p">:</span><span class="nb">YES</span><span class="p">];</span>
+</code></pre></div></div>
 
 <h2 id="nested-levels-copies">Nested levels copies</h2>
 
 <p>But if you have an array nested in array.. then you need <em>true deep copy</em>, as Apple mentioned:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">NSArray</span><span class="o">*</span> <span class="n">trueDeepCopyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSKeyedUnarchiver</span> <span class="nf">unarchiveObjectWithData</span><span class="p">:[</span><span class="n">NSKeyedArchiver</span> <span class="nf">archivedDataWithRootObject</span><span class="p">:</span><span class="n">oldArray</span><span class="p">]];</span>
-</code></pre>
-</div>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSArray</span><span class="o">*</span> <span class="n">trueDeepCopyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSKeyedUnarchiver</span> <span class="nf">unarchiveObjectWithData</span><span class="p">:[</span><span class="n">NSKeyedArchiver</span> <span class="nf">archivedDataWithRootObject</span><span class="p">:</span><span class="n">oldArray</span><span class="p">]];</span>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">NSKeyedArchiver</code> will tranverse and archive all objects (which must conform to <code class="highlighter-rouge">&lt;NSCoding</code>), then later unarchive to get a new copy.</p>
 
@@ -106,7 +103,7 @@
 
 <p>There are 2 methods that you need to implement, which are just boring-tedious-code to declare which properties to be encoded, and later decoded and init with.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">encodeWithCoder</span><span class="p">:(</span><span class="n">NSCoder</span> <span class="o">*</span><span class="p">)</span><span class="nv">coder</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">encodeWithCoder</span><span class="p">:(</span><span class="n">NSCoder</span> <span class="o">*</span><span class="p">)</span><span class="nv">coder</span>
 <span class="p">{</span>
     <span class="p">[</span><span class="n">coder</span> <span class="nf">encodeObject</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">foo</span> <span class="nf">forKey</span><span class="p">:</span><span class="s">@"foo"</span><span class="p">];</span>
     <span class="p">[</span><span class="n">coder</span> <span class="nf">encodeObject</span><span class="p">:</span><span class="n">self</span><span class="p">.</span><span class="n">poo</span> <span class="nf">forKey</span><span class="p">:</span><span class="s">@"poo"</span><span class="p">];</span>
@@ -123,8 +120,7 @@
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">self</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
         </section>
@@ -132,14 +128,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Deep+Copying+of+NSArray%2FNSDictionary%2FAny+Object&amp;url=http://samwize.com/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Deep+Copying+of+NSArray%2FNSDictionary%2FAny+Object&amp;url=http://localhost:4000/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Deep+Copying+of+NSArray%2FNSDictionary%2FAny+Object&amp;u=http://samwize.com/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Deep+Copying+of+NSArray%2FNSDictionary%2FAny+Object&amp;u=http://localhost:4000/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -148,7 +144,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Deep+Copying+of+NSArray%2FNSDictionary%2FAny+Object&amp;url=http://samwize.com/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Deep+Copying+of+NSArray%2FNSDictionary%2FAny+Object&amp;url=http://localhost:4000/2014/05/12/deep-copying-of-nsarray-slash-nsdictionary-slash-any-object"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

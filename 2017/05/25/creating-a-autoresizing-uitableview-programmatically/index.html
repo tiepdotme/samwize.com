@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Creating a Autoresizing UITableView Programmatically" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="This is an incomplete guide because estimatedRowHeight has bug. Should NOT use it." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="This is an incomplete guide because estimatedRowHeight has bug. Should NOT use it." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/05/25/creating-a-autoresizing-uitableview-programmatically/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/05/25/creating-a-autoresizing-uitableview-programmatically/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-05-25T09:27:42+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/05/25/creating-a-autoresizing-uitableview-programmatically/">
+  <link rel="canonical" href="http://localhost:4000/2017/05/25/creating-a-autoresizing-uitableview-programmatically/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Creating a Autoresizing UITableView Programmatically</h1>
             <div class="cf post-meta-text">
               <time datetime="2017-05-25T09:27:42+08:00">25 May 2017</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -89,13 +88,12 @@
 
 <p>In <code class="highlighter-rouge">viewDidLoad</code>, setup the table view.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">setupTableView</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">setupTableView</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">tableView</span><span class="o">.</span><span class="nf">register</span><span class="p">(</span><span class="nv">cellType</span><span class="p">:</span> <span class="kt">MyTableViewCell</span><span class="o">.</span><span class="k">self</span><span class="p">)</span>
     <span class="n">tableView</span><span class="o">.</span><span class="n">rowHeight</span> <span class="o">=</span> <span class="kt">UITableViewAutomaticDimension</span>
     <span class="n">tableView</span><span class="o">.</span><span class="n">estimatedRowHeight</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1">// Just an estimated value for calculating scroll indicator</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The cell class is <code class="highlighter-rouge">MyTableViewCell</code>, and behold the beauty of registering without a cell identifier string. This is brought to you by Reusable.</p>
 
@@ -105,13 +103,12 @@
 
 <p><code class="highlighter-rouge">MyTableViewCell</code> looks like this.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyTableViewCell</span><span class="p">:</span> <span class="kt">UITableViewCell</span><span class="p">,</span> <span class="kt">NibReusable</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyTableViewCell</span><span class="p">:</span> <span class="kt">UITableViewCell</span><span class="p">,</span> <span class="kt">NibReusable</span> <span class="p">{</span>
   <span class="kd">private</span> <span class="k">var</span> <span class="nv">urlString</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
   <span class="kd">@IBOutlet</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">theImageView</span><span class="p">:</span> <span class="kt">UIImageView</span><span class="o">!</span>
   <span class="kd">@IBOutlet</span> <span class="k">weak</span> <span class="k">var</span> <span class="nv">theImageViewHeightConstraint</span><span class="p">:</span> <span class="kt">NSLayoutConstraint</span><span class="o">!</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Remember we said we will be using <code class="highlighter-rouge">Reusable</code>? How it works is simply extending the cell with <code class="highlighter-rouge">NibReusable</code>. That’s all.</p>
 
@@ -123,7 +120,7 @@
 
 <p>The cell provides a method to set the image URL string.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">setImage</span><span class="p">(</span><span class="n">withUrlString</span> <span class="nv">urlString</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">setImage</span><span class="p">(</span><span class="n">withUrlString</span> <span class="nv">urlString</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// Need to store the URL because cells will be reused. The check is in adjustBannerHeightToFitImage.</span>
     <span class="k">self</span><span class="o">.</span><span class="n">urlString</span> <span class="o">=</span> <span class="n">urlString</span>
 
@@ -137,12 +134,11 @@
         <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="nf">adjustHeightToFitImage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="n">image</span><span class="p">,</span> <span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="n">completion</span><span class="p">)</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We split the code up with <code class="highlighter-rouge">adjustHeightToFitImage</code>, which calculate the image aspect ratio, and adjust the height (while occupying full/fixed width in the cell).</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">adjustHeightToFitImage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?,</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">adjustHeightToFitImage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?,</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">guard</span> <span class="k">let</span> <span class="nv">bannerUrlString</span> <span class="o">=</span> <span class="n">bannerUrlString</span><span class="p">,</span> <span class="n">bannerUrlString</span> <span class="o">==</span> <span class="n">url</span><span class="p">?</span><span class="o">.</span><span class="n">absoluteString</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
     <span class="k">guard</span> <span class="k">let</span> <span class="nv">image</span> <span class="o">=</span> <span class="n">image</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
 
@@ -154,8 +150,7 @@
         <span class="nf">completion</span><span class="p">()</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The <code class="highlighter-rouge">completion</code> is necessary for the table view to know that the image is downloaded, and the height is adjusted.</p>
 
@@ -163,7 +158,7 @@
 
 <p>We will omit the unnecessary code in the table view. What is most important is in the cell configuration.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span> <span class="n">cellForRowAt</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UITableViewCell</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nv">tableView</span><span class="p">:</span> <span class="kt">UITableView</span><span class="p">,</span> <span class="n">cellForRowAt</span> <span class="nv">indexPath</span><span class="p">:</span> <span class="kt">IndexPath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UITableViewCell</span> <span class="p">{</span>
     <span class="c1">// Dequeue without cell identifer!</span>
     <span class="k">let</span> <span class="nv">cell</span><span class="p">:</span> <span class="kt">MyTableViewCell</span> <span class="o">=</span> <span class="n">tableView</span><span class="o">.</span><span class="nf">dequeueReusableCell</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="n">indexPath</span><span class="p">)</span>
 
@@ -175,8 +170,7 @@
 
     <span class="k">return</span> <span class="n">cell</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the <code class="highlighter-rouge">completion</code> handler, we did a trick to reload just the heights for the table view. This is more efficient than <code class="highlighter-rouge">reloadData</code> or <code class="highlighter-rouge">reloadRows(at:with:)</code>.</p>
 
@@ -194,23 +188,22 @@
 
 <p>With Resuable, register the view.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>tableView.register(headerFooterViewType: GroupHeaderView.self)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tableView.register(headerFooterViewType: GroupHeaderView.self)
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Creating+a+Autoresizing+UITableView+Programmatically&amp;url=http://samwize.com/2017/05/25/creating-a-autoresizing-uitableview-programmatically"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Creating+a+Autoresizing+UITableView+Programmatically&amp;url=http://localhost:4000/2017/05/25/creating-a-autoresizing-uitableview-programmatically"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Creating+a+Autoresizing+UITableView+Programmatically&amp;u=http://samwize.com/2017/05/25/creating-a-autoresizing-uitableview-programmatically"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Creating+a+Autoresizing+UITableView+Programmatically&amp;u=http://localhost:4000/2017/05/25/creating-a-autoresizing-uitableview-programmatically"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -219,7 +212,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Creating+a+Autoresizing+UITableView+Programmatically&amp;url=http://samwize.com/2017/05/25/creating-a-autoresizing-uitableview-programmatically"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Creating+a+Autoresizing+UITableView+Programmatically&amp;url=http://localhost:4000/2017/05/25/creating-a-autoresizing-uitableview-programmatically"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

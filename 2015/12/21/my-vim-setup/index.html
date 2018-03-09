@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="My Vim Setup" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Install vim with +clipboard" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Install vim with +clipboard" />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/12/21/my-vim-setup/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/12/21/my-vim-setup/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-12-21T12:51:26+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/12/21/my-vim-setup/">
+  <link rel="canonical" href="http://localhost:4000/2015/12/21/my-vim-setup/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">My Vim Setup</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-12-21T12:51:26+08:00">21 December 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,9 +77,8 @@
 
 <p>Therefore, the first step is to install a better version of vim.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>brew install vim
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew install vim
+</code></pre></div></div>
 
 <h2 id="vundle-to-manage-vim-plugins">Vundle to manage vim plugins</h2>
 
@@ -92,14 +90,13 @@
 
 <p>Then in <code class="highlighter-rouge">.vimrc</code>, add the following:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>filetype off                  " required
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'ctrlpvim/ctrlp.vim'
 call vundle#end()            " required
 filetype plugin indent on    " required
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the example, I have only added <a href="https://github.com/ctrlpvim/ctrlp.vim">ctrlp</a> for illustration of a plugin to install. Add more as needed.</p>
 
@@ -109,9 +106,8 @@ filetype plugin indent on    " required
 
 <p>A convenient way is to symlink <code class="highlighter-rouge">.vimrc</code> so that you only edit in one place (dotfile):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ln -s ~/dotfiles/.vimrc ~/.vimrc
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -s ~/dotfiles/.vimrc ~/.vimrc
+</code></pre></div></div>
 
 <h2 id="solarized-theme">Solarized Theme</h2>
 
@@ -119,9 +115,8 @@ filetype plugin indent on    " required
 
 <p>Add the plugin to <code class="highlighter-rouge">.zshrc</code>, and install with <code class="highlighter-rouge">:PluginInstall</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Plugin 'altercation/vim-colors-solarized'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Plugin 'altercation/vim-colors-solarized'
+</code></pre></div></div>
 
 <p>Remember to also change the <a href="https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized">theme for iTerm2</a>.</p>
 
@@ -137,14 +132,14 @@ filetype plugin indent on    " required
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=My+Vim+Setup&amp;url=http://samwize.com/2015/12/21/my-vim-setup"
+                <a class="icon-twitter" href="http://twitter.com/share?text=My+Vim+Setup&amp;url=http://localhost:4000/2015/12/21/my-vim-setup"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=My+Vim+Setup&amp;u=http://samwize.com/2015/12/21/my-vim-setup"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=My+Vim+Setup&amp;u=http://localhost:4000/2015/12/21/my-vim-setup"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -153,7 +148,7 @@ filetype plugin indent on    " required
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=My+Vim+Setup&amp;url=http://samwize.com/2015/12/21/my-vim-setup"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=My+Vim+Setup&amp;url=http://localhost:4000/2015/12/21/my-vim-setup"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

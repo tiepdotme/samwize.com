@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Developer Guide to Support iPhone X" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="iPhone X introduced The Notch, The Home Indicator, Safe Area, and a different resolution form factor.." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="iPhone X introduced The Notch, The Home Indicator, Safe Area, and a different resolution form factor.." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/12/21/developer-guide-to-support-iphone-x/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/12/21/developer-guide-to-support-iphone-x/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-12-21T11:49:22+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/12/21/developer-guide-to-support-iphone-x/">
+  <link rel="canonical" href="http://localhost:4000/2017/12/21/developer-guide-to-support-iphone-x/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Developer Guide to Support iPhone X</h1>
             <div class="cf post-meta-text">
               <time datetime="2017-12-21T11:49:22+08:00">21 December 2017</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -98,11 +97,10 @@
 
 <p>To allow auto hide (after user not touching screen) for a view controller:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">prefersHomeIndicatorAutoHidden</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">prefersHomeIndicatorAutoHidden</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kc">true</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>But <a href="https://medium.com/the-traveled-ios-developers-guide/iphone-x-dealing-with-home-indicator-2e8e47f5647f">note</a> the comment in the doc:</p>
 
@@ -136,13 +134,12 @@
 
 <p>This <a href="https://stackoverflow.com/a/42301499/242682">extension</a> to <code class="highlighter-rouge">UINavigationController</code> is the cleanest solution (another alternative is subclass it).</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">UINavigationController</span> <span class="p">{</span>
-    <span class="k">override</span> <span class="n">open</span> <span class="k">var</span> <span class="nv">childViewControllerForStatusBarStyle</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">?</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">UINavigationController</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="kd">open</span> <span class="k">var</span> <span class="nv">childViewControllerForStatusBarStyle</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">?</span> <span class="p">{</span>
         <span class="k">return</span> <span class="k">self</span><span class="o">.</span><span class="n">topViewController</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="table-view">Table View</h2>
 
@@ -150,11 +147,10 @@
 
 <p>Instead, the <strong>content inset</strong> should be mark safe via <a href="https://developer.apple.com/documentation/uikit/uitableview/2921665-insetscontentviewstosafearea"><code class="highlighter-rouge">insetsContentViewsToSafeArea</code></a> (new in iOS 11).</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="kd">#available(iOS 11.0, *)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="kd">#available(iOS 11.0, *)</span> <span class="p">{</span>
     <span class="n">tableView</span><span class="o">.</span><span class="n">insetsContentViewsToSafeArea</span> <span class="o">=</span> <span class="kc">true</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="scroll-view">Scroll View</h2>
 
@@ -164,9 +160,8 @@
 
 <p>iOS seems to be not adjusting correctly for search controller. Fixed with:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="n">contentInsetAdjustmentBehavior</span> <span class="o">=</span> <span class="o">.</span><span class="n">never</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">tableView</span><span class="o">.</span><span class="n">contentInsetAdjustmentBehavior</span> <span class="o">=</span> <span class="o">.</span><span class="n">never</span>
+</code></pre></div></div>
 
 <p><a href="/2016/11/27/uisearchcontroller-development-guide/">Search controller</a> is a difficult topic, and with iPhone X the recommended way is to set the search bar in the nav bar.</p>
 
@@ -190,14 +185,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Developer+Guide+to+Support+iPhone+X&amp;url=http://samwize.com/2017/12/21/developer-guide-to-support-iphone-x"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Developer+Guide+to+Support+iPhone+X&amp;url=http://localhost:4000/2017/12/21/developer-guide-to-support-iphone-x"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Developer+Guide+to+Support+iPhone+X&amp;u=http://samwize.com/2017/12/21/developer-guide-to-support-iphone-x"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Developer+Guide+to+Support+iPhone+X&amp;u=http://localhost:4000/2017/12/21/developer-guide-to-support-iphone-x"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -206,7 +201,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Developer+Guide+to+Support+iPhone+X&amp;url=http://samwize.com/2017/12/21/developer-guide-to-support-iphone-x"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Developer+Guide+to+Support+iPhone+X&amp;url=http://localhost:4000/2017/12/21/developer-guide-to-support-iphone-x"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

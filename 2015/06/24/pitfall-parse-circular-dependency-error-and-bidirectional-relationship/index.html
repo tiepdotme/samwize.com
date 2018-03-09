@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Pitfall: Parse Circular Dependency Error and Bidirectional Relationship" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="When you save a PFObject and encounter the error Found a circular dependency when saving, it could be due to you setting a bidirectional/inverse relationship." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="When you save a PFObject and encounter the error Found a circular dependency when saving, it could be due to you setting a bidirectional/inverse relationship." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-06-24T12:26:11+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship/">
+  <link rel="canonical" href="http://localhost:4000/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Pitfall: Parse Circular Dependency Error and Bidirectional Relationship</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-06-24T12:26:11+08:00">24 June 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,13 +77,12 @@
 
 <p>Take this example:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="c1">// You have 2 Parse Class Teacher and Student
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// You have 2 Parse Class Teacher and Student
 </span><span class="n">PFObject</span> <span class="o">*</span><span class="n">teacher</span><span class="p">,</span> <span class="n">student</span><span class="p">;</span>
 <span class="c1">// You try to set up the bidirectional relationship
 </span><span class="n">teacher</span><span class="p">.</span><span class="n">student</span> <span class="o">=</span> <span class="n">student</span>
 <span class="n">student</span><span class="p">.</span><span class="n">teacher</span> <span class="o">=</span> <span class="n">teacher</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Upon save, the code will throw the exception <code class="highlighter-rouge">Found a circular dependency when saving</code>. This is because <a href="https://parse.com/questions/bidirectional-relationship-one-to-many">bidirectional relationship is not supported</a> on Parse.</p>
 
@@ -106,14 +104,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Pitfall%3A+Parse+Circular+Dependency+Error+and+Bidirectional+Relationship&amp;url=http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Pitfall%3A+Parse+Circular+Dependency+Error+and+Bidirectional+Relationship&amp;url=http://localhost:4000/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Pitfall%3A+Parse+Circular+Dependency+Error+and+Bidirectional+Relationship&amp;u=http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Pitfall%3A+Parse+Circular+Dependency+Error+and+Bidirectional+Relationship&amp;u=http://localhost:4000/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -122,7 +120,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Pitfall%3A+Parse+Circular+Dependency+Error+and+Bidirectional+Relationship&amp;url=http://samwize.com/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Pitfall%3A+Parse+Circular+Dependency+Error+and+Bidirectional+Relationship&amp;url=http://localhost:4000/2015/06/24/pitfall-parse-circular-dependency-error-and-bidirectional-relationship"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

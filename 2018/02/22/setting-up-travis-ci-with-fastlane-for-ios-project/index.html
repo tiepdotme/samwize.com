@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Setting Up Travis CI With Fastlane for iOS Project</title>
+  <meta name="description" content="Travis CI is a service, providing machines, to help build your app, test, deploy, and more." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Setting Up Travis CI With Fastlane for iOS Project" />
+    <meta name="twitter:image" content="http://localhost:4000" />
+    
+    <meta name="twitter:description"  content="Travis CI is a service, providing machines, to help build your app, test, deploy, and more." />
+    
+  
+  
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Setting Up Travis CI With Fastlane for iOS Project"/>
+  
+  <meta property="og:description" content="Travis CI is a service, providing machines, to help build your app, test, deploy, and more." />
+  
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2018-02-22T16:02:51+08:00">
+
+  <link rel="canonical" href="http://localhost:4000/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project/">
+
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+</head>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Setting Up Travis CI With Fastlane for iOS Project</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2018-02-22T16:02:51+08:00">22 February 2018</time>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p><a href="https://travis-ci.com">Travis CI</a> is a service, providing machines, to help build your app, test, deploy, and more.</p>
+
+<p>Note: It integrates very easily with github, but does NOT support bitbucket etc.</p>
+
+<p>It is FREE for open source projects eg. public Github project.</p>
+
+<p>First 100 builds are free too, as a trial. Afterwhich, it starts from <a href="https://travis-ci.com/plans">$69/mth</a> for 1 concurrent job. Read about alternatives in last section of this post.</p>
+
+<h2 id="setting-up"><a href="https://docs.travis-ci.com/user/languages/objective-c/">Setting Up</a></h2>
+
+<ol>
+  <li>Create <code class="highlighter-rouge">.travis.yml</code> in project root and configure (see below)</li>
+  <li>Push to repository</li>
+  <li>Sign in your Github account on <a href="https://travis-ci.com/">travis-ci.com</a></li>
+  <li>Configure on the dashboard</li>
+</ol>
+
+<p>The most important step is with <code class="highlighter-rouge">.travis.yml</code> configuration file.</p>
+
+<p>You can <a href="https://docs.travis-ci.com/user/customizing-the-build">customize</a> all you want. A bare minimum one for swift looks like this:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">osx_image</span><span class="pi">:</span> <span class="s">xcode9.2</span>
+<span class="na">language</span><span class="pi">:</span> <span class="s">swift</span>
+<span class="na">script</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">fastlane run_tests</span>
+</code></pre></div></div>
+
+<p>The <a href="https://docs.fastlane.tools/actions/scan/">lane “run_tests”</a>, builds and run unit tests. The result will then be available to travis-ci.</p>
+
+<h2 id="when-to-build">When to build</h2>
+
+<p>There are 2 options to turn on/off in the dashboard:</p>
+
+<ol>
+  <li>Build branch updates</li>
+  <li>Build pull request updates</li>
+</ol>
+
+<p>The default is both ON.</p>
+
+<p>Having (1) ON could be build crazy, because every commit and push will trigger a build. But you could do tweak more, with advanced configuration.</p>
+
+<h2 id="when-to-build-advanced">When to build (Advanced)</h2>
+
+<p>You may <a href="https://docs.travis-ci.com/user/customizing-the-build/#Building-Specific-Branches">further restrict when to build</a>. You can safelist branches and tags, with regex.</p>
+
+<p>So let’s say you want only build with tag such as “build-123”, you can use regex in the yaml file:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># safelist</span>
+<span class="na">branches</span><span class="pi">:</span>
+  <span class="na">only</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">master</span>
+  <span class="pi">-</span> <span class="s">/^build-\d+$/</span>
+</code></pre></div></div>
+
+<p>Another way is to write bash commands in the <code class="highlighter-rouge">script</code> phrase.</p>
+
+<p>For example, if you want to run a lane named “beta” when the commit message has “[beta]” in it:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">script</span><span class="pi">:</span> 
+  <span class="pi">-</span> <span class="s">if [[ "$TRAVIS_COMMIT_MESSAGE" = *"[beta]"* ]]; then bundle exec fastlane beta; else bundle exec fastlane some_other_lane; fi</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">TRAVIS_COMMIT_MESSAGE</code> is <a href="https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables">one of many environment variables</a> provided in travis.</p>
+
+<h2 id="after-build-comes-deploy">After build comes deploy</h2>
+
+<p>Deploy is an optional phase, the CD in <code class="highlighter-rouge">CI/CD</code>.</p>
+
+<p>If build is successful, then the deploy phase will start.</p>
+
+<p>For iOS, the deploy phase could be pushing the build to Testflight.</p>
+
+<h2 id="encrypting-secure-env-var">Encrypting secure env var</h2>
+
+<p>In <code class="highlighter-rouge">.travis.yml</code>, you will frequently see <code class="highlighter-rouge">secure</code> key.</p>
+
+<p>These are <a href="https://docs.travis-ci.com/user/environment-variables/">environment variables</a> that you can use everywhere - travis.yml, Fastfile or any script.</p>
+
+<p>As they are sensitive values, you have to encrypt them in <code class="highlighter-rouge">.travis.yml</code>.</p>
+
+<p>Run this in terminal:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install the tool</span>
+gem install travis
+
+<span class="c"># Login</span>
+travis login <span class="nt">--pro</span>
+
+<span class="c"># Encrypt the env var and add to travis.yml</span>
+travis encrypt <span class="nv">SOMEVAR</span><span class="o">=</span><span class="s2">"secretvalue"</span> <span class="nt">--add</span>
+</code></pre></div></div>
+
+<p>For every key-value, it will add a “secure” to the env.global list.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span>
+  <span class="na">global</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">secure</span><span class="pi">:</span> <span class="s">some-encrypted-value</span>
+  <span class="pi">-</span> <span class="na">secure</span><span class="pi">:</span> <span class="s">another-encrypted-value</span>
+</code></pre></div></div>
+
+<p>You can then <a href="https://docs.travis-ci.com/user/encryption-keys/">use the key</a> eg. <code class="highlighter-rouge">SOMEVAR</code> as an environment variable.</p>
+
+<h2 id="bonus-dependencies-in-multiple-repository">Bonus: Dependencies in multiple repository</h2>
+
+<p>If your project has <a href="https://docs.travis-ci.com/user/private-dependencies/">dependencies to multiple repositories</a>, there are 2 approach:</p>
+
+<ol>
+  <li>Deploy key</li>
+  <li>User key</li>
+</ol>
+
+<p>User key is the best practice, with a dedicated <a href="https://docs.travis-ci.com/user/private-dependencies/#Dedicated-User-Account">CI user account</a>. This means creating an independent Github account, with access to those repositories, then generate the user’s SSH key for use in travis.</p>
+
+<p>User key is preferred over Deploy key because Deploy key is per repo, hence it gets hard to maintain many keys (1 key per repo).</p>
+
+<h2 id="alternatives">Alternatives</h2>
+
+<p>The thing with Travis CI is that it is expensive, starting from $69/mth.</p>
+
+<p><a href="https://www.atlassian.com/software/bamboo">Bamboo</a> is part of Atlassian, so it integrates well with Bitbucket, Jira, etc, and starts from $10/mth. <a href="https://confluence.atlassian.com/bamboo/xcode-354353193.html">Setup for Xcode</a>.</p>
+
+<p><a href="https://www.shippable.com/pricing.html">Shippable</a> has a generous free hosted service providing 150 builds/mth for private project.</p>
+
+<p><a href="https://honzadvorsky.com/articles/2015-08-04-xcs_tutorials_1_getting_started/">Xcode Server</a> aka XCS have bots (like jobs). It integrates to Xcode nicely.</p>
+
+<p><a href="https://medium.com/@cherrmann.com/continuous-integration-and-delivery-for-ios-with-jenkins-and-fastlane-part-1-3b17f1901a73">Jenkins</a> is free and you can self host it, on a macOS machine, that also means maintaining it.</p>
+
+<p>Also, sample <a href="https://github.com/spotify/ios-ci">Spotify CI scripts</a> for their open source projects. They use Travis CI and others.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Setting+Up+Travis+CI+With+Fastlane+for+iOS+Project&amp;url=http://localhost:4000/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Setting+Up+Travis+CI+With+Fastlane+for+iOS+Project&amp;u=http://localhost:4000/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Setting+Up+Travis+CI+With+Fastlane+for+iOS+Project&amp;url=http://localhost:4000/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>

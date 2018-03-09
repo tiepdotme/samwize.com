@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Docker Error: Returned a Non-zero Code: 137" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="While running a node app with Docker, there is an error 137:" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="While running a node app with Docker, there is an error 137:" />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/05/19/docker-error-returned-a-non-zero-code-137/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-05-19T10:40:29+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137/">
+  <link rel="canonical" href="http://localhost:4000/2016/05/19/docker-error-returned-a-non-zero-code-137/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Docker Error: Returned a Non-zero Code: 137</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-05-19T10:40:29+08:00">19 May 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -74,9 +73,8 @@
           
           <p>While running a node app with Docker, there is an error 137:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>The command '/bin/sh -c npm install' returned a non-zero code: 137
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The command '/bin/sh -c npm install' returned a non-zero code: 137
+</code></pre></div></div>
 
 <p>This means a <a href="https://github.com/mitchellh/vagrant/issues/4247">out of memory error</a>.</p>
 
@@ -86,50 +84,49 @@
 
 <p>These steps are exactly the same from a <a href="/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory/">previous guide</a>:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="c"># Confirm you have no swap</span>
-sudo swapon -s
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Confirm you have no swap</span>
+<span class="nb">sudo </span>swapon <span class="nt">-s</span>
 
 <span class="c"># Allocate 1GB (or more if you wish) in /swapfile</span>
-sudo fallocate -l 1G /swapfile
+<span class="nb">sudo </span>fallocate <span class="nt">-l</span> 1G /swapfile
 
 <span class="c"># Make it secure</span>
-sudo chmod 600 /swapfile
-ls -lh /swapfile
+<span class="nb">sudo </span>chmod 600 /swapfile
+<span class="nb">ls</span> <span class="nt">-lh</span> /swapfile
 
 <span class="c"># Activate it</span>
-sudo mkswap /swapfile
-sudo swapon /swapfile
+<span class="nb">sudo </span>mkswap /swapfile
+<span class="nb">sudo </span>swapon /swapfile
 
 <span class="c"># Confirm again there's indeed more memory now</span>
-free -m
-sudo swapon -s
+free <span class="nt">-m</span>
+<span class="nb">sudo </span>swapon <span class="nt">-s</span>
 
 <span class="c"># Configure fstab to use swap when instance restart</span>
-sudo nano /etc/fstab
+<span class="nb">sudo </span>nano /etc/fstab
 
 <span class="c"># Add this line to /etc/fstab, save and exit</span>
 /swapfile   none    swap    sw    0   0
 
 <span class="c"># Change swappiness to 10, so that swap is used only when 10% RAM is unused</span>
 <span class="c"># The default is too high at 60</span>
-<span class="nb">echo </span>10 | sudo tee /proc/sys/vm/swappiness
-<span class="nb">echo </span>vm.swappiness <span class="o">=</span> 10 | sudo tee -a /etc/sysctl.conf
-</code></pre>
-</div>
+<span class="nb">echo </span>10 | <span class="nb">sudo </span>tee /proc/sys/vm/swappiness
+<span class="nb">echo </span>vm.swappiness <span class="o">=</span> 10 | <span class="nb">sudo </span>tee <span class="nt">-a</span> /etc/sysctl.conf
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Docker+Error%3A+Returned+a+Non-zero+Code%3A+137&amp;url=http://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Docker+Error%3A+Returned+a+Non-zero+Code%3A+137&amp;url=http://localhost:4000/2016/05/19/docker-error-returned-a-non-zero-code-137"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Docker+Error%3A+Returned+a+Non-zero+Code%3A+137&amp;u=http://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Docker+Error%3A+Returned+a+Non-zero+Code%3A+137&amp;u=http://localhost:4000/2016/05/19/docker-error-returned-a-non-zero-code-137"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -138,7 +135,7 @@ sudo nano /etc/fstab
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Docker+Error%3A+Returned+a+Non-zero+Code%3A+137&amp;url=http://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Docker+Error%3A+Returned+a+Non-zero+Code%3A+137&amp;url=http://localhost:4000/2016/05/19/docker-error-returned-a-non-zero-code-137"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

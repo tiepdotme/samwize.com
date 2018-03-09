@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Xcode Commands to build app and run on simulator" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="There will be times where you want to do these on the command line." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="There will be times where you want to do these on the command line." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-03-11T18:18:07+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator/">
+  <link rel="canonical" href="http://localhost:4000/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Xcode Commands to build app and run on simulator</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-03-11T18:18:07+08:00">11 March 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -76,9 +75,8 @@
 
 <h2 id="list-the-available-sdks">List the available SDKs</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>xcodebuild -showsdks
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild -showsdks
+</code></pre></div></div>
 
 <p>For example, I have <strong>iphonesimulator8.2</strong> in my list of SDKs. This will be used in the next step.</p>
 
@@ -88,15 +86,13 @@
 
 <p>Build the project:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>xcodebuild -project '/path/to/Awesome.xcproj' -arch i386  -sdk iphonesimulator8.2
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild -project '/path/to/Awesome.xcproj' -arch i386  -sdk iphonesimulator8.2
+</code></pre></div></div>
 
 <p>If you are using workspace, then you need to provide the scheme too:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>xcodebuild -workspace '/path/to/Awesome.xcworkspace' -scheme 'Awesome-Production' -arch i386  -sdk iphonesimulator8.2
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild -workspace '/path/to/Awesome.xcworkspace' -scheme 'Awesome-Production' -arch i386  -sdk iphonesimulator8.2
+</code></pre></div></div>
 
 <p>Or, more likely, you are using Xcode app (not commandline), then just build the app as per normal.</p>
 
@@ -112,12 +108,11 @@
 
 <p>Then run:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># First, find the device type
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># First, find the device type
 ios-sim showdevicetypes
 # Example using iPhone 6 Plus
 ios-sim launch --devicetypeid "iPhone-6-Plus, 9.2" /path/to/awesome.app
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>That’s it!</p>
 
@@ -126,14 +121,14 @@ ios-sim launch --devicetypeid "iPhone-6-Plus, 9.2" /path/to/awesome.app
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Xcode+Commands+to+build+app+and+run+on+simulator&amp;url=http://samwize.com/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Xcode+Commands+to+build+app+and+run+on+simulator&amp;url=http://localhost:4000/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Xcode+Commands+to+build+app+and+run+on+simulator&amp;u=http://samwize.com/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Xcode+Commands+to+build+app+and+run+on+simulator&amp;u=http://localhost:4000/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -142,7 +137,7 @@ ios-sim launch --devicetypeid "iPhone-6-Plus, 9.2" /path/to/awesome.app
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Xcode+Commands+to+build+app+and+run+on+simulator&amp;url=http://samwize.com/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Xcode+Commands+to+build+app+and+run+on+simulator&amp;url=http://localhost:4000/2015/03/11/xcode-commands-to-build-app-and-run-on-simulator"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Reference Cycle for Closures" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="You have probably learn about the imperils of reference/retain cycle." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="You have probably learn about the imperils of reference/retain cycle." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/08/05/reference-cycle-for-closures/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/08/05/reference-cycle-for-closures/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-08-05T11:44:31+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/08/05/reference-cycle-for-closures/">
+  <link rel="canonical" href="http://localhost:4000/2016/08/05/reference-cycle-for-closures/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Reference Cycle for Closures</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-08-05T11:44:31+08:00">05 August 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -99,7 +98,7 @@
 
 <p>Let’s look closer at 2 scenarios.</p>
 
-<h2 id="class-instance-with-strong-reference-to-closure">1. Class instance with strong reference to closure</h2>
+<h2 id="1-class-instance-with-strong-reference-to-closure">1. Class instance with strong reference to closure</h2>
 
 <p>This is the typical scenario where the class instance has a strong reference to the closure directly, or indirectly.</p>
 
@@ -107,7 +106,7 @@
 
 <p>Let’s look at an example:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// Now, myStrongClass has strong reference to the closure</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Now, myStrongClass has strong reference to the closure</span>
 <span class="kd">class</span> <span class="kt">MyStrongClass</span> <span class="p">{</span>
     <span class="kd">deinit</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"deinit MyStrongClass"</span><span class="p">)</span> <span class="p">}</span>
     <span class="k">var</span> <span class="nv">theClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)?</span>
@@ -125,8 +124,7 @@
 <span class="k">var</span> <span class="nv">myStrongClass</span><span class="p">:</span> <span class="kt">MyStrongClass</span><span class="p">?</span> <span class="o">=</span> <span class="kt">MyStrongClass</span><span class="p">()</span>
 <span class="n">myStrongClass</span><span class="p">?</span><span class="o">.</span><span class="nf">runClosure</span><span class="p">()</span>
 <span class="n">myStrongClass</span> <span class="o">=</span> <span class="kc">nil</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the code above, <code class="highlighter-rouge">myStrongClass</code> will not deinit even when it is set to <code class="highlighter-rouge">nil</code>.</p>
 
@@ -134,21 +132,19 @@
 
 <p>The typical solution is to capture <code class="highlighter-rouge">self</code> with <code class="highlighter-rouge">unowned</code> or <code class="highlighter-rouge">weak</code>.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">theClosure</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">theClosure</span> <span class="o">=</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
   <span class="o">...</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This is the scenario where it is <strong>necessary</strong> to use <code class="highlighter-rouge">weak</code>/<code class="highlighter-rouge">unowned</code>, if not you will have memory leak problem.</p>
 
-<h2 id="closure-has-a-strong-reference-to-class-instance">2. Closure has a strong reference to class instance</h2>
+<h2 id="2-closure-has-a-strong-reference-to-class-instance">2. Closure has a strong reference to class instance</h2>
 
 <p>In this scenario, you might think the closure can be declared with <code class="highlighter-rouge">weak</code> (while still capture <code class="highlighter-rouge">self</code> strongly):</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">weak</span> <span class="k">var</span> <span class="nv">theClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)?</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">weak</span> <span class="k">var</span> <span class="nv">theClosure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">)?</span>
+</code></pre></div></div>
 
 <p>But that is not possible.</p>
 
@@ -156,7 +152,7 @@
 
 <p>To illustrate, we’ll use a closure in a local scope (therefore not strongly referenced by <code class="highlighter-rouge">self</code>).</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyHolder</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyHolder</span> <span class="p">{</span>
     <span class="k">var</span> <span class="nv">value</span> <span class="o">=</span> <span class="s">"initial"</span>
     <span class="kd">deinit</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"deinit MyHolder"</span><span class="p">)</span> <span class="p">}</span>
     
@@ -177,8 +173,7 @@
 
 <span class="c1">// Result: holder will deinit once the closure has completed (and printed the value)</span>
 <span class="c1">// closure deinit, therefore instance deinit too</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The closure is never referenced in the object instance. It is used only in the local scope of <code class="highlighter-rouge">runClosure</code>.</p>
 
@@ -194,13 +189,12 @@
 
 <p>Many developer “weak self” when they are not sure about retain cycle, like this:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">runClosure</span><span class="p">()</span> <span class="p">{</span>
     <span class="kt">Singleton</span><span class="o">.</span><span class="n">sharedInstance</span><span class="o">.</span><span class="n">runClosure</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
         <span class="o">...</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Should you or should you not capture self as weak?</p>
 
@@ -212,14 +206,13 @@
 
 <p>For example, <code class="highlighter-rouge">closure</code> below is non-escaping, which means it will run before the function returns.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Singleton</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">Singleton</span> <span class="p">{</span>
     <span class="kd">static</span> <span class="k">let</span> <span class="nv">sharedInstance</span> <span class="o">=</span> <span class="kt">Singleton</span><span class="p">()</span>    
     <span class="kd">func</span> <span class="nf">runClosure</span><span class="p">(</span><span class="nv">closure</span><span class="p">:</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">))</span> <span class="p">{</span>
         <span class="nf">closure</span><span class="p">()</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The benefit of non-escaping closure is that you don’t need to capture self as weak; you may capture self strongly.</p>
 
@@ -235,9 +228,8 @@
 
 <p>If the closure is <code class="highlighter-rouge">@escaping</code>, like this:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">runClosure</span><span class="p">(</span><span class="nv">closure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">))</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">runClosure</span><span class="p">(</span><span class="nv">closure</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(()</span><span class="o">-&gt;</span><span class="kt">Void</span><span class="p">))</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+</code></pre></div></div>
 
 <p>Then you it is recommended to “weak self”, unless you are sure it will not retain the closure.</p>
 
@@ -254,14 +246,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Reference+Cycle+for+Closures&amp;url=http://samwize.com/2016/08/05/reference-cycle-for-closures"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Reference+Cycle+for+Closures&amp;url=http://localhost:4000/2016/08/05/reference-cycle-for-closures"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Reference+Cycle+for+Closures&amp;u=http://samwize.com/2016/08/05/reference-cycle-for-closures"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Reference+Cycle+for+Closures&amp;u=http://localhost:4000/2016/08/05/reference-cycle-for-closures"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -270,7 +262,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Reference+Cycle+for+Closures&amp;url=http://samwize.com/2016/08/05/reference-cycle-for-closures"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Reference+Cycle+for+Closures&amp;url=http://localhost:4000/2016/08/05/reference-cycle-for-closures"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

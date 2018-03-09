@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Bumping Build Number" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2015/01/30/bumping-build-number/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2015/01/30/bumping-build-number/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2015-01-30T09:14:03+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2015/01/30/bumping-build-number/">
+  <link rel="canonical" href="http://localhost:4000/2015/01/30/bumping-build-number/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Bumping Build Number</h1>
             <div class="cf post-meta-text">
               <time datetime="2015-01-30T09:14:03+08:00">30 January 2015</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -84,13 +83,12 @@
 
 <p>Create a <strong>Run Script</strong> in your project <strong>Build Phases</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="k">)</span>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="k">)</span>
 <span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
 <span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
-/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
-</code></pre>
-</div>
+/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
+</code></pre></div></div>
 
 <p>This will auto increment the build number every time you build the project.</p>
 
@@ -100,13 +98,12 @@
 
 <p>As an <a href="https://objcsharp.wordpress.com/2013/10/01/how-to-automatically-update-xcode-build-numbers-from-git/">improvement</a>, you can use the total number of commits in your git repository as your build number!</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="k">if</span> <span class="o">[</span> <span class="k">${</span><span class="nv">CONFIGURATION</span><span class="k">}</span> <span class="o">==</span> <span class="s2">"Release"</span> <span class="o">]</span>; <span class="k">then
-</span><span class="nv">buildNumber</span><span class="o">=</span><span class="k">$(</span>git rev-list HEAD | wc -l | tr -d <span class="s1">' '</span><span class="k">)</span>
-/usr/libexec/PlistBuddy -c <span class="s2">"Set :CFBundleVersion </span><span class="nv">$buildNumber</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PROJECT_DIR</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">INFOPLIST_FILE</span><span class="k">}</span><span class="s2">"</span>
-<span class="k">fi</span>;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="k">if</span> <span class="o">[</span> <span class="k">${</span><span class="nv">CONFIGURATION</span><span class="k">}</span> <span class="o">==</span> <span class="s2">"Release"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+</span><span class="nv">buildNumber</span><span class="o">=</span><span class="k">$(</span>git rev-list HEAD | wc <span class="nt">-l</span> | tr <span class="nt">-d</span> <span class="s1">' '</span><span class="k">)</span>
+/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$buildNumber</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PROJECT_DIR</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">INFOPLIST_FILE</span><span class="k">}</span><span class="s2">"</span>
+<span class="k">fi</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h1 id="avgtool">avgtool</h1>
 
@@ -116,7 +113,7 @@
 
 <p>This is how you use it:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># In your project folder
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># In your project folder
 # Let's check the current build number
 agvtool what-version
 
@@ -128,8 +125,7 @@ agvtool new-version -all 1234
 
 # You can also set VERSION NUMBER eg 1.2
 agvtool new-marketing-version 1.2
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h1 id="using-fastlane">Using fastlane</h1>
 
@@ -143,14 +139,14 @@ agvtool new-marketing-version 1.2
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Bumping+Build+Number&amp;url=http://samwize.com/2015/01/30/bumping-build-number"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Bumping+Build+Number&amp;url=http://localhost:4000/2015/01/30/bumping-build-number"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Bumping+Build+Number&amp;u=http://samwize.com/2015/01/30/bumping-build-number"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Bumping+Build+Number&amp;u=http://localhost:4000/2015/01/30/bumping-build-number"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -159,7 +155,7 @@ agvtool new-marketing-version 1.2
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Bumping+Build+Number&amp;url=http://samwize.com/2015/01/30/bumping-build-number"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Bumping+Build+Number&amp;url=http://localhost:4000/2015/01/30/bumping-build-number"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

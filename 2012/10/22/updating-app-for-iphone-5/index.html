@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Updating App for iPhone 5" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="This post is a guide to updating existing app for iPhone 5." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="This post is a guide to updating existing app for iPhone 5." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/10/22/updating-app-for-iphone-5/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/10/22/updating-app-for-iphone-5/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-10-22T01:14:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/10/22/updating-app-for-iphone-5/">
+  <link rel="canonical" href="http://localhost:4000/2012/10/22/updating-app-for-iphone-5/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Updating App for iPhone 5</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-10-22T01:14:00+08:00">22 October 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -82,7 +81,7 @@
 
 <!-- more -->
 
-<h2 id="default-568h2xpng">1. Default-568h@2x.png</h2>
+<h2 id="1-default-568h2xpng">1. Default-568h@2x.png</h2>
 
 <p>There isn’t a setting to specify a project supports iPhone 5. Instead, a presence of a <code class="highlighter-rouge">Default-568h@2x.png</code> signify that it supports iPhone 5.</p>
 
@@ -90,17 +89,17 @@
 
 <p>Xcode 4.5 will actually offer to add one automatically.</p>
 
-<h2 id="set-to-full-screen-at-launch-for-mainwindowxib">2. Set to Full Screen at launch for MainWindow.xib</h2>
+<h2 id="2-set-to-full-screen-at-launch-for-mainwindowxib">2. Set to Full Screen at launch for MainWindow.xib</h2>
 
 <p>If your tab bar didn’t work properly (such as don’t respond to click) after you added <code class="highlighter-rouge">Default-568h@2x.png</code>, then it is likely due to the nib configuration.</p>
 
 <p>You have to go to interface builder, select the window object, and <a href="http://stackoverflow.com/a/12699347/242682">enable</a> <code class="highlighter-rouge">Full Screen at launch</code>.</p>
 
-<h2 id="code-to-detect-4-inch-screen">3. Code to detect 4-inch screen</h2>
+<h2 id="3-code-to-detect-4-inch-screen">3. Code to detect 4-inch screen</h2>
 
 <p>You can detect the 4-inch screen size with the following method:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="cm">/** Returns true if it is a iPhone/iPod with 4 inch tall screen */</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Returns true if it is a iPhone/iPod with 4 inch tall screen */</span>
 <span class="k">+</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">isScreen4Inch</span> <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="n">UI_USER_INTERFACE_IDIOM</span><span class="p">()</span> <span class="o">==</span> <span class="n">UIUserInterfaceIdiomPhone</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">CGRect</span> <span class="n">screenBounds</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">]</span> <span class="nf">bounds</span><span class="p">];</span>
@@ -109,26 +108,24 @@
     <span class="p">}</span>
     <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>I have this in <code class="highlighter-rouge">Device.h</code>, so import and use.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">([</span><span class="n">Device</span> <span class="nf">isScreen4Inch</span><span class="p">])</span> <span class="p">{</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">([</span><span class="n">Device</span> <span class="nf">isScreen4Inch</span><span class="p">])</span> <span class="p">{</span>
 	<span class="c1">// Code for 4 inch
 </span><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 	<span class="c1">// Code for anything else (3.5 inch or iPad)
 </span><span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h2 id="use-auto-layout-for-ios6">4. Use Auto Layout for iOS6</h2>
+<h2 id="4-use-auto-layout-for-ios6">4. Use Auto Layout for iOS6</h2>
 
 <p>If you are supporting only iOS6 and above, you should use Auto Layout.</p>
 
 <p>You can read up a tutorial by <a href="http://www.raywenderlich.com/20881/beginning-auto-layout-part-1-of-2">Ray Wenderlich</a>.</p>
 
-<h2 id="set-auto-resizing-mask-for-pre-ios6">5. Set auto resizing mask for pre iOS6</h2>
+<h2 id="5-set-auto-resizing-mask-for-pre-ios6">5. Set auto resizing mask for pre iOS6</h2>
 
 <p>If you are still supporting pre iOS6, you still need auto resizing mask for your views to stretch and re-position automatically.</p>
 
@@ -138,7 +135,7 @@
 
 <p>You could change a subview to auto resize its width/height, and fix it’s margin to left/right/top/bottom.</p>
 
-<h2 id="stretch-images">6. Stretch Images</h2>
+<h2 id="6-stretch-images">6. Stretch Images</h2>
 
 <p>If you are using Xcode Interface Builder, change the UIImageView <code class="highlighter-rouge">mode</code> to <code class="highlighter-rouge">Scale to Fill</code> (or others).</p>
 
@@ -148,31 +145,30 @@
 
 <p>But that works only if your image has portion that can be stretched without distortion. If it doesn’t, you have to create a new image <code class="highlighter-rouge">-568@2x</code> image, and use the trick covered next to load it automatically.</p>
 
-<h2 id="load--568h2x-images">7. Load -568h@2x images</h2>
+<h2 id="7-load--568h2x-images">7. Load -568h@2x images</h2>
 
 <p>Unlike <code class="highlighter-rouge">@2x</code> which are loaded automatically for Retina Display, the <code class="highlighter-rouge">-568h@2x</code> are not loaded automatically for the taller iPhone (except the <code class="highlighter-rouge">Default-568h@2x.png</code>).</p>
 
 <p>I use a convenient method below:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="k">+</span><span class="p">(</span><span class="n">UIImage</span><span class="o">*</span><span class="p">)</span><span class="nf">imageNamedFor568h</span><span class="p">:(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">imageName</span> <span class="p">{</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">+</span><span class="p">(</span><span class="n">UIImage</span><span class="o">*</span><span class="p">)</span><span class="nf">imageNamedFor568h</span><span class="p">:(</span><span class="n">NSString</span><span class="o">*</span><span class="p">)</span><span class="nv">imageName</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">([</span><span class="n">Device</span> <span class="nf">isScreen4Inch</span><span class="p">])</span> <span class="p">{</span>
         <span class="n">NSString</span> <span class="o">*</span><span class="n">imageNameFor568h</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"%@-568h.%@"</span><span class="p">,</span> <span class="p">[</span><span class="n">imageName</span> <span class="nf">stringByDeletingPathExtension</span><span class="p">],</span> <span class="p">[</span><span class="n">imageName</span> <span class="nf">pathExtension</span><span class="p">]];</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="n">imageNameFor568h</span><span class="p">];</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="n">imageName</span><span class="p">];</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Using category, I introduced the method for UIImage.</p>
 
 <p>To use, I would have to change the methods <code class="highlighter-rouge">[UIImage imageName:@"foo.png"]</code> to <code class="highlighter-rouge">[UIImage imageNameFor568h:@"foo.png"]</code>.</p>
 
-<h2 id="ios-simulator">8. iOS Simulator</h2>
+<h2 id="8-ios-simulator">8. iOS Simulator</h2>
 
 <p>To run and test on a 4 inch iPhone, select <strong>Hardware</strong> &gt; <strong>Device</strong> &gt; <strong>iPhone (Retina 4-inch)</strong>.</p>
 
-<h2 id="last-words">9. Last words..</h2>
+<h2 id="9-last-words">9. Last words..</h2>
 
 <p>It largely depends on how you code your existing apps.</p>
 
@@ -186,14 +182,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Updating+App+for+iPhone+5&amp;url=http://samwize.com/2012/10/22/updating-app-for-iphone-5"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Updating+App+for+iPhone+5&amp;url=http://localhost:4000/2012/10/22/updating-app-for-iphone-5"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Updating+App+for+iPhone+5&amp;u=http://samwize.com/2012/10/22/updating-app-for-iphone-5"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Updating+App+for+iPhone+5&amp;u=http://localhost:4000/2012/10/22/updating-app-for-iphone-5"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -202,7 +198,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Updating+App+for+iPhone+5&amp;url=http://samwize.com/2012/10/22/updating-app-for-iphone-5"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Updating+App+for+iPhone+5&amp;url=http://localhost:4000/2012/10/22/updating-app-for-iphone-5"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

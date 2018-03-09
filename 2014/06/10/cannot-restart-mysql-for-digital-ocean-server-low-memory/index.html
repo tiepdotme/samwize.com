@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Cannot restart mysql for Digital Ocean server (low memory)" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="I had an “error connecting to database” when accessing one of my wordpress website hosted on Digital Ocean." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="I had an “error connecting to database” when accessing one of my wordpress website hosted on Digital Ocean." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-06-10T14:07:52+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory/">
+  <link rel="canonical" href="http://localhost:4000/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Cannot restart mysql for Digital Ocean server (low memory)</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-06-10T14:07:52+08:00">10 June 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -74,54 +73,47 @@
           
           <p>I had an “error connecting to database” when accessing one of my wordpress website hosted on Digital Ocean.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ps ax | grep mysqld
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ps ax | grep mysqld
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">mysqld</code> isn’t a running process. Clearly mysql was stopped for some reason.</p>
 
 <!-- more -->
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cat /var/log/mysql/error.log
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /var/log/mysql/error.log
+</code></pre></div></div>
 
 <p>Checking the error log, it shows that there is a problem starting InnoDB. Seems like insufficient memory.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>140610  2:04:05 [Note] /usr/sbin/mysqld: Shutdown complete
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>140610  2:04:05 [Note] /usr/sbin/mysqld: Shutdown complete
 140610  2:04:06 InnoDB: Initializing buffer pool, size = 128.0M
 InnoDB: mmap(137363456 bytes) failed; errno 12
 140610  2:04:06 InnoDB: Completed initialization of buffer pool
 140610  2:04:06 InnoDB: Fatal error: cannot allocate memory for the buffer pool
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Hence i check my available memory:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>free -m
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>free -m
+</code></pre></div></div>
 
 <p>Indeed, I have not much free memory to start mysql..</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>             total       used       free     shared    buffers     cached
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>             total       used       free     shared    buffers     cached
 Mem:           490        456         34          0          1         76
 -/+ buffers/cache:        378        111
 Swap:            0          0          0
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>To recover, I restart apache2 to free up some memory</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo service apache2 restart
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service apache2 restart
+</code></pre></div></div>
 
 <p>And with that, my free memory increased from 34MB to 153MB, which is enough to restart mysql.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo service mysql restart
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service mysql restart
+</code></pre></div></div>
 
 <p>Question now is:</p>
 
@@ -139,7 +131,7 @@ Swap:            0          0          0
 
 <p>Steps:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Confirm you have no swap
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Confirm you have no swap
 sudo swapon -s
 
 # Allocate 1GB (or more if you wish) in /swapfile
@@ -167,8 +159,7 @@ sudo nano /etc/fstab
 # The default is too high at 60
 echo 10 | sudo tee /proc/sys/vm/swappiness
 echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>That’s it.</p>
 
@@ -179,14 +170,14 @@ echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Cannot+restart+mysql+for+Digital+Ocean+server+%28low+memory%29&amp;url=http://samwize.com/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Cannot+restart+mysql+for+Digital+Ocean+server+%28low+memory%29&amp;url=http://localhost:4000/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Cannot+restart+mysql+for+Digital+Ocean+server+%28low+memory%29&amp;u=http://samwize.com/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Cannot+restart+mysql+for+Digital+Ocean+server+%28low+memory%29&amp;u=http://localhost:4000/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -195,7 +186,7 @@ echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Cannot+restart+mysql+for+Digital+Ocean+server+%28low+memory%29&amp;url=http://samwize.com/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Cannot+restart+mysql+for+Digital+Ocean+server+%28low+memory%29&amp;url=http://localhost:4000/2014/06/10/cannot-restart-mysql-for-digital-ocean-server-low-memory"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

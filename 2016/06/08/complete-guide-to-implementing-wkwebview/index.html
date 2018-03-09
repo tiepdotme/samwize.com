@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Complete Guide to Implementing WKWebView" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Using web view is not new. We had UIWebView for many years." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Using web view is not new. We had UIWebView for many years." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/06/08/complete-guide-to-implementing-wkwebview/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-06-08T10:38:53+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview/">
+  <link rel="canonical" href="http://localhost:4000/2016/06/08/complete-guide-to-implementing-wkwebview/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Complete Guide to Implementing WKWebView</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-06-08T10:38:53+08:00">08 June 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -86,7 +85,7 @@
 
 <p>I am sure the component will be added someday, but for now, you have to setup in your code.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyWebViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyWebViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
 
     <span class="k">var</span> <span class="nv">webView</span><span class="p">:</span> <span class="kt">WKWebView</span><span class="o">!</span>
 
@@ -109,8 +108,7 @@
         <span class="c1">// 2 ways to load webpage: `loadHTML()` or `loadURL()`        </span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In <code class="highlighter-rouge">viewDidLoad</code>, we have to create <code class="highlighter-rouge">WKWebView</code> in code.</p>
 
@@ -125,15 +123,14 @@
 
 <p>In <code class="highlighter-rouge">viewDidLoad</code>, call either <code class="highlighter-rouge">loadHTML()</code> or <code class="highlighter-rouge">loadURL()</code>, which we gonna explore next.</p>
 
-<h2 id="load-html-as-string">1. Load HTML as String</h2>
+<h2 id="1-load-html-as-string">1. Load HTML as String</h2>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">loadHTML</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">loadHTML</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">webView</span><span class="o">.</span><span class="nf">loadHTMLString</span><span class="p">(</span><span class="s">"&lt;html&gt;&lt;body&gt;"</span>
         <span class="o">+</span> <span class="s">"&lt;p&gt;&lt;a href=</span><span class="se">\"</span><span class="s">http://samwize.com</span><span class="se">\"</span><span class="s">&gt;http://samwize.com&lt;/a&gt;&lt;/p&gt;"</span>
         <span class="o">+</span> <span class="s">"&lt;/body&gt;&lt;/html&gt;"</span><span class="p">,</span> <span class="nv">baseURL</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>We use <code class="highlighter-rouge">loadHTMLString</code> to load a local HTML.</p>
 
@@ -143,13 +140,12 @@
 
 <p>Because <strong>App Transport Security policy</strong> requires the use of a secure connection, or unless you whitelist it. Add the following to your <code class="highlighter-rouge">Info.plst</code>:</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;key&gt;</span>NSAppTransportSecurity<span class="nt">&lt;/key&gt;</span>
 <span class="nt">&lt;dict&gt;</span>
     <span class="nt">&lt;key&gt;</span>NSAllowsArbitraryLoads<span class="nt">&lt;/key&gt;</span>
     <span class="nt">&lt;true/&gt;</span>
 <span class="nt">&lt;/dict&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="how-did-i-know-of-the-error">How did I know of the error?</h3>
 
@@ -163,32 +159,30 @@
 
 <p>Keep in mind of this VERY useful tool.</p>
 
-<h2 id="load-url-request">2. Load URL request</h2>
+<h2 id="2-load-url-request">2. Load URL request</h2>
 
 <p>Simply using <code class="highlighter-rouge">loadRequest</code>.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">loadURL</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">loadURL</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">let</span> <span class="nv">urlString</span> <span class="o">=</span> <span class="s">"http://samwize.com"</span>
     <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">NSURL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="n">urlString</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span><span class="k">return</span><span class="p">}</span>
     <span class="k">let</span> <span class="nv">request</span> <span class="o">=</span> <span class="kt">NSMutableURLRequest</span><span class="p">(</span><span class="kt">URL</span><span class="p">:</span><span class="n">url</span><span class="p">)</span>
     <span class="n">webView</span><span class="o">.</span><span class="nf">loadRequest</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="the-2-delegates">The 2 delegates</h2>
 
 <p>There are 2 delegates to the web view which you will most likely use.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyWebViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">WKUIDelegate</span><span class="p">,</span> <span class="kt">WKNavigationDelegate</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyWebViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">,</span> <span class="kt">WKUIDelegate</span><span class="p">,</span> <span class="kt">WKNavigationDelegate</span> <span class="p">{</span>
     <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
         <span class="o">...</span>
         <span class="n">webView</span><span class="o">.</span><span class="kt">UIDelegate</span> <span class="o">=</span> <span class="k">self</span>
         <span class="n">webView</span><span class="o">.</span><span class="n">navigationDelegate</span> <span class="o">=</span> <span class="k">self</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="https://developer.apple.com/library/ios/documentation/WebKit/Reference/WKUIDelegate_Ref/">WKUIDelegate</a> provides the method for presenting some native user interfaces (see Javascript dialog boxes later).</p>
 
@@ -198,9 +192,8 @@
 
 <p>You can change a HTTP header value with a <code class="highlighter-rouge">NSMutableURLRequest</code> eg. in <code class="highlighter-rouge">loadURL()</code> like this:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">request</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="s">"Wolverine"</span><span class="p">,</span> <span class="nv">forHTTPHeaderField</span><span class="p">:</span> <span class="s">"X-Men-Header"</span><span class="p">)</span>
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">request</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="s">"Wolverine"</span><span class="p">,</span> <span class="nv">forHTTPHeaderField</span><span class="p">:</span> <span class="s">"X-Men-Header"</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>One of the most common header field is the <strong>User-Agent</strong>. You can set it on a request object.</p>
 
@@ -208,11 +201,10 @@
 
 <p>And this is how you find out the current user agent:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">webView</span><span class="o">.</span><span class="nf">evaluateJavaScript</span><span class="p">(</span><span class="s">"navigator.userAgent"</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">webView</span><span class="o">.</span><span class="nf">evaluateJavaScript</span><span class="p">(</span><span class="s">"navigator.userAgent"</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
     <span class="nf">print</span><span class="p">(</span><span class="s">"User-Agent: </span><span class="se">\(</span><span class="n">result</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="go-backforward-and-progress">Go Back/Forward and Progress</h2>
 
@@ -220,16 +212,15 @@
 
 <p>To track the progress of loading a webpage, you will need to <em>observe</em> some key paths. Add this in <code class="highlighter-rouge">viewDidLoad</code></p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nv">webViewKeyPathsToObserve</span> <span class="o">=</span> <span class="p">[</span><span class="s">"loading"</span><span class="p">,</span> <span class="s">"estimatedProgress"</span><span class="p">]</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">webViewKeyPathsToObserve</span> <span class="o">=</span> <span class="p">[</span><span class="s">"loading"</span><span class="p">,</span> <span class="s">"estimatedProgress"</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">keyPath</span> <span class="k">in</span> <span class="n">webViewKeyPathsToObserve</span> <span class="p">{</span>
     <span class="n">webView</span><span class="o">.</span><span class="nf">addObserver</span><span class="p">(</span><span class="k">self</span><span class="p">,</span> <span class="nv">forKeyPath</span><span class="p">:</span> <span class="n">keyPath</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="o">.</span><span class="kt">New</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Then as the values change:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">observeValueForKeyPath</span><span class="p">(</span><span class="nv">keyPath</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="n">ofObject</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">change</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">observeValueForKeyPath</span><span class="p">(</span><span class="nv">keyPath</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="n">ofObject</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">change</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="kt">Void</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">guard</span> <span class="k">let</span> <span class="nv">keyPath</span> <span class="o">=</span> <span class="n">keyPath</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
     
     <span class="k">switch</span> <span class="n">keyPath</span> <span class="p">{</span>
@@ -248,24 +239,21 @@
         <span class="k">break</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Lastly, when page is loaded, reset the progress view.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nv">webView</span><span class="p">:</span> <span class="kt">WKWebView</span><span class="p">,</span> <span class="n">didFinishNavigation</span> <span class="nv">navigation</span><span class="p">:</span> <span class="kt">WKNavigation</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nv">webView</span><span class="p">:</span> <span class="kt">WKWebView</span><span class="p">,</span> <span class="n">didFinishNavigation</span> <span class="nv">navigation</span><span class="p">:</span> <span class="kt">WKNavigation</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">progressView</span><span class="o">.</span><span class="nf">setProgress</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="print-the-html-text">Print the HTML text</h2>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="n">webView</span><span class="o">.</span><span class="nf">evaluateJavaScript</span><span class="p">(</span><span class="s">"document.documentElement.outerHTML.toString()"</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="nv">html</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="k">in</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">webView</span><span class="o">.</span><span class="nf">evaluateJavaScript</span><span class="p">(</span><span class="s">"document.documentElement.outerHTML.toString()"</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">{</span> <span class="p">(</span><span class="nv">html</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">?)</span> <span class="k">in</span>
     <span class="nf">print</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
 <span class="p">})</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="pitfall-handling-javascript-dialog-boxes">Pitfall: Handling Javascript Dialog Boxes</h2>
 
@@ -277,7 +265,7 @@
 
 <p>Here, we have a simple implementation by using <code class="highlighter-rouge">UIAlertController</code> to show the dialog boxes.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">/// Handle javascript:alert(...)</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// Handle javascript:alert(...)</span>
 <span class="kd">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nv">webView</span><span class="p">:</span> <span class="kt">WKWebView</span><span class="p">,</span> <span class="n">runJavaScriptAlertPanelWithMessage</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">initiatedByFrame</span> <span class="nv">frame</span><span class="p">:</span> <span class="kt">WKFrameInfo</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
     <span class="o">...</span>
     <span class="k">let</span> <span class="nv">okAction</span> <span class="o">=</span> <span class="kt">UIAlertAction</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="kt">Okay</span><span class="p">,</span> <span class="nv">style</span><span class="p">:</span> <span class="o">.</span><span class="kt">Default</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span> <span class="k">in</span>
@@ -316,8 +304,7 @@
     <span class="p">}</span>
     <span class="o">...</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the code above, I have left out the not-so-important part of creating <a href="http://nshipster.com/uialertcontroller/">UIAlertController</a>, adding the actions, and presenting it.</p>
 
@@ -329,7 +316,7 @@
 
 <p>You can make it work by handling the “error”:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nv">webView</span><span class="p">:</span> <span class="kt">WKWebView</span><span class="p">,</span> <span class="n">didFailNavigation</span> <span class="nv">navigation</span><span class="p">:</span> <span class="kt">WKNavigation</span><span class="o">!</span><span class="p">,</span> <span class="n">withError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">webView</span><span class="p">(</span><span class="nv">webView</span><span class="p">:</span> <span class="kt">WKWebView</span><span class="p">,</span> <span class="n">didFailNavigation</span> <span class="nv">navigation</span><span class="p">:</span> <span class="kt">WKNavigation</span><span class="o">!</span><span class="p">,</span> <span class="n">withError</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">NSError</span><span class="p">)</span> <span class="p">{</span>
     <span class="nf">handleError</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
 <span class="p">}</span>
 
@@ -348,8 +335,7 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note: In iOS 9, you have to <a href="http://useyourloaf.com/blog/querying-url-schemes-with-canopenurl/">whitelist</a> the URL schemes if you use <code class="highlighter-rouge">canOpenURL</code>, therefore we simply go ahead and <code class="highlighter-rouge">openURL</code>, then use the returned boolean.</p>
 
@@ -382,14 +368,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Complete+Guide+to+Implementing+WKWebView&amp;url=http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Complete+Guide+to+Implementing+WKWebView&amp;url=http://localhost:4000/2016/06/08/complete-guide-to-implementing-wkwebview"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Complete+Guide+to+Implementing+WKWebView&amp;u=http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Complete+Guide+to+Implementing+WKWebView&amp;u=http://localhost:4000/2016/06/08/complete-guide-to-implementing-wkwebview"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -398,7 +384,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Complete+Guide+to+Implementing+WKWebView&amp;url=http://samwize.com/2016/06/08/complete-guide-to-implementing-wkwebview"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Complete+Guide+to+Implementing+WKWebView&amp;url=http://localhost:4000/2016/06/08/complete-guide-to-implementing-wkwebview"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

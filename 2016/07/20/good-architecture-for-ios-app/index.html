@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Good Architecture for iOS App" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="This post discuss various architecture designs for an iOS app." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="This post discuss various architecture designs for an iOS app." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2016/07/20/good-architecture-for-ios-app/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2016/07/20/good-architecture-for-ios-app/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2016-07-20T17:17:01+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2016/07/20/good-architecture-for-ios-app/">
+  <link rel="canonical" href="http://localhost:4000/2016/07/20/good-architecture-for-ios-app/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Good Architecture for iOS App</h1>
             <div class="cf post-meta-text">
               <time datetime="2016-07-20T17:17:01+08:00">20 July 2016</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -99,10 +98,9 @@ his popular Xcode plugin <a href="http://merowing.info/2015/12/writing-xcode-plu
 
 <h2 id="how-you-know-it-is-bad">How you know it is bad?</h2>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># How many lines in your view controllers?
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># How many lines in your view controllers?
 find . -type f -exec wc -l {} + | sort -n
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><a href="https://github.com/PaulTaykalo/objc-dependency-visualizer">Dependency Visualizer</a></p>
 
@@ -128,7 +126,7 @@ which will lead to other great patterns</p>
 as it encourages reuse,
 and even Apple encourages it in WWDC 2016-06</p>
 
-<h2 id="mvc">1. MVC</h2>
+<h2 id="1-mvc">1. MVC</h2>
 
 <p>Apple’s MVC is wrong
 because it’s View and Controller are too closely coupled</p>
@@ -150,12 +148,12 @@ not written in good architecture</p>
   <li>Maintaining states</li>
 </ul>
 
-<h2 id="viper">2. VIPER</h2>
+<h2 id="2-viper">2. VIPER</h2>
 
 <p>Good
 But lots of boilerplate</p>
 
-<h2 id="mvvm">3. MVVM</h2>
+<h2 id="3-mvvm">3. MVVM</h2>
 
 <p>Most popular iOS Architecture?</p>
 
@@ -165,7 +163,7 @@ and is testable</p>
 
 <p>But no router</p>
 
-<h2 id="mvvm-1">4. MVVM+</h2>
+<h2 id="4-mvvm">4. MVVM+</h2>
 
 <p>With Flow Coordinators/Controller/Router</p>
 
@@ -185,9 +183,8 @@ and is testable</p>
 
 <p>What’s wrong with such a line of code in a view controller?</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="k">self</span><span class="o">.</span><span class="n">navigationController</span> <span class="nv">pushViewController</span><span class="p">:</span><span class="n">detailViewController</span> <span class="nv">animated</span><span class="p">:</span><span class="kt">YES</span><span class="p">];</span>  
-</code></pre>
-</div>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="k">self</span><span class="o">.</span><span class="n">navigationController</span> <span class="nv">pushViewController</span><span class="p">:</span><span class="n">detailViewController</span> <span class="nv">animated</span><span class="p">:</span><span class="kt">YES</span><span class="p">];</span>  
+</code></pre></div></div>
 
 <blockquote>
   <p>It’s bossing its parent around. In real life, children should never boss their parents around. In programming, I would argue children shouldn’t even know who their parents are!</p>
@@ -202,7 +199,7 @@ and is testable</p>
 <p>A con of using flow coordinators:
 It does not play well with segue</p>
 
-<h2 id="reswifthttpsgithubcomreswiftreswift"><a href="https://github.com/ReSwift/ReSwift">5. ReSwift</a></h2>
+<h2 id="5-reswift"><a href="https://github.com/ReSwift/ReSwift">5. ReSwift</a></h2>
 
 <p>The new kid in the block, inspired by Redux.
 An <a href="https://realm.io/news/benji-encz-unidirectional-data-flow-swift/">introduction presented by Benjamin Encz</a></p>
@@ -219,14 +216,14 @@ An <a href="https://realm.io/news/benji-encz-unidirectional-data-flow-swift/">in
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Good+Architecture+for+iOS+App&amp;url=http://samwize.com/2016/07/20/good-architecture-for-ios-app"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Good+Architecture+for+iOS+App&amp;url=http://localhost:4000/2016/07/20/good-architecture-for-ios-app"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Good+Architecture+for+iOS+App&amp;u=http://samwize.com/2016/07/20/good-architecture-for-ios-app"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Good+Architecture+for+iOS+App&amp;u=http://localhost:4000/2016/07/20/good-architecture-for-ios-app"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -235,7 +232,7 @@ An <a href="https://realm.io/news/benji-encz-unidirectional-data-flow-swift/">in
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Good+Architecture+for+iOS+App&amp;url=http://samwize.com/2016/07/20/good-architecture-for-ios-app"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Good+Architecture+for+iOS+App&amp;url=http://localhost:4000/2016/07/20/good-architecture-for-ios-app"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="How to setup git server (GitLab), with SSL" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="I have been using unfuddle which provided me with free 512 MB to use for my private projects, and (of course) GitHub for any opensource projects." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="I have been using unfuddle which provided me with free 512 MB to use for my private projects, and (of course) GitHub for any opensource projects." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2014/07/24/how-to-setup-git-server-gitlab-with-ssl/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2014/07/24/how-to-setup-git-server-gitlab-with-ssl/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2014-07-24T16:34:37+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2014/07/24/how-to-setup-git-server-gitlab-with-ssl/">
+  <link rel="canonical" href="http://localhost:4000/2014/07/24/how-to-setup-git-server-gitlab-with-ssl/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">How to setup git server (GitLab), with SSL</h1>
             <div class="cf post-meta-text">
               <time datetime="2014-07-24T16:34:37+08:00">24 July 2014</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -134,7 +133,7 @@
 
 <p>This is my nginx config that works:</p>
 
-<div class="language-nginx highlighter-rouge"><pre class="highlight"><code><span class="c1"># /etc/nginx/sites-enabled/gitlab
+<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># /etc/nginx/sites-enabled/gitlab
 </span><span class="k">upstream</span> <span class="s">gitlab</span> <span class="p">{</span>
   <span class="kn">server</span> <span class="s">unix:/home/git/gitlab/tmp/sockets/gitlab.socket</span><span class="p">;</span>
 <span class="p">}</span>
@@ -188,46 +187,41 @@
 
   <span class="kn">error_page</span> <span class="mi">502</span> <span class="n">/502.html</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h3 id="gitlab-config">GitLab Config</h3>
 
-<div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="c1"># /home/git/gitlab/config/gitlab.yml</span>
-<span class="s">gitlab</span><span class="pi">:</span>
-  <span class="s">host</span><span class="pi">:</span> <span class="s">git.okloh.com</span>
-  <span class="s">port</span><span class="pi">:</span> <span class="s">443</span>
-  <span class="s">https</span><span class="pi">:</span> <span class="s">true</span>
-</code></pre>
-</div>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># /home/git/gitlab/config/gitlab.yml</span>
+<span class="na">gitlab</span><span class="pi">:</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">git.okloh.com</span>
+  <span class="na">port</span><span class="pi">:</span> <span class="s">443</span>
+  <span class="na">https</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
 
 <h3 id="gitlab-shell-config">GitLab-Shell Config</h3>
 
-<div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="c1"># /home/git/gitlab-shell/config.yml</span>
-<span class="s">gitlab_url</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://git.okloh.com/"</span>
-<span class="s">http_settings</span><span class="pi">:</span>
-  <span class="s">self_signed_cert</span><span class="pi">:</span> <span class="s">false</span>
-<span class="s">ca_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/etc/ssl/private/git-okloh-chain.pem"</span>
-<span class="s">ca_path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/etc/ssl/private"</span>
-</code></pre>
-</div>
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># /home/git/gitlab-shell/config.yml</span>
+<span class="na">gitlab_url</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://git.okloh.com/"</span>
+<span class="na">http_settings</span><span class="pi">:</span>
+  <span class="na">self_signed_cert</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">ca_file</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/etc/ssl/private/git-okloh-chain.pem"</span>
+<span class="na">ca_path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/etc/ssl/private"</span>
+</code></pre></div></div>
 
 <h3 id="restart">Restart</h3>
 
 <p>Remember to restart both services.</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>sudo service gitlab restart
-sudo service nginx restart
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service gitlab restart
+<span class="nb">sudo </span>service nginx restart
+</code></pre></div></div>
 
 <p>If anything is wrong, you can check:</p>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="nb">cd</span> /home/git/gitlab/
-sudo -u git -H bundle <span class="nb">exec </span>rake gitlab:env:info <span class="nv">RAILS_ENV</span><span class="o">=</span>production
-sudo -u git -H bundle <span class="nb">exec </span>rake gitlab:check <span class="nv">RAILS_ENV</span><span class="o">=</span>production
-</code></pre>
-</div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /home/git/gitlab/
+<span class="nb">sudo</span> <span class="nt">-u</span> git <span class="nt">-H</span> bundle <span class="nb">exec </span>rake gitlab:env:info <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+<span class="nb">sudo</span> <span class="nt">-u</span> git <span class="nt">-H</span> bundle <span class="nb">exec </span>rake gitlab:check <span class="nv">RAILS_ENV</span><span class="o">=</span>production
+</code></pre></div></div>
 
 <h3 id="pitfall-port-443-already-binded">Pitfall: Port 443 already binded</h3>
 
@@ -237,27 +231,26 @@ sudo -u git -H bundle <span class="nb">exec </span>rake gitlab:check <span class
 
 <h3 id="pitfall-sidekiq-not-running">Pitfall: Sidekiq not running</h3>
 
-<div class="highlighter-rouge"><pre class="highlight"><code># Make sure it is running
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Make sure it is running
 ps -ef | grep sidekiq | grep -v grep
 
 # If not, run it
 sudo -u git -H RAILS_ENV=production bin/background_jobs start
-</code></pre>
-</div>
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+setup+git+server+%28GitLab%29%2C+with+SSL&amp;url=http://samwize.com/2014/07/24/how-to-setup-git-server-gitlab-with-ssl"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+setup+git+server+%28GitLab%29%2C+with+SSL&amp;url=http://localhost:4000/2014/07/24/how-to-setup-git-server-gitlab-with-ssl"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+setup+git+server+%28GitLab%29%2C+with+SSL&amp;u=http://samwize.com/2014/07/24/how-to-setup-git-server-gitlab-with-ssl"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+setup+git+server+%28GitLab%29%2C+with+SSL&amp;u=http://localhost:4000/2014/07/24/how-to-setup-git-server-gitlab-with-ssl"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -266,7 +259,7 @@ sudo -u git -H RAILS_ENV=production bin/background_jobs start
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+setup+git+server+%28GitLab%29%2C+with+SSL&amp;url=http://samwize.com/2014/07/24/how-to-setup-git-server-gitlab-with-ssl"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+setup+git+server+%28GitLab%29%2C+with+SSL&amp;url=http://localhost:4000/2014/07/24/how-to-setup-git-server-gitlab-with-ssl"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Swift Lint to Improve Code Quality" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="SwiftLint helps to enforce coding style." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="SwiftLint helps to enforce coding style." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2018/03/08/swift-lint-to-improve-code-quality/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2018-03-08T13:43:08+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/">
+  <link rel="canonical" href="http://localhost:4000/2018/03/08/swift-lint-to-improve-code-quality/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Swift Lint to Improve Code Quality</h1>
             <div class="cf post-meta-text">
               <time datetime="2018-03-08T13:43:08+08:00">08 March 2018</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -82,17 +81,15 @@
 
 <p>Add to <code class="highlighter-rouge">Podfile</code> and do a <code class="highlighter-rouge">pod install</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>pod 'SwiftLint'
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pod 'SwiftLint'
+</code></pre></div></div>
 
 <h2 id="step-2-run-script-on-build">Step 2. Run script on build</h2>
 
 <p>In <strong>Target &gt; Build Phases &gt; New Run Script Phase</strong>, add</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>"${PODS_ROOT}/SwiftLint/swiftlint"
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"${PODS_ROOT}/SwiftLint/swiftlint"
+</code></pre></div></div>
 
 <p>Now, whenever you build the target, swiftlint will run.</p>
 
@@ -106,30 +103,29 @@
 
 <p>Let’s take a look at how the configuration file works:</p>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># You can disable rules that have been enabled by default</span>
-<span class="s">disabled_rules</span><span class="pi">:</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># You can disable rules that have been enabled by default</span>
+<span class="na">disabled_rules</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">identifier_name</span>
   <span class="pi">-</span> <span class="s">force_cast</span>
 
 <span class="c1"># Similarly, you can enable rules that have been disabled by default</span>
-<span class="s">opt_in_rules</span><span class="pi">:</span>
+<span class="na">opt_in_rules</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">first_where</span>
 
 <span class="c1"># Exclude directories that you don't want to lint</span>
-<span class="s">excluded</span><span class="pi">:</span>
+<span class="na">excluded</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">Pods</span>
   <span class="pi">-</span> <span class="s">fastlane</span>
 
 <span class="c1"># Use "xcode" so that when you build, the result will be shown in Xcode</span>
-<span class="s">reporter</span><span class="pi">:</span> <span class="s2">"</span><span class="s">xcode"</span> <span class="c1"># Other reporters: json, csv, checkstyle, junit, html, emoji</span>
+<span class="na">reporter</span><span class="pi">:</span> <span class="s2">"</span><span class="s">xcode"</span> <span class="c1"># Other reporters: json, csv, checkstyle, junit, html, emoji</span>
 
 <span class="c1"># The rule `function_body_length` by default triggers warning at 40, error at 100</span>
 <span class="c1"># This example increases by 3 times</span>
-<span class="s">function_body_length</span><span class="pi">:</span>
-  <span class="s">warning</span><span class="pi">:</span> <span class="s">120</span>
-  <span class="s">error</span><span class="pi">:</span> <span class="s">300</span>
-</code></pre>
-</div>
+<span class="na">function_body_length</span><span class="pi">:</span>
+  <span class="na">warning</span><span class="pi">:</span> <span class="s">120</span>
+  <span class="na">error</span><span class="pi">:</span> <span class="s">300</span>
+</code></pre></div></div>
 
 <p>Sometimes, you want to dig into the <a href="https://github.com/realm/SwiftLint/tree/master/Source/SwiftLintFramework/Rules">code for each rule</a> to understand how it works.</p>
 
@@ -141,7 +137,7 @@
 
 <p>Integrating with Fastlane is for another purpose – to generate a HTML report.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Add a lane in Fastfile</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add a lane in Fastfile</span>
 <span class="n">desc</span> <span class="s2">"Run lint"</span>
 <span class="n">lane</span> <span class="ss">:lint</span> <span class="k">do</span>
   <span class="n">swiftlint</span><span class="p">(</span>
@@ -152,8 +148,7 @@
     <span class="ss">ignore_exit_status: </span><span class="kp">true</span>
   <span class="p">)</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>The difference with using fastlane is that the reporter is set to <strong>html</strong>.</p>
 
@@ -165,7 +160,7 @@
 
 <p>For some rules, the tool can automatically fix your code! You are lucky if a rule <a href="https://github.com/realm/SwiftLint/blob/master/Rules.md"><strong>supports autocorrection</strong></a>.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Add another lane that run autocorrect mode</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Add another lane that run autocorrect mode</span>
 <span class="n">desc</span> <span class="s2">"Run lint autocorrect"</span>
 <span class="n">lane</span> <span class="ss">:lint_autocorrect</span> <span class="k">do</span>
   <span class="n">swiftlint</span><span class="p">(</span>
@@ -174,18 +169,16 @@
     <span class="ss">config_file: </span><span class="s2">".swiftlint-autocorrect.yml"</span>
   <span class="p">)</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that we use a different config file <code class="highlighter-rouge">.swiftlint-autocorrect.yml</code>. And in this file, we use another approach to specify the rules – whitelisting.</p>
 
-<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># Only work with these rules</span>
-<span class="s">whitelist_rules</span><span class="pi">:</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Only work with these rules</span>
+<span class="na">whitelist_rules</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">trailing_whitespace</span>
   <span class="pi">-</span> <span class="s">trailing_newline</span>
   <span class="pi">-</span> <span class="s">vertical_whitespace</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Run <code class="highlighter-rouge">fastlane lint_autocorrect</code> and watch the magic happens.</p>
 
@@ -197,7 +190,7 @@
 
 <p>When that happens, and you really want it that way, you can disable the rule <a href="https://github.com/realm/SwiftLint#disable-rules-in-code">in code</a> on a case-by-case basis.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="c1">// swiftlint:disable force_cast</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// swiftlint:disable force_cast</span>
 <span class="c1">// Now the rule force_cast is disabled</span>
 <span class="k">let</span> <span class="nv">noWarning</span> <span class="o">=</span> <span class="kt">NSNumber</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">Int</span>
 <span class="c1">// Re-enable back the rules</span>
@@ -205,8 +198,7 @@
 
 <span class="c1">// Disable with `this` (inline), `next` (next line) or `previous`</span>
 <span class="k">let</span> <span class="nv">noWarning</span> <span class="o">=</span> <span class="kt">NSNumber</span><span class="p">()</span> <span class="k">as!</span> <span class="kt">Int</span> <span class="c1">// swiftlint:disable:this force_cast</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="summary-the-approach-for-an-existing-project">Summary: The approach for an existing project</h2>
 
@@ -225,7 +217,7 @@
 
 <p>When all the default rules are “fixed”, go through the rules that are disabled by default. Add them to <code class="highlighter-rouge">opt_in_rules</code>, if useful.</p>
 
-<h2 id="bonus-rule-trailingwhitespace">Bonus: Rule trailing_whitespace</h2>
+<h2 id="bonus-rule-trailing_whitespace">Bonus: Rule trailing_whitespace</h2>
 
 <p>“Lines should not have trailing whitespace.”</p>
 
@@ -240,14 +232,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Swift+Lint+to+Improve+Code+Quality&amp;url=http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Swift+Lint+to+Improve+Code+Quality&amp;url=http://localhost:4000/2018/03/08/swift-lint-to-improve-code-quality"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Swift+Lint+to+Improve+Code+Quality&amp;u=http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Swift+Lint+to+Improve+Code+Quality&amp;u=http://localhost:4000/2018/03/08/swift-lint-to-improve-code-quality"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -256,7 +248,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Swift+Lint+to+Improve+Code+Quality&amp;url=http://samwize.com/2018/03/08/swift-lint-to-improve-code-quality"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Swift+Lint+to+Improve+Code+Quality&amp;url=http://localhost:4000/2018/03/08/swift-lint-to-improve-code-quality"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

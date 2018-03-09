@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Sphinx – Documentation for Python" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Python is a wonderful language also because of the awesome tools that are available." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Python is a wonderful language also because of the awesome tools that are available." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/09/13/sphinx-documentation-for-python/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/09/13/sphinx-documentation-for-python/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-09-13T22:08:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/09/13/sphinx-documentation-for-python/">
+  <link rel="canonical" href="http://localhost:4000/2012/09/13/sphinx-documentation-for-python/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Sphinx – Documentation for Python</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-09-13T22:08:00+08:00">13 September 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,24 +77,22 @@
 
 <p>Start with installing Sphinx.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ sudo easy_install -U Sphinx
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo easy_install -U Sphinx
+</code></pre></div></div>
 
 <!-- more -->
 
 <p>Create sphinx docs in your project.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ cd /path/to/project/docs/
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cd /path/to/project/docs/
 $ sphinx-quickstart
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Write your documentation (eg. quick start guide) in your index.rst. Sphinx uses reStructured Text (a kind of text formatting).  Refer to this <a href="http://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html">quick tutorial</a> and this <a href="https://github.com/ralsina/rst-cheatsheet">handy cheatsheet</a>.</p>
 
 <p><a href="http://sphinx.pocoo.org/markup/inline.html#cross-referencing-syntax">Cross reference</a> your documentation. You can link across to arbitrary location with <code class="highlighter-rouge">:ref:`my-label-name`</code> or across files with <code class="highlighter-rouge">:doc:`my-doc-name`</code>.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>.. _my-label-name:
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.. _my-label-name:
  
 Section to cross-reference
 --------------------------
@@ -103,31 +100,27 @@ Section to cross-reference
 This is the text of the section.
  
 It refers to the section itself, see :ref:`my-label-name`.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Finally, generate the HTML files.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>make html
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make html
+</code></pre></div></div>
 
 <p>Lastly, Sphinx can automatically generate your module and classes, using your docstrings. That way, you can write your documentation in your python files (and not again in Sphinx doc).</p>
 
 <p>To do that, you have to edit Sphinx’s <code class="highlighter-rouge">conf.py</code> and add your modules path to <code class="highlighter-rouge">sys.path</code>. Insert the following code in <code class="highlighter-rouge">conf.py</code>:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s">'..'</span><span class="p">)))</span>
-</code></pre>
-</div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s">'..'</span><span class="p">)))</span>
+</code></pre></div></div>
 
 <p>With that, you can automatically generate doc for a class.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>.. automodule:: mymodule.something
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.. automodule:: mymodule.something
  
 .. autoclass:: MyClass
     :members:
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This is a short introduction guide to Sphinx. There’s obviously more, with cases of authors writing books using Sphinx!</p>
 
@@ -136,14 +129,14 @@ It refers to the section itself, see :ref:`my-label-name`.
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Sphinx+%E2%80%93+Documentation+for+Python&amp;url=http://samwize.com/2012/09/13/sphinx-documentation-for-python"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Sphinx+%E2%80%93+Documentation+for+Python&amp;url=http://localhost:4000/2012/09/13/sphinx-documentation-for-python"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Sphinx+%E2%80%93+Documentation+for+Python&amp;u=http://samwize.com/2012/09/13/sphinx-documentation-for-python"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Sphinx+%E2%80%93+Documentation+for+Python&amp;u=http://localhost:4000/2012/09/13/sphinx-documentation-for-python"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -152,7 +145,7 @@ It refers to the section itself, see :ref:`my-label-name`.
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Sphinx+%E2%80%93+Documentation+for+Python&amp;url=http://samwize.com/2012/09/13/sphinx-documentation-for-python"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Sphinx+%E2%80%93+Documentation+for+Python&amp;url=http://localhost:4000/2012/09/13/sphinx-documentation-for-python"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

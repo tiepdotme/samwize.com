@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Guide to Creating UIViewController Without Storyboard" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="This is a guide on creating your custom UIViewController with code, without any storyboard/nibs/xibs. You may also be interested in reading guide to creating custom UIView." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="This is a guide on creating your custom UIViewController with code, without any storyboard/nibs/xibs. You may also be interested in reading guide to creating custom UIView." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2018-01-31T16:43:53+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/">
+  <link rel="canonical" href="http://localhost:4000/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Guide to Creating UIViewController Without Storyboard</h1>
             <div class="cf post-meta-text">
               <time datetime="2018-01-31T16:43:53+08:00">31 January 2018</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -78,11 +77,10 @@
 
 <p>The view controller’s initializer can be bare minimal, but it must use the <a href="https://developer.apple.com/documentation/uikit/uiviewcontroller/1621359-init">designated initializer <code class="highlighter-rouge">init(nibName:bundle:)</code></a>.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>As silly as it sound, you will find the documentation stating:</p>
 
@@ -94,13 +92,12 @@
 
 <p>If you use MVVM, or you require any dependency injection to the view controller, then it will look like this:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">viewModel</span><span class="p">:</span> <span class="kt">MyViewModel</span><span class="p">,</span> <span class="nv">someDependency</span><span class="p">:</span> <span class="kt">SomeDependency</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">init</span><span class="p">(</span><span class="nv">viewModel</span><span class="p">:</span> <span class="kt">MyViewModel</span><span class="p">,</span> <span class="nv">someDependency</span><span class="p">:</span> <span class="kt">SomeDependency</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">nibName</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
     <span class="k">self</span><span class="o">.</span><span class="n">viewModel</span> <span class="o">=</span> <span class="n">viewModel</span>
     <span class="k">self</span><span class="o">.</span><span class="n">someDependency</span> <span class="o">=</span> <span class="n">someDependency</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You may setup lightweight initialization in <code class="highlighter-rouge">init</code>, but you should never setup your views (read on where to do that later).</p>
 
@@ -108,11 +105,10 @@
 
 <p><code class="highlighter-rouge">init(coder:)</code> is called only when you create your views from storyboard. It will never be invoked since we are going with no-storyboard so we can safely fatal out.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">aDecoder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">aDecoder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span> <span class="p">{</span>
     <span class="nf">fatalError</span><span class="p">(</span><span class="s">"Never will happen"</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="create-your-view-in-viewdidload">Create your view in <code class="highlighter-rouge">viewDidLoad</code></h2>
 
@@ -126,19 +122,18 @@
 
 <p>I break the creation of views into 2 stages, in 2 <code class="highlighter-rouge">private func</code>s.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
     <span class="nf">setupViews</span><span class="p">()</span>
     <span class="nf">bindViews</span><span class="p">()</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h3 id="setupviews">1. <code class="highlighter-rouge">setupViews()</code></h3>
+<h3 id="1-setupviews">1. <code class="highlighter-rouge">setupViews()</code></h3>
 
 <p>Add each subview with <code class="highlighter-rouge">view.addSubview(someSubview)</code>, then setup the layout constraints (we use <a href="https://github.com/robb/Cartography">Cartography</a>, a autolayout helper).</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">setupViews</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">setupViews</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">subview1</span><span class="p">)</span>
     <span class="nf">constrain</span><span class="p">(</span><span class="n">view</span><span class="p">,</span> <span class="n">subview1</span><span class="p">)</span> <span class="p">{</span> <span class="n">view</span><span class="p">,</span> <span class="n">subview1</span> <span class="k">in</span>
         <span class="n">subview1</span><span class="o">.</span><span class="n">edges</span> <span class="o">==</span> <span class="n">view</span><span class="o">.</span><span class="n">edges</span>
@@ -146,32 +141,29 @@
     
     <span class="c1">// Similarly for subview2, subview3, ...</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">subview1</code> is being initialized via lazy loading.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">subview1</span><span class="p">:</span> <span class="kt">UIView</span> <span class="o">=</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">subview1</span><span class="p">:</span> <span class="kt">UIView</span> <span class="o">=</span> <span class="p">{</span>
     <span class="k">let</span> <span class="nv">view</span> <span class="o">=</span> <span class="kt">UIView</span><span class="p">()</span>
     <span class="n">view</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">red</span>
     <span class="k">return</span> <span class="n">view</span>
 <span class="p">}()</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This is equivalent to how you configure a view in Storyboard, but in code, and within the lazy load code block. It is the initial configuration. Afterwhich, you may of course programmatically change any of the properties.</p>
 
-<h3 id="bindviews">2. <code class="highlighter-rouge">bindViews()</code></h3>
+<h3 id="2-bindviews">2. <code class="highlighter-rouge">bindViews()</code></h3>
 
 <p>This 2nd stage is to bind the views with the model. It sets the actual content of the views.</p>
 
 <p>In a very simple example, we set the transparency level <code class="highlighter-rouge">subview1.alpha</code> with a view model.</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">bindViews</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">bindViews</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">subview1</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">viewModel</span><span class="o">.</span><span class="n">alpha</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Note that we are “binding” without using any frameworks (such as RxSwift), so this binding is one-time only. If subsequently <code class="highlighter-rouge">viewModel.alpha</code> is changed, the function <code class="highlighter-rouge">bindViews()</code> must be called again to update the view.</p>
 
@@ -179,13 +171,12 @@
 
 <p>Contrast this with using <a href="https://github.com/ReactiveX/RxSwift">RxSwift</a>:</p>
 
-<div class="language-swift highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">bindViews</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">bindViews</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">viewModel</span><span class="o">.</span><span class="n">alpha</span>
         <span class="o">.</span><span class="nf">bind</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">subview1</span><span class="o">.</span><span class="n">rx</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span>
         <span class="o">.</span><span class="nf">disposed</span><span class="p">(</span><span class="nv">by</span><span class="p">:</span> <span class="n">disposeBag</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Using RxSwift, <code class="highlighter-rouge">viewModel.alpha</code> is an observable, and whenever it observes a new value of alpha, the binding <code class="highlighter-rouge">subview1</code> will be updated automatically.</p>
 
@@ -194,14 +185,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Creating+UIViewController+Without+Storyboard&amp;url=http://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Creating+UIViewController+Without+Storyboard&amp;url=http://localhost:4000/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Creating+UIViewController+Without+Storyboard&amp;u=http://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Guide+to+Creating+UIViewController+Without+Storyboard&amp;u=http://localhost:4000/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -210,7 +201,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Creating+UIViewController+Without+Storyboard&amp;url=http://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Guide+to+Creating+UIViewController+Without+Storyboard&amp;url=http://localhost:4000/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

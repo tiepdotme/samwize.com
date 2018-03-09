@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Simple GET/POST AFNetworking" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2012/10/25/simple-get-post-afnetworking/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2012/10/25/simple-get-post-afnetworking/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2012-10-25T00:32:00+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2012/10/25/simple-get-post-afnetworking/">
+  <link rel="canonical" href="http://localhost:4000/2012/10/25/simple-get-post-afnetworking/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Simple GET/POST AFNetworking</h1>
             <div class="cf post-meta-text">
               <time datetime="2012-10-25T00:32:00+08:00">25 October 2012</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -90,7 +89,7 @@
 
 <h2 id="get">GET</h2>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithBaseURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/"</span><span class="p">]];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithBaseURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/"</span><span class="p">]];</span>
     <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">requestWithMethod</span><span class="p">:</span><span class="s">@"GET"</span>
                                                             <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pigs/"</span>
                                                       <span class="n">parameters</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
@@ -103,36 +102,32 @@
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
     <span class="p">}];</span>
     <span class="p">[</span><span class="n">operation</span> <span class="nf">start</span><span class="p">];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="post">POST</h2>
 
 <p>POST a urlencoded form <code class="highlighter-rouge">name=piggy</code> in the http body.</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithBaseURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/"</span><span class="p">]];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithBaseURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/"</span><span class="p">]];</span>
     <span class="p">[</span><span class="n">httpClient</span> <span class="nf">setParameterEncoding</span><span class="p">:</span><span class="n">AFFormURLParameterEncoding</span><span class="p">];</span>
     <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">requestWithMethod</span><span class="p">:</span><span class="s">@"POST"</span>
                                                             <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pig/"</span>
                                                       <span class="n">parameters</span><span class="o">:</span><span class="p">@{</span><span class="s">@"name"</span><span class="o">:</span><span class="s">@"piggy"</span><span class="p">}];</span>
 
     <span class="c1">// Similar to GET code ...
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
-<p>If you want to POST a json such as <code class="highlighter-rouge"><span class="p">{</span><span class="nt">"name"</span><span class="p">:</span><span class="s2">"piggy"</span><span class="p">}</span></code>, you change the encoding:</p>
+<p>If you want to POST a json such as <code class="highlighter-rouge">{"name":"piggy"}</code>, you change the encoding:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code>    <span class="p">[</span><span class="n">httpClient</span> <span class="nf">setParameterEncoding</span><span class="p">:</span><span class="n">AFJSONParameterEncoding</span><span class="p">];</span>
-</code></pre>
-</div>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="p">[</span><span class="n">httpClient</span> <span class="nf">setParameterEncoding</span><span class="p">:</span><span class="n">AFJSONParameterEncoding</span><span class="p">];</span>
+</code></pre></div></div>
 
 <p>If you want to do a multi-part POST of an image, you do this:</p>
 
-<div class="language-objc highlighter-rouge"><pre class="highlight"><code><span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">multipartFormRequestWithMethod</span><span class="p">:</span><span class="s">@"POST"</span> <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pig/photo"</span> <span class="n">parameters</span><span class="o">:</span><span class="nb">nil</span> <span class="n">constructingBodyWithBlock</span><span class="o">:</span> <span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span><span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">multipartFormRequestWithMethod</span><span class="p">:</span><span class="s">@"POST"</span> <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pig/photo"</span> <span class="n">parameters</span><span class="o">:</span><span class="nb">nil</span> <span class="n">constructingBodyWithBlock</span><span class="o">:</span> <span class="o">^</span><span class="p">(</span><span class="n">id</span> <span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span><span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
     <span class="p">[</span><span class="n">formData</span> <span class="nf">appendPartWithFileData</span><span class="p">:</span><span class="n">imageData</span> <span class="nf">name</span><span class="p">:</span><span class="s">@"avatar"</span> <span class="n">fileName</span><span class="o">:</span><span class="s">@"avatar.jpg"</span> <span class="n">mimeType</span><span class="o">:</span><span class="s">@"image/jpeg"</span><span class="p">];</span>
 <span class="p">}];</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This simple guide has been helped by <a href="http://stackoverflow.com/questions/9927945/afnetworking-post-to-rest-webservice">this</a>, <a href="http://stackoverflow.com/questions/9275333/afnetworking-post-request-with-application-x-www-form-urlencoded">this</a> and <a href="http://stackoverflow.com/questions/8468065/is-there-an-example-of-afhttpclient-posting-json-with-afnetworking">this</a>.</p>
 
@@ -142,9 +137,8 @@
 
 <p>For instance, if in the above example (POST JSON) you had used init, the Content-Type will be</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>application/json; charset=(null)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>application/json; charset=(null)
+</code></pre></div></div>
 
 <p>Charset should be <code class="highlighter-rouge">utf-8</code>, not <code class="highlighter-rouge">null</code>.</p>
 
@@ -154,14 +148,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Simple+GET%2FPOST+AFNetworking&amp;url=http://samwize.com/2012/10/25/simple-get-post-afnetworking"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Simple+GET%2FPOST+AFNetworking&amp;url=http://localhost:4000/2012/10/25/simple-get-post-afnetworking"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Simple+GET%2FPOST+AFNetworking&amp;u=http://samwize.com/2012/10/25/simple-get-post-afnetworking"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Simple+GET%2FPOST+AFNetworking&amp;u=http://localhost:4000/2012/10/25/simple-get-post-afnetworking"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -170,7 +164,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Simple+GET%2FPOST+AFNetworking&amp;url=http://samwize.com/2012/10/25/simple-get-post-afnetworking"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Simple+GET%2FPOST+AFNetworking&amp;url=http://localhost:4000/2012/10/25/simple-get-post-afnetworking"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

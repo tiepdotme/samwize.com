@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Xcode 8 File Templates" />
-    <meta name="twitter:image" content="http://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="The secret feature of Xcode" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="The secret feature of Xcode" />
   
-  <meta property="og:image" content="http://samwize.com" />
-  <meta property="og:url" content="http://samwize.com/2017/05/12/xcode-8-file-templates/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/05/12/xcode-8-file-templates/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-05-12T14:40:33+08:00">
 
-  <link rel="canonical" href="http://samwize.com/2017/05/12/xcode-8-file-templates/">
+  <link rel="canonical" href="http://localhost:4000/2017/05/12/xcode-8-file-templates/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -47,7 +47,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="http://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -58,7 +58,6 @@
             <h1 class="post-title">Xcode 8 File Templates</h1>
             <div class="cf post-meta-text">
               <time datetime="2017-05-12T14:40:33+08:00">12 May 2017</time>
-              <!-- , tagged on <span class="post-tag-">, <a href="/tag/"></a></span> -->
             </div>
           </div>
         </div>
@@ -86,33 +85,29 @@
 
 <p>You have to store Xcode file templates in</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>~/Library/Developer/Xcode/Templates/File Templates/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Library/Developer/Xcode/Templates/File Templates/
+</code></pre></div></div>
 
 <p>This is stored under your user account. In the later section, we will share a tip using Dropbox to sync all your templates.</p>
 
 <p>For now, let’s create your template under that directory. The <code class="highlighter-rouge">/Templates/File Templates/</code> folders have to be created along with your template eg. <code class="highlighter-rouge">MyTemplate.xctemplate</code> (a directory with the extension .xctemplate)</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>mkdir -p ~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p ~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/
+</code></pre></div></div>
 
 <p>There is another kind of template known as <strong>Project Templates</strong>. We will not be discussing it, but you should have guessed where it should be – <code class="highlighter-rouge">~/Library/Developer/Xcode/Templates/Project Templates/</code>.</p>
 
 <p>Now, let’s refer to the provided standard Xcode file templates, which are all in</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File Templates/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File Templates/
+</code></pre></div></div>
 
 <p>We will copy the simple swift template, and modify for our use later.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>cp -R \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R \
 /Applications/Xcode.app/Contents/Developer/Library/Xcode/Templates/File\ Templates/Source/Swift\ File.xctemplate/ \
 ~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>You will see a few files in <code class="highlighter-rouge">~/Library/Developer/Xcode/Templates/File\ Templates/MyTemplate.xctemplate/</code>.</p>
 
@@ -155,15 +150,13 @@
 
 <p>Eg In <code class="highlighter-rouge">___FILEBASENAME___.swift</code>, you can have this:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>let ___VARIABLE_FOO___: String
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let ___VARIABLE_FOO___: String
+</code></pre></div></div>
 
 <p>When you create the file, you will be prompted to enter for “Foo:”, with a default text “ohMyFoo”. The actual generated then becomes</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>let ohMyFoo: String
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let ohMyFoo: String
+</code></pre></div></div>
 
 <p>You could have other <code class="highlighter-rouge">Type</code>, such as <code class="highlighter-rouge">popup</code> with it’s <code class="highlighter-rouge">Values</code> array.</p>
 
@@ -200,9 +193,8 @@
 
 <p>Then create the symbolic link:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>ln -s ~/Dropbox/Workspace/Xcode/Templates ~/Library/Developer/Xcode/
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ln -s ~/Dropbox/Workspace/Xcode/Templates ~/Library/Developer/Xcode/
+</code></pre></div></div>
 
 <p>That’s it! Remember to create the symbolic link for every machine.</p>
 
@@ -211,14 +203,14 @@
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Xcode+8+File+Templates&amp;url=http://samwize.com/2017/05/12/xcode-8-file-templates"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Xcode+8+File+Templates&amp;url=http://localhost:4000/2017/05/12/xcode-8-file-templates"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Xcode+8+File+Templates&amp;u=http://samwize.com/2017/05/12/xcode-8-file-templates"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Xcode+8+File+Templates&amp;u=http://localhost:4000/2017/05/12/xcode-8-file-templates"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -227,7 +219,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Xcode+8+File+Templates&amp;url=http://samwize.com/2017/05/12/xcode-8-file-templates"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Xcode+8+File+Templates&amp;url=http://localhost:4000/2017/05/12/xcode-8-file-templates"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>
