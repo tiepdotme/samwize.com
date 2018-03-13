@@ -78,9 +78,9 @@ Have your `UITapGestureRecognizer` send action to `tapLabel:`, and detect using 
     let termsRange = (text as NSString).rangeOfString("Terms & Conditions")
     let privacyRange = (text as NSString).rangeOfString("Privacy Policy")
 
-    if gesture.didTapAttributedTextInLabel(termsLabel, inRange: termsRange) {
+    if gesture.didTapAttributedTextInLabel(myLabel, inRange: termsRange) {
         print("Tapped terms")
-    } else if gesture.didTapAttributedTextInLabel(termsLabel, inRange: privacyRange) {
+    } else if gesture.didTapAttributedTextInLabel(myLabel, inRange: privacyRange) {
         print("Tapped privacy")
     } else {
         print("Tapped none")
