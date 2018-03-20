@@ -7,8 +7,8 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Good Architecture for iOS App</title>
-  <meta name="description" content="This post discuss various architecture designs for an iOS app." />
+  <title>How to Setup Free SSL for Github Pages</title>
+  <meta name="description" content="SSL/HTTPS is now almost mandatory." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -17,24 +17,24 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Good Architecture for iOS App" />
+    <meta name="twitter:title" content="How to Setup Free SSL for Github Pages" />
     <meta name="twitter:image" content="http://localhost:4000" />
     
-    <meta name="twitter:description"  content="This post discuss various architecture designs for an iOS app." />
+    <meta name="twitter:description"  content="SSL/HTTPS is now almost mandatory." />
     
   
 
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Good Architecture for iOS App"/>
+  <meta property="og:title" content="How to Setup Free SSL for Github Pages"/>
   
-  <meta property="og:description" content="This post discuss various architecture designs for an iOS app." />
+  <meta property="og:description" content="SSL/HTTPS is now almost mandatory." />
   
   <meta property="og:image" content="http://localhost:4000" />
-  <meta property="og:url" content="http://localhost:4000/2016/07/20/good-architecture-for-ios-app/" >
+  <meta property="og:url" content="http://localhost:4000/2018/03/20/how-to-setup-free-ssl-for-github-pages/" >
   <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2016-07-20T17:17:01+08:00">
+  <meta property="article:published_time" content="2018-03-20T17:58:01+08:00">
 
-  <link rel="canonical" href="http://localhost:4000/2016/07/20/good-architecture-for-ios-app/">
+  <link rel="canonical" href="http://localhost:4000/2018/03/20/how-to-setup-free-ssl-for-github-pages/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -64,9 +64,9 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Good Architecture for iOS App</h1>
+            <h1 class="post-title">How to Setup Free SSL for Github Pages</h1>
             <div class="cf post-meta-text">
-              <time datetime="2016-07-20T17:17:01+08:00">20 July 2016</time>
+              <time datetime="2018-03-20T17:58:01+08:00">20 March 2018</time>
             </div>
           </div>
         </div>
@@ -80,164 +80,57 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>This post discuss various architecture designs for an iOS app.</p>
+          <p>SSL/HTTPS is now <a href="https://searchengineland.com/effective-july-2018-googles-chrome-browser-will-mark-non-https-sites-as-not-secure-291623">almost mandatory</a>.</p>
 
-<p>It is an ongoing post which I will update continously.</p>
+<p>Good news is, we can easily setup SSL with <a href="https://www.Cloudflare.com">Cloudflare</a>, and it’s free!</p>
 
-<h2 id="good-architecture">Good Architecture</h2>
+<h2 id="requirements">Requirements</h2>
 
-<p>I wrote this post because I was reading
-<a href="http://slideslive.com/38897361/good-ios-application-architecture-en">good iOS application architecture</a>
-by Krzysztof Zabłocki</p>
+<p>Make sure you already have a website hosted on Github Pages, and serving via your own domain name.</p>
 
-<p>You might know him from <a href="https://github.com/krzysztofzablocki/KZLinkedConsole">KZLinkedConsole</a>
-his popular Xcode plugin <a href="http://merowing.info/2015/12/writing-xcode-plugin-in-swift/">written in Swift</a></p>
+<p>If not, <a href="/2015/09/02/how-to-host-a-website-on-github-pages/">get your website running</a> first.</p>
 
-<p>Traits of Good Architecture:</p>
+<p>Then register a <a href="https://www.Cloudflare.com">Cloudflare</a> account.</p>
 
-<ul>
-  <li>Each object has a clear role</li>
-  <li>Ability to follow data flow with ease</li>
-  <li>Don’t depend on any particular framework</li>
-  <li>Limited Dependencies</li>
-  <li>Flexible because it is simple, not because it is over abstracted</li>
-</ul>
+<h2 id="setup-on-cloudflare">Setup on Cloudflare</h2>
 
-<p>As Uncle Bob says, a good architecture is one when you look at it, eg an accounting software, it screams ACCOUNTING, not MVC/etc. A good architecture will defer the frameworks it use.</p>
+<ol>
+  <li>
+    <p>In Cloudflare &gt; “Add Site” &gt; Enter your website domain name</p>
+  </li>
+  <li>
+    <p>Cloudflare automatically copy your DNS records, but you should double check them</p>
+  </li>
+  <li>
+    <p>In your domain registrar, change the nameservers to that provided by Cloudflare – eg. <code class="highlighter-rouge">mia.ns.Cloudflare.com</code> and <code class="highlighter-rouge">yichun.ns.Cloudflare.com</code></p>
+  </li>
+</ol>
 
-<h2 id="how-you-know-it-is-bad">How you know it is bad?</h2>
+<p>That’s it!</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># How many lines in your view controllers?
-find . -type f -exec wc -l {} + | sort -n
-</code></pre></div></div>
+<h2 id="the-thing-about-page-rules">The Thing About Page Rules</h2>
 
-<p><a href="https://github.com/PaulTaykalo/objc-dependency-visualizer">Dependency Visualizer</a></p>
+<p>Cloudflare’s Page Rules is like nginx configuration. You can rewrite URLs, configure cache settings, redirects, etc.</p>
 
-<h2 id="patterns">Patterns</h2>
+<p>For simple redirection/forwarding, you <a href="https://support.cloudflare.com/hc/en-us/articles/200168306-Is-there-a-tutorial-for-Page-Rules-#redirects">need 1 page rule</a> for every redirect.</p>
 
-<p>How you use patterns
-determines it is good or bad</p>
+<p>Cloudflare free plan provides only 3 page rules.</p>
 
-<p>Singleton
-is very common
-but easily misused
-Eg. Logger - almost every class needs logging, so singleton is fine</p>
-
-<p>But when you have a VC using a Singleton
-just so it is convenient
-then it is likely wrong</p>
-
-<p>Composition
-is 1 pattern that you must know,
-which will lead to other great patterns</p>
-
-<p>DI is good
-as it encourages reuse,
-and even Apple encourages it in WWDC 2016-06</p>
-
-<h2 id="1-mvc">1. MVC</h2>
-
-<p>Apple’s MVC is wrong
-because it’s View and Controller are too closely coupled</p>
-
-<p>Only model can be reused</p>
-
-<p>MVC is invented in the 80s
-but it can still be good
-if you do composition</p>
-
-<p>Apple sample code –
-even they admit it is to merely to show a technology,
-not written in good architecture</p>
-
-<p>Problems with our View Controller:</p>
-
-<ul>
-  <li>Knowing business logic</li>
-  <li>Maintaining states</li>
-</ul>
-
-<h2 id="2-viper">2. VIPER</h2>
-
-<p>Good
-But lots of boilerplate</p>
-
-<h2 id="3-mvvm">3. MVVM</h2>
-
-<p>Most popular iOS Architecture?</p>
-
-<p>View Model
-is UIKit independent
-and is testable</p>
-
-<p>But no router</p>
-
-<h2 id="4-mvvm">4. MVVM+</h2>
-
-<p>With Flow Coordinators/Controller/Router</p>
-
-<p><a href="http://merowing.info/2016/01/improve-your-ios-architecture-with-flowcontrollers/">Improving Architecture with Flow Controllers</a>:</p>
-
-<ul>
-  <li>At least 1 root flow controller</li>
-  <li>Created by AppDelegate</li>
-  <li>Has multiple child controllers (VCs)</li>
-  <li>VC/VM does not know about other VC/VM</li>
-  <li>Configures and coordinate different screens</li>
-  <li>To support multiple devices, subclass the root flow controller</li>
-  <li>You can use for MVC or any other architecture</li>
-</ul>
-
-<p><a href="http://khanlou.com/2015/10/coordinators-redux/">Coordinator Redux</a> by Khanlou</p>
-
-<p>What’s wrong with such a line of code in a view controller?</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="k">self</span><span class="o">.</span><span class="n">navigationController</span> <span class="nv">pushViewController</span><span class="p">:</span><span class="n">detailViewController</span> <span class="nv">animated</span><span class="p">:</span><span class="kt">YES</span><span class="p">];</span>  
-</code></pre></div></div>
-
-<blockquote>
-  <p>It’s bossing its parent around. In real life, children should never boss their parents around. In programming, I would argue children shouldn’t even know who their parents are!</p>
-</blockquote>
-
-<p>Libraries vs frameworks</p>
-
-<blockquote>
-  <p>They say the distinction between libraries and frameworks is that you call libraries, and frameworks call you. I want to treat 3rd-party dependencies as much like libraries as possible.</p>
-</blockquote>
-
-<p>A con of using flow coordinators:
-It does not play well with segue</p>
-
-<h2 id="5-reswift"><a href="https://github.com/ReSwift/ReSwift">5. ReSwift</a></h2>
-
-<p>The new kid in the block, inspired by Redux.
-An <a href="https://realm.io/news/benji-encz-unidirectional-data-flow-swift/">introduction presented by Benjamin Encz</a></p>
-
-<p>Single point of truth</p>
-
-<p>It can load a state - persisting state across application launches</p>
-
-<p><a href="http://reswift.github.io/ReSwift/master/getting-started-guide.html"><img src="http://reswift.github.io/ReSwift/master/img/reswift_detail.png" alt="" /></a></p>
-
-<h2 id="more-resources">More Resources</h2>
-
-<ul>
-  <li><a href="https://github.com/onmyway133/fantastic-ios-architecture">Github Wiki of all iOS architectures</a></li>
-</ul>
+<p>Argh, that’s the caveat of being free.</p>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Good+Architecture+for+iOS+App&amp;url=http://localhost:4000/2016/07/20/good-architecture-for-ios-app"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+Setup+Free+SSL+for+Github+Pages&amp;url=http://localhost:4000/2018/03/20/how-to-setup-free-ssl-for-github-pages"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Good+Architecture+for+iOS+App&amp;u=http://localhost:4000/2016/07/20/good-architecture-for-ios-app"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=How+to+Setup+Free+SSL+for+Github+Pages&amp;u=http://localhost:4000/2018/03/20/how-to-setup-free-ssl-for-github-pages"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -246,7 +139,7 @@ An <a href="https://realm.io/news/benji-encz-unidirectional-data-flow-swift/">in
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Good+Architecture+for+iOS+App&amp;url=http://localhost:4000/2016/07/20/good-architecture-for-ios-app"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=How+to+Setup+Free+SSL+for+Github+Pages&amp;url=http://localhost:4000/2018/03/20/how-to-setup-free-ssl-for-github-pages"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>
