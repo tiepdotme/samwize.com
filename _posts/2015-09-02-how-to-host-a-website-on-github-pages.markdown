@@ -20,7 +20,6 @@ In your root, have a `CNAME` file with the line `example.com` (or your subdomain
 
 Commit and push.
 
-
 ## GitHub Pages
 
 Create a new repository on GitHub for the project.
@@ -29,7 +28,6 @@ Create a new repository on GitHub for the project.
     git push -u origin gh-pages
 
 If you have an existing repository, create a new `gh-pages` branch, and make sure it is your default branch in your repos settings.
-
 
 ## Configure Domain Name
 

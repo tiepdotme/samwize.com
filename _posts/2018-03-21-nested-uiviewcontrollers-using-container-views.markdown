@@ -5,9 +5,9 @@ date: 2018-03-21T16:33:12+08:00
 categories: [UI]
 ---
 
-[Container view controller](https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html) is a new concept from iOS 8.
+[Container view controller](https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html) is a new concept from iOS 5.
 
-Yet prior to iOS 8, we have always been using containers, just that we didn't know, and it is not exposed publicly.
+Yet prior to iOS 5, we have always been using containers, just that we didn't know, and it is not exposed publicly.
 
 `UINavigationController`, `UITabBarController`, and `UISplitViewController` -- they are all container view controllers!
 
@@ -23,7 +23,7 @@ Your custom container is a **parent** (aka root) view controller and will be man
 
 It is not entirely clear when developers should use, or not use.
 
-Remember: Container is a technique for managing multiple view controllers, usually handling the navigation and the transition effect. It is _entirely possible to not use_ custom container, and we obviously could not use it prior to iOS 8.
+Remember: Container is a technique for managing multiple view controllers, usually handling the navigation and the transition effect. It is _entirely possible to not use_ custom container, and we obviously could not use it prior to iOS 5.
 
 What is an alternative?
 
@@ -92,3 +92,18 @@ override func viewDidLoad() {
 ```
 
 To remove a child view controller, you undo the with the corresponding methods.
+
+## The design of container view controller
+
+You might have noticed by now.
+
+A container (parent) view controller is simply `UIViewController`, and the children are also `UIViewController`. Kind of bad design overloading 2 types.
+
+Then there are some methods specifically for them:
+
+- `addChildViewController(_:)` - only parent should call
+- `removeFromParentViewController()` - only child should call
+- `willMove(toParentViewController:)` - only child should call
+- `didMove(toParentViewController:)` - only child should call
+
+Rotation and appearance callbacks are automatically propagated from parent to children.
