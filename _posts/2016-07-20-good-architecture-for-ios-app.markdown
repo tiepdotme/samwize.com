@@ -144,3 +144,6 @@ It can load a state - persisting state across application launches
 [![](http://reswift.github.io/ReSwift/master/img/reswift_detail.png)](http://reswift.github.io/ReSwift/master/getting-started-guide.html)
 
 
+## More Resources
+
+- [Github Wiki of all iOS architectures](https://github.com/onmyway133/fantastic-ios-architecture)

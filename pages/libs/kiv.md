@@ -9,7 +9,8 @@ I have yet to try these, but they look awesome.
 - [R](https://github.com/mac-cain13/R.swift) - This is like Android's `R`, generating a file with constants to the strings
 - [Ensemble](http://www.ensembles.io/) - sync Core Data to iCloud or Dropbox ($299)
 - [Deep Belief](https://github.com/jetpacapp/DeepBeliefSDK) - Image recognition
-
+- [Layout](https://github.com/schibsted/layout) - Supports live reloading and creating view hierarchy with XML (kind of like Android). [Nick Lockwood](http://bytes.schibsted.com/layout-declarative-ui-framework-ios/) builds the higher level UI system.
+- [Expression](https://github.com/nicklockwood/Expression) - Also by Nick Lockwood. Evaluate simple expression in String such as "1 + 2".
 
 ## Segmented Controls
 
