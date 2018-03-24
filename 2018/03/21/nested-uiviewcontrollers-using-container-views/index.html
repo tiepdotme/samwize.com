@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Nested UIViewControllers Using Container</title>
+  <meta name="description" content="Container view controller is a new concept from iOS 5." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Nested UIViewControllers Using Container" />
+    <meta name="twitter:image" content="http://localhost:4000" />
+    
+    <meta name="twitter:description"  content="Container view controller is a new concept from iOS 5." />
+    
+  
+
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Nested UIViewControllers Using Container"/>
+  
+  <meta property="og:description" content="Container view controller is a new concept from iOS 5." />
+  
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2018/03/21/nested-uiviewcontrollers-using-container-views/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2018-03-21T16:33:12+08:00">
+
+  <link rel="canonical" href="http://localhost:4000/2018/03/21/nested-uiviewcontrollers-using-container-views/">
+
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8504591086876220",
+            enable_page_level_ads: true
+       });
+  </script>
+
+</head>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Nested UIViewControllers Using Container</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2018-03-21T16:33:12+08:00">21 March 2018</time>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p><a href="https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html">Container view controller</a> is a new concept from iOS 5.</p>
+
+<p>Yet prior to iOS 5, we have always been using containers, just that we didn’t know..</p>
+
+<p><code class="highlighter-rouge">UINavigationController</code>, <code class="highlighter-rouge">UITabBarController</code>, and <code class="highlighter-rouge">UISplitViewController</code> – they are all container view controllers, without us knowing!</p>
+
+<h2 id="what-is-a-container">What is a container?</h2>
+
+<blockquote>
+  <p>A container view controller embeds the content of other view controllers into its own root view. A container view controller may mix custom views with the contents of its child view controllers to facilitate navigation or to create unique interfaces.</p>
+</blockquote>
+
+<p>For example, a <code class="highlighter-rouge">UINavigationController</code> manages a navigation bar (a custom view) and a stack of child view controllers (only one of which is visible at a time), and provides an API to add and remove child view controllers from the stack.</p>
+
+<p>Your custom container is a <strong>parent</strong> (aka root) view controller and will be managing it’s <strong>children</strong> view controllers. It is up to the container to render the whole view.</p>
+
+<h2 id="when-should-you-use-container-view-controllers">When should you use Container View Controllers?</h2>
+
+<p>It is not entirely clear when developers should use, or not use.</p>
+
+<p>Remember: Container is a technique for managing multiple view controllers, usually handling the navigation and the transition effect. It is <em>entirely possible to not use</em> custom container, and we obviously could not use it prior to iOS 5.</p>
+
+<p>What is an alternative?</p>
+
+<p>An alternative is to manage multiple views (not view controllers).</p>
+
+<p>When possible, you should NOT use container, especially if you are using simple views (not full blown view controller). <em><a href="https://stackoverflow.com/a/5789009/242682">Defines UIView vs UIViewController</a>.</em></p>
+
+<h3 id="scenario-nested-view-controllers">Scenario: Nested View Controllers</h3>
+
+<p>Let’s discuss a very common scenario where we use container to simple nest other view controllers.</p>
+
+<p>If you use Xcode interface builder, you can easily drag a container view to the storyboard, and automatically a child view controller will be added onto the storyboard.</p>
+
+<p><img src="/images/xcode-container-nested.png" alt="Drag and drop 2 container views" /></p>
+
+<p>Using container in this way is simply to nest multiple view controllers in a parent view controller.</p>
+
+<p>Note: “Child A” and “Child B” are simply <code class="highlighter-rouge">UIView</code>, aka container view, defined as:</p>
+
+<blockquote>
+  <p>A region of a view controller that can include a child view controller</p>
+</blockquote>
+
+<p>There is a benefit to using container in a storyboard. In the screenshot, “Child B” is actually right on top and obscuring “Child A”.</p>
+
+<p>Yet, because of container, you can see and design the individual child view controllers!</p>
+
+<p>But, if you are coming from <em>no-storyboard pure coding way</em>, then using container and nested view controllers will not be an apparent solution. Because with code, you don’t have the problem of interface builder, and you are used to creating custom views (in your mind!), even when they overlap.</p>
+
+<p>I prefer the way of no-storyboard, so for the scenario of simply nesting multiple views, you should not use container.</p>
+
+<h3 id="checklist-to-using-container">Checklist to using container</h3>
+
+<p>If you answer all/many YES to this checklist, then go ahead and use container.</p>
+
+<ul>
+  <li>Child view controller is independent to the parent</li>
+  <li>Child view controller is equivalent to a screen</li>
+  <li>Child view controller determines the status bar style</li>
+  <li>Child view controller requires <code class="highlighter-rouge">viewDidAppear</code> etc events</li>
+  <li>Child is a view controller, and not just a view</li>
+  <li>Parent view controller navigate (push/popping/mixing) the child view controllers</li>
+  <li>Parent view controller controls the transition effects when navigating</li>
+  <li>Parent view controller probably showing 1 or 2 child at 1 time</li>
+</ul>
+
+<p>If not, fallback to regular views.</p>
+
+<h2 id="adding-a-child-view-controller">Adding a child view controller</h2>
+
+<p>You need <a href="https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html#//apple_ref/doc/uid/TP40007457-CH11-SW13">these steps</a>:</p>
+
+<ol>
+  <li>
+    <p>Container view controller to call <code class="highlighter-rouge">addChildViewController</code>, so that UIKit knows your container is now managing the child view controller.</p>
+  </li>
+  <li>
+    <p>Add the child’s view to your container’s view hierarchy.</p>
+  </li>
+  <li>
+    <p>Setup auto layout constraints for the child’s view.</p>
+  </li>
+  <li>
+    <p>Child view controller to call <code class="highlighter-rouge">didMoveToParentViewController</code>.</p>
+  </li>
+</ol>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Creating the child in Parent's viewDidLoad</span>
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">child</span> <span class="o">=</span> <span class="kt">MyChildViewController</span><span class="p">()</span>
+    <span class="nf">addChildViewController</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+    <span class="n">view</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+    <span class="c1">// Setup auto layout constraints for child.view..</span>
+    <span class="n">child</span><span class="o">.</span><span class="nf">didMove</span><span class="p">(</span><span class="nv">toParentViewController</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>To remove a child view controller, you undo the with the corresponding methods.</p>
+
+<h2 id="the-awkward-design-of-container-view-controller">The (awkward) design of container view controller</h2>
+
+<p>You might have noticed by now.</p>
+
+<p>A container (parent) view controller is simply <code class="highlighter-rouge">UIViewController</code>, and the children are also <code class="highlighter-rouge">UIViewController</code>. Kind of bad design overloading 2 types.</p>
+
+<p>Then there are some methods specifically for them:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">addChildViewController(_:)</code> - only parent should call</li>
+  <li><code class="highlighter-rouge">removeFromParentViewController()</code> - only child should call</li>
+  <li><code class="highlighter-rouge">willMove(toParentViewController:)</code> - only child should call</li>
+  <li><code class="highlighter-rouge">didMove(toParentViewController:)</code> - only child should call</li>
+</ul>
+
+<p>You have to be careful what you can, and should, call.</p>
+
+<p>Rotation and appearance callbacks are automatically propagated from parent to children.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Nested+UIViewControllers+Using+Container&amp;url=http://localhost:4000/2018/03/21/nested-uiviewcontrollers-using-container-views"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Nested+UIViewControllers+Using+Container&amp;u=http://localhost:4000/2018/03/21/nested-uiviewcontrollers-using-container-views"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Nested+UIViewControllers+Using+Container&amp;url=http://localhost:4000/2018/03/21/nested-uiviewcontrollers-using-container-views"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>

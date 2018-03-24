@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
     <meta name="twitter:title" content="Handy Bash Commands" />
-    <meta name="twitter:image" content="https://samwize.com" />
+    <meta name="twitter:image" content="http://localhost:4000" />
     
     <meta name="twitter:description"  content="Resize Image" />
     
@@ -29,12 +29,12 @@
   
   <meta property="og:description" content="Resize Image" />
   
-  <meta property="og:image" content="https://samwize.com" />
-  <meta property="og:url" content="https://samwize.com/2017/01/02/handy-bash-commands/" >
+  <meta property="og:image" content="http://localhost:4000" />
+  <meta property="og:url" content="http://localhost:4000/2017/01/02/handy-bash-commands/" >
   <meta property="og:type" content="blog" />
   <meta property="article:published_time" content="2017-01-02T12:30:28+08:00">
 
-  <link rel="canonical" href="https://samwize.com/2017/01/02/handy-bash-commands/">
+  <link rel="canonical" href="http://localhost:4000/2017/01/02/handy-bash-commands/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -56,7 +56,7 @@
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
-<a href="https://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+<a href="http://localhost:4000" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
 
 <!-- header end -->
     <main class="content" role="main">
@@ -123,12 +123,10 @@ youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
 
 <h2 id="download-youtube-live-stream">Download Youtube Live Stream</h2>
 
-<p>For live streams, <code class="highlighter-rouge">youtube-dl</code> does not work well. We need another tool to the rescue - <a href="https://github.com/chrippa/livestreamer/">livestreamer</a></p>
+<p>For live streams, <code class="highlighter-rouge">youtube-dl</code> does not work well. We need another tool to the rescue - <del><a href="https://github.com/chrippa/livestreamer/">livestreamer</a></del> <a href="https://github.com/streamlink/streamlink">streamlink</a></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>livestreamer https://www.youtube.com/watch?v=-62LWTsykcw best --hls-live-edge 99999 -o Live.ts
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>streamlink --hls-live-restart -o Live.ts https://www.youtube.com/watch?v=zkrq7Kpd1so best
 </code></pre></div></div>
-
-<p>The <code class="highlighter-rouge">hls-live-edge</code> <a href="http://docs.livestreamer.io/cli.html#cmdoption--hls-live-edge">option</a> is how many segments from the END to begin downloading from. The large value makes it start from the very beginning.</p>
 
 <h2 id="download-a-file-with-curl">Download a file with curl</h2>
 
@@ -152,14 +150,14 @@ grep -R 'needle' path/to/dir/
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Handy+Bash+Commands&amp;url=https://samwize.com/2017/01/02/handy-bash-commands"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Handy+Bash+Commands&amp;url=http://localhost:4000/2017/01/02/handy-bash-commands"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Handy+Bash+Commands&amp;u=https://samwize.com/2017/01/02/handy-bash-commands"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Handy+Bash+Commands&amp;u=http://localhost:4000/2017/01/02/handy-bash-commands"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -168,7 +166,7 @@ grep -R 'needle' path/to/dir/
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Handy+Bash+Commands&amp;url=https://samwize.com/2017/01/02/handy-bash-commands"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Handy+Bash+Commands&amp;url=http://localhost:4000/2017/01/02/handy-bash-commands"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

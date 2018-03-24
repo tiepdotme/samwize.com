@@ -4,11 +4,141 @@
     <title>@samwize</title>
     <description>¯\_(ツ)_/¯
 </description>
-    <link>https://samwize.com/</link>
-    <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 21 Mar 2018 00:12:49 +0800</pubDate>
-    <lastBuildDate>Wed, 21 Mar 2018 00:12:49 +0800</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Sat, 24 Mar 2018 09:57:41 +0800</pubDate>
+    <lastBuildDate>Sat, 24 Mar 2018 09:57:41 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Nested UIViewControllers Using Container</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html&quot;&gt;Container view controller&lt;/a&gt; is a new concept from iOS 5.&lt;/p&gt;
+
+&lt;p&gt;Yet prior to iOS 5, we have always been using containers, just that we didn’t know..&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;UITabBarController&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;UISplitViewController&lt;/code&gt; – they are all container view controllers, without us knowing!&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-a-container&quot;&gt;What is a container?&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A container view controller embeds the content of other view controllers into its own root view. A container view controller may mix custom views with the contents of its child view controllers to facilitate navigation or to create unique interfaces.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For example, a &lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt; manages a navigation bar (a custom view) and a stack of child view controllers (only one of which is visible at a time), and provides an API to add and remove child view controllers from the stack.&lt;/p&gt;
+
+&lt;p&gt;Your custom container is a &lt;strong&gt;parent&lt;/strong&gt; (aka root) view controller and will be managing it’s &lt;strong&gt;children&lt;/strong&gt; view controllers. It is up to the container to render the whole view.&lt;/p&gt;
+
+&lt;h2 id=&quot;when-should-you-use-container-view-controllers&quot;&gt;When should you use Container View Controllers?&lt;/h2&gt;
+
+&lt;p&gt;It is not entirely clear when developers should use, or not use.&lt;/p&gt;
+
+&lt;p&gt;Remember: Container is a technique for managing multiple view controllers, usually handling the navigation and the transition effect. It is &lt;em&gt;entirely possible to not use&lt;/em&gt; custom container, and we obviously could not use it prior to iOS 5.&lt;/p&gt;
+
+&lt;p&gt;What is an alternative?&lt;/p&gt;
+
+&lt;p&gt;An alternative is to manage multiple views (not view controllers).&lt;/p&gt;
+
+&lt;p&gt;When possible, you should NOT use container, especially if you are using simple views (not full blown view controller). &lt;em&gt;&lt;a href=&quot;https://stackoverflow.com/a/5789009/242682&quot;&gt;Defines UIView vs UIViewController&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;scenario-nested-view-controllers&quot;&gt;Scenario: Nested View Controllers&lt;/h3&gt;
+
+&lt;p&gt;Let’s discuss a very common scenario where we use container to simple nest other view controllers.&lt;/p&gt;
+
+&lt;p&gt;If you use Xcode interface builder, you can easily drag a container view to the storyboard, and automatically a child view controller will be added onto the storyboard.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/xcode-container-nested.png&quot; alt=&quot;Drag and drop 2 container views&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Using container in this way is simply to nest multiple view controllers in a parent view controller.&lt;/p&gt;
+
+&lt;p&gt;Note: “Child A” and “Child B” are simply &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;, aka container view, defined as:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A region of a view controller that can include a child view controller&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;There is a benefit to using container in a storyboard. In the screenshot, “Child B” is actually right on top and obscuring “Child A”.&lt;/p&gt;
+
+&lt;p&gt;Yet, because of container, you can see and design the individual child view controllers!&lt;/p&gt;
+
+&lt;p&gt;But, if you are coming from &lt;em&gt;no-storyboard pure coding way&lt;/em&gt;, then using container and nested view controllers will not be an apparent solution. Because with code, you don’t have the problem of interface builder, and you are used to creating custom views (in your mind!), even when they overlap.&lt;/p&gt;
+
+&lt;p&gt;I prefer the way of no-storyboard, so for the scenario of simply nesting multiple views, you should not use container.&lt;/p&gt;
+
+&lt;h3 id=&quot;checklist-to-using-container&quot;&gt;Checklist to using container&lt;/h3&gt;
+
+&lt;p&gt;If you answer all/many YES to this checklist, then go ahead and use container.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Child view controller is independent to the parent&lt;/li&gt;
+  &lt;li&gt;Child view controller is equivalent to a screen&lt;/li&gt;
+  &lt;li&gt;Child view controller determines the status bar style&lt;/li&gt;
+  &lt;li&gt;Child view controller requires &lt;code class=&quot;highlighter-rouge&quot;&gt;viewDidAppear&lt;/code&gt; etc events&lt;/li&gt;
+  &lt;li&gt;Child is a view controller, and not just a view&lt;/li&gt;
+  &lt;li&gt;Parent view controller navigate (push/popping/mixing) the child view controllers&lt;/li&gt;
+  &lt;li&gt;Parent view controller controls the transition effects when navigating&lt;/li&gt;
+  &lt;li&gt;Parent view controller probably showing 1 or 2 child at 1 time&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If not, fallback to regular views.&lt;/p&gt;
+
+&lt;h2 id=&quot;adding-a-child-view-controller&quot;&gt;Adding a child view controller&lt;/h2&gt;
+
+&lt;p&gt;You need &lt;a href=&quot;https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html#//apple_ref/doc/uid/TP40007457-CH11-SW13&quot;&gt;these steps&lt;/a&gt;:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Container view controller to call &lt;code class=&quot;highlighter-rouge&quot;&gt;addChildViewController&lt;/code&gt;, so that UIKit knows your container is now managing the child view controller.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Add the child’s view to your container’s view hierarchy.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Setup auto layout constraints for the child’s view.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Child view controller to call &lt;code class=&quot;highlighter-rouge&quot;&gt;didMoveToParentViewController&lt;/code&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Creating the child in Parent's viewDidLoad&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;child&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyChildViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;addChildViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addSubview&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// Setup auto layout constraints for child.view..&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;didMove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;toParentViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To remove a child view controller, you undo the with the corresponding methods.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-awkward-design-of-container-view-controller&quot;&gt;The (awkward) design of container view controller&lt;/h2&gt;
+
+&lt;p&gt;You might have noticed by now.&lt;/p&gt;
+
+&lt;p&gt;A container (parent) view controller is simply &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;, and the children are also &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;. Kind of bad design overloading 2 types.&lt;/p&gt;
+
+&lt;p&gt;Then there are some methods specifically for them:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addChildViewController(_:)&lt;/code&gt; - only parent should call&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;removeFromParentViewController()&lt;/code&gt; - only child should call&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;willMove(toParentViewController:)&lt;/code&gt; - only child should call&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;didMove(toParentViewController:)&lt;/code&gt; - only child should call&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;You have to be careful what you can, and should, call.&lt;/p&gt;
+
+&lt;p&gt;Rotation and appearance callbacks are automatically propagated from parent to children.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 21 Mar 2018 16:33:12 +0800</pubDate>
+        <link>http://localhost:4000/2018/03/21/nested-uiviewcontrollers-using-container-views/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/21/nested-uiviewcontrollers-using-container-views/</guid>
+        
+        
+        <category>UI</category>
+        
+      </item>
     
       <item>
         <title>How to Setup Free SSL for Github Pages</title>
@@ -51,8 +181,8 @@
 &lt;p&gt;Argh, that’s the caveat of being free.&lt;/p&gt;
 </description>
         <pubDate>Tue, 20 Mar 2018 17:58:01 +0800</pubDate>
-        <link>https://samwize.com/2018/03/20/how-to-setup-free-ssl-for-github-pages/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/03/20/how-to-setup-free-ssl-for-github-pages/</guid>
+        <link>http://localhost:4000/2018/03/20/how-to-setup-free-ssl-for-github-pages/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/20/how-to-setup-free-ssl-for-github-pages/</guid>
         
         
         <category>Website</category>
@@ -220,8 +350,8 @@
 &lt;p&gt;&lt;img src=&quot;/images/xcode-preference-whitelines.jpg&quot; alt=&quot;Xcode Preferences&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 08 Mar 2018 13:43:08 +0800</pubDate>
-        <link>https://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/</guid>
+        <link>http://localhost:4000/2018/03/08/swift-lint-to-improve-code-quality/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/08/swift-lint-to-improve-code-quality/</guid>
         
         
         <category>Swift</category>
@@ -287,8 +417,8 @@
 &lt;p&gt;If not, this &lt;a href=&quot;https://github.com/fastred/Optimizing-Swift-Build-Times#whole-module-optimization&quot;&gt;wiki on github&lt;/a&gt; provides other tricks and good settings.&lt;/p&gt;
 </description>
         <pubDate>Wed, 28 Feb 2018 15:34:12 +0800</pubDate>
-        <link>https://samwize.com/2018/02/28/how-to-make-xcode-run-faster/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/02/28/how-to-make-xcode-run-faster/</guid>
+        <link>http://localhost:4000/2018/02/28/how-to-make-xcode-run-faster/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/02/28/how-to-make-xcode-run-faster/</guid>
         
         
         <category>Xcode</category>
@@ -428,8 +558,8 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
 &lt;p&gt;Also, sample &lt;a href=&quot;https://github.com/spotify/ios-ci&quot;&gt;Spotify CI scripts&lt;/a&gt; for their open source projects. They use Travis CI and others.&lt;/p&gt;
 </description>
         <pubDate>Thu, 22 Feb 2018 16:02:51 +0800</pubDate>
-        <link>https://samwize.com/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project/</guid>
+        <link>http://localhost:4000/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project/</guid>
         
         
         <category>iOS</category>
@@ -548,8 +678,8 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
 &lt;p&gt;Using RxSwift, &lt;code class=&quot;highlighter-rouge&quot;&gt;viewModel.alpha&lt;/code&gt; is an observable, and whenever it observes a new value of alpha, the binding &lt;code class=&quot;highlighter-rouge&quot;&gt;subview1&lt;/code&gt; will be updated automatically.&lt;/p&gt;
 </description>
         <pubDate>Wed, 31 Jan 2018 16:43:53 +0800</pubDate>
-        <link>https://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/</guid>
+        <link>http://localhost:4000/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/</guid>
         
         
       </item>
@@ -659,8 +789,8 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
 &lt;p&gt;Apple’s &lt;a href=&quot;https://developer.apple.com/library/content/technotes/tn2418/_index.html&quot;&gt;Technical Note on language identifiers&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 23 Jan 2018 15:49:41 +0800</pubDate>
-        <link>https://samwize.com/2018/01/23/localization-fall-back-to-base-language/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/01/23/localization-fall-back-to-base-language/</guid>
+        <link>http://localhost:4000/2018/01/23/localization-fall-back-to-base-language/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/01/23/localization-fall-back-to-base-language/</guid>
         
         
         <category>Localization</category>
@@ -758,8 +888,8 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
 &lt;/ol&gt;
 </description>
         <pubDate>Tue, 09 Jan 2018 16:53:56 +0800</pubDate>
-        <link>https://samwize.com/2018/01/09/ui-testing-with-browserstack-cloud-devices/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/01/09/ui-testing-with-browserstack-cloud-devices/</guid>
+        <link>http://localhost:4000/2018/01/09/ui-testing-with-browserstack-cloud-devices/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/01/09/ui-testing-with-browserstack-cloud-devices/</guid>
         
         
         <category>Testing</category>
@@ -878,8 +1008,8 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
 &lt;p&gt;There are more guides. &lt;a href=&quot;https://developer.apple.com/ios/update-apps-for-iphone-x/&quot;&gt;Apple official guide&lt;/a&gt;, and &lt;a href=&quot;https://useyourloaf.com/blog/supporting-iphone-x/&quot;&gt;many&lt;/a&gt; &lt;a href=&quot;https://medium.com/rosberryapps/ios-safe-area-ca10e919526f&quot;&gt;more&lt;/a&gt;. &lt;a href=&quot;https://designcode.io/ios11-iphone-x&quot;&gt;Designcode.io&lt;/a&gt; summed up well, with many valuable resources for design. &lt;a href=&quot;https://iosdesignkit.io/ios-11-gui/&quot;&gt;Sketch file&lt;/a&gt; &amp;amp; &lt;a href=&quot;http://v1.designcode.io/angle&quot;&gt;device mockups&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Thu, 21 Dec 2017 11:49:22 +0800</pubDate>
-        <link>https://samwize.com/2017/12/21/developer-guide-to-support-iphone-x/</link>
-        <guid isPermaLink="true">https://samwize.com/2017/12/21/developer-guide-to-support-iphone-x/</guid>
+        <link>http://localhost:4000/2017/12/21/developer-guide-to-support-iphone-x/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/12/21/developer-guide-to-support-iphone-x/</guid>
         
         
         <category>iOS</category>
@@ -1057,167 +1187,11 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
 &lt;p&gt;Try restarting your device too. It did happen to me once during development where it just won’t fetch from any of the applinks domain, until I restart my phone.&lt;/p&gt;
 </description>
         <pubDate>Fri, 10 Nov 2017 11:32:18 +0800</pubDate>
-        <link>https://samwize.com/2017/11/10/guide-to-universal-links/</link>
-        <guid isPermaLink="true">https://samwize.com/2017/11/10/guide-to-universal-links/</guid>
+        <link>http://localhost:4000/2017/11/10/guide-to-universal-links/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/10/guide-to-universal-links/</guid>
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Guide to Creating Custom UIView</title>
-        <description>&lt;p&gt;This is a guide to creating custom &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; using Auto Layout, without Nib/Storyboard, and in Swift 4.&lt;/p&gt;
-
-&lt;h2 id=&quot;why-custom-uiview&quot;&gt;Why custom UIView?&lt;/h2&gt;
-
-&lt;p&gt;We create custom view when the controls from UIKit is not sufficient to do your job.&lt;/p&gt;
-
-&lt;p&gt;Custom view will be composed of other views, with certain custom behaviours.&lt;/p&gt;
-
-&lt;p&gt;There are often times when you construct your storyboard or init your view controller with multiple views, but they could – alternatively – be accomplished with a custom view.&lt;/p&gt;
-
-&lt;h2 id=&quot;about-initializers&quot;&gt;About Initializers&lt;/h2&gt;
-
-&lt;p&gt;It is important to learn the fundamental about &lt;a href=&quot;https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Initialization.html&quot;&gt;Swift initialization&lt;/a&gt;. It is a complex and lengthy topic, but will be useful in understanding because our custom view subclass &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;designated-initializer&quot;&gt;Designated initializer&lt;/h3&gt;
-
-&lt;p&gt;You specify a designated initializer by &lt;em&gt;not&lt;/em&gt; specifying &lt;code class=&quot;highlighter-rouge&quot;&gt;convenience&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Subclass MUST call it’s superclass designated initializer – not difficult to reason because without so, the superclass would not be completely initialized.&lt;/p&gt;
-
-&lt;h3 id=&quot;convenience-initializer&quot;&gt;Convenience initializer&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;convenience&lt;/code&gt; is secondary/optional, and is simply shortcut to calling designated initializer.&lt;/p&gt;
-
-&lt;h3 id=&quot;required-init&quot;&gt;Required init&lt;/h3&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;required&lt;/code&gt; specify that subclasses must implement the initialization. &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; has such an init because it conforms to &lt;a href=&quot;https://developer.apple.com/documentation/foundation/nscoding&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSCoding&lt;/code&gt;&lt;/a&gt;, a protocol for the view to be encoded and decoded for archiving.&lt;/p&gt;
-
-&lt;p&gt;Our custom view has to implement (it is an override, but without the override modifier), and decode to init the view.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;required&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coder&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSCoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;coder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// Custom decoding..&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;But, you probably will not have any custom decoding, because archiving a view is a bad idea (instead you should archive the model).&lt;/p&gt;
-
-&lt;p&gt;The corresponding func is &lt;a href=&quot;https://developer.apple.com/documentation/foundation/nscoding/1413933-encode&quot;&gt;encoding&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;our-custom-view-initializers&quot;&gt;Our custom view initializers&lt;/h2&gt;
-
-&lt;p&gt;With the basics of initializers explained, a custom view will usually need a few inits like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AppIconView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    
-    &lt;span class=&quot;c1&quot;&gt;// #1&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;required&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coder&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSCoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;coder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;nf&quot;&gt;setupView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// #2&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGRect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;nf&quot;&gt;setupView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;    
-    
-    &lt;span class=&quot;c1&quot;&gt;// #3&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;convenience&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zero&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;
-        &lt;span class=&quot;nf&quot;&gt;setupView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setupView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;translatesAutoresizingMaskIntoConstraints&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
-        
-        &lt;span class=&quot;c1&quot;&gt;// Create, add and layout the children views ..&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;There are 3 inits and here is why:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Because &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; &lt;strong&gt;required&lt;/strong&gt; it&lt;/li&gt;
-  &lt;li&gt;Because #3 will need to call a designated initializer (we choose #2 over #1)&lt;/li&gt;
-  &lt;li&gt;Our own initializer with the data for the view&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;In each of the init, we will call &lt;code class=&quot;highlighter-rouge&quot;&gt;setupView()&lt;/code&gt; – which is the one place where we will layout the custom view.&lt;/p&gt;
-
-&lt;h3 id=&quot;translatesautoresizingmaskintoconstraints&quot;&gt;translatesAutoresizingMaskIntoConstraints&lt;/h3&gt;
-
-&lt;p&gt;Every view that uses auto layout should set &lt;code class=&quot;highlighter-rouge&quot;&gt;translatesAutoresizingMaskIntoConstraints&lt;/code&gt; to false. That is the very first thing to do in &lt;code class=&quot;highlighter-rouge&quot;&gt;setupView()&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;This is because in days before we have Auto Layout, there is the concept of auto resizing. Via &lt;code class=&quot;highlighter-rouge&quot;&gt;autoresizingMask&lt;/code&gt;, a view will auto resize, similar to auto layout.&lt;/p&gt;
-
-&lt;p&gt;But we don’t use auto resize anymore, now that we have auto layout.&lt;/p&gt;
-
-&lt;h3 id=&quot;intrinsic-content-size&quot;&gt;Intrinsic Content Size&lt;/h3&gt;
-
-&lt;p&gt;The &lt;strong&gt;natural size&lt;/strong&gt; for it’s content eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;UILabel&lt;/code&gt; intrinsic size is the length of the text.&lt;/p&gt;
-
-&lt;p&gt;Apple’s &lt;a href=&quot;https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/AnatomyofaConstraint.html#//apple_ref/doc/uid/TP40010853-CH9-SW21&quot;&gt;auto layout guide&lt;/a&gt; has a section on it, and a &lt;a href=&quot;https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/ViewswithIntrinsicContentSize.html&quot;&gt;cook book&lt;/a&gt; of common scenarios.&lt;/p&gt;
-
-&lt;p&gt;How does it work?&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;It generates a pair of constraints for each dimension (width &amp;amp; height). The pair constrain the compression resistance (priority 750) and content hugging (priority 250).&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Intrinsic content size simplifies auto layout, reducing number of constraints needed, because those constraints are added for you. You only need to manage the priority.&lt;/p&gt;
-
-&lt;p&gt;It is a helper, and you ought to understand that it adds constraints for you.&lt;/p&gt;
-
-&lt;p&gt;Let’s say we want our custom view to have a fixed height, but varying width, we can override the &lt;code class=&quot;highlighter-rouge&quot;&gt;intrinsicContentSize&lt;/code&gt; like this.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;intrinsicContentSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Your calculated or fixed height&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewNoIntrinsicMetric&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;As a rule of thumb: &lt;strong&gt;custom view should never create constraint for it’s own width and height&lt;/strong&gt; (obviously also not for it’s postion x &amp;amp; y).&lt;/p&gt;
-
-&lt;p&gt;But sometimes you want to &lt;em&gt;conveniently constraint your size&lt;/em&gt;. This is where intrinsic content size comes in.&lt;/p&gt;
-
-&lt;h3 id=&quot;fitting-size&quot;&gt;Fitting Size&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;Intrinsic size is an input&lt;/strong&gt; to Auto Layout engine (which in turn generates/output constraints about it’s size).&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Fitting size is an output&lt;/strong&gt; from Auto Layout engine.&lt;/p&gt;
-
-&lt;p&gt;Fitting size is the size calculated to fit the content.&lt;/p&gt;
-
-&lt;p&gt;Use &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiview/1622624-systemlayoutsizefitting&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;systemLayoutSizeFitting(_:)&lt;/code&gt;&lt;/a&gt;. The parameter &lt;code class=&quot;highlighter-rouge&quot;&gt;targetSize&lt;/code&gt; is the smallest or largest size that meets the constraint.&lt;/p&gt;
-
-&lt;p&gt;Eg. To know the smallest possible size of our content view, call &lt;code class=&quot;highlighter-rouge&quot;&gt;appView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;the-thing-with-uistackview&quot;&gt;The thing with UIStackView&lt;/h3&gt;
-
-&lt;p&gt;It is easily misled to think stack view has intrinsic size. Using a stack view, it seems the width and height constraints are not required.&lt;/p&gt;
-
-&lt;p&gt;But NO, stack view intrinsic size is always &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewNoIntrinsicMetric&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;What really happened is that Auto Layout engine calculate the fitting size (an output) for the stack.&lt;/p&gt;
-
-&lt;p&gt;So how do you get the fitting size?&lt;/p&gt;
-
-&lt;p&gt;Simply &lt;code class=&quot;highlighter-rouge&quot;&gt;stack.systemLayoutSizeFitting(UILayoutFittingCompressedSize)&lt;/code&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 01 Nov 2017 10:42:21 +0800</pubDate>
-        <link>https://samwize.com/2017/11/01/guide-to-creating-custom-uiview/</link>
-        <guid isPermaLink="true">https://samwize.com/2017/11/01/guide-to-creating-custom-uiview/</guid>
-        
-        
-        <category>UI</category>
         
       </item>
     
