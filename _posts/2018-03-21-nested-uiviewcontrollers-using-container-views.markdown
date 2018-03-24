@@ -7,9 +7,9 @@ categories: [UI]
 
 [Container view controller](https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html) is a new concept from iOS 5.
 
-Yet prior to iOS 5, we have always been using containers, just that we didn't know, and it is not exposed publicly.
+Yet prior to iOS 5, we have always been using containers, just that we didn't know..
 
-`UINavigationController`, `UITabBarController`, and `UISplitViewController` -- they are all container view controllers!
+`UINavigationController`, `UITabBarController`, and `UISplitViewController` -- they are all container view controllers, without us knowing!
 
 ## What is a container?
 
@@ -29,11 +29,11 @@ What is an alternative?
 
 An alternative is to manage multiple views (not view controllers).
 
-When possible, you should NOT use container, if you are using simple views (not full blown view controller). _[Defines UIView vs UIViewController](https://stackoverflow.com/a/5789009/242682)._
+When possible, you should NOT use container, especially if you are using simple views (not full blown view controller). _[Defines UIView vs UIViewController](https://stackoverflow.com/a/5789009/242682)._
 
 ### Scenario: Nested View Controllers
 
-Let's discuss on a very common scenario where we use container to simple nest other view controllers.
+Let's discuss a very common scenario where we use container to simple nest other view controllers.
 
 If you use Xcode interface builder, you can easily drag a container view to the storyboard, and automatically a child view controller will be added onto the storyboard.
 
@@ -49,19 +49,19 @@ There is a benefit to using container in a storyboard. In the screenshot, "Child
 
 Yet, because of container, you can see and design the individual child view controllers!
 
-But, if you are coming from _no-storyboard pure coding way_, then using container and nested view controllers will not be an apparent solution. Because with code, you don't have problem of using interface builder, and you are used to creating custom views, even if they overlap.
+But, if you are coming from _no-storyboard pure coding way_, then using container and nested view controllers will not be an apparent solution. Because with code, you don't have the problem of interface builder, and you are used to creating custom views (in your mind!), even when they overlap.
 
 I prefer the way of no-storyboard, so for the scenario of simply nesting multiple views, you should not use container.
 
 ### Checklist to using container
 
-If you answer YES to this checklist, then go ahead and use container.
+If you answer all/many YES to this checklist, then go ahead and use container.
 
 - Child view controller is independent to the parent
 - Child view controller is equivalent to a screen
 - Child view controller determines the status bar style
 - Child view controller requires `viewDidAppear` etc events
-- Child is really a view controller and not just a view
+- Child is a view controller, and not just a view
 - Parent view controller navigate (push/popping/mixing) the child view controllers
 - Parent view controller controls the transition effects when navigating
 - Parent view controller probably showing 1 or 2 child at 1 time
@@ -93,7 +93,7 @@ override func viewDidLoad() {
 
 To remove a child view controller, you undo the with the corresponding methods.
 
-## The design of container view controller
+## The (awkward) design of container view controller
 
 You might have noticed by now.
 
@@ -105,5 +105,7 @@ Then there are some methods specifically for them:
 - `removeFromParentViewController()` - only child should call
 - `willMove(toParentViewController:)` - only child should call
 - `didMove(toParentViewController:)` - only child should call
+
+You have to be careful what you can, and should, call.
 
 Rotation and appearance callbacks are automatically propagated from parent to children.
