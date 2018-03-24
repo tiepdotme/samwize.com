@@ -123,9 +123,9 @@ nvm install 0.10.28
 
 <p>If you followed the <a href="/2014/05/19/running-nginx-with-apache-with-reverse-proxy/">tutorial in setting up apache alongside nginx</a>, you would want to edit the server block for the node app like this (I have changed the name to <code class="highlighter-rouge">nodeapp</code> instead of <code class="highlighter-rouge">nginxapp</code>):</p>
 
-<p>```nginx /etc/nginx/sites-available/nodeapp.com.conf
-    # Node server block
-    server {
+<p>```nginx /etc/nginx/sites-available/nodeapp.com.conf<br />
+    # Node server block<br />
+    server {<br />
             listen  80;</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        root  /var/www/nodeapp.com/;
@@ -174,13 +174,13 @@ forever start <span class="nt">--spinSleepTime</span> 10000 app.js
 
 <p>Hence, you need a cronjob and this <code class="highlighter-rouge">starter.sh</code> in your home folder. You can <code class="highlighter-rouge">nano ~/starter.sh</code> and copy the following:</p>
 
-<p>```bash starter.sh
+<p>```bash starter.sh<br />
 #!/bin/sh</p>
 
-<p>if [ $(ps -e -o uid,cmd | grep $UID | grep node | grep -v grep | wc -l | tr -s “\n”) -eq 0 ]
-then
-        export PATH=/usr/local/bin:$PATH
-        forever start –spinSleepTime 10000 –sourceDir /var/www/nodeapp.com app.js » /var/www/nodeapp.com/log.txt 2&gt;&amp;1
+<p>if [ $(ps -e -o uid,cmd | grep $UID | grep node | grep -v grep | wc -l | tr -s “\n”) -eq 0 ]<br />
+then<br />
+        export PATH=/usr/local/bin:$PATH<br />
+        forever start –spinSleepTime 10000 –sourceDir /var/www/nodeapp.com app.js » /var/www/nodeapp.com/log.txt 2&gt;&amp;1<br />
 fi</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 Then `crontab -e`, and add the following:

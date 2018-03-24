@@ -108,7 +108,7 @@
 <p><a href="https://devforums.apple.com/message/970958">This thread</a> shed light on why the array is not cast/unpacked automatically.</p>
 
 <blockquote>
-  <p>Should the compiler choose T=Int or T=Int[] ?
+  <p>Should the compiler choose T=Int or T=Int[] ?<br />
 Swift’s generics system allows T to be any type, including an array type, so we don’t allow automatic “unpacking” of arrays when calling into variadics, meaning that we’ll always pick T=Int[]. There should be some way to explicitly unpack an array (or any sequence?), and we (internally) have a Radar requesting this feature.</p>
 </blockquote>
 

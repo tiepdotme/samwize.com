@@ -106,9 +106,9 @@
 
 <p>There are 2 server blocks, which I put in 2 seperate conf files: <code class="highlighter-rouge">nginxapp.com.conf</code> and <code class="highlighter-rouge">apache-proxy.conf</code>.</p>
 
-<p>```nginx /etc/nginx/sites-available/nginxapp.com.conf
-    # Node server block
-    server {
+<p>```nginx /etc/nginx/sites-available/nginxapp.com.conf<br />
+    # Node server block<br />
+    server {<br />
             listen  80;</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        root  /var/www/nginxapp.com/;
@@ -136,10 +136,10 @@
 
 <p>Note: You should setup your node app and listen on 8021. In the meanwhile (testing), you can put a dummy index.html in <code class="highlighter-rouge">/var/www/nginxapp.com/</code>.</p>
 
-<p>```nginx /etc/nginx/sites-available/apache-proxy.conf
-    # Apache server block
-    # Proxy to 8011 which Apache is listening to
-    server {
+<p>```nginx /etc/nginx/sites-available/apache-proxy.conf<br />
+    # Apache server block<br />
+    # Proxy to 8011 which Apache is listening to<br />
+    server {<br />
             listen  80 default_server;</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        location / {
@@ -167,7 +167,7 @@
 
 <p>For apache, you need to change the port file to listen to 8011.</p>
 
-<p>```apache /etc/apache2/ports.conf
+<p>```apache /etc/apache2/ports.conf<br />
     Listen 8011</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># As per default configuration ```
@@ -175,9 +175,9 @@
 
 <p>Below is a sample of a virtual host file. You need to change for all. The change is again on the listening port.</p>
 
-<p>```apache /etc/apache2/sites-available/awesome.com.conf
-    &lt;VirtualHost *:8011&gt;
-        # as per your configuration
+<p>```apache /etc/apache2/sites-available/awesome.com.conf<br />
+    &lt;VirtualHost *:8011&gt;<br />
+        # as per your configuration<br />
     &lt;/VirtualHost&gt;</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 
