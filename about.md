@@ -1,32 +1,31 @@
 ---
 layout: page
-title: "About"
+title: "About @samwize"
 permalink: /about/
 ---
-My name is Junda, a Singaporean chinese, aka [samwize](http://twitter.com/samwize). I gradudated from [NUS](http://www.nus.edu.sg) with a Bachelor in Computing (Comp Eng) in 2008.
 
-{%img center /images/me-Avatar.png %}
+<img src="/images/me-Avatar.png" style="float:right;" />
 
-Developing mobile applications has always been my hobby and love, and I am adept at writing for various mobile platforms - J2ME, Blackberry, Android, Windows Phone, and my favorite iOS.
+My name is Junda
+from Singapore
+gradudated from [NUS](http://www.nus.edu.sg) in 2008
+with a Bachelor in Computing (Comp Eng)
 
-I can also write server backend using Java and Python, on web frameworks such as Google App Engine and Django. Python remains my favorite language which I think every developer should know (it's just too useful and readable).
+I develop mobile apps
+J2ME, Blackberry, Android, Windows Phone -- are my past
+but now my love is with iOS
 
-I maintained a couple of blogs for different audiences:
+I am multi-lingual (:
+Swift is my primary language, obviously
+Others: Objective-C, Java, Python, Go, JavaScript, ...
 
-- [samwize](http://samwize.just2us.com) - Development articles
-- [Just2us](http://blog.just2us.com) - News for my apps
-- [Just2me](http://just2me.com) - Personal blog on my life
-- [Killerapi](http://killerapi.blogspot.com) - On new APIs that's cool
+I keep a list of my favorites
+[quotes](/quotes/), [iOS third party libraries](/libs/)
 
-You can find me (and connect) on:
-
-- [Github](https://github.com/samwize)
-- [Twitter](http://twitter.com/samwize)
-- [Google+](https://plus.google.com/u/0/106598772775527729355)
-- [Facebook](http://facebook.com/ongjunda)
-- [LinkedIn](http://sg.linkedin.com/in/junda)
-- [Quora](http://www.quora.com/Junda-Ong)
+You can find me on
+[Twitter](http://twitter.com/samwize), [LinkedIn](http://sg.linkedin.com/in/junda), [Quora](http://www.quora.com/Junda-Ong), [Medium](https://medium.com/@ongjunda/)
+[Github](https://github.com/samwize), [StackOverflow](https://stackoverflow.com/users/242682/samwize)
 
 Or email me at [my first name]@just2us.com
 
-Here are some of my favorite: [quotes](/quotes/), [iOS third party libraries](/libs/)
+Or discover more on [my](https://just2me.com) [other](https://blog.just2us.com) [blogs](https://medium.com/@ongjunda/)

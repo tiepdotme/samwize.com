@@ -1,7 +1,7 @@
 ---
 layout: page
-title: "Funny Programmers Quotes"
-permalink: /programmers-quotes/
+title: "Programmers Quotes"
+permalink: /quotes/
 ---
 
 > Every act of creation is first an act of destruction.
@@ -24,11 +24,11 @@ permalink: /programmers-quotes/
 
 > It’s a curious thing about our industry: not only do we not learn from our mistakes, we also don’t learn from our successes.
 
-> If at first you don’t succeed, call it version 1.0 
+> If at first you don’t succeed, call it version 1.0
 
-> Why do we never have time to do it right, but always have time to do it over? 
+> Why do we never have time to do it right, but always have time to do it over?
 
-> Any fool can write code that a computer can understand. Good programmers write code that humans can understand. 
+> Any fool can write code that a computer can understand. Good programmers write code that humans can understand.
 
 > Any code of your own that you haven't looked at for six or more months might as well have been written by someone else.
 
@@ -46,7 +46,7 @@ permalink: /programmers-quotes/
 
 > Benchmarks don’t lie, but liars do benchmarks.
 
-> Better train people and risk they leave – than do nothing and risk they stay. 
+> Better train people and risk they leave – than do nothing and risk they stay.
 
 > If debugging is the process of removing software bugs, then programming must be the process of putting them in.
 
@@ -56,4 +56,4 @@ permalink: /programmers-quotes/
 
 > Software undergoes beta testing shortly before it’s released. Beta is Latin for “still doesn't work".
 
-> Software and cathedrals are much the same – first we build them, then we pray. 
+> Software and cathedrals are much the same – first we build them, then we pray.
