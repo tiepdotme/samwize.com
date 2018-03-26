@@ -4,6 +4,12 @@ title: "Funny Programmers Quotes"
 permalink: /programmers-quotes/
 ---
 
+> Every act of creation is first an act of destruction.
+
+> All code can be classified into two distinct roles; code that does work (algorithms) and code that coordinates work (coordinators).
+
+> There are only two hard things in Computer Science: cache invalidation and **naming things**.
+
 > Complexity has the same impact on your codebase as compound interest has on your credit card balance.
 
 > Don’t worry if it doesn't work right. If everything did, you’d be out of a job.

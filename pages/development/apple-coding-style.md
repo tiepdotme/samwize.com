@@ -44,3 +44,16 @@ How is this good?
 We change Project Structure frequently, moving the groups, renaming it etc. That can be done without affecting the directory structure, and therefore in your git history, no change.
 
 Putting the same type of files together will also help in the internal representation of localization efforts. When you localize a storyboard, Xcode will create a directory for each language (eg "fr.lproj" for French). By placing all storyboards in the same directory, they share the same eg. "fr.lproj".
+
+## Keep close first
+
+Keep related code as close as possible. Move them further when that code is being reused by others eg. moving to "common".
+
+But when you first write any code, keep it close to where it is being used.
+
+## Naming is hard
+
+There are only 2 hard problems with computer science:
+
+1. Names
+2. Naming
