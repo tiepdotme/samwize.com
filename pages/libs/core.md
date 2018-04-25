@@ -4,6 +4,10 @@ title: "Core Libraries"
 permalink: /libs/core/
 ---
 
+## [Dependencies Injection](https://github.com/Swinject/Swinject)
+
+One place to "inject" all the services that your app use.
+
 ## Attributed String
 
 `NSAttributedString` is not that friendly. Checkout for a better world with [SwiftRichString](https://github.com/malcommac/SwiftRichString).

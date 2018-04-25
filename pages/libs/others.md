@@ -12,25 +12,21 @@ After many years, [Armchair](https://github.com/UrbanApps/Armchair) provided the
 
 When we are in the topic of showing prompt automatically, check out [Harpy](https://github.com/ArtSabintsev/Harpy), which check the latest version of your app in the App Store, and prompt if the current version is outdated.
 
-
 ## Audio & Video
 
 - [JSQSystemSoundPlayer](https://github.com/jessesquires/JSQSystemSoundPlayer) plays system sound easily
 - [VKVideoPlayer](https://github.com/viki-org/VKVideoPlayer) by Viki, is the video player that they use in their app!
 - [XCDYouTubeKit](https://github.com/0xced/XCDYouTubeKit) plays Youtube video from a video id
 
-
 ## Network
 
 - [Web Server](https://github.com/swisspol/GCDWebServer): iPhone as server, then browse from another client. Access app sandbox etc.
 - [Shadow Sock](https://github.com/shadowsocks/shadowsocks-iOS/): Got pulled from App Store! It used [iProxy](https://github.com/clowwindy/iProxy) and others.
 
-
 ## Messages View
 
 - [JSQMessagesViewController](https://github.com/jessesquires/JSQMessagesViewController) - Mimic iMessage app
 - [RealtimeChat/AwesomeChat](https://github.com/relatedcode/RealtimeChat) - Complete chat app supported by Firebase
-
 
 ## Walkthrough/Tips
 
@@ -38,12 +34,10 @@ When we are in the topic of showing prompt automatically, check out [Harpy](http
 - [MPCoachMarks](https://github.com/bubudrc/MPCoachMarks) - Good, but in objc, and not full fledged. There is no arrow pointing north east! Though pointing correctly.
 - [EAIntroView](https://github.com/ealeksandrov/EAIntroView) - Scroll views with intro
 
-
 ## StoreKit
 
 - [SwiftyStoreKit](https://github.com/bizz84/SwiftyStoreKit)
 - [IAPHelper](https://github.com/saturngod/IAPHelper)
-
 
 ### Camera/Photo Album
 
@@ -53,10 +47,9 @@ When we are in the topic of showing prompt automatically, check out [Harpy](http
 - [CTAssetsPickerController](https://github.com/chiunam/CTAssetsPickerController) - Pick multiple photo or video using AssetsLibrary
 - [ELCImagePickerController](https://github.com/B-Sides/ELCImagePickerController): UIImagePickerController but using the Assets Framework
 - [GMImagePicker](https://github.com/guillermomuntaner/GMImagePicker): UIImagePickerController using Photo Kit
-- [QBImagePicker](https://github.com/questbeat/QBImagePicker): Using Photo Kit (v3), and using Assets Library (v2). 
+- [QBImagePicker](https://github.com/questbeat/QBImagePicker): Using Photo Kit (v3), and using Assets Library (v2).
     + Popular, nice and updated
     + QuestBeat also built [Lin](https://github.com/questbeat/Lin)
-
 
 ## Image
 

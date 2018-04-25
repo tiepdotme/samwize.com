@@ -147,7 +147,19 @@ Both an Observable and Observer.
 3. `ReplaySubject` - has a buffer to replay
 4. `Variable` - has a `current`, never emit errors, but will emit completed
 
-But [Variable is deprecated](https://github.com/ReactiveX/RxSwift/issues/1501).
+But [Variable is deprecated](https://github.com/ReactiveX/RxSwift/issues/1501). See the replacement with Relay.
+
+### Relay
+
+Note: Relay, NOT Replay.
+
+Relay is a special ObservableType that will never complete nor error, which means it only emits element.
+
+Replay is [strangely](https://github.com/ReactiveX/RxSwift/issues/1502) a part of RxCocoa, not RxSwift.
+
+- `PublishRelay` does not replay
+- `BehaviorRelay` does replay the last event, and requires init with a value
+- This is similar to their [subject counterpart](http://reactivex.io/documentation/subject.html)
 
 ### `weak` or `unowned` ?
 
@@ -164,3 +176,14 @@ Think hard where to perform side effects.
 ### Custom operator
 
 Can't find the operator to your needs? Easily [extend](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/GettingStarted.md#custom-operators) `ObservableType` with your own.
+
+
+---
+
+## Resources
+
+https://medium.com/koolicar-engineering/rxswift-behaviorrelay-over-variable-182865ce10e0
+BehaviorRelay replace Variable
+
+https://medium.com/mercari-engineering/signal-and-relay-in-rxcocoa-4-547fb0d18e11
+Introduction of Signal, BehaviorRelay, PublishRelay in RxCocoa 4

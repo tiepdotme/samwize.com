@@ -25,21 +25,23 @@ Select **File > New > Target > Cocoa Touch Framework**.
 
 ![](/images/xcode-template-ios-cocoa-touch-framework.jpg)
 
-Let's name the target "MyUIFramework".
+Let's name the new target "MyUIPlaygroundFramework".
 
-This target builds the framework, which provides code available to use in Playground.
+Do NOT embed this framework in the app's original target.
+
+This new "framework target" builds the framework, which provides code available to use in Playground.
 
 ## 3. Add files to target
 
 Add a new Swift file, making sure it is available to the target.
 
-In File Inspector, make sure the target "MyUIFramework" is checked.
+In File Inspector, make sure the target "MyUIPlaygroundFramework" is checked.
 
-You can also add existing files to the framework, exposing them to Playground later.
+You can also add existing files to the framework, exposing them to Playground later. If you use pods, then you need the pods to be available to the new target (read later section).
 
 ## 4. Build the framework
 
-Select the Scheme and Build. 
+Select the Scheme and Build.
 
 You must manually build each time you made changes to the framework.
 
@@ -47,12 +49,14 @@ You must manually build each time you made changes to the framework.
 
 In the workspace, **File > New > Playground > Single View**.
 
-In the Playground page, we can import the framework, and set up a live view.
+Save the playground file in the root folder, usually along with the Xcode xcworkspace and xcodeproj files. Drag and drop the playground file into the workspace.
+
+In the Playground page, import the framework, and set up a live view.
 
 ```swift
 import PlaygroundSupport
 import UIKit
-import MyUIFramework
+import MyUIPlaygroundFramework
 
 class MyViewController : UIViewController {
     override func loadView() {
@@ -70,7 +74,7 @@ You create your views in `loadView`, and see them in Live View (select Show Assi
 
 Just like Playground, code changes will be reflected _almost_ right away.
 
-## 6. Using Cocoapods 
+## 6. Using Cocoapods
 
 You cannot import a Cocoapods module in playground, yet.
 
@@ -79,7 +83,7 @@ If the Swift file requires the use of Cocoapods, you have to make it available t
 We make [Cartography](https://github.com/robb/Cartography), an awesome library for constructing autolayout, for the framework:
 
 ```ruby
-target 'MyUIFramework' do
+target 'MyUIPlaygroundFramework' do
     pod 'Cartography', '~> 1.1.0'
 end
 ```
@@ -90,13 +94,13 @@ Because now 2 targets are using the same Cargography lib, it is cleaner to [defi
 
 ## Bonus: Expose `public`
 
-The trick to make playground UI work is by importing `MyUIFramework`.
+The trick to making playground work is by importing `MyUIPlaygroundFramework`.
 
 So if you are going to use any of your app's custom view/controller/model/etc in the playground DIRECTLY, you need to expose them with [public access level](/2017/04/20/access-levels-in-swift/).
 
 Limit what you gonna expose.
 
-The use of playground here is merely to play with the UI, so exposing custom `UIView` to `public` is ok, but probably not other types.
+The use of playground here is merely to play with the UI, so exposing custom `UIView` to `public` is ok, but probably not other stuff.
 
 ## Bonus: Custom Device Size
 
@@ -108,9 +112,9 @@ Sample usage:
 
 ```swift
 let parent = playgroundWrapper(
-  child: vc, 
-  device: .phone4_7inch, 
-  orientation: .landscape, 
+  child: vc,
+  device: .phone4_7inch,
+  orientation: .landscape,
   contentSizeCategory: .large)
 PlaygroundPage.current.liveView = parent
 ```

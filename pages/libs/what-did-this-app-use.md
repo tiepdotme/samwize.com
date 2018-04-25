@@ -4,7 +4,6 @@ title: "What did this app use?"
 permalink: /libs/what-did-this-app-use/
 ---
 
-
 - [InstaBapp](http://www.instabapp.com/terms/credit.html)
 - [Slack](https://slack.com/ios-attribution)
 - Evernote Scannable - Under Legal in the app
