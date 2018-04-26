@@ -5,6 +5,19 @@ date: 2017-10-05T16:26:25+08:00
 categories: [Playground]
 ---
 
+_UPDATE APRIL 2018:_
+
+[Cocoapods v1.5.0](http://blog.cocoapods.org/CocoaPods-1.5.0/) started supporting static libraries, and somehow breaking the way frameworks are imported into Playground. If you encounter `Playground execution failed: error: Couldn't lookup symbols: ...`, then it is likely the modules are not properly imported.
+
+A fix is to revert back to v1.4.0.
+
+```
+sudo gem install cocoapods -v 1.4.0
+pod _1.4.0_ install
+```
+
+---
+
 Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator.
 
 New in Xcode 9, we can now [add custom framework to Playground](http://help.apple.com/xcode/mac/9.0/#/devc9b33111c), therefore providing a quick way to integrate with existing project.
