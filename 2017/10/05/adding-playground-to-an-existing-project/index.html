@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Adding Playground to an Existing Project</title>
-  <meta name="description" content="Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator." />
+  <meta name="description" content="UPDATE APRIL 2018:" />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Adding Playground to an Existing Project" />
     <meta name="twitter:image" content="https://samwize.com" />
     
-    <meta name="twitter:description"  content="Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator." />
+    <meta name="twitter:description"  content="UPDATE APRIL 2018:" />
     
   
 
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Adding Playground to an Existing Project"/>
   
-  <meta property="og:description" content="Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator." />
+  <meta property="og:description" content="UPDATE APRIL 2018:" />
   
   <meta property="og:image" content="https://samwize.com" />
   <meta property="og:url" content="https://samwize.com/2017/10/05/adding-playground-to-an-existing-project/" >
@@ -80,7 +80,19 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator.</p>
+          <p><em>UPDATE APRIL 2018:</em></p>
+
+<p><a href="http://blog.cocoapods.org/CocoaPods-1.5.0/">Cocoapods v1.5.0</a> started supporting static libraries, and somehow breaking the way frameworks are imported into Playground. If you encounter <code class="highlighter-rouge">Playground execution failed: error: Couldn't lookup symbols: ...</code>, then it is likely the modules are not properly imported.</p>
+
+<p>A fix is to revert back to v1.4.0.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gem install cocoapods -v 1.4.0
+pod _1.4.0_ install
+</code></pre></div></div>
+
+<hr />
+
+<p>Playground is a very useful tool, especially for building UI, as you can preview them almost right away, saving many hours building and running on simulator.</p>
 
 <p>New in Xcode 9, we can now <a href="http://help.apple.com/xcode/mac/9.0/#/devc9b33111c">add custom framework to Playground</a>, therefore providing a quick way to integrate with existing project.</p>
 
@@ -100,17 +112,19 @@
 
 <p><img src="/images/xcode-template-ios-cocoa-touch-framework.jpg" alt="" /></p>
 
-<p>Let’s name the target “MyUIFramework”.</p>
+<p>Let’s name the new target “MyUIPlaygroundFramework”.</p>
 
-<p>This target builds the framework, which provides code available to use in Playground.</p>
+<p>Do NOT embed this framework in the app’s original target.</p>
+
+<p>This new “framework target” builds the framework, which provides code available to use in Playground.</p>
 
 <h2 id="3-add-files-to-target">3. Add files to target</h2>
 
 <p>Add a new Swift file, making sure it is available to the target.</p>
 
-<p>In File Inspector, make sure the target “MyUIFramework” is checked.</p>
+<p>In File Inspector, make sure the target “MyUIPlaygroundFramework” is checked.</p>
 
-<p>You can also add existing files to the framework, exposing them to Playground later.</p>
+<p>You can also add existing files to the framework, exposing them to Playground later. If you use pods, then you need the pods to be available to the new target (read later section).</p>
 
 <h2 id="4-build-the-framework">4. Build the framework</h2>
 
@@ -122,11 +136,13 @@
 
 <p>In the workspace, <strong>File &gt; New &gt; Playground &gt; Single View</strong>.</p>
 
-<p>In the Playground page, we can import the framework, and set up a live view.</p>
+<p>Save the playground file in the root folder, usually along with the Xcode xcworkspace and xcodeproj files. Drag and drop the playground file into the workspace.</p>
+
+<p>In the Playground page, import the framework, and set up a live view.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">PlaygroundSupport</span>
 <span class="kd">import</span> <span class="kt">UIKit</span>
-<span class="kd">import</span> <span class="kt">MyUIFramework</span>
+<span class="kd">import</span> <span class="kt">MyUIPlaygroundFramework</span>
 
 <span class="kd">class</span> <span class="kt">MyViewController</span> <span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
     <span class="k">override</span> <span class="kd">func</span> <span class="nf">loadView</span><span class="p">()</span> <span class="p">{</span>
@@ -152,7 +168,7 @@
 
 <p>We make <a href="https://github.com/robb/Cartography">Cartography</a>, an awesome library for constructing autolayout, for the framework:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">target</span> <span class="s1">'MyUIFramework'</span> <span class="k">do</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">target</span> <span class="s1">'MyUIPlaygroundFramework'</span> <span class="k">do</span>
     <span class="n">pod</span> <span class="s1">'Cartography'</span><span class="p">,</span> <span class="s1">'~&gt; 1.1.0'</span>
 <span class="k">end</span>
 </code></pre></div></div>
@@ -163,13 +179,13 @@
 
 <h2 id="bonus-expose-public">Bonus: Expose <code class="highlighter-rouge">public</code></h2>
 
-<p>The trick to make playground UI work is by importing <code class="highlighter-rouge">MyUIFramework</code>.</p>
+<p>The trick to making playground work is by importing <code class="highlighter-rouge">MyUIPlaygroundFramework</code>.</p>
 
 <p>So if you are going to use any of your app’s custom view/controller/model/etc in the playground DIRECTLY, you need to expose them with <a href="/2017/04/20/access-levels-in-swift/">public access level</a>.</p>
 
 <p>Limit what you gonna expose.</p>
 
-<p>The use of playground here is merely to play with the UI, so exposing custom <code class="highlighter-rouge">UIView</code> to <code class="highlighter-rouge">public</code> is ok, but probably not other types.</p>
+<p>The use of playground here is merely to play with the UI, so exposing custom <code class="highlighter-rouge">UIView</code> to <code class="highlighter-rouge">public</code> is ok, but probably not other stuff.</p>
 
 <h2 id="bonus-custom-device-size">Bonus: Custom Device Size</h2>
 
@@ -180,9 +196,9 @@
 <p>Sample usage:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">parent</span> <span class="o">=</span> <span class="nf">playgroundWrapper</span><span class="p">(</span>
-  <span class="nv">child</span><span class="p">:</span> <span class="n">vc</span><span class="p">,</span> 
-  <span class="nv">device</span><span class="p">:</span> <span class="o">.</span><span class="n">phone4_7inch</span><span class="p">,</span> 
-  <span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">landscape</span><span class="p">,</span> 
+  <span class="nv">child</span><span class="p">:</span> <span class="n">vc</span><span class="p">,</span>
+  <span class="nv">device</span><span class="p">:</span> <span class="o">.</span><span class="n">phone4_7inch</span><span class="p">,</span>
+  <span class="nv">orientation</span><span class="p">:</span> <span class="o">.</span><span class="n">landscape</span><span class="p">,</span>
   <span class="nv">contentSizeCategory</span><span class="p">:</span> <span class="o">.</span><span class="n">large</span><span class="p">)</span>
 <span class="kt">PlaygroundPage</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">liveView</span> <span class="o">=</span> <span class="n">parent</span>
 </code></pre></div></div>
