@@ -6,9 +6,97 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 27 Apr 2018 07:59:43 +0800</pubDate>
-    <lastBuildDate>Fri, 27 Apr 2018 07:59:43 +0800</lastBuildDate>
+    <pubDate>Fri, 27 Apr 2018 22:57:23 +0800</pubDate>
+    <lastBuildDate>Fri, 27 Apr 2018 22:57:23 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>What is Bundle?</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/foundation/bundle&quot;&gt;Bundle&lt;/a&gt; represents a directory. It &lt;a href=&quot;https://developer.apple.com/library/content/documentation/CoreFoundation/Conceptual/CFBundles/AboutBundles/AboutBundles.html&quot;&gt;groups resources&lt;/a&gt; together.&lt;/p&gt;
+
+&lt;h2 id=&quot;application&quot;&gt;Application&lt;/h2&gt;
+
+&lt;p&gt;In a typical application, all of your assets, images, strings, resources and code will be in the “main bundle”.&lt;/p&gt;
+
+&lt;p&gt;To be convenient, resource classes provide sensible default to use.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// NSLocalizedString function signature has a default bundle&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;NSLocalizedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tableName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://stackoverflow.com/q/24991791/242682&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;default&lt;/code&gt;&lt;/a&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;Bundle.main&lt;/code&gt;. So you don’t have to specify explicitly.&lt;/p&gt;
+
+&lt;p&gt;Without surprise, &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiimage/1624146-init&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIImage&lt;/code&gt; initialization&lt;/a&gt; uses the main bundle too. And if you want to specific another bundle you could use the &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiimage/1624154-init&quot;&gt;other init&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;But the default to use main bundle is not applicable to frameworks and playgrounds.&lt;/p&gt;
+
+&lt;h2 id=&quot;framework&quot;&gt;Framework&lt;/h2&gt;
+
+&lt;p&gt;When you are developing a framework, you should NOT use &lt;code class=&quot;highlighter-rouge&quot;&gt;Bundle.main&lt;/code&gt;, because that is the app’s bundle.&lt;/p&gt;
+
+&lt;p&gt;Your resources is in your framework’s bundle.&lt;/p&gt;
+
+&lt;p&gt;Therefore the default main bundle that &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;UIImage&lt;/code&gt; use will fail in when you are developing a framework.&lt;/p&gt;
+
+&lt;p&gt;The correct way:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;frameworkBundle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyFrameworkClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;stringInFramework&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSLocalizedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frameworkBundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageInFramework&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;named&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;img&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frameworkBundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;compatibleWith&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bundle(for:)&lt;/code&gt; conveniently find the bundle that contains the class. You could use any other class in your framework to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;MyFrameworkClass&lt;/code&gt;. It works because all code and resources will be in the same bundle for a framework.&lt;/p&gt;
+
+&lt;h2 id=&quot;playground&quot;&gt;Playground&lt;/h2&gt;
+
+&lt;p&gt;Playground is another special case.&lt;/p&gt;
+
+&lt;p&gt;Try running this in playground to see the &lt;code class=&quot;highlighter-rouge&quot;&gt;bundlePath&lt;/code&gt; (the file URL path).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bundlePath&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Framework1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bundlePath&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Framework2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bundlePath&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The URL will look like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/Library/Developer/XCPGDevices/x-x-x/data/Containers/Bundle/Application/y-y-y/UIPlayground-28059-1.app
+~/Library/Developer/Xcode/DerivedData/App-xyz/Build/Products/Debug-iphonesimulator/Framework1.framework
+~/Library/Developer/Xcode/DerivedData/App-xyz/Build/Products/Debug-iphonesimulator/Framework2.framework
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you add your resources to the “Resources” group in Playground, then the main bundle will contain the resources.&lt;/p&gt;
+
+&lt;p&gt;But if you need a resource from a framework, then you need the bundle for the framework.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-complicated-case&quot;&gt;The Complicated Case&lt;/h2&gt;
+
+&lt;p&gt;In our previous tutorial that &lt;a href=&quot;/2017/10/05/adding-playground-to-an-existing-project/&quot;&gt;uses Playground to create application’s UI&lt;/a&gt;, the scenario is complicated because the same resource is used in 2 targets:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;The app&lt;/li&gt;
+  &lt;li&gt;The framework for playground (&lt;code class=&quot;highlighter-rouge&quot;&gt;MyUIPlaygroundFramework&lt;/code&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;For such case, the resource has to specify the bundle correctly.&lt;/p&gt;
+
+&lt;p&gt;The trick is to make use of a class that &lt;strong&gt;exists in both&lt;/strong&gt; the app and framework.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CommonClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When you use in app, &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle&lt;/code&gt; will be main bundle.&lt;/p&gt;
+
+&lt;p&gt;When you use in framework, &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle&lt;/code&gt; will be the framework’s bundle.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 27 Apr 2018 17:01:16 +0800</pubDate>
+        <link>https://samwize.com/2018/04/27/what-is-bundle/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/04/27/what-is-bundle/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Setup AppDelegate Without Storyboard</title>
@@ -935,126 +1023,6 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
         
         
         <category>Testing</category>
-        
-      </item>
-    
-      <item>
-        <title>Developer Guide to Support iPhone X</title>
-        <description>&lt;p&gt;iPhone X introduced The Notch, The Home Indicator, Safe Area, and a different resolution form factor..&lt;/p&gt;
-
-&lt;p&gt;UI design is much affected.&lt;/p&gt;
-
-&lt;p&gt;This post is a guide walking through various aspect and how it affects development.&lt;/p&gt;
-
-&lt;p&gt;Let’s start with the biggest change in the phone.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-notch&quot;&gt;The Notch&lt;/h2&gt;
-
-&lt;p&gt;I like &lt;a href=&quot;http://blog.maxrudberg.com/post/166045445103/ui-design-for-iphone-x-top-elements-and-the-notch&quot;&gt;maxrudberg’s mentality&lt;/a&gt; towards The Notch:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Eventually, they will get rid of the notch. It could be 2, 5, or even 10 years, but it’s a stop gap, not a permanent design solution. In the meantime, treat it like the elephant in the room. We all know it’s there, but for the most part, you should design as if it’s not.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Apple’s Music app and etc uses Card style, and that is against their guideline towards the top notch space.&lt;/p&gt;
-
-&lt;p&gt;So, don’t always follow guidelines.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-home-indicator&quot;&gt;The Home Indicator&lt;/h2&gt;
-
-&lt;p&gt;Unlike The Notch, the home indicator is a software element. It is a UI on the screen, at the bottom.&lt;/p&gt;
-
-&lt;p&gt;To allow auto hide (after user not touching screen) for a view controller:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;prefersHomeIndicatorAutoHidden&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;But &lt;a href=&quot;https://medium.com/the-traveled-ios-developers-guide/iphone-x-dealing-with-home-indicator-2e8e47f5647f&quot;&gt;note&lt;/a&gt; the comment in the doc:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The system takes your preference into account, but returning YES is not a guarantee that an indicator will be hidden.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;nav-bar&quot;&gt;Nav bar&lt;/h2&gt;
-
-&lt;p&gt;iOS automatically fills a nav bar background for the extra space at the top.&lt;/p&gt;
-
-&lt;p&gt;Use &lt;strong&gt;black&lt;/strong&gt; and it blends with the Notch.&lt;/p&gt;
-
-&lt;p&gt;Use &lt;strong&gt;transparent&lt;/strong&gt; and extend your content view beyond.&lt;/p&gt;
-
-&lt;h2 id=&quot;status-bar-when-you-have-nav-bar&quot;&gt;Status Bar when you have Nav Bar&lt;/h2&gt;
-
-&lt;p&gt;There is an &lt;a href=&quot;https://forums.developer.apple.com/thread/88962&quot;&gt;undocumented behaviour&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;If you want to hide the status bar on iPhone X, you should also hide the navigation bar, otherwise you should leave both visible. This is the behavior that UINavigationController implements.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;If you implemented &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621440-prefersstatusbarhidden&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;prefersStatusBarHidden&lt;/code&gt;&lt;/a&gt; or &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiviewcontroller/1621451-childviewcontrollerforstatusbarh&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;childViewControllerForStatusBarHidden&lt;/code&gt;&lt;/a&gt;, they will NOT work as intended, if you have the navigation bar shown.&lt;/p&gt;
-
-&lt;p&gt;Status bar will always be shown, if navigation bar is shown.&lt;/p&gt;
-
-&lt;p&gt;You may only &lt;strong&gt;control the color&lt;/strong&gt; of the status bar.&lt;/p&gt;
-
-&lt;p&gt;&lt;del&gt;This &lt;a href=&quot;http://stackoverflow.com/a/19513714/242682&quot;&gt;method is weird&lt;/a&gt;, but yes it works.&lt;/del&gt;&lt;/p&gt;
-
-&lt;p&gt;This &lt;a href=&quot;https://stackoverflow.com/a/42301499/242682&quot;&gt;extension&lt;/a&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt; is the cleanest solution (another alternative is subclass it).&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UINavigationController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;childViewControllerForStatusBarStyle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;topViewController&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;table-view&quot;&gt;Table View&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UITableView&lt;/code&gt; should still layout edge to edge (NOT to safe area).&lt;/p&gt;
-
-&lt;p&gt;Instead, the &lt;strong&gt;content inset&lt;/strong&gt; should be mark safe via &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uitableview/2921665-insetscontentviewstosafearea&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;insetsContentViewsToSafeArea&lt;/code&gt;&lt;/a&gt; (new in iOS 11).&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(iOS 11.0, *)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;insetsContentViewsToSafeArea&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;scroll-view&quot;&gt;Scroll View&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiscrollview/2902261-contentinsetadjustmentbehavior&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;contentInsetAdjustmentBehavior&lt;/code&gt;&lt;/a&gt; provides more control on how safe area modifies the content inset.&lt;/p&gt;
-
-&lt;h2 id=&quot;search-controller&quot;&gt;Search Controller&lt;/h2&gt;
-
-&lt;p&gt;iOS seems to be not adjusting correctly for search controller. Fixed with:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;contentInsetAdjustmentBehavior&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;never&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&quot;/2016/11/27/uisearchcontroller-development-guide/&quot;&gt;Search controller&lt;/a&gt; is a difficult topic, and with iPhone X the recommended way is to set the search bar in the nav bar.&lt;/p&gt;
-
-&lt;h2 id=&quot;storyboard&quot;&gt;Storyboard&lt;/h2&gt;
-
-&lt;p&gt;If you use storyboard, in File Inspector, check &lt;strong&gt;Use Safe Area Layout Guides&lt;/strong&gt;, and interface builder will replace the old top bottom layout guides with the new safe area.&lt;/p&gt;
-
-&lt;p&gt;After which, it is up to you to make changes depending on your UI.&lt;/p&gt;
-
-&lt;p&gt;Some pointers:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;For table view, don’t &lt;strong&gt;Clip to Bounds&lt;/strong&gt; (under Attributes Inspector)&lt;/li&gt;
-  &lt;li&gt;For cutom bottom tool bar, you can provide a background for the void occupied by Home Indicator&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There are more guides. &lt;a href=&quot;https://developer.apple.com/ios/update-apps-for-iphone-x/&quot;&gt;Apple official guide&lt;/a&gt;, and &lt;a href=&quot;https://useyourloaf.com/blog/supporting-iphone-x/&quot;&gt;many&lt;/a&gt; &lt;a href=&quot;https://medium.com/rosberryapps/ios-safe-area-ca10e919526f&quot;&gt;more&lt;/a&gt;. &lt;a href=&quot;https://designcode.io/ios11-iphone-x&quot;&gt;Designcode.io&lt;/a&gt; summed up well, with many valuable resources for design. &lt;a href=&quot;https://iosdesignkit.io/ios-11-gui/&quot;&gt;Sketch file&lt;/a&gt; &amp;amp; &lt;a href=&quot;http://v1.designcode.io/angle&quot;&gt;device mockups&lt;/a&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 21 Dec 2017 11:49:22 +0800</pubDate>
-        <link>https://samwize.com/2017/12/21/developer-guide-to-support-iphone-x/</link>
-        <guid isPermaLink="true">https://samwize.com/2017/12/21/developer-guide-to-support-iphone-x/</guid>
-        
-        
-        <category>iOS</category>
         
       </item>
     
