@@ -6,9 +6,71 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 27 Apr 2018 22:57:23 +0800</pubDate>
-    <lastBuildDate>Fri, 27 Apr 2018 22:57:23 +0800</lastBuildDate>
+    <pubDate>Mon, 30 Apr 2018 10:49:20 +0800</pubDate>
+    <lastBuildDate>Mon, 30 Apr 2018 10:49:20 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>How to Vibrate an iPhone</title>
+        <description>&lt;h2 id=&quot;steps&quot;&gt;Steps&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Target &amp;gt; Linked Frameworks and Libraries &amp;gt; Add &lt;strong&gt;AudioToolbox&lt;/strong&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;import AudioToolbox&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate, nil)&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;It is that simple using &lt;a href=&quot;https://developer.apple.com/documentation/audiotoolbox/1405248-audioservicesplaysystemsound&quot;&gt;AudioServicesPlaySystemSound API&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;pitfall-does-not-work-along-with-other-audio-session&quot;&gt;Pitfall: Does not work along with other audio session&lt;/h2&gt;
+
+&lt;p&gt;There is a &lt;a href=&quot;https://developer.apple.com/documentation/audiotoolbox/1405202-audioservicesplayalertsound&quot;&gt;note&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;However, the device does not vibrate if your app’s audio session is configured with the AVAudioSessionCategoryPlayAndRecord or AVAudioSessionCategoryRecord audio session category.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;While the note is for &lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlayAlertSound&lt;/code&gt;, it is applicable to &lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlaySystemSound&lt;/code&gt; too.&lt;/p&gt;
+
+&lt;p&gt;As long as you have a audio session (via AVAudioPlayer, AVCaptureMovieFileOutput, etc), then the phone will NOT vibrate.&lt;/p&gt;
+
+&lt;p&gt;To make it work, use the new Haptic API.&lt;/p&gt;
+
+&lt;h2 id=&quot;haptic-api&quot;&gt;Haptic API&lt;/h2&gt;
+
+&lt;p&gt;In iOS 10, there is a new API, making use of the new haptic engine in iPhone.&lt;/p&gt;
+
+&lt;p&gt;The API is very simple, with 3 concrete classes to &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uifeedbackgenerator&quot;&gt;UIFeedbackGenerator&lt;/a&gt;. Use accordingly to your scenario.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;c1&quot;&gt;// UI &quot;impact&quot;&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;UIImpactFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;light&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;impactOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;UIImpactFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;medium&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;impactOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;UIImpactFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;heavy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;impactOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// Selection changed&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;UISelectionFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;selectionChanged&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// Notifications&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;UINotificationFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;notificationOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;UINotificationFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;notificationOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;UINotificationFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;notificationOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// To be complete, this is the vibration using AudioToolbox&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;AudioServicesPlaySystemSoundWithCompletion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kSystemSoundID_Vibrate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Mon, 30 Apr 2018 09:49:03 +0800</pubDate>
+        <link>https://samwize.com/2018/04/30/how-to-vibrate-an-iphone/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/04/30/how-to-vibrate-an-iphone/</guid>
+        
+        
+      </item>
     
       <item>
         <title>What is Bundle?</title>
@@ -926,103 +988,6 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
         <category>Localization</category>
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>UI Testing With BrowserStack Cloud Devices</title>
-        <description>&lt;p&gt;This guide is on using BrowserStack to run UI Tests on cloud devices.&lt;/p&gt;
-
-&lt;p&gt;I don’t recommend using BrowserStack, unless you need:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;UI Testing with cloud devices&lt;/li&gt;
-  &lt;li&gt;Want the same stack for testing across all platforms (Android, iOS, Web)&lt;/li&gt;
-  &lt;li&gt;Probably a dedicated QA engineer&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;if-you-are-an-indie&quot;&gt;If you are an indie..&lt;/h2&gt;
-
-&lt;p&gt;If you don’t need all of the above, and is just an indie, focusing on iOS, then keep it simple.&lt;/p&gt;
-
-&lt;p&gt;For UI Testing, use &lt;code class=&quot;highlighter-rouge&quot;&gt;XCUITest&lt;/code&gt; framework and add test cases to the project in Xcode. Make use of the UI recorder.&lt;/p&gt;
-
-&lt;p&gt;Run on as many simulators.&lt;/p&gt;
-
-&lt;p&gt;Integrate to your CI tool eg. travis.&lt;/p&gt;
-
-&lt;h2 id=&quot;ok-so-you-want-browserstack&quot;&gt;Ok, so you want BrowserStack..&lt;/h2&gt;
-
-&lt;p&gt;But if you are still here, ok, I have &lt;em&gt;some guide&lt;/em&gt; for you, because the ecosystem is just too complicated. Many things are never explained.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.browserstack.com/app-automate/appium-webdriverio#integration-with-browserstack&quot;&gt;BrowserStack documentation&lt;/a&gt; is terrible. They will guide you on how to set up with Appium, that’s all.&lt;/p&gt;
-
-&lt;p&gt;BrowserStack main contribution is their cloud devices, aka the &lt;a href=&quot;https://www.browserstack.com/app-automate/capabilities&quot;&gt;capabilities&lt;/a&gt; you can use.&lt;/p&gt;
-
-&lt;h2 id=&quot;its-all-about-appium&quot;&gt;It’s all about Appium&lt;/h2&gt;
-
-&lt;p&gt;You need to &lt;a href=&quot;http://appium.io/docs/en/about-appium/intro/?lang=en&quot;&gt;understand Appium&lt;/a&gt;, know the goals, and how they achieve it.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;You test on the same compiled app you ship to App Store&lt;/li&gt;
-  &lt;li&gt;Appium use vendor supplied framework eg XCUITest under the hood&lt;/li&gt;
-  &lt;li&gt;WebDriver API wraps the hood, providing a REST + JSON API to drive the tests&lt;/li&gt;
-  &lt;li&gt;WebDriver is the same protocol as Selenium&lt;/li&gt;
-  &lt;li&gt;Extend WebDriver for mobile automation&lt;/li&gt;
-  &lt;li&gt;Appium is open source&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Appium has a &lt;strong&gt;server-client architecture&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;BrowserStack simply runs the server part.&lt;/p&gt;
-
-&lt;h2 id=&quot;webdriverio-as-client&quot;&gt;WebDriver.io as client&lt;/h2&gt;
-
-&lt;p&gt;You need to use a client and write the tests, and WebDriver.io is one such client. There are &lt;a href=&quot;https://github.com/webdriverio/webdriverio/issues/138&quot;&gt;others&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Let’s look at the JS code that uses webdriver.&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;it&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'should show do something'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;browser&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;waitForVisible&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'//XCUIElementTypeOther[@name=&quot;container-foo&quot;]/XCUIElementTypeCollectionView/XCUIElementTypeCell[1]/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;visible&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;visible&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;click&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'~some-accessibility-id'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Each of the API called from &lt;code class=&quot;highlighter-rouge&quot;&gt;browser&lt;/code&gt; is &lt;a href=&quot;http://webdriver.io/api.html&quot;&gt;WebDriver’s API&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;selector&quot;&gt;Selector&lt;/h2&gt;
-
-&lt;p&gt;In the code, we illustrated 2 ways you can refer to UI elements.&lt;/p&gt;
-
-&lt;p&gt;Using &lt;strong&gt;accessibility identifer&lt;/strong&gt; such as &lt;code class=&quot;highlighter-rouge&quot;&gt;~some-accessibility-id&lt;/code&gt; is the preferred way.&lt;/p&gt;
-
-&lt;p&gt;Because &lt;strong&gt;Xpath&lt;/strong&gt; is not stable on Appium!&lt;/p&gt;
-
-&lt;p&gt;Note: Don’t use the &lt;a href=&quot;https://github.com/appium/appium/blob/master/docs/en/advanced-concepts/migrating-to-xcuitest.md&quot;&gt;old UIAutomation framework selector&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;appium-inspector&quot;&gt;Appium Inspector&lt;/h2&gt;
-
-&lt;p&gt;You can easily find the Xpath by using the &lt;a href=&quot;https://github.com/appium/appium-desktop&quot;&gt;Appium Desktop Inspector app&lt;/a&gt;.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Start Server&lt;/li&gt;
-  &lt;li&gt;Start Inspector Session&lt;/li&gt;
-  &lt;li&gt;Create and save a capability&lt;/li&gt;
-  &lt;li&gt;One of the capability you must add is &lt;code class=&quot;highlighter-rouge&quot;&gt;app&lt;/code&gt; which points to your IPA file eg &lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/junda/Library/Developer/Xcode/DerivedData/MyApp-avrefqcpyqccstgkxgaottezlrvt/Build/Products/Debug-iphonesimulator/MyAPp.app&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Start Session&lt;/li&gt;
-  &lt;li&gt;Xcode simulator will run and you can inspect!&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Tue, 09 Jan 2018 16:53:56 +0800</pubDate>
-        <link>https://samwize.com/2018/01/09/ui-testing-with-browserstack-cloud-devices/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/01/09/ui-testing-with-browserstack-cloud-devices/</guid>
-        
-        
-        <category>Testing</category>
         
       </item>
     
