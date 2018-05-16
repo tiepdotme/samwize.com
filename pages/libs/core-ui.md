@@ -33,3 +33,9 @@ Before Spring, there is [Pop](https://github.com/facebook/pop), a popular animat
 ## Custom Modal Popup
 
 [Presentr](https://github.com/IcaliaLabs/Presentr) wraps around the iOS 8 custom view controller presentation API for you to easily present popup view.
+
+_Archived [KLCPopup](https://github.com/jmascia/KLCPopup) because Presentr is in Swift!_
+
+## Gestures
+
+Gesture recognizers can be complex, and the old _selector_ way of handling isn't as convenient as using closures. [Sensitive](https://github.com/igormatyushkin014/Sensitive) helps.
