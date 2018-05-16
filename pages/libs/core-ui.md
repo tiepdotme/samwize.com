@@ -20,7 +20,7 @@ permalink: /libs/core-ui/
 
 [MengTo/Spring](https://github.com/MengTo/Spring) simplify how you write animation code. You may even specify the animation properties in storyboard, without writing any code!
 
-Before Spring, there is [Pop](https://github.com/facebook/pop), a popular animation engine written by Facebook, used in (the now defunct) Facebook Paper app. 
+Before Spring, there is [Pop](https://github.com/facebook/pop), a popular animation engine written by Facebook, used in (the now defunct) Facebook Paper app.
 
 ## Message/Notification View
 
@@ -30,6 +30,10 @@ Show [Toast](https://github.com/scalessec/Toast) - your message encapsulated in 
 
 ## Custom Modal Popup
 
-[Presentr](https://github.com/IcaliaLabs/Presentr) wraps around the iOS 8 custom view controller presentation API for you to easily present popup view. 
+[Presentr](https://github.com/IcaliaLabs/Presentr) wraps around the iOS 8 custom view controller presentation API for you to easily present popup view.
 
 _Archived [KLCPopup](https://github.com/jmascia/KLCPopup) because Presentr is in Swift!_
+
+## Gestures
+
+Gesture recognizers can be complex, and the old _selector_ way of handling isn't as convenient as using closures. [Sensitive](https://github.com/igormatyushkin014/Sensitive) helps.
