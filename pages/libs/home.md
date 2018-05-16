@@ -20,3 +20,4 @@ And more:
 - [Open Source Apps](/libs/open-source-apps/)
 - [Libraries used by some apps](/libs/what-did-this-app-use/).
 - [List of lists](/libs/list-of-lists/)
+- [Design Resources](/design-resources)

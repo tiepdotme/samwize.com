@@ -20,16 +20,16 @@ permalink: /libs/core-ui/
 
 [MengTo/Spring](https://github.com/MengTo/Spring) simplify how you write animation code. You may even specify the animation properties in storyboard, without writing any code!
 
-Before Spring, there is [Pop](https://github.com/facebook/pop), a popular animation engine written by Facebook, used in (the now defunct) Facebook Paper app. 
+Before Spring, there is [Pop](https://github.com/facebook/pop), a popular animation engine written by Facebook, used in (the now defunct) Facebook Paper app.
 
 ## Message/Notification View
 
-Show [Toast](https://github.com/scalessec/Toast) - your message encapsulated in a small popup - for a short duration. Toast is a native UI element from [Android](https://developer.android.com/guide/topics/ui/notifiers/toasts.html).
+[NotificationBanner](https://github.com/Daltron/NotificationBanner) makes it very easy to display messages at the top, kind of like notifications.
 
-[TSMessages](https://github.com/KrauseFx/TSMessages) by the fastlane guy, is a notification at the top, similar to Tweetboot.
+[SwiftMessages](https://github.com/SwiftKickMobile/SwiftMessages) is modern, good looking, and very configurable.
+
+[Toast](https://github.com/scalessec/Toast) display message encapsulated in a small popup, for a short duration. Toast is a native UI element borrowed from [Android](https://developer.android.com/guide/topics/ui/notifiers/toasts.html).
 
 ## Custom Modal Popup
 
-[Presentr](https://github.com/IcaliaLabs/Presentr) wraps around the iOS 8 custom view controller presentation API for you to easily present popup view. 
-
-_Archived [KLCPopup](https://github.com/jmascia/KLCPopup) because Presentr is in Swift!_
+[Presentr](https://github.com/IcaliaLabs/Presentr) wraps around the iOS 8 custom view controller presentation API for you to easily present popup view.
