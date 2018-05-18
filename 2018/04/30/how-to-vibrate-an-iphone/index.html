@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>How to Vibrate an iPhone</title>
-  <meta name="description" content="Steps" />
+  <meta name="description" content="1. AudioToolbox" />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="How to Vibrate an iPhone" />
     <meta name="twitter:image" content="https://samwize.com" />
     
-    <meta name="twitter:description"  content="Steps" />
+    <meta name="twitter:description"  content="1. AudioToolbox" />
     
   
 
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="How to Vibrate an iPhone"/>
   
-  <meta property="og:description" content="Steps" />
+  <meta property="og:description" content="1. AudioToolbox" />
   
   <meta property="og:image" content="https://samwize.com" />
   <meta property="og:url" content="https://samwize.com/2018/04/30/how-to-vibrate-an-iphone/" >
@@ -80,7 +80,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <h2 id="steps">Steps</h2>
+          <h2 id="1-audiotoolbox">1. AudioToolbox</h2>
 
 <ol>
   <li>
@@ -96,21 +96,7 @@
 
 <p>It is that simple using <a href="https://developer.apple.com/documentation/audiotoolbox/1405248-audioservicesplaysystemsound">AudioServicesPlaySystemSound API</a>.</p>
 
-<h2 id="pitfall-does-not-work-along-with-other-audio-session">Pitfall: Does not work along with other audio session</h2>
-
-<p>There is a <a href="https://developer.apple.com/documentation/audiotoolbox/1405202-audioservicesplayalertsound">note</a>:</p>
-
-<blockquote>
-  <p>However, the device does not vibrate if your app’s audio session is configured with the AVAudioSessionCategoryPlayAndRecord or AVAudioSessionCategoryRecord audio session category.</p>
-</blockquote>
-
-<p>While the note is for <code class="highlighter-rouge">AudioServicesPlayAlertSound</code>, it is applicable to <code class="highlighter-rouge">AudioServicesPlaySystemSound</code> too.</p>
-
-<p>As long as you have a audio session (via AVAudioPlayer, AVCaptureMovieFileOutput, etc), then the phone will NOT vibrate.</p>
-
-<p>To make it work, use the new Haptic API.</p>
-
-<h2 id="haptic-api">Haptic API</h2>
+<h2 id="2-haptic-api">2. Haptic API</h2>
 
 <p>In iOS 10, there is a new API, making use of the new haptic engine in iPhone.</p>
 
@@ -132,6 +118,18 @@
     <span class="c1">// To be complete, this is the vibration using AudioToolbox</span>
     <span class="kt">AudioServicesPlaySystemSoundWithCompletion</span><span class="p">(</span><span class="n">kSystemSoundID_Vibrate</span><span class="p">,</span> <span class="kc">nil</span><span class="p">)</span>
 </code></pre></div></div>
+
+<h2 id="pitfall-does-not-work-along-with-other-audio-session">Pitfall: Does not work along with other audio session</h2>
+
+<p>There is a <a href="https://developer.apple.com/documentation/audiotoolbox/1405202-audioservicesplayalertsound">note</a>:</p>
+
+<blockquote>
+  <p>However, the device does not vibrate if your app’s audio session is configured with the AVAudioSessionCategoryPlayAndRecord or AVAudioSessionCategoryRecord audio session category.</p>
+</blockquote>
+
+<p>While the note is for <code class="highlighter-rouge">AudioServicesPlayAlertSound</code>, it is applicable to <code class="highlighter-rouge">AudioServicesPlaySystemSound</code> too.</p>
+
+<p>As long as you have a audio session (via AVAudioPlayer, AVCaptureMovieFileOutput, etc), then the phone will NOT vibrate.</p>
 
         </section>
         <footer class="post-footer">

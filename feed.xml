@@ -6,13 +6,105 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 30 Apr 2018 10:49:20 +0800</pubDate>
-    <lastBuildDate>Mon, 30 Apr 2018 10:49:20 +0800</lastBuildDate>
+    <pubDate>Fri, 18 May 2018 11:08:05 +0800</pubDate>
+    <lastBuildDate>Fri, 18 May 2018 11:08:05 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
+        <title>Photos App &amp; EXIF Location Data</title>
+        <description>&lt;p&gt;Location, or any metadata, can be saved in 2 places:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;In Photos app’s database&lt;/li&gt;
+  &lt;li&gt;In the jpg/heic/dng/mov files&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You WILL have to do both for an iOS app, because if you don’t, then you will lose the information along the way eg importing.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-photos-apps-database&quot;&gt;1. Photos app’s database&lt;/h2&gt;
+
+&lt;p&gt;Let’s start with the easy one.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/photos/phassetcreationrequest&quot;&gt;PHAssetCreationRequest&lt;/a&gt; makes it very easy to add the location data to the database.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;PHPhotoLibrary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;performChanges&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;creationRequest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PHAssetCreationRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;forAsset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;creationRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;latestLocation&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;creationRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photoData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can also set the &lt;code class=&quot;highlighter-rouge&quot;&gt;creationDate&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;isFavorite&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;If you do (1), but not (2), then when the photo is imported into macOS/Windows, surprisingly, even using Apple’s Photo app, metadata will be lost.&lt;/p&gt;
+
+&lt;p&gt;When importing, only the &lt;strong&gt;metadata in the file&lt;/strong&gt; is used.&lt;/p&gt;
+
+&lt;p&gt;So you need to write metadata to the file, and that is HARDER.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-writing-metadata-to-file&quot;&gt;2. Writing metadata to file&lt;/h2&gt;
+
+&lt;p&gt;If you are using AVFoundation to capture photo, then it is relatively easy. There is a &lt;a href=&quot;https://developer.apple.com/documentation/avfoundation/avcapturephoto/2875953-filedatarepresentation&quot;&gt;variant of &lt;code class=&quot;highlighter-rouge&quot;&gt;fileDataRepresentation&lt;/code&gt;&lt;/a&gt; that can take in the metadata.&lt;/p&gt;
+
+&lt;p&gt;This is what you do in the &lt;code class=&quot;highlighter-rouge&quot;&gt;AVCapturePhotoCaptureDelegate&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;photoOutput&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVCapturePhotoOutput&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinishProcessingPhoto&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVCapturePhoto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;metadata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kCGImagePropertyGPSDictionary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gpsMetadata&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;photoData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fileDataRepresentation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withReplacementMetadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nv&quot;&gt;replacementEmbeddedThumbnailPhotoFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;embeddedThumbnailPhotoFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nv&quot;&gt;replacementEmbeddedThumbnailPixelBuffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;nv&quot;&gt;replacementDepthData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;depthData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With the &lt;code class=&quot;highlighter-rouge&quot;&gt;photoData&lt;/code&gt;, you can save to file or add to Photos using &lt;code class=&quot;highlighter-rouge&quot;&gt;PHAssetCreationRequest&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-image-io-and-other-frameworks&quot;&gt;Using Image I/O and other frameworks&lt;/h2&gt;
+
+&lt;p&gt;If you are not capturing photo using AVFoundation, then you don’t have the luxury of the above to get the &lt;code class=&quot;highlighter-rouge&quot;&gt;fileDataRepresentation&lt;/code&gt; along with the metadata.&lt;/p&gt;
+
+&lt;p&gt;In that case, you have to add metadata manually to the original image data.&lt;/p&gt;
+
+&lt;p&gt;Image I/O Framework provides methods to &lt;a href=&quot;https://developer.apple.com/library/content/qa/qa1895/_index.html&quot;&gt;Modifying Image Metadata Without Recompressing Image (QA1895)&lt;/a&gt;, using &lt;a href=&quot;https://developer.apple.com/documentation/imageio/1465189-cgimagedestinationcopyimagesourc?language=objc&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CGImageDestinationCopyImageSource&lt;/code&gt;&lt;/a&gt;, which supports JPEG, PNG, PSD, TIFF.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;options_dict&lt;/code&gt; in the sample code is the metadata dictionary.&lt;/p&gt;
+
+&lt;p&gt;Check out S/O answers like &lt;a href=&quot;https://stackoverflow.com/a/5294574/242682&quot;&gt;this&lt;/a&gt; or &lt;a href=&quot;https://stackoverflow.com/a/43376828/242682&quot;&gt;this&lt;/a&gt; (using Core Media).&lt;/p&gt;
+
+&lt;p&gt;Assets Library framework (deprecated) also has it’s own methods to &lt;a href=&quot;https://developer.apple.com/library/content/qa/qa1622/_index.html&quot;&gt;Accessing Image Metadata in iOS (QA1622)&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;metadata&quot;&gt;Metadata&lt;/h2&gt;
+
+&lt;p&gt;Wonder what kind of structure is &lt;code class=&quot;highlighter-rouge&quot;&gt;metadata&lt;/code&gt;?&lt;/p&gt;
+
+&lt;p&gt;Metadata is a dictionary of dictionaries.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/imageio/cgimageproperties&quot;&gt;CGImageProperties&lt;/a&gt; has a reference to the dictionaries you can define. For example, &lt;a href=&quot;https://developer.apple.com/documentation/imageio/cgimageproperties/gps_dictionary_keys&quot;&gt;GPS has it’s own dictionary keys&lt;/a&gt;, so does &lt;a href=&quot;https://developer.apple.com/documentation/imageio/cgimageproperties/exif_dictionary_keys&quot;&gt;EXIF&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// gpsMetadata and exifMetadata are 2 dictionaries&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kCGImagePropertyGPSDictionary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gpsMetadata&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kCGImagePropertyExifDictionary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exifMetadata&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There is a helper on turning &lt;code class=&quot;highlighter-rouge&quot;&gt;CLLocation&lt;/code&gt; into the &lt;a href=&quot;https://stackoverflow.com/a/5314634/242682&quot;&gt;GPS data in a dictionary&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;A &lt;a href=&quot;https://gist.github.com/kwylez/a4b6ec261e52970e1fa5dd4ccfe8898f&quot;&gt;Swift extension&lt;/a&gt; is kindly available too.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 17 May 2018 11:55:05 +0800</pubDate>
+        <link>https://samwize.com/2018/05/17/photos-app-and-exif-location-data/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/05/17/photos-app-and-exif-location-data/</guid>
+        
+        
+      </item>
+    
+      <item>
         <title>How to Vibrate an iPhone</title>
-        <description>&lt;h2 id=&quot;steps&quot;&gt;Steps&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;1-audiotoolbox&quot;&gt;1. AudioToolbox&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -28,21 +120,7 @@
 
 &lt;p&gt;It is that simple using &lt;a href=&quot;https://developer.apple.com/documentation/audiotoolbox/1405248-audioservicesplaysystemsound&quot;&gt;AudioServicesPlaySystemSound API&lt;/a&gt;.&lt;/p&gt;
 
-&lt;h2 id=&quot;pitfall-does-not-work-along-with-other-audio-session&quot;&gt;Pitfall: Does not work along with other audio session&lt;/h2&gt;
-
-&lt;p&gt;There is a &lt;a href=&quot;https://developer.apple.com/documentation/audiotoolbox/1405202-audioservicesplayalertsound&quot;&gt;note&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;However, the device does not vibrate if your app’s audio session is configured with the AVAudioSessionCategoryPlayAndRecord or AVAudioSessionCategoryRecord audio session category.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;While the note is for &lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlayAlertSound&lt;/code&gt;, it is applicable to &lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlaySystemSound&lt;/code&gt; too.&lt;/p&gt;
-
-&lt;p&gt;As long as you have a audio session (via AVAudioPlayer, AVCaptureMovieFileOutput, etc), then the phone will NOT vibrate.&lt;/p&gt;
-
-&lt;p&gt;To make it work, use the new Haptic API.&lt;/p&gt;
-
-&lt;h2 id=&quot;haptic-api&quot;&gt;Haptic API&lt;/h2&gt;
+&lt;h2 id=&quot;2-haptic-api&quot;&gt;2. Haptic API&lt;/h2&gt;
 
 &lt;p&gt;In iOS 10, there is a new API, making use of the new haptic engine in iPhone.&lt;/p&gt;
 
@@ -64,6 +142,18 @@
     &lt;span class=&quot;c1&quot;&gt;// To be complete, this is the vibration using AudioToolbox&lt;/span&gt;
     &lt;span class=&quot;kt&quot;&gt;AudioServicesPlaySystemSoundWithCompletion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kSystemSoundID_Vibrate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;pitfall-does-not-work-along-with-other-audio-session&quot;&gt;Pitfall: Does not work along with other audio session&lt;/h2&gt;
+
+&lt;p&gt;There is a &lt;a href=&quot;https://developer.apple.com/documentation/audiotoolbox/1405202-audioservicesplayalertsound&quot;&gt;note&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;However, the device does not vibrate if your app’s audio session is configured with the AVAudioSessionCategoryPlayAndRecord or AVAudioSessionCategoryRecord audio session category.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;While the note is for &lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlayAlertSound&lt;/code&gt;, it is applicable to &lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlaySystemSound&lt;/code&gt; too.&lt;/p&gt;
+
+&lt;p&gt;As long as you have a audio session (via AVAudioPlayer, AVCaptureMovieFileOutput, etc), then the phone will NOT vibrate.&lt;/p&gt;
 </description>
         <pubDate>Mon, 30 Apr 2018 09:49:03 +0800</pubDate>
         <link>https://samwize.com/2018/04/30/how-to-vibrate-an-iphone/</link>
@@ -873,121 +963,6 @@ travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span cla
         <link>https://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/</link>
         <guid isPermaLink="true">https://samwize.com/2018/01/31/guide-to-creating-uiviewcontroller-without-storyboard/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>Localization - Fallback to Base Language</title>
-        <description>&lt;p&gt;This post explains how iOS determines the language to use in an app, and how Apple fallback to the next-best default language when necessary.&lt;/p&gt;
-
-&lt;p&gt;Throughout this post, we use the example where &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; (English) is the developmen and base language, while &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt; (Chinese) is an additional supported language.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# en Localizable.strings
-&quot;awesome-title&quot; = &quot;Hello World&quot;;
-&quot;another-title&quot; = &quot;Localization Rocks&quot;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# zh-Hans Localizable.strings
-&quot;awesome-title&quot; = &quot;你好&quot;;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Deliberately, the &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt; strings file is 50% localized (&lt;code class=&quot;highlighter-rouge&quot;&gt;another-title&lt;/code&gt; is not translated).&lt;/p&gt;
-
-&lt;h2 id=&quot;how-apple-determines-the-langauge&quot;&gt;How Apple determines the langauge&lt;/h2&gt;
-
-&lt;p&gt;Apple &lt;a href=&quot;https://developer.apple.com/library/content/qa/qa1828/_index.html&quot;&gt;explains the process&lt;/a&gt;. Here is the “alogrithm” in pseudocode:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;func determineTheLanguageToUse():
-  for each user's preferredLanguages
-    if app supports the language
-      return the language
-    if app supports a more generic dialect
-      return the generic language
-
-  # Exhausted preferredLanguages and still cannot determine..
-  return CFBundleDevelopmentRegion
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;User’s &lt;code class=&quot;highlighter-rouge&quot;&gt;preferredLanguages&lt;/code&gt; is those listed in &lt;strong&gt;Settings App &amp;gt; General &amp;gt; Language &amp;amp; Region&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;The algo starts with the most preferred language, checks if the app supports it (or a more generic dialect), before finally using &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleDevelopmentRegion&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;There are different cases of fallback. Let’s look at them in detail.&lt;/p&gt;
-
-&lt;h2 id=&quot;fallback-1-generic-dialect&quot;&gt;Fallback 1: Generic Dialect&lt;/h2&gt;
-
-&lt;p&gt;In the algo, iOS will check if there is a more generic dialect for the preferred language, and if so return that.&lt;/p&gt;
-
-&lt;p&gt;What is a &lt;strong&gt;more generic dialect&lt;/strong&gt;? &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; is more generic than &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; (British English). In our example, if user prefers &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt;, then &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; will be used.&lt;/p&gt;
-
-&lt;p&gt;This is because the app does NOT have &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt;, but &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; is good enough.&lt;/p&gt;
-
-&lt;p&gt;The other way round is not true. If the app supports &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; (and not &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt;), then if user prefers &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt;, then &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; will not be the fallback – because &lt;code class=&quot;highlighter-rouge&quot;&gt;en-GB&lt;/code&gt; is &lt;em&gt;not&lt;/em&gt; more generic.&lt;/p&gt;
-
-&lt;h2 id=&quot;fallback-2-unsupported-language&quot;&gt;Fallback 2: Unsupported Language&lt;/h2&gt;
-
-&lt;p&gt;An unsupported language is when all &lt;code class=&quot;highlighter-rouge&quot;&gt;preferredLanguages&lt;/code&gt; is exhausted, and the app does not have a suitable language to use.&lt;/p&gt;
-
-&lt;p&gt;For example if a user prefers &lt;code class=&quot;highlighter-rouge&quot;&gt;ms&lt;/code&gt; (Malay), but which the app does not support at all, then the language specified in &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleDevelopmentRegion&lt;/code&gt; of the Info.plist will be used. This is aka the &lt;strong&gt;localization native development region&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;This is a very common case. When we lanuch an app, we probably support only a few languages, or just one!&lt;/p&gt;
-
-&lt;h2 id=&quot;fallback-3-unsupported-phrase&quot;&gt;Fallback 3: Unsupported Phrase&lt;/h2&gt;
-
-&lt;p&gt;This is an obscure case, and is not mention in Apple’s documentation, nor in the alogrithm.&lt;/p&gt;
-
-&lt;p&gt;Let’s take the example where a user prefers &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;What happens when iOS try to get the &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt; of “another-title”?&lt;/p&gt;
-
-&lt;p&gt;Remember, &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt; is not fully translated. It does not have “another-title”. What do you think will happen?&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Fallback to development language &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt; or&lt;/li&gt;
-  &lt;li&gt;Return “another-title”&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Many developers think it is (1). Unfortunately, it is (2), with that ugly key name!&lt;/p&gt;
-
-&lt;p&gt;If you refer to the &lt;code class=&quot;highlighter-rouge&quot;&gt;determineTheLanguageToUse&lt;/code&gt; algo, the language to use is still &lt;code class=&quot;highlighter-rouge&quot;&gt;zh-Hans&lt;/code&gt;, regardless that it is incomplete. It can’t find “another-title”, so it just return the key as value..&lt;/p&gt;
-
-&lt;p&gt;iOS should really improve on this fallback behaviour.. for now, we need some custom code.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-fallback-code&quot;&gt;The Fallback Code&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LS&lt;/code&gt; is a global function to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt;. It is a shorthand, with added fallback capability:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSLocalizedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSLocale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preferredLanguages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Fall back to en&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;forResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ofType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;lproj&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSLocalizedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;When a phrase is not yet translated, it will be &lt;code class=&quot;highlighter-rouge&quot;&gt;value == key&lt;/code&gt;, which is dumb, so we fall back to using &lt;code class=&quot;highlighter-rouge&quot;&gt;en&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The rest of the code is simply geting &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt; from the en bundle.&lt;/p&gt;
-
-&lt;h2 id=&quot;more-resourses&quot;&gt;More Resourses&lt;/h2&gt;
-
-&lt;p&gt;Apple’s &lt;a href=&quot;https://developer.apple.com/library/content/technotes/tn2418/_index.html&quot;&gt;Technical Note on language identifiers&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 23 Jan 2018 15:49:41 +0800</pubDate>
-        <link>https://samwize.com/2018/01/23/localization-fall-back-to-base-language/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/01/23/localization-fall-back-to-base-language/</guid>
-        
-        
-        <category>Localization</category>
-        
-        <category>iOS</category>
         
       </item>
     
