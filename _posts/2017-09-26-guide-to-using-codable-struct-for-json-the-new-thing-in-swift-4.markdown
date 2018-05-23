@@ -15,7 +15,7 @@ struct Animal: Codable {
 }
 ```
 
-Add `Codable` as a trait to your type, and that's it. 
+Add `Codable` as a trait to your type, and that's it.
 
 You enjoy **automatic encoding and decoding**, thanks to default extension for the `Codable` protocol.
 
@@ -72,7 +72,7 @@ struct Animal: Codable {
 }
 ```
 
-Now, there is some magic performed by the compiler with the `CodingKeys` enum. The compiler only recognize the enum name "CodingKeys", reserved as the keys for the struct. 
+Now, there is some magic performed by the compiler with the `CodingKeys` enum. The compiler only recognize the enum name "CodingKeys", reserved as the keys for the struct.
 
 _Note: `CodingKeys` is a compiler recognized enum, while `CodingKey` is the protocol._
 
@@ -95,11 +95,11 @@ Firstly, you have to add your keys for the nested. We add `AnatomyCodingKeys` wh
 ```swift
 struct Animal {
     var numberOfLegs: Int
-    
+
     enum CodingKeys: String, CodingKey {
         case anatomy
     }
-    
+
     enum AnatomyCodingKeys: String, CodingKey {
         case numberOfLegs
     }
@@ -142,7 +142,7 @@ extension Animal: Decodable {
 
 ## Error with a Dictionary member
 
-Let's look at an unexpected scenario, a struct having a Dictionary as it's member. 
+Let's look at an unexpected scenario, a struct having a Dictionary as it's member.
 
 ```swift
 struct Sword: Codable {
@@ -174,14 +174,14 @@ struct DynamicKey: CodingKey {
         self.stringValue = stringValue
     }
     var intValue: Int? { return nil }
-    init?(intValue: Int) { return nil }  
+    init?(intValue: Int) { return nil }
 }
 ```
 
 Then we extend `KeyedEncodingContainer` to provide the method to encode the dictionary.
 
 ```swift
-extension KeyedEncodingContainer where Key == DynamicKey {    
+extension KeyedEncodingContainer where Key == DynamicKey {
     mutating func encodeDynamicKeyValues(withDictionary dictionary: [String : Any]) throws {
         for (key, value) in dictionary {
             let dynamicKey = DynamicKey(stringValue: key)!
@@ -223,6 +223,28 @@ A container is one of 3 types:
 3. Single Value Container – a single raw value
 
 In encoding/decoding, you need to use the correct type of container as per the JSON/whatever structure you have.
+
+## How to Decode UnkeyedDecodingContainer (array)
+
+`UnkeyedDecodingContainer` is a container for a list of items. In JSON, an example will be:
+
+```json
+{
+    "names": ["Kate", "Marc"]
+}
+```
+
+If you want all the names, then you will have a `var names: [String]` in the model, and then use `container.decode([String].self, forKey: .names)`.
+
+But you could decode and manipulate, instead of storing all the names. This is how you use `nestedUnkeyedContainer`:
+
+```swift
+let unkeyedContainer = try container.nestedUnkeyedContainer(forKey: .names)
+while !unkeyedContainer.isAtEnd {
+    let name = try unkeyedContainer.decode(String.self)
+    // do something with the name
+}
+```
 
 ## Resources
 
