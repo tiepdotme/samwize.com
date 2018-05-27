@@ -50,6 +50,9 @@ For live streams, `youtube-dl` does not work well. We need another tool to the r
 
     curl -o myfile.mp3 https://the.domain.com/file
 
+    # To resume, if download was interrupted
+    curl -o myfile.mp3 -C - https://the.domain.com/file
+
 ## Rename multiple files in a directory
 
     # Add a prefix "XXX_" to every file

@@ -119,7 +119,7 @@ It does not `scrollToRow` correctly.
 
 Hence, if you want to use `scrollToRow`, then go use the archaic approach since the beginning of iOS - implement `heightForRowAt`.
 
-## Bonus: Table Header/Footer
+## Table Section Header/Footer
 
 Read [this post](/2015/11/06/guide-to-customizing-uitableview-section-header-footer/) on adding header/footer.
 
@@ -128,3 +128,37 @@ With Resuable, register the view.
 ```
 tableView.register(headerFooterViewType: GroupHeaderView.self)
 ```
+
+## Table Header/Footer & Autolayout
+
+Table Header/Footer is for the whole table, not for the sections.
+
+A big problem with header/footer is that it does not support Autolayout nicely (the section header/footer is fine). There are some messy [solutions](https://stackoverflow.com/a/28102175/242682), or [trying](https://medium.com/@aunnnn/table-header-view-with-autolayout-13de4cfc4343) fanatically setting the header view, layoutIfneeded, etc..
+
+As of iOS 11, I have tested that what is missing is that the header view needs to explicitly call `layoutIfneeded`.
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    // 1. Setup the views ..
+    tableView.tableHeaderView = headerView
+
+    // 2. The constraints required (using Cartography)
+    constrain(tableView, headerView) { table, header in
+        header.centerX == table.centerX
+        header.width == table.width
+        header.top == table.top
+    }
+}
+
+// 3. IMPORTANT: This step is required for headerView to resize correctly
+override func viewWillLayoutSubviews() {
+    super.viewWillLayoutSubviews()
+    headerView.layoutIfNeeded()
+}
+```
+
+Nobody really knows the proper way to use table header/footer. Apple published way is using storyboard..
+
+So let me know if this did work for you.
