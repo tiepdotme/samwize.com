@@ -7,7 +7,6 @@ categories: [iOS]
 
 `ErrorType` is a big thing is Swift, changing the way how errors are handled.
 
-
 ## NSError is the Past
 
 [`NSError`](https://developer.apple.com/library/mac/documentation/Cocoa/Reference/Foundation/Classes/NSError_Class) was the way how errors are encapsulated, and passed along in methods and blocks/closures.
@@ -21,7 +20,6 @@ And it passes more information in `userInfo` as a dictionary.
 It works, but isn't cool.
 
 _A bit of History: In the very beginning (in MacOS, way before any iOS), there is [NSException](https://www.bignerdranch.com/blog/error-handling-in-swift-2/) and try-catch in Objective-C, but eventually NSError took over._
-
 
 ## ErrorType
 
@@ -37,7 +35,6 @@ Note: `ErrorType` can always be casted to `NSError`, [magically](https://realm.i
 
 If you choose to use `ErrorType`, forget about `NSError`. Unless the `NSError` comes from other frameworks/libraries, then you might want to handle and map to one of your custom `ErrorType` case. Or you can wrap the NSError in your custom `ErrorType` (see `.OtherNSError` below).
 
-
 ## Custom ErrorType
 
 Every app should have one (or more) custom `AppError` that subclass `ErrorType`.
@@ -45,22 +42,15 @@ Every app should have one (or more) custom `AppError` that subclass `ErrorType`.
 It will usually be an enum (but you can use [class and struct](https://realm.io/news/testing-swift-error-type/) too, if you want), with different cases of errors, and init with different parameters (thanks to enum)!
 
 ```swift
-enum AppError: ErrorType, CustomStringConvertible {
+enum AppError: ErrorType {
     case DivisionError
     case NetworkError(code: Int)
     case UnexpectedError(message: String)
     case OtherNSError(nsError: NSError)
-
-    var description: String {
-        switch self {
-        ...
-        }
-    }
 }
 ```
 
 It will be good to implement `CustomStringConvertible`, and return `description` accordingly for each error case.
-
 
 ## try-catch-throw
 
@@ -69,7 +59,6 @@ I will not discuss more on how try-catch-throw works, because there are [many](h
 [{%img center http://alisoftware.github.io/assets/frozen-throw-man.jpg %}](http://alisoftware.github.io/2015/12/17/let-it-throw/)
 
 [Let it throw, let it throw~](http://alisoftware.github.io/2015/12/17/let-it-throw/)
-
 
 ## An Example
 
@@ -91,6 +80,26 @@ do {
 }
 ```
 
+## Description of the Error
+
+Given an error, we usually display `error.localizedDescription` to the user.
+
+There are default implementations, but you will want to implement your own when you have meaningful messages that can be displayed. To do so, extend `LocalizedError` protocol.
+
+```swift
+extension AppError: LocalizedError {
+    var errorDescription: String? {
+        switch self {
+        case .unsupportedCountry:
+            return "This is what went wrong."
+        default:
+            return self.localizedDescription
+        }
+    }
+}
+```
+
+There are [other properties](https://developer.apple.com/documentation/foundation/localizederror) you may also extend to provide reasons and recovery.
 
 ## Handling throw in closures
 
@@ -100,7 +109,6 @@ There are 2 ways as discussed in [appventure.me](http://appventure.me/2015/06/19
 2. Using inner closure that throws
 
 Using `Result` is simpler, and easier to read. It became popular as more developers use the `Result`, even though it is NOT in Swift standard library. It is a simple concept, and you can find a couple of different `Result.swift` in Github.
-
 
 ## Result Type
 
