@@ -6,9 +6,48 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 24 May 2018 00:35:46 +0800</pubDate>
-    <lastBuildDate>Thu, 24 May 2018 00:35:46 +0800</lastBuildDate>
+    <pubDate>Thu, 31 May 2018 13:01:08 +0800</pubDate>
+    <lastBuildDate>Thu, 31 May 2018 13:01:08 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>How to Download IPA Files on macOS High Sierra</title>
+        <description>&lt;p&gt;macOS, or more specifially since iTunes v12.7, no longer stores the IPA files.&lt;/p&gt;
+
+&lt;p&gt;There are a number of ways to find an app’s IPA, such as the many untrusted, dangerous sites with &lt;em&gt;their signed IPA&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Be safe, read on.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-download-apple-configurator-2&quot;&gt;1. Download Apple Configurator 2&lt;/h2&gt;
+
+&lt;p&gt;This is Apple’s app for configuring multiple devices for schools and businesses.&lt;/p&gt;
+
+&lt;p&gt;Download it from Mac Store &lt;a href=&quot;https://itunes.apple.com/app/id1037126344?at=11luru&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-sign-in&quot;&gt;2. Sign In&lt;/h2&gt;
+
+&lt;p&gt;Go to the app &amp;gt; Account &amp;gt; Sign In using your personal iTunes account.&lt;/p&gt;
+
+&lt;h2 id=&quot;3-update-the-apps&quot;&gt;3. Update The Apps&lt;/h2&gt;
+
+&lt;p&gt;Go to Action &amp;gt; Update, and select the apps to update (or all).&lt;/p&gt;
+
+&lt;h2 id=&quot;4-find-in-folder&quot;&gt;4. Find in folder&lt;/h2&gt;
+
+&lt;p&gt;The IPAs will be here:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;~/Library/Group Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Assets/TemporaryItems/MobileApps&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Note that they are in a &lt;strong&gt;cache&lt;/strong&gt;, which means it will be deleted anytime, so copy it to somewhere while it is there.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 30 May 2018 22:16:00 +0800</pubDate>
+        <link>https://samwize.com/2018/05/30/how-to-download-ipa-files-on-macos-high-sierra/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/05/30/how-to-download-ipa-files-on-macos-high-sierra/</guid>
+        
+        
+        <category>Tips</category>
+        
+      </item>
     
       <item>
         <title>Guide to Moya for API Services and Testing</title>
@@ -837,147 +876,6 @@
         
         
         <category>Xcode</category>
-        
-      </item>
-    
-      <item>
-        <title>Setting Up Travis CI With Fastlane for iOS Project</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://travis-ci.com&quot;&gt;Travis CI&lt;/a&gt; is a service, providing machines, to help build your app, test, deploy, and more.&lt;/p&gt;
-
-&lt;p&gt;Note: It integrates very easily with github, but does NOT support bitbucket etc.&lt;/p&gt;
-
-&lt;p&gt;It is FREE for open source projects eg. public Github project.&lt;/p&gt;
-
-&lt;p&gt;First 100 builds are free too, as a trial. Afterwhich, it starts from &lt;a href=&quot;https://travis-ci.com/plans&quot;&gt;$69/mth&lt;/a&gt; for 1 concurrent job. Read about alternatives in last section of this post.&lt;/p&gt;
-
-&lt;h2 id=&quot;setting-up&quot;&gt;&lt;a href=&quot;https://docs.travis-ci.com/user/languages/objective-c/&quot;&gt;Setting Up&lt;/a&gt;&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Create &lt;code class=&quot;highlighter-rouge&quot;&gt;.travis.yml&lt;/code&gt; in project root and configure (see below)&lt;/li&gt;
-  &lt;li&gt;Push to repository&lt;/li&gt;
-  &lt;li&gt;Sign in your Github account on &lt;a href=&quot;https://travis-ci.com/&quot;&gt;travis-ci.com&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Configure on the dashboard&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The most important step is with &lt;code class=&quot;highlighter-rouge&quot;&gt;.travis.yml&lt;/code&gt; configuration file.&lt;/p&gt;
-
-&lt;p&gt;You can &lt;a href=&quot;https://docs.travis-ci.com/user/customizing-the-build&quot;&gt;customize&lt;/a&gt; all you want. A bare minimum one for swift looks like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;osx_image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;xcode9.2&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;swift&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fastlane run_tests&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://docs.fastlane.tools/actions/scan/&quot;&gt;lane “run_tests”&lt;/a&gt;, builds and run unit tests. The result will then be available to travis-ci.&lt;/p&gt;
-
-&lt;h2 id=&quot;when-to-build&quot;&gt;When to build&lt;/h2&gt;
-
-&lt;p&gt;There are 2 options to turn on/off in the dashboard:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Build branch updates&lt;/li&gt;
-  &lt;li&gt;Build pull request updates&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The default is both ON.&lt;/p&gt;
-
-&lt;p&gt;Having (1) ON could be build crazy, because every commit and push will trigger a build. But you could do tweak more, with advanced configuration.&lt;/p&gt;
-
-&lt;h2 id=&quot;when-to-build-advanced&quot;&gt;When to build (Advanced)&lt;/h2&gt;
-
-&lt;p&gt;You may &lt;a href=&quot;https://docs.travis-ci.com/user/customizing-the-build/#Building-Specific-Branches&quot;&gt;further restrict when to build&lt;/a&gt;. You can safelist branches and tags, with regex.&lt;/p&gt;
-
-&lt;p&gt;So let’s say you want only build with tag such as “build-123”, you can use regex in the yaml file:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# safelist&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;master&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/^build-\d+$/&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Another way is to write bash commands in the &lt;code class=&quot;highlighter-rouge&quot;&gt;script&lt;/code&gt; phrase.&lt;/p&gt;
-
-&lt;p&gt;For example, if you want to run a lane named “beta” when the commit message has “[beta]” in it:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; 
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;if [[ &quot;$TRAVIS_COMMIT_MESSAGE&quot; = *&quot;[beta]&quot;* ]]; then bundle exec fastlane beta; else bundle exec fastlane some_other_lane; fi&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TRAVIS_COMMIT_MESSAGE&lt;/code&gt; is &lt;a href=&quot;https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables&quot;&gt;one of many environment variables&lt;/a&gt; provided in travis.&lt;/p&gt;
-
-&lt;h2 id=&quot;after-build-comes-deploy&quot;&gt;After build comes deploy&lt;/h2&gt;
-
-&lt;p&gt;Deploy is an optional phase, the CD in &lt;code class=&quot;highlighter-rouge&quot;&gt;CI/CD&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;If build is successful, then the deploy phase will start.&lt;/p&gt;
-
-&lt;p&gt;For iOS, the deploy phase could be pushing the build to Testflight.&lt;/p&gt;
-
-&lt;h2 id=&quot;encrypting-secure-env-var&quot;&gt;Encrypting secure env var&lt;/h2&gt;
-
-&lt;p&gt;In &lt;code class=&quot;highlighter-rouge&quot;&gt;.travis.yml&lt;/code&gt;, you will frequently see &lt;code class=&quot;highlighter-rouge&quot;&gt;secure&lt;/code&gt; key.&lt;/p&gt;
-
-&lt;p&gt;These are &lt;a href=&quot;https://docs.travis-ci.com/user/environment-variables/&quot;&gt;environment variables&lt;/a&gt; that you can use everywhere - travis.yml, Fastfile or any script.&lt;/p&gt;
-
-&lt;p&gt;As they are sensitive values, you have to encrypt them in &lt;code class=&quot;highlighter-rouge&quot;&gt;.travis.yml&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Run this in terminal:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Install the tool&lt;/span&gt;
-gem install travis
-
-&lt;span class=&quot;c&quot;&gt;# Login&lt;/span&gt;
-travis login &lt;span class=&quot;nt&quot;&gt;--pro&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Encrypt the env var and add to travis.yml&lt;/span&gt;
-travis encrypt &lt;span class=&quot;nv&quot;&gt;SOMEVAR&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;secretvalue&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--add&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;For every key-value, it will add a “secure” to the env.global list.&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;global&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;secure&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;some-encrypted-value&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;secure&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;another-encrypted-value&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can then &lt;a href=&quot;https://docs.travis-ci.com/user/encryption-keys/&quot;&gt;use the key&lt;/a&gt; eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;SOMEVAR&lt;/code&gt; as an environment variable.&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus-dependencies-in-multiple-repository&quot;&gt;Bonus: Dependencies in multiple repository&lt;/h2&gt;
-
-&lt;p&gt;If your project has &lt;a href=&quot;https://docs.travis-ci.com/user/private-dependencies/&quot;&gt;dependencies to multiple repositories&lt;/a&gt;, there are 2 approach:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Deploy key&lt;/li&gt;
-  &lt;li&gt;User key&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;User key is the best practice, with a dedicated &lt;a href=&quot;https://docs.travis-ci.com/user/private-dependencies/#Dedicated-User-Account&quot;&gt;CI user account&lt;/a&gt;. This means creating an independent Github account, with access to those repositories, then generate the user’s SSH key for use in travis.&lt;/p&gt;
-
-&lt;p&gt;User key is preferred over Deploy key because Deploy key is per repo, hence it gets hard to maintain many keys (1 key per repo).&lt;/p&gt;
-
-&lt;h2 id=&quot;alternatives&quot;&gt;Alternatives&lt;/h2&gt;
-
-&lt;p&gt;The thing with Travis CI is that it is expensive, starting from $69/mth.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.atlassian.com/software/bamboo&quot;&gt;Bamboo&lt;/a&gt; is part of Atlassian, so it integrates well with Bitbucket, Jira, etc, and starts from $10/mth. &lt;a href=&quot;https://confluence.atlassian.com/bamboo/xcode-354353193.html&quot;&gt;Setup for Xcode&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.shippable.com/pricing.html&quot;&gt;Shippable&lt;/a&gt; has a generous free hosted service providing 150 builds/mth for private project.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://honzadvorsky.com/articles/2015-08-04-xcs_tutorials_1_getting_started/&quot;&gt;Xcode Server&lt;/a&gt; aka XCS have bots (like jobs). It integrates to Xcode nicely.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://medium.com/@cherrmann.com/continuous-integration-and-delivery-for-ios-with-jenkins-and-fastlane-part-1-3b17f1901a73&quot;&gt;Jenkins&lt;/a&gt; is free and you can self host it, on a macOS machine, that also means maintaining it.&lt;/p&gt;
-
-&lt;p&gt;Also, sample &lt;a href=&quot;https://github.com/spotify/ios-ci&quot;&gt;Spotify CI scripts&lt;/a&gt; for their open source projects. They use Travis CI and others.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 22 Feb 2018 16:02:51 +0800</pubDate>
-        <link>https://samwize.com/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/02/22/setting-up-travis-ci-with-fastlane-for-ios-project/</guid>
-        
-        
-        <category>iOS</category>
         
       </item>
     

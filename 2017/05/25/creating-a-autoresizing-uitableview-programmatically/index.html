@@ -191,7 +191,7 @@
 
 <p>Hence, if you want to use <code class="highlighter-rouge">scrollToRow</code>, then go use the archaic approach since the beginning of iOS - implement <code class="highlighter-rouge">heightForRowAt</code>.</p>
 
-<h2 id="bonus-table-headerfooter">Bonus: Table Header/Footer</h2>
+<h2 id="table-section-headerfooter">Table Section Header/Footer</h2>
 
 <p>Read <a href="/2015/11/06/guide-to-customizing-uitableview-section-header-footer/">this post</a> on adding header/footer.</p>
 
@@ -199,6 +199,39 @@
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tableView.register(headerFooterViewType: GroupHeaderView.self)
 </code></pre></div></div>
+
+<h2 id="table-headerfooter--autolayout">Table Header/Footer &amp; Autolayout</h2>
+
+<p>Table Header/Footer is for the whole table, not for the sections.</p>
+
+<p>A big problem with header/footer is that it does not support Autolayout nicely (the section header/footer is fine). There are some messy <a href="https://stackoverflow.com/a/28102175/242682">solutions</a>, or <a href="https://medium.com/@aunnnn/table-header-view-with-autolayout-13de4cfc4343">trying</a> fanatically setting the header view, layoutIfneeded, etc..</p>
+
+<p>As of iOS 11, I have tested that what is missing is that the header view needs to explicitly call <code class="highlighter-rouge">layoutIfneeded</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+
+    <span class="c1">// 1. Setup the views ..</span>
+    <span class="n">tableView</span><span class="o">.</span><span class="n">tableHeaderView</span> <span class="o">=</span> <span class="n">headerView</span>
+
+    <span class="c1">// 2. The constraints required (using Cartography)</span>
+    <span class="nf">constrain</span><span class="p">(</span><span class="n">tableView</span><span class="p">,</span> <span class="n">headerView</span><span class="p">)</span> <span class="p">{</span> <span class="n">table</span><span class="p">,</span> <span class="n">header</span> <span class="k">in</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">centerX</span> <span class="o">==</span> <span class="n">table</span><span class="o">.</span><span class="n">centerX</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">width</span> <span class="o">==</span> <span class="n">table</span><span class="o">.</span><span class="n">width</span>
+        <span class="n">header</span><span class="o">.</span><span class="n">top</span> <span class="o">==</span> <span class="n">table</span><span class="o">.</span><span class="n">top</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 3. IMPORTANT: This step is required for headerView to resize correctly</span>
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewWillLayoutSubviews</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewWillLayoutSubviews</span><span class="p">()</span>
+    <span class="n">headerView</span><span class="o">.</span><span class="nf">layoutIfNeeded</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Nobody really knows the proper way to use table header/footer. Apple published way is using storyboard..</p>
+
+<p>So let me know if this did work for you.</p>
 
         </section>
         <footer class="post-footer">
