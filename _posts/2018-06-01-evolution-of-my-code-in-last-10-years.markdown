@@ -1,14 +1,13 @@
 ---
 layout: post
 title: "How my iOS Code evolved in Last 10 Years"
-date: 2018-05-29T17:21:02+08:00
+date: 2018-06-01T07:21:02+08:00
 categories: [iOS]
-published: false
 ---
 
 I released my first iOS app in 2008, the year that iPhone changed the world.
 
-Recently, in time for World Cup 2018, I release v3 of the same app.
+Recently, in time for World Cup 2018, I release v3 of the [same app](http://just2us.com/sgfootball/).
 
 As I rewrite the app -- from Objective-C to Swift -- it dawned on me how much things have changed.
 
@@ -18,7 +17,7 @@ As I look at the code evolving from **v1 -> v2 -> v3** (thanks source control), 
 
 ## v1 (2008)
 
-- SVN Source Control (git not popular then)
+- SVN Source Control (git not popular back then)
 - AppDelegate is 1,600+ lines long!
 - Code form is inconsistent
   - Multiple line breaks
@@ -31,7 +30,7 @@ As I look at the code evolving from **v1 -> v2 -> v3** (thanks source control), 
 
 - iOS 6 is a big change with cleaner interface
 - Wrote better abstraction
-  - Replace `Type1ViewController`, `Type2ViewController`, etc with `OddsViewController`, which configure the cell according to the type
+  - Replace `Type1ViewController`, `Type2ViewController`, ... etc with `OddsViewController`, which configure the cell according to the type
 - Still Objective-C (no Swift yet)
 - Use of Cocoapods libraries
 - Use of my own private library
