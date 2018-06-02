@@ -179,16 +179,69 @@ Can't find the operator to your needs? Easily [extend](https://github.com/Reacti
 
 ## Drive UITableView
 
+### The Simple Case
+
+RxSwift support binding a list of items (eg. `fooList`, an observation of Foo items).
+
+```swift
+fooList.bind(to: tableView.rx.items(cellIdentifier: "Cell")) { index, model, cell in
+    cell.textLabel?.text = model
+}
+```
+
+But that is only for simple cases where you don't need sections, nor animating changes to the rows.
+
+### Advanced case using [RxDataSources](https://github.com/RxSwiftCommunity/RxDataSources)
+
+RxDataSources provides more. But first you have to map foo items to `SectionOfFoos`, a data structure you have to create for a section and the items it contains.
+
+```swift
+.fooList
+    .map { foo -> [SectionOfFoos] in
+        // Create and return sections
+    }
+    .bind(to: tableView.rx.items(dataSource: dataSource))
+    .disposed(by: disposeBag)
+```
+
+Create `SectionOfFoos` as you need:
+
+```swift
+struct SectionOfFoos {
+    var header: String
+    var items: [Item]
+}
+extension SectionOfFoos: SectionModelType {
+    typealias Item = Foo
+    init(original: SectionOfFoos, items: [Item]) {
+      self = original
+      self.items = items
+    }
+}
+```
+
+And the `dataSource`:
+
+```swift
+let dataSource = RxTableViewSectionedReloadDataSource<SectionOfFoos>()
+dataSource.configureCell = { (ds: RxTableViewSectionedReloadDataSource<SectionOfFoos>, tv: UITableView, ip: IndexPath, item: Item) in
+  let cell = tv.dequeueReusableCell(withIdentifier: "Cell", for: ip)
+  cell.textLabel?.text = item.xxx
+  return cell
+}
+dataSource.titleForHeaderInSection = { ds, index in
+  return ds.sectionModels[index].header
+}
+```
+
+However, note that the section only supports a simple string, using the simple header view. For custom header view, you have to implement `UITableViewDelegate`'s `viewForHeaderInSection`. Why? Because custom view header/footer is part of UITableViewDelegate. Ask Apple. RxDataSources wants to deal with UITableViewDatasource ONLY. So they [did not support](https://github.com/RxSwiftCommunity/RxDataSources/issues/203) custom header/footer view.
+
+### Row selected
+
 - tableView.rx.modelSelected(Foo.self) -> the Foo instance selected
 - tableView.rx.itemSelected -> the index path selected
 
 If you want both the item and index path, you can `zip`.
-
-https://github.com/RxSwiftCommunity/RxDataSources
-
-But section title only, no custom view. Why? Because custom view header/footer is part of UITableViewDelegate. Ask Apple.
-
-RxDataSources wants to deal with UITableViewDatasource ONLY. So they [did not support](https://github.com/RxSwiftCommunity/RxDataSources/issues/203) custom header/footer view.
 
 ---
 
