@@ -1,20 +1,19 @@
 ---
 layout: post
 title: "How my iOS Code evolved in Last 10 Years"
-date: 2018-05-29T17:21:02+08:00
+date: 2018-06-01T07:21:02+08:00
 categories: [iOS]
-published: false
 ---
 
 I released my first iOS app in 2008, the year that iPhone changed the world.
 
-Recently, in time for World Cup 2018, I release v3 of the same app.
+Recently, in time for World Cup 2018, I release v3 of the [same app](http://just2us.com/sgfootball/).
 
 As I rewrite the app -- from Objective-C to Swift -- it dawned on me how much things have changed.
 
-How much the tools have improved. How different designs and architecture are. How much my code has evolved.
+How much the tools have improved. How different designs and architectures are. How much my code has evolved.
 
-As I look at the code evolving from **v1 -> v2 -> v3** (thanks source control), I feel like reading my diary. It tells my story in iOS development.
+As I look at the code evolving from **v1 -> v2 -> v3** (thanks source control), I feel like I am reading my diary. It tells my story in iOS development.
 
 ## v1 (2008)
 
@@ -41,9 +40,9 @@ As I look at the code evolving from **v1 -> v2 -> v3** (thanks source control), 
 ## v3 (2018)
 
 - Objective-C to Swift
-  - Strongly typed language eliminates many crashes. Almost no crash.
+  - Strongly typed language eliminates many meaningless crashes.
 - Better namings of everything
-  - Xcode now can rename methods and types
+  - Xcode can finally can refactor by renaming methods and types
 - Scalable UI
   - Auto Layout for any device size or orientation
   - Dynamic (Font) Type

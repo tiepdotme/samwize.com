@@ -23,9 +23,13 @@ Go to the app > Account > Sign In using your personal iTunes account.
 
 ## 3. Update The Apps
 
-Go to Action > Update, and select the apps to update (or all).
+Go to Actions > Update, and select the apps to update (or all). If you have hundreds of apps to update, this process could stuck here.
 
-## 4. Find in folder
+Another way is to go to Actions > Add > Apps > Select the app to install from your purchase history.
+
+After the apps are downloaded, go to step 4 immediately.
+
+## 4. Find in cache folder
 
 The IPAs will be here:
 
