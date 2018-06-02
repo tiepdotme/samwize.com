@@ -177,6 +177,18 @@ Think hard where to perform side effects.
 
 Can't find the operator to your needs? Easily [extend](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/GettingStarted.md#custom-operators) `ObservableType` with your own.
 
+## Drive UITableView
+
+- tableView.rx.modelSelected(Foo.self) -> the Foo instance selected
+- tableView.rx.itemSelected -> the index path selected
+
+If you want both the item and index path, you can `zip`.
+
+https://github.com/RxSwiftCommunity/RxDataSources
+
+But section title only, no custom view. Why? Because custom view header/footer is part of UITableViewDelegate. Ask Apple.
+
+RxDataSources wants to deal with UITableViewDatasource ONLY. So they [did not support](https://github.com/RxSwiftCommunity/RxDataSources/issues/203) custom header/footer view.
 
 ---
 

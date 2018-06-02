@@ -17,7 +17,7 @@ As I look at the code evolving from **v1 -> v2 -> v3** (thanks source control), 
 
 ## v1 (2008)
 
-- SVN Source Control (git not popular then)
+- SVN Source Control (git not popular back then)
 - AppDelegate is 1,600+ lines long!
 - Code form is inconsistent
   - Multiple line breaks
@@ -30,7 +30,7 @@ As I look at the code evolving from **v1 -> v2 -> v3** (thanks source control), 
 
 - iOS 6 is a big change with cleaner interface
 - Wrote better abstraction
-  - Replace `Type1ViewController`, `Type2ViewController`, etc with `OddsViewController`, which configure the cell according to the type
+  - Replace `Type1ViewController`, `Type2ViewController`, ... etc with `OddsViewController`, which configure the cell according to the type
 - Still Objective-C (no Swift yet)
 - Use of Cocoapods libraries
 - Use of my own private library
