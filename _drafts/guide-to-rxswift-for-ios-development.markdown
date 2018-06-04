@@ -193,18 +193,7 @@ But that is only for simple cases where you don't need sections, nor animating c
 
 ### Advanced case using [RxDataSources](https://github.com/RxSwiftCommunity/RxDataSources)
 
-RxDataSources provides more. But first you have to map foo items to `SectionOfFoos`, a data structure you have to create for a section and the items it contains.
-
-```swift
-.fooList
-    .map { foo -> [SectionOfFoos] in
-        // Create and return sections
-    }
-    .bind(to: tableView.rx.items(dataSource: dataSource))
-    .disposed(by: disposeBag)
-```
-
-Create `SectionOfFoos` as you need:
+RxDataSources provides more. But first you have to map your items to `SectionOfFoos`, a data structure you have to create for a section and the items it contains.
 
 ```swift
 struct SectionOfFoos {
@@ -220,15 +209,28 @@ extension SectionOfFoos: SectionModelType {
 }
 ```
 
-And the `dataSource`:
+Then you bind (map if needed) to the table view.
 
 ```swift
-let dataSource = RxTableViewSectionedReloadDataSource<SectionOfFoos>()
-dataSource.configureCell = { (ds: RxTableViewSectionedReloadDataSource<SectionOfFoos>, tv: UITableView, ip: IndexPath, item: Item) in
+fooList
+    .map { foo -> [SectionOfFoos] in
+        // Create and return sections
+    }
+    .bind(to: tableView.rx.items(dataSource: dataSource))
+    .disposed(by: disposeBag)
+```
+
+The `dataSource` is where the magic happens:
+
+```swift
+var dataSource: RxTableViewSectionedReloadDataSource<SectionOfFoos>!
+
+dataSource = RxTableViewSectionedReloadDataSource<SectionOfFoos>(configureCell: { (ds, tv, ip, item) -> UITableViewCell in
   let cell = tv.dequeueReusableCell(withIdentifier: "Cell", for: ip)
   cell.textLabel?.text = item.xxx
   return cell
-}
+})
+
 dataSource.titleForHeaderInSection = { ds, index in
   return ds.sectionModels[index].header
 }
