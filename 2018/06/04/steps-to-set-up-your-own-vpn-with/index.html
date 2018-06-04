@@ -7,8 +7,8 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Swift Script to Download All WWDC 2016 Videos and PDFs Automatically</title>
-  <meta name="description" content="tldr: Check out wwdc-dl, the github project with the Swift scripts" />
+  <title>Set Up Your Own VPN Server With $5</title>
+  <meta name="description" content="This is a very cheap way to run your dedicated VPN server, with $5/month on DigitalOcean." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -17,24 +17,24 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Swift Script to Download All WWDC 2016 Videos and PDFs Automatically" />
+    <meta name="twitter:title" content="Set Up Your Own VPN Server With $5" />
     <meta name="twitter:image" content="https://samwize.com" />
     
-    <meta name="twitter:description"  content="tldr: Check out wwdc-dl, the github project with the Swift scripts" />
+    <meta name="twitter:description"  content="This is a very cheap way to run your dedicated VPN server, with $5/month on DigitalOcean." />
     
   
 
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Swift Script to Download All WWDC 2016 Videos and PDFs Automatically"/>
+  <meta property="og:title" content="Set Up Your Own VPN Server With $5"/>
   
-  <meta property="og:description" content="tldr: Check out wwdc-dl, the github project with the Swift scripts" />
+  <meta property="og:description" content="This is a very cheap way to run your dedicated VPN server, with $5/month on DigitalOcean." />
   
   <meta property="og:image" content="https://samwize.com" />
-  <meta property="og:url" content="https://samwize.com/2016/06/16/swift-script-to-download-all-wwdc-2016-videos-and-pdfs-automatically/" >
+  <meta property="og:url" content="https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with/" >
   <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2016-06-16T02:11:10+08:00">
+  <meta property="article:published_time" content="2018-06-04T00:46:32+08:00">
 
-  <link rel="canonical" href="https://samwize.com/2016/06/16/swift-script-to-download-all-wwdc-2016-videos-and-pdfs-automatically/">
+  <link rel="canonical" href="https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with/">
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
@@ -52,7 +52,7 @@
   </script>
 
 </head>
-  <link href='/stylesheets/all-16cf8464466d74e8c3d539476043c2ec.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f6de41c1bdc570a29ff268e2c660f7bf.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -64,9 +64,9 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Swift Script to Download All WWDC 2016 Videos and PDFs Automatically</h1>
+            <h1 class="post-title">Set Up Your Own VPN Server With $5</h1>
             <div class="cf post-meta-text">
-              <time datetime="2016-06-16T02:11:10+08:00">16 June 2016</time>
+              <time datetime="2018-06-04T00:46:32+08:00">04 June 2018</time>
             </div>
           </div>
         </div>
@@ -80,54 +80,94 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><em>tldr: Check out <a href="https://github.com/samwize/wwdc-dl">wwdc-dl</a>, the github project with the Swift scripts</em></p>
+          <p>This is a very cheap way to run your dedicated VPN server, with $5/month on <a href="https://m.do.co/c/69baaaf5a07b">DigitalOcean</a>.</p>
 
-<p>While I may be at WWDC physically (for the first time!), I still prefer to download and comfortably watch the sessions on my MacBook.</p>
+<h2 id="1-sign-up-digitalocean">1. Sign Up DigitalOcean</h2>
 
-<p>It is refreshing to be live and watching the presenter, and <em>excessively applause every now and then</em>.</p>
+<p>I have been using Digital Ocean for a long time and highly recommend it when you need a dedicated server.</p>
 
-<p>But it does not value add much.</p>
+<p>Sign up DigitalOcean with my <a href="https://m.do.co/c/69baaaf5a07b">referral link</a>, and get <strong>FREE $10 (that’s 2 months!)</strong> to start with.</p>
 
-<p>A more efficient way is to skim through the PDF first, then watch the interested video at 1.5x speed (:</p>
+<p>When you do not need the VPN server any longer, you may shut it down anytime, and you won’t incur a thing.</p>
 
-<h2 id="my-swift-script">My Swift Script</h2>
+<h2 id="2-setup-for-ssh">2. Setup for SSH</h2>
 
-<p>For <a href="/2015/06/14/how-to-download-all-wwdc-2015-pdf-slides-only/">WWDC 2014</a> and <a href="/2015/06/14/how-to-download-all-wwdc-2015-pdf-slides-only/">WWDC 2015</a>, I had used <a href="https://github.com/ohoachuck/wwdc-downloader">ohoachuck’s wwdc-downloader</a>. It was good, but it wasn’t updated for 2016, yet.</p>
+<p>Before you create your droplet, you must setup your computer for ssh-ing later on.</p>
 
-<p>Not too long ago I tried to <a href="/2016/05/20/introduction-to-scripting-in-swift/">write more scripts with Swift</a>.</p>
+<p>If you have never setup your RSA key pair, then you will have to run <code class="highlighter-rouge">ssh-keygen</code> first.</p>
 
-<p>So I thought I write in Swift to download the session videos and PDFs automatically!</p>
+<p>Copy the public key,</p>
 
-<p>Go check out <a href="https://github.com/samwize/wwdc-dl">wwdc-dl</a>.</p>
-
-<p>To use:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Download the PDFs first
-./wwdc-dl.swift -s 205,207,208,204,206,301,302 --pdfonly
-
-# Download the interested videos (default SD)
-./wwdc-dl.swift -s 205,302
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat ~/.ssh/id_rsa.pub|pbcopy
 </code></pre></div></div>
 
-<p>And they will be in <code class="highlighter-rouge">~/Documents/WWDC-2016</code>.</p>
+<p>Then paste that in DigitalOcean &gt; Settings &gt; Security &gt; Add SSH Key.</p>
 
-<p><em>Note: It was hacked quickly at 4am, and it is plain simple, without progress indication or any error handling eg. If there is no PDF for the session, it will just crash!</em></p>
+<h2 id="3-create-droplet-the-server">3. Create Droplet (the server)</h2>
 
-<p><img src="/images/junda-wwdc-2016.jpg" alt="Hello WWDC 2016!" /></p>
+<p>Create Droplets &gt; One-click apps &gt; Docker 17.12 on 16.04</p>
+
+<p>Choose the cheapest $5/month droplet size, with 1 GB memory etc.</p>
+
+<p>Choose the datacenter region which you want to VPN to eg. Singapore</p>
+
+<p>Create a hostname eg. sg-vpn</p>
+
+<p>Note down the IP for your droplet (the ipv4). My example uses 128.199.123.123.</p>
+
+<h2 id="4-install-openvpn">4. Install OpenVPN</h2>
+
+<p>Now we get into the server and install the VPN service.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh root@128.199.123.123
+</code></pre></div></div>
+
+<p>If you have trouble SSH in, make sure you setup your SSH keys in step 2 (will need to recreate droplet).</p>
+
+<p>Run these docker commands, enter a PEM pass phrase when prompted (mandatory). Give a Common Name eg. “sg-vpn”.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OVPN_DATA="ovpn-data"
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://128.199.123.123
+docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+docker run -v $OVPN_DATA:/etc/openvpn -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
+</code></pre></div></div>
+
+<p>Next, generate the ovpn file – a configuration that your computer can import later. In the example I have “sg-vpn.ovpn”.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &gt; sg-vpn.ovpn
+</code></pre></div></div>
+
+<p>We need to now exit ssh remote and go back to your computer.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>exit
+</code></pre></div></div>
+
+<h2 id="5-install-tunnelblick">5. Install TunnelBlick</h2>
+
+<p>On your computer, download the ovpn file using scp.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># This copy the ovpn file (in /root) to the current directory you're in
+scp -r root@128.199.123.123:/root/sg-vpn.ovpn .
+</code></pre></div></div>
+
+<p>Install <a href="https://tunnelblick.net">TunnelBlick</a>, a VPN client. You may use others.</p>
+
+<p>Open or import the ovpn file, and enjoy your VPN (:</p>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Swift+Script+to+Download+All+WWDC+2016+Videos+and+PDFs+Automatically&amp;url=https://samwize.com/2016/06/16/swift-script-to-download-all-wwdc-2016-videos-and-pdfs-automatically"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Set+Up+Your+Own+VPN+Server+With+%245&amp;url=https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Swift+Script+to+Download+All+WWDC+2016+Videos+and+PDFs+Automatically&amp;u=https://samwize.com/2016/06/16/swift-script-to-download-all-wwdc-2016-videos-and-pdfs-automatically"
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Set+Up+Your+Own+VPN+Server+With+%245&amp;u=https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with"
                   onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
                 <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
                 </a>
@@ -136,7 +176,7 @@
               
             
               
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Swift+Script+to+Download+All+WWDC+2016+Videos+and+PDFs+Automatically&amp;url=https://samwize.com/2016/06/16/swift-script-to-download-all-wwdc-2016-videos-and-pdfs-automatically"
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Set+Up+Your+Own+VPN+Server+With+%245&amp;url=https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with"
                   onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
                 <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
                 </a>

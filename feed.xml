@@ -6,9 +6,93 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 01 Jun 2018 10:43:53 +0800</pubDate>
-    <lastBuildDate>Fri, 01 Jun 2018 10:43:53 +0800</lastBuildDate>
+    <pubDate>Mon, 04 Jun 2018 11:04:42 +0800</pubDate>
+    <lastBuildDate>Mon, 04 Jun 2018 11:04:42 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Set Up Your Own VPN Server With $5</title>
+        <description>&lt;p&gt;This is a very cheap way to run your dedicated VPN server, with $5/month on &lt;a href=&quot;https://m.do.co/c/69baaaf5a07b&quot;&gt;DigitalOcean&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-sign-up-digitalocean&quot;&gt;1. Sign Up DigitalOcean&lt;/h2&gt;
+
+&lt;p&gt;I have been using Digital Ocean for a long time and highly recommend it when you need a dedicated server.&lt;/p&gt;
+
+&lt;p&gt;Sign up DigitalOcean with my &lt;a href=&quot;https://m.do.co/c/69baaaf5a07b&quot;&gt;referral link&lt;/a&gt;, and get &lt;strong&gt;FREE $10 (that’s 2 months!)&lt;/strong&gt; to start with.&lt;/p&gt;
+
+&lt;p&gt;When you do not need the VPN server any longer, you may shut it down anytime, and you won’t incur a thing.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-setup-for-ssh&quot;&gt;2. Setup for SSH&lt;/h2&gt;
+
+&lt;p&gt;Before you create your droplet, you must setup your computer for ssh-ing later on.&lt;/p&gt;
+
+&lt;p&gt;If you have never setup your RSA key pair, then you will have to run &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; first.&lt;/p&gt;
+
+&lt;p&gt;Copy the public key,&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat ~/.ssh/id_rsa.pub|pbcopy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then paste that in DigitalOcean &amp;gt; Settings &amp;gt; Security &amp;gt; Add SSH Key.&lt;/p&gt;
+
+&lt;h2 id=&quot;3-create-droplet-the-server&quot;&gt;3. Create Droplet (the server)&lt;/h2&gt;
+
+&lt;p&gt;Create Droplets &amp;gt; One-click apps &amp;gt; Docker 17.12 on 16.04&lt;/p&gt;
+
+&lt;p&gt;Choose the cheapest $5/month droplet size, with 1 GB memory etc.&lt;/p&gt;
+
+&lt;p&gt;Choose the datacenter region which you want to VPN to eg. Singapore&lt;/p&gt;
+
+&lt;p&gt;Create a hostname eg. sg-vpn&lt;/p&gt;
+
+&lt;p&gt;Note down the IP for your droplet (the ipv4). My example uses 128.199.123.123.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-install-openvpn&quot;&gt;4. Install OpenVPN&lt;/h2&gt;
+
+&lt;p&gt;Now we get into the server and install the VPN service.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh root@128.199.123.123
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you have trouble SSH in, make sure you setup your SSH keys in step 2 (will need to recreate droplet).&lt;/p&gt;
+
+&lt;p&gt;Run these docker commands, enter a PEM pass phrase when prompted (mandatory). Give a Common Name eg. “sg-vpn”.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;OVPN_DATA=&quot;ovpn-data&quot;
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://128.199.123.123
+docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+docker run -v $OVPN_DATA:/etc/openvpn -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Next, generate the ovpn file – a configuration that your computer can import later. In the example I have “sg-vpn.ovpn”.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full CLIENTNAME nopass
+docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient CLIENTNAME &amp;gt; sg-vpn.ovpn
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We need to now exit ssh remote and go back to your computer.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;exit
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;5-install-tunnelblick&quot;&gt;5. Install TunnelBlick&lt;/h2&gt;
+
+&lt;p&gt;On your computer, download the ovpn file using scp.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# This copy the ovpn file (in /root) to the current directory you're in
+scp -r root@128.199.123.123:/root/sg-vpn.ovpn .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Install &lt;a href=&quot;https://tunnelblick.net&quot;&gt;TunnelBlick&lt;/a&gt;, a VPN client. You may use others.&lt;/p&gt;
+
+&lt;p&gt;Open or import the ovpn file, and enjoy your VPN (:&lt;/p&gt;
+</description>
+        <pubDate>Mon, 04 Jun 2018 00:46:32 +0800</pubDate>
+        <link>https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with/</guid>
+        
+        
+      </item>
     
       <item>
         <title>How my iOS Code evolved in Last 10 Years</title>
@@ -18,9 +102,9 @@
 
 &lt;p&gt;As I rewrite the app – from Objective-C to Swift – it dawned on me how much things have changed.&lt;/p&gt;
 
-&lt;p&gt;How much the tools have improved. How different designs and architecture are. How much my code has evolved.&lt;/p&gt;
+&lt;p&gt;How much the tools have improved. How different designs and architectures are. How much my code has evolved.&lt;/p&gt;
 
-&lt;p&gt;As I look at the code evolving from &lt;strong&gt;v1 -&amp;gt; v2 -&amp;gt; v3&lt;/strong&gt; (thanks source control), I feel like reading my diary. It tells my story in iOS development.&lt;/p&gt;
+&lt;p&gt;As I look at the code evolving from &lt;strong&gt;v1 -&amp;gt; v2 -&amp;gt; v3&lt;/strong&gt; (thanks source control), I feel like I am reading my diary. It tells my story in iOS development.&lt;/p&gt;
 
 &lt;h2 id=&quot;v1-2008&quot;&gt;v1 (2008)&lt;/h2&gt;
 
@@ -59,12 +143,12 @@
 &lt;ul&gt;
   &lt;li&gt;Objective-C to Swift
     &lt;ul&gt;
-      &lt;li&gt;Strongly typed language eliminates many crashes. Almost no crash.&lt;/li&gt;
+      &lt;li&gt;Strongly typed language eliminates many meaningless crashes.&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Better namings of everything
     &lt;ul&gt;
-      &lt;li&gt;Xcode now can rename methods and types&lt;/li&gt;
+      &lt;li&gt;Xcode can finally can refactor by renaming methods and types&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
   &lt;li&gt;Scalable UI
@@ -119,9 +203,13 @@
 
 &lt;h2 id=&quot;3-update-the-apps&quot;&gt;3. Update The Apps&lt;/h2&gt;
 
-&lt;p&gt;Go to Action &amp;gt; Update, and select the apps to update (or all).&lt;/p&gt;
+&lt;p&gt;Go to Actions &amp;gt; Update, and select the apps to update (or all). If you have hundreds of apps to update, this process could stuck here.&lt;/p&gt;
 
-&lt;h2 id=&quot;4-find-in-folder&quot;&gt;4. Find in folder&lt;/h2&gt;
+&lt;p&gt;Another way is to go to Actions &amp;gt; Add &amp;gt; Apps &amp;gt; Select the app to install from your purchase history.&lt;/p&gt;
+
+&lt;p&gt;After the apps are downloaded, go to step 4 immediately.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-find-in-cache-folder&quot;&gt;4. Find in cache folder&lt;/h2&gt;
 
 &lt;p&gt;The IPAs will be here:&lt;/p&gt;
 
@@ -731,175 +819,6 @@
         <category>Website</category>
         
         <category>Github</category>
-        
-      </item>
-    
-      <item>
-        <title>Swift Lint to Improve Code Quality</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/realm/SwiftLint&quot;&gt;SwiftLint&lt;/a&gt; helps to enforce coding style.&lt;/p&gt;
-
-&lt;p&gt;It is useful when working in a team because warnings &amp;amp; errors are produced when the code is &lt;em&gt;not up to standard&lt;/em&gt;. The rules are fully customizable according to a team needs.&lt;/p&gt;
-
-&lt;p&gt;This guide will be on how to setup &lt;a href=&quot;https://github.com/realm/SwiftLint&quot;&gt;SwiftLint&lt;/a&gt; for an existing project, and with Fastlane.&lt;/p&gt;
-
-&lt;h2 id=&quot;step-1-install-the-tool&quot;&gt;Step 1. Install the tool&lt;/h2&gt;
-
-&lt;p&gt;Add to &lt;code class=&quot;highlighter-rouge&quot;&gt;Podfile&lt;/code&gt; and do a &lt;code class=&quot;highlighter-rouge&quot;&gt;pod install&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pod 'SwiftLint'
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;step-2-run-script-on-build&quot;&gt;Step 2. Run script on build&lt;/h2&gt;
-
-&lt;p&gt;In &lt;strong&gt;Target &amp;gt; Build Phases &amp;gt; New Run Script Phase&lt;/strong&gt;, add&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;${PODS_ROOT}/SwiftLint/swiftlint&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Now, whenever you build the target, swiftlint will run.&lt;/p&gt;
-
-&lt;p&gt;If you run with an existing project, it is likely to have warnings/errors. This is because the default rules are being used.&lt;/p&gt;
-
-&lt;h2 id=&quot;step-3-customize-the-rules&quot;&gt;Step 3. Customize the rules&lt;/h2&gt;
-
-&lt;p&gt;You can find &lt;a href=&quot;https://github.com/realm/SwiftLint/blob/master/Rules.md&quot;&gt;all the rules&lt;/a&gt; in the wiki. By default, around 70% are enabled.&lt;/p&gt;
-
-&lt;p&gt;You can &lt;a href=&quot;https://github.com/realm/SwiftLint#configuration&quot;&gt;customize the rules&lt;/a&gt; with a &lt;code class=&quot;highlighter-rouge&quot;&gt;.swiftlint.yml&lt;/code&gt; file in the root folder.&lt;/p&gt;
-
-&lt;p&gt;Let’s take a look at how the configuration file works:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# You can disable rules that have been enabled by default&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;disabled_rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;identifier_name&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;force_cast&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# Similarly, you can enable rules that have been disabled by default&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;opt_in_rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;first_where&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# Exclude directories that you don't want to lint&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;excluded&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Pods&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fastlane&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# Use &quot;xcode&quot; so that when you build, the result will be shown in Xcode&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;reporter&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;xcode&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Other reporters: json, csv, checkstyle, junit, html, emoji&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# The rule `function_body_length` by default triggers warning at 40, error at 100&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# This example increases by 3 times&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;function_body_length&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;warning&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;120&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;300&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Sometimes, you want to dig into the &lt;a href=&quot;https://github.com/realm/SwiftLint/tree/master/Source/SwiftLintFramework/Rules&quot;&gt;code for each rule&lt;/a&gt; to understand how it works.&lt;/p&gt;
-
-&lt;p&gt;And you can also create &lt;a href=&quot;https://github.com/realm/SwiftLint#defining-custom-rules&quot;&gt;custom rules&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;step-4-integrate-with-fastlane&quot;&gt;Step 4. Integrate with fastlane&lt;/h2&gt;
-
-&lt;p&gt;You can already see the warnings whenever you build in Xcode.&lt;/p&gt;
-
-&lt;p&gt;Integrating with Fastlane is for another purpose – to generate a HTML report.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Add a lane in Fastfile&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;desc&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Run lint&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;lane&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:lint&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;swiftlint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;mode: :lint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;executable: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Pods/SwiftLint/swiftlint&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;reporter: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;output_file: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;swiftlint-results.html&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;ignore_exit_status: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The difference with using fastlane is that the reporter is set to &lt;strong&gt;html&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;You can run &lt;code class=&quot;highlighter-rouge&quot;&gt;fastlane lint&lt;/code&gt; manually, and open up swiftlint-results.html to see all the violations.&lt;/p&gt;
-
-&lt;h2 id=&quot;step-5-autocorrect&quot;&gt;Step 5. Autocorrect&lt;/h2&gt;
-
-&lt;p&gt;Swiftlint has magic.&lt;/p&gt;
-
-&lt;p&gt;For some rules, the tool can automatically fix your code! You are lucky if a rule &lt;a href=&quot;https://github.com/realm/SwiftLint/blob/master/Rules.md&quot;&gt;&lt;strong&gt;supports autocorrection&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Add another lane that run autocorrect mode&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;desc&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Run lint autocorrect&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;lane&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:lint_autocorrect&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;swiftlint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;mode: :autocorrect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;executable: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Pods/SwiftLint/swiftlint&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;ss&quot;&gt;config_file: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.swiftlint-autocorrect.yml&quot;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Note that we use a different config file &lt;code class=&quot;highlighter-rouge&quot;&gt;.swiftlint-autocorrect.yml&lt;/code&gt;. And in this file, we use another approach to specify the rules – whitelisting.&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Only work with these rules&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;whitelist_rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;trailing_whitespace&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;trailing_newline&lt;/span&gt;
-  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;vertical_whitespace&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Run &lt;code class=&quot;highlighter-rouge&quot;&gt;fastlane lint_autocorrect&lt;/code&gt; and watch the magic happens.&lt;/p&gt;
-
-&lt;h2 id=&quot;step-6-disable-rules-in-code&quot;&gt;Step 6: Disable rules in code&lt;/h2&gt;
-
-&lt;p&gt;&lt;em&gt;Rules are meant to be broken.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Sometimes, you knowingly break rules.&lt;/p&gt;
-
-&lt;p&gt;When that happens, and you really want it that way, you can disable the rule &lt;a href=&quot;https://github.com/realm/SwiftLint#disable-rules-in-code&quot;&gt;in code&lt;/a&gt; on a case-by-case basis.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// swiftlint:disable force_cast&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// Now the rule force_cast is disabled&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;noWarning&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as!&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// Re-enable back the rules&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// swiftlint:enable force_cast&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// Disable with `this` (inline), `next` (next line) or `previous`&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;noWarning&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as!&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// swiftlint:disable:this force_cast&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;summary-the-approach-for-an-existing-project&quot;&gt;Summary: The approach for an existing project&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Use the default rules&lt;/li&gt;
-  &lt;li&gt;Build&lt;/li&gt;
-  &lt;li&gt;Fix a rule by either:
-    &lt;ol&gt;
-      &lt;li&gt;Autocorrect, if possible&lt;/li&gt;
-      &lt;li&gt;Remove it by adding to &lt;code class=&quot;highlighter-rouge&quot;&gt;disabled_rules&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;Customize it&lt;/li&gt;
-      &lt;li&gt;Disable in code&lt;/li&gt;
-    &lt;/ol&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;When all the default rules are “fixed”, go through the rules that are disabled by default. Add them to &lt;code class=&quot;highlighter-rouge&quot;&gt;opt_in_rules&lt;/code&gt;, if useful.&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus-rule-trailing_whitespace&quot;&gt;Bonus: Rule trailing_whitespace&lt;/h2&gt;
-
-&lt;p&gt;“Lines should not have trailing whitespace.”&lt;/p&gt;
-
-&lt;p&gt;Xcode by default will have whitespace for empty lines, following the indentation. This is unecessary, a bad default, which you can change.&lt;/p&gt;
-
-&lt;p&gt;Enable in &lt;strong&gt;Xcode Preferences &amp;gt; Text Editing &amp;gt; Including whitespace-only lines&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/xcode-preference-whitelines.jpg&quot; alt=&quot;Xcode Preferences&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Thu, 08 Mar 2018 13:43:08 +0800</pubDate>
-        <link>https://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/03/08/swift-lint-to-improve-code-quality/</guid>
-        
-        
-        <category>Swift</category>
-        
-        <category>Code</category>
         
       </item>
     
