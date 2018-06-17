@@ -9,12 +9,9 @@ published: false
 https://www.thedroidsonroids.com/blog/ios/rxswift-by-examples-2-observable-and-the-bind
 Good examples
 
-https://medium.com/@benlesh/hot-vs-cold-observables-f8094ed53339
-Good Hot vs Cold -- producer created outside vs inside
-
 [RxSwift](https://github.com/ReactiveX/RxSwift), the gem from ReactiveX community (providing also familiar RxJava, RxEtc).
 
-[RxSwift Community](https://github.com/rxswiftcommunity) for more open source power, such as [RxDataSources](https://github.com/RxSwiftCommunity/RxDataSources).
+[RxSwift Community](https://github.com/rxswiftcommunity) for more open source power, such as [RxDataSources](https://github.com/RxSwiftCommunity/RxDataSources) and [RxSwiftExt](https://github.com/RxSwiftCommunity/RxSwiftExt).
 
 ## Why RxSwift?
 
@@ -244,6 +241,48 @@ However, note that the section only supports a simple string, using the simple h
 - tableView.rx.itemSelected -> the index path selected
 
 If you want both the item and index path, you can `zip`.
+
+## Materialize
+
+[RxSwiftExt](https://github.com/RxSwiftCommunity/RxSwiftExt) provides `materialize` operator. It [transforms](https://github.com/RxSwiftCommunity/RxSwiftExt#errors-elements) Observable<T> into another Observable with 2 additional operators:
+
+1. `elements` which produces Observable<T>
+2. `errors` which produces Observable<Error>
+
+What makes this special is that an error produced in the sequence will NOT terminate, but instead produced in (2) like an event.
+
+[Adam Borek](http://adamborek.com/how-to-handle-errors-in-rxswift/) explained UI scenario where we never want the sequence to terminate. Using `Result` is another way but not swifty.
+
+## Hot/Warm/Active vs Cold/Cool/Passive
+
+There are 2 types of observable - Hot & Cold - but the terms can be confusing.
+
+[Tailec](http://www.tailec.com/blog/understanding-publish-connect-refcount-share) prefers:
+
+1. Active - produces events all the time, regardless of subscriptions
+2. Passive - produces on request
+
+A good explainable of Hot & Cold is looking at [where the producer is created](https://medium.com/@benlesh/hot-vs-cold-observables-f8094ed53339) - outside vs inside.
+
+RxSwift says to think of hot & cold [as property](https://github.com/ReactiveX/RxSwift/blob/master/Documentation/HotAndColdObservables.md) to `Observable`. They are NOT 2 types of observables.
+
+Examples of Hot: UITextField.rx.text
+
+Examples of Cold: Observable.create()
+
+## Share
+
+1 of the surprise that newbie to the Rx world faced is that when you have eg. HTTP request as an observable, and when you subscribe TWICE, the requests will be made TWICE.
+
+`share` will make the observable produce just ONCE, and sharing with multiple subscriptions.
+
+You can [learn](https://blog.kaush.co/2015/01/21/rxjava-tip-for-the-day-share-publish-refcount-and-all-that-jazz/) [deeper](http://www.tailec.com/blog/understanding-publish-connect-refcount-share) on `publish().connect()/refcount()`. Also read the marbles on [connect](http://reactivex.io/documentation/operators/connect.html) and [refcount](http://reactivex.io/documentation/operators/refcount.html).
+
+`share` is actualy a shorthand to `publish().refcount()`.
+
+What `publish()` does is to turn a Observable into a _cold one_ (ConnectedObservable). Events are only emitted after `connect()` is called. This is helpful to make sure all subscribers are ready before calling `connect()` to start emitting events.
+
+`refcount()` is a helper to do _reference counting_. It counts the number of subscribers, and will connect to the observable as long as there is subscribers.
 
 ---
 
