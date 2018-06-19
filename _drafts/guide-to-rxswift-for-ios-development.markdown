@@ -288,7 +288,7 @@ What `publish()` does is to turn a Observable into a _cold one_ (ConnectedObserv
 
 ## Resources
 
-http://adamborek.com/rxswift-materials-list/ - List of readings, including his own [Thinking in RxSwfit](http://adamborek.com/thinking-rxswift/)
+http://adamborek.com/rxswift-materials-list/ - List of readings, including his own [Thinking in RxSwfit](http://adamborek.com/thinking-rxswift/), with a practical example walking through the common operators such as flatMapLatest
 
 https://medium.com/koolicar-engineering/rxswift-behaviorrelay-over-variable-182865ce10e0 - BehaviorRelay replace Variable
 
