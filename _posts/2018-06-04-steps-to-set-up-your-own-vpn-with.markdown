@@ -29,7 +29,7 @@ Then paste that in DigitalOcean > Settings > Security > Add SSH Key.
 
 ## 3. Create Droplet (the server)
 
-Create Droplets > One-click apps > Docker 17.12 on 16.04
+Create > Droplets > One-click apps > Docker 17.12.0 on 16.04 (latest version might differ)
 
 Choose the cheapest $5/month droplet size, with 1 GB memory etc.
 
