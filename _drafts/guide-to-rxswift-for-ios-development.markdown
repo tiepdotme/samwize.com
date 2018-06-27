@@ -272,7 +272,9 @@ Examples of Cold: Observable.create()
 
 ## Share
 
-1 of the surprise that newbie to the Rx world faced is that when you have eg. HTTP request as an observable, and when you subscribe TWICE, the requests will be made TWICE.
+1 of the surprise that newbie to the Rx world faced is that when you have eg. HTTP request as an observable, and when you subscribe TWICE, the requests will be made TWICE (if you use [URLSession.rx.data](https://github.com/ReactiveX/RxSwift/blob/master/RxCocoa/Foundation/URLSession%2BRx.swift)).
+
+That's because each subscribe trigger the creation of observable.
 
 `share` will make the observable produce just ONCE, and sharing with multiple subscriptions.
 
@@ -288,7 +290,7 @@ What `publish()` does is to turn a Observable into a _cold one_ (ConnectedObserv
 
 ## Resources
 
-http://adamborek.com/rxswift-materials-list/ - List of readings, including his own [Thinking in RxSwfit](http://adamborek.com/thinking-rxswift/), with a practical example walking through the common operators such as flatMapLatest
+http://adamborek.com/rxswift-materials-list/ - List of readings, including his own [Thinking in RxSwfit](http://adamborek.com/thinking-rxswift/), and [common mistakes](http://adamborek.com/top-7-rxswift-mistakes/).
 
 https://medium.com/koolicar-engineering/rxswift-behaviorrelay-over-variable-182865ce10e0 - BehaviorRelay replace Variable
 
