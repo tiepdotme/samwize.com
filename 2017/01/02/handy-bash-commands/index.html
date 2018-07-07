@@ -52,7 +52,7 @@
   </script>
 
 </head>
-  <link href='/stylesheets/all-f6de41c1bdc570a29ff268e2c660f7bf.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -147,6 +147,17 @@ for f in * ; do mv "$f" "XXX_$f" ; done
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Find recursively in the directory for the string 'needle'
 grep -R 'needle' path/to/dir/
 </code></pre></div></div>
+
+<h2 id="sleep-and-timeout">Sleep and Timeout</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Start running a command (eg streamlink) after 60 seconds
+sleep 60 &amp;&amp; streamlink ...
+
+# Run long running command (eg streamlink) and terminate after 60 seconds
+gtimeout 60 streamlink ...
+</code></pre></div></div>
+
+<p>On macOS, you need to <code class="highlighter-rouge">brew install coreutils</code> to use <code class="highlighter-rouge">gtimeout</code>.</p>
 
         </section>
         <footer class="post-footer">

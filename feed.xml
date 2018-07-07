@@ -6,9 +6,94 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 27 Jun 2018 16:57:33 +0800</pubDate>
-    <lastBuildDate>Wed, 27 Jun 2018 16:57:33 +0800</lastBuildDate>
+    <pubDate>Sat, 07 Jul 2018 15:20:32 +0800</pubDate>
+    <lastBuildDate>Sat, 07 Jul 2018 15:20:32 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Schedule Cron Jobs on Mac With Crontab</title>
+        <description>&lt;p&gt;I introduced &lt;code class=&quot;highlighter-rouge&quot;&gt;sleep&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;gtimeout&lt;/code&gt; in my post on &lt;a href=&quot;/2017/01/02/handy-bash-commands/&quot;&gt;some nice bash commands&lt;/a&gt; available in macOS.&lt;/p&gt;
+
+&lt;p&gt;The advanced way of scheduling job is to run cron jobs.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.adminschoice.com/crontab-quick-reference&quot;&gt;Crontab&lt;/a&gt; sets up cron jobs and runs them at specific time, and repeatedly.&lt;/p&gt;
+
+&lt;p&gt;One frequent use case I have is to schedule my computer to download live youtube streams at wee hours, using &lt;a href=&quot;https://github.com/streamlink/streamlink&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;streamlink&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;basic-cron-job&quot;&gt;Basic Cron Job&lt;/h2&gt;
+
+&lt;p&gt;To edit the cron jobs, run:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;env EDITOR=nano crontab -e
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We use nano text editor as that is easier. You need to save and exit the editor every time you finish editing it.&lt;/p&gt;
+
+&lt;p&gt;Enter a line of text, representing a cron job, like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;59 23 * * * cd ~/Documents &amp;amp;&amp;amp; /usr/local/bin/streamlink https://www.youtube.com/watch\?v\=y3oW28Draso best &amp;gt;/tmp/stdout.log 2&amp;gt;/tmp/stderr.log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This long line:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;runs the command on 23:59 every day&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cd&lt;/code&gt; to a directory&lt;/li&gt;
+  &lt;li&gt;then run the &lt;code class=&quot;highlighter-rouge&quot;&gt;streamlink&lt;/code&gt; command, with full path to the command because cron is run without knowing the env var &lt;code class=&quot;highlighter-rouge&quot;&gt;PATH&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;writes the output to /tmp/stdout.log and error to /tmp/stderr.log&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;use-a-script&quot;&gt;Use a script&lt;/h2&gt;
+
+&lt;p&gt;To keep things tidy in crontab, I will often write the commands in a script eg “job.sh” in ~/Documents.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cd ~/Documents
+touch job.sh
+chmod +x job.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The content of “job.sh”:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; ~/Documents
+
+&lt;span class=&quot;nv&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;date &lt;span class=&quot;s2&quot;&gt;&quot;+%Y-%m-%d %H%M&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;
+
+streamlink &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$now&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.ts&quot;&lt;/span&gt; https://www.youtube.com/watch&lt;span class=&quot;se&quot;&gt;\?&lt;/span&gt;v&lt;span class=&quot;se&quot;&gt;\=&lt;/span&gt;9kVxPmh8eSQ best
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;set the &lt;code class=&quot;highlighter-rouge&quot;&gt;PATH&lt;/code&gt; env var, so that all common executables are available&lt;/li&gt;
+  &lt;li&gt;use &lt;code class=&quot;highlighter-rouge&quot;&gt;date&lt;/code&gt; for the file name eg. “2018-07-07 0810.ts”&lt;/li&gt;
+  &lt;li&gt;calls &lt;code class=&quot;highlighter-rouge&quot;&gt;streamlink&lt;/code&gt; to download live youtube stream&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Then in crontab, each job is simplified to just running the script.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;59 23 * * * ~/Documents/job.sh &amp;gt;/tmp/stdout.log 2&amp;gt;/tmp/stderr.log
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;other-tips&quot;&gt;Other Tips&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# List the processes with name streamlink
+ps aux | grep streamlink
+
+# Kill the process with the id eg. 26959
+kill -9 26959
+
+# Kill all streamlink processes in 1 command:
+ps aux | grep streamlink | awk '{print $2}' | xargs kill -9
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sat, 07 Jul 2018 04:42:30 +0800</pubDate>
+        <link>https://samwize.com/2018/07/07/schedule-cron-jobs-on-mac-with-crontab/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/07/07/schedule-cron-jobs-on-mac-with-crontab/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Creating a Private Framework With Carthage</title>
@@ -755,136 +840,6 @@ docker run -v $OVPN_DATA:/etc/openvpn -d -p 8349:1194/udp --cap-add=NET_ADMIN ky
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Nested UIViewControllers Using Container</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html&quot;&gt;Container view controller&lt;/a&gt; is a new concept from iOS 5.&lt;/p&gt;
-
-&lt;p&gt;Yet prior to iOS 5, we have always been using containers, just that we didn’t know..&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;UITabBarController&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;UISplitViewController&lt;/code&gt; – they are all container view controllers, without us knowing!&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-a-container&quot;&gt;What is a container?&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;A container view controller embeds the content of other view controllers into its own root view. A container view controller may mix custom views with the contents of its child view controllers to facilitate navigation or to create unique interfaces.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;For example, a &lt;code class=&quot;highlighter-rouge&quot;&gt;UINavigationController&lt;/code&gt; manages a navigation bar (a custom view) and a stack of child view controllers (only one of which is visible at a time), and provides an API to add and remove child view controllers from the stack.&lt;/p&gt;
-
-&lt;p&gt;Your custom container is a &lt;strong&gt;parent&lt;/strong&gt; (aka root) view controller and will be managing it’s &lt;strong&gt;children&lt;/strong&gt; view controllers. It is up to the container to render the whole view.&lt;/p&gt;
-
-&lt;h2 id=&quot;when-should-you-use-container-view-controllers&quot;&gt;When should you use Container View Controllers?&lt;/h2&gt;
-
-&lt;p&gt;It is not entirely clear when developers should use, or not use.&lt;/p&gt;
-
-&lt;p&gt;Remember: Container is a technique for managing multiple view controllers, usually handling the navigation and the transition effect. It is &lt;em&gt;entirely possible to not use&lt;/em&gt; custom container, and we obviously could not use it prior to iOS 5.&lt;/p&gt;
-
-&lt;p&gt;What is an alternative?&lt;/p&gt;
-
-&lt;p&gt;An alternative is to manage multiple views (not view controllers).&lt;/p&gt;
-
-&lt;p&gt;When possible, you should NOT use container, especially if you are using simple views (not full blown view controller). &lt;em&gt;&lt;a href=&quot;https://stackoverflow.com/a/5789009/242682&quot;&gt;Defines UIView vs UIViewController&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;scenario-nested-view-controllers&quot;&gt;Scenario: Nested View Controllers&lt;/h3&gt;
-
-&lt;p&gt;Let’s discuss a very common scenario where we use container to simple nest other view controllers.&lt;/p&gt;
-
-&lt;p&gt;If you use Xcode interface builder, you can easily drag a container view to the storyboard, and automatically a child view controller will be added onto the storyboard.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/xcode-container-nested.png&quot; alt=&quot;Drag and drop 2 container views&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Using container in this way is simply to nest multiple view controllers in a parent view controller.&lt;/p&gt;
-
-&lt;p&gt;Note: “Child A” and “Child B” are simply &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;, aka container view, defined as:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;A region of a view controller that can include a child view controller&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;There is a benefit to using container in a storyboard. In the screenshot, “Child B” is actually right on top and obscuring “Child A”.&lt;/p&gt;
-
-&lt;p&gt;Yet, because of container, you can see and design the individual child view controllers!&lt;/p&gt;
-
-&lt;p&gt;But, if you are coming from &lt;em&gt;no-storyboard pure coding way&lt;/em&gt;, then using container and nested view controllers will not be an apparent solution. Because with code, you don’t have the problem of interface builder, and you are used to creating custom views (in your mind!), even when they overlap.&lt;/p&gt;
-
-&lt;p&gt;I prefer the way of no-storyboard, so for the scenario of simply nesting multiple views, you should not use container.&lt;/p&gt;
-
-&lt;h3 id=&quot;checklist-to-using-container&quot;&gt;Checklist to using container&lt;/h3&gt;
-
-&lt;p&gt;If you answer all/many YES to this checklist, then go ahead and use container.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Child view controller is independent to the parent&lt;/li&gt;
-  &lt;li&gt;Child view controller is equivalent to a screen&lt;/li&gt;
-  &lt;li&gt;Child view controller determines the status bar style&lt;/li&gt;
-  &lt;li&gt;Child view controller requires &lt;code class=&quot;highlighter-rouge&quot;&gt;viewDidAppear&lt;/code&gt; etc events&lt;/li&gt;
-  &lt;li&gt;Child is a view controller, and not just a view&lt;/li&gt;
-  &lt;li&gt;Parent view controller navigate (push/popping/mixing) the child view controllers&lt;/li&gt;
-  &lt;li&gt;Parent view controller controls the transition effects when navigating&lt;/li&gt;
-  &lt;li&gt;Parent view controller probably showing 1 or 2 child at 1 time&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;If not, fallback to regular views.&lt;/p&gt;
-
-&lt;h2 id=&quot;adding-a-child-view-controller&quot;&gt;Adding a child view controller&lt;/h2&gt;
-
-&lt;p&gt;You need &lt;a href=&quot;https://developer.apple.com/library/content/featuredarticles/ViewControllerPGforiPhoneOS/ImplementingaContainerViewController.html#//apple_ref/doc/uid/TP40007457-CH11-SW13&quot;&gt;these steps&lt;/a&gt;:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Container view controller to call &lt;code class=&quot;highlighter-rouge&quot;&gt;addChildViewController&lt;/code&gt;, so that UIKit knows your container is now managing the child view controller.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Add the child’s view to your container’s view hierarchy.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Setup auto layout constraints for the child’s view.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Child view controller to call &lt;code class=&quot;highlighter-rouge&quot;&gt;didMoveToParentViewController&lt;/code&gt;.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Creating the child in Parent's viewDidLoad&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;child&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyChildViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;addChildViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addSubview&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Setup auto layout constraints for child.view..&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;didMove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;toParentViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;To remove a child view controller, you undo the with the corresponding methods.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-awkward-design-of-container-view-controller&quot;&gt;The (awkward) design of container view controller&lt;/h2&gt;
-
-&lt;p&gt;You might have noticed by now.&lt;/p&gt;
-
-&lt;p&gt;A container (parent) view controller is simply &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;, and the children are also &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;. Kind of bad design overloading 2 types.&lt;/p&gt;
-
-&lt;p&gt;Then there are some methods specifically for them:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addChildViewController(_:)&lt;/code&gt; - only parent should call&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;removeFromParentViewController()&lt;/code&gt; - only child should call&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;willMove(toParentViewController:)&lt;/code&gt; - only child should call&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;didMove(toParentViewController:)&lt;/code&gt; - only child should call&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;You have to be careful what you can, and should, call.&lt;/p&gt;
-
-&lt;p&gt;Rotation and appearance callbacks are automatically propagated from parent to children.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 21 Mar 2018 16:33:12 +0800</pubDate>
-        <link>https://samwize.com/2018/03/21/nested-uiviewcontrollers-using-container-views/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/03/21/nested-uiviewcontrollers-using-container-views/</guid>
-        
-        
-        <category>UI</category>
         
       </item>
     
