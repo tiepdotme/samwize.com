@@ -62,3 +62,13 @@ For live streams, `youtube-dl` does not work well. We need another tool to the r
 
     # Find recursively in the directory for the string 'needle'
     grep -R 'needle' path/to/dir/
+
+## Sleep and Timeout
+
+    # Start running a command (eg streamlink) after 60 seconds
+    sleep 60 && streamlink ...
+
+    # Run long running command (eg streamlink) and terminate after 60 seconds
+    gtimeout 60 streamlink ...
+
+On macOS, you need to `brew install coreutils` to use `gtimeout`. 
