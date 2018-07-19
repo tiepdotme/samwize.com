@@ -21,7 +21,7 @@ Don't ignore others.
 If you are using a string that will be displayed to your user, always use the macro `NSLocalizedString`.
 
 ```objc
-    NSLocalizedString(@"some string", nil)
+NSLocalizedString(@"some string", nil)
 ```
 
 ## Then genstring
@@ -44,30 +44,30 @@ Refer to the section on **Localized Property List File**.
 The dict looks like this:
 
 ```xml
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>%d files are selected</key>
     <dict>
-        <key>%d files are selected</key>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@num_files_are@ selected</string>
+        <key>num_files_are</key>
         <dict>
-            <key>NSStringLocalizedFormatKey</key>
-            <string>%#@num_files_are@ selected</string>
-            <key>num_files_are</key>
-            <dict>
-                <key>NSStringFormatSpecTypeKey</key>
-                <string>NSStringPluralRuleType</string>
-                <key>NSStringFormatValueTypeKey</key>
-                <string>d</string>
-                <key>zero</key>
-                <string>No file is</string>
-                <key>one</key>
-                <string>A file is</string>
-                <key>other</key>
-                <string>%d files are</string>
-            </dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>d</string>
+            <key>zero</key>
+            <string>No file is</string>
+            <key>one</key>
+            <string>A file is</string>
+            <key>other</key>
+            <string>%d files are</string>
         </dict>
     </dict>
-    </plist>
+</dict>
+</plist>
 ```
 
 
