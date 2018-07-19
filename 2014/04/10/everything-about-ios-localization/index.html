@@ -94,7 +94,7 @@
 
 <p>If you are using a string that will be displayed to your user, always use the macro <code class="highlighter-rouge">NSLocalizedString</code>.</p>
 
-<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">NSLocalizedString</span><span class="p">(</span><span class="s">@"some string"</span><span class="p">,</span> <span class="nb">nil</span><span class="p">)</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSLocalizedString</span><span class="p">(</span><span class="s">@"some string"</span><span class="p">,</span> <span class="nb">nil</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="then-genstring">Then genstring</h2>
@@ -116,30 +116,30 @@
 
 <p>The dict looks like this:</p>
 
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
-    <span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
-    <span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+    <span class="nt">&lt;key&gt;</span>%d files are selected<span class="nt">&lt;/key&gt;</span>
     <span class="nt">&lt;dict&gt;</span>
-        <span class="nt">&lt;key&gt;</span>%d files are selected<span class="nt">&lt;/key&gt;</span>
+        <span class="nt">&lt;key&gt;</span>NSStringLocalizedFormatKey<span class="nt">&lt;/key&gt;</span>
+        <span class="nt">&lt;string&gt;</span>%#@num_files_are@ selected<span class="nt">&lt;/string&gt;</span>
+        <span class="nt">&lt;key&gt;</span>num_files_are<span class="nt">&lt;/key&gt;</span>
         <span class="nt">&lt;dict&gt;</span>
-            <span class="nt">&lt;key&gt;</span>NSStringLocalizedFormatKey<span class="nt">&lt;/key&gt;</span>
-            <span class="nt">&lt;string&gt;</span>%#@num_files_are@ selected<span class="nt">&lt;/string&gt;</span>
-            <span class="nt">&lt;key&gt;</span>num_files_are<span class="nt">&lt;/key&gt;</span>
-            <span class="nt">&lt;dict&gt;</span>
-                <span class="nt">&lt;key&gt;</span>NSStringFormatSpecTypeKey<span class="nt">&lt;/key&gt;</span>
-                <span class="nt">&lt;string&gt;</span>NSStringPluralRuleType<span class="nt">&lt;/string&gt;</span>
-                <span class="nt">&lt;key&gt;</span>NSStringFormatValueTypeKey<span class="nt">&lt;/key&gt;</span>
-                <span class="nt">&lt;string&gt;</span>d<span class="nt">&lt;/string&gt;</span>
-                <span class="nt">&lt;key&gt;</span>zero<span class="nt">&lt;/key&gt;</span>
-                <span class="nt">&lt;string&gt;</span>No file is<span class="nt">&lt;/string&gt;</span>
-                <span class="nt">&lt;key&gt;</span>one<span class="nt">&lt;/key&gt;</span>
-                <span class="nt">&lt;string&gt;</span>A file is<span class="nt">&lt;/string&gt;</span>
-                <span class="nt">&lt;key&gt;</span>other<span class="nt">&lt;/key&gt;</span>
-                <span class="nt">&lt;string&gt;</span>%d files are<span class="nt">&lt;/string&gt;</span>
-            <span class="nt">&lt;/dict&gt;</span>
+            <span class="nt">&lt;key&gt;</span>NSStringFormatSpecTypeKey<span class="nt">&lt;/key&gt;</span>
+            <span class="nt">&lt;string&gt;</span>NSStringPluralRuleType<span class="nt">&lt;/string&gt;</span>
+            <span class="nt">&lt;key&gt;</span>NSStringFormatValueTypeKey<span class="nt">&lt;/key&gt;</span>
+            <span class="nt">&lt;string&gt;</span>d<span class="nt">&lt;/string&gt;</span>
+            <span class="nt">&lt;key&gt;</span>zero<span class="nt">&lt;/key&gt;</span>
+            <span class="nt">&lt;string&gt;</span>No file is<span class="nt">&lt;/string&gt;</span>
+            <span class="nt">&lt;key&gt;</span>one<span class="nt">&lt;/key&gt;</span>
+            <span class="nt">&lt;string&gt;</span>A file is<span class="nt">&lt;/string&gt;</span>
+            <span class="nt">&lt;key&gt;</span>other<span class="nt">&lt;/key&gt;</span>
+            <span class="nt">&lt;string&gt;</span>%d files are<span class="nt">&lt;/string&gt;</span>
         <span class="nt">&lt;/dict&gt;</span>
     <span class="nt">&lt;/dict&gt;</span>
-    <span class="nt">&lt;/plist&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/plist&gt;</span>
 </code></pre></div></div>
 
 <h2 id="upperlower-case">Upper/Lower Case</h2>
