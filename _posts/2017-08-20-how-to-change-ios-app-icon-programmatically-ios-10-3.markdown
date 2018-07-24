@@ -53,7 +53,7 @@ Now that you understand the code and how it works, let's setup the app's Info.pl
 
 The following has to be added:
 
-```plist
+```xml
 <key>CFBundleIcons</key>
 <dict>
   <key>CFBundlePrimaryIcon</key>
@@ -106,7 +106,7 @@ Although `setAlternateIconName` can accept a nil `completionHandler`, as declare
 
 As [dlbuckley](https://forums.developer.apple.com/thread/71463) pointed out (as of Aug 2017),
 
-> This API isn't quite ready to be released to us thugs 
+> This API isn't quite ready to be released to us thugs
 
 ## Pitfall: Not working or Crash in iPad
 
@@ -115,9 +115,9 @@ This is another common one, and critical, because for the neglected iPad.
 You could run into error like this:
 
 ```
-Error Domain=NSCocoaErrorDomain Code=4 "The file doesn’t exist." 
-UserInfo={NSUnderlyingError=0x60000005e0c0 {Error Domain=LSApplicationWorkspaceErrorDomain 
-Code=-105 "iconName not found in CFBundleAlternateIcons entry" 
+Error Domain=NSCocoaErrorDomain Code=4 "The file doesn’t exist."
+UserInfo={NSUnderlyingError=0x60000005e0c0 {Error Domain=LSApplicationWorkspaceErrorDomain
+Code=-105 "iconName not found in CFBundleAlternateIcons entry"
 UserInfo={NSLocalizedDescription=iconName not found in CFBundleAlternateIcons entry}}}
 ```
 
