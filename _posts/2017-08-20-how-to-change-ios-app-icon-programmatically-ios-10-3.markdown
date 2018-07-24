@@ -41,7 +41,7 @@ _If you want to run the code in app delegate, make sure it is run in main queue,
 
 The alert and the text "You have changed the icon for ..." cannot be changed, nor removed.
 
-In [Apple Human Interface Guildeline (HIG)](https://developer.apple.com/ios/human-interface-guidelines/graphics/app-icon/), they did mention that changing the app icon is a user triggered action.
+In [Apple Human Interface Guidelines (HIG)](https://developer.apple.com/ios/human-interface-guidelines/graphics/app-icon/), they did mention that changing the app icon is a user triggered action.
 
 _You can perform tricks to dismiss the alert, or cover with another screen, but that is against the HIG._
 
@@ -88,7 +88,7 @@ The [keys are explained](https://developer.apple.com/library/content/documentati
 
 You may wonder what why "AppIcon-2" is repeated in `CFBundleIconFiles`?
 
-That is actually the image file name (less the "png" or "@2x"). It need not be necessary the same as the key in `CFBundleAlternateIcons`. For simplicity we used the same name.
+That is actually the image file name (less the "png" or "@2x"). It need not necessary be the same as the key in `CFBundleAlternateIcons`. For simplicity we used the same name.
 
 **Important**: If you need to support for iPad, read the last section on a critical pitfall.
 
