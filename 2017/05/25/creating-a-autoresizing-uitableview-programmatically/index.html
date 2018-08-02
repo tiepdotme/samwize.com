@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Creating a Autoresizing UITableView Programmatically</title>
-  <meta name="description" content="This is an incomplete guide because estimatedRowHeight has bug. Should NOT use it." />
+  <meta name="description" content="This is a common scenario we will use as an example: Creating a table view that display images of different sizes, loading the images from the network and resizing the table view cells automatically." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Creating a Autoresizing UITableView Programmatically" />
     <meta name="twitter:image" content="https://samwize.com" />
     
-    <meta name="twitter:description"  content="This is an incomplete guide because estimatedRowHeight has bug. Should NOT use it." />
+    <meta name="twitter:description"  content="This is a common scenario we will use as an example: Creating a table view that display images of different sizes, loading the images from the network and resizing the table view cells automatically." />
     
   
 
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Creating a Autoresizing UITableView Programmatically"/>
   
-  <meta property="og:description" content="This is an incomplete guide because estimatedRowHeight has bug. Should NOT use it." />
+  <meta property="og:description" content="This is a common scenario we will use as an example: Creating a table view that display images of different sizes, loading the images from the network and resizing the table view cells automatically." />
   
   <meta property="og:image" content="https://samwize.com" />
   <meta property="og:url" content="https://samwize.com/2017/05/25/creating-a-autoresizing-uitableview-programmatically/" >
@@ -80,11 +80,7 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><em>This is an incomplete guide because <code class="highlighter-rouge">estimatedRowHeight</code> has <a href="http://www.openradar.me/20829131">bug</a>. Should NOT use it.</em></p>
-
-<hr />
-
-<p>This is a common scenario we will use as an example: Creating a table view that display images of different sizes, loading the images from the network and resizing the table view cells automatically.</p>
+          <p>This is a common scenario we will use as an example: Creating a table view that display images of different sizes, loading the images from the network and resizing the table view cells automatically.</p>
 
 <p>We will do this programmatically (no storyboard), in Swift, and also make use of 2 helpful libraries:</p>
 
@@ -195,7 +191,7 @@
 
 <p>Read <a href="/2015/11/06/guide-to-customizing-uitableview-section-header-footer/">this post</a> on adding header/footer.</p>
 
-<p>With Resuable, register the view.</p>
+<p>With Reusable, register the view.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tableView.register(headerFooterViewType: GroupHeaderView.self)
 </code></pre></div></div>
@@ -232,6 +228,18 @@
 <p>Nobody really knows the proper way to use table header/footer. Apple published way is using storyboard..</p>
 
 <p>So let me know if this did work for you.</p>
+
+<h2 id="table-footer">Table Footer</h2>
+
+<p>The above solution using auto layout will not work for footer. If you try, the footer will be at the top!</p>
+
+<p>For footer, you can only rely on setting the frame.</p>
+
+<p>The good news is, the width of the footer will be correct, but the height needs to be specified. A fixed height would be simple.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">footerView</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="kt">CGSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">tableView</span><span class="o">.</span><span class="n">tableFooterView</span> <span class="o">=</span> <span class="n">footerView</span>
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
