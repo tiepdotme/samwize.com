@@ -5,10 +5,6 @@ date: 2017-05-25T09:27:42+08:00
 categories: [iOS]
 ---
 
-_This is an incomplete guide because `estimatedRowHeight` has [bug](http://www.openradar.me/20829131). Should NOT use it._
-
----
-
 This is a common scenario we will use as an example: Creating a table view that display images of different sizes, loading the images from the network and resizing the table view cells automatically.
 
 We will do this programmatically (no storyboard), in Swift, and also make use of 2 helpful libraries:
@@ -123,7 +119,7 @@ Hence, if you want to use `scrollToRow`, then go use the archaic approach since 
 
 Read [this post](/2015/11/06/guide-to-customizing-uitableview-section-header-footer/) on adding header/footer.
 
-With Resuable, register the view.
+With Reusable, register the view.
 
 ```
 tableView.register(headerFooterViewType: GroupHeaderView.self)
@@ -162,3 +158,16 @@ override func viewWillLayoutSubviews() {
 Nobody really knows the proper way to use table header/footer. Apple published way is using storyboard..
 
 So let me know if this did work for you.
+
+## Table Footer
+
+The above solution using auto layout will not work for footer. If you try, the footer will be at the top!
+
+For footer, you can only rely on setting the frame.
+
+The good news is, the width of the footer will be correct, but the height needs to be specified. A fixed height would be simple.
+
+```swift
+footerView.frame.size = CGSize(width: 0, height: 50)
+tableView.tableFooterView = footerView
+```

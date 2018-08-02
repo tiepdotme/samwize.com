@@ -85,3 +85,15 @@ UITableView provides a default behaviour:
 The result of (2) will cause your [subview to "disappear"](https://stackoverflow.com/q/6745919/242682). The solution is to add another UIView/CALayer to your custom subview as a background.
 
 If you don't like gray, you can change the [`selectionStyle`](https://developer.apple.com/documentation/uikit/uitableviewcellselectionstyle) or `selectedBackgroundView`.
+
+## Table Section Header/Footer
+
+Read [this post](/2015/11/06/guide-to-customizing-uitableview-section-header-footer/) on adding header/footer.
+
+## Table Header/Footer
+
+This is for the table, not each section.
+
+If you are not using autolayout, it is simply setting the `tableHeaderView` or `tableFooterView`.
+
+It gets tricky if you are using autolayout, as iOS has not support well for it (yet)! Refer to [this post](/2017/05/25/creating-a-autoresizing-uitableview-programmatically/).
