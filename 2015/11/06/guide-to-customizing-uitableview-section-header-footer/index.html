@@ -153,6 +153,23 @@
 
 <p>You can also refer to <a href="https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010139-Intro-DontLinkElementID_2">Apple sample code</a> (in Objective-C)</p>
 
+<h2 id="pitfall-does-not-play-well-with-autolayout">Pitfall: Does not play well with Autolayout</h2>
+
+<p>One problem with <code class="highlighter-rouge">UITableViewHeaderFooterView</code> is that it does not play very well with autolayout.</p>
+
+<p>It is possible to have autolayout, but as of iOS 11, it seems like Apple has a bug. You might encounter this error:</p>
+
+<blockquote>
+  <p>Unable to simultaneously satisfy constraints… ‘UIView-Encapsulated-Layout-Height’ …</p>
+</blockquote>
+
+<p>The problem is that <code class="highlighter-rouge">UITableView</code> does something to the header/footer view, encapsulating it, and creating a required (priority 1000) constraint on the height.</p>
+
+<p>And this height will be slightly taller than your layout (maybe to cater for the separator?). Anyway, the height does not match.</p>
+
+<p>The workaround is that your height/bottom/vertical constraint <a href="https://stackoverflow.com/a/25795758/242682">has to be lowered</a>. eg. 999</p>
+
+<p>This workaround is effective for <code class="highlighter-rouge">UITableViewCell</code> too.</p>
 
         </section>
         <footer class="post-footer">
