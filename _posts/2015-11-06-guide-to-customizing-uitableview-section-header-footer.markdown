@@ -18,7 +18,6 @@ As of writing, this guide is good for iOS 9.
 And we will be using awesome swift code :)
 
 
-
 ## Step 1: Subclass UITableViewHeaderFooterView
 
 Add your custom class. We call it `TableSectionHeader` and it has only a `UILabel` in it. You will probably add other subviews/IBOutlets to it.
@@ -29,8 +28,7 @@ class TableSectionHeader: UITableViewHeaderFooterView {
 }
 ```
 
-
-## Step 2: Create the Nib   
+## Step 2: Create the Nib
 
 Add a Nib (Add new > User Interface > View), and customize it as follows:
 
@@ -50,7 +48,6 @@ In your view controller `viewDidLoad`, you need to register the nib with a reuse
 let nib = UINib(nibName: "TableSectionHeader", bundle: nil)
 tableView.registerNib(nib, forHeaderFooterViewReuseIdentifier: "TableSectionHeader")
 ```
-
 
 ## Step 4: Implement viewForHeaderInSection
 
@@ -74,8 +71,6 @@ The gist is using `dequeueReusableHeaderFooterViewWithIdentifier` to get back th
 
 That's it!
 
-
-
 ## The Other Ways
 
 This guide is for using Storyboard/Interface Builder to create your custom header/footer.
@@ -85,4 +80,18 @@ If all you want is to change the background color and text color, then you could
 You can also refer to [Apple sample code](
 https://developer.apple.com/library/ios/samplecode/TableViewUpdates/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010139-Intro-DontLinkElementID_2) (in Objective-C)
 
+## Pitfall: Does not play well with Autolayout
 
+One problem with `UITableViewHeaderFooterView` is that it does not play very well with autolayout.
+
+It is possible to have autolayout, but as of iOS 11, it seems like Apple has a bug. You might encounter this error:
+
+> Unable to simultaneously satisfy constraints... 'UIView-Encapsulated-Layout-Height' ...
+
+The problem is that `UITableView` does something to the header/footer view, encapsulating it, and creating a required (priority 1000) constraint on the height.
+
+And this height will be slightly taller than your layout (maybe to cater for the separator?). Anyway, the height does not match.
+
+The workaround is that your height/bottom/vertical constraint [has to be lowered](https://stackoverflow.com/a/25795758/242682). eg. 999
+
+This workaround is effective for `UITableViewCell` too.
