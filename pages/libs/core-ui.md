@@ -39,3 +39,15 @@ _Archived [KLCPopup](https://github.com/jmascia/KLCPopup) because Presentr is in
 ## Gestures
 
 Gesture recognizers can be complex, and the old _selector_ way of handling isn't as convenient as using closures. [Sensitive](https://github.com/igormatyushkin014/Sensitive) helps.
+
+## Photo Picker
+
+There are quite a number of projects on selecting media (photo or video), for different use cases, and with different iOS frameworks (UIKit, AVFoundation, Photos, etc).
+
+[ImagePicker](https://github.com/hyperoslo/ImagePicker) is the most starred. It opens the camera immediately, embedding a horizontally scrolling photo library picker (limited current camera roll). It is beautiful, if that UI is what you need.
+
+[ALCameraViewController](https://github.com/AlexLittlejohn/ALCameraViewController) comes in 2nd, with ability to crop.
+
+[FDTake](https://github.com/fulldecent/FDTake) presents an alert sheet first, to choose between photo library or take from camera. Localization is provided (ImagePicker and ALCameraViewController does not come with any localization!). It uses `UIImagePickerController` so all photos in library, moments, camera roll are available.
+
+[QBImagePicker](https://github.com/questbeat/) is a simple picker clone of `UIImagePickerController`, but using either `AssetsLibrary` or the newer `PhotoKit`.
