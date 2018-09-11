@@ -71,19 +71,17 @@ The steps in essence:
 3. Save the context
 
 ```swift
-DB.default.container.performBackgroundTask {
-    do {
-        let note = Note(context: $0)
-        note.content = "Hello World"
-        note.priority = 99
-        try $0.save()
-    } catch {
-        print("Save Failed: \(error)")
-    }
+DB.default.container.performBackgroundTask { context in
+    let note = Note(context: context)
+    note.content = "Hello World"
+    note.priority = 99
+    try! context.save()
 }
 ```
 
 This is the modern way, which is much shorter than the past. If you don't believe, take a look at [Ray Wenderlich's](https://www.raywenderlich.com/353-getting-started-with-core-data-tutorial) "updated guide" in 2017, which still uses the tedious way involving `NSEntityDescription.entity` and `NSManagedObject(entity:insertInto:)`.
+
+What happens when a context is saved? It will [commit "one store up"](https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext), to either a parent context or the actual persistent store.
 
 ### Read (aka fetch)
 
@@ -94,30 +92,89 @@ The steps in essence:
 3. Call `fetch` with the fetch request
 
 ```swift
-do {
-    let fr: NSFetchRequest<Note> = Note.fetchRequest()
-    fr.predicate = ...
-    fr.sortDescriptors = ...
-    let n = try DB.default.container.viewContext.fetch(fr)
-    n.forEach {
-        print($0.content)
-    }
-} catch {
-    print("Fetch Failed: \(error)")
+let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
+fetchRequest.predicate = ...
+fetchRequest.sortDescriptors = ...
+let n = try! DB.default.container.viewContext.fetch(fetchRequest)
+n.forEach {
+    print($0.content)
 }
 ```
 
-If you didn't set any predicate, the fetch request will be to fetch all Note. Learning predicate will be another topic for another day. If you want to learn, you may refer to the [documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html) and a [cheatsheet](https://academy.realm.io/posts/nspredicate-cheatsheet/).
+If you didn't set any predicate, the fetch request will be to fetch all notes. Learning predicate will be another topic for another day. If you want to learn, you may refer to [the](https://developer.apple.com/documentation/foundation/nspredicate) [documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html), [guide](https://nshipster.com/nspredicate/) and [cheatsheet](https://academy.realm.io/posts/nspredicate-cheatsheet/).
 
 ### Update
 
+Updating is simply mutating the models, then saving the context.
+
+```swift
+DB.default.container.performBackgroundTask { context in
+    let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
+    fetchRequest.predicate = ...
+    let notes = try! context.fetch(fetchRequest)
+    let note = notes.first
+    note.content = "This is the first note"
+    try! context.save()
+}
+```
+
+The example above fetch notes in the background contexts, then mutate the first note and save.
+
 ### Delete
 
-## NSFetchedResultController
+Once again, use context to `delete` then `save`.
+
+```swift
+DB.default.container.performBackgroundTask { context in
+    ...
+    context.delete(note)
+    try! context.save()
+}
+```
+
+Note that if you need to delete all notes, you need to fetch all of them and calling delete for each. This is inefficient since you would need to load all the models, which is unnecessary in a delete. You could set `includesPropertyValues` to false in the fetch request. Another way is to use [batch processing](https://developer.apple.com/documentation/coredata/batch_processing).
 
 ## Dealing with concurrency
 
-https://developer.apple.com/documentation/coredata/using_core_data_in_the_background
+The introduction of container simplified things:
+
+1. [`viewContext`](https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext) is in main thread, and is READ only; you cannot call `save`.
+2. `newBackgroundContext()` or `performBackgroundTask` is in background thread
+
+The parent of `viewContext` and `newBackgroundContext()` is the persistent store. As said before, when you save a context, it will commit to the parent.
+
+When you save a background context, it will save to the persistent store, but it will NOT merge to the main context.
+
+Often you would want your main context to reflect changes. For [that](https://stackoverflow.com/q/39348729/242682), you have to configure `viewContext` when setting up your database:
+
+```swift
+container.viewContext.automaticallyMergesChangesFromParent = true
+```
+
+If you perform save concurrently in multiple contexts, you could have merge conflicts. One way is to have an [operation queue](https://stackoverflow.com/a/42745378/242682).
+
+What happens to existing fetched objects when a merge happens? They are not affected. You need to refresh the changes by executing the fetch again.
+
+How to know a context has changes? Observe posted notifications such as [`NSManagedObjectContextDidSave`](https://developer.apple.com/documentation/foundation/nsnotification/name/1506380-nsmanagedobjectcontextdidsave) and deal with the inserted, updated and deleted objects.
+
+## NSFetchedResultsController
+
+[`NSFetchedResultsController`](https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller) manage the results of a fetch request, including changes to the objects in the context!
+
+## Query Generation
+
+It's a good time to know this new feature in iOS 10. It prevents faults and crashes. Read this [guide](https://cocoacasts.com/what-are-core-data-query-generations/).
+
+In essence, context can be pinned to a certain snapshot of the database.
+
+By default, context are unpinned. You can start pinning with:
+
+```swift
+let token = context.queryGenerationToken
+context.setQueryGenerationFrom(token)
+```
+
+At some point in time, you could move to the latest snapshot with `NSQueryGenerationToken.current`.
 
 ## Migration
 
@@ -146,3 +203,5 @@ In WDDC 2016, Apple has a pivotal release with the concept of `NSPersistContaine
 The managed object class generation is built in, with those sensible methods such as `entity()`. The use of Swift generic make type casting unnecessary.
 
 Suddenly, Core Data seems much nicer to play with.
+
+https://developer.apple.com/library/archive/documentation/DataManagement/Conceptual/CoreDataSnippets/Introduction/Introduction.html
