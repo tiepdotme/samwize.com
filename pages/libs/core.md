@@ -41,8 +41,8 @@ But above 2 not complete enough. [SO](http://stackoverflow.com/questions/1007589
 
 ## Core Data
 
-- [/hyperoslo/Sync](https://github.com/hyperoslo/Sync): Takes JSON sync into Core Data
-- [CoreStore](https://github.com/JohnEstropia/CoreStore): Swift 2. Very well documented, and seems complete, and even have a [different/better? stack design](http://floriankugler.com/2013/04/29/concurrent-core-data-stack-performance-shootout/) than MagicalRecord. But they have "transactions" instead of predicates.
+- [Sync](https://github.com/hyperoslo/Sync) sync JSON into Core Data
+- [CoreStore](https://github.com/JohnEstropia/CoreStore) in Swift 2, very well documented, and seems complete, and even have a [different/better stack design](http://floriankugler.com/2013/04/29/concurrent-core-data-stack-performance-shootout/) than MagicalRecord. But they have "transactions" instead of predicates.
 
 ## Autolayout
 
