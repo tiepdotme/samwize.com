@@ -6,9 +6,238 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 10 Aug 2018 13:17:06 +0800</pubDate>
-    <lastBuildDate>Fri, 10 Aug 2018 13:17:06 +0800</lastBuildDate>
+    <pubDate>Wed, 12 Sep 2018 22:26:42 +0800</pubDate>
+    <lastBuildDate>Wed, 12 Sep 2018 22:26:42 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Modern Guide to Core Data 2018</title>
+        <description>&lt;p&gt;Core Data has been around for 10 years, with many legacy concepts and APIs. This guide is the modern way to use Core Data, until further WWDC updates :)&lt;/p&gt;
+
+&lt;p&gt;If you are interested in the history of how we got here, the last section has the long history, describing the 3rd party stacks and libraries, and issues.&lt;/p&gt;
+
+&lt;p&gt;The technology has since improved much. In this guide, I will use show what a modern developer should use.&lt;/p&gt;
+
+&lt;h2 id=&quot;create-the-database&quot;&gt;Create the database&lt;/h2&gt;
+
+&lt;p&gt;Use &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/KeyConcepts.html&quot;&gt;Xcode&lt;/a&gt; to create the model schema. In this guide, the data model name (the .xcdatamodeld file) is “MyDataModel”.&lt;/p&gt;
+
+&lt;p&gt;When editing the entity, leave the entity name and class name the &lt;strong&gt;same&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Set &lt;strong&gt;Codegen&lt;/strong&gt; to &lt;strong&gt;Class Definition&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Throughout this guide, we will use the following Note model as example:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@objc(Note)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Note&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSManagedObject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Note&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;@NSManaged&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;@NSManaged&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;priority&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There is also a generated &lt;code class=&quot;highlighter-rouge&quot;&gt;fetchRequest&lt;/code&gt; with the Note type, which I have omitted above, but you should not remove in your code.&lt;/p&gt;
+
+&lt;h2 id=&quot;setup-the-stack&quot;&gt;Setup the stack&lt;/h2&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DB&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;`&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DB&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSPersistentContainer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;/// Call this once in `applicationDidFinishLaunching`&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;dataModelName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;container&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSPersistentContainer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dataModelName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loadPersistentStores&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;nf&quot;&gt;fatalError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Unable to load persistent stores: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We create a singleton class &lt;code class=&quot;highlighter-rouge&quot;&gt;DB.default&lt;/code&gt; which we will use throughout the app. The &lt;code class=&quot;highlighter-rouge&quot;&gt;setup&lt;/code&gt; must be run when the application is launched, with “MyDataModel” name.&lt;/p&gt;
+
+&lt;p&gt;It will crash if there is error – and yes, you want it to crash because most apps cannot continue without a working database.&lt;/p&gt;
+
+&lt;p&gt;If you have an advanced/unconventional use case, &lt;a href=&quot;https://developer.apple.com/documentation/coredata/nspersistentcontainer&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSPersistentContainer&lt;/code&gt;&lt;/a&gt; has other inits that will allow you to customize the data model to load, and configure the persistent store.&lt;/p&gt;
+
+&lt;h2 id=&quot;crud&quot;&gt;CRUD&lt;/h2&gt;
+
+&lt;h3 id=&quot;create-aka-save&quot;&gt;Create (aka save)&lt;/h3&gt;
+
+&lt;p&gt;The steps in essence:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Perform everything in a block with background context&lt;/li&gt;
+  &lt;li&gt;Create a new Note (&lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObject&lt;/code&gt; object) in the context&lt;/li&gt;
+  &lt;li&gt;Save the context&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;DB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;performBackgroundTask&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;note&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Note&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello World&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;priority&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;99&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is the modern way, which is much shorter than the past. If you don’t believe, take a look at &lt;a href=&quot;https://www.raywenderlich.com/353-getting-started-with-core-data-tutorial&quot;&gt;Ray Wenderlich’s&lt;/a&gt; “updated guide” in 2017, which still uses the tedious way involving &lt;code class=&quot;highlighter-rouge&quot;&gt;NSEntityDescription.entity&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObject(entity:insertInto:)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;What happens when a context is saved? It will &lt;a href=&quot;https://developer.apple.com/documentation/coredata/nsmanagedobjectcontext&quot;&gt;commit “one store up”&lt;/a&gt;, to either a parent context or the actual persistent store.&lt;/p&gt;
+
+&lt;h3 id=&quot;read-aka-fetch&quot;&gt;Read (aka fetch)&lt;/h3&gt;
+
+&lt;p&gt;The steps in essence:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Construct a fetch request (made up of predicates and sort descriptors)&lt;/li&gt;
+  &lt;li&gt;Use either &lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext&lt;/code&gt; (main thread) or &lt;code class=&quot;highlighter-rouge&quot;&gt;newBackgroundContext()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Call &lt;code class=&quot;highlighter-rouge&quot;&gt;fetch&lt;/code&gt; with the fetch request&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSFetchRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predicate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sortDescriptors&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;notes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;notes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forEach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Learning predicate will be another topic for another day. If you want to learn, you may refer to &lt;a href=&quot;https://developer.apple.com/documentation/foundation/nspredicate&quot;&gt;the&lt;/a&gt; &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html&quot;&gt;documentation&lt;/a&gt;, &lt;a href=&quot;https://nshipster.com/nspredicate/&quot;&gt;guide&lt;/a&gt; and &lt;a href=&quot;https://academy.realm.io/posts/nspredicate-cheatsheet/&quot;&gt;cheatsheet&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You could also call &lt;a href=&quot;https://developer.apple.com/documentation/coredata/nsfetchrequest/1640594-execute&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;fetchRequest.execute()&lt;/code&gt;&lt;/a&gt; directly, which will automatically use the context associated to the current thread. Not recommended unless you are sure of the threads.&lt;/p&gt;
+
+&lt;h3 id=&quot;update&quot;&gt;Update&lt;/h3&gt;
+
+&lt;p&gt;Updating is simply mutating the models, then saving the context.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;DB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;performBackgroundTask&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSFetchRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predicate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;notes&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fetchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;note&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;notes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;note&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;This is the first note&quot;&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The example above fetch notes in the background context, then mutate the first note and save.&lt;/p&gt;
+
+&lt;h3 id=&quot;delete&quot;&gt;Delete&lt;/h3&gt;
+
+&lt;p&gt;Once again, use context to &lt;code class=&quot;highlighter-rouge&quot;&gt;delete&lt;/code&gt; then &lt;code class=&quot;highlighter-rouge&quot;&gt;save&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;DB&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;performBackgroundTask&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;note&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that if you need to delete all notes, you need to fetch all of them and calling delete for each. This is inefficient since you would need to load all the models, which is unnecessary in a delete. You could set &lt;code class=&quot;highlighter-rouge&quot;&gt;includesPropertyValues&lt;/code&gt; to false in the fetch request. Another way is to use &lt;a href=&quot;https://developer.apple.com/documentation/coredata/batch_processing&quot;&gt;batch processing&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;dealing-with-concurrency&quot;&gt;Dealing with concurrency&lt;/h2&gt;
+
+&lt;p&gt;The introduction of &lt;code class=&quot;highlighter-rouge&quot;&gt;NSPersistentContainer&lt;/code&gt; simplified Core Data framework, by making developer choose between these two contexts:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext&lt;/code&gt; is in main thread, and is READ only; you cannot call &lt;code class=&quot;highlighter-rouge&quot;&gt;save&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;newBackgroundContext()&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;performBackgroundTask&lt;/code&gt; is in background thread&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/core-data-container.png&quot; alt=&quot;Container and contexts&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The parent of both &lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;newBackgroundContext()&lt;/code&gt; is the persistent store. As said before, when you save a context, it will commit to the parent.&lt;/p&gt;
+
+&lt;p&gt;When you save a background context, it will save to the persistent store, but it will NOT merge to the main context.&lt;/p&gt;
+
+&lt;p&gt;Often you would want your main context to reflect changes. To do &lt;a href=&quot;https://stackoverflow.com/q/39348729/242682&quot;&gt;that&lt;/a&gt;, you have to configure &lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext&lt;/code&gt; when setting up your database:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;viewContext&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;automaticallyMergesChangesFromParent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you perform save concurrently in multiple contexts, you could have merge conflicts. One way is to have an &lt;a href=&quot;https://stackoverflow.com/a/42745378/242682&quot;&gt;operation queue&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;What happens to existing fetched objects when a merge happens? They are not affected. You need to refresh the changes by executing the fetch again.&lt;/p&gt;
+
+&lt;p&gt;How to know a context has changes? Observe posted notifications such as &lt;a href=&quot;https://developer.apple.com/documentation/foundation/nsnotification/name/1506380-nsmanagedobjectcontextdidsave&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObjectContextDidSave&lt;/code&gt;&lt;/a&gt; and deal with the inserted, updated and deleted objects.&lt;/p&gt;
+
+&lt;h2 id=&quot;pitfall-faults&quot;&gt;Pitfall: Faults&lt;/h2&gt;
+
+&lt;p&gt;When you fetch models, sometimes there will be faults.&lt;/p&gt;
+
+&lt;p&gt;Faults are “unrealized objects”, designed to make Core Data efficient by avoiding needless fetching, until needed.&lt;/p&gt;
+
+&lt;p&gt;Faults are automatically resolved (fetched) when you access the property.&lt;/p&gt;
+
+&lt;p&gt;But if the “unrealized object” is somehow deleted, crash could occur. The simple configuration below makes those faults nil instead.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shouldDeleteInaccessibleFaults&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;query-generation&quot;&gt;Query Generation&lt;/h2&gt;
+
+&lt;p&gt;A good time now to get to know this new feature in iOS 10 that prevents faults and crashes. Read this &lt;a href=&quot;https://cocoacasts.com/what-are-core-data-query-generations/&quot;&gt;guide&lt;/a&gt; and watch &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2016/242/&quot;&gt;WWDC 2016&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In essence, each context is pinned to a snapshot of the database.&lt;/p&gt;
+
+&lt;p&gt;By default, context are unpinned. You can start pinning with:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;token&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queryGenerationToken&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setQueryGenerationFrom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;At some point in time, you could move to the latest snapshot with &lt;code class=&quot;highlighter-rouge&quot;&gt;NSQueryGenerationToken.current&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;other-topics&quot;&gt;Other topics&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSFetchedResultsController&lt;/code&gt;&lt;/a&gt; manage the results of a fetch request, including changes to the objects in the context! A big topic so I leave in to another day. For now, you can read my &lt;a href=&quot;/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/&quot;&gt;2015 guide&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/Introduction.html&quot;&gt;Migration&lt;/a&gt; is unavoidable in app upgrade.&lt;/p&gt;
+
+&lt;h2 id=&quot;back-to-the-history&quot;&gt;Back to the history..&lt;/h2&gt;
+
+&lt;p&gt;I use Core Data way back in 2009 when iOS was first launch.&lt;/p&gt;
+
+&lt;p&gt;Why use Core Data at all? Because with Core Data API you can &lt;strong&gt;avoid writing SQL statements&lt;/strong&gt;. That is the biggest benefit. A modern way to write database code.&lt;/p&gt;
+
+&lt;p&gt;But there are still lots of pain with this piece of Apple technology.&lt;/p&gt;
+
+&lt;p&gt;Over 10 years, it did improve, though some updates are long overdue considering it is a vital piece in the iOS/macOS stack.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;2009: Core Data in iOS 3&lt;/li&gt;
+  &lt;li&gt;2010: &lt;a href=&quot;https://github.com/magicalpanda/MagicalRecord&quot;&gt;MagicalRecord&lt;/a&gt; is THE wrapper, was in Objective-C, but now dormant.&lt;/li&gt;
+  &lt;li&gt;2010: &lt;a href=&quot;https://github.com/rentzsch/mogenerator&quot;&gt;mogenerator&lt;/a&gt; is the third party model generator&lt;/li&gt;
+  &lt;li&gt;2015: &lt;a href=&quot;https://github.com/JohnEstropia/CoreStore&quot;&gt;CoreStore&lt;/a&gt; is in Swift and still updated, but might not be using the latest concepts&lt;/li&gt;
+  &lt;li&gt;2016: Biggest new set of features announced, including &lt;code class=&quot;highlighter-rouge&quot;&gt;NSPersistContainer&lt;/code&gt; and much less verbose API&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Back in the days.. my stack is to use &lt;a href=&quot;https://samwize.com/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator/&quot;&gt;MagicalRecord + mogenerator&lt;/a&gt;. There &lt;a href=&quot;/2013/09/03/where-to-store-coredata-sqlite-file-and-avoid-apple-app-review-rejection/&quot;&gt;are&lt;/a&gt; &lt;a href=&quot;/2015/06/02/pitfall-creating-parent-slash-abstract-entitiy-in-core-data/&quot;&gt;many&lt;/a&gt; &lt;a href=&quot;/2014/07/04/the-rules-for-using-external-storage-in-core-data/&quot;&gt;pitfalls&lt;/a&gt; eg. &lt;a href=&quot;/2016/04/26/pitfall-handling-core-data-nsmanagedobjectcontext-in-threads/&quot;&gt;concurrency in managed object context&lt;/a&gt;, &lt;a href=&quot;/2014/07/14/error-coredata-could-not-fulfill-a-fault-nsobjectinaccessibleexception/&quot;&gt;faults&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;But Apple has fixed some quirks, at last.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2016/242/&quot;&gt;WDDC 2016&lt;/a&gt;, Apple has a pivotal release with the concept of &lt;code class=&quot;highlighter-rouge&quot;&gt;NSPersistContainer&lt;/code&gt;, wrapping the creation of a database stack, and using that same container to access either a main context or a background context.&lt;/p&gt;
+
+&lt;p&gt;The managed object class generation is built in, with those sensible methods such as &lt;code class=&quot;highlighter-rouge&quot;&gt;entity()&lt;/code&gt;. The use of Swift generic make type casting unnecessary.&lt;/p&gt;
+
+&lt;p&gt;Suddenly, Core Data seems much nicer to play with.&lt;/p&gt;
+
+&lt;p&gt;Yet there are more that can be improved.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 01 Sep 2018 13:25:29 +0800</pubDate>
+        <link>https://samwize.com/2018/09/01/modern-guide-to-core-data-2018/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/09/01/modern-guide-to-core-data-2018/</guid>
+        
+        
+        <category>Database</category>
+        
+      </item>
     
       <item>
         <title>How stringsdict and NSLocalizedString Works</title>
@@ -887,94 +1116,6 @@ docker run -v $OVPN_DATA:/etc/openvpn -d -p 8349:1194/udp --cap-add=NET_ADMIN ky
         <link>https://samwize.com/2018/04/30/how-to-vibrate-an-iphone/</link>
         <guid isPermaLink="true">https://samwize.com/2018/04/30/how-to-vibrate-an-iphone/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>What is Bundle?</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/foundation/bundle&quot;&gt;Bundle&lt;/a&gt; represents a directory. It &lt;a href=&quot;https://developer.apple.com/library/content/documentation/CoreFoundation/Conceptual/CFBundles/AboutBundles/AboutBundles.html&quot;&gt;groups resources&lt;/a&gt; together.&lt;/p&gt;
-
-&lt;h2 id=&quot;application&quot;&gt;Application&lt;/h2&gt;
-
-&lt;p&gt;In a typical application, all of your assets, images, strings, resources and code will be in the “main bundle”.&lt;/p&gt;
-
-&lt;p&gt;To be convenient, resource classes provide sensible default to use.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// NSLocalizedString function signature has a default bundle&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;NSLocalizedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tableName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://stackoverflow.com/q/24991791/242682&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;default&lt;/code&gt;&lt;/a&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;Bundle.main&lt;/code&gt;. So you don’t have to specify explicitly.&lt;/p&gt;
-
-&lt;p&gt;Without surprise, &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiimage/1624146-init&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UIImage&lt;/code&gt; initialization&lt;/a&gt; uses the main bundle too. And if you want to specific another bundle you could use the &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiimage/1624154-init&quot;&gt;other init&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;But the default to use main bundle is not applicable to frameworks and playgrounds.&lt;/p&gt;
-
-&lt;h2 id=&quot;framework&quot;&gt;Framework&lt;/h2&gt;
-
-&lt;p&gt;When you are developing a framework, you should NOT use &lt;code class=&quot;highlighter-rouge&quot;&gt;Bundle.main&lt;/code&gt;, because that is the app’s bundle.&lt;/p&gt;
-
-&lt;p&gt;Your resources is in your framework’s bundle.&lt;/p&gt;
-
-&lt;p&gt;Therefore the default main bundle that &lt;code class=&quot;highlighter-rouge&quot;&gt;NSLocalizedString&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;UIImage&lt;/code&gt; use will fail in when you are developing a framework.&lt;/p&gt;
-
-&lt;p&gt;The correct way:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;frameworkBundle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyFrameworkClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;stringInFramework&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSLocalizedString&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frameworkBundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageInFramework&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;named&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;img&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frameworkBundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;compatibleWith&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Bundle(for:)&lt;/code&gt; conveniently find the bundle that contains the class. You could use any other class in your framework to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;MyFrameworkClass&lt;/code&gt;. It works because all code and resources will be in the same bundle for a framework.&lt;/p&gt;
-
-&lt;h2 id=&quot;playground&quot;&gt;Playground&lt;/h2&gt;
-
-&lt;p&gt;Playground is another special case.&lt;/p&gt;
-
-&lt;p&gt;Try running this in playground to see the &lt;code class=&quot;highlighter-rouge&quot;&gt;bundlePath&lt;/code&gt; (the file URL path).&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bundlePath&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Framework1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bundlePath&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Framework2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bundlePath&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The URL will look like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/Library/Developer/XCPGDevices/x-x-x/data/Containers/Bundle/Application/y-y-y/UIPlayground-28059-1.app
-~/Library/Developer/Xcode/DerivedData/App-xyz/Build/Products/Debug-iphonesimulator/Framework1.framework
-~/Library/Developer/Xcode/DerivedData/App-xyz/Build/Products/Debug-iphonesimulator/Framework2.framework
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;If you add your resources to the “Resources” group in Playground, then the main bundle will contain the resources.&lt;/p&gt;
-
-&lt;p&gt;But if you need a resource from a framework, then you need the bundle for the framework.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-complicated-case&quot;&gt;The Complicated Case&lt;/h2&gt;
-
-&lt;p&gt;In our previous tutorial that &lt;a href=&quot;/2017/10/05/adding-playground-to-an-existing-project/&quot;&gt;uses Playground to create application’s UI&lt;/a&gt;, the scenario is complicated because the same resource is used in 2 targets:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The app&lt;/li&gt;
-  &lt;li&gt;The framework for playground (&lt;code class=&quot;highlighter-rouge&quot;&gt;MyUIPlaygroundFramework&lt;/code&gt;)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;For such case, the resource has to specify the bundle correctly.&lt;/p&gt;
-
-&lt;p&gt;The trick is to make use of a class that &lt;strong&gt;exists in both&lt;/strong&gt; the app and framework.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bundle&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CommonClass&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;When you use in app, &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle&lt;/code&gt; will be main bundle.&lt;/p&gt;
-
-&lt;p&gt;When you use in framework, &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle&lt;/code&gt; will be the framework’s bundle.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 27 Apr 2018 17:01:16 +0800</pubDate>
-        <link>https://samwize.com/2018/04/27/what-is-bundle/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/04/27/what-is-bundle/</guid>
-        
-        
-        <category>iOS</category>
         
       </item>
     
