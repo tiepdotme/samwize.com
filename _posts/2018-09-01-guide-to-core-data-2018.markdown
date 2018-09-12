@@ -9,7 +9,7 @@ Core Data has been around for 10 years, with many legacy concepts and APIs. This
 
 If you are interested in the history of how we got here, the last section has the long history, describing the stack and libraries to use, and the issues.
 
-The technology has improved much since, and in this guide I will use only what should be used.
+The technology has since improved much. In this guide, I will use only what a modern developer should use.
 
 ## Create the database
 
@@ -95,13 +95,15 @@ The steps in essence:
 let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
 fetchRequest.predicate = ...
 fetchRequest.sortDescriptors = ...
-let n = try! DB.default.container.viewContext.fetch(fetchRequest)
-n.forEach {
+let notes = try! DB.default.container.viewContext.fetch(fetchRequest)
+notes.forEach {
     print($0.content)
 }
 ```
 
 If you didn't set any predicate, the fetch request will be to fetch all notes. Learning predicate will be another topic for another day. If you want to learn, you may refer to [the](https://developer.apple.com/documentation/foundation/nspredicate) [documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html), [guide](https://nshipster.com/nspredicate/) and [cheatsheet](https://academy.realm.io/posts/nspredicate-cheatsheet/).
+
+You could also call [`fetchRequest.execute()`](https://developer.apple.com/documentation/coredata/nsfetchrequest/1640594-execute), which will automatically use the context associated on the current thread. Not recommended unless you are sure of the threads.
 
 ### Update
 
@@ -136,16 +138,18 @@ Note that if you need to delete all notes, you need to fetch all of them and cal
 
 ## Dealing with concurrency
 
-The introduction of container simplified things:
+The introduction of container simplified the framework, by making developer choose between these two kind of contexts:
 
 1. [`viewContext`](https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext) is in main thread, and is READ only; you cannot call `save`.
 2. `newBackgroundContext()` or `performBackgroundTask` is in background thread
 
-The parent of `viewContext` and `newBackgroundContext()` is the persistent store. As said before, when you save a context, it will commit to the parent.
+![Container and contexts](/images/core-data-container.png)
+
+The parent of both `viewContext` and `newBackgroundContext()` is the persistent store. As said before, when you save a context, it will commit to the parent.
 
 When you save a background context, it will save to the persistent store, but it will NOT merge to the main context.
 
-Often you would want your main context to reflect changes. For [that](https://stackoverflow.com/q/39348729/242682), you have to configure `viewContext` when setting up your database:
+Often you would want your main context to reflect changes. To do [that](https://stackoverflow.com/q/39348729/242682), you have to configure `viewContext` when setting up your database:
 
 ```swift
 container.viewContext.automaticallyMergesChangesFromParent = true
@@ -157,15 +161,25 @@ What happens to existing fetched objects when a merge happens? They are not affe
 
 How to know a context has changes? Observe posted notifications such as [`NSManagedObjectContextDidSave`](https://developer.apple.com/documentation/foundation/nsnotification/name/1506380-nsmanagedobjectcontextdidsave) and deal with the inserted, updated and deleted objects.
 
-## NSFetchedResultsController
+## Pitfall: Faults
 
-[`NSFetchedResultsController`](https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller) manage the results of a fetch request, including changes to the objects in the context!
+When you fetch models, sometimes there will be faults.
+
+Faults are "unrealized objects", designed to make Core Data efficient by needless fetching, until needed.
+
+Faults are automatically resolved (fetched) when you access the property.
+
+But if the "unrealized object" is somehow deleted? Crash could occur. A simple solution below to make those faults nil instead.
+
+```swift
+context.shouldDeleteInaccessibleFaults = true
+```
 
 ## Query Generation
 
-It's a good time to know this new feature in iOS 10. It prevents faults and crashes. Read this [guide](https://cocoacasts.com/what-are-core-data-query-generations/).
+It's a good time to know this new feature in iOS 10. It prevents faults and crashes. Read this [guide](https://cocoacasts.com/what-are-core-data-query-generations/) and watch [WWDC 2016](https://developer.apple.com/videos/play/wwdc2016/242/).
 
-In essence, context can be pinned to a certain snapshot of the database.
+In essence, each context is pinned to a snapshot of the database.
 
 By default, context are unpinned. You can start pinning with:
 
@@ -176,7 +190,11 @@ context.setQueryGenerationFrom(token)
 
 At some point in time, you could move to the latest snapshot with `NSQueryGenerationToken.current`.
 
-## Migration
+## Other topics
+
+[`NSFetchedResultsController`](https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller) manage the results of a fetch request, including changes to the objects in the context! A big topic so I leave in to another day. For now, you can read my [2015 guide](/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/).
+
+[Migration](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/Introduction.html) is unavoidable in app upgrade.
 
 ## Long bit of history
 
@@ -198,10 +216,10 @@ Back in the days.. my stack is to use [MagicalRecord + mogenerator](https://samw
 
 But Apple has fixed some quirks, at last.
 
-In WDDC 2016, Apple has a pivotal release with the concept of `NSPersistContainer`, wrapping the creation of a database stack, and using that same container to access either a main context or a background context.
+In [WDDC 2016](https://developer.apple.com/videos/play/wwdc2016/242/), Apple has a pivotal release with the concept of `NSPersistContainer`, wrapping the creation of a database stack, and using that same container to access either a main context or a background context.
 
 The managed object class generation is built in, with those sensible methods such as `entity()`. The use of Swift generic make type casting unnecessary.
 
 Suddenly, Core Data seems much nicer to play with.
 
-https://developer.apple.com/library/archive/documentation/DataManagement/Conceptual/CoreDataSnippets/Introduction/Introduction.html
+Yet there are more that can be improved.
