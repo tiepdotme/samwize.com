@@ -1,21 +1,21 @@
 ---
 layout: post
-title: "Guide to Core Data 2018"
+title: "Modern Guide to Core Data 2018"
 date: 2018-09-01T13:25:29+08:00
 categories: [Database]
 ---
 
-Core Data has been around for 10 years, with many legacy concepts and APIs. This guide is the modern way to use Core Data, until further WWDCs :)
+Core Data has been around for 10 years, with many legacy concepts and APIs. This guide is the modern way to use Core Data, until further WWDC updates :)
 
-If you are interested in the history of how we got here, the last section has the long history, describing the stack and libraries to use, and the issues.
+If you are interested in the history of how we got here, the last section has the long history, describing the 3rd party stacks and libraries, and issues.
 
-The technology has since improved much. In this guide, I will use only what a modern developer should use.
+The technology has since improved much. In this guide, I will use show what a modern developer should use.
 
 ## Create the database
 
 Use [Xcode](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/KeyConcepts.html) to create the model schema. In this guide, the data model name (the .xcdatamodeld file) is "MyDataModel".
 
-When editing an entity, don't do extra, and leave the entity name and class name the **same**.
+When editing the entity, leave the entity name and class name the **same**.
 
 Set **Codegen** to **Class Definition**.
 
@@ -101,9 +101,9 @@ notes.forEach {
 }
 ```
 
-If you didn't set any predicate, the fetch request will be to fetch all notes. Learning predicate will be another topic for another day. If you want to learn, you may refer to [the](https://developer.apple.com/documentation/foundation/nspredicate) [documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html), [guide](https://nshipster.com/nspredicate/) and [cheatsheet](https://academy.realm.io/posts/nspredicate-cheatsheet/).
+Learning predicate will be another topic for another day. If you want to learn, you may refer to [the](https://developer.apple.com/documentation/foundation/nspredicate) [documentation](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html), [guide](https://nshipster.com/nspredicate/) and [cheatsheet](https://academy.realm.io/posts/nspredicate-cheatsheet/).
 
-You could also call [`fetchRequest.execute()`](https://developer.apple.com/documentation/coredata/nsfetchrequest/1640594-execute), which will automatically use the context associated on the current thread. Not recommended unless you are sure of the threads.
+You could also call [`fetchRequest.execute()`](https://developer.apple.com/documentation/coredata/nsfetchrequest/1640594-execute) directly, which will automatically use the context associated to the current thread. Not recommended unless you are sure of the threads.
 
 ### Update
 
@@ -120,7 +120,7 @@ DB.default.container.performBackgroundTask { context in
 }
 ```
 
-The example above fetch notes in the background contexts, then mutate the first note and save.
+The example above fetch notes in the background context, then mutate the first note and save.
 
 ### Delete
 
@@ -138,9 +138,9 @@ Note that if you need to delete all notes, you need to fetch all of them and cal
 
 ## Dealing with concurrency
 
-The introduction of container simplified the framework, by making developer choose between these two kind of contexts:
+The introduction of `NSPersistentContainer` simplified Core Data framework, by making developer choose between these two contexts:
 
-1. [`viewContext`](https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext) is in main thread, and is READ only; you cannot call `save`.
+1. `viewContext` is in main thread, and is READ only; you cannot call `save`.
 2. `newBackgroundContext()` or `performBackgroundTask` is in background thread
 
 ![Container and contexts](/images/core-data-container.png)
@@ -165,11 +165,11 @@ How to know a context has changes? Observe posted notifications such as [`NSMana
 
 When you fetch models, sometimes there will be faults.
 
-Faults are "unrealized objects", designed to make Core Data efficient by needless fetching, until needed.
+Faults are "unrealized objects", designed to make Core Data efficient by avoiding needless fetching, until needed.
 
 Faults are automatically resolved (fetched) when you access the property.
 
-But if the "unrealized object" is somehow deleted? Crash could occur. A simple solution below to make those faults nil instead.
+But if the "unrealized object" is somehow deleted, crash could occur. The simple configuration below makes those faults nil instead.
 
 ```swift
 context.shouldDeleteInaccessibleFaults = true
@@ -177,7 +177,7 @@ context.shouldDeleteInaccessibleFaults = true
 
 ## Query Generation
 
-It's a good time to know this new feature in iOS 10. It prevents faults and crashes. Read this [guide](https://cocoacasts.com/what-are-core-data-query-generations/) and watch [WWDC 2016](https://developer.apple.com/videos/play/wwdc2016/242/).
+A good time now to get to know this new feature in iOS 10 that prevents faults and crashes. Read this [guide](https://cocoacasts.com/what-are-core-data-query-generations/) and watch [WWDC 2016](https://developer.apple.com/videos/play/wwdc2016/242/).
 
 In essence, each context is pinned to a snapshot of the database.
 
@@ -196,7 +196,7 @@ At some point in time, you could move to the latest snapshot with `NSQueryGenera
 
 [Migration](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/Introduction.html) is unavoidable in app upgrade.
 
-## Long bit of history
+## Back to the history..
 
 I use Core Data way back in 2009 when iOS was first launch.
 
@@ -210,7 +210,7 @@ Over 10 years, it did improve, though some updates are long overdue considering 
 - 2010: [MagicalRecord](https://github.com/magicalpanda/MagicalRecord) is THE wrapper, was in Objective-C, but now dormant.
 - 2010: [mogenerator](https://github.com/rentzsch/mogenerator) is the third party model generator
 - 2015: [CoreStore](https://github.com/JohnEstropia/CoreStore) is in Swift and still updated, but might not be using the latest concepts
-- 2016: New stuff announced in WWDC
+- 2016: Biggest new set of features announced, including `NSPersistContainer` and much less verbose API
 
 Back in the days.. my stack is to use [MagicalRecord + mogenerator](https://samwize.com/2014/03/27/step-by-step-guide-to-using-magicalrecord-and-mogenerator/). There [are](/2013/09/03/where-to-store-coredata-sqlite-file-and-avoid-apple-app-review-rejection/) [many](/2015/06/02/pitfall-creating-parent-slash-abstract-entitiy-in-core-data/) [pitfalls](/2014/07/04/the-rules-for-using-external-storage-in-core-data/) eg. [concurrency in managed object context](/2016/04/26/pitfall-handling-core-data-nsmanagedobjectcontext-in-threads/), [faults](/2014/07/14/error-coredata-could-not-fulfill-a-fault-nsobjectinaccessibleexception/).
 

@@ -3,6 +3,7 @@ layout: post
 title: "macOS Code Snippets From an iOS Perspective"
 date: 2018-09-12T15:13:27+08:00
 categories: [macOS]
+published: false
 ---
 
 I have developed on iOS for 10 years, and only now did I try to learn macOS. Wow it is so different with even more legacies stuff.
