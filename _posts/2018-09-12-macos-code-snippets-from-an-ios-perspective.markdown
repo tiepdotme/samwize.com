@@ -65,13 +65,27 @@ You might think the data source comes from `tableView(_:setObjectValue:for:row:)
 
 Quirk: Cocoa app will load the main storyboard/xib first, then `applicationDidFinishLaunching`.
 
-Remove in your target's **Deployment Info > Main Interface** ([screenshot](/2018/04/04/setup-appdelegate-without-storyboard/)) and programmatically show your view controller in AppDelegate. However, I could not get this to work.
+Remove in your target's **Deployment Info > Main Interface** ([screenshot](/2018/04/04/setup-appdelegate-without-storyboard/)) and programmatically show your view controller in AppDelegate. However, I _could not programmatically_ get this to work.
 
-Alternatively don't use `applicationDidFinishLaunching` to setup your stuff. Use `MainViewController.init/viewDidLoad`, but do make sure only run once, then control the flow to other view controllers.
-
-##
+Alternatively don't use `applicationDidFinishLaunching` to setup your stack. Use your subclassed `NSWindowController` init (1 of the init depending if you create by code or nib).
 
 ```swift
+class MainWindowController: NSWindowController {
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        // Setup stack here. An example of database setup:
+        DB.default.setup(dataModelName: "MyDatabase")
+}
+```
+
+## Pitfall: Cocoa Binding not key value compliant
+
+> Terminating app due to uncaught exception 'NSUnknownKeyException', reason: '[<MyApp.MainViewController 0x600000120a00> valueForUndefinedKey:]: this class is not key value coding-compliant for the key context.'
+
+If you use binding, ensure that the property is annotated with `@objc dynamic`, because cocoa binding uses dynamic properties. For example, if you bind a `NSManagedObjectContext`, it must look like this in the controller:
+
+```swift
+@objc dynamic var context: NSManagedObjectContext!
 ```
 
 ##
