@@ -214,8 +214,8 @@
 <p>The introduction of <code class="highlighter-rouge">NSPersistentContainer</code> simplified Core Data framework, by making developer choose between these two contexts:</p>
 
 <ol>
-  <li><code class="highlighter-rouge">viewContext</code> is in main thread, and is READ only; you cannot call <code class="highlighter-rouge">save</code>.</li>
-  <li><code class="highlighter-rouge">newBackgroundContext()</code> or <code class="highlighter-rouge">performBackgroundTask</code> is in background thread</li>
+  <li><code class="highlighter-rouge">viewContext</code> is on main thread</li>
+  <li><code class="highlighter-rouge">newBackgroundContext()</code> or <code class="highlighter-rouge">performBackgroundTask</code> is on background thread</li>
 </ol>
 
 <p><img src="/images/core-data-container.png" alt="Container and contexts" /></p>
@@ -234,6 +234,14 @@
 <p>What happens to existing fetched objects when a merge happens? They are not affected. You need to refresh the changes by executing the fetch again.</p>
 
 <p>How to know a context has changes? Observe posted notifications such as <a href="https://developer.apple.com/documentation/foundation/nsnotification/name/1506380-nsmanagedobjectcontextdidsave"><code class="highlighter-rouge">NSManagedObjectContextDidSave</code></a> and deal with the inserted, updated and deleted objects.</p>
+
+<h2 id="what-is-read-only-viewcontext">What is read-only <code class="highlighter-rouge">viewContext</code>?</h2>
+
+<p><code class="highlighter-rouge">viewContext</code> is a <a href="https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext">READ-only property</a>.</p>
+
+<p>You might be misguided to think it means that the context can only read, and <em>cannot write, insert or save</em>. Wrong! The read-only simply means the property cannot be set.</p>
+
+<p>You can run <code class="highlighter-rouge">viewContext.save</code>, which will save the context on main thread. If you do so, just ensure that you are not running a very long operation otherwise the main thread will be blocked.</p>
 
 <h2 id="pitfall-faults">Pitfall: Faults</h2>
 

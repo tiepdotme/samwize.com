@@ -6,8 +6,8 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 12 Sep 2018 22:26:42 +0800</pubDate>
-    <lastBuildDate>Wed, 12 Sep 2018 22:26:42 +0800</lastBuildDate>
+    <pubDate>Tue, 18 Sep 2018 21:50:56 +0800</pubDate>
+    <lastBuildDate>Tue, 18 Sep 2018 21:50:56 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -146,8 +146,8 @@
 &lt;p&gt;The introduction of &lt;code class=&quot;highlighter-rouge&quot;&gt;NSPersistentContainer&lt;/code&gt; simplified Core Data framework, by making developer choose between these two contexts:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext&lt;/code&gt; is in main thread, and is READ only; you cannot call &lt;code class=&quot;highlighter-rouge&quot;&gt;save&lt;/code&gt;.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;newBackgroundContext()&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;performBackgroundTask&lt;/code&gt; is in background thread&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext&lt;/code&gt; is on main thread&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;newBackgroundContext()&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;performBackgroundTask&lt;/code&gt; is on background thread&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/core-data-container.png&quot; alt=&quot;Container and contexts&quot; /&gt;&lt;/p&gt;
@@ -166,6 +166,14 @@
 &lt;p&gt;What happens to existing fetched objects when a merge happens? They are not affected. You need to refresh the changes by executing the fetch again.&lt;/p&gt;
 
 &lt;p&gt;How to know a context has changes? Observe posted notifications such as &lt;a href=&quot;https://developer.apple.com/documentation/foundation/nsnotification/name/1506380-nsmanagedobjectcontextdidsave&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObjectContextDidSave&lt;/code&gt;&lt;/a&gt; and deal with the inserted, updated and deleted objects.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-read-only-viewcontext&quot;&gt;What is read-only &lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext&lt;/code&gt;?&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext&lt;/code&gt; is a &lt;a href=&quot;https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext&quot;&gt;READ-only property&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You might be misguided to think it means that the context can only read, and &lt;em&gt;cannot write, insert or save&lt;/em&gt;. Wrong! The read-only simply means the property cannot be set.&lt;/p&gt;
+
+&lt;p&gt;You can run &lt;code class=&quot;highlighter-rouge&quot;&gt;viewContext.save&lt;/code&gt;, which will save the context on main thread. If you do so, just ensure that you are not running a very long operation otherwise the main thread will be blocked.&lt;/p&gt;
 
 &lt;h2 id=&quot;pitfall-faults&quot;&gt;Pitfall: Faults&lt;/h2&gt;
 
