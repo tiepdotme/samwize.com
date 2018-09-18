@@ -2,7 +2,8 @@
 layout: post
 title: "UserDefaults"
 date: 2018-09-14T17:20:09+08:00
-categories: []
+categories: [Foundation]
+published: false
 ---
 
 `UserDefaults` is the simplest way to persist key-values in iOS and macOS. Yet there is more to know about it.

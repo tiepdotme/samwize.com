@@ -140,8 +140,8 @@ Note that if you need to delete all notes, you need to fetch all of them and cal
 
 The introduction of `NSPersistentContainer` simplified Core Data framework, by making developer choose between these two contexts:
 
-1. `viewContext` is in main thread, and is READ only; you cannot call `save`.
-2. `newBackgroundContext()` or `performBackgroundTask` is in background thread
+1. `viewContext` is on main thread
+2. `newBackgroundContext()` or `performBackgroundTask` is on background thread
 
 ![Container and contexts](/images/core-data-container.png)
 
@@ -160,6 +160,14 @@ If you perform save concurrently in multiple contexts, you could have merge conf
 What happens to existing fetched objects when a merge happens? They are not affected. You need to refresh the changes by executing the fetch again.
 
 How to know a context has changes? Observe posted notifications such as [`NSManagedObjectContextDidSave`](https://developer.apple.com/documentation/foundation/nsnotification/name/1506380-nsmanagedobjectcontextdidsave) and deal with the inserted, updated and deleted objects.
+
+## What is read-only `viewContext`?
+
+`viewContext` is a [READ-only property](https://developer.apple.com/documentation/coredata/nspersistentcontainer/1640622-viewcontext).
+
+You might be misguided to think it means that the context can only read, and _cannot write, insert or save_. Wrong! The read-only simply means the property cannot be set.
+
+You can run `viewContext.save`, which will save the context on main thread. If you do so, just ensure that you are not running a very long operation otherwise the main thread will be blocked.
 
 ## Pitfall: Faults
 
