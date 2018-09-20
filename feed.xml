@@ -6,9 +6,69 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 18 Sep 2018 21:50:56 +0800</pubDate>
-    <lastBuildDate>Tue, 18 Sep 2018 21:50:56 +0800</lastBuildDate>
+    <pubDate>Thu, 20 Sep 2018 10:19:34 +0800</pubDate>
+    <lastBuildDate>Thu, 20 Sep 2018 10:19:34 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Pitfall on App ID Prefixes (Legacy)</title>
+        <description>&lt;p&gt;I stumbled on a &lt;a href=&quot;https://github.com/kishikawakatsumi/KeychainAccess/issues/52&quot;&gt;similar Keychain issue&lt;/a&gt; with error code &lt;code class=&quot;highlighter-rouge&quot;&gt;-34018&lt;/code&gt;, which is &lt;code class=&quot;highlighter-rouge&quot;&gt;missingEntitlement&lt;/code&gt;, and the message is:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Internal error when a required entitlement isn’t present, client has neither application-identifier nor keychain-access-groups entitlements.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;But my problem is not because of a missing entitlement file.&lt;/p&gt;
+
+&lt;p&gt;My problem is that my app ID prefix is wrong.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-is-app-id-prefix&quot;&gt;What is App ID Prefix?&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;https://developer.apple.com/library/archive/technotes/tn2311/_index.html&quot;&gt;Technical Note TN2311&lt;/a&gt;, you would learn of this “feature”.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Every keychain item in iOS contains an attribute called the keychain access group. An iOS app can only access those keychain items it has permission to. This permission comes from the code signing entitlements stamped into the app when it is signed (using your current App ID prefix).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Until 2011, developers may create different App ID Prefix, which group a number of apps together so as to share keychain and &lt;code class=&quot;highlighter-rouge&quot;&gt;UIPasteboard&lt;/code&gt;. This is way for “cross-app communication”.&lt;/p&gt;
+
+&lt;p&gt;Then in 2011, Apple takeaway this pretty needless feature, and use the default team ID that is associated with an Apple team account. This is simpler.&lt;/p&gt;
+
+&lt;h2 id=&quot;i-have-multiple-prefixes&quot;&gt;I have multiple prefixes&lt;/h2&gt;
+
+&lt;p&gt;I have been creating apps for a &lt;a href=&quot;/2018/06/01/evolution-of-my-code-in-last-10-years/&quot;&gt;long time&lt;/a&gt;, and I ended up having a non-team ID prefix for an app.&lt;/p&gt;
+
+&lt;p&gt;It took me a while to realize the issue.&lt;/p&gt;
+
+&lt;p&gt;The error was misleading to start with.&lt;/p&gt;
+
+&lt;p&gt;And you can only find out your app ID prefix by logging into &lt;a href=&quot;https://developer.apple.com/&quot;&gt;Apple developer member portal&lt;/a&gt;, and look under App IDs.&lt;/p&gt;
+
+&lt;h2 id=&quot;can-i-migrate-to-team-id-prefix&quot;&gt;Can I migrate to team ID prefix?&lt;/h2&gt;
+
+&lt;p&gt;It is possible, but you will lose keychain data, because 1 version of an app cannot have multiple keychain access groups.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Go to developer member centre&lt;/li&gt;
+  &lt;li&gt;Create a new App ID with the team ID prefix&lt;/li&gt;
+  &lt;li&gt;You may leave the old App ID with non-team ID prefix&lt;/li&gt;
+  &lt;li&gt;Re-create all the provisioning profiles with the new App ID&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Note: The “new App ID” can have the same app identifier string eg. “com.just2us.app”. You won’t want to change this because if an app identifier is changed, it is a new app on App Store!&lt;/p&gt;
+
+&lt;p&gt;I didn’t migrate, and stick to using my old App ID, since it is not critical for me app to share keychain with my other apps. If I need to share data, there are other ways such as &lt;a href=&quot;https://developer.apple.com/documentation/security/keychain_services/keychain_items/sharing_access_to_keychain_items_among_a_collection_of_apps&quot;&gt;app access group&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If I really want to migrate, I will need 1 update to migrate out of the keychain (to &lt;code class=&quot;highlighter-rouge&quot;&gt;UserDefaults&lt;/code&gt; or persist on file), wait for a few years to make sure most users did migrate.. then another update to migrate to the new keychain.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 20 Sep 2018 09:46:27 +0800</pubDate>
+        <link>https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy/</guid>
+        
+        
+        <category>Certs</category>
+        
+      </item>
     
       <item>
         <title>Modern Guide to Core Data 2018</title>
@@ -1063,66 +1123,6 @@ docker run -v $OVPN_DATA:/etc/openvpn -d -p 8349:1194/udp --cap-add=NET_ADMIN ky
         <pubDate>Thu, 17 May 2018 11:55:05 +0800</pubDate>
         <link>https://samwize.com/2018/05/17/photos-app-and-exif-location-data/</link>
         <guid isPermaLink="true">https://samwize.com/2018/05/17/photos-app-and-exif-location-data/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>How to Vibrate an iPhone</title>
-        <description>&lt;h2 id=&quot;1-audiotoolbox&quot;&gt;1. AudioToolbox&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Target &amp;gt; Linked Frameworks and Libraries &amp;gt; Add &lt;strong&gt;AudioToolbox&lt;/strong&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;import AudioToolbox&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlaySystemSoundWithCompletion(kSystemSoundID_Vibrate, nil)&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;It is that simple using &lt;a href=&quot;https://developer.apple.com/documentation/audiotoolbox/1405248-audioservicesplaysystemsound&quot;&gt;AudioServicesPlaySystemSound API&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-haptic-api&quot;&gt;2. Haptic API&lt;/h2&gt;
-
-&lt;p&gt;In iOS 10, there is a new API, making use of the new haptic engine in iPhone.&lt;/p&gt;
-
-&lt;p&gt;The API is very simple, with 3 concrete classes to &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uifeedbackgenerator&quot;&gt;UIFeedbackGenerator&lt;/a&gt;. Use accordingly to your scenario.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;c1&quot;&gt;// UI &quot;impact&quot;&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;UIImpactFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;light&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;impactOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;UIImpactFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;medium&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;impactOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;UIImpactFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;heavy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;impactOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Selection changed&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;UISelectionFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;selectionChanged&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Notifications&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;UINotificationFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;notificationOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;success&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;UINotificationFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;notificationOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;UINotificationFeedbackGenerator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;notificationOccurred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;warning&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// To be complete, this is the vibration using AudioToolbox&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;AudioServicesPlaySystemSoundWithCompletion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kSystemSoundID_Vibrate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;pitfall-does-not-work-along-with-other-audio-session&quot;&gt;Pitfall: Does not work along with other audio session&lt;/h2&gt;
-
-&lt;p&gt;There is a &lt;a href=&quot;https://developer.apple.com/documentation/audiotoolbox/1405202-audioservicesplayalertsound&quot;&gt;note&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;However, the device does not vibrate if your app’s audio session is configured with the AVAudioSessionCategoryPlayAndRecord or AVAudioSessionCategoryRecord audio session category.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;While the note is for &lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlayAlertSound&lt;/code&gt;, it is applicable to &lt;code class=&quot;highlighter-rouge&quot;&gt;AudioServicesPlaySystemSound&lt;/code&gt; too.&lt;/p&gt;
-
-&lt;p&gt;As long as you have a audio session (via AVAudioPlayer, AVCaptureMovieFileOutput, etc), then the phone will NOT vibrate.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 30 Apr 2018 09:49:03 +0800</pubDate>
-        <link>https://samwize.com/2018/04/30/how-to-vibrate-an-iphone/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/04/30/how-to-vibrate-an-iphone/</guid>
         
         
       </item>

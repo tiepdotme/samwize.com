@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Pitfall on App ID Prefixes (Legacy)</title>
+  <meta name="description" content="I stumbled on a similar Keychain issue with error code -34018, which is missingEntitlement, and the message is:" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Pitfall on App ID Prefixes (Legacy)" />
+    <meta name="twitter:image" content="https://samwize.com" />
+    
+    <meta name="twitter:description"  content="I stumbled on a similar Keychain issue with error code -34018, which is missingEntitlement, and the message is:" />
+    
+  
+
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Pitfall on App ID Prefixes (Legacy)"/>
+  
+  <meta property="og:description" content="I stumbled on a similar Keychain issue with error code -34018, which is missingEntitlement, and the message is:" />
+  
+  <meta property="og:image" content="https://samwize.com" />
+  <meta property="og:url" content="https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2018-09-20T09:46:27+08:00">
+
+  <link rel="canonical" href="https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy/">
+
+  <link rel="shortcut icon" href="/images/favicon.ico">
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8504591086876220",
+            enable_page_level_ads: true
+       });
+  </script>
+
+</head>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="https://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Pitfall on App ID Prefixes (Legacy)</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2018-09-20T09:46:27+08:00">20 September 2018</time>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p>I stumbled on a <a href="https://github.com/kishikawakatsumi/KeychainAccess/issues/52">similar Keychain issue</a> with error code <code class="highlighter-rouge">-34018</code>, which is <code class="highlighter-rouge">missingEntitlement</code>, and the message is:</p>
+
+<blockquote>
+  <p>Internal error when a required entitlement isn’t present, client has neither application-identifier nor keychain-access-groups entitlements.</p>
+</blockquote>
+
+<p>But my problem is not because of a missing entitlement file.</p>
+
+<p>My problem is that my app ID prefix is wrong.</p>
+
+<h2 id="what-is-app-id-prefix">What is App ID Prefix?</h2>
+
+<p>In <a href="https://developer.apple.com/library/archive/technotes/tn2311/_index.html">Technical Note TN2311</a>, you would learn of this “feature”.</p>
+
+<blockquote>
+  <p>Every keychain item in iOS contains an attribute called the keychain access group. An iOS app can only access those keychain items it has permission to. This permission comes from the code signing entitlements stamped into the app when it is signed (using your current App ID prefix).</p>
+</blockquote>
+
+<p>Until 2011, developers may create different App ID Prefix, which group a number of apps together so as to share keychain and <code class="highlighter-rouge">UIPasteboard</code>. This is way for “cross-app communication”.</p>
+
+<p>Then in 2011, Apple takeaway this pretty needless feature, and use the default team ID that is associated with an Apple team account. This is simpler.</p>
+
+<h2 id="i-have-multiple-prefixes">I have multiple prefixes</h2>
+
+<p>I have been creating apps for a <a href="/2018/06/01/evolution-of-my-code-in-last-10-years/">long time</a>, and I ended up having a non-team ID prefix for an app.</p>
+
+<p>It took me a while to realize the issue.</p>
+
+<p>The error was misleading to start with.</p>
+
+<p>And you can only find out your app ID prefix by logging into <a href="https://developer.apple.com/">Apple developer member portal</a>, and look under App IDs.</p>
+
+<h2 id="can-i-migrate-to-team-id-prefix">Can I migrate to team ID prefix?</h2>
+
+<p>It is possible, but you will lose keychain data, because 1 version of an app cannot have multiple keychain access groups.</p>
+
+<ol>
+  <li>Go to developer member centre</li>
+  <li>Create a new App ID with the team ID prefix</li>
+  <li>You may leave the old App ID with non-team ID prefix</li>
+  <li>Re-create all the provisioning profiles with the new App ID</li>
+</ol>
+
+<p>Note: The “new App ID” can have the same app identifier string eg. “com.just2us.app”. You won’t want to change this because if an app identifier is changed, it is a new app on App Store!</p>
+
+<p>I didn’t migrate, and stick to using my old App ID, since it is not critical for me app to share keychain with my other apps. If I need to share data, there are other ways such as <a href="https://developer.apple.com/documentation/security/keychain_services/keychain_items/sharing_access_to_keychain_items_among_a_collection_of_apps">app access group</a>.</p>
+
+<p>If I really want to migrate, I will need 1 update to migrate out of the keychain (to <code class="highlighter-rouge">UserDefaults</code> or persist on file), wait for a few years to make sure most users did migrate.. then another update to migrate to the new keychain.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Pitfall+on+App+ID+Prefixes+%28Legacy%29&amp;url=https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Pitfall+on+App+ID+Prefixes+%28Legacy%29&amp;u=https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Pitfall+on+App+ID+Prefixes+%28Legacy%29&amp;url=https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
