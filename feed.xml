@@ -6,9 +6,96 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 20 Sep 2018 10:19:34 +0800</pubDate>
-    <lastBuildDate>Thu, 20 Sep 2018 10:19:34 +0800</lastBuildDate>
+    <pubDate>Tue, 25 Sep 2018 10:42:37 +0800</pubDate>
+    <lastBuildDate>Tue, 25 Sep 2018 10:42:37 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>App Group for Sharing Between Apps and Extensions</title>
+        <description>&lt;p&gt;&lt;strong&gt;App Group&lt;/strong&gt; is a feature that is seldom mentioned, until you try to share data between apps, or to &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/ExtensionScenarios.html&quot;&gt;extensions&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Another type of group for sharing is &lt;strong&gt;Keychain Access Group&lt;/strong&gt;, specially for keychains.&lt;/p&gt;
+
+&lt;h2 id=&quot;3-types-of-access-group&quot;&gt;3 Types of Access Group&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Private Group
+    &lt;ul&gt;
+      &lt;li&gt;Automatically created for each app&lt;/li&gt;
+      &lt;li&gt;Only 1&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Application Group
+    &lt;ul&gt;
+      &lt;li&gt;Optional&lt;/li&gt;
+      &lt;li&gt;Multiple groups&lt;/li&gt;
+      &lt;li&gt;1 app can be in multiple groups&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Keychain Access Group
+    &lt;ul&gt;
+      &lt;li&gt;Optional&lt;/li&gt;
+      &lt;li&gt;Multiple groups&lt;/li&gt;
+      &lt;li&gt;1 keychain item can be in only 1 group&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;1-private-group&quot;&gt;1. Private Group&lt;/h2&gt;
+
+&lt;p&gt;We don’t often talk about private group, because it simply the default, automatically created, aka the sandbox for an app.&lt;/p&gt;
+
+&lt;p&gt;Every app has a unique App ID, each representing a private group. Let’s get the IDs right with examples:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Bundle ID&lt;/strong&gt; = “com.just2us.app1”, “com.just2us.app2”, etc&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Team ID&lt;/strong&gt;, &lt;a href=&quot;/2018/09/20/pitfall-on-app-id-prefixes-legacy/&quot;&gt;aka App Prefix ID&lt;/a&gt; = “ABCDE12345”&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;App ID&lt;/strong&gt; = Team ID + Bundle ID  = “ABCDE12345.com.just2us.app1”, “ABCDE12345.com.just2us.app2”, etc&lt;/p&gt;
+
+&lt;p&gt;App IDs are unique as you can see, and they represent the private group (container).&lt;/p&gt;
+
+&lt;p&gt;By default, all frameworks such as &lt;code class=&quot;highlighter-rouge&quot;&gt;UserDefaults&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Keychain&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;FileManager&lt;/code&gt; use the private group.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-application-group&quot;&gt;2. Application Group&lt;/h2&gt;
+
+&lt;p&gt;Application groups are like private group, but custom. You can create them by enabling the capability for your app. You can create multiple groups, and use in multiple apps.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;App Group ID&lt;/strong&gt; = “group.com.just2us.app1”, “com.just2us.family”&lt;/p&gt;
+
+&lt;p&gt;An app group is like an app Bundle ID, usually the convention is to prefix a “group” to the app bundle ID, thus sharing between a host app with it’s extensions. But you can use any string, like I use “com.just2us.family” which share among ALL apps.&lt;/p&gt;
+
+&lt;p&gt;When an app have access to an app group, the app can access the container. For example:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FileManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;containerURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;forSecurityApplicationGroupIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;com.just2us.family&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userDefaults&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;suiteName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;com.just2us.family&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;3-keychain-access-groups&quot;&gt;3. Keychain Access Groups&lt;/h2&gt;
+
+&lt;p&gt;When you want multiple apps to share a keychain, then you need to create a common Keychain Access Group. Again, enable the feature under capability.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Keychain Access Group ID&lt;/strong&gt; = “ABCDE12345.com.just2us.family”, “ABCDE12345.com.just2us.another”, etc&lt;/p&gt;
+
+&lt;p&gt;If you did NOT create any custom keychain access group, by default, you still have one using the App ID eg. “ABCDE12345.com.just2us.app1”.&lt;/p&gt;
+
+&lt;p&gt;Note that keychain access group ID has the Team/App Prefix ID. In an app, you have only 1 Team/App Prefix ID. This is important to know because a keychain is tied to this Team/App Prefix ID. If you change the prefix ID (&lt;a href=&quot;/2018/09/20/pitfall-on-app-id-prefixes-legacy/&quot;&gt;legacy reason&lt;/a&gt;), then you will lose data in the previous keychain.&lt;/p&gt;
+
+&lt;p&gt;Keychain contain items, and each item must be in exactly 1 Keychain Access Group.&lt;/p&gt;
+
+&lt;p&gt;So when you create keychain item, you must specify the group it is in, via the &lt;code class=&quot;highlighter-rouge&quot;&gt;kSecAttrAccessGroup&lt;/code&gt; key.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kSecAttrAccessGroup&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ABCDE12345.com.just2us.family&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sun, 23 Sep 2018 11:10:54 +0800</pubDate>
+        <link>https://samwize.com/2018/09/23/app-group-for-sharing-between-apps-and-extensions/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/09/23/app-group-for-sharing-between-apps-and-extensions/</guid>
+        
+        
+        <category>Foundation</category>
+        
+      </item>
     
       <item>
         <title>Pitfall on App ID Prefixes (Legacy)</title>
@@ -1032,98 +1119,6 @@ docker run -v $OVPN_DATA:/etc/openvpn -d -p 8349:1194/udp --cap-add=NET_ADMIN ky
         <category>API</category>
         
         <category>Testing</category>
-        
-      </item>
-    
-      <item>
-        <title>Photos App &amp; EXIF Location Data</title>
-        <description>&lt;p&gt;Location, or any metadata, can be saved in 2 places:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;In Photos app’s database&lt;/li&gt;
-  &lt;li&gt;In the jpg/heic/dng/mov files&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;You WILL have to do both for an iOS app, because if you don’t, then you will lose the information along the way eg importing.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-photos-apps-database&quot;&gt;1. Photos app’s database&lt;/h2&gt;
-
-&lt;p&gt;Let’s start with the easy one.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/photos/phassetcreationrequest&quot;&gt;PHAssetCreationRequest&lt;/a&gt; makes it very easy to add the location data to the database.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;PHPhotoLibrary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;performChanges&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;creationRequest&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PHAssetCreationRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;forAsset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;creationRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;latestLocation&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;creationRequest&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photoData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can also set the &lt;code class=&quot;highlighter-rouge&quot;&gt;creationDate&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;isFavorite&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
-
-&lt;p&gt;If you do (1), but not (2), then when the photo is imported into macOS/Windows, surprisingly, even using Apple’s Photo app, metadata will be lost.&lt;/p&gt;
-
-&lt;p&gt;When importing, only the &lt;strong&gt;metadata in the file&lt;/strong&gt; is used.&lt;/p&gt;
-
-&lt;p&gt;So you need to write metadata to the file, and that is HARDER.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-writing-metadata-to-file&quot;&gt;2. Writing metadata to file&lt;/h2&gt;
-
-&lt;p&gt;If you are using AVFoundation to capture photo, then it is relatively easy. There is a &lt;a href=&quot;https://developer.apple.com/documentation/avfoundation/avcapturephoto/2875953-filedatarepresentation&quot;&gt;variant of &lt;code class=&quot;highlighter-rouge&quot;&gt;fileDataRepresentation&lt;/code&gt;&lt;/a&gt; that can take in the metadata.&lt;/p&gt;
-
-&lt;p&gt;This is what you do in the &lt;code class=&quot;highlighter-rouge&quot;&gt;AVCapturePhotoCaptureDelegate&lt;/code&gt; method:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;photoOutput&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVCapturePhotoOutput&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinishProcessingPhoto&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AVCapturePhoto&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;metadata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kCGImagePropertyGPSDictionary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gpsMetadata&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;photoData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fileDataRepresentation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withReplacementMetadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;nv&quot;&gt;replacementEmbeddedThumbnailPhotoFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;embeddedThumbnailPhotoFormat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;nv&quot;&gt;replacementEmbeddedThumbnailPixelBuffer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;nv&quot;&gt;replacementDepthData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;photo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;depthData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;With the &lt;code class=&quot;highlighter-rouge&quot;&gt;photoData&lt;/code&gt;, you can save to file or add to Photos using &lt;code class=&quot;highlighter-rouge&quot;&gt;PHAssetCreationRequest&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;using-image-io-and-other-frameworks&quot;&gt;Using Image I/O and other frameworks&lt;/h2&gt;
-
-&lt;p&gt;If you are not capturing photo using AVFoundation, then you don’t have the luxury of the above to get the &lt;code class=&quot;highlighter-rouge&quot;&gt;fileDataRepresentation&lt;/code&gt; along with the metadata.&lt;/p&gt;
-
-&lt;p&gt;In that case, you have to add metadata manually to the original image data.&lt;/p&gt;
-
-&lt;p&gt;Image I/O Framework provides methods to &lt;a href=&quot;https://developer.apple.com/library/content/qa/qa1895/_index.html&quot;&gt;Modifying Image Metadata Without Recompressing Image (QA1895)&lt;/a&gt;, using &lt;a href=&quot;https://developer.apple.com/documentation/imageio/1465189-cgimagedestinationcopyimagesourc?language=objc&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CGImageDestinationCopyImageSource&lt;/code&gt;&lt;/a&gt;, which supports JPEG, PNG, PSD, TIFF.&lt;/p&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;options_dict&lt;/code&gt; in the sample code is the metadata dictionary.&lt;/p&gt;
-
-&lt;p&gt;Check out S/O answers like &lt;a href=&quot;https://stackoverflow.com/a/5294574/242682&quot;&gt;this&lt;/a&gt; or &lt;a href=&quot;https://stackoverflow.com/a/43376828/242682&quot;&gt;this&lt;/a&gt; (using Core Media).&lt;/p&gt;
-
-&lt;p&gt;Assets Library framework (deprecated) also has it’s own methods to &lt;a href=&quot;https://developer.apple.com/library/content/qa/qa1622/_index.html&quot;&gt;Accessing Image Metadata in iOS (QA1622)&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;metadata&quot;&gt;Metadata&lt;/h2&gt;
-
-&lt;p&gt;Wonder what kind of structure is &lt;code class=&quot;highlighter-rouge&quot;&gt;metadata&lt;/code&gt;?&lt;/p&gt;
-
-&lt;p&gt;Metadata is a dictionary of dictionaries.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/imageio/cgimageproperties&quot;&gt;CGImageProperties&lt;/a&gt; has a reference to the dictionaries you can define. For example, &lt;a href=&quot;https://developer.apple.com/documentation/imageio/cgimageproperties/gps_dictionary_keys&quot;&gt;GPS has it’s own dictionary keys&lt;/a&gt;, so does &lt;a href=&quot;https://developer.apple.com/documentation/imageio/cgimageproperties/exif_dictionary_keys&quot;&gt;EXIF&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// gpsMetadata and exifMetadata are 2 dictionaries&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kCGImagePropertyGPSDictionary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gpsMetadata&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kCGImagePropertyExifDictionary&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;exifMetadata&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;There is a helper on turning &lt;code class=&quot;highlighter-rouge&quot;&gt;CLLocation&lt;/code&gt; into the &lt;a href=&quot;https://stackoverflow.com/a/5314634/242682&quot;&gt;GPS data in a dictionary&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;A &lt;a href=&quot;https://gist.github.com/kwylez/a4b6ec261e52970e1fa5dd4ccfe8898f&quot;&gt;Swift extension&lt;/a&gt; is kindly available too.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 17 May 2018 11:55:05 +0800</pubDate>
-        <link>https://samwize.com/2018/05/17/photos-app-and-exif-location-data/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/05/17/photos-app-and-exif-location-data/</guid>
-        
         
       </item>
     
