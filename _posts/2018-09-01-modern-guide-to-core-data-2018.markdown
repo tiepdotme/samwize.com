@@ -198,11 +198,41 @@ context.setQueryGenerationFrom(token)
 
 At some point in time, you could move to the latest snapshot with `NSQueryGenerationToken.current`.
 
+## Prefetching
+
+Prefetching is a concept to load items that is _about to be displayed_, so that when user scroll, the item is (hopefully)  ready. You load anything, asynchronously, such as reading from file, network, or database faults.
+
+This is how you use it together with [`NSFetchedResultsController`](/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/), by using asynchronous fetch request to resolve faults.
+
+```swift
+func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+    let fetchRequest: NSFetchRequest<Note> = Note.fetchRequest()
+    fetchRequest.returnsObjectsAsFaults = false
+    let items = indexPaths.map { fetchedResultsController.object(at: $0) }
+    fetchRequest.predicate = NSPredicate(format: "SELF IN %@", items)
+    let asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest)
+    do {
+        try fetchedResultsController.managedObjectContext.execute(asyncFetchRequest)
+    } catch { }
+}
+```
+
 ## Other topics
 
-[`NSFetchedResultsController`](https://developer.apple.com/documentation/coredata/nsfetchedresultscontroller) manage the results of a fetch request, including changes to the objects in the context! A big topic so I leave in to another day. For now, you can read my [2015 guide](/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/).
+`NSFetchedResultsController` manages the results from a fetch request, including changes to the objects in the context! In my [2015 guide (in Swift)](/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/), I provided the boilerplate code for implementing `NSFetchedResultsControllerDelegate` in a table view.
 
-[Migration](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/Introduction.html) is unavoidable in app upgrade.
+[Migration](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/Introduction.html) is unavoidable in app upgrade, but I will leave the topic for another day.
+
+If you use transient property in a model, the code generation will not do anything about it.. For example, if `contentCount` is a transient value, you should delete the property generated, and write like this:
+
+```swift
+@objc var contentCount: NSNumber? {
+    willAccessValue(forKey: "content")
+    let contentCount = content.count
+    didAccessValue(forKey: "content")
+    return NSNumber(value: contentCount)
+}
+```
 
 ## Back to the history..
 
