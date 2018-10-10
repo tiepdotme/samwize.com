@@ -1,38 +1,43 @@
 ---
 layout: post
 title: "New in UNUserNotificationCenter for iOS 12"
-date: 2018-09-28T15:25:57+08:00
-categories: []
+date: 2018-10-08T15:25:57+08:00
+categories: [Notifications]
 ---
 
 `UNUserNotificationCenter` is the revamped notification framework, deprecating `UILocalNotification` since iOS 10.
 
-In WWDC 2018, there are some nice features in the framework.
+In WWDC 2018, there are some nice features in the framework, and here I will only be covering what's new.
 
 ## Provisional
 
-Prior to iOS 12, an app has to [explicitly ask user for permission](https://developer.apple.com/documentation/usernotifications/asking_permission_to_use_notifications) to send them notifications. They will have to allow via a system alert like this:
+Prior to iOS 12, an app has to [explicitly ask user for permission](https://developer.apple.com/documentation/usernotifications/asking_permission_to_use_notifications) before sending any notifications. Users will have to allow via a system alert like this:
 
 ![](/images/usernotifications-alert.png)
 
 With the `provisional` option, the alert will NOT be shown!
 
 ```swift
-let notificationCenter = UNUserNotificationCenter.current()
-notificationCenter.requestAuthorization(options: [.alert, .badge, .provisional]) { ... }
+UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge, .provisional]) { ... }
 ```
 
 This is great as users will automatically receive the notification, with the following tradeoff:
 
-The **notification will be delivered quietly**, which means they will only appear in notification center, but NOT in the lock screen, present banners, or play sound.
+The **notification will be delivered quietly**, which means they will only appear in notification center, but NOT in the lock screen, present banners, update badge, or play sound.
 
 ![](/images/usernotifications-quiet.png)
 
 This is good enough for many apps.
 
-Subsequently you can let user receive prominent notifications by going to iOS Settings and enable for Lock Screen and Banners, or when user choose **Keep**, they will be able to choose between quiet or prominent mode.
+Subsequently, users can opt in to receive prominent notifications by going to iOS Settings and enable for Lock Screen and Banners, or when user choose **Keep**, they will be able to choose between quiet or prominent mode.
 
 ![](/images/usernotifications-keep-or-not.png)
+
+Or you can request authorization again, this time without `provisional`.
+
+```swift
+UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { ... }
+```
 
 ## Critical Alert
 
@@ -63,9 +68,7 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor 
 
 ## Other Basics
 
-I have never cover the framework, and won't be for now :)
-
-[Use Your Loaf](https://useyourloaf.com/blog/local-notifications-with-ios-10/) has a pretty good basic guide on how to use it in 2016.
+~~I have never cover the framework, and won't be for now :)~~ I have a [guide on the basics to local notifications](/2018/10/20/guide-to-usernotifications-framework/).
 
 The Apple's documentation is also pretty good, with the following topics:
 
