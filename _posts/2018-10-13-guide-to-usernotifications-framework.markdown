@@ -1,9 +1,8 @@
 ---
 layout: post
 title: "Guide to UserNotifications Framework"
-date: 2018-10-20T16:25:12+08:00
+date: 2018-10-13T15:25:12+08:00
 categories: [Notifications]
-published: true
 ---
 
 `UserNotifications` is a revamped framework for dealing with both local and remote notifications.
@@ -81,6 +80,8 @@ region.notifyOnEntry = true
 region.notifyOnExit = false
 let triggerByLocation = UNLocationNotificationTrigger(region: region, repeats: false)
 ```
+
+There are some limitations though. I have a use case where I want to _trigger after a certain date_, and repeated daily. This [cannot be achieved](https://stackoverflow.com/q/38380783/242682) with the `repeat` option. Instead, I have to manually calculate the repetitions and schedule each of them.
 
 ## Category & Actions
 

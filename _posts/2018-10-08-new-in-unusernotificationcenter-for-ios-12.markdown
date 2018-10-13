@@ -68,7 +68,7 @@ func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor 
 
 ## Other Basics
 
-~~I have never cover the framework, and won't be for now :)~~ I have a [guide on the basics to local notifications](/2018/10/20/guide-to-usernotifications-framework/).
+~~I have never cover the framework, and won't be for now :)~~ I have a [guide on the basics to local notifications](/2018/10/13/guide-to-usernotifications-framework/).
 
 The Apple's documentation is also pretty good, with the following topics:
 
