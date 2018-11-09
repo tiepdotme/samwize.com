@@ -11,10 +11,9 @@ Protocol is fantastic.
 
 Here is a guide on some of the common use of this Swift "feature".
 
+## Declaring a Protocol
 
-## Declaring a Protocol 
-
-Protocol are likes classes. You need to give it a name. 
+Protocol are likes classes. You need to give it a name.
 
 You will commonly find names with **-able** suffixes eg. `TextRepresentable`.
 
@@ -27,7 +26,6 @@ protocol Codable {
 ```
 
 Any class now that extends `Codable` will require the `code` method.
-
 
 ## Default Extension
 
@@ -47,10 +45,9 @@ Now, any type that implements the `Codable` protocol get the default implementat
 
 Of course, you may still implement your own (and not use the default).
 
-
 ## Default Extension with Type
 
-Now, suppose you want the default extension to use a `UIViewController` method. 
+Now, suppose you want the default extension to use a `UIViewController` method.
 
 You can enforce that the default extension be of the type `UIViewController`.
 
@@ -62,8 +59,17 @@ extension Codable where Self: UIViewController {
 }
 ```
 
-Of course, now any type that implements the `Codable` protocol must be a `UIViewController`, if it wants the default implementation. 
+Of course, now any type that implements the `Codable` protocol must be a `UIViewController`, if it wants the default implementation.
 
+## Optional methods
+
+If you want a protocol method, you _can try_ to add `optional` attribute to the `func`. But that will give the error:
+
+> 'optional' can only be applied to members of an @objc protocol
+
+The Swift way is slightly more tedious. You have to add a default extension, which is already covered in the section above!
+
+The `code` method in the section **Default Extension** makes the method optional.
 
 ## Protocol of class type
 
@@ -73,10 +79,9 @@ You may enforce that a protocol is to be use by classes only (sorry structs and 
 protocol Codable: class { ... }
 ```
 
-This is needed especially for the scenario where you need a protocol to be `weak` (to avoid [retain cycle](http://samwize.com/2016/08/05/reference-cycle-for-closures/)). Because:
+This is needed especially for the scenario where you need a protocol to be `weak` (to avoid [retain cycle](/2016/08/05/reference-cycle-for-closures/)). Because:
 
 > weak can only be applied to class or class-bound protocol.
-
 
 ## Associated Types - Using `Self`
 
@@ -97,7 +102,6 @@ extension MyViewController: Codable {
   func code(foo: MyViewController) { ... }
 }
 ```
-
 
 ## Associated Types - Using `associatedtype`
 

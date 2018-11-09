@@ -217,6 +217,14 @@ func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath])
 }
 ```
 
+## Relationships
+
+Core Data helps to maintain relationships (1-1, 1-many) between entities.
+
+You should **always set the inverse**, because doing so you only need to set 1 side of the relationship, and Core Data will automatically handle the other side. More importantly, it [maintains referential integrity](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/HowManagedObjectsarerelated.html).
+
+Delete rule specify the behaviour _when you delete the source entity_ (eg Department). If you set to "nullify", the relationship destination (eg Employees) will set all reference to the source null. That is, the affected employees will have no department. If you set to "cascade", the employees will be deleted.
+
 ## Other topics
 
 `NSFetchedResultsController` manages the results from a fetch request, including changes to the objects in the context! In my [2015 guide (in Swift)](/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/), I provided the boilerplate code for implementing `NSFetchedResultsControllerDelegate` in a table view.
