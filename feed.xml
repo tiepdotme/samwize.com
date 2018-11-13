@@ -6,9 +6,97 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 07 Nov 2018 20:49:49 +0800</pubDate>
-    <lastBuildDate>Wed, 07 Nov 2018 20:49:49 +0800</lastBuildDate>
+    <pubDate>Tue, 13 Nov 2018 16:13:22 +0800</pubDate>
+    <lastBuildDate>Tue, 13 Nov 2018 16:13:22 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>How to Tab to Next Row in NSTableView (View-based Solution)</title>
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableView&lt;/code&gt; has a lot of legacy, and a simple UX of navigating from row to row (or cell to cell) proved to be very challenging.&lt;/p&gt;
+
+&lt;p&gt;There are solutions, but &lt;a href=&quot;http://www.knowstack.com/nstableview-tab-return/&quot;&gt;they&lt;/a&gt; &lt;a href=&quot;https://stackoverflow.com/a/5601129/242682&quot;&gt;are&lt;/a&gt; mostly for cell-based &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableView&lt;/code&gt;, which is the legacy way.&lt;/p&gt;
+
+&lt;p&gt;It is possible with the modern view-based way, but there are numerous pitfalls.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-solution&quot;&gt;The solution&lt;/h2&gt;
+
+&lt;p&gt;The first step is to set the delegate for the textField of the cell. You do this in your usual &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableViewDelegate&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyTableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTableViewDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewFor&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tableColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTableColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;textField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then you extend &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTextFieldDelegate&lt;/code&gt;, and implement &lt;code class=&quot;highlighter-rouge&quot;&gt;controlTextDidEndEditing(_:)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyTableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTextFieldDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;controlTextDidEndEditing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Notification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;textMovementInt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;NSTextMovement&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;textMovement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTextMovement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rawValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;textMovementInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;columnIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;column&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;newRowIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;textMovement&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;tab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numberOfRows&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;backtab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;kt&quot;&gt;DispatchQueue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;editColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;columnIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is where it is tricky for 2 reasons:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;If you think you should be implementing in &lt;code class=&quot;highlighter-rouge&quot;&gt;textShouldEndEditing(_:)&lt;/code&gt;, sorry somehow it is not. Thanks to &lt;a href=&quot;http://www.taffysoft.com/pages/20171226-01.html&quot;&gt;this post&lt;/a&gt; for pointing it out.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;editColumn&lt;/code&gt; has to be called in &lt;code class=&quot;highlighter-rouge&quot;&gt;DispatchQueue&lt;/code&gt; (even though it is calling from main thread.. perhaps a slight delay is needed)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This is still a side effect with the solution. When user press tab, if the table view has a next key view, that will be focused for a moment.&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus-make-the-table-view-the-first-responder&quot;&gt;Bonus: Make the table view the first responder&lt;/h2&gt;
+
+&lt;p&gt;If you want to improve further and make the first row editable, there is some more work to do.&lt;/p&gt;
+
+&lt;p&gt;First, your view controller has to make the &lt;code class=&quot;highlighter-rouge&quot;&gt;tableView&lt;/code&gt; the first responder.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;makeFirstResponder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then you need to subclass the &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableView&lt;/code&gt;, because you need to change the behaviour when it becomes the first responder.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;becomeFirstResponder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;editedRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// editedRow is -1 if not editing&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;editColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Tue, 13 Nov 2018 15:41:18 +0800</pubDate>
+        <link>https://samwize.com/2018/11/13/how-to-tab-to-next-row-in-nstableview-view-based-solution/</link>
+        <guid isPermaLink="true">https://samwize.com/2018/11/13/how-to-tab-to-next-row-in-nstableview-view-based-solution/</guid>
+        
+        
+        <category>macOS</category>
+        
+        <category>osx</category>
+        
+      </item>
     
       <item>
         <title>Additional Tools for Xcode</title>
@@ -627,6 +715,14 @@
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
+&lt;h2 id=&quot;relationships&quot;&gt;Relationships&lt;/h2&gt;
+
+&lt;p&gt;Core Data helps to maintain relationships (1-1, 1-many) between entities.&lt;/p&gt;
+
+&lt;p&gt;You should &lt;strong&gt;always set the inverse&lt;/strong&gt;, because doing so you only need to set 1 side of the relationship, and Core Data will automatically handle the other side. More importantly, it &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/HowManagedObjectsarerelated.html&quot;&gt;maintains referential integrity&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Delete rule specify the behaviour &lt;em&gt;when you delete the source entity&lt;/em&gt; (eg Department). If you set to “nullify”, the relationship destination (eg Employees) will set all reference to the source null. That is, the affected employees will have no department. If you set to “cascade”, the employees will be deleted.&lt;/p&gt;
+
 &lt;h2 id=&quot;other-topics&quot;&gt;Other topics&lt;/h2&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSFetchedResultsController&lt;/code&gt; manages the results from a fetch request, including changes to the objects in the context! In my &lt;a href=&quot;/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/&quot;&gt;2015 guide (in Swift)&lt;/a&gt;, I provided the boilerplate code for implementing &lt;code class=&quot;highlighter-rouge&quot;&gt;NSFetchedResultsControllerDelegate&lt;/code&gt; in a table view.&lt;/p&gt;
@@ -642,6 +738,8 @@
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;contentCount&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Core Data is such a complex framework that even the biggest experts &lt;a href=&quot;http://www.cimgf.com/2018/05/10/response-the-laws-of-core-data/&quot;&gt;argue&lt;/a&gt; about &lt;a href=&quot;https://davedelong.com/blog/2018/05/09/the-laws-of-core-data/&quot;&gt;“their laws”&lt;/a&gt;. Do you use &lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObjectContext&lt;/code&gt; as a data object? I do sometimes, and sometimes not.&lt;/p&gt;
 
 &lt;h2 id=&quot;back-to-the-history&quot;&gt;Back to the history..&lt;/h2&gt;
 
@@ -1034,114 +1132,6 @@ git push --tags
         
         
         <category>Carthage</category>
-        
-      </item>
-    
-      <item>
-        <title>Set Up Your Own VPN Server With $5</title>
-        <description>&lt;p&gt;This is a very cheap way to run your dedicated VPN server, with $5/month on &lt;a href=&quot;https://m.do.co/c/69baaaf5a07b&quot;&gt;DigitalOcean&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-sign-up-digitalocean&quot;&gt;1. Sign Up DigitalOcean&lt;/h2&gt;
-
-&lt;p&gt;I have been using Digital Ocean for a long time and highly recommend it when you need a dedicated server.&lt;/p&gt;
-
-&lt;p&gt;Sign up DigitalOcean with my &lt;a href=&quot;https://m.do.co/c/69baaaf5a07b&quot;&gt;referral link&lt;/a&gt;, and get &lt;strong&gt;FREE $10 (that’s 2 months!)&lt;/strong&gt; to start with.&lt;/p&gt;
-
-&lt;p&gt;When you do not need the VPN server any longer, you may shut it down anytime, and you won’t incur a thing.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-setup-for-ssh&quot;&gt;2. Setup for SSH&lt;/h2&gt;
-
-&lt;p&gt;Before you create your droplet, you must setup your computer for ssh-ing later on.&lt;/p&gt;
-
-&lt;p&gt;If you have never setup your RSA key pair, then you will have to run &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh-keygen&lt;/code&gt; first.&lt;/p&gt;
-
-&lt;p&gt;Copy the public key,&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;cat ~/.ssh/id_rsa.pub|pbcopy
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then paste that in DigitalOcean &amp;gt; Settings &amp;gt; Security &amp;gt; Add SSH Key.&lt;/p&gt;
-
-&lt;h2 id=&quot;3-create-droplet-the-server&quot;&gt;3. Create Droplet (the server)&lt;/h2&gt;
-
-&lt;p&gt;Create &amp;gt; Droplets &amp;gt; One-click apps &amp;gt; Docker 17.12.0 on 16.04 (latest version might differ)&lt;/p&gt;
-
-&lt;p&gt;Choose the cheapest $5/month droplet size, with 1 GB memory etc.&lt;/p&gt;
-
-&lt;p&gt;Choose the datacenter region which you want to VPN to eg. Singapore&lt;/p&gt;
-
-&lt;p&gt;Create a hostname eg. sg-vpn&lt;/p&gt;
-
-&lt;p&gt;Note down the IP for your droplet (the ipv4). My example uses 111.111.111.111.&lt;/p&gt;
-
-&lt;h2 id=&quot;4-install-openvpn&quot;&gt;4. Install OpenVPN&lt;/h2&gt;
-
-&lt;p&gt;Now we get into the server and install the VPN service.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh root@111.111.111.111
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;If you have trouble SSH in, make sure you setup your SSH keys in step 2 (will need to recreate droplet).&lt;/p&gt;
-
-&lt;p&gt;Run these docker commands, enter a PEM pass phrase when prompted (mandatory). Give a Common Name eg. “sg-vpn”.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;OVPN_DATA=&quot;ovpn-data&quot;
-docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://111.111.111.111
-docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
-docker run -v $OVPN_DATA:/etc/openvpn -d -p 1194:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Next, generate the ovpn file – a configuration that your computer can import later. In the example I have “sg-vpn.ovpn”.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full user1 nopass
-docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient user1 &amp;gt; sg-vpn.ovpn
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;We need to now exit ssh remote and go back to your computer.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;exit
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;5-install-tunnelblick&quot;&gt;5. Install TunnelBlick&lt;/h2&gt;
-
-&lt;p&gt;On your computer, download the ovpn file using scp.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# This copy the ovpn file (in /root) to the current directory you're in
-scp -r root@111.111.111.111:/root/sg-vpn.ovpn .
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Install &lt;a href=&quot;https://tunnelblick.net&quot;&gt;TunnelBlick&lt;/a&gt;, a VPN client. You may use others.&lt;/p&gt;
-
-&lt;p&gt;Open or import the ovpn file, and enjoy your VPN (:&lt;/p&gt;
-
-&lt;h2 id=&quot;optional-multiple-users&quot;&gt;(Optional) Multiple Users&lt;/h2&gt;
-
-&lt;p&gt;The steps above generates for a single user/device.&lt;/p&gt;
-
-&lt;p&gt;To support multiple device, repeat these steps:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# ssh to the machine and create for user2, and more
-OVPN_DATA=&quot;ovpn-data&quot;
-docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full user2 nopass
-docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_getclient user2 &amp;gt; sg-vpn-user2.ovpn
-
-# On local computer
-scp -r root@111.111.111.111:/root/sg-vpn-user2.ovpn .
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;optional-running-on-custom-port&quot;&gt;(Optional) Running on custom port&lt;/h2&gt;
-
-&lt;p&gt;To use a custom UDP port 8349 (instead of default 1194), replace with the following 3 lines:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker run -v $OVPN_DATA:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://111.111.111.111:8349
-docker run -v $OVPN_DATA:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
-docker run -v $OVPN_DATA:/etc/openvpn -d -p 8349:1194/udp --cap-add=NET_ADMIN kylemanna/openvpn
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Mon, 04 Jun 2018 00:46:32 +0800</pubDate>
-        <link>https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/06/04/steps-to-set-up-your-own-vpn-with/</guid>
-        
         
       </item>
     

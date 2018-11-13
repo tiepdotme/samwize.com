@@ -133,6 +133,18 @@
 
 <p>Of course, now any type that implements the <code class="highlighter-rouge">Codable</code> protocol must be a <code class="highlighter-rouge">UIViewController</code>, if it wants the default implementation.</p>
 
+<h2 id="optional-methods">Optional methods</h2>
+
+<p>If you want a protocol method, you <em>can try</em> to add <code class="highlighter-rouge">optional</code> attribute to the <code class="highlighter-rouge">func</code>. But that will give the error:</p>
+
+<blockquote>
+  <p>‘optional’ can only be applied to members of an @objc protocol</p>
+</blockquote>
+
+<p>The Swift way is slightly more tedious. You have to add a default extension, which is already covered in the section above!</p>
+
+<p>The <code class="highlighter-rouge">code</code> method in the section <strong>Default Extension</strong> makes the method optional.</p>
+
 <h2 id="protocol-of-class-type">Protocol of class type</h2>
 
 <p>You may enforce that a protocol is to be use by classes only (sorry structs and enums).</p>
@@ -140,7 +152,7 @@
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">protocol</span> <span class="kt">Codable</span><span class="p">:</span> <span class="kd">class</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
 </code></pre></div></div>
 
-<p>This is needed especially for the scenario where you need a protocol to be <code class="highlighter-rouge">weak</code> (to avoid <a href="http://samwize.com/2016/08/05/reference-cycle-for-closures/">retain cycle</a>). Because:</p>
+<p>This is needed especially for the scenario where you need a protocol to be <code class="highlighter-rouge">weak</code> (to avoid <a href="/2016/08/05/reference-cycle-for-closures/">retain cycle</a>). Because:</p>
 
 <blockquote>
   <p>weak can only be applied to class or class-bound protocol.</p>

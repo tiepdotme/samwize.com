@@ -288,6 +288,14 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
+<h2 id="relationships">Relationships</h2>
+
+<p>Core Data helps to maintain relationships (1-1, 1-many) between entities.</p>
+
+<p>You should <strong>always set the inverse</strong>, because doing so you only need to set 1 side of the relationship, and Core Data will automatically handle the other side. More importantly, it <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreData/HowManagedObjectsarerelated.html">maintains referential integrity</a>.</p>
+
+<p>Delete rule specify the behaviour <em>when you delete the source entity</em> (eg Department). If you set to “nullify”, the relationship destination (eg Employees) will set all reference to the source null. That is, the affected employees will have no department. If you set to “cascade”, the employees will be deleted.</p>
+
 <h2 id="other-topics">Other topics</h2>
 
 <p><code class="highlighter-rouge">NSFetchedResultsController</code> manages the results from a fetch request, including changes to the objects in the context! In my <a href="/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/">2015 guide (in Swift)</a>, I provided the boilerplate code for implementing <code class="highlighter-rouge">NSFetchedResultsControllerDelegate</code> in a table view.</p>
@@ -303,6 +311,8 @@
     <span class="k">return</span> <span class="kt">NSNumber</span><span class="p">(</span><span class="nv">value</span><span class="p">:</span> <span class="n">contentCount</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></div>
+
+<p>Core Data is such a complex framework that even the biggest experts <a href="http://www.cimgf.com/2018/05/10/response-the-laws-of-core-data/">argue</a> about <a href="https://davedelong.com/blog/2018/05/09/the-laws-of-core-data/">“their laws”</a>. Do you use <code class="highlighter-rouge">NSManagedObjectContext</code> as a data object? I do sometimes, and sometimes not.</p>
 
 <h2 id="back-to-the-history">Back to the history..</h2>
 
