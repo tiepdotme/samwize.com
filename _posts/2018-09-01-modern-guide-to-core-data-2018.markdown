@@ -242,6 +242,8 @@ If you use transient property in a model, the code generation will not do anythi
 }
 ```
 
+Core Data is such a complex framework that even the biggest experts [argue](http://www.cimgf.com/2018/05/10/response-the-laws-of-core-data/) about ["their laws"](https://davedelong.com/blog/2018/05/09/the-laws-of-core-data/). Do you use `NSManagedObjectContext` as a data object? I do sometimes, and sometimes not.
+
 ## Back to the history..
 
 I use Core Data way back in 2009 when iOS was first launch.
