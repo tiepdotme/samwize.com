@@ -127,3 +127,15 @@ func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetch
 ```
 
 What's new is that in `.update`, the table view needs to configure for all the columns for that row.
+
+## PITFALL: Typical Use
+
+The boilerplate code for `NSFetchedResultsControllerDelegate` is given by Apple for a _typical use_.
+
+However, there are issues. There are [bugs](https://oleb.net/blog/2013/02/nsfetchedresultscontroller-documentation-bug/).
+
+I have faced a bug where `NSTable` render incorrectly, or worse, after calling `insertRows` and `removeRows` multiple times. For example, the boilerplate code could remove 10 items, and in so calling `removeRows` 10 times, separately. The table view _could crash_ after eg. removing 5 times, since it is not batched atomically, getting a row could result in out-of-bound exception.
+
+The workaround is to call the method once in `controllerDidChangeContent`. How to do that? You need to keep track of the changes in your own instance property.
+
+Or you can simply do a `reload()` in `controllerDidChangeContent`, which is mentioned in Apple documentation too. A lazy way, but easiest.
