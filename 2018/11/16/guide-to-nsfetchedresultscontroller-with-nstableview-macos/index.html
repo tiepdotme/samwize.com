@@ -208,6 +208,18 @@
 
 <p>What’s new is that in <code class="highlighter-rouge">.update</code>, the table view needs to configure for all the columns for that row.</p>
 
+<h2 id="pitfall-typical-use">PITFALL: Typical Use</h2>
+
+<p>The boilerplate code for <code class="highlighter-rouge">NSFetchedResultsControllerDelegate</code> is given by Apple for a <em>typical use</em>.</p>
+
+<p>However, there are issues. There are <a href="https://oleb.net/blog/2013/02/nsfetchedresultscontroller-documentation-bug/">bugs</a>.</p>
+
+<p>I have faced a bug where <code class="highlighter-rouge">NSTable</code> render incorrectly, or worse, after calling <code class="highlighter-rouge">insertRows</code> and <code class="highlighter-rouge">removeRows</code> multiple times. For example, the boilerplate code could remove 10 items, and in so calling <code class="highlighter-rouge">removeRows</code> 10 times, separately. The table view <em>could crash</em> after eg. removing 5 times, since it is not batched atomically, getting a row could result in out-of-bound exception.</p>
+
+<p>The workaround is to call the method once in <code class="highlighter-rouge">controllerDidChangeContent</code>. How to do that? You need to keep track of the changes in your own instance property.</p>
+
+<p>Or you can simply do a <code class="highlighter-rouge">reload()</code> in <code class="highlighter-rouge">controllerDidChangeContent</code>, which is mentioned in Apple documentation too. A lazy way, but easiest.</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">
