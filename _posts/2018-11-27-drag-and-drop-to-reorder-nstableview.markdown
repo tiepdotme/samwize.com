@@ -35,6 +35,7 @@ The method returns a concrete `NSPasteboardItem`, which implements the protocol 
 
 We use `account.uuid`, which is a String representation. If you use Core Data `NSManagedObject`, you can use `objectID.uriRepresentation().absoluteString`.
 
+Lastly, `accountPasteboardType` is our custom type use through out eg. `NSPasteboard.PasteboardType(rawValue: "mymoney.account")`.
 
 ## 2. Handle when dropped
 
