@@ -5,7 +5,9 @@ date: 2015-10-27T12:10:26+08:00
 categories: [iOS]
 ---
 
-This is an updated post for [Implementing NSFetchedResultsController with MagicalRecord](/2014/03/29/implementing-nsfetchedresultscontroller-with-magicalrecord/), with these changes:
+_UPDATED 2019: [Updated code in Swift 4.2](https://gist.github.com/samwize/f466c42f16293566c068736fe83654af)_
+
+This is an updated post to [Implementing NSFetchedResultsController with MagicalRecord](/2014/03/29/implementing-nsfetchedresultscontroller-with-magicalrecord/), with these changes:
 
 1. Code is in Swift
 2. No longer using MagicalRecord
@@ -14,7 +16,7 @@ This is an updated post for [Implementing NSFetchedResultsController with Magica
 
 [Magical Record](https://github.com/magicalpanda/MagicalRecord/) is an awesome library that makes life much easier when you use Core Data.
 
-However, the project is pretty stagnant. 
+However, the project is pretty stagnant.
 
 [One year ago](https://github.com/magicalpanda/MagicalRecord/wiki/Upgrading-to-MagicalRecord-3.0), they started work on version 3, yet it is still not finished. And it will continue to be in Objective-C.
 
@@ -52,7 +54,7 @@ Thanks to Swift, we now can simply declare `fetchedResultsController` property a
 ```swift
 override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     do {
         try fetchedResultsController.performFetch()
     } catch {
@@ -69,7 +71,7 @@ When the view is loaded, we perform the fetch once.
 There will be a 3 delegates needed (for `NSFetchedResultsController` and `UITableView`):
 
 ```swift
-class YourViewController: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate 
+class YourViewController: UIViewController, NSFetchedResultsControllerDelegate, UITableViewDataSource, UITableViewDelegate
 ```
 
 We will see how to implement them in the next 3 sections.
@@ -77,11 +79,11 @@ We will see how to implement them in the next 3 sections.
 
 ### 3a. UITableViewDataSource
 
-`UITableViewDataSource` will ask for the data. 
+`UITableViewDataSource` will ask for the data.
 
 Not surprisingly, in all of the methods to implement, we will ask `fetchedResultsController`, which holds the fetched data.
 
-```swift    
+```swift
 func numberOfSectionsInTableView(tableView: UITableView) -> Int {
     if let sections = fetchedResultsController.sections {
         return sections.count
@@ -121,7 +123,7 @@ func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
 
 ## 3b. NSFetchedResultsControllerDelegate
 
-Using `NSFetchedResultsControllerDelegate`, you can know if a model is inserted/deleted/updated/moved, then update the table view. 
+Using `NSFetchedResultsControllerDelegate`, you can know if a model is inserted/deleted/updated/moved, then update the table view.
 
 Quite a chunk of code that you can simply copy and paste, without any modification:
 
@@ -187,6 +189,3 @@ func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableV
     }
 }
 ```
-
-
-
