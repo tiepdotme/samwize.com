@@ -6,6 +6,7 @@ permalink: /libs/kiv/
 
 I have yet to try these, but they look awesome.
 
+- [Spectrum](https://github.com/facebookincubator/spectrum) - Lossless resize, rotate operations on image
 - [R](https://github.com/mac-cain13/R.swift) - This is like Android's `R`, generating a file with constants to the strings
 - [Ensemble](http://www.ensembles.io/) - sync Core Data to iCloud or Dropbox ($299)
 - [Deep Belief](https://github.com/jetpacapp/DeepBeliefSDK) - Image recognition
