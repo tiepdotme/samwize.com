@@ -92,6 +92,8 @@ sips -Z 640 *.jpg
 sips -s format jpeg *.png --out mydirectory
 </code></pre></div></div>
 
+<p><code class="highlighter-rouge">sips</code> is a CLI tool included in Mac, but the commands is not pretty. If you can install other tools, <a href="https://imagemagick.org/script/mogrify.php">magick mogrify</a> does resizing, converting formats, and more.</p>
+
 <h2 id="list-process-running-on-a-port">List Process Running on a Port</h2>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># eg. Port 8080
@@ -158,6 +160,15 @@ gtimeout 60 streamlink ...
 </code></pre></div></div>
 
 <p>On macOS, you need to <code class="highlighter-rouge">brew install coreutils</code> to use <code class="highlighter-rouge">gtimeout</code>.</p>
+
+<h2 id="rsync">Rsync</h2>
+
+<p>I usually backup my external drive data to ANOTHER external drive, just keeping as a fallback if the drive fail. To sync them, I use <code class="highlighter-rouge">rsync</code>. Mac ships with a rather outdated version, so install with <code class="highlighter-rouge">brew install rsync</code> first.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rsync -axHAWXS --numeric-ids --info=progress2 /drive/primary/ /drive/backup/
+</code></pre></div></div>
+
+<p>The above will sync from everything from “primary” folder to “backup” folder.</p>
 
         </section>
         <footer class="post-footer">
