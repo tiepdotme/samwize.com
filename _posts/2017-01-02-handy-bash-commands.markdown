@@ -15,6 +15,8 @@ categories: [bash]
     # Convert png to jpg
     sips -s format jpeg *.png --out mydirectory
 
+`sips` is a CLI tool included in Mac, but the commands is not pretty. If you can install other tools, [magick mogrify](https://imagemagick.org/script/mogrify.php) does resizing, converting formats, and more.
+
 ## List Process Running on a Port
 
     # eg. Port 8080
@@ -71,4 +73,12 @@ For live streams, `youtube-dl` does not work well. We need another tool to the r
     # Run long running command (eg streamlink) and terminate after 60 seconds
     gtimeout 60 streamlink ...
 
-On macOS, you need to `brew install coreutils` to use `gtimeout`. 
+On macOS, you need to `brew install coreutils` to use `gtimeout`.
+
+## Rsync
+
+I usually backup my external drive data to ANOTHER external drive, just keeping as a fallback if the drive fail. To sync them, I use `rsync`. Mac ships with a rather outdated version, so install with `brew install rsync` first.
+
+    rsync -axHAWXS --numeric-ids --info=progress2 /drive/primary/ /drive/backup/
+
+The above will sync from everything from "primary" folder to "backup" folder.
