@@ -41,7 +41,7 @@ Lastly, `accountPasteboardType` is our custom type use through out eg. `NSPasteb
 
 Not surprisingly, the other 2 methods are for the destination table view when dropped.
 
-The first method is simple to return `.move`.
+The first method is to return `.move` for only `.above` drag operation (there is a `.on` drag operation which is more like swapping items, not reordering, so we don't want it to move).
 
 The second method is to handle `acceptDrop`, persist the new ordering, then animate the rows.
 
@@ -49,7 +49,11 @@ The second method is to handle `acceptDrop`, persist the new ordering, then anim
 extension AccountsView: NSTableViewDataSource {
     // For the destination table view
     func tableView(_ tableView: NSTableView, validateDrop info: NSDraggingInfo, proposedRow row: Int, proposedDropOperation dropOperation: NSTableView.DropOperation) -> NSDragOperation {
-        return .move
+        if dropOperation == .above {
+            return .move
+        } else {
+            return []
+        }
     }
 
     // For the destination table view
@@ -62,8 +66,8 @@ extension AccountsView: NSTableViewDataSource {
             else { return false }
 
         var newRow = row
-        // When drag to beyond the last, the row is OOB. Prevent that by normalizing newRow.
-        if dropOperation == .above && row > 0 && row >= accounts!.count {
+        // When you drag an item downwards, the "new row" index is actually --1. Remember dragging operation is `.above`.
+        if originalRow < newRow {
             newRow = row - 1
         }
 
@@ -81,8 +85,6 @@ extension AccountsView: NSTableViewDataSource {
 ```
 
 You retrieve the `NSPasteboardItem` from the `info` object, and with that string representation you retrieve the account model and the original row (the index in the data model array).
-
-There are different `dropOperation` -- `above` or `on` a row. When you drag beyond the last row, it will be _above the (last row + 1) item_. We prevent the out-of-bound exception.
 
 The persisting of the new order and the animation or the rows are 2 separate operations.
 
