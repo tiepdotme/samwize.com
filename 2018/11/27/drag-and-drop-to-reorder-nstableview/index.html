@@ -117,14 +117,18 @@
 
 <p>Not surprisingly, the other 2 methods are for the destination table view when dropped.</p>
 
-<p>The first method is simple to return <code class="highlighter-rouge">.move</code>.</p>
+<p>The first method is to return <code class="highlighter-rouge">.move</code> for only <code class="highlighter-rouge">.above</code> drag operation (there is a <code class="highlighter-rouge">.on</code> drag operation which is more like swapping items, not reordering, so we don’t want it to move).</p>
 
 <p>The second method is to handle <code class="highlighter-rouge">acceptDrop</code>, persist the new ordering, then animate the rows.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">AccountsView</span><span class="p">:</span> <span class="kt">NSTableViewDataSource</span> <span class="p">{</span>
     <span class="c1">// For the destination table view</span>
     <span class="kd">func</span> <span class="nf">tableView</span><span class="p">(</span><span class="n">_</span> <span class="nv">tableView</span><span class="p">:</span> <span class="kt">NSTableView</span><span class="p">,</span> <span class="n">validateDrop</span> <span class="nv">info</span><span class="p">:</span> <span class="kt">NSDraggingInfo</span><span class="p">,</span> <span class="n">proposedRow</span> <span class="nv">row</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">proposedDropOperation</span> <span class="nv">dropOperation</span><span class="p">:</span> <span class="kt">NSTableView</span><span class="o">.</span><span class="kt">DropOperation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSDragOperation</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="o">.</span><span class="n">move</span>
+        <span class="k">if</span> <span class="n">dropOperation</span> <span class="o">==</span> <span class="o">.</span><span class="n">above</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="o">.</span><span class="n">move</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="p">}</span>
     <span class="p">}</span>
 
     <span class="c1">// For the destination table view</span>
@@ -137,8 +141,8 @@
             <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="kc">false</span> <span class="p">}</span>
 
         <span class="k">var</span> <span class="nv">newRow</span> <span class="o">=</span> <span class="n">row</span>
-        <span class="c1">// When drag to beyond the last, the row is OOB. Prevent that by normalizing newRow.</span>
-        <span class="k">if</span> <span class="n">dropOperation</span> <span class="o">==</span> <span class="o">.</span><span class="n">above</span> <span class="o">&amp;&amp;</span> <span class="n">row</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">row</span> <span class="o">&gt;=</span> <span class="n">accounts</span><span class="o">!.</span><span class="n">count</span> <span class="p">{</span>
+        <span class="c1">// When you drag an item downwards, the "new row" index is actually --1. Remember dragging operation is `.above`.</span>
+        <span class="k">if</span> <span class="n">originalRow</span> <span class="o">&lt;</span> <span class="n">newRow</span> <span class="p">{</span>
             <span class="n">newRow</span> <span class="o">=</span> <span class="n">row</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="p">}</span>
 
@@ -156,8 +160,6 @@
 </code></pre></div></div>
 
 <p>You retrieve the <code class="highlighter-rouge">NSPasteboardItem</code> from the <code class="highlighter-rouge">info</code> object, and with that string representation you retrieve the account model and the original row (the index in the data model array).</p>
-
-<p>There are different <code class="highlighter-rouge">dropOperation</code> – <code class="highlighter-rouge">above</code> or <code class="highlighter-rouge">on</code> a row. When you drag beyond the last row, it will be <em>above the (last row + 1) item</em>. We prevent the out-of-bound exception.</p>
 
 <p>The persisting of the new order and the animation or the rows are 2 separate operations.</p>
 
