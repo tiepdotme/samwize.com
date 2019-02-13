@@ -84,7 +84,7 @@
           
           <p>You can populate a table view with full CRUD without writing any code.</p>
 
-<p>Ok, no code, but you need to set up quite a few things with Xcode interface builder.</p>
+<p>Ok, no/not much code, but you need to set up quite a few things with Xcode interface builder. It ain’t easy to navigate in Xcode, so here is a step by step guide.</p>
 
 <h2 id="array-controller">Array Controller</h2>
 
@@ -179,8 +179,41 @@
 
 <ol>
   <li>Select the table view &gt; Binding inspector &gt; Selection Indexes &gt; Bind to the Array Controller</li>
-  <li>In Controller Key field &gt; set to <code class="highlighter-rouge">selectionIndexes</code></li>
+  <li>Set Controller Key to <code class="highlighter-rouge">selectionIndexes</code></li>
 </ol>
+
+<h2 id="sort--filter">Sort &amp; Filter</h2>
+
+<p>This binds Array Controller to your <code class="highlighter-rouge">NSSortDescriptor</code>:</p>
+
+<ol>
+  <li>Select Array Controller &gt; Bindings inspector &gt; Sort Descriptors &gt; Bind to the view controller</li>
+  <li>Set Model Key Path to <code class="highlighter-rouge">self.sorts</code></li>
+  <li>In your view controller, add the instance var <code class="highlighter-rouge">@objc dynamic var sorts: [NSSortDescriptor]!</code></li>
+  <li>Init <code class="highlighter-rouge">sorts</code> with an array <code class="highlighter-rouge">NSSortDescriptor</code> in <code class="highlighter-rouge">viewDidLoad</code></li>
+</ol>
+
+<p>Filter is similar, binding to the Filter Predicate.</p>
+
+<p>With that, the table view content will sort and filter accordingly.</p>
+
+<p>To sort by the table column, you need to these additionally:</p>
+
+<ol>
+  <li>Select Table View &gt; Bindings inspector &gt; Sort Descriptors &gt; Bind to the view controller</li>
+  <li>Set Model Key Path to <code class="highlighter-rouge">self.sorts</code></li>
+  <li>Select a table column &gt; Bindings inspector &gt; Value &gt; Bind to Array Controller</li>
+  <li>Set the model key path eg. “date”</li>
+  <li>Make sure Creates Sort Descriptor is enabled</li>
+</ol>
+
+<p>With that, you can now click on a header and sort it ascending/descending.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>If you have followed the steps so far, you should find using Xcode interface builder to set up binding is a pain.. I would rather code than set up so many fields. In time to come, it is easy to forget how certain things are wired up.</p>
+
+<p>As such, the alternative is to take away binding and array controller. Instead, simply use Core Data’s <code class="highlighter-rouge">NSFetchedResultsController</code> together with the <code class="highlighter-rouge">NSTableView</code> via the <a href="/2018/11/16/guide-to-nsfetchedresultscontroller-with-nstableview-macos/">regular delegate and datasource patterns</a>.</p>
 
         </section>
         <footer class="post-footer">
