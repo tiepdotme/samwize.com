@@ -7,7 +7,7 @@ categories: [macOS]
 
 You can populate a table view with full CRUD without writing any code.
 
-Ok, no code, but you need to set up quite a few things with Xcode interface builder.
+Ok, no code, but you need to set up quite a few things with Xcode interface builder. It ain't easy to navigate in Xcode, so here is a step by step guide.
 
 ## Array Controller
 
@@ -95,4 +95,27 @@ But if you want more controls over adding, you might want to write your own meth
 For this to work, you also need to set up binding to the table view's selections:
 
 1. Select the table view > Binding inspector > Selection Indexes > Bind to the Array Controller
-2. In Controller Key field > set to `selectionIndexes`
+2. Set Controller Key to `selectionIndexes`
+
+## Sort & Filter
+
+This binds Array Controller to your `NSSortDescriptor`:
+
+1. Select Array Controller > Bindings inspector > Sort Descriptors > Bind to the view controller
+2. Set Model Key Path to `self.sorts`
+3. In your view controller, add the instance var `@objc dynamic var sorts: [NSSortDescriptor]!`
+4. Init `sorts` with an array `NSSortDescriptor` in `viewDidLoad`
+
+Filter is similar, binding to the Filter Predicate.
+
+With that, the table view content will sort and filter accordingly.
+
+To sort by the table column, you need to these additionally:
+
+1. Select Table View > Bindings inspector > Sort Descriptors > Bind to the view controller
+2. Set Model Key Path to `self.sorts`
+3. Select a table column > Bindings inspector > Value > Bind to Array Controller
+4. Set the model key path eg. "date"
+5. Make sure Creates Sort Descriptor is enabled
+
+With that, you can now click on a header and sort it ascending/descending.
