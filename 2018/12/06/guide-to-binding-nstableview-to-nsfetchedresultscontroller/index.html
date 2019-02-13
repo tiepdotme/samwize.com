@@ -170,10 +170,17 @@
 <span class="p">}</span>
 
 <span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">remove</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Remove all selected rows</span>
+    <span class="c1">// Do certain stuff before removing all selected rows</span>
     <span class="n">arrayController</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">atArrangedObjectIndexes</span><span class="p">:</span> <span class="n">arrayController</span><span class="o">.</span><span class="n">selectionIndexes</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></div>
+
+<p>For this to work, you also need to set up binding to the table view’s selections:</p>
+
+<ol>
+  <li>Select the table view &gt; Binding inspector &gt; Selection Indexes &gt; Bind to the Array Controller</li>
+  <li>In Controller Key field &gt; set to <code class="highlighter-rouge">selectionIndexes</code></li>
+</ol>
 
         </section>
         <footer class="post-footer">
