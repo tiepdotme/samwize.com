@@ -87,7 +87,12 @@ But if you want more controls over adding, you might want to write your own meth
 }
 
 @IBAction func remove(_ sender: Any) {
-    // Remove all selected rows
+    // Do certain stuff before removing all selected rows
     arrayController.remove(atArrangedObjectIndexes: arrayController.selectionIndexes)
 }
 ```
+
+For this to work, you also need to set up binding to the table view's selections:
+
+1. Select the table view > Binding inspector > Selection Indexes > Bind to the Array Controller
+2. In Controller Key field > set to `selectionIndexes`

@@ -229,7 +229,7 @@ Delete rule specify the behaviour _when you delete the source entity_ (eg Depart
 
 `NSFetchedResultsController` manages the results from a fetch request, including changes to the objects in the context! In my [2015 guide (in Swift)](/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/), I provided the boilerplate code for implementing `NSFetchedResultsControllerDelegate` in a table view.
 
-[Migration](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/Introduction.html) is unavoidable in app upgrade, but I will leave the topic for another day.
+[Migration](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CoreDataVersioning/Articles/Introduction.html) is unavoidable in app upgrade, but I will leave the topic for another day. It's a huge topic. You can read this on [a progressive way to migrate](https://williamboles.me/progressive-core-data-migration/).
 
 If you use transient property in a model, the code generation will not do anything about it.. For example, if `contentCount` is a transient value, you should delete the property generated, and write like this:
 
