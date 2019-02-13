@@ -7,7 +7,7 @@ categories: [macOS]
 
 You can populate a table view with full CRUD without writing any code.
 
-Ok, no code, but you need to set up quite a few things with Xcode interface builder. It ain't easy to navigate in Xcode, so here is a step by step guide.
+Ok, no/not much code, but you need to set up quite a few things with Xcode interface builder. It ain't easy to navigate in Xcode, so here is a step by step guide.
 
 ## Array Controller
 
@@ -119,3 +119,9 @@ To sort by the table column, you need to these additionally:
 5. Make sure Creates Sort Descriptor is enabled
 
 With that, you can now click on a header and sort it ascending/descending.
+
+## Conclusion
+
+If you have followed the steps so far, you should find using Xcode interface builder to set up binding is a pain.. I would rather code than set up so many fields. In time to come, it is easy to forget how certain things are wired up.
+
+As such, the alternative is to take away binding and array controller. Instead, simply use Core Data's `NSFetchedResultsController` together with the `NSTableView` via the [regular delegate and datasource patterns](/2018/11/16/guide-to-nsfetchedresultscontroller-with-nstableview-macos/).
