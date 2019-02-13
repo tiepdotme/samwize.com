@@ -76,3 +76,18 @@ It is common to have gradient buttons (the + and - square buttons) below the tab
 1. Add a Gradient Button
 2. Under Connections inspector, drag the **action** to Array Controller, and select `add:`
 3. Repeat the same for the delete button but select `remove:`
+
+But if you want more controls over adding, you might want to write your own methods. In the example below, I add a new model with a default date to now.
+
+```swift
+@IBAction func add(_ sender: Any) {
+    let newModel = arrayController.newObject() as AnyObject
+    newModel.setValue(Date(), forKey: "date")
+    arrayController.addObject(newModel as Any)
+}
+
+@IBAction func remove(_ sender: Any) {
+    // Remove all selected rows
+    arrayController.remove(atArrangedObjectIndexes: arrayController.selectionIndexes)
+}
+```
