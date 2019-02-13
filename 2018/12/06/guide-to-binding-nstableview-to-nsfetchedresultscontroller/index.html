@@ -161,6 +161,20 @@
   <li>Repeat the same for the delete button but select <code class="highlighter-rouge">remove:</code></li>
 </ol>
 
+<p>But if you want more controls over adding, you might want to write your own methods. In the example below, I add a new model with a default date to now.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">newModel</span> <span class="o">=</span> <span class="n">arrayController</span><span class="o">.</span><span class="nf">newObject</span><span class="p">()</span> <span class="k">as</span> <span class="kt">AnyObject</span>
+    <span class="n">newModel</span><span class="o">.</span><span class="nf">setValue</span><span class="p">(</span><span class="kt">Date</span><span class="p">(),</span> <span class="nv">forKey</span><span class="p">:</span> <span class="s">"date"</span><span class="p">)</span>
+    <span class="n">arrayController</span><span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="n">newModel</span> <span class="k">as</span> <span class="kt">Any</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">remove</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Remove all selected rows</span>
+    <span class="n">arrayController</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">atArrangedObjectIndexes</span><span class="p">:</span> <span class="n">arrayController</span><span class="o">.</span><span class="n">selectionIndexes</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
         </section>
         <footer class="post-footer">
           <section class="share">
