@@ -120,6 +120,27 @@ To sort by the table column, you need to these additionally:
 
 With that, you can now click on a header and sort it ascending/descending.
 
+## Selection
+
+You will probably also need to bind table view's `selectionIndexes` to the array controller. This is needed so that if user select one, or multiple rows, the array controller `selectedObjects` will be correct.
+
+To know (observe) the selected objects, you will need to [set up observation](https://stackoverflow.com/a/54742672/242682).
+
+In `viewDidLoad`, `arrayController.addObserver(self, forKeyPath: "selectedObjects", options: .new, context: nil)`. Then observe.
+
+```swift
+override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    guard let keyPath = keyPath else { return }
+    switch keyPath {
+
+    case "selectedObjects":
+        // arrayController.selectedObjects has changed
+
+    default: break
+    }
+}
+```
+
 ## Conclusion
 
 If you have followed the steps so far, you should find using Xcode interface builder to set up binding is a pain.. I would rather code than set up so many fields. In time to come, it is easy to forget how certain things are wired up.
