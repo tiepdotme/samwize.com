@@ -6,9 +6,107 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 13 Feb 2019 21:57:24 +0800</pubDate>
-    <lastBuildDate>Wed, 13 Feb 2019 21:57:24 +0800</lastBuildDate>
+    <pubDate>Mon, 18 Feb 2019 11:30:59 +0800</pubDate>
+    <lastBuildDate>Mon, 18 Feb 2019 11:30:59 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>UndoManager</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/foundation/undomanager&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UndoManager&lt;/code&gt;&lt;/a&gt; in part of Foundation, thus available for both iOS, macOS, etc.&lt;/p&gt;
+
+&lt;h2 id=&quot;registering-an-undo-action&quot;&gt;Registering an undo action&lt;/h2&gt;
+
+&lt;p&gt;Whenever you have an action that you want to undo, you will register a closure with your undo implementation, via an instance of &lt;code class=&quot;highlighter-rouge&quot;&gt;undoManager&lt;/code&gt; (which UI/NSResponder holds one).&lt;/p&gt;
+
+&lt;p&gt;Let’s use an example whereby a user “add” an item, where the undo is to “remove”.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@IBAction&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;newModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;registerUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;removeObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setActionName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Add&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;addObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addObject&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;removeObject&lt;/code&gt; are your custom functions to add/remove the model object.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/documentation/foundation/undomanager/2427208-registerundo&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;registerUndo&lt;/code&gt;&lt;/a&gt; will tell &lt;code class=&quot;highlighter-rouge&quot;&gt;undoManager&lt;/code&gt; how to perform the undo, by running the closure. Typically you can use the view controller, or any controller, as the target.&lt;/p&gt;
+
+&lt;p&gt;Note that &lt;code class=&quot;highlighter-rouge&quot;&gt;undoManager&lt;/code&gt; does not hold a strong reference to target, so &lt;a href=&quot;/2016/08/05/reference-cycle-for-closures/&quot;&gt;feel safe to use without specifying &lt;em&gt;weak self&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You have to set the action name (a localized &lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;), as it will be used as a &lt;a href=&quot;https://developer.apple.com/design/human-interface-guidelines/ios/user-interaction/undo-and-redo/&quot;&gt;display text&lt;/a&gt; to user, with the prefix “Undo”, eg “Undo Add”.&lt;/p&gt;
+
+&lt;p&gt;When user press &lt;em&gt;Cmd+Z&lt;/em&gt;, or shake the iPhone, the undo operation will be performed.&lt;/p&gt;
+
+&lt;h2 id=&quot;registering-a-redo-action&quot;&gt;Registering a redo action&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Redo = undo an undo&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To have a redo, you have to register an undo in the undo closure.&lt;/p&gt;
+
+&lt;p&gt;We can improve the code, and abstract with a new func &lt;code class=&quot;highlighter-rouge&quot;&gt;addObjectWithUndo&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@IBAction&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;newModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;addObjectWithUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Register the undo operation and add the object model&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addObjectWithUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;registerUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Call the corresponding `removeObjectWithUndo`, which also register another undo.&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Remember: redo = undo an undo&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;removeObjectWithUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setActionName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Add&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;addObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;removeObjectWithUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;registerUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addObjectWithUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setActionName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Remove&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;nf&quot;&gt;removeObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The pair of add and remove func will provide the redo capability.&lt;/p&gt;
+
+&lt;h2 id=&quot;pitfall-run-loop-undo-all-instead-of-popping-one&quot;&gt;Pitfall: Run loop undo all instead of popping one&lt;/h2&gt;
+
+&lt;p&gt;In our example, there is a critical pitfall. If you were to add multiple times, then undo, you expect to pop the last undo operation off the stack.&lt;/p&gt;
+
+&lt;p&gt;However, the example is buggy (on purpose), and ALL will be undo because:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;NSUndoManager normally creates undo groups automatically during a cycle of the run loop. The first time it is asked to record an undo operation in the cycle, it creates a new group. Then, at the end of the cycle, it closes the group. You can create additional, nested undo groups.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;By default, &lt;a href=&quot;https://developer.apple.com/documentation/foundation/undomanager/1417407-groupsbyevent&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;groupsByEvent&lt;/code&gt;&lt;/a&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;. This creates the group automatically in a &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html&quot;&gt;run loop&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To “fix”, you should set &lt;code class=&quot;highlighter-rouge&quot;&gt;groupsByEvent&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;false.&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;design-patterns&quot;&gt;Design Patterns&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/UndoArchitecture/Articles/iPhoneUndo.html&quot;&gt;iOS has design patterns&lt;/a&gt; in regards to undo/redo. Usually, undo is unnecessary as edits are committed immediately.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 16 Feb 2019 10:49:00 +0800</pubDate>
+        <link>https://samwize.com/2019/02/16/undomanager/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/02/16/undomanager/</guid>
+        
+        
+        <category>Foundation</category>
+        
+      </item>
     
       <item>
         <title>Guide to Binding NSTableView to Core Data</title>
@@ -900,66 +998,6 @@
         
         
         <category>Foundation</category>
-        
-      </item>
-    
-      <item>
-        <title>Pitfall on App ID Prefixes (Legacy)</title>
-        <description>&lt;p&gt;I stumbled on a &lt;a href=&quot;https://github.com/kishikawakatsumi/KeychainAccess/issues/52&quot;&gt;similar Keychain issue&lt;/a&gt; with error code &lt;code class=&quot;highlighter-rouge&quot;&gt;-34018&lt;/code&gt;, which is &lt;code class=&quot;highlighter-rouge&quot;&gt;missingEntitlement&lt;/code&gt;, and the message is:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Internal error when a required entitlement isn’t present, client has neither application-identifier nor keychain-access-groups entitlements.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;But my problem is not because of a missing entitlement file.&lt;/p&gt;
-
-&lt;p&gt;My problem is that my app ID prefix is wrong.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-app-id-prefix&quot;&gt;What is App ID Prefix?&lt;/h2&gt;
-
-&lt;p&gt;In &lt;a href=&quot;https://developer.apple.com/library/archive/technotes/tn2311/_index.html&quot;&gt;Technical Note TN2311&lt;/a&gt;, you would learn of this “feature”.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Every keychain item in iOS contains an attribute called the keychain access group. An iOS app can only access those keychain items it has permission to. This permission comes from the code signing entitlements stamped into the app when it is signed (using your current App ID prefix).&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Until 2011, developers may create different App ID Prefix, which group a number of apps together so as to share keychain and &lt;code class=&quot;highlighter-rouge&quot;&gt;UIPasteboard&lt;/code&gt;. This is way for “cross-app communication”.&lt;/p&gt;
-
-&lt;p&gt;Then in 2011, Apple takeaway this pretty needless feature, and use the default team ID that is associated with an Apple team account. This is simpler.&lt;/p&gt;
-
-&lt;h2 id=&quot;i-have-multiple-prefixes&quot;&gt;I have multiple prefixes&lt;/h2&gt;
-
-&lt;p&gt;I have been creating apps for a &lt;a href=&quot;/2018/06/01/evolution-of-my-code-in-last-10-years/&quot;&gt;long time&lt;/a&gt;, and I ended up having a non-team ID prefix for an app.&lt;/p&gt;
-
-&lt;p&gt;It took me a while to realize the issue.&lt;/p&gt;
-
-&lt;p&gt;The error was misleading to start with.&lt;/p&gt;
-
-&lt;p&gt;And you can only find out your app ID prefix by logging into &lt;a href=&quot;https://developer.apple.com/&quot;&gt;Apple developer member portal&lt;/a&gt;, and look under App IDs.&lt;/p&gt;
-
-&lt;h2 id=&quot;can-i-migrate-to-team-id-prefix&quot;&gt;Can I migrate to team ID prefix?&lt;/h2&gt;
-
-&lt;p&gt;It is possible, but you will lose keychain data, because 1 version of an app cannot have multiple keychain access groups.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Go to developer member centre&lt;/li&gt;
-  &lt;li&gt;Create a new App ID with the team ID prefix&lt;/li&gt;
-  &lt;li&gt;You may leave the old App ID with non-team ID prefix&lt;/li&gt;
-  &lt;li&gt;Re-create all the provisioning profiles with the new App ID&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Note: The “new App ID” can have the same app identifier string eg. “com.just2us.app”. You won’t want to change this because if an app identifier is changed, it is a new app on App Store!&lt;/p&gt;
-
-&lt;p&gt;I didn’t migrate, and stick to using my old App ID, since it is not critical for me app to share keychain with my other apps. If I need to share data, there are other ways such as &lt;a href=&quot;https://developer.apple.com/documentation/security/keychain_services/keychain_items/sharing_access_to_keychain_items_among_a_collection_of_apps&quot;&gt;app access group&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;If I really want to migrate, I will need 1 update to migrate out of the keychain (to &lt;code class=&quot;highlighter-rouge&quot;&gt;UserDefaults&lt;/code&gt; or persist on file), wait for a few years to make sure most users did migrate.. then another update to migrate to the new keychain.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 20 Sep 2018 09:46:27 +0800</pubDate>
-        <link>https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/09/20/pitfall-on-app-id-prefixes-legacy/</guid>
-        
-        
-        <category>Certs</category>
         
       </item>
     
