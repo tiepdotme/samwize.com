@@ -84,7 +84,20 @@ However, the example is buggy (on purpose), and ALL will be undo because:
 
 By default, [`groupsByEvent`](https://developer.apple.com/documentation/foundation/undomanager/1417407-groupsbyevent) is `true`. This creates the group automatically in a [run loop](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html).
 
-To "fix", you should set `groupsByEvent` to `false.`
+To "fix", you should set `groupsByEvent` to `false.`, and specify when you begin/end the groping manually.
+
+```swift
+private func addObjectWithUndo(_ object: Any) {
+    undoManager?.groupsByEvent = false
+    undoManager?.beginUndoGrouping()
+    undoManager?.registerUndo(...)
+    undoManager?.setActionName("Add")
+    undoManager?.endUndoGrouping()
+    ...
+}
+```
+
+That 5 lines of code can be abstracted for every time you want to register an undo (:
 
 ## Design Patterns
 
