@@ -124,6 +124,9 @@ With that, you can now click on a header and sort it ascending/descending.
 
 You will probably also need to bind table view's `selectionIndexes` to the array controller. This is needed so that if user select one, or multiple rows, the array controller `selectedObjects` will be correct.
 
+1. Select Table View > Bindings inspector > Selection Indexes > Bind to the Array Controller
+2. Set Controller Key to `selectionIndexes`
+
 To know (observe) the selected objects, you will need to [set up observation](https://stackoverflow.com/a/54742672/242682).
 
 In `viewDidLoad`, `arrayController.addObserver(self, forKeyPath: "selectedObjects", options: .new, context: nil)`. Then observe.
