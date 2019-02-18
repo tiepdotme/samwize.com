@@ -209,6 +209,31 @@
 
 <p>With that, you can now click on a header and sort it ascending/descending.</p>
 
+<h2 id="selection">Selection</h2>
+
+<p>You will probably also need to bind table view’s <code class="highlighter-rouge">selectionIndexes</code> to the array controller. This is needed so that if user select one, or multiple rows, the array controller <code class="highlighter-rouge">selectedObjects</code> will be correct.</p>
+
+<ol>
+  <li>Select Table View &gt; Bindings inspector &gt; Selection Indexes &gt; Bind to the Array Controller</li>
+  <li>Set Controller Key to <code class="highlighter-rouge">selectionIndexes</code></li>
+</ol>
+
+<p>To know (observe) the selected objects, you will need to <a href="https://stackoverflow.com/a/54742672/242682">set up observation</a>.</p>
+
+<p>In <code class="highlighter-rouge">viewDidLoad</code>, <code class="highlighter-rouge">arrayController.addObserver(self, forKeyPath: "selectedObjects", options: .new, context: nil)</code>. Then observe.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">override</span> <span class="kd">func</span> <span class="nf">observeValue</span><span class="p">(</span><span class="n">forKeyPath</span> <span class="nv">keyPath</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="n">of</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span> <span class="nv">change</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSKeyValueChangeKey</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]?,</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">UnsafeMutableRawPointer</span><span class="p">?)</span> <span class="p">{</span>
+    <span class="k">guard</span> <span class="k">let</span> <span class="nv">keyPath</span> <span class="o">=</span> <span class="n">keyPath</span> <span class="k">else</span> <span class="p">{</span> <span class="k">return</span> <span class="p">}</span>
+    <span class="k">switch</span> <span class="n">keyPath</span> <span class="p">{</span>
+
+    <span class="k">case</span> <span class="s">"selectedObjects"</span><span class="p">:</span>
+        <span class="c1">// arrayController.selectedObjects has changed</span>
+
+    <span class="k">default</span><span class="p">:</span> <span class="k">break</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
 <h2 id="conclusion">Conclusion</h2>
 
 <p>If you have followed the steps so far, you should find using Xcode interface builder to set up binding is a pain.. I would rather code than set up so many fields. In time to come, it is easy to forget how certain things are wired up.</p>
