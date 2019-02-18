@@ -6,8 +6,8 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 18 Feb 2019 11:30:59 +0800</pubDate>
-    <lastBuildDate>Mon, 18 Feb 2019 11:30:59 +0800</lastBuildDate>
+    <pubDate>Mon, 18 Feb 2019 11:41:00 +0800</pubDate>
+    <lastBuildDate>Mon, 18 Feb 2019 11:41:00 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -93,7 +93,19 @@
 
 &lt;p&gt;By default, &lt;a href=&quot;https://developer.apple.com/documentation/foundation/undomanager/1417407-groupsbyevent&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;groupsByEvent&lt;/code&gt;&lt;/a&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;true&lt;/code&gt;. This creates the group automatically in a &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html&quot;&gt;run loop&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;To “fix”, you should set &lt;code class=&quot;highlighter-rouge&quot;&gt;groupsByEvent&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;false.&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;To “fix”, you should set &lt;code class=&quot;highlighter-rouge&quot;&gt;groupsByEvent&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;false.&lt;/code&gt;, and specify when you begin/end the groping manually.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;addObjectWithUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;groupsByEvent&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;beginUndoGrouping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;registerUndo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setActionName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Add&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;undoManager&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;endUndoGrouping&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That 5 lines of code can be abstracted for every time you want to register an undo (:&lt;/p&gt;
 
 &lt;h2 id=&quot;design-patterns&quot;&gt;Design Patterns&lt;/h2&gt;
 

@@ -163,7 +163,19 @@
 
 <p>By default, <a href="https://developer.apple.com/documentation/foundation/undomanager/1417407-groupsbyevent"><code class="highlighter-rouge">groupsByEvent</code></a> is <code class="highlighter-rouge">true</code>. This creates the group automatically in a <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">run loop</a>.</p>
 
-<p>To “fix”, you should set <code class="highlighter-rouge">groupsByEvent</code> to <code class="highlighter-rouge">false.</code></p>
+<p>To “fix”, you should set <code class="highlighter-rouge">groupsByEvent</code> to <code class="highlighter-rouge">false.</code>, and specify when you begin/end the groping manually.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">func</span> <span class="nf">addObjectWithUndo</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">undoManager</span><span class="p">?</span><span class="o">.</span><span class="n">groupsByEvent</span> <span class="o">=</span> <span class="kc">false</span>
+    <span class="n">undoManager</span><span class="p">?</span><span class="o">.</span><span class="nf">beginUndoGrouping</span><span class="p">()</span>
+    <span class="n">undoManager</span><span class="p">?</span><span class="o">.</span><span class="nf">registerUndo</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">undoManager</span><span class="p">?</span><span class="o">.</span><span class="nf">setActionName</span><span class="p">(</span><span class="s">"Add"</span><span class="p">)</span>
+    <span class="n">undoManager</span><span class="p">?</span><span class="o">.</span><span class="nf">endUndoGrouping</span><span class="p">()</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>That 5 lines of code can be abstracted for every time you want to register an undo (:</p>
 
 <h2 id="design-patterns">Design Patterns</h2>
 
