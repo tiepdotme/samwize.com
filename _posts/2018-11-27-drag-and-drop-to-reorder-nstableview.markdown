@@ -71,13 +71,13 @@ extension AccountsView: NSTableViewDataSource {
             newRow = row - 1
         }
 
-        // Persist the ordering by saving your data model
-        saveAccountsReordred(at: originalRow, to: newRow)
-
         // Animate the rows
         tableView.beginUpdates()
         tableView.moveRow(at: originalRow, to: newRow)
         tableView.endUpdates()
+
+        // Persist the ordering by saving your data model
+        saveAccountsReordered(at: originalRow, to: newRow)
 
         return true
     }
@@ -87,6 +87,18 @@ extension AccountsView: NSTableViewDataSource {
 You retrieve the `NSPasteboardItem` from the `info` object, and with that string representation you retrieve the account model and the original row (the index in the data model array).
 
 The persisting of the new order and the animation or the rows are 2 separate operations.
+
+I will not give the complete code for `saveAccountsReordered` (obviously you need to update the orders), but the following code is pretty important:
+
+```swift
+// Disable the delegate temporarily as we already animating on our own
+fetchedResultsController.delegate = nil
+try context.save()
+fetchedResultsController.delegate = self
+
+// Need to re-fetch
+try fetchedResultsController.performFetch()
+```
 
 ## Multiple items
 
