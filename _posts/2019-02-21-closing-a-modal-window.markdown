@@ -58,8 +58,8 @@ extension AnotherViewController: NSWindowDelegate {
 
 The code is pretty self explanatory.
 
-The gist is that `NSViewController` becomes the window's delegate.
+The gist is that Cocoa `NSViewController` becomes the window's delegate.
 
-`NSWindowDelegate` has more events such as `windowWillClose`, `windowWillMiniaturize`, `customWindowsToEnterFullScreen` etc that you can make sure of.
+`NSWindowDelegate` has more events, such as `windowWillClose`, `windowWillMiniaturize`, `customWindowsToEnterFullScreen` etc, that you can make use of.
 
 `cancelOperation` is the keyboard shortcut of pressing ESC. You have to call `dismiss` explicitly, which will NOT ask for `windowShouldClose`.
