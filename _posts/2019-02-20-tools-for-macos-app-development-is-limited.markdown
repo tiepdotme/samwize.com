@@ -21,9 +21,9 @@ Officially, they [don't support](https://github.com/fastlane/fastlane/commit/1b8
 
 It started as a half-hearted effort to support all Apple platforms, but eventually decided not worth the resources. But some modules are (luckily/compatibly) working.
 
-So far, these fastlane modules works for me: `bump`, `gym`/`build_app`, `deliver`
+So far, these fastlane modules works for me: `bump`, `gym`/`build_app`
 
-Sadly, these don't work: `match`
+Sadly, these don't work: `match`, `deliver`
 
 ## Analytics/Crashlytics
 
