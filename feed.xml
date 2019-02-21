@@ -6,9 +6,127 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 18 Feb 2019 18:11:33 +0800</pubDate>
-    <lastBuildDate>Mon, 18 Feb 2019 18:11:33 +0800</lastBuildDate>
+    <pubDate>Thu, 21 Feb 2019 20:03:38 +0800</pubDate>
+    <lastBuildDate>Thu, 21 Feb 2019 20:03:38 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Closing a Modal Window</title>
+        <description>&lt;p&gt;Window(s) is a more important concept for macOS than in iOS, because a mac app can have multiple windows while iOS has only 1 key window.&lt;/p&gt;
+
+&lt;p&gt;Window has certain functionalities, but it is cumbersome to create. So we are used to creating &lt;code class=&quot;highlighter-rouge&quot;&gt;NSViewController&lt;/code&gt; as a scene.&lt;/p&gt;
+
+&lt;p&gt;If you were to create a modal window conveniently, eg. using &lt;code class=&quot;highlighter-rouge&quot;&gt;presentingViewController.presentAsModalWindow(anotherViewController)&lt;/code&gt;, you will need some work to handle window events.&lt;/p&gt;
+
+&lt;p&gt;This code handles the &lt;strong&gt;window close event&lt;/strong&gt;, which can happen in 2 ways:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;User press ESC&lt;/li&gt;
+  &lt;li&gt;User clicks on the red close button&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnotherViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// Press ESC&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cancelOperation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;nf&quot;&gt;dismiss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nf&quot;&gt;presentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Validate and throw errors&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnotherViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSWindowDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// Click window close button&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;windowShouldClose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSWindow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;nf&quot;&gt;presentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The code is pretty self explanatory.&lt;/p&gt;
+
+&lt;p&gt;The gist is that Cocoa &lt;code class=&quot;highlighter-rouge&quot;&gt;NSViewController&lt;/code&gt; becomes the window’s delegate.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSWindowDelegate&lt;/code&gt; has more events, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;windowWillClose&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;windowWillMiniaturize&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;customWindowsToEnterFullScreen&lt;/code&gt; etc, that you can make use of.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cancelOperation&lt;/code&gt; is the keyboard shortcut of pressing ESC. You have to call &lt;code class=&quot;highlighter-rouge&quot;&gt;dismiss&lt;/code&gt; explicitly, which will NOT ask for &lt;code class=&quot;highlighter-rouge&quot;&gt;windowShouldClose&lt;/code&gt;.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 21 Feb 2019 14:50:12 +0800</pubDate>
+        <link>https://samwize.com/2019/02/21/closing-a-modal-window/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/02/21/closing-a-modal-window/</guid>
+        
+        
+        <category>macOS</category>
+        
+      </item>
+    
+      <item>
+        <title>Tools for macOS App Development Is Limited</title>
+        <description>&lt;p&gt;macOS is way older than iOS, but the ecosystem way worse.&lt;/p&gt;
+
+&lt;p&gt;First party (Apple) prioritizes iOS over macOS, for obvious popularity reason.&lt;/p&gt;
+
+&lt;p&gt;Third party support is even more limited.&lt;/p&gt;
+
+&lt;h2 id=&quot;cocoapods&quot;&gt;Cocoapods&lt;/h2&gt;
+
+&lt;p&gt;Cocoapods work for macOS, as long as the pods itself support for macOS.&lt;/p&gt;
+
+&lt;h2 id=&quot;fastlane&quot;&gt;fastlane&lt;/h2&gt;
+
+&lt;p&gt;Officially, they &lt;a href=&quot;https://github.com/fastlane/fastlane/commit/1b85d6f180722bd96a1d0cc8493c6c1bb36f0ce5&quot;&gt;don’t support&lt;/a&gt; macOS.&lt;/p&gt;
+
+&lt;p&gt;It started as a half-hearted effort to support all Apple platforms, but eventually decided not worth the resources. But some modules are (luckily/compatibly) working.&lt;/p&gt;
+
+&lt;p&gt;So far, these fastlane modules works for me: &lt;code class=&quot;highlighter-rouge&quot;&gt;bump&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;gym&lt;/code&gt;/&lt;code class=&quot;highlighter-rouge&quot;&gt;build_app&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Sadly, these don’t work: &lt;code class=&quot;highlighter-rouge&quot;&gt;match&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;deliver&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;analyticscrashlytics&quot;&gt;Analytics/Crashlytics&lt;/h2&gt;
+
+&lt;p&gt;Unfortunately, the most popular SDKs on iOS does not build on macOS.&lt;/p&gt;
+
+&lt;p&gt;What does NOT work? Firebase, Fabric, Flurry.&lt;/p&gt;
+
+&lt;p&gt;Some &lt;a href=&quot;https://www.quora.com/Is-there-any-good-analytics-platform-that-I-can-use-for-my-Mac-Cocoa-app&quot;&gt;alternatives&lt;/a&gt;, but none of which I have tried.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-future&quot;&gt;The Future&lt;/h2&gt;
+
+&lt;p&gt;Apple has &lt;a href=&quot;https://www.theverge.com/2018/6/4/17418994/iphone-app-mac-support-ios-macos-wwdc-2018&quot;&gt;announced cross-platform support&lt;/a&gt; for macOS, by porting the millions of iOS apps (almost automatically).&lt;/p&gt;
+
+&lt;p&gt;And so, third party libraries will have to play along.&lt;/p&gt;
+
+&lt;p&gt;I will wait for Firebase etc to play nice..&lt;/p&gt;
+</description>
+        <pubDate>Wed, 20 Feb 2019 17:20:04 +0800</pubDate>
+        <link>https://samwize.com/2019/02/20/tools-for-macos-app-development-is-limited/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/02/20/tools-for-macos-app-development-is-limited/</guid>
+        
+        
+        <category>macOS</category>
+        
+      </item>
     
       <item>
         <title>UndoManager</title>
@@ -355,13 +473,13 @@
             &lt;span class=&quot;n&quot;&gt;newRow&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;row&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
         &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
-        &lt;span class=&quot;c1&quot;&gt;// Persist the ordering by saving your data model&lt;/span&gt;
-        &lt;span class=&quot;nf&quot;&gt;saveAccountsReordred&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;originalRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
         &lt;span class=&quot;c1&quot;&gt;// Animate the rows&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;beginUpdates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;moveRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;originalRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
         &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;endUpdates&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+        &lt;span class=&quot;c1&quot;&gt;// Persist the ordering by saving your data model&lt;/span&gt;
+        &lt;span class=&quot;nf&quot;&gt;saveAccountsReordered&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;originalRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
         &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
@@ -371,6 +489,17 @@
 &lt;p&gt;You retrieve the &lt;code class=&quot;highlighter-rouge&quot;&gt;NSPasteboardItem&lt;/code&gt; from the &lt;code class=&quot;highlighter-rouge&quot;&gt;info&lt;/code&gt; object, and with that string representation you retrieve the account model and the original row (the index in the data model array).&lt;/p&gt;
 
 &lt;p&gt;The persisting of the new order and the animation or the rows are 2 separate operations.&lt;/p&gt;
+
+&lt;p&gt;I will not give the complete code for &lt;code class=&quot;highlighter-rouge&quot;&gt;saveAccountsReordered&lt;/code&gt; (obviously you need to update the orders), but the following code is pretty important:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Disable the delegate temporarily as we already animating on our own&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fetchedResultsController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;fetchedResultsController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Need to re-fetch&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fetchedResultsController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;performFetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;multiple-items&quot;&gt;Multiple items&lt;/h2&gt;
 
@@ -864,177 +993,6 @@
         
         
         <category>Notifications</category>
-        
-      </item>
-    
-      <item>
-        <title>New in UNUserNotificationCenter for iOS 12</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;UNUserNotificationCenter&lt;/code&gt; is the revamped notification framework, deprecating &lt;code class=&quot;highlighter-rouge&quot;&gt;UILocalNotification&lt;/code&gt; since iOS 10.&lt;/p&gt;
-
-&lt;p&gt;In WWDC 2018, there are some nice features in the framework, and here I will only be covering what’s new.&lt;/p&gt;
-
-&lt;h2 id=&quot;provisional&quot;&gt;Provisional&lt;/h2&gt;
-
-&lt;p&gt;Prior to iOS 12, an app has to &lt;a href=&quot;https://developer.apple.com/documentation/usernotifications/asking_permission_to_use_notifications&quot;&gt;explicitly ask user for permission&lt;/a&gt; before sending any notifications. Users will have to allow via a system alert like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/usernotifications-alert.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;With the &lt;code class=&quot;highlighter-rouge&quot;&gt;provisional&lt;/code&gt; option, the alert will NOT be shown!&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;UNUserNotificationCenter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;requestAuthorization&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sound&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;badge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;provisional&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This is great as users will automatically receive the notification, with the following tradeoff:&lt;/p&gt;
-
-&lt;p&gt;The &lt;strong&gt;notification will be delivered quietly&lt;/strong&gt;, which means they will only appear in notification center, but NOT in the lock screen, present banners, update badge, or play sound.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/usernotifications-quiet.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This is good enough for many apps.&lt;/p&gt;
-
-&lt;p&gt;Subsequently, users can opt in to receive prominent notifications by going to iOS Settings and enable for Lock Screen and Banners, or when user choose &lt;strong&gt;Keep&lt;/strong&gt;, they will be able to choose between quiet or prominent mode.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/usernotifications-keep-or-not.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Or you can request authorization again, this time without &lt;code class=&quot;highlighter-rouge&quot;&gt;provisional&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;UNUserNotificationCenter&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;requestAuthorization&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sound&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;badge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;critical-alert&quot;&gt;Critical Alert&lt;/h2&gt;
-
-&lt;p&gt;All notifications are delivered silently if user enable &lt;strong&gt;Do Not Disturb&lt;/strong&gt; mode.&lt;/p&gt;
-
-&lt;p&gt;All notifications are also delivered without sound if mute switch is on.&lt;/p&gt;
-
-&lt;p&gt;To override those, you can use the &lt;code class=&quot;highlighter-rouge&quot;&gt;criticalAlert&lt;/code&gt; option. But this require special entitlement, and you need to fill &lt;a href=&quot;https://developer.apple.com/contact/request/notifications-critical-alerts-entitlement/&quot;&gt;this form&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The kind of app Apple enable for are health and home security apps.&lt;/p&gt;
-
-&lt;h2 id=&quot;custom-app-settings-link&quot;&gt;Custom App Settings Link&lt;/h2&gt;
-
-&lt;p&gt;If your app provide your own UI settings for configuring notifications, you can provide the option &lt;code class=&quot;highlighter-rouge&quot;&gt;providesAppNotificationSettings&lt;/code&gt; so that iOS will link to your app UI in the following 2 places:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;In the “Manage” option when user receive a notification&lt;/li&gt;
-  &lt;li&gt;In iOS Settings &amp;gt; your app &amp;gt; Notification&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://mackuba.eu/2018/06/11/notifications-in-ios-12/&quot;&gt;MacKuba&lt;/a&gt; has the screenshots if you are unsure.&lt;/p&gt;
-
-&lt;p&gt;To provide your custom UI, implement in your app delegate:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;userNotificationCenter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UNUserNotificationCenter&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;openSettingsFor&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;notification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UNNotification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Display your custom UI&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;other-basics&quot;&gt;Other Basics&lt;/h2&gt;
-
-&lt;p&gt;&lt;del&gt;I have never cover the framework, and won’t be for now :)&lt;/del&gt; I have a &lt;a href=&quot;/2018/10/13/guide-to-usernotifications-framework/&quot;&gt;guide on the basics to local notifications&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The Apple’s documentation is also pretty good, with the following topics:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;https://developer.apple.com/documentation/usernotifications/asking_permission_to_use_notifications&quot;&gt;Asking permission&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://developer.apple.com/documentation/usernotifications/declaring_your_actionable_notification_types&quot;&gt;Custom actions&lt;/a&gt; with buttons&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://developer.apple.com/documentation/usernotifications/handling_notifications_and_notification-related_actions&quot;&gt;Handling received notifications&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://developer.apple.com/documentation/usernotifications/scheduling_a_notification_locally_from_your_app&quot;&gt;Schedule local notifications&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-</description>
-        <pubDate>Mon, 08 Oct 2018 15:25:57 +0800</pubDate>
-        <link>https://samwize.com/2018/10/08/new-in-unusernotificationcenter-for-ios-12/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/10/08/new-in-unusernotificationcenter-for-ios-12/</guid>
-        
-        
-        <category>Notifications</category>
-        
-      </item>
-    
-      <item>
-        <title>App Group for Sharing Between Apps and Extensions</title>
-        <description>&lt;p&gt;&lt;strong&gt;App Group&lt;/strong&gt; is a feature that is seldom mentioned, until you try to share data between apps, or to &lt;a href=&quot;https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/ExtensionScenarios.html&quot;&gt;extensions&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Another type of group for sharing is &lt;strong&gt;Keychain Access Group&lt;/strong&gt;, specially for keychains.&lt;/p&gt;
-
-&lt;h2 id=&quot;3-types-of-access-group&quot;&gt;3 Types of Access Group&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Private Group
-    &lt;ul&gt;
-      &lt;li&gt;Automatically created for each app&lt;/li&gt;
-      &lt;li&gt;Only 1&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Application Group
-    &lt;ul&gt;
-      &lt;li&gt;Optional&lt;/li&gt;
-      &lt;li&gt;Multiple groups&lt;/li&gt;
-      &lt;li&gt;1 app can be in multiple groups&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;Keychain Access Group
-    &lt;ul&gt;
-      &lt;li&gt;Optional&lt;/li&gt;
-      &lt;li&gt;Multiple groups&lt;/li&gt;
-      &lt;li&gt;1 keychain item can be in only 1 group&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;1-private-group&quot;&gt;1. Private Group&lt;/h2&gt;
-
-&lt;p&gt;We don’t often talk about private group, because it simply the default, automatically created, aka the sandbox for an app.&lt;/p&gt;
-
-&lt;p&gt;Every app has a unique App ID, each representing a private group. Let’s get the IDs right with examples:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Bundle ID&lt;/strong&gt; = “com.just2us.app1”, “com.just2us.app2”, etc&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Team ID&lt;/strong&gt;, &lt;a href=&quot;/2018/09/20/pitfall-on-app-id-prefixes-legacy/&quot;&gt;aka App Prefix ID&lt;/a&gt; = “ABCDE12345”&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;App ID&lt;/strong&gt; = Team ID + Bundle ID  = “ABCDE12345.com.just2us.app1”, “ABCDE12345.com.just2us.app2”, etc&lt;/p&gt;
-
-&lt;p&gt;App IDs are unique as you can see, and they represent the private group (container).&lt;/p&gt;
-
-&lt;p&gt;By default, all frameworks such as &lt;code class=&quot;highlighter-rouge&quot;&gt;UserDefaults&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Keychain&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;FileManager&lt;/code&gt; use the private group.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-application-group&quot;&gt;2. Application Group&lt;/h2&gt;
-
-&lt;p&gt;Application groups are like private group, but custom. You can create them by enabling the capability for your app. You can create multiple groups, and use in multiple apps.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;App Group ID&lt;/strong&gt; = “group.com.just2us.app1”, “com.just2us.family”&lt;/p&gt;
-
-&lt;p&gt;An app group is like an app Bundle ID, usually the convention is to prefix a “group” to the app bundle ID, thus sharing between a host app with it’s extensions. But you can use any string, like I use “com.just2us.family” which share among ALL apps.&lt;/p&gt;
-
-&lt;p&gt;When an app have access to an app group, the app can access the container. For example:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FileManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;containerURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;forSecurityApplicationGroupIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;com.just2us.family&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;userDefaults&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserDefaults&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;suiteName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;com.just2us.family&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;3-keychain-access-groups&quot;&gt;3. Keychain Access Groups&lt;/h2&gt;
-
-&lt;p&gt;When you want multiple apps to share a keychain, then you need to create a common Keychain Access Group. Again, enable the feature under capability.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Keychain Access Group ID&lt;/strong&gt; = “ABCDE12345.com.just2us.family”, “ABCDE12345.com.just2us.another”, etc&lt;/p&gt;
-
-&lt;p&gt;If you did NOT create any custom keychain access group, by default, you still have one using the App ID eg. “ABCDE12345.com.just2us.app1”.&lt;/p&gt;
-
-&lt;p&gt;Note that keychain access group ID has the Team/App Prefix ID. In an app, you have only 1 Team/App Prefix ID. This is important to know because a keychain is tied to this Team/App Prefix ID. If you change the prefix ID (&lt;a href=&quot;/2018/09/20/pitfall-on-app-id-prefixes-legacy/&quot;&gt;legacy reason&lt;/a&gt;), then you will lose data in the previous keychain.&lt;/p&gt;
-
-&lt;p&gt;Keychain contain items, and each item must be in exactly 1 Keychain Access Group.&lt;/p&gt;
-
-&lt;p&gt;So when you create keychain item, you must specify the group it is in, via the &lt;code class=&quot;highlighter-rouge&quot;&gt;kSecAttrAccessGroup&lt;/code&gt; key.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;kSecAttrAccessGroup&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;ABCDE12345.com.just2us.family&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Sun, 23 Sep 2018 11:10:54 +0800</pubDate>
-        <link>https://samwize.com/2018/09/23/app-group-for-sharing-between-apps-and-extensions/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/09/23/app-group-for-sharing-between-apps-and-extensions/</guid>
-        
-        
-        <category>Foundation</category>
         
       </item>
     
