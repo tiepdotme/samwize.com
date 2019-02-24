@@ -7,7 +7,7 @@ categories: [macOS]
 
 Window(s) is a more important concept for macOS than in iOS, because a mac app can have multiple windows while iOS has only 1 key window.
 
-Window has certain functionalities, but it is cumbersome to create. So we are used to creating `NSViewController` as a scene.
+Window has certain functionalities, many [styles](https://github.com/lukakerr/NSWindowStyles), but it is cumbersome to create. So we are used to creating `NSViewController` as a scene.
 
 If you were to create a modal window conveniently, eg. using `presentingViewController.presentAsModalWindow(anotherViewController)`, you will need some work to handle window events.
 

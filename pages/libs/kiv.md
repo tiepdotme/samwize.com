@@ -6,6 +6,8 @@ permalink: /libs/kiv/
 
 I have yet to try these, but they look awesome.
 
+- [SwiftyAttributes](https://github.com/eddiekaiger/SwiftyAttributes) - create `NSAttributedString` easily 
+- [SwiftLinkPreview](https://github.com/LeonardoCardoso/SwiftLinkPreview) - extract URL's title, preview image
 - iOS 10 drawer UI - [Pulley](https://github.com/52inc/Pulley) and [SPStorkController](https://github.com/IvanVorobei/SPStorkController)
 - [Permission](https://github.com/IvanVorobei/SPPermission) request
 - [Spectrum](https://github.com/facebookincubator/spectrum) - Lossless resize, rotate operations on image
