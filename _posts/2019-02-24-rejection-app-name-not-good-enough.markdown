@@ -9,6 +9,8 @@ I have no shortage of rejections coming from Apple App Review team.
 
 Today, I encountered another strange one for [my upcoming app](https://whereismymoney.app).
 
+![](/images/rejection-mymoney-app-name.jpg)
+
 ## Guideline 2.3.8 - Performance
 
 > We noticed that your app name to be displayed on the App Store does not sufficiently match the name of the app displayed when installed on macOS.
@@ -17,7 +19,7 @@ Today, I encountered another strange one for [my upcoming app](https://whereismy
 - App Name when Installed: **My Money**
 - App Name in About/Quit Menu: **My Money**
 
-Of course, I disagree a slightly different name will affect performance.
+I don't see how a different name will affect performance.
 
 The [guideline](https://developer.apple.com/app-store/review/guidelines/) for section 2.3 is for _Accurate Metadata_, while 2.3.8 actually is for rating:
 
