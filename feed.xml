@@ -6,9 +6,57 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 25 Feb 2019 13:46:30 +0800</pubDate>
-    <lastBuildDate>Mon, 25 Feb 2019 13:46:30 +0800</lastBuildDate>
+    <pubDate>Tue, 26 Feb 2019 16:46:59 +0800</pubDate>
+    <lastBuildDate>Tue, 26 Feb 2019 16:46:59 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Preprocessor Codes for Swift</title>
+        <description>&lt;p&gt;I wrote about &lt;a href=&quot;/2014/05/22/create-multiple-targets-slash-apps-for-1-xcode-project/&quot;&gt;using Preprocessor Codes in 2014&lt;/a&gt;, and also all the way back in &lt;a href=&quot;https://blog.just2us.com/2009/07/tutorial-creating-multiple-targets-for-xcode-iphone-projects/&quot;&gt;2009&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This is an update to using it in Swift (vs Objective-C days).&lt;/p&gt;
+
+&lt;h2 id=&quot;debug-flag&quot;&gt;DEBUG flag&lt;/h2&gt;
+
+&lt;p&gt;It is very common scenario where you want certain code to run only for the debug mode. For example &lt;a href=&quot;https://developers.google.com/admob/ios/mediation-test-suite&quot;&gt;Admob has a tool&lt;/a&gt; for debugging their SDK integrations.&lt;/p&gt;
+
+&lt;p&gt;You want code like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#if DEBUG&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;GoogleMobileAdsMediationTestSuite&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#endif&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;#if DEBUG&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;GoogleMobileAdsMediationTestSuite&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;present&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;withAppID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;abc&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;delegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;cp&quot;&gt;#endif&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;build-settings&quot;&gt;Build Settings&lt;/h2&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;DEBUG&lt;/code&gt; flag is not automatically provided. Do not confuse with the debug build configuration.&lt;/p&gt;
+
+&lt;p&gt;But we do want the debug build configuration to have the debug flag.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Go to &lt;strong&gt;Project &amp;gt; Build Settings &amp;gt; Other Swift Flags&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;-DDEBUG&lt;/code&gt; for the Debug build configuration&lt;/li&gt;
+  &lt;li&gt;Do NOT add for the Release build configuration&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If your flag name is BANANA, then add &lt;code class=&quot;highlighter-rouge&quot;&gt;-DBANANA&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The biggest difference is that we now add to swift flags.&lt;/p&gt;
+
+&lt;p&gt;For Objective-C, we add to &lt;strong&gt;Preprocessor Macros&lt;/strong&gt;. So if you do have Objective-C codes and want to use the same flag, then you must add to Preprocessor Macros too.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 26 Feb 2019 16:29:56 +0800</pubDate>
+        <link>https://samwize.com/2019/02/26/preprocessor-codes-for-swift/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/02/26/preprocessor-codes-for-swift/</guid>
+        
+        
+      </item>
     
       <item>
         <title>Rejection: App Name Not Good Enough</title>
@@ -880,37 +928,6 @@
         <category>macOS</category>
         
         <category>osx</category>
-        
-      </item>
-    
-      <item>
-        <title>Additional Tools for Xcode</title>
-        <description>&lt;p&gt;There are tools that are useful for app development, and they are bundled as &lt;a href=&quot;https://developer.apple.com/download/more/?=additional%20tools&quot;&gt;Additional Tools for Xcode&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Network Link Conditioner&lt;/strong&gt; simulates bad network connection, such as high latency DNS or Edge/2G network.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Clipboard Viewer&lt;/strong&gt; list the different clipboards and the data they are holding.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Repeat After Me&lt;/strong&gt; convert text to phonomes and sound, and you can even adjust the frequency as points on a graph!&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Pixie&lt;/strong&gt; is a super magnifier for your screen.&lt;/p&gt;
-
-&lt;p&gt;There are many other tools for Audio, Graphics and Hardwares.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Crash Reporter Preferences&lt;/li&gt;
-  &lt;li&gt;Quartz Composer Visualizer&lt;/li&gt;
-  &lt;li&gt;HomeKit Accessory Simulator&lt;/li&gt;
-  &lt;li&gt;Apple Bluetooth Guidelines Validator&lt;/li&gt;
-  &lt;li&gt;PacketLogger&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Wed, 07 Nov 2018 20:01:12 +0800</pubDate>
-        <link>https://samwize.com/2018/11/07/additional-tools-for-xcode/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/11/07/additional-tools-for-xcode/</guid>
-        
-        
-        <category>Xcode</category>
         
       </item>
     
