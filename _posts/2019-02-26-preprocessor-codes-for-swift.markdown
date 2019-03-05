@@ -42,3 +42,27 @@ If your flag name is BANANA, then add `-DBANANA`.
 The biggest difference is that we now add to swift flags.
 
 For Objective-C, we add to **Preprocessor Macros**. So if you do have Objective-C codes and want to use the same flag, then you must add to Preprocessor Macros too.
+
+## What about cocoapods library?
+
+The Swift flag for a project or target will not apply to pods.
+
+You have to set it manually. But since every `pod install` will reset your changes, you should add a post hook to `Podfile` like this:
+
+```ruby
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        if target.name == 'Armchair'
+            target.build_configurations.each do |config|
+                if config.name == 'Debug'
+                    config.build_settings['OTHER_SWIFT_FLAGS'] = '-DDebug'
+                    else
+                    config.build_settings['OTHER_SWIFT_FLAGS'] = ''
+                end
+            end
+        end
+    end
+end
+```
+
+You could add for every pods. In the config above, we add only for the pod [Armchair](https://github.com/UrbanApps/Armchair).
