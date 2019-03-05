@@ -121,6 +121,29 @@
 
 <p>For Objective-C, we add to <strong>Preprocessor Macros</strong>. So if you do have Objective-C codes and want to use the same flag, then you must add to Preprocessor Macros too.</p>
 
+<h2 id="what-about-cocoapods-library">What about cocoapods library?</h2>
+
+<p>The Swift flag for a project or target will not apply to pods.</p>
+
+<p>You have to set it manually. But since every <code class="highlighter-rouge">pod install</code> will reset your changes, you should add a post hook to <code class="highlighter-rouge">Podfile</code> like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">post_install</span> <span class="k">do</span> <span class="o">|</span><span class="n">installer</span><span class="o">|</span>
+    <span class="n">installer</span><span class="p">.</span><span class="nf">pods_project</span><span class="p">.</span><span class="nf">targets</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">target</span><span class="o">|</span>
+        <span class="k">if</span> <span class="n">target</span><span class="p">.</span><span class="nf">name</span> <span class="o">==</span> <span class="s1">'Armchair'</span>
+            <span class="n">target</span><span class="p">.</span><span class="nf">build_configurations</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+                <span class="k">if</span> <span class="n">config</span><span class="p">.</span><span class="nf">name</span> <span class="o">==</span> <span class="s1">'Debug'</span>
+                    <span class="n">config</span><span class="p">.</span><span class="nf">build_settings</span><span class="p">[</span><span class="s1">'OTHER_SWIFT_FLAGS'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'-DDebug'</span>
+                    <span class="k">else</span>
+                    <span class="n">config</span><span class="p">.</span><span class="nf">build_settings</span><span class="p">[</span><span class="s1">'OTHER_SWIFT_FLAGS'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">''</span>
+                <span class="k">end</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>You could add for every pods. In the config above, we add only for the pod <a href="https://github.com/UrbanApps/Armchair">Armchair</a>.</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">
