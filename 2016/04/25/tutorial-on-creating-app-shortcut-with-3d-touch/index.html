@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>Tutorial on Creating App Shortcut With 3D Touch</title>
-  <meta name="description" content="With 3D Touch (or Force Touch), Apple adds a new way of interacting with your app." />
+  <meta name="description" content="UPDATED for Swift 4.2" />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -20,14 +20,14 @@
     <meta name="twitter:title" content="Tutorial on Creating App Shortcut With 3D Touch" />
     <meta name="twitter:image" content="https://samwize.com" />
     
-    <meta name="twitter:description"  content="With 3D Touch (or Force Touch), Apple adds a new way of interacting with your app." />
+    <meta name="twitter:description"  content="UPDATED for Swift 4.2" />
     
   
 
   <meta property="og:site_name" content="@samwize" />
   <meta property="og:title" content="Tutorial on Creating App Shortcut With 3D Touch"/>
   
-  <meta property="og:description" content="With 3D Touch (or Force Touch), Apple adds a new way of interacting with your app." />
+  <meta property="og:description" content="UPDATED for Swift 4.2" />
   
   <meta property="og:image" content="https://samwize.com" />
   <meta property="og:url" content="https://samwize.com/2016/04/25/tutorial-on-creating-app-shortcut-with-3d-touch/" >
@@ -82,7 +82,9 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>With 3D Touch (or Force Touch), Apple adds a <a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/">new way of interacting</a> with your app.</p>
+          <p><em>UPDATED for Swift 4.2</em></p>
+
+<p>With 3D Touch (or Force Touch), Apple adds a <a href="https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/">new way of interacting</a> with your app.</p>
 
 <p>One of the new feature is having app shortcuts when you 3D touch the app icon.</p>
 
@@ -105,6 +107,8 @@
 
 <p>The title and subtitle strings are localized in <code class="highlighter-rouge">InfoPlist.strings</code>.</p>
 
+<p>You can provide your own icon with <code class="highlighter-rouge">UIApplicationShortcutItemIconFile</code>. If you want to use system provided icons, then the key is <code class="highlighter-rouge">UIApplicationShortcutItemIconType</code> eg. <code class="highlighter-rouge">UIApplicationShortcutIconTypeTaskCompleted</code>.</p>
+
 <h2 id="creating-dynamic-shortcut-item">Creating Dynamic Shortcut Item</h2>
 
 <p>You create 1 or more <code class="highlighter-rouge">UIMutableApplicationShortcutItem</code>, and set it to <code class="highlighter-rouge">UIApplication.sharedApplication().shortcutItems </code>.</p>
@@ -112,10 +116,10 @@
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Creating a shortcut</span>
 <span class="k">let</span> <span class="nv">shortcut1</span> <span class="o">=</span> <span class="kt">UIMutableApplicationShortcutItem</span><span class="p">(</span>
       <span class="nv">type</span><span class="p">:</span> <span class="s">"com.myapp.shortcut1"</span><span class="p">,</span>
-      <span class="nv">localizedTitle</span><span class="p">:</span> <span class="s">"Shortcut 1"</span><span class="p">,</span> 
+      <span class="nv">localizedTitle</span><span class="p">:</span> <span class="s">"Shortcut 1"</span><span class="p">,</span>
       <span class="nv">localizedSubtitle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span>
       <span class="nv">icon</span><span class="p">:</span> <span class="kt">UIApplicationShortcutIcon</span><span class="p">(</span><span class="nv">templateImageName</span><span class="p">:</span> <span class="s">"myimage"</span><span class="p">),</span>
-      <span class="nv">userInfo</span><span class="p">:</span> <span class="p">[</span><span class="s">"foo"</span><span class="p">:</span> <span class="s">"bar"</span><span class="p">])</span>
+      <span class="nv">userInfo</span><span class="p">:</span> <span class="p">[</span><span class="s">"foo"</span><span class="p">:</span> <span class="s">"bar"</span> <span class="k">as</span> <span class="kt">NSString</span><span class="p">])</span>
 
 <span class="c1">// Set the shortcut items</span>
 <span class="kt">UIApplication</span><span class="o">.</span><span class="nf">sharedApplication</span><span class="p">()</span><span class="o">.</span><span class="n">shortcutItems</span> <span class="o">=</span> <span class="p">[</span><span class="n">shortcut1</span><span class="p">,</span> <span class="n">shortcut2</span><span class="p">]</span>
@@ -123,7 +127,7 @@
 
 <p>Note: You can have up to 4 shortcuts, and the static shortcuts will be listed first.</p>
 
-<p>In the example above, I used a custom icon image “myimage”. You can easily use system provided icons such as <code class="highlighter-rouge">UIApplicationShortcutIconType.Search</code>.</p>
+<p>In the example above, I used a custom icon image “myimage”. You can easily use system provided icons such as <code class="highlighter-rouge">.search</code>.</p>
 
 <p>You can pass more information via <code class="highlighter-rouge">userInfo</code>.</p>
 
@@ -131,34 +135,31 @@
 
 <p>Unsurprisingly, you handle in your <code class="highlighter-rouge">UIApplicationDelegate</code>.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// When app is already launched, performActionForShortcutItem will be called</span>
-<span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">performActionForShortcutItem</span> <span class="nv">shortcutItem</span><span class="p">:</span> <span class="kt">UIApplicationShortcutItem</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// When app is ALREADY launched, performActionForShortcutItem will be called</span>
+<span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">performActionFor</span> <span class="nv">shortcutItem</span><span class="p">:</span> <span class="kt">UIApplicationShortcutItem</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="p">{</span>
     <span class="nf">completionHandler</span><span class="p">(</span><span class="nf">handleShortcut</span><span class="p">(</span><span class="n">shortcutItem</span><span class="p">))</span>
 <span class="p">}</span>
 
 <span class="c1">// When app is launched as a result of the shortcut, `didFinishLaunchingWithOptions` will be called</span>
-<span class="c1">// If `launchOptions` has the shortcut item, then it need to return false </span>
-<span class="c1">// so that `performActionForShortcutItem` will not be called (which will result in calling `handleShortcut` twice)</span>
-<span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="nv">shortcutItem</span> <span class="o">=</span> <span class="n">launchOptions</span><span class="p">?[</span><span class="kt">UIApplicationLaunchOptionsShortcutItemKey</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">UIApplicationShortcutItem</span> <span class="p">{</span>
-        <span class="nf">handleShortcut</span><span class="p">(</span><span class="n">shortcutItem</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">false</span>
+<span class="c1">// If `handleShortcut` somehow returned false, `performActionForShortcutItem` will be called subsequently.</span>
+<span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIApplication</span><span class="o">.</span><span class="kt">LaunchOptionsKey</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">shortcutItem</span> <span class="o">=</span> <span class="n">launchOptions</span><span class="p">?[</span><span class="o">.</span><span class="n">shortcutItem</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">UIApplicationShortcutItem</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">handleShortcut</span><span class="p">(</span><span class="n">shortcutItem</span><span class="p">)</span>
     <span class="p">}</span>
-    
     <span class="k">return</span> <span class="kc">true</span>
 <span class="p">}</span>
 
 <span class="c1">// Our private handler</span>
-<span class="kd">private</span> <span class="kd">func</span> <span class="nf">handleShortcut</span><span class="p">(</span><span class="nv">shortcutItem</span><span class="p">:</span> <span class="kt">UIApplicationShortcutItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+<span class="kd">private</span> <span class="kd">func</span> <span class="nf">handleShortcut</span><span class="p">(</span><span class="n">_</span> <span class="nv">shortcutItem</span><span class="p">:</span> <span class="kt">UIApplicationShortcutItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
     <span class="k">switch</span> <span class="n">shortcutItem</span><span class="o">.</span><span class="n">type</span>  <span class="p">{</span>
     <span class="k">case</span> <span class="s">"com.myapp.shortcut1"</span><span class="p">:</span>
         <span class="c1">// Handle shortcut 1</span>
     <span class="k">case</span> <span class="s">"com.myapp.shortcut2"</span><span class="p">:</span>
         <span class="c1">// Handle shortcut 2</span>
-    <span class="k">default</span><span class="p">:</span> 
+    <span class="k">default</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">false</span>
     <span class="p">}</span>
-    
+
     <span class="k">return</span> <span class="kc">true</span>
 <span class="p">}</span>
 </code></pre></div></div>

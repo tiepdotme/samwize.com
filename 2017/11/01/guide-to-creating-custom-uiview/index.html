@@ -127,7 +127,7 @@
 <p>With the basics of initializers explained, a custom view will usually need a few inits like this:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">AppIconView</span><span class="p">:</span> <span class="kt">UIView</span> <span class="p">{</span>
-    
+
     <span class="c1">// #1</span>
     <span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">aDecoder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">coder</span><span class="p">:</span> <span class="n">aDecoder</span><span class="p">)</span>
@@ -138,22 +138,21 @@
     <span class="kd">public</span> <span class="k">override</span> <span class="nf">init</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="kt">CGRect</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">super</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="n">frame</span><span class="p">)</span>
         <span class="nf">setupView</span><span class="p">()</span>
-    <span class="p">}</span>    
-    
+    <span class="p">}</span>
+
     <span class="c1">// #3</span>
     <span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">,</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">self</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="o">.</span><span class="n">zero</span><span class="p">)</span>
         <span class="k">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
         <span class="k">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
-        <span class="nf">setupView</span><span class="p">()</span>
     <span class="p">}</span>
 
     <span class="kd">private</span> <span class="kd">func</span> <span class="nf">setupView</span><span class="p">()</span> <span class="p">{</span>
         <span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="kc">false</span>
-        
+
         <span class="c1">// Create, add and layout the children views ..</span>
     <span class="p">}</span>
-    
+
 <span class="p">}</span>
 </code></pre></div></div>
 
@@ -165,7 +164,7 @@
   <li>Our own initializer with the data for the view</li>
 </ol>
 
-<p>In each of the init, we will call <code class="highlighter-rouge">setupView()</code> – which is the one place where we will layout the custom view.</p>
+<p>In each of the init, <code class="highlighter-rouge">setupView()</code> will run – which is the one place where we will configure and layout the custom view.</p>
 
 <h3 id="translatesautoresizingmaskintoconstraints">translatesAutoresizingMaskIntoConstraints</h3>
 
