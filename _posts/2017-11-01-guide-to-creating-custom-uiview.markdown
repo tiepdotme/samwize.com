@@ -31,7 +31,7 @@ Subclass MUST call it's superclass designated initializer -- not difficult to re
 
 ### Required init
 
-`required` specify that subclasses must implement the initialization. `UIView` has such an init because it conforms to [`NSCoding`](https://developer.apple.com/documentation/foundation/nscoding), a protocol for the view to be encoded and decoded for archiving. 
+`required` specify that subclasses must implement the initialization. `UIView` has such an init because it conforms to [`NSCoding`](https://developer.apple.com/documentation/foundation/nscoding), a protocol for the view to be encoded and decoded for archiving.
 
 Our custom view has to implement (it is an override, but without the override modifier), and decode to init the view.
 
@@ -42,7 +42,7 @@ public required init?(coder aDecoder: NSCoder) {
 }
 ```
 
-But, you probably will not have any custom decoding, because archiving a view is a bad idea (instead you should archive the model). 
+But, you probably will not have any custom decoding, because archiving a view is a bad idea (instead you should archive the model).
 
 The corresponding func is [encoding](https://developer.apple.com/documentation/foundation/nscoding/1413933-encode).
 
@@ -52,7 +52,7 @@ With the basics of initializers explained, a custom view will usually need a few
 
 ```swift
 public class AppIconView: UIView {
-    
+
     // #1
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -63,22 +63,21 @@ public class AppIconView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-    }    
-    
+    }
+
     // #3
     public convenience init(image: UIImage, title: String) {
         self.init(frame: .zero)
         self.image = image
         self.title = title
-        setupView()
     }
 
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
-        
+
         // Create, add and layout the children views ..
     }
-    
+
 }
 ```
 
@@ -88,7 +87,7 @@ There are 3 inits and here is why:
 2. Because #3 will need to call a designated initializer (we choose #2 over #1)
 3. Our own initializer with the data for the view
 
-In each of the init, we will call `setupView()` -- which is the one place where we will layout the custom view.
+In each of the init, `setupView()` will run -- which is the one place where we will configure and layout the custom view.
 
 ### translatesAutoresizingMaskIntoConstraints
 
@@ -121,7 +120,7 @@ public override var intrinsicContentSize: CGSize {
 }
 ```
 
-As a rule of thumb: **custom view should never create constraint for it's own width and height** (obviously also not for it's postion x & y). 
+As a rule of thumb: **custom view should never create constraint for it's own width and height** (obviously also not for it's postion x & y).
 
 But sometimes you want to _conveniently constraint your size_. This is where intrinsic content size comes in.
 
@@ -133,7 +132,7 @@ But sometimes you want to _conveniently constraint your size_. This is where int
 
 Fitting size is the size calculated to fit the content.
 
-Use [`systemLayoutSizeFitting(_:)`](https://developer.apple.com/documentation/uikit/uiview/1622624-systemlayoutsizefitting). The parameter `targetSize` is the smallest or largest size that meets the constraint. 
+Use [`systemLayoutSizeFitting(_:)`](https://developer.apple.com/documentation/uikit/uiview/1622624-systemlayoutsizefitting). The parameter `targetSize` is the smallest or largest size that meets the constraint.
 
 Eg. To know the smallest possible size of our content view, call `appView.systemLayoutSizeFitting(UILayoutFittingCompressedSize)`
 
@@ -145,6 +144,6 @@ But NO, stack view intrinsic size is always `UIViewNoIntrinsicMetric`.
 
 What really happened is that Auto Layout engine calculate the fitting size (an output) for the stack.
 
-So how do you get the fitting size? 
+So how do you get the fitting size?
 
 Simply `stack.systemLayoutSizeFitting(UILayoutFittingCompressedSize)`.

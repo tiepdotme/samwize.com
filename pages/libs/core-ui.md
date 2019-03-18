@@ -6,7 +6,7 @@ permalink: /libs/core-ui/
 
 ## Animate views during transition
 
-[Hero](https://github.com/lkzhao/Hero) easily animate a view to another view during a transition. It is like Keynote's Magic Move, for iOS.tai
+[Hero](https://github.com/lkzhao/Hero) easily animate a view to another view during a transition. It is like Keynote's Magic Move, for iOS.
 
 ## Empty State for Table/Collection
 
