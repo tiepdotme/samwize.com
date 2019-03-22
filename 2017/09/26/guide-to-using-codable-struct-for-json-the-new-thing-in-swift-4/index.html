@@ -313,6 +313,17 @@ Type 'Sword' does not conform to protocol 'Decodable'
 <span class="p">}</span>
 </code></pre></div></div>
 
+<h2 id="pitfall-backslash-escaped-in-json">PITFALL: Backslash escaped in JSON</h2>
+
+<p>One damn behaviour of the JSON encoder is that it will erroneously escape “\”, and therefore producing “\/”. This issue is known for <a href="https://stackoverflow.com/q/19651009/242682">at least 7 years</a>, and seems like it will never be fixed for legacy reason (<code class="highlighter-rouge">JSONEncoder</code> uses <code class="highlighter-rouge">NSJSONSerialization</code>, and that is very old).</p>
+
+<p>The fix is to do a string replacement.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">fixedString</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="nf">replacingOccurrences</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"</span><span class="se">\\</span><span class="s">/"</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="s">"/"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>It is safe to replace the string produced by <code class="highlighter-rouge">JSONEncoder</code>, since they are sure to escape backslash. The fix simply reverse what they did.</p>
+
 <h2 id="resources">Resources</h2>
 
 <p>Codable is <a href="https://github.com/apple/swift/blob/master/stdlib/public/core/Codable.swift">open source</a>, so we can dig it and understand how it works internally.</p>
