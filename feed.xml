@@ -6,9 +6,122 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 22 Mar 2019 08:16:26 +0800</pubDate>
-    <lastBuildDate>Fri, 22 Mar 2019 08:16:26 +0800</lastBuildDate>
+    <pubDate>Fri, 22 Mar 2019 16:09:02 +0800</pubDate>
+    <lastBuildDate>Fri, 22 Mar 2019 16:09:02 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Integrate Swift Package Manager for iOS &amp; macOS Projects</title>
+        <description>&lt;p&gt;Swift Package Manager (SPM) &lt;a href=&quot;https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md#depending-on-apple-modules&quot;&gt;does not support iOS and macOS&lt;/a&gt;. Sadly, it has been a few years and they are still not on the same level as CocoaPods.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;What then is SPM good for?&lt;/em&gt; It is good for developing executable CLI or packing your library.. not sexy for the modern app developer.&lt;/p&gt;
+
+&lt;h2 id=&quot;but-it-should-work&quot;&gt;But it should work&lt;/h2&gt;
+
+&lt;p&gt;SPM is nothing but resolving the dependencies, downloading them as needed.&lt;/p&gt;
+
+&lt;p&gt;Hence, it should work even if we drag and drop the frameworks into a project.&lt;/p&gt;
+
+&lt;p&gt;I will describe how I do so with my specific scenario: using &lt;a href=&quot;https://github.com/OpenKitten/MongoKitten&quot;&gt;MongoKitten&lt;/a&gt; for my macOS app.&lt;/p&gt;
+
+&lt;p&gt;The same steps will apply for any libraries, and for iOS (or even tvOS, watchOS too).&lt;/p&gt;
+
+&lt;h2 id=&quot;why-did-i-not-use-cocoapods-&quot;&gt;Why did I not use CocoaPods ?&lt;/h2&gt;
+
+&lt;p&gt;Because, MongoKitten podspec did not support macOS, for some reason. But it will work since the library does not use any specific iOS frameworks.&lt;/p&gt;
+
+&lt;p&gt;If CocoaPods works for you, please do not use CPM.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-steps&quot;&gt;The steps&lt;/h2&gt;
+
+&lt;p&gt;Before I describe the steps, read &lt;a href=&quot;/2016/11/14/swift-package-manager-development-guide/&quot;&gt;here&lt;/a&gt; for a basic guide on using &lt;code class=&quot;highlighter-rouge&quot;&gt;swift package&lt;/code&gt; commands.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-create-the-dependencies&quot;&gt;1. Create The Dependencies&lt;/h3&gt;
+
+&lt;p&gt;We will setup the dependencies that will be resolved by SPM in your app root directory.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# In the root folder of eg. MyApp.xcodeproj
+mkdir Dependencies
+cd Dependencies
+swift package init
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Edit &lt;code class=&quot;highlighter-rouge&quot;&gt;Package.swift&lt;/code&gt; for the actual libraries you need (eg. MongoKitten):&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// swift-tools-version:4.2&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PackageDescription&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Dependencies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;products&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;library&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Dependencies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;targets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Dependencies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;dependencies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Dependencies declare other packages that this package depends on.&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;https://github.com/OpenKitten/MongoKitten.git&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;exact&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;4.1.3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+
+    &lt;span class=&quot;nv&quot;&gt;targets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Dependencies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;nv&quot;&gt;dependencies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;MongoKitten&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]),&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;testTarget&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;DependenciesTests&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+            &lt;span class=&quot;nv&quot;&gt;dependencies&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Dependencies&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now build them:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swift build
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;2-generate-xcodeproj&quot;&gt;2. Generate xcodeproj&lt;/h3&gt;
+
+&lt;p&gt;Simply run the command:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swift package generate-xcodeproj
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I have seen on &lt;a href=&quot;https://stackoverflow.com/a/54701806/242682&quot;&gt;stackoverflow&lt;/a&gt; that declared custom xcconfig, then generate with&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;swift package generate-xcodeproj --xcconfig-overrides macos.xcconfig&lt;/code&gt;. I did not need it, but it’s there if things didn’t work on your first try.&lt;/p&gt;
+
+&lt;h3 id=&quot;3-add-dependenciesxcodeproj-to-your-app&quot;&gt;3. Add Dependencies.xcodeproj to Your App&lt;/h3&gt;
+
+&lt;p&gt;Now, open &lt;strong&gt;your app’s&lt;/strong&gt; Xcode project/workspace.&lt;/p&gt;
+
+&lt;p&gt;Drag and drop the generated Dependencies.xcodeproj to the Project Navigator.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/spm-dependencies.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Next, go to your app target &amp;gt; Linked Frameworks and Libraries &amp;gt; Add Dependencies.framework&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/spm-dependencies-linked.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This will ensure the Dependencies (the libraries) will be build first before the app.&lt;/p&gt;
+
+&lt;p&gt;With that, you’re done. Go ahead and import any of the libraries (eg. MongoKitten) in the app.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;For MongoKitten, you make sure you enable Outgoing Connections in App Sandbox entitlements.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;updating-dependencies&quot;&gt;Updating dependencies&lt;/h3&gt;
+
+&lt;p&gt;You have to run these 2 commands manually whenever you choose to update:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;swift package update
+swift package generate-xcodeproj
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Fri, 22 Mar 2019 15:21:51 +0800</pubDate>
+        <link>https://samwize.com/2019/03/22/integrate-swift-package-manager-for-ios-and-macos-projects/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/03/22/integrate-swift-package-manager-for-ios-and-macos-projects/</guid>
+        
+        
+        <category>Swift</category>
+        
+      </item>
     
       <item>
         <title>Preprocessor Codes for Swift</title>
@@ -858,94 +971,6 @@
         <pubDate>Fri, 16 Nov 2018 10:20:44 +0800</pubDate>
         <link>https://samwize.com/2018/11/16/guide-to-nsfetchedresultscontroller-with-nstableview-macos/</link>
         <guid isPermaLink="true">https://samwize.com/2018/11/16/guide-to-nsfetchedresultscontroller-with-nstableview-macos/</guid>
-        
-        
-        <category>macOS</category>
-        
-        <category>osx</category>
-        
-      </item>
-    
-      <item>
-        <title>How to Tab to Next Row in NSTableView (View-based Solution)</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableView&lt;/code&gt; has a lot of legacy, and a simple UX of navigating from row to row (or cell to cell) proved to be very challenging.&lt;/p&gt;
-
-&lt;p&gt;There are solutions, but &lt;a href=&quot;http://www.knowstack.com/nstableview-tab-return/&quot;&gt;they&lt;/a&gt; &lt;a href=&quot;https://stackoverflow.com/a/5601129/242682&quot;&gt;are&lt;/a&gt; mostly for cell-based &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableView&lt;/code&gt;, which is the legacy way.&lt;/p&gt;
-
-&lt;p&gt;It is possible with the modern view-based way, but there are numerous pitfalls.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-solution&quot;&gt;The solution&lt;/h2&gt;
-
-&lt;p&gt;The first step is to set the delegate for the textField of the cell. You do this in your usual &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableViewDelegate&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyTableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTableViewDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;viewFor&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tableColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTableColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;cell&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;textField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then you extend &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTextFieldDelegate&lt;/code&gt;, and implement &lt;code class=&quot;highlighter-rouge&quot;&gt;controlTextDidEndEditing(_:)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyTableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTextFieldDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;controlTextDidEndEditing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Notification&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;guard&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;textMovementInt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;NSTextMovement&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;textMovement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTextMovement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rawValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;textMovementInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;columnIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;column&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;newRowIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;textMovement&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;tab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numberOfRows&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;backtab&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;kt&quot;&gt;DispatchQueue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;editColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;columnIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newRowIndex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This is where it is tricky for 2 reasons:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;If you think you should be implementing in &lt;code class=&quot;highlighter-rouge&quot;&gt;textShouldEndEditing(_:)&lt;/code&gt;, sorry somehow it is not. Thanks to &lt;a href=&quot;http://www.taffysoft.com/pages/20171226-01.html&quot;&gt;this post&lt;/a&gt; for pointing it out.&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;editColumn&lt;/code&gt; has to be called in &lt;code class=&quot;highlighter-rouge&quot;&gt;DispatchQueue&lt;/code&gt; (even though it is calling from main thread.. perhaps a slight delay is needed)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;This is still a side effect with the solution. When user press tab, if the table view has a next key view, that will be focused for a moment.&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus-make-the-table-view-the-first-responder&quot;&gt;Bonus: Make the table view the first responder&lt;/h2&gt;
-
-&lt;p&gt;If you want to improve further and make the first row editable, there is some more work to do.&lt;/p&gt;
-
-&lt;p&gt;First, your view controller has to make the &lt;code class=&quot;highlighter-rouge&quot;&gt;tableView&lt;/code&gt; the first responder.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;makeFirstResponder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then you need to subclass the &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableView&lt;/code&gt;, because you need to change the behaviour when it becomes the first responder.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;becomeFirstResponder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;max&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;editedRow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// editedRow is -1 if not editing&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;editColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Tue, 13 Nov 2018 15:41:18 +0800</pubDate>
-        <link>https://samwize.com/2018/11/13/how-to-tab-to-next-row-in-nstableview-view-based-solution/</link>
-        <guid isPermaLink="true">https://samwize.com/2018/11/13/how-to-tab-to-next-row-in-nstableview-view-based-solution/</guid>
         
         
         <category>macOS</category>

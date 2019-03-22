@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Integrate Swift Package Manager for iOS & macOS Projects</title>
+  <meta name="description" content="Swift Package Manager (SPM) does not support iOS and macOS. Sadly, it has been a few years and they are still not on the same level as CocoaPods." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Integrate Swift Package Manager for iOS & macOS Projects" />
+    <meta name="twitter:image" content="https://samwize.com" />
+    
+    <meta name="twitter:description"  content="Swift Package Manager (SPM) does not support iOS and macOS. Sadly, it has been a few years and they are still not on the same level as CocoaPods." />
+    
+  
+
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Integrate Swift Package Manager for iOS & macOS Projects"/>
+  
+  <meta property="og:description" content="Swift Package Manager (SPM) does not support iOS and macOS. Sadly, it has been a few years and they are still not on the same level as CocoaPods." />
+  
+  <meta property="og:image" content="https://samwize.com" />
+  <meta property="og:url" content="https://samwize.com/2019/03/22/integrate-swift-package-manager-for-ios-and-macos-projects/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2019-03-22T15:21:51+08:00">
+
+  <link rel="canonical" href="https://samwize.com/2019/03/22/integrate-swift-package-manager-for-ios-and-macos-projects/">
+
+  <link rel="icon" type="image/png" href="/images/favicon-180.png" />
+  <link rel="apple-touch-icon" href="/images/favicon-192.png"/>
+
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8504591086876220",
+            enable_page_level_ads: true
+       });
+  </script>
+
+</head>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="https://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Integrate Swift Package Manager for iOS & macOS Projects</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2019-03-22T15:21:51+08:00">22 March 2019</time>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p>Swift Package Manager (SPM) <a href="https://github.com/apple/swift-package-manager/blob/master/Documentation/Usage.md#depending-on-apple-modules">does not support iOS and macOS</a>. Sadly, it has been a few years and they are still not on the same level as CocoaPods.</p>
+
+<p><em>What then is SPM good for?</em> It is good for developing executable CLI or packing your library.. not sexy for the modern app developer.</p>
+
+<h2 id="but-it-should-work">But it should work</h2>
+
+<p>SPM is nothing but resolving the dependencies, downloading them as needed.</p>
+
+<p>Hence, it should work even if we drag and drop the frameworks into a project.</p>
+
+<p>I will describe how I do so with my specific scenario: using <a href="https://github.com/OpenKitten/MongoKitten">MongoKitten</a> for my macOS app.</p>
+
+<p>The same steps will apply for any libraries, and for iOS (or even tvOS, watchOS too).</p>
+
+<h2 id="why-did-i-not-use-cocoapods-">Why did I not use CocoaPods ?</h2>
+
+<p>Because, MongoKitten podspec did not support macOS, for some reason. But it will work since the library does not use any specific iOS frameworks.</p>
+
+<p>If CocoaPods works for you, please do not use CPM.</p>
+
+<h2 id="the-steps">The steps</h2>
+
+<p>Before I describe the steps, read <a href="/2016/11/14/swift-package-manager-development-guide/">here</a> for a basic guide on using <code class="highlighter-rouge">swift package</code> commands.</p>
+
+<h3 id="1-create-the-dependencies">1. Create The Dependencies</h3>
+
+<p>We will setup the dependencies that will be resolved by SPM in your app root directory.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># In the root folder of eg. MyApp.xcodeproj
+mkdir Dependencies
+cd Dependencies
+swift package init
+</code></pre></div></div>
+
+<p>Edit <code class="highlighter-rouge">Package.swift</code> for the actual libraries you need (eg. MongoKitten):</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// swift-tools-version:4.2</span>
+
+<span class="kd">import</span> <span class="kt">PackageDescription</span>
+
+<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
+    <span class="nv">name</span><span class="p">:</span> <span class="s">"Dependencies"</span><span class="p">,</span>
+    <span class="nv">products</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nf">library</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Dependencies"</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="o">.</span><span class="kd">static</span><span class="p">,</span> <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span><span class="s">"Dependencies"</span><span class="p">])</span>
+    <span class="p">],</span>
+    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1">// Dependencies declare other packages that this package depends on.</span>
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/OpenKitten/MongoKitten.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">exact</span><span class="p">(</span><span class="s">"4.1.3"</span><span class="p">))</span>
+    <span class="p">],</span>
+
+    <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nf">target</span><span class="p">(</span>
+            <span class="nv">name</span><span class="p">:</span> <span class="s">"Dependencies"</span><span class="p">,</span>
+            <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span><span class="s">"MongoKitten"</span><span class="p">]),</span>
+        <span class="o">.</span><span class="nf">testTarget</span><span class="p">(</span>
+            <span class="nv">name</span><span class="p">:</span> <span class="s">"DependenciesTests"</span><span class="p">,</span>
+            <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span><span class="s">"Dependencies"</span><span class="p">]),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now build them:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swift build
+</code></pre></div></div>
+
+<h3 id="2-generate-xcodeproj">2. Generate xcodeproj</h3>
+
+<p>Simply run the command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swift package generate-xcodeproj
+</code></pre></div></div>
+
+<p>I have seen on <a href="https://stackoverflow.com/a/54701806/242682">stackoverflow</a> that declared custom xcconfig, then generate with<br />
+<code class="highlighter-rouge">swift package generate-xcodeproj --xcconfig-overrides macos.xcconfig</code>. I did not need it, but it’s there if things didn’t work on your first try.</p>
+
+<h3 id="3-add-dependenciesxcodeproj-to-your-app">3. Add Dependencies.xcodeproj to Your App</h3>
+
+<p>Now, open <strong>your app’s</strong> Xcode project/workspace.</p>
+
+<p>Drag and drop the generated Dependencies.xcodeproj to the Project Navigator.</p>
+
+<p><img src="/images/spm-dependencies.jpg" alt="" /></p>
+
+<p>Next, go to your app target &gt; Linked Frameworks and Libraries &gt; Add Dependencies.framework</p>
+
+<p><img src="/images/spm-dependencies-linked.jpg" alt="" /></p>
+
+<p>This will ensure the Dependencies (the libraries) will be build first before the app.</p>
+
+<p>With that, you’re done. Go ahead and import any of the libraries (eg. MongoKitten) in the app.</p>
+
+<p><em>For MongoKitten, you make sure you enable Outgoing Connections in App Sandbox entitlements.</em></p>
+
+<h3 id="updating-dependencies">Updating dependencies</h3>
+
+<p>You have to run these 2 commands manually whenever you choose to update:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>swift package update
+swift package generate-xcodeproj
+</code></pre></div></div>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Integrate+Swift+Package+Manager+for+iOS+%26+macOS+Projects&amp;url=https://samwize.com/2019/03/22/integrate-swift-package-manager-for-ios-and-macos-projects"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Integrate+Swift+Package+Manager+for+iOS+%26+macOS+Projects&amp;u=https://samwize.com/2019/03/22/integrate-swift-package-manager-for-ios-and-macos-projects"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Integrate+Swift+Package+Manager+for+iOS+%26+macOS+Projects&amp;url=https://samwize.com/2019/03/22/integrate-swift-package-manager-for-ios-and-macos-projects"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
