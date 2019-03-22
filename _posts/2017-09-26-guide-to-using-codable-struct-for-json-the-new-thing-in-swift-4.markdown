@@ -246,6 +246,18 @@ while !unkeyedContainer.isAtEnd {
 }
 ```
 
+## PITFALL: Backslash escaped in JSON
+
+One damn behaviour of the JSON encoder is that it will erroneously escape "\\", and therefore producing "\\/". This issue is known for [at least 7 years](https://stackoverflow.com/q/19651009/242682), and seems like it will never be fixed for legacy reason (`JSONEncoder` uses `NSJSONSerialization`, and that is very old).
+
+The fix is to do a string replacement.
+
+```swift
+let fixedString = string.replacingOccurrences(of: "\\/", with: "/")
+```
+
+It is safe to replace the string produced by `JSONEncoder`, since they are sure to escape backslash. The fix simply reverse what they did.
+
 ## Resources
 
 Codable is [open source](https://github.com/apple/swift/blob/master/stdlib/public/core/Codable.swift), so we can dig it and understand how it works internally.
