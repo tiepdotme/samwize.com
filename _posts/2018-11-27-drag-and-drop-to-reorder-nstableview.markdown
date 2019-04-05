@@ -13,11 +13,25 @@ There are 3 methods of `NSTableViewDataSource` to implement.
 
 I will use an example of a table view of accounts, with an array of `accounts` as the data model. This data model could be a `fetchedResultsController.fetchedObjects` for Core Data. To persist the new ordering, you have to save it yourself.
 
-## 1. Write to pasteboard when dragged
+## 1. Register the pasteboard type to accept drops
 
-The first method is for the source table view. When a row is being dragged, you write your model to pasteboard.
+Drag and drop is versatile and items can be dropped across apps and views. The "communication" is via pasteboard, kind of like a temporary holding area for the dragged item.
 
-The pasteboard is like a temporary holding area for the dragged item.
+In your **destination view** where items will be dropped, you need to register the type of items that you can handle.
+
+```swift
+// Let's say our app can accept this "mymoney.account" type
+let accountPasteboardType = NSPasteboard.PasteboardType(rawValue: "mymoney.account")
+
+override func viewDidLoad() {
+    super.viewDidLoad()
+    tableView.registerForDraggedTypes([accountPasteboardType])
+}
+```
+
+## 2. Write to pasteboard when dragged
+
+When a row is being dragged, you write your model's data to pasteboard.
 
 ```swift
 extension AccountsView: NSTableViewDataSource {
@@ -35,9 +49,7 @@ The method returns a concrete `NSPasteboardItem`, which implements the protocol 
 
 We use `account.uuid`, which is a String representation. If you use Core Data `NSManagedObject`, you can use `objectID.uriRepresentation().absoluteString`.
 
-Lastly, `accountPasteboardType` is our custom type use through out eg. `NSPasteboard.PasteboardType(rawValue: "mymoney.account")`.
-
-## 2. Handle when dropped
+## 3. Handle when dropped
 
 Not surprisingly, the other 2 methods are for the destination table view when dropped.
 
