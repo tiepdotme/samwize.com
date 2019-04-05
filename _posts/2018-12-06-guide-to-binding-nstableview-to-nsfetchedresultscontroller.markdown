@@ -101,18 +101,18 @@ For this to work, you also need to set up binding to the table view's selections
 
 This binds Array Controller to your `NSSortDescriptor`:
 
-1. Select Array Controller > Bindings inspector > Sort Descriptors > Bind to the view controller
+1. **Select Array Controller** > Bindings inspector > Sort Descriptors > Bind to the view controller
 2. Set Model Key Path to `self.sorts`
 3. In your view controller, add the instance var `@objc dynamic var sorts: [NSSortDescriptor]!`
 4. Init `sorts` with an array `NSSortDescriptor` in `viewDidLoad`
 
-Filter is similar, binding to the Filter Predicate.
+Filter is similar, binding to the Filter Predicate, but with instance var `@objc dynamic var filter: NSPredicate?`.
 
 With that, the table view content will sort and filter accordingly.
 
-To sort by the table column, you need to these additionally:
+To sort by clicking on the table column header, you need to these additionally:
 
-1. Select Table View > Bindings inspector > Sort Descriptors > Bind to the view controller
+1. **Select Table View** > Bindings inspector > Sort Descriptors > Bind to the view controller
 2. Set Model Key Path to `self.sorts`
 3. Select a table column > Bindings inspector > Value > Bind to Array Controller
 4. Set the model key path eg. "date"
