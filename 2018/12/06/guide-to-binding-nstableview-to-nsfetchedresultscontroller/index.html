@@ -187,20 +187,20 @@
 <p>This binds Array Controller to your <code class="highlighter-rouge">NSSortDescriptor</code>:</p>
 
 <ol>
-  <li>Select Array Controller &gt; Bindings inspector &gt; Sort Descriptors &gt; Bind to the view controller</li>
+  <li><strong>Select Array Controller</strong> &gt; Bindings inspector &gt; Sort Descriptors &gt; Bind to the view controller</li>
   <li>Set Model Key Path to <code class="highlighter-rouge">self.sorts</code></li>
   <li>In your view controller, add the instance var <code class="highlighter-rouge">@objc dynamic var sorts: [NSSortDescriptor]!</code></li>
   <li>Init <code class="highlighter-rouge">sorts</code> with an array <code class="highlighter-rouge">NSSortDescriptor</code> in <code class="highlighter-rouge">viewDidLoad</code></li>
 </ol>
 
-<p>Filter is similar, binding to the Filter Predicate.</p>
+<p>Filter is similar, binding to the Filter Predicate, but with instance var <code class="highlighter-rouge">@objc dynamic var filter: NSPredicate?</code>.</p>
 
 <p>With that, the table view content will sort and filter accordingly.</p>
 
-<p>To sort by the table column, you need to these additionally:</p>
+<p>To sort by clicking on the table column header, you need to these additionally:</p>
 
 <ol>
-  <li>Select Table View &gt; Bindings inspector &gt; Sort Descriptors &gt; Bind to the view controller</li>
+  <li><strong>Select Table View</strong> &gt; Bindings inspector &gt; Sort Descriptors &gt; Bind to the view controller</li>
   <li>Set Model Key Path to <code class="highlighter-rouge">self.sorts</code></li>
   <li>Select a table column &gt; Bindings inspector &gt; Value &gt; Bind to Array Controller</li>
   <li>Set the model key path eg. “date”</li>

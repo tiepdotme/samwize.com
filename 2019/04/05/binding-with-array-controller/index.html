@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Binding With Array Controller</title>
+  <meta name="description" content="In my first guide to binding, it uses NSFetchedResultsController, which is tightly coupled to the Core Data framework." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Binding With Array Controller" />
+    <meta name="twitter:image" content="https://samwize.com" />
+    
+    <meta name="twitter:description"  content="In my first guide to binding, it uses NSFetchedResultsController, which is tightly coupled to the Core Data framework." />
+    
+  
+
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Binding With Array Controller"/>
+  
+  <meta property="og:description" content="In my first guide to binding, it uses NSFetchedResultsController, which is tightly coupled to the Core Data framework." />
+  
+  <meta property="og:image" content="https://samwize.com" />
+  <meta property="og:url" content="https://samwize.com/2019/04/05/binding-with-array-controller/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2019-04-05T11:43:10+08:00">
+
+  <link rel="canonical" href="https://samwize.com/2019/04/05/binding-with-array-controller/">
+
+  <link rel="icon" type="image/png" href="/images/favicon-180.png" />
+  <link rel="apple-touch-icon" href="/images/favicon-192.png"/>
+
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8504591086876220",
+            enable_page_level_ads: true
+       });
+  </script>
+
+</head>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="https://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Binding With Array Controller</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2019-04-05T11:43:10+08:00">05 April 2019</time>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p>In my <a href="/2018/12/06/guide-to-binding-nstableview-to-nsfetchedresultscontroller/">first guide to binding</a>, it uses <code class="highlighter-rouge">NSFetchedResultsController</code>, which is tightly coupled to the Core Data framework.</p>
+
+<p>It is not necessary (of course) to bind to Core Data models.</p>
+
+<p>This guide will be more generic, providing a guide to binding to a plain old object model.</p>
+
+<h2 id="the-model">The Model</h2>
+
+<p>Let’s use a simple model <code class="highlighter-rouge">MyData</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="kt">MyData</span><span class="p">:</span> <span class="kt">NSObject</span> <span class="p">{</span>
+    <span class="kd">@objc</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Any member variable such as <code class="highlighter-rouge">name</code> has to be annotated with <code class="highlighter-rouge">@objc</code>, because that’s how the old world works and provides.</p>
+
+<h2 id="array-controller">Array Controller</h2>
+
+<p><code class="highlighter-rouge">NSArrayController</code> manages the models.</p>
+
+<p>It does NOT hold the models, but simply manages it in terms of sorting, filtering, and CRUD operations.</p>
+
+<p>It is common to add the <code class="highlighter-rouge">NSArrayController</code> object in a storyboard. Then set up as such:</p>
+
+<ul>
+  <li>In Attributes Inspector:
+    <ul>
+      <li>Mode is class</li>
+      <li>Class name is <code class="highlighter-rouge">MyApp.MyData</code></li>
+      <li>The prefix <code class="highlighter-rouge">MyApp</code> is necessary, and it is your target’s <strong>Product Module Name</strong></li>
+    </ul>
+  </li>
+  <li>In Binding Inspector &gt; Controller Content:
+    <ul>
+      <li>Bind to your view controller (usually) eg. <code class="highlighter-rouge">MyListViewController</code></li>
+      <li>Model Key Path is <code class="highlighter-rouge">self.myDataList</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="view-controller">View Controller</h2>
+
+<p>It is a good time now to show you what your view controller looks like.</p>
+
+<pre><code class="language-self">class MyListViewController: NSViewController {
+    @objc dynamic var myDataList = [MyData]()
+    @objc dynamic var sorts = [NSSortDescriptor]()
+    @objc dynamic var filter: NSPredicate?
+}
+</code></pre>
+
+<p><code class="highlighter-rouge">myDataList</code> is the actual models that the view controller holds. It must be prefix with <code class="highlighter-rouge">@objc</code> once again.</p>
+
+<p>Remember: The <code class="highlighter-rouge">NSArrayController</code> is managing these models. You don’t mutate the array controller directly.</p>
+
+<p>Whenever you want to update your model, mutate <code class="highlighter-rouge">myDataList</code>.</p>
+
+<h2 id="table-view">Table View</h2>
+
+<p>Next, we bind the array controller to the table view.</p>
+
+<ol>
+  <li>In Attributes inspector, set <strong>Content Mode</strong> to <strong>View Based</strong>.</li>
+  <li>In Bindings inspector, bind <strong>Content</strong> to Array Controller. The Controller Key should already be <code class="highlighter-rouge">arrangedObjects</code>.</li>
+  <li>Select the actual view to bind eg. <code class="highlighter-rouge">NSTextField</code>, <code class="highlighter-rouge">NSDatePicker</code> etc</li>
+  <li>In Bindings inspector, bind <strong>Value</strong> to <strong>Table Cell View</strong></li>
+  <li>Set the <strong>Model Key Path</strong> to <code class="highlighter-rouge">objectValue.name</code> (your model’s attribute!)</li>
+</ol>
+
+<h2 id="sort--filter">Sort &amp; Filter</h2>
+
+<ol>
+  <li><strong>Select Array Controller</strong> &gt; Bindings inspector &gt; Sort Descriptors &gt; Bind to the view controller</li>
+  <li>Set Model Key Path to <code class="highlighter-rouge">self.sorts</code></li>
+  <li>Similarly, for filter bind to <code class="highlighter-rouge">self.filter</code></li>
+  <li>Init <code class="highlighter-rouge">sorts</code> and <code class="highlighter-rouge">filter</code> in <code class="highlighter-rouge">viewDidLoad</code></li>
+  <li>Mutate them, and the views will be updated immediately</li>
+</ol>
+
+<h3 id="sort-when-clicking-on-the-table-column-header">Sort when clicking on the table column header</h3>
+
+<ol>
+  <li><strong>Select Table View</strong> &gt; Bindings inspector &gt; Sort Descriptors &gt; Bind to the view controller</li>
+  <li>Set Model Key Path to <code class="highlighter-rouge">self.sorts</code></li>
+  <li>Select a table column &gt; Bindings inspector &gt; Value &gt; Bind to Array Controller</li>
+  <li>Set the model key path eg. “name”</li>
+  <li>Make sure Creates Sort Descriptor is enabled</li>
+</ol>
+
+<h2 id="selection">Selection</h2>
+
+<p>When you select rows in the table view, you should bind it to the array controller too.</p>
+
+<ol>
+  <li>Select Table View &gt; Bindings inspector &gt; Selection Indexes &gt; Bind to the Array Controller</li>
+  <li>Set Controller Key to <code class="highlighter-rouge">selectionIndexes</code></li>
+</ol>
+
+<h2 id="delete-selected-rows">Delete Selected Rows</h2>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">deleteSelectedRows</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">arrayController</span><span class="o">.</span><span class="nf">remove</span><span class="p">(</span><span class="nv">atArrangedObjectIndexes</span><span class="p">:</span> <span class="n">arrayController</span><span class="o">.</span><span class="n">selectionIndexes</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>I have omitted the obvious: Add a button with the action to the above function, adding the array controller outlet to the view controller.</p>
+
+<h2 id="add-new-row">Add New Row</h2>
+
+<p>Similarly, you can have a button to add new model(s).</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@IBAction</span> <span class="kd">func</span> <span class="nf">add</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">Any</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">newModel</span> <span class="o">=</span> <span class="kt">MyData</span><span class="p">()</span>
+    <span class="n">arrayController</span><span class="o">.</span><span class="nf">addObject</span><span class="p">(</span><span class="n">newModel</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Binding+With+Array+Controller&amp;url=https://samwize.com/2019/04/05/binding-with-array-controller"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Binding+With+Array+Controller&amp;u=https://samwize.com/2019/04/05/binding-with-array-controller"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Binding+With+Array+Controller&amp;url=https://samwize.com/2019/04/05/binding-with-array-controller"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
