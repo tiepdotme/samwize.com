@@ -17,20 +17,11 @@ Let's use a simple model `MyData`.
 
 ```swift
 class MyData: NSObject {
-
     @objc var name: String
-
-    override init() {
-         name = ""
-    }
-
 }
 ```
 
-A few things to point out:
-
-- Any member variable such as `name` has to be annotated with `@objc`, because that's how the old world works and provides
-- An `init()` is necessary because when a new model is added, this is conveniently the default
+Any member variable such as `name` has to be annotated with `@objc`, because that's how the old world works and provides.
 
 ## Array Controller
 
@@ -91,3 +82,31 @@ Next, we bind the array controller to the table view.
 3. Select a table column > Bindings inspector > Value > Bind to Array Controller
 4. Set the model key path eg. "name"
 5. Make sure Creates Sort Descriptor is enabled
+
+## Selection
+
+When you select rows in the table view, you should bind it to the array controller too.
+
+1. Select Table View > Bindings inspector > Selection Indexes > Bind to the Array Controller
+2. Set Controller Key to `selectionIndexes`
+
+## Delete Selected Rows
+
+```swift
+@IBAction func deleteSelectedRows(_ sender: Any) {
+    arrayController.remove(atArrangedObjectIndexes: arrayController.selectionIndexes)
+}
+```
+
+I have omitted the obvious: Add a button with the action to the above function, adding the array controller outlet to the view controller.
+
+## Add New Row
+
+Similarly, you can have a button to add new model(s).
+
+```swift
+@IBAction func add(_ sender: Any) {
+    let newModel = MyData()
+    arrayController.addObject(newModel)
+}
+```
