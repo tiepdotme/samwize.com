@@ -90,11 +90,24 @@
 
 <p>I will use an example of a table view of accounts, with an array of <code class="highlighter-rouge">accounts</code> as the data model. This data model could be a <code class="highlighter-rouge">fetchedResultsController.fetchedObjects</code> for Core Data. To persist the new ordering, you have to save it yourself.</p>
 
-<h2 id="1-write-to-pasteboard-when-dragged">1. Write to pasteboard when dragged</h2>
+<h2 id="1-register-the-pasteboard-type-to-accept-drops">1. Register the pasteboard type to accept drops</h2>
 
-<p>The first method is for the source table view. When a row is being dragged, you write your model to pasteboard.</p>
+<p>Drag and drop is versatile and items can be dropped across apps and views. The “communication” is via pasteboard, kind of like a temporary holding area for the dragged item.</p>
 
-<p>The pasteboard is like a temporary holding area for the dragged item.</p>
+<p>In your <strong>destination view</strong> where items will be dropped, you need to register the type of items that you can handle.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Let's say our app can accept this "mymoney.account" type</span>
+<span class="k">let</span> <span class="nv">accountPasteboardType</span> <span class="o">=</span> <span class="kt">NSPasteboard</span><span class="o">.</span><span class="kt">PasteboardType</span><span class="p">(</span><span class="nv">rawValue</span><span class="p">:</span> <span class="s">"mymoney.account"</span><span class="p">)</span>
+
+<span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+    <span class="n">tableView</span><span class="o">.</span><span class="nf">registerForDraggedTypes</span><span class="p">([</span><span class="n">accountPasteboardType</span><span class="p">])</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="2-write-to-pasteboard-when-dragged">2. Write to pasteboard when dragged</h2>
+
+<p>When a row is being dragged, you write your model’s data to pasteboard.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">AccountsView</span><span class="p">:</span> <span class="kt">NSTableViewDataSource</span> <span class="p">{</span>
     <span class="c1">// For the source table view</span>
@@ -111,9 +124,7 @@
 
 <p>We use <code class="highlighter-rouge">account.uuid</code>, which is a String representation. If you use Core Data <code class="highlighter-rouge">NSManagedObject</code>, you can use <code class="highlighter-rouge">objectID.uriRepresentation().absoluteString</code>.</p>
 
-<p>Lastly, <code class="highlighter-rouge">accountPasteboardType</code> is our custom type use through out eg. <code class="highlighter-rouge">NSPasteboard.PasteboardType(rawValue: "mymoney.account")</code>.</p>
-
-<h2 id="2-handle-when-dropped">2. Handle when dropped</h2>
+<h2 id="3-handle-when-dropped">3. Handle when dropped</h2>
 
 <p>Not surprisingly, the other 2 methods are for the destination table view when dropped.</p>
 

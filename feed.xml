@@ -6,8 +6,8 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 05 Apr 2019 12:33:23 +0800</pubDate>
-    <lastBuildDate>Fri, 05 Apr 2019 12:33:23 +0800</lastBuildDate>
+    <pubDate>Fri, 05 Apr 2019 16:00:10 +0800</pubDate>
+    <lastBuildDate>Fri, 05 Apr 2019 16:00:10 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -793,11 +793,24 @@ swift package generate-xcodeproj
 
 &lt;p&gt;I will use an example of a table view of accounts, with an array of &lt;code class=&quot;highlighter-rouge&quot;&gt;accounts&lt;/code&gt; as the data model. This data model could be a &lt;code class=&quot;highlighter-rouge&quot;&gt;fetchedResultsController.fetchedObjects&lt;/code&gt; for Core Data. To persist the new ordering, you have to save it yourself.&lt;/p&gt;
 
-&lt;h2 id=&quot;1-write-to-pasteboard-when-dragged&quot;&gt;1. Write to pasteboard when dragged&lt;/h2&gt;
+&lt;h2 id=&quot;1-register-the-pasteboard-type-to-accept-drops&quot;&gt;1. Register the pasteboard type to accept drops&lt;/h2&gt;
 
-&lt;p&gt;The first method is for the source table view. When a row is being dragged, you write your model to pasteboard.&lt;/p&gt;
+&lt;p&gt;Drag and drop is versatile and items can be dropped across apps and views. The “communication” is via pasteboard, kind of like a temporary holding area for the dragged item.&lt;/p&gt;
 
-&lt;p&gt;The pasteboard is like a temporary holding area for the dragged item.&lt;/p&gt;
+&lt;p&gt;In your &lt;strong&gt;destination view&lt;/strong&gt; where items will be dropped, you need to register the type of items that you can handle.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Let's say our app can accept this &quot;mymoney.account&quot; type&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;accountPasteboardType&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSPasteboard&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;PasteboardType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rawValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;mymoney.account&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tableView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;registerForDraggedTypes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accountPasteboardType&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;2-write-to-pasteboard-when-dragged&quot;&gt;2. Write to pasteboard when dragged&lt;/h2&gt;
+
+&lt;p&gt;When a row is being dragged, you write your model’s data to pasteboard.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AccountsView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSTableViewDataSource&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;c1&quot;&gt;// For the source table view&lt;/span&gt;
@@ -814,9 +827,7 @@ swift package generate-xcodeproj
 
 &lt;p&gt;We use &lt;code class=&quot;highlighter-rouge&quot;&gt;account.uuid&lt;/code&gt;, which is a String representation. If you use Core Data &lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObject&lt;/code&gt;, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;objectID.uriRepresentation().absoluteString&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;Lastly, &lt;code class=&quot;highlighter-rouge&quot;&gt;accountPasteboardType&lt;/code&gt; is our custom type use through out eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;NSPasteboard.PasteboardType(rawValue: &quot;mymoney.account&quot;)&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-handle-when-dropped&quot;&gt;2. Handle when dropped&lt;/h2&gt;
+&lt;h2 id=&quot;3-handle-when-dropped&quot;&gt;3. Handle when dropped&lt;/h2&gt;
 
 &lt;p&gt;Not surprisingly, the other 2 methods are for the destination table view when dropped.&lt;/p&gt;
 
