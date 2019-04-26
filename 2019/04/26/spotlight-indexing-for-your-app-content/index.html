@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Spotlight Indexing for Your App Content</title>
+  <meta name="description" content="If your app has any data or content, you will probably want to implement spotlight indexing, so that users can conveniently search in spotlight." />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@samwize" />
+    <meta name="twitter:title" content="Spotlight Indexing for Your App Content" />
+    <meta name="twitter:image" content="https://samwize.com" />
+    
+    <meta name="twitter:description"  content="If your app has any data or content, you will probably want to implement spotlight indexing, so that users can conveniently search in spotlight." />
+    
+  
+
+  <meta property="og:site_name" content="@samwize" />
+  <meta property="og:title" content="Spotlight Indexing for Your App Content"/>
+  
+  <meta property="og:description" content="If your app has any data or content, you will probably want to implement spotlight indexing, so that users can conveniently search in spotlight." />
+  
+  <meta property="og:image" content="https://samwize.com" />
+  <meta property="og:url" content="https://samwize.com/2019/04/26/spotlight-indexing-for-your-app-content/" >
+  <meta property="og:type" content="blog" />
+  <meta property="article:published_time" content="2019-04-26T15:49:43+08:00">
+
+  <link rel="canonical" href="https://samwize.com/2019/04/26/spotlight-indexing-for-your-app-content/">
+
+  <link rel="icon" type="image/png" href="/images/favicon-180.png" />
+  <link rel="apple-touch-icon" href="/images/favicon-192.png"/>
+
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8504591086876220",
+            enable_page_level_ads: true
+       });
+  </script>
+
+</head>
+  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="https://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Spotlight Indexing for Your App Content</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2019-04-26T15:49:43+08:00">26 April 2019</time>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p>If your app has any data or content, you will probably want to implement spotlight indexing, so that users can conveniently search in spotlight.</p>
+
+<p><img src="https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/Art/numbers_2x.png" alt="A searched item" /></p>
+
+<h2 id="1-create-the-searchable-items">1. Create the searchable items</h2>
+
+<p>Let’s start with creating <code class="highlighter-rouge">CSSearchableItem</code> for a model in the app. We use the model <code class="highlighter-rouge">station</code> as an example.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">CoreSpotlight</span>
+<span class="kd">import</span> <span class="kt">MobileCoreServices</span>
+
+<span class="kd">func</span> <span class="nf">createSearchableItem</span><span class="p">(</span><span class="n">_</span> <span class="nv">station</span><span class="p">:</span> <span class="kt">Station</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">CSSearchableItem</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">attributeSet</span> <span class="o">=</span> <span class="kt">CSSearchableItemAttributeSet</span><span class="p">(</span><span class="nv">itemContentType</span><span class="p">:</span> <span class="n">kUTTypeData</span> <span class="k">as</span> <span class="kt">String</span><span class="p">)</span>
+    <span class="n">attributeSet</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">attributeSet</span><span class="o">.</span><span class="n">contentDescription</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">description</span>
+    <span class="n">attributeSet</span><span class="o">.</span><span class="n">thumbnailData</span> <span class="o">=</span> <span class="n">station</span><span class="o">.</span><span class="n">logo</span><span class="o">.</span><span class="nf">pngData</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kt">CSSearchableItem</span><span class="p">(</span><span class="nv">uniqueIdentifier</span><span class="p">:</span> <span class="n">station</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="nv">domainIdentifier</span><span class="p">:</span> <span class="s">"station"</span><span class="p">,</span> <span class="nv">attributeSet</span><span class="p">:</span> <span class="n">attributeSet</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The above is the minimal data that you are recommended to provide. You could provide more <a href="https://developer.apple.com/documentation/corespotlight/cssearchableitemattributeset">metadata</a>.</p>
+
+<h2 id="2-index-them-all">2. Index them all</h2>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">indexAll</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">stations</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="k">let</span> <span class="nv">items</span> <span class="o">=</span> <span class="n">stations</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="nf">createSearchableItem</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span> <span class="p">}</span>
+    <span class="kt">CSSearchableIndex</span><span class="o">.</span><span class="nf">default</span><span class="p">()</span><span class="o">.</span><span class="nf">indexSearchableItems</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">error</span> <span class="o">=</span> <span class="nv">$0</span> <span class="p">{</span>
+            <span class="nf">logError</span><span class="p">(</span><span class="n">error</span><span class="o">.</span><span class="n">localizedDescription</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Using <code class="highlighter-rouge">CSSearchableIndex</code>, you add your items to the index. Do a search, and you should see in spotlight results.</p>
+
+<p><em>PITFALL: Simulator might not work, so try on a real device.</em></p>
+
+<h2 id="3-handle-when-tap-on-an-item">3. Handle when tap on an item</h2>
+
+<p>In your app delegate, implement <code class="highlighter-rouge">application:continueUserActivity:restorationHandler:</code>, the user activity handoff method.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="k">continue</span> <span class="nv">userActivity</span><span class="p">:</span> <span class="kt">NSUserActivity</span><span class="p">,</span> <span class="nv">restorationHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">([</span><span class="kt">UIUserActivityRestoring</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">userActivity</span><span class="o">.</span><span class="n">activityType</span> <span class="o">==</span> <span class="kt">CSSearchableItemActionType</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">identifier</span> <span class="o">=</span> <span class="n">userActivity</span><span class="o">.</span><span class="n">userInfo</span><span class="p">?</span> <span class="p">[</span><span class="kt">CSSearchableItemActivityIdentifier</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">String</span> <span class="p">{</span>
+            <span class="c1">// Handle it. Navigate to a certain screen, or perform certain action.</span>
+            <span class="k">return</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The same app delegate method is <a href="https://samwize.com/2017/11/10/guide-to-universal-links/">used for universal link</a> too.</p>
+
+<h2 id="4-maintain-the-index">4. Maintain the index</h2>
+
+<p>To update an item, use <code class="highlighter-rouge">indexSearchableItems()</code> with the same <code class="highlighter-rouge">uniqueIdentifier</code>.</p>
+
+<p>To delete, you can use <code class="highlighter-rouge">deleteSearchableItemsWithIdentifiers</code> and <a href="https://developer.apple.com/documentation/corespotlight/cssearchableindex">other methods</a>.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+                <a class="icon-twitter" href="http://twitter.com/share?text=Spotlight+Indexing+for+Your+App+Content&amp;url=https://samwize.com/2019/04/26/spotlight-indexing-for-your-app-content"
+                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
+                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
+                </a>
+              
+            
+              
+                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Spotlight+Indexing+for+Your+App+Content&amp;u=https://samwize.com/2019/04/26/spotlight-indexing-for-your-app-content"
+                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
+                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
+                </a>
+              
+            
+              
+            
+              
+                <a class="icon-google-plus" href="https://plus.google.com/share?t=Spotlight+Indexing+for+Your+App+Content&amp;url=https://samwize.com/2019/04/26/spotlight-indexing-for-your-app-content"
+                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
+                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
+                </a>
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>
