@@ -102,7 +102,9 @@
 
 <p>Until 2011, developers may create different App ID Prefix, which group a number of apps together so as to share keychain and <code class="highlighter-rouge">UIPasteboard</code>. This is way for “cross-app communication”.</p>
 
-<p>Then in 2011, Apple takeaway this pretty needless feature, and use the default team ID that is associated with an Apple team account. This is simpler.</p>
+<p>Then in 2011, Apple took away this pretty needless feature, and use the default team ID that is associated with an Apple team account. This is simpler.</p>
+
+<p><em>UPDATE: I have another <a href="/2018/09/23/app-group-for-sharing-between-apps-and-extensions/">post on App Group, and explaining the different IDs</a>.</em></p>
 
 <h2 id="i-have-multiple-prefixes">I have multiple prefixes</h2>
 
@@ -113,6 +115,14 @@
 <p>The error was misleading to start with.</p>
 
 <p>And you can only find out your app ID prefix by logging into <a href="https://developer.apple.com/">Apple developer member portal</a>, and look under App IDs.</p>
+
+<h2 id="how-to-see-my-entitlement-and-keychain-groups">How to see my entitlement and keychain groups?</h2>
+
+<p>To verify that prefix ID is correct, check the actual entitlements in the app.</p>
+
+<p>You can <a href="https://developer.apple.com/library/archive/qa/qa1798/_index.html">inspect them</a> when you upload the app via Xcode, or validate an existing archive.</p>
+
+<p>Or if you have an IPA, you can inspect the content and look for “embedded.mobileprovision”.</p>
 
 <h2 id="can-i-migrate-to-team-id-prefix">Can I migrate to team ID prefix?</h2>
 
