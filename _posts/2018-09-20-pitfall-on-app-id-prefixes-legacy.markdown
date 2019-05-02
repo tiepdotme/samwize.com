@@ -21,7 +21,9 @@ In [Technical Note TN2311](https://developer.apple.com/library/archive/technotes
 
 Until 2011, developers may create different App ID Prefix, which group a number of apps together so as to share keychain and `UIPasteboard`. This is way for "cross-app communication".
 
-Then in 2011, Apple takeaway this pretty needless feature, and use the default team ID that is associated with an Apple team account. This is simpler.
+Then in 2011, Apple took away this pretty needless feature, and use the default team ID that is associated with an Apple team account. This is simpler.
+
+_UPDATE: I have another [post on App Group, and explaining the different IDs](/2018/09/23/app-group-for-sharing-between-apps-and-extensions/)._
 
 ## I have multiple prefixes
 
@@ -32,6 +34,14 @@ It took me a while to realize the issue.
 The error was misleading to start with.
 
 And you can only find out your app ID prefix by logging into [Apple developer member portal](https://developer.apple.com/), and look under App IDs.
+
+## How to see my entitlement and keychain groups?
+
+To verify that prefix ID is correct, check the actual entitlements in the app.
+
+You can [inspect them](https://developer.apple.com/library/archive/qa/qa1798/_index.html) when you upload the app via Xcode, or validate an existing archive.
+
+Or if you have an IPA, you can inspect the content and look for "embedded.mobileprovision".
 
 ## Can I migrate to team ID prefix?
 
