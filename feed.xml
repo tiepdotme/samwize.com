@@ -6,8 +6,8 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 02 May 2019 14:50:59 +0800</pubDate>
-    <lastBuildDate>Thu, 02 May 2019 14:50:59 +0800</lastBuildDate>
+    <pubDate>Thu, 02 May 2019 16:58:41 +0800</pubDate>
+    <lastBuildDate>Thu, 02 May 2019 16:58:41 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -49,9 +49,9 @@ fastlane match nuke enterprise
 
 &lt;p&gt;There is another solution that is manual, but you can be selective.&lt;/p&gt;
 
-&lt;p&gt;For example, I only want to renew my development certificate (keeping the distribution), and removing certain provisioning profiles.&lt;/p&gt;
+&lt;p&gt;For example, I can renew my development certificate (keeping the distribution), or remove only certain provisioning profiles, or affect only a certain application.&lt;/p&gt;
 
-&lt;p&gt;To do so, simply removing the respective files in the repository.&lt;/p&gt;
+&lt;p&gt;To do so, simply removing the files in the repository accordingly.&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;/certs/development/54V6LXXXXX.p12/cer&lt;/li&gt;
@@ -60,7 +60,9 @@ fastlane match nuke enterprise
 
 &lt;p&gt;Then do &lt;strong&gt;git commit and push&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;When you run &lt;code class=&quot;highlighter-rouge&quot;&gt;fastlane match&lt;/code&gt; again, it will re-create new cert and profile.&lt;/p&gt;
+&lt;p&gt;You should also go to Apple Developer portal and delete the provisioning profiles, otherwise you will end up with profile names with random digits as suffix (fastlane added to avoid name collision).&lt;/p&gt;
+
+&lt;p&gt;When you run &lt;code class=&quot;highlighter-rouge&quot;&gt;fastlane match&lt;/code&gt; again, it will re-create new cert and profiles.&lt;/p&gt;
 </description>
         <pubDate>Thu, 02 May 2019 14:31:00 +0800</pubDate>
         <link>https://samwize.com/2019/05/02/how-to-renew-cert-for-fastlane-match/</link>

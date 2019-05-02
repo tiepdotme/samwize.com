@@ -119,9 +119,9 @@ fastlane match nuke enterprise
 
 <p>There is another solution that is manual, but you can be selective.</p>
 
-<p>For example, I only want to renew my development certificate (keeping the distribution), and removing certain provisioning profiles.</p>
+<p>For example, I can renew my development certificate (keeping the distribution), or remove only certain provisioning profiles, or affect only a certain application.</p>
 
-<p>To do so, simply removing the respective files in the repository.</p>
+<p>To do so, simply removing the files in the repository accordingly.</p>
 
 <ul>
   <li>/certs/development/54V6LXXXXX.p12/cer</li>
@@ -130,7 +130,9 @@ fastlane match nuke enterprise
 
 <p>Then do <strong>git commit and push</strong>.</p>
 
-<p>When you run <code class="highlighter-rouge">fastlane match</code> again, it will re-create new cert and profile.</p>
+<p>You should also go to Apple Developer portal and delete the provisioning profiles, otherwise you will end up with profile names with random digits as suffix (fastlane added to avoid name collision).</p>
+
+<p>When you run <code class="highlighter-rouge">fastlane match</code> again, it will re-create new cert and profiles.</p>
 
         </section>
         <footer class="post-footer">
