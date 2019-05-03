@@ -39,13 +39,15 @@ Like a nuclear bomb, it is pretty destructive.
 
 There is another solution that is manual, but you can be selective.
 
-For example, I only want to renew my development certificate (keeping the distribution), and removing certain provisioning profiles.
+For example, I can renew my development certificate (keeping the distribution), or remove only certain provisioning profiles, or affect only a certain application.
 
-To do so, simply removing the respective files in the repository.
+To do so, simply removing the files in the repository accordingly.
 
 - /certs/development/54V6LXXXXX.p12/cer
 - /profiles/development/whichever.mobileprovision
 
 Then do **git commit and push**.
 
-When you run `fastlane match` again, it will re-create new cert and profile.
+You should also go to Apple Developer portal and delete the provisioning profiles, otherwise you will end up with profile names with random digits as suffix (fastlane added to avoid name collision).
+
+When you run `fastlane match` again, it will re-create new cert and profiles.
