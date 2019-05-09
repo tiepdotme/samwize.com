@@ -6,6 +6,8 @@ permalink: /articles/
 
 <p>{{ site.posts.size }} articles ∙ {{ site.categories.size }} categories</p>
 
+<hr>
+
 <ul class="tag-cloud">
 {% for tag in site.categories %}
   <li style="font-size: {{ tag | last | size | times: 200 | divided_by: site.categories.size | plus: 100 }}%">
