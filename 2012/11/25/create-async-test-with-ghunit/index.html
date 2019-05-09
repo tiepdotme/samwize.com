@@ -105,7 +105,7 @@
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">testAsync</span> <span class="p">{</span>
     <span class="c1">// Prepare asynchronous action
 </span>    <span class="p">[</span><span class="n">self</span> <span class="nf">prepare</span><span class="p">];</span>
-    
+
     <span class="c1">// The method call with block
 </span>    <span class="k">static</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">_objects</span><span class="p">;</span>
     <span class="p">[</span><span class="n">Query</span> <span class="nf">findObjectsInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">objects</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
@@ -119,7 +119,7 @@
         <span class="c1">// Notify that block method has completed
 </span>        <span class="p">[</span><span class="n">self</span> <span class="nf">notify</span><span class="p">:</span><span class="n">kGHUnitWaitStatusSuccess</span> <span class="nf">forSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">testObjectRelationships</span><span class="p">)];</span>
     <span class="p">}];</span>
-    
+
     <span class="c1">// Wait for block to finish, or timeout
 </span>    <span class="p">[</span><span class="n">self</span> <span class="nf">waitForStatus</span><span class="p">:</span><span class="n">kGHUnitWaitStatusSuccess</span> <span class="nf">timeout</span><span class="p">:</span><span class="mi">10</span><span class="p">.</span><span class="mi">0</span><span class="p">];</span>
 
@@ -153,19 +153,9 @@
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=Create+Async+Test+with+GHUnit&amp;u=https://samwize.com/2012/11/25/create-async-test-with-ghunit"
-                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
-                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
-                </a>
-              
             
               
             
-              
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=Create+Async+Test+with+GHUnit&amp;url=https://samwize.com/2012/11/25/create-async-test-with-ghunit"
-                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
-                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
-                </a>
               
             
           </section>

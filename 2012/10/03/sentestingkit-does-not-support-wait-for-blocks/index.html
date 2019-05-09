@@ -91,8 +91,8 @@
 <p>Though there is <a href="https://gist.github.com/2254570">a workaround</a> using semaphore.</p>
 
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">testBlockMethod</span> <span class="p">{</span>
-    <span class="n">dispatch_semaphore_t</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>    
-    
+    <span class="n">dispatch_semaphore_t</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
     <span class="c1">// Your block method eg. AFNetworking
 </span>    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://httpbin.org/ip"</span><span class="p">];</span>
     <span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
@@ -100,15 +100,15 @@
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"IP Address: %@"</span><span class="p">,</span> <span class="p">[</span><span class="n">JSON</span> <span class="nf">valueForKeyPath</span><span class="p">:</span><span class="s">@"origin"</span><span class="p">]);</span>
         <span class="n">STAssertNotNil</span><span class="p">(</span><span class="n">JSON</span><span class="p">,</span> <span class="s">@"JSON not loaded"</span><span class="p">);</span>
         <span class="c1">// Signal that block has completed
-</span>        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>        
+</span>        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
     <span class="p">}</span> <span class="n">failure</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
     <span class="p">[</span><span class="n">operation</span> <span class="nf">start</span><span class="p">];</span>
-    
+
     <span class="c1">// Run loop
 </span>    <span class="k">while</span> <span class="p">(</span><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_NOW</span><span class="p">))</span>
         <span class="p">[[</span><span class="n">NSRunLoop</span> <span class="nf">currentRunLoop</span><span class="p">]</span> <span class="nf">runMode</span><span class="p">:</span><span class="n">NSDefaultRunLoopMode</span>
                                  <span class="nf">beforeDate</span><span class="p">:[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
-    <span class="n">dispatch_release</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>    
+    <span class="n">dispatch_release</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
@@ -126,19 +126,9 @@
               
             
               
-                <a class="icon-facebook" href="https://www.facebook.com/sharer.php?t=SenTestingKit+does+not+support+wait+for+blocks&amp;u=https://samwize.com/2012/10/03/sentestingkit-does-not-support-wait-for-blocks"
-                  onclick="window.open(this.href, 'facebook-share', 'width=550,height=255');return false;">
-                <i class="fa fa-facebook"></i><span class="hidden">facebook</span>
-                </a>
-              
             
               
             
-              
-                <a class="icon-google-plus" href="https://plus.google.com/share?t=SenTestingKit+does+not+support+wait+for+blocks&amp;url=https://samwize.com/2012/10/03/sentestingkit-does-not-support-wait-for-blocks"
-                  onclick="window.open(this.href, 'google-plus-share', 'width=550,height=255');return false;">
-                <i class="fa fa-google-plus"></i><span class="hidden">google-plus</span>
-                </a>
               
             
           </section>
