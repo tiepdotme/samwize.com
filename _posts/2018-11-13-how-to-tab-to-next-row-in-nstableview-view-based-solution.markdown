@@ -2,7 +2,7 @@
 layout: post
 title: "How to Tab to Next Row in NSTableView (View-based Solution)"
 date: 2018-11-13T15:41:18+08:00
-categories: [macOS, osx]
+categories: [macOS]
 ---
 
 `NSTableView` has a lot of legacy, and a simple UX of navigating from row to row (or cell to cell) proved to be very challenging.

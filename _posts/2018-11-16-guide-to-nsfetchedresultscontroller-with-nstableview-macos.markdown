@@ -2,7 +2,7 @@
 layout: post
 title: "Guide to NSFetchedResultsController With NSTableView (macOS)"
 date: 2018-11-16T10:20:44+08:00
-categories: [macOS, osx]
+categories: [macOS]
 ---
 
 I have a post on implementing `NSFetchedResultsController` [for iOS `UITableView`](/2015/10/27/implementing-nsfetchedresultscontroller-in-swift/).

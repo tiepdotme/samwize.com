@@ -2,7 +2,7 @@
 layout: post
 title: "Swift Lint to Improve Code Quality"
 date: 2018-03-08T13:43:08+08:00
-categories: [Swift, Code]
+categories: [Swift, Coding]
 ---
 
 [SwiftLint](https://github.com/realm/SwiftLint) helps to enforce coding style.

@@ -3,10 +3,10 @@ layout: post
 title: "Unit Tests with CocoaPods"
 date: 2012-10-01 23:41
 comments: true
-categories: [iOS, OSX, Testing]
+categories: [iOS, macOS, Testing]
 ---
 
-[CocoaPods](http://cocoapods.org/) is a tool for managing dependecies for iOS and Mac OS X projects. 
+[CocoaPods](http://cocoapods.org/) is a tool for managing dependecies for iOS and Mac OS X projects.
 
 [Getting started](http://cocoapods.org/) with using CocoaPods is easy. The tricky part is getting used to opening Xcode workspace (eg. `App.xcworkspace`) instead of Xocde project. But that's not what I want to covered in this post.
 

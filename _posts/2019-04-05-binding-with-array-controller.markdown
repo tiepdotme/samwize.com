@@ -2,7 +2,7 @@
 layout: post
 title: "Binding With Array Controller"
 date: 2019-04-05T11:43:10+08:00
-categories: [Cocoa]
+categories: [macOS]
 ---
 
 In my [first guide to binding](/2018/12/06/guide-to-binding-nstableview-to-nsfetchedresultscontroller/), it uses `NSFetchedResultsController`, which is tightly coupled to the Core Data framework.

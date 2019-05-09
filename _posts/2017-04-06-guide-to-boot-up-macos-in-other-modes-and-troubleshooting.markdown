@@ -3,7 +3,7 @@ layout: post
 title: "Guide to Booting Up macOS in Other Modes, and Troubleshooting"
 date: 2017-04-06T23:02:29+08:00
 image: /images/macos-bootup-hang.jpg
-categories: [mac]
+categories: [Mac]
 ---
 
 This guide is for troubleshooting macOS in the scenario that it can't boot up.
@@ -69,7 +69,7 @@ _Hold Option_
 
 You can startup from other device such as external drive. It is possible to load the entire OS in an external drive, and boot from there.
 
---- 
+---
 
 ## Common Bootup Errors & Fixes
 
