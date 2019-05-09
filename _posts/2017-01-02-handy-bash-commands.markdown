@@ -17,6 +17,9 @@ categories: [bash]
 
 `sips` is a CLI tool included in Mac, but the commands is not pretty. If you can install other tools, [magick mogrify](https://imagemagick.org/script/mogrify.php) does resizing, converting formats, and more.
 
+    magick mogrify -resize 800x800 *.jpg
+    magick mogrify -format jpg *.png
+
 ## List Process Running on a Port
 
     # eg. Port 8080
@@ -82,3 +85,9 @@ I usually backup my external drive data to ANOTHER external drive, just keeping 
     rsync -axHAWXS --numeric-ids --info=progress2 /drive/primary/ /drive/backup/
 
 The above will sync from everything from "primary" folder to "backup" folder.
+
+## Resize a video
+
+I shoot too much video with my GoPro, yet I want to keep all of them without spending $ buying hard drives. To compromise, I downsize some of the raw footage. Install ffmpeg with `brew install ffmpeg` first.
+
+    ffmpeg -i GH031931.MP4 -s 960x540 -preset slow -crf 28 -c:a copy GH031931-reduced.MP4

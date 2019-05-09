@@ -26,3 +26,9 @@ Time flies much faster in sandbox than actual. So a 1 week subscription will be 
 |1 year				|1 hour
 
 Also, it will automatically renew **maximum 6 times**.
+
+_UPDATE: WWDC 2018 seems to change to maximum 5 renewals_
+
+Here's a screenshot right from WWDC 2018:
+
+![Condensed intervals for development](/images/subscription-sandbox-interval.png)
