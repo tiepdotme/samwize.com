@@ -96,6 +96,10 @@ sips -s format jpeg *.png --out mydirectory
 
 <p><code class="highlighter-rouge">sips</code> is a CLI tool included in Mac, but the commands is not pretty. If you can install other tools, <a href="https://imagemagick.org/script/mogrify.php">magick mogrify</a> does resizing, converting formats, and more.</p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>magick mogrify -resize 800x800 *.jpg
+magick mogrify -format jpg *.png
+</code></pre></div></div>
+
 <h2 id="list-process-running-on-a-port">List Process Running on a Port</h2>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># eg. Port 8080
@@ -171,6 +175,13 @@ gtimeout 60 streamlink ...
 </code></pre></div></div>
 
 <p>The above will sync from everything from “primary” folder to “backup” folder.</p>
+
+<h2 id="resize-a-video">Resize a video</h2>
+
+<p>I shoot too much video with my GoPro, yet I want to keep all of them without spending $ buying hard drives. To compromise, I downsize some of the raw footage. Install ffmpeg with <code class="highlighter-rouge">brew install ffmpeg</code> first.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffmpeg -i GH031931.MP4 -s 960x540 -preset slow -crf 28 -c:a copy GH031931-reduced.MP4
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
