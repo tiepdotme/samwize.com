@@ -3,7 +3,7 @@ layout: post
 title: "API Design Rules for iOS/OS X"
 date: 2012-09-28 21:43
 comments: true
-categories: [iOS, macX, API, Design]
+categories: [iOS, macOS, API, Design]
 published: true
 ---
 
