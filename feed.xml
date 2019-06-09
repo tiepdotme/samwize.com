@@ -6,9 +6,45 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 31 May 2019 11:26:38 +0800</pubDate>
-    <lastBuildDate>Fri, 31 May 2019 11:26:38 +0800</lastBuildDate>
+    <pubDate>Sun, 09 Jun 2019 15:38:05 +0800</pubDate>
+    <lastBuildDate>Sun, 09 Jun 2019 15:38:05 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>How to Enable Sidecar for the Unsupported Macbooks</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://www.macrumors.com/2019/06/06/macos-catalina-sidecar-limited-to-newer-macs/&quot;&gt;macOS 10.15 Catalina&lt;/a&gt; (still beta) now supports running a secondary display using an iPad!&lt;/p&gt;
+
+&lt;p&gt;I was disappointed to realize that it does not support for my old &lt;strong&gt;MacBook early 2015&lt;/strong&gt;. I was running an iPad Mini (5th generation 2019), but I know the problem should be due to the MacBook which is driving the display.&lt;/p&gt;
+
+&lt;p&gt;But I got it working!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/sidecar-with-macbook-2015.jpg&quot; alt=&quot;My 2015 MacBook + iPad Mini&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+
+&lt;p&gt;It turned out that Sidecar is being hidden for some older hardware, and with some simple overriding of the defaults, we can make it show.&lt;/p&gt;
+
+&lt;p&gt;Open your iTerm/Terminal and give these commands:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;defaults write com.apple.sidecar.display hasShownPref &lt;span class=&quot;nt&quot;&gt;-bool&lt;/span&gt; YES
+defaults write com.apple.sidecar.display allowAllDevices &lt;span class=&quot;nt&quot;&gt;-bool&lt;/span&gt; YES
+open /System/Library/PreferencePanes/Sidecar.prefPane
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;error-on-my-first-attempt&quot;&gt;Error on my first attempt&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/sidecar-pref-error.jpg&quot; alt=&quot;Error&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;On my first attempt, it throws me that error. But perhaps due to a reboot, the Sidecar shows up mysteriously the next day. So don’t panic if it didn’t work at first.&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 09 Jun 2019 15:09:30 +0800</pubDate>
+        <link>https://samwize.com/2019/06/09/how-to-enable-sidecar-even-for-the-unsupported-macbooks/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/06/09/how-to-enable-sidecar-even-for-the-unsupported-macbooks/</guid>
+        
+        
+        <category>Mac</category>
+        
+      </item>
     
       <item>
         <title>Mac Tips: Using Finder to Rename Multiple Files, Etc</title>
@@ -689,77 +725,6 @@ swift package generate-xcodeproj
         <category>macOS</category>
         
         <category>App Review</category>
-        
-      </item>
-    
-      <item>
-        <title>Closing a Modal Window</title>
-        <description>&lt;p&gt;Window(s) is a more important concept for macOS than in iOS, because a mac app can have multiple windows while iOS has only 1 key window.&lt;/p&gt;
-
-&lt;p&gt;Window has certain functionalities, many &lt;a href=&quot;https://github.com/lukakerr/NSWindowStyles&quot;&gt;styles&lt;/a&gt;, but it is cumbersome to create. So we are used to creating &lt;code class=&quot;highlighter-rouge&quot;&gt;NSViewController&lt;/code&gt; as a scene.&lt;/p&gt;
-
-&lt;p&gt;If you were to create a modal window conveniently, eg. using &lt;code class=&quot;highlighter-rouge&quot;&gt;presentingViewController.presentAsModalWindow(anotherViewController)&lt;/code&gt;, you will need some work to handle window events.&lt;/p&gt;
-
-&lt;p&gt;This code handles the &lt;strong&gt;window close event&lt;/strong&gt;, which can happen in 2 ways:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;User press ESC&lt;/li&gt;
-  &lt;li&gt;User clicks on the red close button&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnotherViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSViewController&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;viewDidLoad&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;delegate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Press ESC&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cancelOperation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-            &lt;span class=&quot;nf&quot;&gt;dismiss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nf&quot;&gt;presentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// Validate and throw errors&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AnotherViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSWindowDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// Click window close button&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;windowShouldClose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSWindow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;nf&quot;&gt;presentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The code is pretty self explanatory.&lt;/p&gt;
-
-&lt;p&gt;The gist is that Cocoa &lt;code class=&quot;highlighter-rouge&quot;&gt;NSViewController&lt;/code&gt; becomes the window’s delegate.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSWindowDelegate&lt;/code&gt; has more events, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;windowWillClose&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;windowWillMiniaturize&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;customWindowsToEnterFullScreen&lt;/code&gt; etc, that you can make use of.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;cancelOperation&lt;/code&gt; is the keyboard shortcut of pressing ESC. You have to call &lt;code class=&quot;highlighter-rouge&quot;&gt;dismiss&lt;/code&gt; explicitly, which will NOT ask for &lt;code class=&quot;highlighter-rouge&quot;&gt;windowShouldClose&lt;/code&gt;.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 21 Feb 2019 14:50:12 +0800</pubDate>
-        <link>https://samwize.com/2019/02/21/closing-a-modal-window/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/02/21/closing-a-modal-window/</guid>
-        
-        
-        <category>macOS</category>
         
       </item>
     

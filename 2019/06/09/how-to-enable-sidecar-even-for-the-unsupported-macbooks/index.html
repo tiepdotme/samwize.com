@@ -7,8 +7,8 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Swift Script to Download All WWDC 2016 Videos and PDFs Automatically</title>
-  <meta name="description" content="tldr: Check out wwdc-dl, the github project with the Swift scripts" />
+  <title>How to Enable Sidecar for the Unsupported Macbooks</title>
+  <meta name="description" content="macOS 10.15 Catalina (still beta) now supports running a secondary display using an iPad!" />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -17,24 +17,24 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Swift Script to Download All WWDC 2016 Videos and PDFs Automatically" />
+    <meta name="twitter:title" content="How to Enable Sidecar for the Unsupported Macbooks" />
     <meta name="twitter:image" content="https://samwize.com" />
     
-    <meta name="twitter:description"  content="tldr: Check out wwdc-dl, the github project with the Swift scripts" />
+    <meta name="twitter:description"  content="macOS 10.15 Catalina (still beta) now supports running a secondary display using an iPad!" />
     
   
 
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Swift Script to Download All WWDC 2016 Videos and PDFs Automatically"/>
+  <meta property="og:title" content="How to Enable Sidecar for the Unsupported Macbooks"/>
   
-  <meta property="og:description" content="tldr: Check out wwdc-dl, the github project with the Swift scripts" />
+  <meta property="og:description" content="macOS 10.15 Catalina (still beta) now supports running a secondary display using an iPad!" />
   
   <meta property="og:image" content="https://samwize.com" />
-  <meta property="og:url" content="https://samwize.com/2016/06/16/swift-script-to-download-all-wwdc-2016-videos-and-pdfs-automatically/" >
+  <meta property="og:url" content="https://samwize.com/2019/06/09/how-to-enable-sidecar-even-for-the-unsupported-macbooks/" >
   <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2016-06-16T02:11:10+08:00">
+  <meta property="article:published_time" content="2019-06-09T15:09:30+08:00">
 
-  <link rel="canonical" href="https://samwize.com/2016/06/16/swift-script-to-download-all-wwdc-2016-videos-and-pdfs-automatically/">
+  <link rel="canonical" href="https://samwize.com/2019/06/09/how-to-enable-sidecar-even-for-the-unsupported-macbooks/">
 
   <link rel="icon" type="image/png" href="/images/favicon-180.png" />
   <link rel="apple-touch-icon" href="/images/favicon-192.png"/>
@@ -54,7 +54,7 @@
   </script>
 
 </head>
-  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-f6de41c1bdc570a29ff268e2c660f7bf.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -66,9 +66,9 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Swift Script to Download All WWDC 2016 Videos and PDFs Automatically</h1>
+            <h1 class="post-title">How to Enable Sidecar for the Unsupported Macbooks</h1>
             <div class="cf post-meta-text">
-              <time datetime="2016-06-16T02:11:10+08:00">16 June 2016</time>
+              <time datetime="2019-06-09T15:09:30+08:00">09 June 2019</time>
             </div>
           </div>
         </div>
@@ -82,47 +82,37 @@
           </div>
           <a name="topofpage"></a>
           
-          <p><em>tldr: Check out <a href="https://github.com/samwize/wwdc-dl">wwdc-dl</a>, the github project with the Swift scripts</em></p>
+          <p><a href="https://www.macrumors.com/2019/06/06/macos-catalina-sidecar-limited-to-newer-macs/">macOS 10.15 Catalina</a> (still beta) now supports running a secondary display using an iPad!</p>
 
-<p>While I may be at WWDC physically (for the first time!), I still prefer to download and comfortably watch the sessions on my MacBook.</p>
+<p>I was disappointed to realize that it does not support for my old <strong>MacBook early 2015</strong>. I was running an iPad Mini (5th generation 2019), but I know the problem should be due to the MacBook which is driving the display.</p>
 
-<p>It is refreshing to be live and watching the presenter, and <em>excessively applause every now and then</em>.</p>
+<p>But I got it working!</p>
 
-<p>But it does not value add much.</p>
+<p><img src="/images/sidecar-with-macbook-2015.jpg" alt="My 2015 MacBook + iPad Mini" /></p>
 
-<p>A more efficient way is to skim through the PDF first, then watch the interested video at 1.5x speed (:</p>
+<h2 id="solution">Solution</h2>
 
-<h2 id="my-swift-script">My Swift Script</h2>
+<p>It turned out that Sidecar is being hidden for some older hardware, and with some simple overriding of the defaults, we can make it show.</p>
 
-<p>For <a href="/2015/06/14/how-to-download-all-wwdc-2015-pdf-slides-only/">WWDC 2014</a> and <a href="/2015/06/14/how-to-download-all-wwdc-2015-pdf-slides-only/">WWDC 2015</a>, I had used <a href="https://github.com/ohoachuck/wwdc-downloader">ohoachuck’s wwdc-downloader</a>. It was good, but it wasn’t updated for 2016, yet.</p>
+<p>Open your iTerm/Terminal and give these commands:</p>
 
-<p>Not too long ago I tried to <a href="/2016/05/20/introduction-to-scripting-in-swift/">write more scripts with Swift</a>.</p>
-
-<p>So I thought I write in Swift to download the session videos and PDFs automatically!</p>
-
-<p>Go check out <a href="https://github.com/samwize/wwdc-dl">wwdc-dl</a>.</p>
-
-<p>To use:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Download the PDFs first
-./wwdc-dl.swift -s 205,207,208,204,206,301,302 --pdfonly
-
-# Download the interested videos (default SD)
-./wwdc-dl.swift -s 205,302
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.apple.sidecar.display hasShownPref <span class="nt">-bool</span> YES
+defaults write com.apple.sidecar.display allowAllDevices <span class="nt">-bool</span> YES
+open /System/Library/PreferencePanes/Sidecar.prefPane
 </code></pre></div></div>
 
-<p>And they will be in <code class="highlighter-rouge">~/Documents/WWDC-2016</code>.</p>
+<h2 id="error-on-my-first-attempt">Error on my first attempt</h2>
 
-<p><em>Note: It was hacked quickly at 4am, and it is plain simple, without progress indication or any error handling eg. If there is no PDF for the session, it will just crash!</em></p>
+<p><img src="/images/sidecar-pref-error.jpg" alt="Error" /></p>
 
-<p><img src="/images/junda-wwdc-2016.jpg" alt="Hello WWDC 2016!" /></p>
+<p><em>On my first attempt, it throws me that error. But perhaps due to a reboot, the Sidecar shows up mysteriously the next day. So don’t panic if it didn’t work at first.</em></p>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Swift+Script+to+Download+All+WWDC+2016+Videos+and+PDFs+Automatically&amp;url=https://samwize.com/2016/06/16/swift-script-to-download-all-wwdc-2016-videos-and-pdfs-automatically"
+                <a class="icon-twitter" href="http://twitter.com/share?text=How+to+Enable+Sidecar+for+the+Unsupported+Macbooks&amp;url=https://samwize.com/2019/06/09/how-to-enable-sidecar-even-for-the-unsupported-macbooks"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
