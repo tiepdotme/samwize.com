@@ -6,9 +6,85 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 09 Jun 2019 15:38:05 +0800</pubDate>
-    <lastBuildDate>Sun, 09 Jun 2019 15:38:05 +0800</lastBuildDate>
+    <pubDate>Sat, 22 Jun 2019 20:30:03 +0800</pubDate>
+    <lastBuildDate>Sat, 22 Jun 2019 20:30:03 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Using URLSession for simple HTTP GET &amp; POST</title>
+        <description>&lt;p&gt;Since &lt;code class=&quot;highlighter-rouge&quot;&gt;URLSession&lt;/code&gt; was introduced in iOS 7, &lt;a href=&quot;/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/&quot;&gt;third party libraries&lt;/a&gt; have somehow lesser value.&lt;/p&gt;
+
+&lt;p&gt;This post is a quick guide with snippets to some common use cases when working with HTTP APIs using the first party Foundation framework.&lt;/p&gt;
+
+&lt;h2 id=&quot;http-get&quot;&gt;HTTP GET&lt;/h2&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;https://samwize.com/api/hero&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;dataTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;resume&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Just that few lines of code to fetch from a URL.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;dataTask()&lt;/code&gt; method is a HTTP GET request.&lt;/p&gt;
+
+&lt;h2 id=&quot;http-post&quot;&gt;HTTP POST&lt;/h2&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;https://samwize.com/api/hero&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;httpMethod&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;payload&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;id=1234&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;using&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uploadTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;resume&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;uploadTask()&lt;/code&gt; method is for a POST request. Or you may change the &lt;code class=&quot;highlighter-rouge&quot;&gt;httpMethod&lt;/code&gt; to UPDATE etc.&lt;/p&gt;
+
+&lt;h2 id=&quot;post-with-query-string&quot;&gt;POST with query string&lt;/h2&gt;
+
+&lt;p&gt;The POST request above is a simple example, with a payload that doesn’t require any percent encoding. But it is more likely that you have longer query items.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;URLQueryItem&lt;/code&gt; (also Foundation framework) provides a basic struct for constructing key-value pairs.&lt;/p&gt;
+
+&lt;p&gt;Together with &lt;code class=&quot;highlighter-rouge&quot;&gt;URLComponents&lt;/code&gt;, you can add as many key-value pairs to a &lt;code class=&quot;highlighter-rouge&quot;&gt;URLComponents&lt;/code&gt;, then access the &lt;code class=&quot;highlighter-rouge&quot;&gt;percentEncodedQuery&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;urlComponents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLComponents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;q1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLQueryItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;with space that needs encoding&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;urlComponents&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queryItems&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;payload&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urlComponents&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;percentEncodedQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;using&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;codable-model&quot;&gt;Codable Model&lt;/h2&gt;
+
+&lt;p&gt;New in Swift 4, JSON can be decoded to a &lt;code class=&quot;highlighter-rouge&quot;&gt;struct&lt;/code&gt; easily,&lt;/p&gt;
+
+&lt;p&gt;I have a separate guide to &lt;a href=&quot;/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4/&quot;&gt;Codable struct&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Let’s say in the POST API, a &lt;code class=&quot;highlighter-rouge&quot;&gt;Hero&lt;/code&gt; object in JSON is returned, we could decode it easily.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uploadTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;decoder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hero&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Hero&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Similarly, you can encode a model, then POST the JSON string/data as a payload.&lt;/p&gt;
+
+&lt;h2 id=&quot;other-resources&quot;&gt;Other Resources&lt;/h2&gt;
+
+&lt;p&gt;Apple’s official guide on &lt;a href=&quot;https://developer.apple.com/documentation/foundation/url_loading_system&quot;&gt;URL Loading System&lt;/a&gt; and &lt;a href=&quot;https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory&quot;&gt;how to fetch data&lt;/a&gt; is their guide to the networking framework. You could use &lt;code class=&quot;highlighter-rouge&quot;&gt;URLSessionConfiguration&lt;/code&gt; to configure your own session, and also use &lt;code class=&quot;highlighter-rouge&quot;&gt;URLSessionDelegate&lt;/code&gt; for a delegate pattern to receive the data.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 21 Jun 2019 18:25:00 +0800</pubDate>
+        <link>https://samwize.com/2019/06/21/simple-guide-to-urlsession-http-get-post-requests/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/06/21/simple-guide-to-urlsession-http-get-post-requests/</guid>
+        
+        
+        <category>Foundation</category>
+        
+      </item>
     
       <item>
         <title>How to Enable Sidecar for the Unsupported Macbooks</title>
@@ -662,69 +738,6 @@ swift package generate-xcodeproj
         <link>https://samwize.com/2019/02/26/preprocessor-codes-for-swift/</link>
         <guid isPermaLink="true">https://samwize.com/2019/02/26/preprocessor-codes-for-swift/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>Rejection: App Name Not Good Enough</title>
-        <description>&lt;p&gt;I have no shortage of rejections coming from Apple App Review team.&lt;/p&gt;
-
-&lt;p&gt;Today, I encountered another strange one for &lt;a href=&quot;https://whereismymoney.app&quot;&gt;my upcoming app&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/rejection-mymoney-app-name.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;guideline-238---performance&quot;&gt;Guideline 2.3.8 - Performance&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;We noticed that your app name to be displayed on the App Store does not sufficiently match the name of the app displayed when installed on macOS.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;iTunes Connect Name: &lt;strong&gt;Where Is My Money&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;App Name when Installed: &lt;strong&gt;My Money&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;App Name in About/Quit Menu: &lt;strong&gt;My Money&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I don’t see how a different name will affect performance.&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/app-store/review/guidelines/&quot;&gt;guideline&lt;/a&gt; for section 2.3 is for &lt;em&gt;Accurate Metadata&lt;/em&gt;, while 2.3.8 actually is for rating:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Metadata should be appropriate for all audiences, so make sure your app and in-app purchase icons, screenshots, and previews adhere to a 4+ age rating even if your app is rated higher. For example, if your app is a game that includes violence, select images that don’t depict a gruesome death or a gun pointed at a specific character. Use of terms like “For Kids” and “For Children” in app metadata is reserved for the Kids Category. Remember to ensure your metadata, including app name and icons (small, large, Apple Watch app, alternate icons, etc.), are similar to avoid creating confusion.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;App review is often subjective, as Apple reviewers’ guideline is to make sure the names &lt;em&gt;sufficiently match&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;why-i-didnt-use-the-same-name&quot;&gt;Why I didn’t use the same name?&lt;/h2&gt;
-
-&lt;p&gt;The reason that I did not use &lt;strong&gt;My Money&lt;/strong&gt; for the iTunes Connect Name (aka the App Store name) is because the name is unavailable.&lt;/p&gt;
-
-&lt;p&gt;App Store name is on a first come first serve basis (or unless you have the trademark).&lt;/p&gt;
-
-&lt;p&gt;I have a &lt;a href=&quot;https://just2us.com/torchlight/&quot;&gt;Torchlight&lt;/a&gt; app, and there are tons of competitors, and they keep coming, until Apple banned further Torchlight app from developers..&lt;/p&gt;
-
-&lt;p&gt;But many developers are willing to add suffices to App Store name, because it has a big effect on search - App Store Optimization (ASO). Eg. “Torchlight - Brightest LED for iPhone &amp;amp; iPad”&lt;/p&gt;
-
-&lt;p&gt;But few years ago, App Store added a &lt;strong&gt;slogan field&lt;/strong&gt;, and subsequently limit App Store name to only 30 char.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-app-name&quot;&gt;What is App Name&lt;/h2&gt;
-
-&lt;p&gt;App Name is different from App Store name.&lt;/p&gt;
-
-&lt;p&gt;It is explained in &lt;a href=&quot;https://developer.apple.com/library/archive/qa/qa1892/_index.html&quot;&gt;Technical Q&amp;amp;A QA1892&lt;/a&gt;. The name comes from &lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleDisplayName&lt;/code&gt;, for both app and extensions.&lt;/p&gt;
-
-&lt;p&gt;The name is used to display the grid of apps on iOS device.&lt;/p&gt;
-
-&lt;p&gt;For macOS, the name is also used in the standard About pane and menu.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 24 Feb 2019 14:20:22 +0800</pubDate>
-        <link>https://samwize.com/2019/02/24/rejection-app-name-not-good-enough/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/02/24/rejection-app-name-not-good-enough/</guid>
-        
-        
-        <category>macOS</category>
-        
-        <category>App Review</category>
         
       </item>
     
