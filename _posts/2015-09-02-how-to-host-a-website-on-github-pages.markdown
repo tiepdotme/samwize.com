@@ -35,8 +35,10 @@ GitHub does provide an [article](https://help.github.com/articles/tips-for-confi
 
 As an illustration, this is my configuration using [namecheap](http://www.namecheap.com/?aff=68466):
 
-    @       192.30.252.153              A (Address)
-    @       192.30.252.154              A (Address)
+    @       185.199.108.153              A (Address)
+    @       185.199.109.153              A (Address)
+    @       185.199.110.153              A (Address)
+    @       185.199.111.153              A (Address)
     www     yourusername.github.io.     CNAME (Alias)
 
 For my configuration, I want both `example.com` and `www.example.com` to go to the website.
