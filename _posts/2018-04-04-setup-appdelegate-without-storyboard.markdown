@@ -5,6 +5,8 @@ date: 2018-04-04T22:29:45+08:00
 categories: [iOS]
 ---
 
+_UPDATE 2019 AUG: If you are using SceneDelegate, refer to [this newer post](/2019/08/05/setup-scenedelegate-without-storyboard/)._
+
 When you create a new project in Xcode, the default boilerplate includes a `Main.storyboard` with a view controller that will be initialized when the app is launched.
 
 If you are going with no-storyboard approach, then you need 2 steps to remove the storyboard.
