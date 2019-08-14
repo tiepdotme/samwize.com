@@ -45,6 +45,8 @@ tmutil deletelocalsnapshots 2019-07-02-204331
 
 This will free up a lot of disk space! Do it for all if needed!
 
+If you have many snapshots from the list, you can delete all with `for d in $(tmutil listlocalsnapshotdates); do sudo tmutil deletelocalsnapshots $d; done`.
+
 ## What is Local Snapshot?
 
 There is one thing I learnt from this episode.
@@ -56,3 +58,5 @@ In some sense, you could even recover from these local snapshots when your backu
 However, they are kept at most 24 hours.
 
 This is a good trick when you need to free up some critical disk space.
+
+To disable local snapshot, you can `sudo tmutil disablelocal`.
