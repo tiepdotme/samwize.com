@@ -7,8 +7,8 @@
   <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Catalina Beta Bug: Deleting Files Did Not Free Up Disk Space!</title>
-  <meta name="description" content="I was on macOS 10.15 Catalina BETA 1, and I encountered a very troubling bug." />
+  <title>Shortcuts & GM Seed</title>
+  <meta name="description" content="I have kept a secret from my wife. I use some shortcuts when I text her, since 10 years ago." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
@@ -17,24 +17,24 @@
   
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Catalina Beta Bug: Deleting Files Did Not Free Up Disk Space!" />
+    <meta name="twitter:title" content="Shortcuts & GM Seed" />
     <meta name="twitter:image" content="https://samwize.com" />
     
-    <meta name="twitter:description"  content="I was on macOS 10.15 Catalina BETA 1, and I encountered a very troubling bug." />
+    <meta name="twitter:description"  content="I have kept a secret from my wife. I use some shortcuts when I text her, since 10 years ago." />
     
   
 
   <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Catalina Beta Bug: Deleting Files Did Not Free Up Disk Space!"/>
+  <meta property="og:title" content="Shortcuts & GM Seed"/>
   
-  <meta property="og:description" content="I was on macOS 10.15 Catalina BETA 1, and I encountered a very troubling bug." />
+  <meta property="og:description" content="I have kept a secret from my wife. I use some shortcuts when I text her, since 10 years ago." />
   
   <meta property="og:image" content="https://samwize.com" />
-  <meta property="og:url" content="https://samwize.com/2019/07/03/catalina-beta-bug-deleting-files-did-not-free-up-disk-space/" >
+  <meta property="og:url" content="https://samwize.com/2019/09/17/shortcuts-and-xcode-gm/" >
   <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2019-07-03T20:19:00+08:00">
+  <meta property="article:published_time" content="2019-09-17T17:43:15+08:00">
 
-  <link rel="canonical" href="https://samwize.com/2019/07/03/catalina-beta-bug-deleting-files-did-not-free-up-disk-space/">
+  <link rel="canonical" href="https://samwize.com/2019/09/17/shortcuts-and-xcode-gm/">
 
   <link rel="icon" type="image/png" href="/images/favicon-180.png" />
   <link rel="apple-touch-icon" href="/images/favicon-192.png"/>
@@ -66,9 +66,9 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">Catalina Beta Bug: Deleting Files Did Not Free Up Disk Space!</h1>
+            <h1 class="post-title">Shortcuts & GM Seed</h1>
             <div class="cf post-meta-text">
-              <time datetime="2019-07-03T20:19:00+08:00">03 July 2019</time>
+              <time datetime="2019-09-17T17:43:15+08:00">17 September 2019</time>
             </div>
           </div>
         </div>
@@ -82,65 +82,46 @@
           </div>
           <a name="topofpage"></a>
           
-          <p>I was on macOS 10.15 Catalina BETA 1, and I encountered a very troubling bug.</p>
+          <p>I have kept a secret from my wife. I use some shortcuts when I text her, since 10 years ago.</p>
 
-<p>I know the risk of beta.. this post is to help others who are in the same situation.</p>
+<p><img src="/images/deleting-these-shortcuts.jpg" alt="gm and gn" /></p>
 
-<h2 id="the-problem-disk-space-never-free-up">The Problem: Disk Space Never Free Up</h2>
+<p>But I am deleting the above 2 shortcuts today.</p>
 
-<p>It turns out there is <a href="https://forums.developer.apple.com/thread/117223">a bug</a> with Catalina together with Time Machine.</p>
+<p>Why?</p>
 
-<p>Deletion (and emptying thrash) will not return you the disk space.</p>
+<p>Firstly, we are happily married for 5 years and we don’t text that kind of stuff anymore.</p>
 
-<p>I was very anxious because I was going to update to a new beta 3, and I thought the new beta should fix the problem. But, I don’t have enough disk space to install the new beta! It is a chicken and egg story?</p>
+<h2 id="secondly-because-of-xcode-gm">Secondly, because of Xcode GM</h2>
 
-<h2 id="the-solution">The Solution</h2>
+<p>When I type “Xcode GM”, it expands to become <strong>Xcode Good Morning (:</strong>.</p>
 
-<p>Turns out, it is possible to free up the disk space despite the bug on Beta 1.</p>
+<p>It is unintended. What’s more, GM is now more frequently used to refer to <em>Gold Master</em>.</p>
 
-<p>You have to <strong>delete Time Machine local snapshot</strong>. I will explain what they are in later section.</p>
+<p>If you didn’t yet know.. Xcode GM is now at <a href="https://developer.apple.com/app-store-connect/whats-new/?id=09162019a">Seed 2</a>, and for the first time in Xcode history, <strong>a GM is not a final version</strong>.</p>
 
-<p>Go to command line and list them.</p>
+<p>Maybe a Seed 3 would be coming..</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmutil listlocalsnapshots /Volumes/
-</code></pre></div></div>
+<p>So get used to seeing more GMs.</p>
 
-<p>My output looks like this:</p>
+<p>This is a random rant.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>com.apple.TimeMachine.2019-07-02-204331
-com.apple.TimeMachine.2019-07-03-085015
-com.apple.TimeMachine.2019-07-03-103553
-</code></pre></div></div>
+<p>If you are interested in some shortcuts, I have a few related posts:</p>
 
-<p>Go on and delete a snapshot with the date.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tmutil deletelocalsnapshots 2019-07-02-204331
-</code></pre></div></div>
-
-<p>This will free up a lot of disk space! Do it for all if needed!</p>
-
-<p><em>If you have many snapshots from the list, you can delete all with <code class="highlighter-rouge">for d in $(tmutil listlocalsnapshotdates); do sudo tmutil deletelocalsnapshots $d; done</code> (ignore the error because the first line is “Snapshot dates for all disks:”).</em></p>
-
-<h2 id="what-is-local-snapshot">What is Local Snapshot?</h2>
-
-<p>There is one thing I learnt from this episode.</p>
-
-<p><a href="https://support.apple.com/en-us/HT204015">Local snapshots</a> are created on your Mac (NOT on your backup disk), when the backup disk is unavailable.</p>
-
-<p>In some sense, you could even recover from these local snapshots when your backup disk is not around.</p>
-
-<p>However, they are kept at most 24 hours.</p>
-
-<p>This is a good trick when you need to free up some critical disk space.</p>
-
-<p><em>To disable local snapshot, you can <code class="highlighter-rouge">sudo tmutil disablelocal</code>.</em></p>
+<ul>
+  <li><a href="/2019/05/31/mac-tips-using-finder-to-rename-multiple-files-etc/">Mac tips to rename files quickly</a></li>
+  <li><a href="/2017/01/02/handy-bash-commands/">Handy Bash Commands</a></li>
+  <li><a href="/2016/04/25/tutorial-on-creating-app-shortcut-with-3d-touch/">Tutorial on Creating App Shortcut With 3D Touch</a></li>
+  <li><a href="/2016/01/25/xcode-shortcut-for-running-tests/">Xcode Shortcut for Running Tests</a></li>
+  <li><a href="/2012/09/26/xcode-4-dot-5-tips-and-tricks/">Xcode 4.5 Tips &amp; Tricks (2012)</a></li>
+</ul>
 
         </section>
         <footer class="post-footer">
           <section class="share">
             
               
-                <a class="icon-twitter" href="http://twitter.com/share?text=Catalina+Beta+Bug%3A+Deleting+Files+Did+Not+Free+Up+Disk+Space%21&amp;url=https://samwize.com/2019/07/03/catalina-beta-bug-deleting-files-did-not-free-up-disk-space"
+                <a class="icon-twitter" href="http://twitter.com/share?text=Shortcuts+%26+GM+Seed&amp;url=https://samwize.com/2019/09/17/shortcuts-and-xcode-gm"
                   onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
                 <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
                 </a>
