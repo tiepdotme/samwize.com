@@ -2,39 +2,35 @@
 <html>
   <head>
   <meta charset="utf-8">
-  <!-- (1) Optimize for mobile versions: http://goo.gl/EOpFl -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- (1) force latest IE rendering engine: bit.ly/1c8EiC9 -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-  <title>Guide to Using Codable Struct for JSON</title>
-  <meta name="description" content="Codable is a new feature introduced along with Swfit 4 for encoding and decoding models easily, making third party libraries such as SwiftyJSON and Unbox obsolete. It is part of Foundation framewor..." />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="MobileOptimized" content="320" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@samwize" />
-    <meta name="twitter:title" content="Guide to Using Codable Struct for JSON" />
-    <meta name="twitter:image" content="https://samwize.com" />
-    
-    <meta name="twitter:description"  content="Codable is a new feature introduced along with Swfit 4 for encoding and decoding models easily, making third party libraries such as SwiftyJSON and Unbox obsolete. It is part of Foundation framewor..." />
-    
-  
 
-  <meta property="og:site_name" content="@samwize" />
-  <meta property="og:title" content="Guide to Using Codable Struct for JSON"/>
-  
-  <meta property="og:description" content="Codable is a new feature introduced along with Swfit 4 for encoding and decoding models easily, making third party libraries such as SwiftyJSON and Unbox obsolete. It is part of Foundation framewor..." />
-  
-  <meta property="og:image" content="https://samwize.com" />
-  <meta property="og:url" content="https://samwize.com/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4/" >
-  <meta property="og:type" content="blog" />
-  <meta property="article:published_time" content="2017-09-26T12:30:24+08:00">
+  <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <link rel="canonical" href="https://samwize.com/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4/">
+  <!-- Begin Jekyll SEO tag v2.3.0 -->
+<title>Guide to Using Codable Struct for JSON | @samwize</title>
+<meta property="og:title" content="Guide to Using Codable Struct for JSON" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Codable is a new feature introduced along with Swfit 4 for encoding and decoding models easily, making third party libraries such as SwiftyJSON and Unbox obsolete. It is part of Foundation framework, and is a must know if you use JSON format." />
+<meta property="og:description" content="Codable is a new feature introduced along with Swfit 4 for encoding and decoding models easily, making third party libraries such as SwiftyJSON and Unbox obsolete. It is part of Foundation framework, and is a must know if you use JSON format." />
+<link rel="canonical" href="https://samwize.com/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4/" />
+<meta property="og:url" content="https://samwize.com/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4/" />
+<meta property="og:site_name" content="@samwize" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-09-26T12:30:24+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@samwize" />
+<meta name="twitter:creator" content="@samwize" />
+<meta property="fb:admins" content="704185456" />
+<script type="application/ld+json">
+{"name":null,"description":"Codable is a new feature introduced along with Swfit 4 for encoding and decoding models easily, making third party libraries such as SwiftyJSON and Unbox obsolete. It is part of Foundation framework, and is a must know if you use JSON format.","author":null,"@type":"BlogPosting","url":"https://samwize.com/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"image":null,"headline":"Guide to Using Codable Struct for JSON","dateModified":"2017-09-26T12:30:24+08:00","datePublished":"2017-09-26T12:30:24+08:00","sameAs":null,"mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
 
   <link rel="icon" type="image/png" href="https://just2us.com/img/favicon-180.png" />
   <link rel="apple-touch-icon" href="https://just2us.com/img/favicon-192.png"/>
@@ -52,9 +48,8 @@
             enable_page_level_ads: true
        });
   </script>
-
 </head>
-  <link href='/stylesheets/all-851c1dc1b7eb60607b949556faf8523b.css' media='all' rel='stylesheet' type='text/css'>
+  <link href='/stylesheets/all-ad64bd701e2483b7eb6fac9cff12f0eb.css' media='all' rel='stylesheet' type='text/css'>
   <body itemscope itemtype="http://schema.org/Article">
     <!-- header start -->
 
@@ -335,15 +330,6 @@ Type 'Sword' does not conform to protocol 'Decodable'
         </section>
         <footer class="post-footer">
           <section class="share">
-            
-              
-                <a class="icon-twitter" href="http://twitter.com/share?text=Guide+to+Using+Codable+Struct+for+JSON&amp;url=https://samwize.com/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4"
-                  onclick="window.open(this.href, 'twitter-share', 'width=550,height=255');return false;">
-                <i class="fa fa-twitter"></i><span class="hidden">twitter</span>
-                </a>
-              
-            
-              
             
               
             
