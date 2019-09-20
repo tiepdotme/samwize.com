@@ -1,10 +1,14 @@
 # README
 
+## Border around image
+
+![](/images/xxx.jpg){:.border} 
+
 ## Setup
 
     bundle install
 
-To avoid prepend `bundle exec` all the time, 
+To avoid prepend `bundle exec` all the time,
 
     bundle install --binstub
 
@@ -33,4 +37,3 @@ To avoid prepend `bundle exec` all the time,
 ## Others
 
 Our custom [solarized](https://github.com/samwize/solarized/) theme is used. Some of the css comes from solarized. The Gemfile points to our version.
-
