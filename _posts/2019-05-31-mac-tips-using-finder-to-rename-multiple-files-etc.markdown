@@ -42,3 +42,13 @@ To create the custom Quick Action, you can open Automator.app and create it. The
 Further more, I have a Jpeg-1200 and Jpeg-800, and I create Keyboard shortcuts for them.
 
 ![Keyboard Shortcuts](/images/keyboard-shortcuts-services.jpg)
+
+## Automator workflow
+
+Quick Action is part of Automator, and each of them is saved as a workflow.
+
+You can find them in `~/Library/Services`.
+
+To install, you can right click on a workflow file > Open with > Automator Installer.app
+
+Once installed, you can access them under the Quick Actions menu. And customize, rearrange, and hide them freely.
