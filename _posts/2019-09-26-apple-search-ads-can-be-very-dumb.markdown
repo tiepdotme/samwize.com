@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Apple Search Ads Can Be Very Dumb"
+image: /images/apple-search-ads-dumb.jpg
 date: 2019-09-26T21:02:49+08:00
 categories: [Apple Search Ads]
 ---
