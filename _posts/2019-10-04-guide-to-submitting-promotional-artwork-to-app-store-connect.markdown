@@ -3,7 +3,7 @@ layout: post
 title: "Guide to Submitting Promotional Artwork to App Store Connect"
 image: /images/appstore-featured-email.jpg
 date: 2019-10-04T15:55:33+08:00
-categories: []
+categories: [App Store]
 ---
 
 99% of my emails that comes from App Store Connect is nothing good, because they are often [rejections](/2019/09/20/i-am-no-longer-surprise-over-app-store-review-rejections/).
