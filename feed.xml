@@ -6,9 +6,49 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 13 Oct 2019 00:42:08 +0800</pubDate>
-    <lastBuildDate>Sun, 13 Oct 2019 00:42:08 +0800</lastBuildDate>
+    <pubDate>Sun, 13 Oct 2019 01:45:30 +0800</pubDate>
+    <lastBuildDate>Sun, 13 Oct 2019 01:45:30 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Info.plist for a macOS Command Line App</title>
+        <description>&lt;p&gt;After upgrading to Catalina, one of my &lt;a href=&quot;/2016/02/22/have-fun-with-git-lol-commits/&quot;&gt;favorite tool&lt;/a&gt; broke.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app’s Info.plist must contain an NSCameraUsageDescription key with a string value explaining to the user how the app uses this data.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Seems like Catalina started to enforce on apps to declare the reason for using camera/etc.&lt;/p&gt;
+
+&lt;p&gt;In the world of iOS, this is common, and we simply add to Info.plist.&lt;/p&gt;
+
+&lt;p&gt;But for command line tool (CLI), they are simply a binary, and has no Info.plist. So then how to add an Info.plist?&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+
+&lt;p&gt;Turns out the solution is simply &lt;strong&gt;have the Info.plist file be in the same directory as the binary&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;In my &lt;a href=&quot;https://github.com/samwize/imagesnap/commit/569d19af64448124aae156b1786ec08d3739343e&quot;&gt;fix&lt;/a&gt; to imagesnap lib, I have not just added Info.plist, but also to copy the file during Build Phase.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Go to Build Phases &amp;gt; Copy Files&lt;/li&gt;
+  &lt;li&gt;Destination set to Products Directory&lt;/li&gt;
+  &lt;li&gt;Add Info.plist&lt;/li&gt;
+  &lt;li&gt;Uncheck “Copy only when installing”&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This setup would be very necessary for CLI kind of app. I’m surprised that Xcode didn’t automate the setup.&lt;/p&gt;
+
+&lt;p&gt;On any case, lolcommits is &lt;a href=&quot;https://github.com/samwize/lolcommits/commit/306dd0ebf21464de2d7824cfae841517cd094b1f&quot;&gt;fixed&lt;/a&gt; and I can take more photo of me fixing stuff 🤠&lt;/p&gt;
+</description>
+        <pubDate>Sun, 13 Oct 2019 01:29:12 +0800</pubDate>
+        <link>https://samwize.com/2019/10/13/info-plist-for-a-macos-command-line-app/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/10/13/info-plist-for-a-macos-command-line-app/</guid>
+        
+        
+        <category>macOS</category>
+        
+      </item>
     
       <item>
         <title>Guide to Submitting Promotional Artwork to App Store Connect</title>
@@ -676,42 +716,6 @@ com.apple.TimeMachine.2019-07-03-103553
         
         
         <category>Foundation</category>
-        
-      </item>
-    
-      <item>
-        <title>How to Enable Sidecar for the Unsupported Macbooks</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://www.macrumors.com/2019/06/06/macos-catalina-sidecar-limited-to-newer-macs/&quot;&gt;macOS 10.15 Catalina&lt;/a&gt; (still beta) now supports running a secondary display using an iPad!&lt;/p&gt;
-
-&lt;p&gt;I was disappointed to realize that it does not support for my old &lt;strong&gt;MacBook early 2015&lt;/strong&gt;. I was running an iPad Mini (5th generation 2019), but I know the problem should be due to the MacBook which is driving the display.&lt;/p&gt;
-
-&lt;p&gt;But I got it working!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/sidecar-with-macbook-2015.jpg&quot; alt=&quot;My 2015 MacBook + iPad Mini&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
-
-&lt;p&gt;It turned out that Sidecar is being hidden for some older hardware, and with some simple overriding of the defaults, we can make it show.&lt;/p&gt;
-
-&lt;p&gt;Open your iTerm/Terminal and give these commands:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;defaults write com.apple.sidecar.display hasShownPref &lt;span class=&quot;nt&quot;&gt;-bool&lt;/span&gt; YES
-defaults write com.apple.sidecar.display allowAllDevices &lt;span class=&quot;nt&quot;&gt;-bool&lt;/span&gt; YES
-open /System/Library/PreferencePanes/Sidecar.prefPane
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;error-on-my-first-attempt&quot;&gt;Error on my first attempt&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/sidecar-pref-error.jpg&quot; alt=&quot;Error&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;On my first attempt, it throws me that error. But perhaps due to a reboot, the Sidecar shows up mysteriously the next day. So don’t panic if it didn’t work at first.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sun, 09 Jun 2019 15:09:30 +0800</pubDate>
-        <link>https://samwize.com/2019/06/09/how-to-enable-sidecar-even-for-the-unsupported-macbooks/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/06/09/how-to-enable-sidecar-even-for-the-unsupported-macbooks/</guid>
-        
-        
-        <category>Mac</category>
         
       </item>
     
