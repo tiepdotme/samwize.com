@@ -6,7 +6,7 @@ permalink: /about/
 
 <img src="/images/me-Avatar.png" style="float:right;" />
 
-My name is Junda
+My name is J⋃⋂D⋀
 from Singapore
 graduated from [NUS](http://www.nus.edu.sg) in 2008
 with a Bachelor in Computing (Comp Eng)
