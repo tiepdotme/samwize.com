@@ -37,15 +37,11 @@ App Engine has [a guide to setting up redis](https://cloud.google.com/appengine/
 
 Good enough guide, except for **one big problem**. There is a [typo](https://github.com/GoogleCloudPlatform/golang-samples/issues/1023).
 
-```yaml
-env_variables:
-  REDIS_ADDR: "<REDIS_HOST>:<REDIS_PORT>"
-  REDIS_PASSSWORD: ""
-```
+![](/images/appengine-redis-typo.jpg)
 
-`REDIS_PASSSWORD` is wrongly spelled with triple-s..
+`REDIS_PASSSWORD` is wrongly spelled with triple-s.. That wasted 1 hour of my time.
 
-That wasted 1 hour of my time.
+They would have [probably fixed](https://github.com/GoogleCloudPlatform/golang-samples/issues/1023) by the time you are reading this. But one wonders how Google make such mistake.
 
 ## Using redigo
 
