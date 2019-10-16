@@ -78,6 +78,19 @@ func getFromMemcache(key string) {
 
 Note that if the key is unavailable/expired, there will be an error.
 
+## Redis CLI
+
+You can also connect to redis via CLI. Install with `brew install redis`, then:
+
+    redis-cli -u redis://ADDRESS:PORT -a PASSWORD
+
+You can then send commands. For example:
+
+- `SETEX key 30 value` to set with expiration 30 seconds
+- `TTL key` to know the number of seconds to expiration
+- `GET key`
+- `FLUSHALL` to remove all keys
+    
 ## Deploy
 
 Another change is that you have to deploy using `gcloud` with the project id and version, instead of specifying them in `app.yaml`.
