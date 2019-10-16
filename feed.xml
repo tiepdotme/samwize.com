@@ -6,9 +6,109 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 13 Oct 2019 01:45:30 +0800</pubDate>
-    <lastBuildDate>Sun, 13 Oct 2019 01:45:30 +0800</lastBuildDate>
+    <pubDate>Wed, 16 Oct 2019 20:49:02 +0800</pubDate>
+    <lastBuildDate>Wed, 16 Oct 2019 20:49:02 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Migrating App Engine to Go 1.12</title>
+        <description>&lt;p&gt;I was working one of those dreadful migration task today.&lt;/p&gt;
+
+&lt;p&gt;Google &lt;strong&gt;deprecated Go versions 1.9&lt;/strong&gt;, that means I can no longer deploy my app engine projects that use the older versions.&lt;/p&gt;
+
+&lt;p&gt;There are &lt;a href=&quot;https://cloud.google.com/appengine/docs/standard/go112/go-differences#migrating-appengine-sdk&quot;&gt;quite many changes&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some are considerably minor:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;change of &lt;code class=&quot;highlighter-rouge&quot;&gt;app.yaml&lt;/code&gt; structure,&lt;/li&gt;
+  &lt;li&gt;the need for a &lt;code class=&quot;highlighter-rouge&quot;&gt;main&lt;/code&gt; package, and&lt;/li&gt;
+  &lt;li&gt;replacing &lt;code class=&quot;highlighter-rouge&quot;&gt;google.golang.org/appengine&lt;/code&gt; (urlfetch, log) with golang ones&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Minor, yet it does have much code change.&lt;/p&gt;
+
+&lt;h2 id=&quot;no-more-memcache&quot;&gt;No More Memcache&lt;/h2&gt;
+
+&lt;p&gt;The biggest change turned out to be memcache.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;To use a memcache service on App Engine, use Redis Labs Memcached Cloud instead of App Engine Memcache.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Ouch.&lt;/p&gt;
+
+&lt;p&gt;I now need to use a managed service from &lt;a href=&quot;https://redislabs.com&quot;&gt;Redis&lt;/a&gt;, with it’s own pricing.&lt;/p&gt;
+
+&lt;p&gt;Luckily, Redis starts with a &lt;strong&gt;free tier of 30mb (memory)&lt;/strong&gt;, which might be sufficient for my small project.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-guide-to-redis-with-golang&quot;&gt;A guide to Redis with golang&lt;/h2&gt;
+
+&lt;p&gt;App Engine has &lt;a href=&quot;https://cloud.google.com/appengine/docs/flexible/python/using-redislabs-redis&quot;&gt;a guide to setting up redis&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Good enough guide, except for &lt;strong&gt;one big problem&lt;/strong&gt;. There is a &lt;a href=&quot;https://github.com/GoogleCloudPlatform/golang-samples/issues/1023&quot;&gt;typo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;env_variables&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;REDIS_ADDR&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;lt;REDIS_HOST&amp;gt;:&amp;lt;REDIS_PORT&amp;gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;REDIS_PASSSWORD&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REDIS_PASSSWORD&lt;/code&gt; is wrongly spelled with triple-s..&lt;/p&gt;
+
+&lt;p&gt;That wasted 1 hour of my time.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-redigo&quot;&gt;Using redigo&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://godoc.org/github.com/gomodule/redigo/redis&quot;&gt;redigo&lt;/a&gt; is the Redis library in golang.&lt;/p&gt;
+
+&lt;p&gt;I have a very simple use case. Set a key-value with expiration, and get it.&lt;/p&gt;
+
+&lt;h3 id=&quot;1-set-with-expiration&quot;&gt;1. Set with expiration&lt;/h3&gt;
+
+&lt;p&gt;This can be archived with &lt;a href=&quot;https://redis.io/commands/setex&quot;&gt;SETEX&lt;/a&gt;, which is like SET + EXPIRE but atomic.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;saveToMemcache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisPool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expiration&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SETEX&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;expiration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;2-get-from-redis&quot;&gt;2. Get from Redis&lt;/h3&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getFromMemcache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisPool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;GET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that if the key is unavailable/expired, there will be an error.&lt;/p&gt;
+
+&lt;h2 id=&quot;deploy&quot;&gt;Deploy&lt;/h2&gt;
+
+&lt;p&gt;Another change is that you have to deploy using &lt;code class=&quot;highlighter-rouge&quot;&gt;gcloud&lt;/code&gt; with the project id and version, instead of specifying them in &lt;code class=&quot;highlighter-rouge&quot;&gt;app.yaml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gcloud app deploy --project myproject --version 123
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The specified version will also be promoted as the default version.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 16 Oct 2019 17:29:59 +0800</pubDate>
+        <link>https://samwize.com/2019/10/16/migrating-app-engine-to-go-1-12/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/10/16/migrating-app-engine-to-go-1-12/</guid>
+        
+        
+        <category>Golang</category>
+        
+        <category>AppEngine</category>
+        
+      </item>
     
       <item>
         <title>Info.plist for a macOS Command Line App</title>
@@ -640,82 +740,6 @@ com.apple.TimeMachine.2019-07-03-103553
         
         
         <category>Swift</category>
-        
-      </item>
-    
-      <item>
-        <title>Using URLSession for simple HTTP GET &amp; POST</title>
-        <description>&lt;p&gt;Since &lt;code class=&quot;highlighter-rouge&quot;&gt;URLSession&lt;/code&gt; was introduced in iOS 7, &lt;a href=&quot;/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/&quot;&gt;third party libraries&lt;/a&gt; have somehow lesser value.&lt;/p&gt;
-
-&lt;p&gt;This post is a quick guide with snippets to some common use cases when working with HTTP APIs using the first party Foundation framework.&lt;/p&gt;
-
-&lt;h2 id=&quot;http-get&quot;&gt;HTTP GET&lt;/h2&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;https://samwize.com/api/hero&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;dataTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;resume&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Just that few lines of code to fetch from a URL.&lt;/p&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;dataTask()&lt;/code&gt; method is a HTTP GET request.&lt;/p&gt;
-
-&lt;h2 id=&quot;http-post&quot;&gt;HTTP POST&lt;/h2&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;https://samwize.com/api/hero&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;httpMethod&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;POST&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;payload&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;id=1234&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;using&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uploadTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;encoding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;resume&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;uploadTask()&lt;/code&gt; method is for a POST request. Or you may change the &lt;code class=&quot;highlighter-rouge&quot;&gt;httpMethod&lt;/code&gt; to UPDATE etc.&lt;/p&gt;
-
-&lt;h2 id=&quot;post-with-query-string&quot;&gt;POST with query string&lt;/h2&gt;
-
-&lt;p&gt;The POST request above is a simple example, with a payload that doesn’t require any percent encoding. But it is more likely that you have longer query items.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;URLQueryItem&lt;/code&gt; (also Foundation framework) provides a basic struct for constructing key-value pairs.&lt;/p&gt;
-
-&lt;p&gt;Together with &lt;code class=&quot;highlighter-rouge&quot;&gt;URLComponents&lt;/code&gt;, you can add as many key-value pairs to a &lt;code class=&quot;highlighter-rouge&quot;&gt;URLComponents&lt;/code&gt;, then access the &lt;code class=&quot;highlighter-rouge&quot;&gt;percentEncodedQuery&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;urlComponents&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLComponents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;q1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLQueryItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;with space that needs encoding&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;urlComponents&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;queryItems&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;payload&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;urlComponents&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;percentEncodedQuery&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;using&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;codable-model&quot;&gt;Codable Model&lt;/h2&gt;
-
-&lt;p&gt;New in Swift 4, JSON can be decoded to a &lt;code class=&quot;highlighter-rouge&quot;&gt;struct&lt;/code&gt; easily,&lt;/p&gt;
-
-&lt;p&gt;I have a separate guide to &lt;a href=&quot;/2017/09/26/guide-to-using-codable-struct-for-json-the-new-thing-in-swift-4/&quot;&gt;Codable struct&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Let’s say in the POST API, a &lt;code class=&quot;highlighter-rouge&quot;&gt;Hero&lt;/code&gt; object in JSON is returned, we could decode it easily.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URLSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shared&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uploadTask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;payload&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;decoder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;hero&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Hero&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Similarly, you can encode a model, then POST the JSON string/data as a payload.&lt;/p&gt;
-
-&lt;h2 id=&quot;other-resources&quot;&gt;Other Resources&lt;/h2&gt;
-
-&lt;p&gt;Apple’s official guide on &lt;a href=&quot;https://developer.apple.com/documentation/foundation/url_loading_system&quot;&gt;URL Loading System&lt;/a&gt; and &lt;a href=&quot;https://developer.apple.com/documentation/foundation/url_loading_system/fetching_website_data_into_memory&quot;&gt;how to fetch data&lt;/a&gt; is their guide to the networking framework. You could use &lt;code class=&quot;highlighter-rouge&quot;&gt;URLSessionConfiguration&lt;/code&gt; to configure your own session, and also use &lt;code class=&quot;highlighter-rouge&quot;&gt;URLSessionDelegate&lt;/code&gt; for a delegate pattern to receive the data.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 21 Jun 2019 18:25:00 +0800</pubDate>
-        <link>https://samwize.com/2019/06/21/simple-guide-to-urlsession-http-get-post-requests/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/06/21/simple-guide-to-urlsession-http-get-post-requests/</guid>
-        
-        
-        <category>Foundation</category>
         
       </item>
     
