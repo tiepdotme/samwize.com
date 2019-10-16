@@ -152,6 +152,22 @@
 
 <p>Note that if the key is unavailable/expired, there will be an error.</p>
 
+<h2 id="redis-cli">Redis CLI</h2>
+
+<p>You can also connect to redis via CLI. Install with <code class="highlighter-rouge">brew install redis</code>, then:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli -u redis://ADDRESS:PORT -a PASSWORD
+</code></pre></div></div>
+
+<p>You can then send commands. For example:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">SETEX key 30 value</code> to set with expiration 30 seconds</li>
+  <li><code class="highlighter-rouge">TTL key</code> to know the number of seconds to expiration</li>
+  <li><code class="highlighter-rouge">GET key</code></li>
+  <li><code class="highlighter-rouge">FLUSHALL</code> to remove all keys</li>
+</ul>
+
 <h2 id="deploy">Deploy</h2>
 
 <p>Another change is that you have to deploy using <code class="highlighter-rouge">gcloud</code> with the project id and version, instead of specifying them in <code class="highlighter-rouge">app.yaml</code>.</p>

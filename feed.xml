@@ -6,8 +6,8 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 16 Oct 2019 21:00:29 +0800</pubDate>
-    <lastBuildDate>Wed, 16 Oct 2019 21:00:29 +0800</lastBuildDate>
+    <pubDate>Wed, 16 Oct 2019 21:04:51 +0800</pubDate>
+    <lastBuildDate>Wed, 16 Oct 2019 21:04:51 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -86,6 +86,22 @@
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Note that if the key is unavailable/expired, there will be an error.&lt;/p&gt;
+
+&lt;h2 id=&quot;redis-cli&quot;&gt;Redis CLI&lt;/h2&gt;
+
+&lt;p&gt;You can also connect to redis via CLI. Install with &lt;code class=&quot;highlighter-rouge&quot;&gt;brew install redis&lt;/code&gt;, then:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;redis-cli -u redis://ADDRESS:PORT -a PASSWORD
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can then send commands. For example:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SETEX key 30 value&lt;/code&gt; to set with expiration 30 seconds&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TTL key&lt;/code&gt; to know the number of seconds to expiration&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;GET key&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FLUSHALL&lt;/code&gt; to remove all keys&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;h2 id=&quot;deploy&quot;&gt;Deploy&lt;/h2&gt;
 
