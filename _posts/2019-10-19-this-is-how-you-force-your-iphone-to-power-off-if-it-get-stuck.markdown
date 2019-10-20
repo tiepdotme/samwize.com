@@ -39,3 +39,5 @@ Then an ingenious idea struck me, after trying for an hour.
 ![](/images/turn-on-assistive-touch-restart.jpg)
 
 Yeah.
+
+_UPDATE: [hboon](https://twitter.com/samwize/status/1185382585100193792) gave a tip that here is a [hard reset sequence](https://support.apple.com/en-sg/guide/iphone/iph8903c3ee6/ios): press volume up (release) > press volume down (release) > press and hold side button. This will reset without needing the slider (TBC)._
