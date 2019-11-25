@@ -6,9 +6,48 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 20 Nov 2019 19:36:06 +0800</pubDate>
-    <lastBuildDate>Wed, 20 Nov 2019 19:36:06 +0800</lastBuildDate>
+    <pubDate>Mon, 25 Nov 2019 23:03:52 +0800</pubDate>
+    <lastBuildDate>Mon, 25 Nov 2019 23:03:52 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>A Very Short Guide to rvm</title>
+        <description>&lt;p&gt;rvm is a necessary tool to run different version of ruby.&lt;/p&gt;
+
+&lt;p&gt;Once in a while I need to upgrade ruby version, but &lt;a href=&quot;https://rvm.io/rvm/basics&quot;&gt;rvm’s official doc&lt;/a&gt; is a bit too dense.&lt;/p&gt;
+
+&lt;h2 id=&quot;install-the-latest&quot;&gt;Install the latest&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rvm install ruby --latest
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Or manually specify a version with &lt;code class=&quot;highlighter-rouge&quot;&gt;rvm install ruby 2.0.0-p247&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;set-the-default-version&quot;&gt;Set the default version&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rvm --default use ruby-2.6.3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;default&lt;/code&gt; option is often needed, because without it, if you reload the terminal or restart the computer, it will use back the previous.&lt;/p&gt;
+
+&lt;p&gt;To confirm the version in use:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ruby -v
+which ruby
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;other-commands&quot;&gt;Other commands&lt;/h2&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rvm list
+rvm list known
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Mon, 25 Nov 2019 22:24:04 +0800</pubDate>
+        <link>https://samwize.com/2019/11/25/guide-to-rvm/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/11/25/guide-to-rvm/</guid>
+        
+        
+      </item>
     
       <item>
         <title>This Is How You Force iPhone to Power Off if It Get Stuck</title>
@@ -617,72 +656,6 @@
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Catalina Beta Bug: Deleting Files Did Not Free Up Disk Space!</title>
-        <description>&lt;p&gt;I was on macOS 10.15 Catalina BETA 1, and I encountered a very troubling bug.&lt;/p&gt;
-
-&lt;p&gt;I know the risk of beta.. this post is to help others who are in the same situation.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-problem-disk-space-never-free-up&quot;&gt;The Problem: Disk Space Never Free Up&lt;/h2&gt;
-
-&lt;p&gt;It turns out there is &lt;a href=&quot;https://forums.developer.apple.com/thread/117223&quot;&gt;a bug&lt;/a&gt; with Catalina together with Time Machine.&lt;/p&gt;
-
-&lt;p&gt;Deletion (and emptying thrash) will not return you the disk space.&lt;/p&gt;
-
-&lt;p&gt;I was very anxious because I was going to update to a new beta 3, and I thought the new beta should fix the problem. But, I don’t have enough disk space to install the new beta! It is a chicken and egg story?&lt;/p&gt;
-
-&lt;h2 id=&quot;the-solution&quot;&gt;The Solution&lt;/h2&gt;
-
-&lt;p&gt;Turns out, it is possible to free up the disk space despite the bug on Beta 1.&lt;/p&gt;
-
-&lt;p&gt;You have to &lt;strong&gt;delete Time Machine local snapshot&lt;/strong&gt;. I will explain what they are in later section.&lt;/p&gt;
-
-&lt;p&gt;Go to command line and list them.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tmutil listlocalsnapshots /Volumes/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;My output looks like this:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;com.apple.TimeMachine.2019-07-02-204331
-com.apple.TimeMachine.2019-07-03-085015
-com.apple.TimeMachine.2019-07-03-103553
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Go on and delete a snapshot with the date.&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;tmutil deletelocalsnapshots 2019-07-02-204331
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This will free up a lot of disk space! Do it for all if needed!&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;If you have many snapshots from the list, you can delete all with &lt;code class=&quot;highlighter-rouge&quot;&gt;for d in $(tmutil listlocalsnapshotdates); do sudo tmutil deletelocalsnapshots $d; done&lt;/code&gt; (ignore the error because the first line is “Snapshot dates for all disks:”).&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;what-is-local-snapshot&quot;&gt;What is Local Snapshot?&lt;/h2&gt;
-
-&lt;p&gt;There is one thing I learnt from this episode.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://support.apple.com/en-us/HT204015&quot;&gt;Local snapshots&lt;/a&gt; are created on your Mac (NOT on your backup disk), when the backup disk is unavailable.&lt;/p&gt;
-
-&lt;p&gt;In some sense, you could even recover from these local snapshots when your backup disk is not around.&lt;/p&gt;
-
-&lt;p&gt;However, they are kept at most 24 hours.&lt;/p&gt;
-
-&lt;p&gt;This is a good trick when you need to free up some critical disk space.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;To disable local snapshot, you can &lt;code class=&quot;highlighter-rouge&quot;&gt;sudo tmutil disablelocal&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Wed, 03 Jul 2019 20:19:00 +0800</pubDate>
-        <link>https://samwize.com/2019/07/03/catalina-beta-bug-deleting-files-did-not-free-up-disk-space/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/07/03/catalina-beta-bug-deleting-files-did-not-free-up-disk-space/</guid>
-        
-        
-        <category>macOS</category>
-        
-        <category>bug</category>
         
       </item>
     
