@@ -9,6 +9,8 @@ rvm is a necessary tool to run different version of ruby.
 
 Once in a while I need to upgrade ruby version, but [rvm's official doc](https://rvm.io/rvm/basics) is a bit too dense.
 
+Beyond installing, there are just a few commands that you really need.
+
 ## Install the latest
 
     rvm install ruby --latest
@@ -19,7 +21,7 @@ Or manually specify a version with `rvm install ruby 2.0.0-p247`
 
     rvm --default use ruby-2.6.3
 
-The `default` option is often needed, because without it, if you reload the terminal or restart the computer, it will use back the previous.
+The `default` option is often needed, because without it, when you reload the terminal or restart the computer, it will use back the previous.
 
 To confirm the version in use:
 
