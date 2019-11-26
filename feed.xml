@@ -6,9 +6,78 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 26 Nov 2019 11:14:58 +0800</pubDate>
-    <lastBuildDate>Tue, 26 Nov 2019 11:14:58 +0800</lastBuildDate>
+    <pubDate>Tue, 26 Nov 2019 13:54:58 +0800</pubDate>
+    <lastBuildDate>Tue, 26 Nov 2019 13:54:58 +0800</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Supporting Dark Mode in iOS 13</title>
+        <description>&lt;p&gt;WWDC 2019 gave us &lt;strong&gt;Dark Mode&lt;/strong&gt;. &lt;a href=&quot;https://nshipster.com/dark-mode/&quot;&gt;NSHipster&lt;/a&gt; has once again provided a complete guide, with a &lt;a href=&quot;https://nshipster.com/dark-mode/#use-semantic-colors&quot;&gt;helpful grouping&lt;/a&gt; of the new semantic colors.&lt;/p&gt;
+
+&lt;p&gt;While I am working on an app, I only have 2 questions.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-about-pre-ios-13&quot;&gt;What about pre-iOS-13?&lt;/h2&gt;
+
+&lt;p&gt;How will the new system color be interpreted on iOS 12, and earlier iOS?&lt;/p&gt;
+
+&lt;p&gt;If you select a system color in Xcode Interface Builder, then for pre-iOS-13, Xcode will use the default light mode color.&lt;/p&gt;
+
+&lt;p&gt;It is as if code with &lt;code class=&quot;highlighter-rouge&quot;&gt;#available&lt;/code&gt; is written for you:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(iOS 13.0, *)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;theColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;theColor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;black&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;So in other words, it is &lt;strong&gt;backward compatible&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;And so there’s no reason not to provide dark mode, other than some tedious mapping of the semantic colors.&lt;/p&gt;
+
+&lt;h2 id=&quot;about-deprecated-table-group-colors&quot;&gt;About deprecated table group colors&lt;/h2&gt;
+
+&lt;p&gt;If you use &lt;code class=&quot;highlighter-rouge&quot;&gt;groupTableViewBackground&lt;/code&gt;, then you should replace with the new &lt;code class=&quot;highlighter-rouge&quot;&gt;systemGroupedBackgroundColor&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The “group table” concept was introduced &lt;strong&gt;since iOS 2&lt;/strong&gt;, but is now deprecated in iOS 13. The new concept dropped “group table”, and simply refer to as “grouped background”.&lt;/p&gt;
+
+&lt;p&gt;Table is dropped. That’s the new new semantic.&lt;/p&gt;
+
+&lt;p&gt;It also makes perfect sense because often you will apply the color to non-table views.&lt;/p&gt;
+
+&lt;p&gt;Similarly, in the color selector, don’t use the deprecated color.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/group-table-color-deprecated.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;At the bottom of the screenshot, there is also a “Table Cell Grouped Background Color”. That is replaced with “Secondary System Grouped Background Color”.&lt;/p&gt;
+
+&lt;h3 id=&quot;where-are-the-grouped-background-being-used&quot;&gt;Where are the grouped background being used?&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;“System Grouped Background” is the &lt;strong&gt;table background&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;“Secondary System grouped background” is the &lt;strong&gt;table cell background&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I refer to the use in table, but it can be for collection view, or whatever kind of encapsulating groups.&lt;/p&gt;
+
+&lt;p&gt;There is also a “Tertiary” group, which would be for a group within the secondary group.&lt;/p&gt;
+
+&lt;p&gt;In light mode, (1) is light grey while (2) is white, which is the original group table.&lt;/p&gt;
+
+&lt;p&gt;In dark mode, (1) is black while (2) is dark grey.&lt;/p&gt;
+
+&lt;p&gt;Like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://itunes.apple.com/app/id1065722243?at=11luru&quot;&gt;&lt;img src=&quot;/images/light-vs-dark-mode.jpg&quot; alt=&quot;An Example of Baby Log app&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 26 Nov 2019 12:00:42 +0800</pubDate>
+        <link>https://samwize.com/2019/11/26/supporting-dark-mode-in-ios-13/</link>
+        <guid isPermaLink="true">https://samwize.com/2019/11/26/supporting-dark-mode-in-ios-13/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>A Very Short Guide to rvm</title>
@@ -593,68 +662,6 @@ rvm list known
         <pubDate>Tue, 06 Aug 2019 17:43:46 +0800</pubDate>
         <link>https://samwize.com/2019/08/06/how-to-rotate-selected-views-like-camera-app/</link>
         <guid isPermaLink="true">https://samwize.com/2019/08/06/how-to-rotate-selected-views-like-camera-app/</guid>
-        
-        
-        <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Setup SceneDelegate Without Storyboard</title>
-        <description>&lt;p&gt;New in iOS 13, multi-windows app requires &lt;a href=&quot;https://developer.apple.com/documentation/uikit/uiwindowscenedelegate&quot;&gt;UIWindowSceneDelegate&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;This post is an update to an &lt;a href=&quot;/2018/04/04/setup-appdelegate-without-storyboard/&quot;&gt;earlier post for pre-iOS 13&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-remove-uiscenestoryboardfile&quot;&gt;1. Remove &lt;code class=&quot;highlighter-rouge&quot;&gt;UISceneStoryboardFile&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;Scenes are defined in your app &lt;code class=&quot;highlighter-rouge&quot;&gt;Info.plist&lt;/code&gt;. There is a &lt;code class=&quot;highlighter-rouge&quot;&gt;UISceneStoryboardFile&lt;/code&gt; key with default “Main” storyboard. Remove that key-value pair.&lt;/p&gt;
-
-&lt;p&gt;Your plist should look like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-xml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;UIApplicationSceneManifest&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;UIApplicationSupportsMultipleScenes&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;false/&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;UISceneConfigurations&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;UIWindowSceneSessionRoleApplication&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;array&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;dict&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;UILaunchStoryboardName&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;LaunchScreen&lt;span class=&quot;nt&quot;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;UISceneConfigurationName&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;Default Configuration&lt;span class=&quot;nt&quot;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;key&amp;gt;&lt;/span&gt;UISceneDelegateClassName&lt;span class=&quot;nt&quot;&gt;&amp;lt;/key&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;nt&quot;&gt;&amp;lt;string&amp;gt;&lt;/span&gt;$(PRODUCT_MODULE_NAME).SceneDelegate&lt;span class=&quot;nt&quot;&gt;&amp;lt;/string&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;nt&quot;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;&amp;lt;/array&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/dict&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;2-remove-uimainstoryboardfile&quot;&gt;2. Remove &lt;code class=&quot;highlighter-rouge&quot;&gt;UIMainStoryboardFile&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;Also in &lt;code class=&quot;highlighter-rouge&quot;&gt;Info.plist&lt;/code&gt;, remove the storyboard key-value.&lt;/p&gt;
-
-&lt;h2 id=&quot;3-setup-scenedelegate&quot;&gt;3. Setup &lt;code class=&quot;highlighter-rouge&quot;&gt;SceneDelegate&lt;/code&gt;&lt;/h2&gt;
-
-&lt;p&gt;Change the setup of the scene delegate to as such:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;scene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;scene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIScene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;willConnectTo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UISceneSession&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;options&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;connectionOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIScene&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;ConnectionOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;windowScene&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;scene&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as?&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIWindowScene&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;window&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIWindow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;windowScene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;windowScene&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rootViewController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyCustomViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;window&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;makeKeyAndVisible&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The code creates your &lt;strong&gt;custom view controller programmatically&lt;/strong&gt;, then setting it to the root of the window for the scene (phew)!&lt;/p&gt;
-</description>
-        <pubDate>Mon, 05 Aug 2019 13:56:17 +0800</pubDate>
-        <link>https://samwize.com/2019/08/05/setup-scenedelegate-without-storyboard/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/08/05/setup-scenedelegate-without-storyboard/</guid>
         
         
         <category>iOS</category>
