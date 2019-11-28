@@ -16,7 +16,7 @@ This is a guide on how to do it.
 
 ## Install VVDocumenter-Xcode
 
-Firstly, install [this Xcode plugin](https://github.com/onevcat/VVDocumenter-Xcode) to help you with generating Javadoc style by simply typing `///` (3 forward slashes). 
+Firstly, install [this Xcode plugin](https://github.com/onevcat/VVDocumenter-Xcode) to help you with generating Javadoc style by simply typing `///` (3 forward slashes).
 
     git clone https://github.com/onevcat/VVDocumenter-Xcode.git
 
@@ -49,8 +49,9 @@ The default plist for a project is `AppledocSettings.plist`.
 
 The plist for my project looks like this:
 
+```xml
     <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" 
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
         "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
     <plist version="1.0">
     <dict>
@@ -60,13 +61,13 @@ The plist for my project looks like this:
         <string>Just2us</string>
         <key>--company-id</key>
         <string>com.justus</string>
-    
+
         <key>--output</key>
         <string>Docs</string>
-    
+
         <key>--create-docset</key>
         <false/>
-    
+
         <key>--ignore</key>
         <array>
             <string>Pods</string>
@@ -74,9 +75,10 @@ The plist for my project looks like this:
             <string>JadeTests</string>
             <string>*.framework</string>
         </array>
-    
+
     </dict>
     </plist>
+```
 
 I have some basic information about the project and the company. Then I am generating the HTML in `Docs`, without docset, and ignoring some folders such as Pods, tests and frameworks.
 
