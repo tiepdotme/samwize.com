@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Docker Error: Returned a Non-zero Code: 137 | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Docker Error: Returned a Non-zero Code: 137" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="While running a node app with Docker, there is an error 137:" />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"While running a node app with Docker, there is an error 137:","datePublished":"2016-05-19T10:40:29+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137/"},"image":null,"url":"https://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137/","name":null,"author":null,"headline":"Docker Error: Returned a Non-zero Code: 137","dateModified":"2016-05-19T10:40:29+08:00","@context":"http://schema.org"}</script>
+{"description":"While running a node app with Docker, there is an error 137:","headline":"Docker Error: Returned a Non-zero Code: 137","dateModified":"2016-05-19T10:40:29+08:00","datePublished":"2016-05-19T10:40:29+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2016/05/19/docker-error-returned-a-non-zero-code-137/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -97,7 +98,7 @@
 <span class="nb">sudo </span>fallocate <span class="nt">-l</span> 1G /swapfile
 
 <span class="c"># Make it secure</span>
-<span class="nb">sudo </span>chmod 600 /swapfile
+<span class="nb">sudo chmod </span>600 /swapfile
 <span class="nb">ls</span> <span class="nt">-lh</span> /swapfile
 
 <span class="c"># Activate it</span>
@@ -116,8 +117,8 @@ free <span class="nt">-m</span>
 
 <span class="c"># Change swappiness to 10, so that swap is used only when 10% RAM is unused</span>
 <span class="c"># The default is too high at 60</span>
-<span class="nb">echo </span>10 | <span class="nb">sudo </span>tee /proc/sys/vm/swappiness
-<span class="nb">echo </span>vm.swappiness <span class="o">=</span> 10 | <span class="nb">sudo </span>tee <span class="nt">-a</span> /etc/sysctl.conf
+<span class="nb">echo </span>10 | <span class="nb">sudo tee</span> /proc/sys/vm/swappiness
+<span class="nb">echo </span>vm.swappiness <span class="o">=</span> 10 | <span class="nb">sudo tee</span> <span class="nt">-a</span> /etc/sysctl.conf
 </code></pre></div></div>
 
         </section>

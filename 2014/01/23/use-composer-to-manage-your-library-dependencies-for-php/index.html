@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Use composer to manage your library dependencies for php | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Use composer to manage your library dependencies for php" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="If you use npm for Node, pypi for Python, or bundler for ruby, you will want to use composer, if you still use PHP." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"If you use npm for Node, pypi for Python, or bundler for ruby, you will want to use composer, if you still use PHP.","datePublished":"2014-01-23T12:38:17+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/01/23/use-composer-to-manage-your-library-dependencies-for-php/"},"image":null,"url":"https://samwize.com/2014/01/23/use-composer-to-manage-your-library-dependencies-for-php/","name":null,"author":null,"headline":"Use composer to manage your library dependencies for php","dateModified":"2014-01-23T12:38:17+08:00","@context":"http://schema.org"}</script>
+{"description":"If you use npm for Node, pypi for Python, or bundler for ruby, you will want to use composer, if you still use PHP.","headline":"Use composer to manage your library dependencies for php","dateModified":"2014-01-23T12:38:17+08:00","datePublished":"2014-01-23T12:38:17+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/01/23/use-composer-to-manage-your-library-dependencies-for-php/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2014/01/23/use-composer-to-manage-your-library-dependencies-for-php/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -86,7 +87,7 @@
 <p>For Mac, it will be a few <code class="highlighter-rouge">brew</code> commands.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew tap josegonzalez/homebrew-php
-brew install josegonzalez/php/composer
+brew <span class="nb">install </span>josegonzalez/php/composer
 </code></pre></div></div>
 
 <p>If you have some errors, you might need to <code class="highlighter-rouge">brew install php53-intl</code>, <code class="highlighter-rouge">brew update</code> and <code class="highlighter-rouge">brew doctor</code>. I have to do that for some <a href="https://github.com/Homebrew/homebrew/issues/24290">weird errors</a>.</p>
@@ -94,8 +95,8 @@ brew install josegonzalez/php/composer
 <p>Next, prepare a basic <code class="highlighter-rouge">composer.json</code> in your root directory. The below json is an example of a project that requires <a href="https://github.com/Seldaek/monolog">monolog</a>.</p>
 
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"monolog/monolog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.*"</span><span class="w">
+    </span><span class="nl">"require"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"monolog/monolog"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.*"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
@@ -103,7 +104,7 @@ brew install josegonzalez/php/composer
 <p>Install the library and it’s dependencies (monolog in this example).</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-sS</span> https://getcomposer.org/installer | php
-php composer.phar install
+php composer.phar <span class="nb">install</span>
 </code></pre></div></div>
 
 <p>A <code class="highlighter-rouge">vendor</code> directory will be created and it contains all the libraries. You can start using the libraries as per normal.</p>

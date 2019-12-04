@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Download all WWDC 2014 PDF Slides only | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Download all WWDC 2014 PDF Slides only" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="WWDC 2014 is over, and all the videos and PDF slides are now available for developers to download." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"WWDC 2014 is over, and all the videos and PDF slides are now available for developers to download.","datePublished":"2014-06-06T00:56:46+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/06/06/download-all-wwdc-2014-pdf-slides-only/"},"image":null,"url":"https://samwize.com/2014/06/06/download-all-wwdc-2014-pdf-slides-only/","name":null,"author":null,"headline":"Download all WWDC 2014 PDF Slides only","dateModified":"2014-06-06T00:56:46+08:00","@context":"http://schema.org"}</script>
+{"description":"WWDC 2014 is over, and all the videos and PDF slides are now available for developers to download.","headline":"Download all WWDC 2014 PDF Slides only","dateModified":"2014-06-06T00:56:46+08:00","datePublished":"2014-06-06T00:56:46+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/06/06/download-all-wwdc-2014-pdf-slides-only/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2014/06/06/download-all-wwdc-2014-pdf-slides-only/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -91,7 +92,7 @@
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://developer.apple.com/videos/wwdc/2014/ <span class="se">\</span>
 | <span class="nb">grep</span> <span class="nt">-iIoh</span> <span class="s1">'http.*pdf?dl=1'</span> <span class="se">\</span>
-| sed <span class="nt">-e</span> <span class="s1">'s/\?dl=1//g'</span> <span class="se">\</span>
+| <span class="nb">sed</span> <span class="nt">-e</span> <span class="s1">'s/\?dl=1//g'</span> <span class="se">\</span>
 | xargs <span class="nt">-n1</span> curl <span class="nt">--remote-name</span>
 </code></pre></div></div>
 
@@ -104,7 +105,7 @@
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://developer.apple.com/videos/wwdc/2014/ <span class="se">\</span>
 | <span class="nb">grep</span> <span class="nt">-iIoh</span> <span class="s1">'http.*._hd_.*dl=1"&gt;HD'</span> <span class="se">\</span>
-| sed <span class="nt">-e</span> <span class="s1">'s/\?dl=1"&gt;HD//g'</span> <span class="se">\</span>
+| <span class="nb">sed</span> <span class="nt">-e</span> <span class="s1">'s/\?dl=1"&gt;HD//g'</span> <span class="se">\</span>
 | xargs <span class="nt">-n1</span> curl <span class="nt">--remote-name</span>
 </code></pre></div></div>
 

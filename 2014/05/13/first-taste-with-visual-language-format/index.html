@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>First taste with visual language format | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="First taste with visual language format" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="As much as possible, I use storyboard with autolayout, and create constraints from there." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"As much as possible, I use storyboard with autolayout, and create constraints from there.","datePublished":"2014-05-13T10:19:38+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/05/13/first-taste-with-visual-language-format/"},"image":null,"url":"https://samwize.com/2014/05/13/first-taste-with-visual-language-format/","name":null,"author":null,"headline":"First taste with visual language format","dateModified":"2014-05-13T10:19:38+08:00","@context":"http://schema.org"}</script>
+{"description":"As much as possible, I use storyboard with autolayout, and create constraints from there.","headline":"First taste with visual language format","dateModified":"2014-05-13T10:19:38+08:00","datePublished":"2014-05-13T10:19:38+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/05/13/first-taste-with-visual-language-format/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2014/05/13/first-taste-with-visual-language-format/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -101,9 +102,9 @@
 <p>An example:</p>
 
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="n">container</span> <span class="nf">addConstraints</span><span class="p">:[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@"|-[label]-|"</span>
-                                                                  <span class="nf">options</span><span class="p">:</span><span class="mi">0</span>
-                                                                  <span class="nf">metrics</span><span class="p">:</span><span class="nb">nil</span>
-                                                                    <span class="n">views</span><span class="o">:</span><span class="n">NSDictionaryOfVariableBindings</span><span class="p">(</span><span class="n">label</span><span class="p">)]];</span>
+                                                                  <span class="nl">options:</span><span class="mi">0</span>
+                                                                  <span class="nl">metrics:</span><span class="nb">nil</span>
+                                                                    <span class="nl">views:</span><span class="n">NSDictionaryOfVariableBindings</span><span class="p">(</span><span class="n">label</span><span class="p">)]];</span>
 </code></pre></div></div>
 
 <p>The above will add 2 constraints - pin the left and right of label to its superview (container in this case).</p>
@@ -114,32 +115,32 @@
 
 <p>This is a simple example of 2 labels in a container view.</p>
 
-<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. Create the controls
-// And setup other stuff eg text, font
-</span><span class="n">UILabel</span> <span class="o">*</span><span class="n">label1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 1. Create the controls</span>
+<span class="c1">// And setup other stuff eg text, font</span>
+<span class="n">UILabel</span> <span class="o">*</span><span class="n">label1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
 <span class="n">UILabel</span> <span class="o">*</span><span class="n">label2</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UILabel</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
 
-<span class="c1">// 2. Must set to NO
-</span><span class="n">label1</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+<span class="c1">// 2. Must set to NO</span>
+<span class="n">label1</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 <span class="n">label2</span><span class="p">.</span><span class="n">translatesAutoresizingMaskIntoConstraints</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
 
-<span class="c1">// 3. Add to superview (container)
-</span><span class="p">[</span><span class="n">container</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">label1</span><span class="p">];</span>
+<span class="c1">// 3. Add to superview (container)</span>
+<span class="p">[</span><span class="n">container</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">label1</span><span class="p">];</span>
 <span class="p">[</span><span class="n">container</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">label2</span><span class="p">];</span>
 
-<span class="c1">// 4. Use the macro to create a dictionary of views for convenience
-</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">views</span> <span class="o">=</span> <span class="n">NSDictionaryOfVariableBindings</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">);</span>
+<span class="c1">// 4. Use the macro to create a dictionary of views for convenience</span>
+<span class="n">NSDictionary</span> <span class="o">*</span><span class="n">views</span> <span class="o">=</span> <span class="n">NSDictionaryOfVariableBindings</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span> <span class="n">label2</span><span class="p">);</span>
 
-<span class="c1">// 5. Add horizontal constraint to superview
-</span><span class="p">[</span><span class="n">container</span> <span class="nf">addConstraints</span><span class="p">:[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@"|-2-[label1]-2-|"</span>
-                                                                  <span class="nf">options</span><span class="p">:</span><span class="mi">0</span>
-                                                                  <span class="nf">metrics</span><span class="p">:</span><span class="nb">nil</span>
-                                                                    <span class="n">views</span><span class="o">:</span><span class="n">views</span><span class="p">]];</span>
-<span class="c1">// 6. Add vertical constraint to superview
-</span><span class="p">[</span><span class="n">container</span> <span class="nf">addConstraints</span><span class="p">:[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@"V:|-2-[label1(40)]-2-[label2]]"</span>
-                                                                  <span class="nf">options</span><span class="p">:</span><span class="n">NSLayoutFormatAlignAllCenterX</span>
-                                                                  <span class="nf">metrics</span><span class="p">:</span><span class="nb">nil</span>
-                                                                    <span class="n">views</span><span class="o">:</span><span class="n">views</span><span class="p">]];</span>
+<span class="c1">// 5. Add horizontal constraint to superview</span>
+<span class="p">[</span><span class="n">container</span> <span class="nf">addConstraints</span><span class="p">:[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@"|-2-[label1]-2-|"</span>
+                                                                  <span class="nl">options:</span><span class="mi">0</span>
+                                                                  <span class="nl">metrics:</span><span class="nb">nil</span>
+                                                                    <span class="nl">views:</span><span class="n">views</span><span class="p">]];</span>
+<span class="c1">// 6. Add vertical constraint to superview</span>
+<span class="p">[</span><span class="n">container</span> <span class="nf">addConstraints</span><span class="p">:[</span><span class="n">NSLayoutConstraint</span> <span class="nf">constraintsWithVisualFormat</span><span class="p">:</span><span class="s">@"V:|-2-[label1(40)]-2-[label2]]"</span>
+                                                                  <span class="nl">options:</span><span class="n">NSLayoutFormatAlignAllCenterX</span>
+                                                                  <span class="nl">metrics:</span><span class="nb">nil</span>
+                                                                    <span class="nl">views:</span><span class="n">views</span><span class="p">]];</span>
 </code></pre></div></div>
 
 <p>The gist is in adding the 2 constraints to container. You will need to add once for horizontal, and once for vertical.</p>

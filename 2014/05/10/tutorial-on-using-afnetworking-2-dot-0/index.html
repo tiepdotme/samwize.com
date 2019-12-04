@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Tutorial on using AFNetworking 2.0 | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Tutorial on using AFNetworking 2.0" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This is a follow-up post to the tutorial on using AFNetworking 1.0." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"This is a follow-up post to the tutorial on using AFNetworking 1.0.","datePublished":"2014-05-10T09:42:16+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/"},"image":null,"url":"https://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/","name":null,"author":null,"headline":"Tutorial on using AFNetworking 2.0","dateModified":"2014-05-10T09:42:16+08:00","@context":"http://schema.org"}</script>
+{"description":"This is a follow-up post to the tutorial on using AFNetworking 1.0.","headline":"Tutorial on using AFNetworking 2.0","dateModified":"2014-05-10T09:42:16+08:00","datePublished":"2014-05-10T09:42:16+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2014/05/10/tutorial-on-using-afnetworking-2-dot-0/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -87,10 +88,10 @@
 
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
     <span class="p">[</span><span class="n">manager</span> <span class="nf">GET</span><span class="p">:</span><span class="s">@"http://samwize.com/api/poos/"</span>
-      <span class="nf">parameters</span><span class="p">:</span><span class="nb">nil</span>
-         <span class="n">success</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nl">parameters:</span><span class="nb">nil</span>
+         <span class="nl">success:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"JSON: %@"</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
-    <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
     <span class="p">}];</span>
 </code></pre></div></div>
@@ -99,10 +100,10 @@
 
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
     <span class="p">[</span><span class="n">manager</span> <span class="nf">POST</span><span class="p">:</span><span class="s">@"http://samwize.com/api/poo/"</span>
-       <span class="nf">parameters</span><span class="p">:@{</span><span class="s">@"color"</span><span class="o">:</span> <span class="s">@"green"</span><span class="p">}</span>
-          <span class="n">success</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+       <span class="nl">parameters:</span><span class="p">@{</span><span class="s">@"color"</span><span class="o">:</span> <span class="s">@"green"</span><span class="p">}</span>
+          <span class="nl">success:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"JSON: %@"</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
-    <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
     <span class="p">}];</span>
 </code></pre></div></div>
@@ -114,10 +115,10 @@
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
     <span class="n">NSURL</span> <span class="o">*</span><span class="n">filePath</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">fileURLWithPath</span><span class="p">:</span><span class="s">@"file://path/to/image.png"</span><span class="p">];</span>
     <span class="p">[</span><span class="n">manager</span> <span class="nf">POST</span><span class="p">:</span><span class="s">@"http://samwize.com/api/poo/"</span>
-       <span class="nf">parameters</span><span class="p">:@{</span><span class="s">@"color"</span><span class="o">:</span> <span class="s">@"green"</span><span class="p">}</span>
-       <span class="n">constructingBodyWithBlock</span><span class="o">:^</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span> <span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
+       <span class="nl">parameters:</span><span class="p">@{</span><span class="s">@"color"</span><span class="o">:</span> <span class="s">@"green"</span><span class="p">}</span>
+       <span class="nl">constructingBodyWithBlock:</span><span class="o">^</span><span class="p">(</span><span class="n">id</span><span class="o">&lt;</span><span class="n">AFMultipartFormData</span><span class="o">&gt;</span> <span class="n">formData</span><span class="p">)</span> <span class="p">{</span>
         <span class="p">[</span><span class="n">formData</span> <span class="nf">appendPartWithFileURL</span><span class="p">:</span><span class="n">filePath</span> <span class="nf">name</span><span class="p">:</span><span class="s">@"image"</span> <span class="n">error</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
-    <span class="p">}</span> <span class="n">success</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span> <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Success: %@"</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
     <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
@@ -159,19 +160,19 @@
 
 <p>If you are handling XML or data, then you want to use a <a href="https://github.com/AFNetworking/AFNetworking#serialization">different serializer</a>.</p>
 
-<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// To handle XML
-</span>    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// To handle XML</span>
+    <span class="n">AFHTTPRequestOperationManager</span> <span class="o">*</span><span class="n">manager</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="nf">manager</span><span class="p">];</span>
     <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFXMLParserResponseSerializer</span> <span class="nf">new</span><span class="p">];</span>
-    <span class="c1">// Or data
-</span>    <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPResponseSerializer</span> <span class="nf">new</span><span class="p">];</span>
+    <span class="c1">// Or data</span>
+    <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFHTTPResponseSerializer</span> <span class="nf">new</span><span class="p">];</span>
 </code></pre></div></div>
 
 <p>AFNetworking is strict with the <code class="highlighter-rouge">Content-Type</code>.</p>
 
 <p>So if your response is a “text/plain” when you are using a JSON serializer, you can do this:</p>
 
-<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// Tip by dStudios
-</span>    <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span><span class="p">.</span><span class="n">acceptableContentTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSSet</span> <span class="nf">setWithObject</span><span class="p">:</span><span class="s">@"text/plain"</span><span class="p">];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// Tip by dStudios</span>
+    <span class="n">manager</span><span class="p">.</span><span class="n">responseSerializer</span><span class="p">.</span><span class="n">acceptableContentTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSSet</span> <span class="nf">setWithObject</span><span class="p">:</span><span class="s">@"text/plain"</span><span class="p">];</span>
 </code></pre></div></div>
 
         </section>

@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>SenTestingKit does not support wait for blocks | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="SenTestingKit does not support wait for blocks" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="I was using SenTestingKit, the default unit testing framework from Apple, when I found out that it does not support tests that involve asynchronous methods, or blocks." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"I was using SenTestingKit, the default unit testing framework from Apple, when I found out that it does not support tests that involve asynchronous methods, or blocks.","datePublished":"2012-10-03T00:21:00+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2012/10/03/sentestingkit-does-not-support-wait-for-blocks/"},"image":null,"url":"https://samwize.com/2012/10/03/sentestingkit-does-not-support-wait-for-blocks/","name":null,"author":null,"headline":"SenTestingKit does not support wait for blocks","dateModified":"2012-10-03T00:21:00+08:00","@context":"http://schema.org"}</script>
+{"description":"I was using SenTestingKit, the default unit testing framework from Apple, when I found out that it does not support tests that involve asynchronous methods, or blocks.","headline":"SenTestingKit does not support wait for blocks","dateModified":"2012-10-03T00:21:00+08:00","datePublished":"2012-10-03T00:21:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2012/10/03/sentestingkit-does-not-support-wait-for-blocks/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2012/10/03/sentestingkit-does-not-support-wait-for-blocks/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -88,21 +89,21 @@
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">testBlockMethod</span> <span class="p">{</span>
     <span class="n">dispatch_semaphore_t</span> <span class="n">semaphore</span> <span class="o">=</span> <span class="n">dispatch_semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 
-    <span class="c1">// Your block method eg. AFNetworking
-</span>    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://httpbin.org/ip"</span><span class="p">];</span>
+    <span class="c1">// Your block method eg. AFNetworking</span>
+    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://httpbin.org/ip"</span><span class="p">];</span>
     <span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
     <span class="n">AFJSONRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFJSONRequestOperation</span> <span class="nf">JSONRequestOperationWithRequest</span><span class="p">:</span><span class="n">request</span> <span class="nf">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span><span class="p">,</span> <span class="n">NSHTTPURLResponse</span> <span class="o">*</span><span class="n">response</span><span class="p">,</span> <span class="n">id</span> <span class="n">JSON</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"IP Address: %@"</span><span class="p">,</span> <span class="p">[</span><span class="n">JSON</span> <span class="nf">valueForKeyPath</span><span class="p">:</span><span class="s">@"origin"</span><span class="p">]);</span>
         <span class="n">STAssertNotNil</span><span class="p">(</span><span class="n">JSON</span><span class="p">,</span> <span class="s">@"JSON not loaded"</span><span class="p">);</span>
-        <span class="c1">// Signal that block has completed
-</span>        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
+        <span class="c1">// Signal that block has completed</span>
+        <span class="n">dispatch_semaphore_signal</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
     <span class="p">}</span> <span class="n">failure</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
     <span class="p">[</span><span class="n">operation</span> <span class="nf">start</span><span class="p">];</span>
 
-    <span class="c1">// Run loop
-</span>    <span class="k">while</span> <span class="p">(</span><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_NOW</span><span class="p">))</span>
+    <span class="c1">// Run loop</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">dispatch_semaphore_wait</span><span class="p">(</span><span class="n">semaphore</span><span class="p">,</span> <span class="n">DISPATCH_TIME_NOW</span><span class="p">))</span>
         <span class="p">[[</span><span class="n">NSRunLoop</span> <span class="nf">currentRunLoop</span><span class="p">]</span> <span class="nf">runMode</span><span class="p">:</span><span class="n">NSDefaultRunLoopMode</span>
-                                 <span class="nf">beforeDate</span><span class="p">:[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
+                                 <span class="nl">beforeDate:</span><span class="p">[</span><span class="n">NSDate</span> <span class="nf">dateWithTimeIntervalSinceNow</span><span class="p">:</span><span class="mi">10</span><span class="p">]];</span>
     <span class="n">dispatch_release</span><span class="p">(</span><span class="n">semaphore</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div></div>

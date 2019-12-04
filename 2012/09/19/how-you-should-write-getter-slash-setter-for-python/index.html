@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>How you should write getter/setter for Python | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="How you should write getter/setter for Python" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Coming from the Java world, I am used to writing getter/setter for every member variables that I want to expose. (truth is I made use of IDE to auto generate)" />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"Coming from the Java world, I am used to writing getter/setter for every member variables that I want to expose. (truth is I made use of IDE to auto generate)","datePublished":"2012-09-19T18:49:00+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/"},"image":null,"url":"https://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/","name":null,"author":null,"headline":"How you should write getter/setter for Python","dateModified":"2012-09-19T18:49:00+08:00","@context":"http://schema.org"}</script>
+{"description":"Coming from the Java world, I am used to writing getter/setter for every member variables that I want to expose. (truth is I made use of IDE to auto generate)","headline":"How you should write getter/setter for Python","dateModified":"2012-09-19T18:49:00+08:00","datePublished":"2012-09-19T18:49:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -94,17 +95,17 @@
 	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_foo</span> <span class="o">=</span> <span class="mi">1</span>
 
-	<span class="nd">@property</span>
+	<span class="o">@</span><span class="nb">property</span>
 	<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_foo</span>
 </code></pre></div></div>
 
-<p>It uses an annotation <code class="highlighter-rouge"><span class="k">@property</span></code>. Then to access the property:</p>
+<p>It uses an annotation <code class="highlighter-rouge">@property</code>. Then to access the property:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_class</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
 <span class="k">print</span> <span class="n">my_class</span><span class="o">.</span><span class="n">foo</span>
-<span class="c"># 1</span>
-</code></pre></div></div>
+<span class="c1"># 1
+</span></code></pre></div></div>
 
 <h3 id="setter">Setter</h3>
 
@@ -113,7 +114,7 @@
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 	<span class="o">...</span>
 
-	<span class="nd">@foo.setter</span>
+	<span class="o">@</span><span class="n">foo</span><span class="o">.</span><span class="n">setter</span>
 	<span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">_foo</span> <span class="o">=</span> <span class="n">value</span>
 </code></pre></div></div>

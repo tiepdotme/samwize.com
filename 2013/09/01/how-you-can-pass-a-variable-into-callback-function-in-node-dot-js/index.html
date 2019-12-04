@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>How to pass a variable into a callback function in Node.js | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="How to pass a variable into a callback function in Node.js" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Because Node.js works asynchronously, things might not work as you think, if you are still stuck in the synchronous world.." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"Because Node.js works asynchronously, things might not work as you think, if you are still stuck in the synchronous world..","datePublished":"2013-09-01T18:42:00+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/09/01/how-you-can-pass-a-variable-into-callback-function-in-node-dot-js/"},"image":null,"url":"https://samwize.com/2013/09/01/how-you-can-pass-a-variable-into-callback-function-in-node-dot-js/","name":null,"author":null,"headline":"How to pass a variable into a callback function in Node.js","dateModified":"2013-09-01T18:42:00+08:00","@context":"http://schema.org"}</script>
+{"description":"Because Node.js works asynchronously, things might not work as you think, if you are still stuck in the synchronous world..","headline":"How to pass a variable into a callback function in Node.js","dateModified":"2013-09-01T18:42:00+08:00","datePublished":"2013-09-01T18:42:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/09/01/how-you-can-pass-a-variable-into-callback-function-in-node-dot-js/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2013/09/01/how-you-can-pass-a-variable-into-callback-function-in-node-dot-js/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -93,7 +94,7 @@
 <span class="kd">function</span> <span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 		<span class="c1">// After 1 second, we callback with a result</span>
-    	<span class="nx">callback</span><span class="p">(</span><span class="s1">'dumb result'</span><span class="p">)</span>
+    	<span class="nx">callback</span><span class="p">(</span><span class="dl">'</span><span class="s1">dumb result</span><span class="dl">'</span><span class="p">)</span>
     <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -105,7 +106,7 @@
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Incorrect version</span>
 <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"i = "</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="s2">" , response = "</span> <span class="o">+</span> <span class="nx">response</span><span class="p">);</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">i = </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">i</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> , response = </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">response</span><span class="p">);</span>
 	<span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -123,7 +124,7 @@
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Correct version</span>
 <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">dummy</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"i = "</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">i</span> <span class="o">+</span> <span class="s2">" , response = "</span> <span class="o">+</span> <span class="nx">response</span><span class="p">);</span>
+		<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">i = </span><span class="dl">"</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">i</span> <span class="o">+</span> <span class="dl">"</span><span class="s2"> , response = </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">response</span><span class="p">);</span>
 	<span class="p">}.</span><span class="nx">bind</span><span class="p">(</span> <span class="p">{</span><span class="na">i</span><span class="p">:</span> <span class="nx">i</span><span class="p">}</span> <span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div></div>

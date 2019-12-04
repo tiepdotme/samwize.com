@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Bumping Build Number | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Bumping Build Number" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version.","datePublished":"2015-01-30T09:14:03+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2015/01/30/bumping-build-number/"},"image":null,"url":"https://samwize.com/2015/01/30/bumping-build-number/","name":null,"author":null,"headline":"Bumping Build Number","dateModified":"2015-01-30T09:14:03+08:00","@context":"http://schema.org"}</script>
+{"description":"Every new version uploaded to iTunes Connect needs to have a different build number in order to differentiate the version.","headline":"Bumping Build Number","dateModified":"2015-01-30T09:14:03+08:00","datePublished":"2015-01-30T09:14:03+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2015/01/30/bumping-build-number/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2015/01/30/bumping-build-number/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -90,9 +91,9 @@
 <p>Create a <strong>Run Script</strong> in your project <strong>Build Phases</strong></p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="k">)</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="si">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span><span class="nb">expr</span> <span class="nv">$bN</span> + 1<span class="si">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="si">)</span>
 /usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
 </code></pre></div></div>
 
@@ -106,7 +107,7 @@
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 <span class="k">if</span> <span class="o">[</span> <span class="k">${</span><span class="nv">CONFIGURATION</span><span class="k">}</span> <span class="o">==</span> <span class="s2">"Release"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-</span><span class="nv">buildNumber</span><span class="o">=</span><span class="k">$(</span>git rev-list HEAD | wc <span class="nt">-l</span> | tr <span class="nt">-d</span> <span class="s1">' '</span><span class="k">)</span>
+</span><span class="nv">buildNumber</span><span class="o">=</span><span class="si">$(</span>git rev-list HEAD | <span class="nb">wc</span> <span class="nt">-l</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">' '</span><span class="si">)</span>
 /usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$buildNumber</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">PROJECT_DIR</span><span class="k">}</span><span class="s2">/</span><span class="k">${</span><span class="nv">INFOPLIST_FILE</span><span class="k">}</span><span class="s2">"</span>
 <span class="k">fi</span><span class="p">;</span>
 </code></pre></div></div>

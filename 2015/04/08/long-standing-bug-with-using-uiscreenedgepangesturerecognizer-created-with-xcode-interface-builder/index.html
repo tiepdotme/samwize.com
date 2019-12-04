@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Long Standing Bug With Using UIScreenEdgePanGestureRecognizer Created with Xcode Interface Builder | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Long Standing Bug With Using UIScreenEdgePanGestureRecognizer Created with Xcode Interface Builder" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Encountered the same bug when creating a UIScreenEdgePanGestureRecognizer via Interface Builder." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"Encountered the same bug when creating a UIScreenEdgePanGestureRecognizer via Interface Builder.","datePublished":"2015-04-08T16:05:55+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2015/04/08/long-standing-bug-with-using-uiscreenedgepangesturerecognizer-created-with-xcode-interface-builder/"},"image":null,"url":"https://samwize.com/2015/04/08/long-standing-bug-with-using-uiscreenedgepangesturerecognizer-created-with-xcode-interface-builder/","name":null,"author":null,"headline":"Long Standing Bug With Using UIScreenEdgePanGestureRecognizer Created with Xcode Interface Builder","dateModified":"2015-04-08T16:05:55+08:00","@context":"http://schema.org"}</script>
+{"description":"Encountered the same bug when creating a UIScreenEdgePanGestureRecognizer via Interface Builder.","headline":"Long Standing Bug With Using UIScreenEdgePanGestureRecognizer Created with Xcode Interface Builder","dateModified":"2015-04-08T16:05:55+08:00","datePublished":"2015-04-08T16:05:55+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2015/04/08/long-standing-bug-with-using-uiscreenedgepangesturerecognizer-created-with-xcode-interface-builder/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2015/04/08/long-standing-bug-with-using-uiscreenedgepangesturerecognizer-created-with-xcode-interface-builder/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -95,11 +96,11 @@
     <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">view</span> <span class="nf">addGestureRecognizer</span><span class="p">:</span><span class="n">leftEdgeGesture</span><span class="p">];</span>
 <span class="p">}</span>
 
-<span class="o">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="n">handleLeftEdgeGesture</span><span class="o">:</span><span class="p">(</span><span class="n">UIScreenEdgePanGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">gesture</span> <span class="p">{</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">IBAction</span><span class="p">)</span><span class="nf">handleLeftEdgeGesture</span><span class="p">:(</span><span class="n">UIScreenEdgePanGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="nv">gesture</span> <span class="p">{</span>
     <span class="n">NSLog</span><span class="p">(</span><span class="s">@"panned"</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="o">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">gestureRecognizer</span><span class="o">:</span><span class="p">(</span><span class="n">UIGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">gestureRecognizer</span> <span class="n">shouldRecognizeSimultaneouslyWithGestureRecognizer</span><span class="o">:</span><span class="p">(</span><span class="n">UIGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="n">otherGestureRecognizer</span> <span class="p">{</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">gestureRecognizer</span><span class="p">:(</span><span class="n">UIGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="nv">gestureRecognizer</span> <span class="nf">shouldRecognizeSimultaneouslyWithGestureRecognizer</span><span class="p">:(</span><span class="n">UIGestureRecognizer</span> <span class="o">*</span><span class="p">)</span><span class="nv">otherGestureRecognizer</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>

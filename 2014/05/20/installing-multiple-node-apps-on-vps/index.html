@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Installing multiple node apps on VPS | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Installing multiple node apps on VPS" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Digital Ocean has a guide on installing node, and another guide on installing multiple node apps on 1 instance." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"Digital Ocean has a guide on installing node, and another guide on installing multiple node apps on 1 instance.","datePublished":"2014-05-20T14:24:47+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps/"},"image":null,"url":"https://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps/","name":null,"author":null,"headline":"Installing multiple node apps on VPS","dateModified":"2014-05-20T14:24:47+08:00","@context":"http://schema.org"}</script>
+{"description":"Digital Ocean has a guide on installing node, and another guide on installing multiple node apps on 1 instance.","headline":"Installing multiple node apps on VPS","dateModified":"2014-05-20T14:24:47+08:00","datePublished":"2014-05-20T14:24:47+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2014/05/20/installing-multiple-node-apps-on-vps/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -92,7 +93,7 @@
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~
 curl https://raw.githubusercontent.com/creationix/nvm/v0.7.0/install.sh | sh
 <span class="nb">source</span> ~/.profile
-apt-get install git
+apt-get <span class="nb">install </span>git
 </code></pre></div></div>
 
 <p>Then install <code class="highlighter-rouge">node</code>.</p>
@@ -100,7 +101,7 @@ apt-get install git
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># List the versions</span>
 nvm ls-remote
 <span class="c"># Assuming we want 0.10.28</span>
-nvm install 0.10.28
+nvm <span class="nb">install </span>0.10.28
 </code></pre></div></div>
 
 <p>Finally, you probably want to copy the active version into <code class="highlighter-rouge">/usr/local</code>.</p>
@@ -148,7 +149,7 @@ nvm install 0.10.28
 
 <p><a href="https://github.com/nodejitsu/forever">Forever</a> is to ensure your node app gets run <em>forever</em>. That means if it crashes, it will restart for you.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install forever <span class="nt">-g</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>forever <span class="nt">-g</span>
 </code></pre></div></div>
 
 <h2 id="start-with-forever">Start with Forever</h2>
@@ -156,7 +157,7 @@ nvm install 0.10.28
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /var/www/nodeapp.com/
 
 <span class="c"># Install the packages, if you haven't</span>
-npm install
+npm <span class="nb">install</span>
 
 <span class="c"># Start forever, with minimum uptime 10 sec between launches if restart</span>
 <span class="c"># Assuming app.js is your application main script</span>

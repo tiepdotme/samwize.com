@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Simple GET/POST AFNetworking | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Simple GET/POST AFNetworking" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="UPDATE: For AFNetworking 2.0, refer to this tutorial instead." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"UPDATE: For AFNetworking 2.0, refer to this tutorial instead.","datePublished":"2012-10-25T00:32:00+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2012/10/25/simple-get-post-afnetworking/"},"image":null,"url":"https://samwize.com/2012/10/25/simple-get-post-afnetworking/","name":null,"author":null,"headline":"Simple GET/POST AFNetworking","dateModified":"2012-10-25T00:32:00+08:00","@context":"http://schema.org"}</script>
+{"description":"UPDATE: For AFNetworking 2.0, refer to this tutorial instead.","headline":"Simple GET/POST AFNetworking","dateModified":"2012-10-25T00:32:00+08:00","datePublished":"2012-10-25T00:32:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2012/10/25/simple-get-post-afnetworking/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2012/10/25/simple-get-post-afnetworking/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -97,13 +98,13 @@
 
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithBaseURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/"</span><span class="p">]];</span>
     <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">requestWithMethod</span><span class="p">:</span><span class="s">@"GET"</span>
-                                                            <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pigs/"</span>
-                                                      <span class="n">parameters</span><span class="o">:</span><span class="nb">nil</span><span class="p">];</span>
+                                                            <span class="nl">path:</span><span class="s">@"http://samwize.com/api/pigs/"</span>
+                                                      <span class="nl">parameters:</span><span class="nb">nil</span><span class="p">];</span>
     <span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperation</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
     <span class="p">[</span><span class="n">httpClient</span> <span class="nf">registerHTTPOperationClass</span><span class="p">:[</span><span class="n">AFHTTPRequestOperation</span> <span class="nf">class</span><span class="p">]];</span>
     <span class="p">[</span><span class="n">operation</span> <span class="nf">setCompletionBlockWithSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Print the response body in text
-</span>        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Response: %@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]);</span>
+        <span class="c1">// Print the response body in text</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Response: %@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]);</span>
     <span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
     <span class="p">}];</span>
@@ -117,11 +118,11 @@
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">AFHTTPClient</span> <span class="o">*</span><span class="n">httpClient</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPClient</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithBaseURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/"</span><span class="p">]];</span>
     <span class="p">[</span><span class="n">httpClient</span> <span class="nf">setParameterEncoding</span><span class="p">:</span><span class="n">AFFormURLParameterEncoding</span><span class="p">];</span>
     <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">httpClient</span> <span class="nf">requestWithMethod</span><span class="p">:</span><span class="s">@"POST"</span>
-                                                            <span class="nf">path</span><span class="p">:</span><span class="s">@"http://samwize.com/api/pig/"</span>
-                                                      <span class="n">parameters</span><span class="o">:</span><span class="p">@{</span><span class="s">@"name"</span><span class="o">:</span><span class="s">@"piggy"</span><span class="p">}];</span>
+                                                            <span class="nl">path:</span><span class="s">@"http://samwize.com/api/pig/"</span>
+                                                      <span class="nl">parameters:</span><span class="p">@{</span><span class="s">@"name"</span><span class="o">:</span><span class="s">@"piggy"</span><span class="p">}];</span>
 
-    <span class="c1">// Similar to GET code ...
-</span></code></pre></div></div>
+    <span class="c1">// Similar to GET code ...</span>
+</code></pre></div></div>
 
 <p>If you want to POST a json such as <code class="highlighter-rouge">{"name":"piggy"}</code>, you change the encoding:</p>
 

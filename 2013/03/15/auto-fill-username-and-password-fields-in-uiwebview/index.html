@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Auto fill Username &amp; Password fields in UIWebView | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Auto fill Username &amp; Password fields in UIWebView" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="If you use UIWebView and would like to automatically fill in the username and password (or any other text input fields), you could do so by executing Javascript on the webview." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"If you use UIWebView and would like to automatically fill in the username and password (or any other text input fields), you could do so by executing Javascript on the webview.","datePublished":"2013-03-15T01:46:00+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/03/15/auto-fill-username-and-password-fields-in-uiwebview/"},"image":null,"url":"https://samwize.com/2013/03/15/auto-fill-username-and-password-fields-in-uiwebview/","name":null,"author":null,"headline":"Auto fill Username &amp; Password fields in UIWebView","dateModified":"2013-03-15T01:46:00+08:00","@context":"http://schema.org"}</script>
+{"description":"If you use UIWebView and would like to automatically fill in the username and password (or any other text input fields), you could do so by executing Javascript on the webview.","headline":"Auto fill Username &amp; Password fields in UIWebView","dateModified":"2013-03-15T01:46:00+08:00","datePublished":"2013-03-15T01:46:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/03/15/auto-fill-username-and-password-fields-in-uiwebview/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2013/03/15/auto-fill-username-and-password-fields-in-uiwebview/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -84,19 +85,19 @@
 <p>The technique is to implement <a href="http://developer.apple.com/library/ios/#documentation/uikit/reference/UIWebViewDelegate_Protocol/Reference/Reference.html#//apple_ref/occ/intf/UIWebViewDelegate"><code class="highlighter-rouge">UIWebViewDelegate</code></a> and execute some Javascript in <code class="highlighter-rouge">webViewDidFinishLoad</code>.</p>
 
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">webViewDidFinishLoad</span><span class="p">:(</span><span class="n">UIWebView</span> <span class="o">*</span><span class="p">)</span><span class="nv">webView</span> <span class="p">{</span>
-    <span class="c1">// Auto fill the username and password text fields, assuming the HTML has
-</span>    <span class="c1">// &lt;input type="text" name="username"&gt; and
-</span>    <span class="c1">// &lt;input type="text" name="password"&gt;
-</span>    <span class="n">NSString</span> <span class="o">*</span><span class="n">savedUsername</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"USERNAME"</span><span class="p">];</span>
+    <span class="c1">// Auto fill the username and password text fields, assuming the HTML has</span>
+    <span class="c1">// &lt;input type="text" name="username"&gt; and</span>
+    <span class="c1">// &lt;input type="text" name="password"&gt;</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">savedUsername</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"USERNAME"</span><span class="p">];</span>
     <span class="n">NSString</span> <span class="o">*</span><span class="n">savedPassword</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSUserDefaults</span> <span class="nf">standardUserDefaults</span><span class="p">]</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"PASSWORD"</span><span class="p">];</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">savedUsername</span><span class="p">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">savedPassword</span><span class="p">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// Create js strings
-</span>        <span class="n">NSString</span> <span class="o">*</span><span class="n">loadUsernameJS</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"var inputFields = document.querySelectorAll(</span><span class="se">\"</span><span class="s">input[name='username']</span><span class="se">\"</span><span class="s">); \
+        <span class="c1">// Create js strings</span>
+        <span class="n">NSString</span> <span class="o">*</span><span class="n">loadUsernameJS</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"var inputFields = document.querySelectorAll(</span><span class="se">\"</span><span class="s">input[name='username']</span><span class="se">\"</span><span class="s">); \
                                     for (var i = inputFields.length &gt;&gt;&gt; 0; i--;) { inputFields[i].value = '%@';}"</span><span class="p">,</span> <span class="n">savedUsername</span><span class="p">];</span>
         <span class="n">NSString</span> <span class="o">*</span><span class="n">loadPasswordJS</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"var inputFields = document.querySelectorAll(</span><span class="se">\"</span><span class="s">input[name='password']</span><span class="se">\"</span><span class="s">); \
                                     for (var i = inputFields.length &gt;&gt;&gt; 0; i--;) { inputFields[i].value = '%@';}"</span><span class="p">,</span> <span class="n">savedPassword</span><span class="p">];</span>
-        <span class="c1">// Runs the JS
-</span>        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webview</span> <span class="nf">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span> <span class="n">loadUsernameJS</span><span class="p">];</span>
+        <span class="c1">// Runs the JS</span>
+        <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webview</span> <span class="nf">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span> <span class="n">loadUsernameJS</span><span class="p">];</span>
         <span class="p">[</span><span class="n">self</span><span class="p">.</span><span class="n">webview</span> <span class="nf">stringByEvaluatingJavaScriptFromString</span><span class="p">:</span> <span class="n">loadPasswordJS</span><span class="p">];</span>
     <span class="p">}</span>
 <span class="p">}</span>

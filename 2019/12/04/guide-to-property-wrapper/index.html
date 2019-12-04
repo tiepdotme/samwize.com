@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
+
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Guide to Property Wrapper | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Guide to Property Wrapper" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="With SE-0258, Swift 5.1 adds a new syntactic sugar." />
+<meta property="og:description" content="With SE-0258, Swift 5.1 adds a new syntactic sugar." />
+<link rel="canonical" href="https://samwize.com/2019/12/04/guide-to-property-wrapper/" />
+<meta property="og:url" content="https://samwize.com/2019/12/04/guide-to-property-wrapper/" />
+<meta property="og:site_name" content="@samwize" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-12-04T16:38:11+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@samwize" />
+<meta name="twitter:creator" content="@samwize" />
+<meta property="fb:admins" content="704185456" />
+<script type="application/ld+json">
+{"description":"With SE-0258, Swift 5.1 adds a new syntactic sugar.","headline":"Guide to Property Wrapper","dateModified":"2019-12-04T16:38:11+08:00","datePublished":"2019-12-04T16:38:11+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2019/12/04/guide-to-property-wrapper/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2019/12/04/guide-to-property-wrapper/","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link rel="icon" type="image/png" href="https://just2us.com/img/favicon-180.png" />
+  <link rel="apple-touch-icon" href="https://just2us.com/img/favicon-192.png"/>
+
+  <link rel="stylesheet" href="//brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-8504591086876220",
+            enable_page_level_ads: true
+       });
+  </script>
+</head>
+  <link href='/stylesheets/all-5a7a81bc37ee3944f1d90d03edea2c57.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <!-- header start -->
+
+<a href="https://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+
+<!-- header end -->
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Guide to Property Wrapper</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2019-12-04T16:38:11+08:00">04 December 2019</time>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p>With <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md">SE-0258</a>, Swift 5.1 adds a new <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar</a>.</p>
+
+<p>Properties can now add <code class="highlighter-rouge">@SomeAwesomeAttribute</code>, which will wrap the property with <em>some more code</em>.</p>
+
+<h2 id="should-you-use-it">Should you use it?</h2>
+
+<p>Some developers swear never to use <code class="highlighter-rouge">didSet</code> and <code class="highlighter-rouge">willSet</code> on properties, because that’s just adding another place where logics will happen. Another place to look for bug. Another place that can easily break tests..</p>
+
+<p>Similarly, you can avoid using property wrapper. Or at least you can <strong>avoid creating your custom ones</strong>.</p>
+
+<p>If you use Combine or SwiftUI, then there is no escape from knowing them.</p>
+
+<p>They have good reasons to use it. Some codes can be very repetitive; doing the same thing on a certain property. That’s where a wrapper will make the code much readable.</p>
+
+<h2 id="example-of-a-custom-property-wrapper">Example of a custom property wrapper</h2>
+
+<p>So if you’re certain a property wrapper will make your code better, here’s how to create one.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@propertyWrapper</span>
+<span class="kd">struct</span> <span class="kt">Loud</span> <span class="p">{</span>
+
+    <span class="kd">private</span> <span class="k">var</span> <span class="nv">original</span><span class="p">:</span> <span class="kt">String</span>
+
+    <span class="c1">// 1. This is how the wrapper get &amp; set the property</span>
+    <span class="k">var</span> <span class="nv">wrappedValue</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">original</span><span class="o">.</span><span class="nf">uppercased</span><span class="p">()</span> <span class="p">}</span>
+        <span class="k">set</span> <span class="p">{</span> <span class="n">original</span> <span class="o">=</span> <span class="n">newValue</span> <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 2. An init</span>
+    <span class="nf">init</span><span class="p">(</span><span class="nv">wrappedValue</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span>  <span class="p">{</span>
+        <span class="n">original</span> <span class="o">=</span> <span class="n">wrappedValue</span>
+    <span class="p">}</span>
+
+    <span class="c1">// 3. Optional - provide another wrapper value of ANY TYPE, when access via the prefix `$`</span>
+    <span class="k">var</span> <span class="nv">projectedValue</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span>
+        <span class="k">get</span> <span class="p">{</span> <span class="k">return</span> <span class="n">original</span><span class="o">.</span><span class="n">count</span> <span class="p">}</span>
+        <span class="k">set</span> <span class="p">{</span> <span class="n">original</span> <span class="o">=</span> <span class="s">"</span><span class="se">\(</span><span class="n">newValue</span><span class="se">)</span><span class="s">"</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The code creates a <code class="highlighter-rouge">@Loud</code> that can wrap <code class="highlighter-rouge">String</code> properties, making them always UPPERCASED. You can also wrap generics, which I will not go into.</p>
+
+<p>The essence:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">@propertyWrapper</code> declaration</li>
+  <li><code class="highlighter-rouge">wrappedValue</code> with the type it can wrap</li>
+  <li><code class="highlighter-rouge">init(wrappedValue:)</code> with a custom initialization</li>
+  <li><code class="highlighter-rouge">projectedValue</code> (optional) is another special wrapper</li>
+</ol>
+
+<h2 id="usage">Usage</h2>
+
+<p>Let’s wrap the <code class="highlighter-rouge">greetings</code> property with our custom wrapper <code class="highlighter-rouge">@Loud</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">User</span> <span class="p">{</span>
+    <span class="kd">@Loud</span> <span class="k">var</span> <span class="nv">greetings</span> <span class="o">=</span> <span class="s">"Hello"</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>With that, using the property <code class="highlighter-rouge">greetings</code> will provide the wrapped value.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">greetings</span><span class="p">)</span> <span class="c1">// "HELLO"</span>
+</code></pre></div></div>
+
+<p>You can also use the <strong>projected value</strong> via <code class="highlighter-rouge">$greetings</code> (prefix with a <code class="highlighter-rouge">$</code>). In our custom property wrapper, it returns the string length, as an <code class="highlighter-rouge">Int</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">print</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="err">$</span><span class="n">greetings</span><span class="p">)</span> <span class="c1">// 5</span>
+</code></pre></div></div>
+
+<p>A projected value is just <em>another convenient wrapper</em>, for <em>any type</em>.</p>
+
+<p>In Combine, <code class="highlighter-rouge">@Published</code> uses the projected value to access the <code class="highlighter-rouge">Publisher</code> for the property. <em>So $ gives Publisher.</em> It is up to the custom property wrapper on <em>what $ gives</em>.</p>
+
+<p>Since the <code class="highlighter-rouge">$</code> prefix don’t give any meaning on what it actually projects, you have to dig into the code, or <em>RTFD</em>.</p>
+
+<p>So once again, use them sparingly.</p>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/cover-2015.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+    
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+  </body>
+</html>

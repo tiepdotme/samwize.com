@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>WWDC 2017 - What’s New in Foundation | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="WWDC 2017 - What’s New in Foundation" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Summary of what’s new in Foundation, Swift 4, from session 212. Tip: You can download WWDC videos easily with wwdc-dl." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"Summary of what’s new in Foundation, Swift 4, from session 212. Tip: You can download WWDC videos easily with wwdc-dl.","datePublished":"2017-08-03T16:17:08+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2017/08/03/wwdc-2017-whats-new-in-foundation/"},"image":null,"url":"https://samwize.com/2017/08/03/wwdc-2017-whats-new-in-foundation/","name":null,"author":null,"headline":"WWDC 2017 - What’s New in Foundation","dateModified":"2017-08-03T16:17:08+08:00","@context":"http://schema.org"}</script>
+{"description":"Summary of what’s new in Foundation, Swift 4, from session 212. Tip: You can download WWDC videos easily with wwdc-dl.","headline":"WWDC 2017 - What’s New in Foundation","dateModified":"2017-08-03T16:17:08+08:00","datePublished":"2017-08-03T16:17:08+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2017/08/03/wwdc-2017-whats-new-in-foundation/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2017/08/03/wwdc-2017-whats-new-in-foundation/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -88,10 +89,10 @@
 <p><img src="/images/wwdc-foundation-keypath.png" alt="" /></p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// To get via keypath</span>
-<span class="k">let</span> <span class="nv">age</span> <span class="o">=</span> <span class="n">ben</span><span class="p">[</span><span class="nv">keyPath</span><span class="p">:</span> <span class="err">\</span><span class="kt">Kid</span><span class="o">.</span><span class="n">age</span><span class="p">]</span>
+<span class="k">let</span> <span class="nv">age</span> <span class="o">=</span> <span class="n">ben</span><span class="p">[</span><span class="nv">keyPath</span><span class="p">:</span> <span class="p">\</span><span class="kt">Kid</span><span class="o">.</span><span class="n">age</span><span class="p">]</span>
 
 <span class="c1">// To set via keypaht</span>
-<span class="n">ben</span><span class="p">[</span><span class="nv">keyPath</span><span class="p">:</span> <span class="err">\</span><span class="kt">Kid</span><span class="o">.</span><span class="n">nickname</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Ben"</span>
+<span class="n">ben</span><span class="p">[</span><span class="nv">keyPath</span><span class="p">:</span> <span class="p">\</span><span class="kt">Kid</span><span class="o">.</span><span class="n">nickname</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Ben"</span>
 </code></pre></div></div>
 
 <h2 id="appending-key-paths">Appending Key Paths</h2>
@@ -111,7 +112,7 @@
 <p><img src="/images/wwdc-foundation-keypath-kvo.png" alt="" /></p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// To use</span>
-<span class="k">let</span> <span class="nv">observation</span> <span class="o">=</span> <span class="n">mia</span><span class="o">.</span><span class="nf">observe</span><span class="p">(</span><span class="err">\</span><span class="o">.</span><span class="n">age</span><span class="p">)</span> <span class="p">{</span> <span class="n">observed</span><span class="p">,</span> <span class="n">change</span> <span class="k">in</span>
+<span class="k">let</span> <span class="nv">observation</span> <span class="o">=</span> <span class="n">mia</span><span class="o">.</span><span class="nf">observe</span><span class="p">(\</span><span class="o">.</span><span class="n">age</span><span class="p">)</span> <span class="p">{</span> <span class="n">observed</span><span class="p">,</span> <span class="n">change</span> <span class="k">in</span>
   <span class="c1">// observed is the updated "mia"</span>
 <span class="p">}</span>
 </code></pre></div></div>

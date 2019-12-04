@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Queue HTTP Operations with AFNetworking | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Queue HTTP Operations with AFNetworking" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="In a previous post, I wrote about a simple usage of AFNetworking, the de facto HTTP library for iOS." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"In a previous post, I wrote about a simple usage of AFNetworking, the de facto HTTP library for iOS.","datePublished":"2013-03-02T22:55:00+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/03/02/queue-http-operations-with-afnetworking/"},"image":null,"url":"https://samwize.com/2013/03/02/queue-http-operations-with-afnetworking/","name":null,"author":null,"headline":"Queue HTTP Operations with AFNetworking","dateModified":"2013-03-02T22:55:00+08:00","@context":"http://schema.org"}</script>
+{"description":"In a previous post, I wrote about a simple usage of AFNetworking, the de facto HTTP library for iOS.","headline":"Queue HTTP Operations with AFNetworking","dateModified":"2013-03-02T22:55:00+08:00","datePublished":"2013-03-02T22:55:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/03/02/queue-http-operations-with-afnetworking/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2013/03/02/queue-http-operations-with-afnetworking/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -93,21 +94,21 @@
 
 <h2 id="adding-an-operation-to-a-queue">Adding an operation to a queue</h2>
 
-<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create a http operation
-</span><span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/api/cars/"</span><span class="p">];</span>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create a http operation</span>
+<span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"http://samwize.com/api/cars/"</span><span class="p">];</span>
 <span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
 <span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperation</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithRequest</span><span class="p">:</span><span class="n">request</span><span class="p">];</span>
 <span class="p">[</span><span class="n">httpClient</span> <span class="nf">registerHTTPOperationClass</span><span class="p">:[</span><span class="n">AFHTTPRequestOperation</span> <span class="nf">class</span><span class="p">]];</span>
 <span class="p">[</span><span class="n">operation</span> <span class="nf">setCompletionBlockWithSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Print the response body in text
-</span>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Response: %@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]);</span>
+    <span class="c1">// Print the response body in text</span>
+    <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Response: %@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithData</span><span class="p">:</span><span class="n">responseObject</span> <span class="nf">encoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">]);</span>
 <span class="p">}</span> <span class="nf">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Error: %@"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
 <span class="p">}];</span>
 
-<span class="c1">// Add the operation to a queue
-// It will start once added
-</span><span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="c1">// Add the operation to a queue</span>
+<span class="c1">// It will start once added</span>
+<span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
 <span class="p">[</span><span class="n">operationQueue</span> <span class="nf">addOperation</span><span class="p">:</span><span class="n">operation</span><span class="p">];</span>
 </code></pre></div></div>
 
@@ -116,8 +117,8 @@
 <h2 id="adding-multiple-operations-and-run-them-concurrently">Adding multiple operations and run them concurrently</h2>
 
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-<span class="c1">// Set the max number of concurrent operations (threads)
-</span><span class="p">[</span><span class="n">operationQueue</span> <span class="nf">setMaxConcurrentOperationCount</span><span class="p">:</span><span class="mi">3</span><span class="p">];</span>
+<span class="c1">// Set the max number of concurrent operations (threads)</span>
+<span class="p">[</span><span class="n">operationQueue</span> <span class="nf">setMaxConcurrentOperationCount</span><span class="p">:</span><span class="mi">3</span><span class="p">];</span>
 <span class="p">[</span><span class="n">operationQueue</span> <span class="nf">addOperations</span><span class="p">:@[</span><span class="n">operation1</span><span class="p">,</span> <span class="n">operation2</span><span class="p">,</span> <span class="n">operation3</span><span class="p">]</span> <span class="nf">waitUntilFinished</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
 </code></pre></div></div>
 
@@ -126,8 +127,8 @@
 <p>Let’s say we have 2 operations, and we want <code class="highlighter-rouge">operation2</code> to start only after <code class="highlighter-rouge">operation1</code> has finish.</p>
 
 <div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSOperationQueue</span> <span class="o">*</span><span class="n">operationQueue</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSOperationQueue</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-<span class="c1">// Make operation2 depend on operation1
-</span><span class="p">[</span><span class="n">operation2</span> <span class="nf">addDependency</span><span class="p">:</span><span class="n">operation1</span><span class="p">];</span>
+<span class="c1">// Make operation2 depend on operation1</span>
+<span class="p">[</span><span class="n">operation2</span> <span class="nf">addDependency</span><span class="p">:</span><span class="n">operation1</span><span class="p">];</span>
 <span class="p">[</span><span class="n">operationQueue</span> <span class="nf">addOperations</span><span class="p">:@[</span><span class="n">operation1</span><span class="p">,</span> <span class="n">operation2</span><span class="p">,</span> <span class="n">operation3</span><span class="p">]</span> <span class="nf">waitUntilFinished</span><span class="p">:</span><span class="nb">NO</span><span class="p">];</span>
 
 </code></pre></div></div>

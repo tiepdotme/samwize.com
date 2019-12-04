@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>How to add, edit and remove iOS calendar events | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="How to add, edit and remove iOS calendar events" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="You can access a user calendar to insert new event, or to edit or delete." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"You can access a user calendar to insert new event, or to edit or delete.","datePublished":"2014-07-09T07:03:16+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/07/09/how-to-add-edit-and-remove-ios-calendar-events/"},"image":null,"url":"https://samwize.com/2014/07/09/how-to-add-edit-and-remove-ios-calendar-events/","name":null,"author":null,"headline":"How to add, edit and remove iOS calendar events","dateModified":"2014-07-09T07:03:16+08:00","@context":"http://schema.org"}</script>
+{"description":"You can access a user calendar to insert new event, or to edit or delete.","headline":"How to add, edit and remove iOS calendar events","dateModified":"2014-07-09T07:03:16+08:00","datePublished":"2014-07-09T07:03:16+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/07/09/how-to-add-edit-and-remove-ios-calendar-events/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2014/07/09/how-to-add-edit-and-remove-ios-calendar-events/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -95,13 +96,13 @@
   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">granted</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
   <span class="n">EKEvent</span> <span class="o">*</span><span class="n">event</span> <span class="o">=</span> <span class="p">[</span><span class="n">EKEvent</span> <span class="nf">eventWithEventStore</span><span class="p">:</span><span class="n">store</span><span class="p">];</span>
   <span class="n">event</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@"Event Title"</span><span class="p">;</span>
-  <span class="n">event</span><span class="p">.</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">];</span> <span class="c1">// today
-</span>  <span class="n">event</span><span class="p">.</span><span class="n">endDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">event</span><span class="p">.</span><span class="n">startDate</span> <span class="nf">dateByAddingTimeInterval</span><span class="p">:</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">];</span>  <span class="c1">// Duration 1 hr
-</span>  <span class="p">[</span><span class="n">event</span> <span class="nf">setCalendar</span><span class="p">:[</span><span class="n">store</span> <span class="nf">defaultCalendarForNewEvents</span><span class="p">]];</span>
+  <span class="n">event</span><span class="p">.</span><span class="n">startDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDate</span> <span class="nf">date</span><span class="p">];</span> <span class="c1">// today</span>
+  <span class="n">event</span><span class="p">.</span><span class="n">endDate</span> <span class="o">=</span> <span class="p">[</span><span class="n">event</span><span class="p">.</span><span class="n">startDate</span> <span class="nf">dateByAddingTimeInterval</span><span class="p">:</span><span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="p">];</span>  <span class="c1">// Duration 1 hr</span>
+  <span class="p">[</span><span class="n">event</span> <span class="nf">setCalendar</span><span class="p">:[</span><span class="n">store</span> <span class="nf">defaultCalendarForNewEvents</span><span class="p">]];</span>
   <span class="n">NSError</span> <span class="o">*</span><span class="n">err</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
   <span class="p">[</span><span class="n">store</span> <span class="nf">saveEvent</span><span class="p">:</span><span class="n">event</span> <span class="nf">span</span><span class="p">:</span><span class="n">EKSpanThisEvent</span> <span class="n">commit</span><span class="o">:</span><span class="nb">YES</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">err</span><span class="p">];</span>
-  <span class="n">NSString</span> <span class="o">*</span><span class="n">savedEventId</span> <span class="o">=</span> <span class="n">event</span><span class="p">.</span><span class="n">eventIdentifier</span><span class="p">;</span>  <span class="c1">// Store this so you can access this event later
-</span><span class="p">}];</span>
+  <span class="n">NSString</span> <span class="o">*</span><span class="n">savedEventId</span> <span class="o">=</span> <span class="n">event</span><span class="p">.</span><span class="n">eventIdentifier</span><span class="p">;</span>  <span class="c1">// Store this so you can access this event later</span>
+<span class="p">}];</span>
 
 </code></pre></div></div>
 
@@ -111,10 +112,10 @@
 <span class="p">[</span><span class="n">store</span> <span class="nf">requestAccessToEntityType</span><span class="p">:</span><span class="n">EKEntityTypeEvent</span> <span class="nf">completion</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">granted</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">granted</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
   <span class="n">EKEvent</span> <span class="o">*</span><span class="n">event</span> <span class="o">=</span> <span class="p">[</span><span class="n">store</span> <span class="nf">eventWithIdentifier</span><span class="p">:</span><span class="n">savedEventId</span><span class="p">];</span>
-  <span class="c1">// Uncomment below if you want to create a new event if savedEventId no longer exists
-</span>  <span class="c1">// if (event == nil)
-</span>  <span class="c1">//   event = [EKEvent eventWithEventStore:store];
-</span>  <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Uncomment below if you want to create a new event if savedEventId no longer exists</span>
+  <span class="c1">// if (event == nil)</span>
+  <span class="c1">//   event = [EKEvent eventWithEventStore:store];</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">NSError</span> <span class="o">*</span><span class="n">err</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
     <span class="n">event</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">@"New event title"</span><span class="p">;</span>
     <span class="p">[</span><span class="n">store</span> <span class="nf">saveEvent</span><span class="p">:</span><span class="n">event</span> <span class="nf">span</span><span class="p">:</span><span class="n">EKSpanThisEvent</span> <span class="n">commit</span><span class="o">:</span><span class="nb">YES</span> <span class="n">error</span><span class="o">:&amp;</span><span class="n">err</span><span class="p">];</span>

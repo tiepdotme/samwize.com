@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Auto Increment Build Number in Xcode | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Auto Increment Build Number in Xcode" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="You can auto increase the number with this build script." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"You can auto increase the number with this build script.","datePublished":"2014-06-15T16:35:05+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/06/15/auto-increment-build-number-in-xcode/"},"image":null,"url":"https://samwize.com/2014/06/15/auto-increment-build-number-in-xcode/","name":null,"author":null,"headline":"Auto Increment Build Number in Xcode","dateModified":"2014-06-15T16:35:05+08:00","@context":"http://schema.org"}</script>
+{"description":"You can auto increase the number with this build script.","headline":"Auto Increment Build Number in Xcode","dateModified":"2014-06-15T16:35:05+08:00","datePublished":"2014-06-15T16:35:05+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2014/06/15/auto-increment-build-number-in-xcode/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2014/06/15/auto-increment-build-number-in-xcode/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -90,9 +91,9 @@
 <p>Add it to your build phase’s run script:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="k">)</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span><span class="si">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span><span class="nb">expr</span> <span class="nv">$bN</span> + 1<span class="si">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="si">)</span>
 /usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
 </code></pre></div></div>
 
@@ -107,9 +108,9 @@
 <p>And so I adapted the above solution by adding a <code class="highlighter-rouge">Info-CFBundleVersion.plist</code> that contains the common number.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span><span class="k">)</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$bN</span> + 1<span class="k">)</span>
-<span class="nv">bN</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="k">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span>/usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Print CFBundleVersion"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span><span class="si">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span><span class="nb">expr</span> <span class="nv">$bN</span> + 1<span class="si">)</span>
+<span class="nv">bN</span><span class="o">=</span><span class="si">$(</span><span class="nb">printf</span> <span class="s2">"%d"</span> <span class="nv">$bN</span><span class="si">)</span>
 /usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$INFOPLIST_FILE</span><span class="s2">"</span>
 /usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Set :CFBundleVersion </span><span class="nv">$bN</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$PROJECT_DIR</span><span class="s2">/Resources/Info-CFBundleVersion.plist"</span>
 </code></pre></div></div>

@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Simple HTTP GET/POST Request in Node.js | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Simple HTTP GET/POST Request in Node.js" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This is a simple tutorial using mikeal’s super-simple-to-use request library." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"This is a simple tutorial using mikeal’s super-simple-to-use request library.","datePublished":"2013-08-31T16:01:00+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/08/31/simple-http-get-slash-post-request-in-node-dot-js/"},"image":null,"url":"https://samwize.com/2013/08/31/simple-http-get-slash-post-request-in-node-dot-js/","name":null,"author":null,"headline":"Simple HTTP GET/POST Request in Node.js","dateModified":"2013-08-31T16:01:00+08:00","@context":"http://schema.org"}</script>
+{"description":"This is a simple tutorial using mikeal’s super-simple-to-use request library.","headline":"Simple HTTP GET/POST Request in Node.js","dateModified":"2013-08-31T16:01:00+08:00","datePublished":"2013-08-31T16:01:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/08/31/simple-http-get-slash-post-request-in-node-dot-js/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2013/08/31/simple-http-get-slash-post-request-in-node-dot-js/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -95,20 +96,20 @@
 
 <h2 id="get">GET</h2>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">);</span>
 
 <span class="c1">// Set the headers</span>
 <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'User-Agent'</span><span class="p">:</span>       <span class="s1">'Super Agent/0.0.1'</span><span class="p">,</span>
-    <span class="s1">'Content-Type'</span><span class="p">:</span>     <span class="s1">'application/x-www-form-urlencoded'</span>
+    <span class="dl">'</span><span class="s1">User-Agent</span><span class="dl">'</span><span class="p">:</span>       <span class="dl">'</span><span class="s1">Super Agent/0.0.1</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span>     <span class="dl">'</span><span class="s1">application/x-www-form-urlencoded</span><span class="dl">'</span>
 <span class="p">}</span>
 
 <span class="c1">// Configure the request</span>
 <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">url</span><span class="p">:</span> <span class="s1">'http://samwize.com'</span><span class="p">,</span>
-    <span class="na">method</span><span class="p">:</span> <span class="s1">'GET'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">http://samwize.com</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
-    <span class="na">qs</span><span class="p">:</span> <span class="p">{</span><span class="s1">'key1'</span><span class="p">:</span> <span class="s1">'xxx'</span><span class="p">,</span> <span class="s1">'key2'</span><span class="p">:</span> <span class="s1">'yyy'</span><span class="p">}</span>
+    <span class="na">qs</span><span class="p">:</span> <span class="p">{</span><span class="dl">'</span><span class="s1">key1</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">xxx</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">key2</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">yyy</span><span class="dl">'</span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1">// Start the request</span>
@@ -124,20 +125,20 @@
 
 <h2 id="post">POST</h2>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'request'</span><span class="p">);</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">request</span><span class="dl">'</span><span class="p">);</span>
 
 <span class="c1">// Set the headers</span>
 <span class="kd">var</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">'User-Agent'</span><span class="p">:</span>       <span class="s1">'Super Agent/0.0.1'</span><span class="p">,</span>
-    <span class="s1">'Content-Type'</span><span class="p">:</span>     <span class="s1">'application/x-www-form-urlencoded'</span>
+    <span class="dl">'</span><span class="s1">User-Agent</span><span class="dl">'</span><span class="p">:</span>       <span class="dl">'</span><span class="s1">Super Agent/0.0.1</span><span class="dl">'</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span>     <span class="dl">'</span><span class="s1">application/x-www-form-urlencoded</span><span class="dl">'</span>
 <span class="p">}</span>
 
 <span class="c1">// Configure the request</span>
 <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">url</span><span class="p">:</span> <span class="s1">'http://samwize.com'</span><span class="p">,</span>
-    <span class="na">method</span><span class="p">:</span> <span class="s1">'POST'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">http://samwize.com</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">headers</span><span class="p">:</span> <span class="nx">headers</span><span class="p">,</span>
-    <span class="na">form</span><span class="p">:</span> <span class="p">{</span><span class="s1">'key1'</span><span class="p">:</span> <span class="s1">'xxx'</span><span class="p">,</span> <span class="s1">'key2'</span><span class="p">:</span> <span class="s1">'yyy'</span><span class="p">}</span>
+    <span class="na">form</span><span class="p">:</span> <span class="p">{</span><span class="dl">'</span><span class="s1">key1</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">xxx</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">key2</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">yyy</span><span class="dl">'</span><span class="p">}</span>
 <span class="p">}</span>
 
 <span class="c1">// Start the request</span>
@@ -155,18 +156,18 @@
 
 <p>To handle gzip encoded response, you will need the <code class="highlighter-rouge">compress-buffer</code> library.</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">uncompress</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'compress-buffer'</span><span class="p">).</span><span class="nx">uncompress</span><span class="p">;</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">uncompress</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">compress-buffer</span><span class="dl">'</span><span class="p">).</span><span class="nx">uncompress</span><span class="p">;</span>
 
 <span class="c1">// Set the headers and options ...</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">,</span> <span class="nx">body</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">statusCode</span> <span class="o">==</span> <span class="mi">200</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// Handle gzip</span>
-        <span class="kd">var</span> <span class="nx">encoding</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">'content-encoding'</span><span class="p">]</span>
-        <span class="k">if</span><span class="p">(</span><span class="nx">encoding</span> <span class="o">&amp;&amp;</span> <span class="nx">encoding</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">'gzip'</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">encoding</span> <span class="o">=</span> <span class="nx">response</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="dl">'</span><span class="s1">content-encoding</span><span class="dl">'</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">encoding</span> <span class="o">&amp;&amp;</span> <span class="nx">encoding</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="dl">'</span><span class="s1">gzip</span><span class="dl">'</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
             <span class="nx">body</span> <span class="o">=</span> <span class="nx">uncompress</span><span class="p">(</span><span class="nx">body</span><span class="p">);</span>
         <span class="p">}</span>
-        <span class="nx">body</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">);</span>
+        <span class="nx">body</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="dl">'</span><span class="s1">utf-8</span><span class="dl">'</span><span class="p">);</span>
         
         <span class="c1">// Print out the response body</span>
         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">body</span><span class="p">)</span>

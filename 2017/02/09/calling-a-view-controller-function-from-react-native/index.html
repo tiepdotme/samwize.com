@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Calling a View Controller Function From React Native | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Calling a View Controller Function From React Native" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="When you mix React Native with existing Swift/Objective-C code base, it gets complex for even the simplest of tasks." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"When you mix React Native with existing Swift/Objective-C code base, it gets complex for even the simplest of tasks.","datePublished":"2017-02-09T14:02:35+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2017/02/09/calling-a-view-controller-function-from-react-native/"},"image":null,"url":"https://samwize.com/2017/02/09/calling-a-view-controller-function-from-react-native/","name":null,"author":null,"headline":"Calling a View Controller Function From React Native","dateModified":"2017-02-09T14:02:35+08:00","@context":"http://schema.org"}</script>
+{"description":"When you mix React Native with existing Swift/Objective-C code base, it gets complex for even the simplest of tasks.","headline":"Calling a View Controller Function From React Native","dateModified":"2017-02-09T14:02:35+08:00","datePublished":"2017-02-09T14:02:35+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2017/02/09/calling-a-view-controller-function-from-react-native/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2017/02/09/calling-a-view-controller-function-from-react-native/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -127,9 +128,9 @@
 
 <p>See how the JavaScript calls the method.</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">NativeModules</span> <span class="p">}</span> <span class="k">from</span> <span class="s1">'react-native'</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">NativeModules</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-native</span><span class="dl">'</span><span class="p">;</span>
 <span class="kd">var</span> <span class="nx">CalendarManager</span> <span class="o">=</span> <span class="nx">NativeModules</span><span class="p">.</span><span class="nx">CalendarManager</span><span class="p">;</span>
-<span class="nx">CalendarManager</span><span class="p">.</span><span class="nx">addEvent</span><span class="p">(</span><span class="s1">'Birthday Party'</span><span class="p">,</span> <span class="s1">'4 Privet Drive, Surrey'</span><span class="p">);</span>
+<span class="nx">CalendarManager</span><span class="p">.</span><span class="nx">addEvent</span><span class="p">(</span><span class="dl">'</span><span class="s1">Birthday Party</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">4 Privet Drive, Surrey</span><span class="dl">'</span><span class="p">);</span>
 </code></pre></div></div>
 
 <p>It <em>looks like</em> the module is using a <strong>singleton</strong> pattern. It is NOT!</p>
@@ -180,7 +181,7 @@
 
 <p>Let’s look at the “manager” code, in Swift:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@objc(AwesomeManager)</span>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@objc</span><span class="p">(</span><span class="kt">AwesomeManager</span><span class="p">)</span>
 <span class="kd">class</span> <span class="kt">AwesomeManager</span><span class="p">:</span> <span class="kt">NSObject</span> <span class="p">{</span>
     
     <span class="kd">static</span> <span class="k">var</span> <span class="nv">viewController</span><span class="p">:</span> <span class="kt">AwesomeViewController</span><span class="p">?</span>

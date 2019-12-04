@@ -12,8 +12,9 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
-  <!-- Begin Jekyll SEO tag v2.3.0 -->
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
 <title>Sample GET/POST using Google AppEngine Java HttpConnection | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Sample GET/POST using Google AppEngine Java HttpConnection" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A sample code on basic usage of HTTP GET/POST is always helpful." />
@@ -28,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"A sample code on basic usage of HTTP GET/POST is always helpful.","datePublished":"2013-02-16T20:26:00+08:00","sameAs":null,"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/02/16/sample-get-slash-post-using-google-appengine-java-httpconnection/"},"image":null,"url":"https://samwize.com/2013/02/16/sample-get-slash-post-using-google-appengine-java-httpconnection/","name":null,"author":null,"headline":"Sample GET/POST using Google AppEngine Java HttpConnection","dateModified":"2013-02-16T20:26:00+08:00","@context":"http://schema.org"}</script>
+{"description":"A sample code on basic usage of HTTP GET/POST is always helpful.","headline":"Sample GET/POST using Google AppEngine Java HttpConnection","dateModified":"2013-02-16T20:26:00+08:00","datePublished":"2013-02-16T20:26:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/02/16/sample-get-slash-post-using-google-appengine-java-httpconnection/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2013/02/16/sample-get-slash-post-using-google-appengine-java-httpconnection/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -92,30 +93,30 @@
 <p>I showed how I set my custom headers, especially the Content-Type header. Then I read the response body by using <code class="highlighter-rouge">BufferedReader</code>, finally parse the string to <code class="highlighter-rouge">JSONObject</code>.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">try</span> <span class="o">{</span>
-        <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://api.myserver.com/v1/comments"</span><span class="o">);</span>
-        <span class="n">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+        <span class="no">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="no">URL</span><span class="o">(</span><span class="s">"https://api.myserver.com/v1/comments"</span><span class="o">);</span>
+        <span class="nc">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="nc">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
         <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"X-Custom-Header"</span><span class="o">,</span> <span class="s">"xxx"</span><span class="o">);</span>
         <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">);</span>
         
-        <span class="k">if</span> <span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()</span> <span class="o">==</span> <span class="nc">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">{</span>
             <span class="c1">// OK</span>
-            <span class="n">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
-            <span class="n">StringBuffer</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span> 
-            <span class="n">String</span> <span class="n">line</span><span class="o">;</span>
+            <span class="nc">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
+            <span class="nc">StringBuffer</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuffer</span><span class="o">();</span> 
+            <span class="nc">String</span> <span class="n">line</span><span class="o">;</span>
             <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">res</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
             <span class="o">}</span>
             <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
             
-            <span class="n">JSONObject</span> <span class="n">jsonObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
-            <span class="n">String</span> <span class="n">count</span> <span class="o">=</span> <span class="n">jsonObj</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"count"</span><span class="o">);</span>
+            <span class="nc">JSONObject</span> <span class="n">jsonObj</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JSONObject</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+            <span class="nc">String</span> <span class="n">count</span> <span class="o">=</span> <span class="n">jsonObj</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"count"</span><span class="o">);</span>
             <span class="o">...</span>
 
         <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
             <span class="c1">// Server returned HTTP error code.</span>
         <span class="o">}</span>
         
-    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">}</span>
 </code></pre></div></div>
 
@@ -124,37 +125,37 @@
 <p>Similarly, this is how you POST data.</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">try</span> <span class="o">{</span>
-        <span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="s">"https://api.myserver.com/v1/comments"</span><span class="o">);</span>
-        <span class="n">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+        <span class="no">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="no">URL</span><span class="o">(</span><span class="s">"https://api.myserver.com/v1/comments"</span><span class="o">);</span>
+        <span class="nc">HttpURLConnection</span> <span class="n">connection</span> <span class="o">=</span> <span class="o">(</span><span class="nc">HttpURLConnection</span><span class="o">)</span> <span class="n">url</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
         <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"X-Custom-Header"</span><span class="o">,</span> <span class="s">"xxx"</span><span class="o">);</span>
         <span class="n">connection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span> <span class="s">"application/json"</span><span class="o">);</span>
         
         <span class="c1">// POST the http body data</span>
         <span class="n">connection</span><span class="o">.</span><span class="na">setDoOutput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
         <span class="n">connection</span><span class="o">.</span><span class="na">setRequestMethod</span><span class="o">(</span><span class="s">"POST"</span><span class="o">);</span>
-        <span class="n">OutputStreamWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OutputStreamWriter</span><span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">());</span>
+        <span class="nc">OutputStreamWriter</span> <span class="n">writer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">());</span>
         <span class="n">writer</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"{\"comment\": \"awesome tutorial\"}"</span><span class="o">);</span>
         <span class="n">writer</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 
-        <span class="k">if</span> <span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()</span> <span class="o">==</span> <span class="n">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">connection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()</span> <span class="o">==</span> <span class="nc">HttpURLConnection</span><span class="o">.</span><span class="na">HTTP_OK</span><span class="o">)</span> <span class="o">{</span>
             <span class="c1">// OK</span>
-            <span class="n">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
-            <span class="n">StringBuffer</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuffer</span><span class="o">();</span> 
-            <span class="n">String</span> <span class="n">line</span><span class="o">;</span>
+            <span class="nc">BufferedReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">()));</span>
+            <span class="nc">StringBuffer</span> <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuffer</span><span class="o">();</span> 
+            <span class="nc">String</span> <span class="n">line</span><span class="o">;</span>
             <span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readLine</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">res</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">line</span><span class="o">);</span>
             <span class="o">}</span>
             <span class="n">reader</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
             
-            <span class="n">JSONObject</span> <span class="n">jsonObj</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
-            <span class="n">String</span> <span class="n">count</span> <span class="o">=</span> <span class="n">jsonObj</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"count"</span><span class="o">);</span>
+            <span class="nc">JSONObject</span> <span class="n">jsonObj</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JSONObject</span><span class="o">(</span><span class="n">res</span><span class="o">);</span>
+            <span class="nc">String</span> <span class="n">count</span> <span class="o">=</span> <span class="n">jsonObj</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"count"</span><span class="o">);</span>
             <span class="o">...</span>
 
         <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
             <span class="c1">// Server returned HTTP error code.</span>
         <span class="o">}</span>
         
-    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
     <span class="o">}</span>
 </code></pre></div></div>
 
