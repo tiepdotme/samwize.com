@@ -19,14 +19,17 @@ As a Singapore developer, I recently receive an email from Apple on the new GST 
 
 > Please note that Apple does not administer GST on sales to customers in Singapore for developers based in Singapore. You are responsible for determining if GST applies to your sales and for remitting GST to the Inland Revenue Authority of Singapore (IRAS).
 
-I am astonished that Apple will charge 7% GST on WORLDWIDE commissions, just because I am not GST registered.
+Apple gave Singapore developers 2 choices:
 
-That is in fact **wrongful** because app revenue derived from overseas (non-Singapore) is obviously not subjected to GST.
+1. Don't register for GST -> Apple charge 7% on WORLDWIDE commissions payable to Apple
+2. Register for GST -> Proceeds unchanged (but you have to file GST return)
 
-GST is applicable to only goods & services **consumed in Singapore**.
+![](http://just2me.com/img/not-gst-registered.png)
+
+![](http://just2me.com/img/gst-registered.png)
 
 ---
 
-Read more at [here](https://just2me.com/2019/12/11/how-gst-on-digital-goods-affect-a-self-employed-app-developer/).
+Read more [here](https://just2me.com/2019/12/11/how-gst-on-digital-goods-affect-a-self-employed-app-developer/).
 
-Overseas (non-Singapore) developers are also affected, though not strongly enforced upon.
+Overseas (non-Singapore) developers are also affected, though not strongly enforced, yet.
