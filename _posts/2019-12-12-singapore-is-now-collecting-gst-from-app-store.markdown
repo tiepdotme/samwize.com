@@ -2,7 +2,7 @@
 layout: post
 title: "Singapore Is Now Collecting GST From App Store"
 date: 2019-12-12T15:49:07+08:00
-categories: []
+categories: [Singapore]
 ---
 
 As a Singapore developer, I recently receive an email from Apple on the new GST law on digital goods & services.
