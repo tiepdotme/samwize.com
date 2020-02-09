@@ -6,9 +6,60 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 08 Feb 2020 12:36:54 +0800</pubDate>
-    <lastBuildDate>Sat, 08 Feb 2020 12:36:54 +0800</lastBuildDate>
+    <pubDate>Sun, 09 Feb 2020 21:52:14 +0800</pubDate>
+    <lastBuildDate>Sun, 09 Feb 2020 21:52:14 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Pitfall: URL for Local Files</title>
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;URL&lt;/code&gt; is a very common data structure, and can be used for http, file, and other schema.&lt;/p&gt;
+
+&lt;p&gt;But I often fell into the pitfalls of using it.&lt;/p&gt;
+
+&lt;p&gt;The biggest of all is using the wrong initializer.&lt;/p&gt;
+
+&lt;h2 id=&quot;initializations-urlfileurlwithpath-vs-urlstring&quot;&gt;Initializations &lt;code class=&quot;highlighter-rouge&quot;&gt;URL(fileURLWithPath:)&lt;/code&gt; vs &lt;code class=&quot;highlighter-rouge&quot;&gt;URL(string:)&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;For &lt;strong&gt;local files&lt;/strong&gt;, always use &lt;code class=&quot;highlighter-rouge&quot;&gt;URL(fileURLWithPath:)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The initialization does 2 things:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Encode if needed&lt;/li&gt;
+  &lt;li&gt;Append &lt;code class=&quot;highlighter-rouge&quot;&gt;file://&lt;/code&gt; if needed&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;So for the string path &lt;code class=&quot;highlighter-rouge&quot;&gt;/Document/Space .txt&lt;/code&gt;, the initialization will create the URL &lt;code class=&quot;highlighter-rouge&quot;&gt;file:///Document/Space%20.txt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;use-filemanager&quot;&gt;Use &lt;code class=&quot;highlighter-rouge&quot;&gt;FileManager&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;Use this for forming URL for local files:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentDirectory&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FileManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;documentDirectory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;userDomainMask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;appropriateFor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;fileURL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;documentDirectory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;appendingPathComponent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;secret.txt&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;pitfall-uiactivityviewcontroller&quot;&gt;Pitfall: &lt;code class=&quot;highlighter-rouge&quot;&gt;UIActivityViewController&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;activityItems&lt;/code&gt; can accept a &lt;code class=&quot;highlighter-rouge&quot;&gt;URL&lt;/code&gt; to a local file, but they need to be in the format of &lt;code class=&quot;highlighter-rouge&quot;&gt;file://...&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If it is not, it will not be sharable 🤔&lt;/p&gt;
+
+&lt;p&gt;So do this, if needed:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;let fileUrl = URL(fileURLWithPath: url.absoluteString)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;Or just don’t ever use &lt;code class=&quot;highlighter-rouge&quot;&gt;URL(string:)&lt;/code&gt; for local files.&lt;/em&gt;&lt;/p&gt;
+</description>
+        <pubDate>Sun, 09 Feb 2020 21:02:00 +0800</pubDate>
+        <link>https://samwize.com/2020/02/09/pitfall-url-for-local-files/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/02/09/pitfall-url-for-local-files/</guid>
+        
+        
+        <category>iOS</category>
+        
+      </item>
     
       <item>
         <title>Bet You Didn't Know: You Don't Need 5.5 Inch Screenshots for App Store</title>
@@ -612,46 +663,6 @@ rvm list known
         <category>Golang</category>
         
         <category>AppEngine</category>
-        
-      </item>
-    
-      <item>
-        <title>Info.plist for a macOS Command Line App</title>
-        <description>&lt;p&gt;After upgrading to Catalina, one of my &lt;a href=&quot;/2016/02/22/have-fun-with-git-lol-commits/&quot;&gt;favorite tool&lt;/a&gt; broke.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;This app has crashed because it attempted to access privacy-sensitive data without a usage description.  The app’s Info.plist must contain an NSCameraUsageDescription key with a string value explaining to the user how the app uses this data.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Seems like Catalina started to enforce on apps to declare the reason for using camera/etc.&lt;/p&gt;
-
-&lt;p&gt;In the world of iOS, this is common, and we simply add to Info.plist.&lt;/p&gt;
-
-&lt;p&gt;But for command line tool (CLI), they are simply a binary, and has no Info.plist. So then how to add an Info.plist?&lt;/p&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
-
-&lt;p&gt;Turns out the solution is simply &lt;strong&gt;have the Info.plist file be in the same directory as the binary&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;In my &lt;a href=&quot;https://github.com/samwize/imagesnap/commit/569d19af64448124aae156b1786ec08d3739343e&quot;&gt;fix&lt;/a&gt; to imagesnap lib, I have not just added Info.plist, but also to copy the file during Build Phase.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Go to Build Phases &amp;gt; Copy Files&lt;/li&gt;
-  &lt;li&gt;Destination set to Products Directory&lt;/li&gt;
-  &lt;li&gt;Add Info.plist&lt;/li&gt;
-  &lt;li&gt;Uncheck “Copy only when installing”&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;This setup would be very necessary for CLI kind of app. I’m surprised that Xcode didn’t automate the setup.&lt;/p&gt;
-
-&lt;p&gt;On any case, lolcommits is &lt;a href=&quot;https://github.com/samwize/lolcommits/commit/306dd0ebf21464de2d7824cfae841517cd094b1f&quot;&gt;fixed&lt;/a&gt; and I can take more photo of me fixing stuff 🤠&lt;/p&gt;
-</description>
-        <pubDate>Sun, 13 Oct 2019 01:29:12 +0800</pubDate>
-        <link>https://samwize.com/2019/10/13/info-plist-for-a-macos-command-line-app/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/10/13/info-plist-for-a-macos-command-line-app/</guid>
-        
-        
-        <category>macOS</category>
         
       </item>
     
