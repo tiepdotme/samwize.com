@@ -6,9 +6,143 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 09 Feb 2020 21:52:14 +0800</pubDate>
-    <lastBuildDate>Sun, 09 Feb 2020 21:52:14 +0800</lastBuildDate>
+    <pubDate>Fri, 14 Feb 2020 16:11:44 +0800</pubDate>
+    <lastBuildDate>Fri, 14 Feb 2020 16:11:44 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Getting Started With SwiftUI</title>
+        <description>&lt;p&gt;I am getting started with SwiftUI, and there’s so much to learn, all over again.&lt;/p&gt;
+
+&lt;p&gt;Luckily, there are plenty of articles and videos.&lt;/p&gt;
+
+&lt;p&gt;Here are some &lt;em&gt;random stuff&lt;/em&gt; that I learnt in the first few days as I try to build a new app. The last section will have more links to resources, and kind of cheat sheet.&lt;/p&gt;
+
+&lt;p&gt;I might just add more to this post as I learn, or might write new blog post specifically on some tricks even around the most common of things..&lt;/p&gt;
+
+&lt;h2 id=&quot;lets-watch-how-to-build-instagram-feed&quot;&gt;Let’s watch how to build Instagram feed&lt;/h2&gt;
+
+&lt;p&gt;Watch on YouTube &lt;a href=&quot;https://www.youtube.com/watch?v=APxrtnxRzwI&quot;&gt;part 1&lt;/a&gt; &amp;amp; &lt;a href=&quot;https://www.youtube.com/watch?v=BiNYCvL1m94&quot;&gt;part 2&lt;/a&gt; where DeLong interactively teach SwiftUI while he replicates Instagram UI.&lt;/p&gt;
+
+&lt;p&gt;There are some framework designs that sucks eg. he doesn’t like &lt;code class=&quot;highlighter-rouge&quot;&gt;NavigationView&lt;/code&gt; and how nav links work. A hideous design about nav link is that all the destination views will be initialized!&lt;/p&gt;
+
+&lt;h2 id=&quot;navigationlink-not-working&quot;&gt;NavigationLink not working?&lt;/h2&gt;
+
+&lt;p&gt;It is so common to not get nav link working. It seems like they are designed to be used only in &lt;code class=&quot;highlighter-rouge&quot;&gt;List&lt;/code&gt;, or nav bar. You might need to use the &lt;code class=&quot;highlighter-rouge&quot;&gt;isActive&lt;/code&gt; &lt;a href=&quot;https://stackoverflow.com/a/59933501/242682&quot;&gt;trick&lt;/a&gt; if the nav link is in a &lt;code class=&quot;highlighter-rouge&quot;&gt;VStack&lt;/code&gt; or etc.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-push-a-view-without-using-navigationlink&quot;&gt;How to push a view without using NavigationLink&lt;/h2&gt;
+
+&lt;p&gt;A workaround is to use a &lt;a href=&quot;https://stackoverflow.com/a/57321795/242682&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hidden&lt;/code&gt; nav link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;present-a-modal-sheet&quot;&gt;&lt;a href=&quot;https://www.hackingwithswift.com/quick-start/swiftui/how-to-present-a-new-view-using-sheets&quot;&gt;Present a modal sheet&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;You need to 1. declare &lt;code class=&quot;highlighter-rouge&quot;&gt;@State isPresented = false&lt;/code&gt;, 2. passing it to &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/view/3352791-sheet&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.sheet()&lt;/code&gt;&lt;/a&gt;, and 3. button action to set &lt;code class=&quot;highlighter-rouge&quot;&gt;isPresented = true&lt;/code&gt;. Sorry it is long and ugly.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-ways-to-dismiss-eg-sheet&quot;&gt;&lt;a href=&quot;https://www.hackingwithswift.com/quick-start/swiftui/how-to-make-a-view-dismiss-itself&quot;&gt;2 ways to dismiss (eg. sheet)&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;Use environment, or pass a binding to the sheet’s &lt;code class=&quot;highlighter-rouge&quot;&gt;isPresented&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-observe-an-state-or-a-control&quot;&gt;How to observe an &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; or a control?&lt;/h2&gt;
+
+&lt;p&gt;You will often have a &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; and pass it to a control such as &lt;code class=&quot;highlighter-rouge&quot;&gt;Toggle&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;TextField&lt;/code&gt;. But you can’t just observe the state with &lt;code class=&quot;highlighter-rouge&quot;&gt;didSet&lt;/code&gt;. Instead, you need to create a binding like &lt;a href=&quot;https://stackoverflow.com/a/59040171/242682&quot;&gt;this&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;modifiers&quot;&gt;Modifiers&lt;/h2&gt;
+
+&lt;p&gt;The concept is used throughout, applying modifier after modifier repeatedly. It is using &lt;strong&gt;Builder design pattern&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;SomeView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;multilineTextAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Modifier 1&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;// Modifier 2&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;          &lt;span class=&quot;c1&quot;&gt;// Modifier 3&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It tends to get messy and with many lines. A trick here is to create customer modifiers.&lt;/p&gt;
+
+&lt;h2 id=&quot;custom-modifiers&quot;&gt;Custom Modifiers&lt;/h2&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CustomModifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ViewModifier&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;multilineTextAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Modifier 1&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;// Modifier 2&lt;/span&gt;
+          &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;          &lt;span class=&quot;c1&quot;&gt;// Modifier 3&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;With that, we can now use it on any View by applying 1 &lt;code class=&quot;highlighter-rouge&quot;&gt;modifier&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;SomeView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;modifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CustomModifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;applying-modifiers-to-a-group-of-views&quot;&gt;Applying modifiers to a group of views&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Group&lt;/code&gt; is a logical grouping, without any layout specific layout like &lt;code class=&quot;highlighter-rouge&quot;&gt;HStack&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;Form&lt;/code&gt;. When you apply a modifier to a group, it will apply to every view in the group.&lt;/p&gt;
+
+&lt;h2 id=&quot;view-erasure&quot;&gt;View Erasure&lt;/h2&gt;
+
+&lt;p&gt;Because SwiftUI need to know the view type during compile time, there will be times you need to erase the type eg. to make 2 views they same type. &lt;code class=&quot;highlighter-rouge&quot;&gt;AnyView&lt;/code&gt; will do that.&lt;/p&gt;
+
+&lt;h2 id=&quot;alert-with-multiple-custom-buttons&quot;&gt;Alert with multiple custom buttons&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Alert&lt;/code&gt; now supports only 2 buttons, and will possibly make it more flexible. Alternatively, &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/actionsheet&quot;&gt;ActionSheet&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;animation--transition&quot;&gt;Animation &amp;amp; Transition&lt;/h2&gt;
+
+&lt;p&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;animation()&lt;/code&gt; to a binding, or use &lt;code class=&quot;highlighter-rouge&quot;&gt;withAnimation()&lt;/code&gt; with state, to animate the view changes.&lt;/p&gt;
+
+&lt;p&gt;The default transition is fade. To change, use the &lt;code class=&quot;highlighter-rouge&quot;&gt;transition()&lt;/code&gt; modifier.&lt;/p&gt;
+
+&lt;h2 id=&quot;resume-the-live-preview&quot;&gt;Resume the live preview&lt;/h2&gt;
+
+&lt;p&gt;Because Xcode will pause the live preview when there is significant update, it is useful to know the shortcut to resume &lt;code class=&quot;highlighter-rouge&quot;&gt;Option+Cmd+P&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;sample-previewprovider&quot;&gt;Sample PreviewProvider&lt;/h2&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;Group&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;colorScheme&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sizeCategory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;extraExtraExtraLarge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;previewDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;iPhone 8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Or .fixed&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Group&lt;/code&gt; displays 2 devices. You can have more, and configure as desired.&lt;/p&gt;
+
+&lt;h2 id=&quot;refactor-the-views&quot;&gt;Refactor the views&lt;/h2&gt;
+
+&lt;p&gt;Because of the way it is designed, a complex view would have deeply nested code, with lots of modifier. To refactor relentlessly, a shortcut is to &lt;code class=&quot;highlighter-rouge&quot;&gt;Cmd+Click&lt;/code&gt; on a view &amp;gt; &lt;strong&gt;Extract subview&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;semantic-colors&quot;&gt;Semantic Colors&lt;/h2&gt;
+
+&lt;p&gt;Some examples:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accentColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Notice this uses an initializer&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;secondaryLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;systemBackground&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;more-resources&quot;&gt;More Resources&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://fuckingswiftui.com/&quot;&gt;https://fuckingswiftui.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/vlondon/awesome-swiftui&quot;&gt;https://github.com/vlondon/awesome-swiftui&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/ivanvorobei/awesome-ios-ui&quot;&gt;https://github.com/ivanvorobei/awesome-ios-ui&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.hackingwithswift.com/quick-start/swiftui/swiftui-tips-and-tricks&quot;&gt;https://www.hackingwithswift.com/quick-start/swiftui/swiftui-tips-and-tricks&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Fri, 14 Feb 2020 10:49:33 +0800</pubDate>
+        <link>https://samwize.com/2020/02/14/getting-started-with-swiftui/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/02/14/getting-started-with-swiftui/</guid>
+        
+        
+        <category>SwiftUI</category>
+        
+      </item>
     
       <item>
         <title>Pitfall: URL for Local Files</title>
@@ -550,119 +684,6 @@ rvm list known
         <link>https://samwize.com/2019/10/19/this-is-how-you-force-your-iphone-to-power-off-if-it-get-stuck/</link>
         <guid isPermaLink="true">https://samwize.com/2019/10/19/this-is-how-you-force-your-iphone-to-power-off-if-it-get-stuck/</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>Migrating App Engine to Go 1.12</title>
-        <description>&lt;p&gt;I was working one of those dreadful migration task today.&lt;/p&gt;
-
-&lt;p&gt;Google &lt;strong&gt;deprecated Go versions 1.9&lt;/strong&gt;, that means I can no longer deploy my app engine projects that use the older versions.&lt;/p&gt;
-
-&lt;p&gt;There are &lt;a href=&quot;https://cloud.google.com/appengine/docs/standard/go112/go-differences#migrating-appengine-sdk&quot;&gt;quite many changes&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Some are considerably minor:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;change of &lt;code class=&quot;highlighter-rouge&quot;&gt;app.yaml&lt;/code&gt; structure,&lt;/li&gt;
-  &lt;li&gt;the need for a &lt;code class=&quot;highlighter-rouge&quot;&gt;main&lt;/code&gt; package, and&lt;/li&gt;
-  &lt;li&gt;replacing &lt;code class=&quot;highlighter-rouge&quot;&gt;google.golang.org/appengine&lt;/code&gt; (urlfetch, log) with golang ones&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Minor, yet it does have much code change.&lt;/p&gt;
-
-&lt;h2 id=&quot;no-more-memcache&quot;&gt;No More Memcache&lt;/h2&gt;
-
-&lt;p&gt;The biggest change turned out to be memcache.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;To use a memcache service on App Engine, use Redis Labs Memcached Cloud instead of App Engine Memcache.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Ouch.&lt;/p&gt;
-
-&lt;p&gt;I now need to use a managed service from &lt;a href=&quot;https://redislabs.com&quot;&gt;Redis&lt;/a&gt;, with it’s own pricing.&lt;/p&gt;
-
-&lt;p&gt;Luckily, Redis starts with a &lt;strong&gt;free tier of 30mb (memory)&lt;/strong&gt;, which might be sufficient for my small project.&lt;/p&gt;
-
-&lt;h2 id=&quot;a-guide-to-redis-with-golang&quot;&gt;A guide to Redis with golang&lt;/h2&gt;
-
-&lt;p&gt;App Engine has &lt;a href=&quot;https://cloud.google.com/appengine/docs/flexible/python/using-redislabs-redis&quot;&gt;a guide to setting up redis&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Good enough guide, except for &lt;strong&gt;one big problem&lt;/strong&gt;. There is a &lt;a href=&quot;https://github.com/GoogleCloudPlatform/golang-samples/issues/1023&quot;&gt;typo&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/appengine-redis-typo.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;REDIS_PASSSWORD&lt;/code&gt; is wrongly spelled with triple-s.. That wasted 1 hour of my time.&lt;/p&gt;
-
-&lt;p&gt;They would have &lt;a href=&quot;https://github.com/GoogleCloudPlatform/golang-samples/issues/1023&quot;&gt;probably fixed&lt;/a&gt; by the time you are reading this. But one wonders how Google make such mistake.&lt;/p&gt;
-
-&lt;h2 id=&quot;using-redigo&quot;&gt;Using redigo&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://godoc.org/github.com/gomodule/redigo/redis&quot;&gt;redigo&lt;/a&gt; is the Redis library in golang.&lt;/p&gt;
-
-&lt;p&gt;I have a very simple use case. Set a key-value with expiration, and get it.&lt;/p&gt;
-
-&lt;h3 id=&quot;1-set-with-expiration&quot;&gt;1. Set with expiration&lt;/h3&gt;
-
-&lt;p&gt;This can be archived with &lt;a href=&quot;https://redis.io/commands/setex&quot;&gt;SETEX&lt;/a&gt;, which is like SET + EXPIRE but atomic.&lt;/p&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;saveToMemcache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redisPool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;expiration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;30&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;SETEX&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;expiration&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;2-get-from-redis&quot;&gt;2. Get from Redis&lt;/h3&gt;
-
-&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;getFromMemcache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redisPool&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;redis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;redisConn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Do&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;GET&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Note that if the key is unavailable/expired, there will be an error.&lt;/p&gt;
-
-&lt;h2 id=&quot;redis-cli&quot;&gt;Redis CLI&lt;/h2&gt;
-
-&lt;p&gt;You can also connect to redis via CLI. Install with &lt;code class=&quot;highlighter-rouge&quot;&gt;brew install redis&lt;/code&gt;, then:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;redis-cli -u redis://ADDRESS:PORT -a PASSWORD
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can then send commands. For example:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;SETEX key 30 value&lt;/code&gt; to set with expiration 30 seconds&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;TTL key&lt;/code&gt; to know the number of seconds to expiration&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;GET key&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FLUSHALL&lt;/code&gt; to remove all keys&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;deploy&quot;&gt;Deploy&lt;/h2&gt;
-
-&lt;p&gt;Another change is that you have to deploy using &lt;code class=&quot;highlighter-rouge&quot;&gt;gcloud&lt;/code&gt; with the project id and version, instead of specifying them in &lt;code class=&quot;highlighter-rouge&quot;&gt;app.yaml&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gcloud app deploy --project myproject --version 123
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The specified version will also be promoted as the default version.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 16 Oct 2019 17:29:59 +0800</pubDate>
-        <link>https://samwize.com/2019/10/16/migrating-app-engine-to-go-1-12/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/10/16/migrating-app-engine-to-go-1-12/</guid>
-        
-        
-        <category>Golang</category>
-        
-        <category>AppEngine</category>
         
       </item>
     
