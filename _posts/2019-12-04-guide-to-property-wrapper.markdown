@@ -86,3 +86,13 @@ In Combine, `@Published` uses the projected value to access the `Publisher` for 
 Since the `$` prefix don't give any meaning on what it actually projects, you have to dig into the code, or _RTFD_.
 
 So once again, use them sparingly.
+
+## BONUS: @dynamicMemberLookup
+
+In [WWDC 2019, session 415](https://developer.apple.com/videos/play/wwdc2019/415/), along with property wrapper, they also talked about a **convenient key path member lookup**.
+
+It is nice to understand how the framework provided `@State` and `@Binding` works.
+
+![](/images/property-wrapper-dynamic-lookup.jpg)
+
+`$slide.title` is slick, because the compiler actually rewrites to `$slide[dynamicMember: \Slide.title]`, which is then a `Binding<String>`!

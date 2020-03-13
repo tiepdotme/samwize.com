@@ -69,8 +69,26 @@ With that, we can now use it on any View by applying 1 `modifier`.
 
 ```swift
 SomeView(...)
-  .modifier(CustomModifier())
+    .modifier(CustomModifier())
 ```
+
+## View Extension
+
+Custom modifier is a good way to refactor your code. Another way is by extending `View`.
+
+```swift
+extension View {
+    public func customModifier(color: Color = .green) -> some View {
+        return multilineTextAlignment(.center)  // Modifier 1
+        .padding(.all)                    // Modifier 2
+        .foregroundColor(color)          // Modifier 3, with `color` passed in
+    }
+}
+```
+
+You can even do [conditional modifier](https://swiftui-lab.com/view-extensions-for-better-code-readability/) (advanced).
+
+When do you use `ViewModifier` and when do you use `View` extension? `ViewModifier` is more powerful because it can have instance variables and `@State`, so use it if that's needed.
 
 ## Applying modifiers to a group of views
 
