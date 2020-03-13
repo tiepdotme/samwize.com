@@ -6,9 +6,174 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 14 Feb 2020 16:11:44 +0800</pubDate>
-    <lastBuildDate>Fri, 14 Feb 2020 16:11:44 +0800</lastBuildDate>
+    <pubDate>Fri, 13 Mar 2020 14:33:07 +0800</pubDate>
+    <lastBuildDate>Fri, 13 Mar 2020 14:33:07 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>How to Layout in SwiftUI?</title>
+        <description>&lt;p&gt;SwiftUI changes everything, again.&lt;/p&gt;
+
+&lt;p&gt;Auto Layout is the past. With SwiftUI, we have these tools at our disposal:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Alignment Guides&lt;/li&gt;
+  &lt;li&gt;Geometry Reader&lt;/li&gt;
+  &lt;li&gt;Anchor Preferences&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;how-layout-works&quot;&gt;How layout works?&lt;/h2&gt;
+
+&lt;p&gt;Watch &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2019/237/&quot;&gt;WWDC 2019 advanced composition and layout&lt;/a&gt; for a good introduction of the new layout system.&lt;/p&gt;
+
+&lt;p&gt;The process is basically:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Parent proposes a size for child&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Child chooses its own size&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Parent places child in parent’s coordinate space&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;SwiftUI is very different because it is the child who defines it’s own size! It is &lt;strong&gt;modern parenting&lt;/strong&gt; (compared to olden days, UIKit is more “traditional”).&lt;/p&gt;
+
+&lt;p&gt;The children can even be rebellious – choosing a size bigger than proposed, and positioning itself out of the parent! There is nothing the parent can do about that..&lt;/p&gt;
+
+&lt;h2 id=&quot;no-more-auto-layout-constraints&quot;&gt;No more auto layout constraints&lt;/h2&gt;
+
+&lt;p&gt;In place of constraints, you have view modifiers like &lt;code class=&quot;highlighter-rouge&quot;&gt;aspectRatio&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;padding&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;frame&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;offset&lt;/code&gt; etc..&lt;/p&gt;
+
+&lt;p&gt;This will feel unnatural. Constraints like equal width is now difficult to achieve. There are lots of trade off, but still cool.&lt;/p&gt;
+
+&lt;p&gt;We now look at the 3 new concepts to handle layout.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-alignment-guides&quot;&gt;1. Alignment Guides&lt;/h2&gt;
+
+&lt;p&gt;The layout system aligns multiple views by positioning all of them along an imaginary line (the guide).&lt;/p&gt;
+
+&lt;p&gt;To do that, you need to specify a &lt;code class=&quot;highlighter-rouge&quot;&gt;CGFloat&lt;/code&gt; value for your view, for a particular alignment. The built-in alignments are &lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;trailing&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;center&lt;/code&gt;, etc that we know.&lt;/p&gt;
+
+&lt;p&gt;We can have custom alignments too. This is a boilerplate to creating one:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Create a custom vertical alignment&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;VerticalAlignment&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomeVerticalAlignment&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AlignmentID&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;defaultValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ViewDimensions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;d&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;VerticalAlignment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;someVerticalAlignment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;VerticalAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;SomeVerticalAlignment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then use it in your views.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;HStack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;alignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someVerticalAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Center +10&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;alignmentGuide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someVerticalAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Center -10&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;alignmentGuide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someVerticalAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;HStack&lt;/code&gt; says it is using the custom alignment, and the 2 texts specify where that alignment is for their view.&lt;/p&gt;
+
+&lt;p&gt;The best resource out there is from &lt;a href=&quot;https://swiftui-lab.com/alignment-guides/&quot;&gt;The SwiftUI Lab&lt;/a&gt;. Read it for more info.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-geometry-reader&quot;&gt;2. Geometry Reader&lt;/h2&gt;
+
+&lt;p&gt;Might come as a surprise, but &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/geometryreader&quot;&gt;Geometry Reader&lt;/a&gt; is also a view!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;A container view that defines its content as a function of its own size and coordinate space.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Using &lt;code class=&quot;highlighter-rouge&quot;&gt;GeometryReader&lt;/code&gt;, children can know the size and position of their parent (the container).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;GeometryReader&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;geometry&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;VStack&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;// The children can now use the size, position etc&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;yellow&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;geometry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;3-anchor-preferences&quot;&gt;3. Anchor Preferences&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Preferences&lt;/strong&gt; is like a contract that you can pass between views.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Access view preferences and provide child views with configuration data.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;strong&gt;Anchor Preferences&lt;/strong&gt; is a special kind of preferences, useful for setting &amp;amp; retrieving geometry from child views.&lt;/p&gt;
+
+&lt;p&gt;While Geometry Reader is for child to know their parent, Preference is the other way round - for parent (and anyone) to know children.&lt;/p&gt;
+
+&lt;p&gt;It require a 4 steps to use:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// 1. Define a data for holding the preference&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyAnchorPreferenceData&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Anchor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CGRect&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// It can also be some kind of CGPoint data&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 2. Define a preference key&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyAnchorPreferenceKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PreferenceKey&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;defaultValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;MyAnchorPreferenceData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inout&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;MyAnchorPreferenceData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nextValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;MyAnchorPreferenceData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;contentsOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;nextValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 3. Child: Set anchor preference&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// `value` is the bounds (CGRect) for the view. It can also be top, center, etc (CGPoint)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;// `transform` will create the preference, and $0 will be a CGRect/CGPoint as per `value` type&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;childView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;anchorPreference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyAnchorPreferenceKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;MyAnchorPreferenceData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// 4. Parent: Retrieve anchor preference&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;parentView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;backgroundPreferenceValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;MyAnchorPreferenceKey&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;preferences&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;GeometryReader&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;geometry&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Return a view as a background&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Use geometry and preferences like this to get the child bounds:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;preference&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;preferences&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// preferences is [MyAnchorPreferenceData], and you should filter to your needs&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bounds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;geometry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;preference&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that the &lt;code class=&quot;highlighter-rouge&quot;&gt;bounds&lt;/code&gt; will automatically be in the parent’s &lt;code class=&quot;highlighter-rouge&quot;&gt;CoordinateSpace&lt;/code&gt;. Usually, &lt;code class=&quot;highlighter-rouge&quot;&gt;GeometryReader&lt;/code&gt; has to work with a &lt;code class=&quot;highlighter-rouge&quot;&gt;CoordinateSpace&lt;/code&gt; (where you can name one with “string”, and that’s ugly). By using Anchor Preferences with Geometry Reader, we can avoid the &lt;code class=&quot;highlighter-rouge&quot;&gt;CoordinateSpace&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The parent can also use &lt;code class=&quot;highlighter-rouge&quot;&gt;.overlayPreferenceValue()&lt;/code&gt;, which will draw in front instead.&lt;/p&gt;
+
+&lt;p&gt;Again, SwiftUI Lab has good write up on the topic:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://swiftui-lab.com/communicating-with-the-view-tree-part-1/&quot;&gt;Preferences&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://swiftui-lab.com/communicating-with-the-view-tree-part-2/&quot;&gt;Anchor Preferences&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://swiftui-lab.com/view-extensions-for-better-code-readability/&quot;&gt;Simplifying the Use of View Preferences&lt;/a&gt; to refactor code (using View extension).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;pitfall-verticalalignment-or-horizontalalignment&quot;&gt;PITFALL: VerticalAlignment or HorizontalAlignment&lt;/h2&gt;
+
+&lt;p&gt;Most of the time, you can be lazy and just use &lt;code class=&quot;highlighter-rouge&quot;&gt;.center&lt;/code&gt;. But in some cases, it could have undesirable effect.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;HStack&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;alignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someVerticalAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+  &lt;span class=&quot;kt&quot;&gt;SomeView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;alignmentGuide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;someVerticalAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Sometimes, this might be inferred as HorizontalAlignment.center&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;VerticalAlignment&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// This will be what we want&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Tue, 10 Mar 2020 17:34:07 +0800</pubDate>
+        <link>https://samwize.com/2020/03/10/how-to-layout-in-swiftui/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/03/10/how-to-layout-in-swiftui/</guid>
+        
+        
+        <category>SwiftUI</category>
+        
+      </item>
     
       <item>
         <title>Getting Started With SwiftUI</title>
@@ -73,8 +238,25 @@
 &lt;p&gt;With that, we can now use it on any View by applying 1 &lt;code class=&quot;highlighter-rouge&quot;&gt;modifier&lt;/code&gt;.&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;SomeView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;modifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CustomModifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;modifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CustomModifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;view-extension&quot;&gt;View Extension&lt;/h2&gt;
+
+&lt;p&gt;Custom modifier is a good way to refactor your code. Another way is by extending &lt;code class=&quot;highlighter-rouge&quot;&gt;View&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;customModifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;multilineTextAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Modifier 1&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;// Modifier 2&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;          &lt;span class=&quot;c1&quot;&gt;// Modifier 3, with `color` passed in&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can even do &lt;a href=&quot;https://swiftui-lab.com/view-extensions-for-better-code-readability/&quot;&gt;conditional modifier&lt;/a&gt; (advanced).&lt;/p&gt;
+
+&lt;p&gt;When do you use &lt;code class=&quot;highlighter-rouge&quot;&gt;ViewModifier&lt;/code&gt; and when do you use &lt;code class=&quot;highlighter-rouge&quot;&gt;View&lt;/code&gt; extension? &lt;code class=&quot;highlighter-rouge&quot;&gt;ViewModifier&lt;/code&gt; is more powerful because it can have instance variables and &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt;, so use it if that’s needed.&lt;/p&gt;
 
 &lt;h2 id=&quot;applying-modifiers-to-a-group-of-views&quot;&gt;Applying modifiers to a group of views&lt;/h2&gt;
 
@@ -519,6 +701,16 @@
 &lt;p&gt;Since the &lt;code class=&quot;highlighter-rouge&quot;&gt;$&lt;/code&gt; prefix don’t give any meaning on what it actually projects, you have to dig into the code, or &lt;em&gt;RTFD&lt;/em&gt;.&lt;/p&gt;
 
 &lt;p&gt;So once again, use them sparingly.&lt;/p&gt;
+
+&lt;h2 id=&quot;bonus-dynamicmemberlookup&quot;&gt;BONUS: @dynamicMemberLookup&lt;/h2&gt;
+
+&lt;p&gt;In &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2019/415/&quot;&gt;WWDC 2019, session 415&lt;/a&gt;, along with property wrapper, they also talked about a &lt;strong&gt;convenient key path member lookup&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;It is nice to understand how the framework provided &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;@Binding&lt;/code&gt; works.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/property-wrapper-dynamic-lookup.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$slide.title&lt;/code&gt; is slick, because the compiler actually rewrites to &lt;code class=&quot;highlighter-rouge&quot;&gt;$slide[dynamicMember: \Slide.title]&lt;/code&gt;, which is then a &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt;!&lt;/p&gt;
 </description>
         <pubDate>Wed, 04 Dec 2019 16:38:11 +0800</pubDate>
         <link>https://samwize.com/2019/12/04/guide-to-property-wrapper/</link>
@@ -633,56 +825,6 @@ rvm list known
         <pubDate>Mon, 25 Nov 2019 22:24:04 +0800</pubDate>
         <link>https://samwize.com/2019/11/25/guide-to-rvm/</link>
         <guid isPermaLink="true">https://samwize.com/2019/11/25/guide-to-rvm/</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>This Is How You Force iPhone to Power Off if It Get Stuck</title>
-        <description>&lt;p&gt;When I say stuck, I mean &lt;strong&gt;really stuck&lt;/strong&gt; – when pressing the side button and volume button does NOT even work.&lt;/p&gt;
-
-&lt;h2 id=&quot;my-situation&quot;&gt;My situation&lt;/h2&gt;
-
-&lt;p&gt;I encountered this situation when building and installing an app from Xcode. As usual, the app launch screen is shown first. But something went wrong. It took way too long, and stuck at the launch screen.&lt;/p&gt;
-
-&lt;p&gt;Intuitively, I stop Xcode, pull out the USB cable, and try to reinstall again.&lt;/p&gt;
-
-&lt;p&gt;But, my &lt;strong&gt;iPhone 11 Pro Max&lt;/strong&gt; does not respond any longer!&lt;/p&gt;
-
-&lt;p&gt;Ok, not totally unresponsive. In fact, it can do many things &lt;strong&gt;except going to the springboard&lt;/strong&gt;. It can still access widgets, play music, volume button still works, use siri, camera, etc..&lt;/p&gt;
-
-&lt;p&gt;It just can’t go to springboard and access apps.&lt;/p&gt;
-
-&lt;h2 id=&quot;failed-ways&quot;&gt;Failed Ways&lt;/h2&gt;
-
-&lt;p&gt;I tried many ways to shut down the iPhone, including:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The designed trigger by holding all 3 available buttons on iPhone – Somehow the “Slide to Power Off” never appears&lt;/li&gt;
-  &lt;li&gt;Asking Siri to shut down – Nope, Siri can’t do that&lt;/li&gt;
-  &lt;li&gt;Connect to mac – But can’t connect&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;The backup plan is to drain the battery, by playing loud music constantly with the screen on. Unfortunately, my battery was at 100%..&lt;/p&gt;
-
-&lt;h2 id=&quot;the-ultimate-solution&quot;&gt;The Ultimate Solution&lt;/h2&gt;
-
-&lt;p&gt;Then an ingenious idea struck me, after trying for an hour.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Tell Siri to &lt;strong&gt;Turn on assistive touch&lt;/strong&gt; – that Siri can do&lt;/li&gt;
-  &lt;li&gt;Use the on screen buttons to access &lt;strong&gt;Device &amp;gt; Restart&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/turn-on-assistive-touch-restart.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Yeah.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;UPDATE: &lt;a href=&quot;https://twitter.com/samwize/status/1185382585100193792&quot;&gt;hboon&lt;/a&gt; gave a tip that here is a &lt;a href=&quot;https://support.apple.com/en-sg/guide/iphone/iph8903c3ee6/ios&quot;&gt;hard reset sequence&lt;/a&gt;: press volume up (release) &amp;gt; press volume down (release) &amp;gt; press and hold side button. This will reset without needing the slider (TBC).&lt;/em&gt;&lt;/p&gt;
-</description>
-        <pubDate>Sat, 19 Oct 2019 00:16:37 +0800</pubDate>
-        <link>https://samwize.com/2019/10/19/this-is-how-you-force-your-iphone-to-power-off-if-it-get-stuck/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/10/19/this-is-how-you-force-your-iphone-to-power-off-if-it-get-stuck/</guid>
         
         
       </item>

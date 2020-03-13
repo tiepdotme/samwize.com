@@ -158,6 +158,16 @@
 
 <p>So once again, use them sparingly.</p>
 
+<h2 id="bonus-dynamicmemberlookup">BONUS: @dynamicMemberLookup</h2>
+
+<p>In <a href="https://developer.apple.com/videos/play/wwdc2019/415/">WWDC 2019, session 415</a>, along with property wrapper, they also talked about a <strong>convenient key path member lookup</strong>.</p>
+
+<p>It is nice to understand how the framework provided <code class="highlighter-rouge">@State</code> and <code class="highlighter-rouge">@Binding</code> works.</p>
+
+<p><img src="/images/property-wrapper-dynamic-lookup.jpg" alt="" /></p>
+
+<p><code class="highlighter-rouge">$slide.title</code> is slick, because the compiler actually rewrites to <code class="highlighter-rouge">$slide[dynamicMember: \Slide.title]</code>, which is then a <code class="highlighter-rouge">Binding&lt;String&gt;</code>!</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">

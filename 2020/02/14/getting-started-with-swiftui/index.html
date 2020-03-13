@@ -139,8 +139,25 @@
 <p>With that, we can now use it on any View by applying 1 <code class="highlighter-rouge">modifier</code>.</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">SomeView</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-  <span class="o">.</span><span class="nf">modifier</span><span class="p">(</span><span class="kt">CustomModifier</span><span class="p">())</span>
+    <span class="o">.</span><span class="nf">modifier</span><span class="p">(</span><span class="kt">CustomModifier</span><span class="p">())</span>
 </code></pre></div></div>
+
+<h2 id="view-extension">View Extension</h2>
+
+<p>Custom modifier is a good way to refactor your code. Another way is by extending <code class="highlighter-rouge">View</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">customModifier</span><span class="p">(</span><span class="nv">color</span><span class="p">:</span> <span class="kt">Color</span> <span class="o">=</span> <span class="o">.</span><span class="n">green</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">multilineTextAlignment</span><span class="p">(</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>  <span class="c1">// Modifier 1</span>
+        <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">all</span><span class="p">)</span>                    <span class="c1">// Modifier 2</span>
+        <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>          <span class="c1">// Modifier 3, with `color` passed in</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>You can even do <a href="https://swiftui-lab.com/view-extensions-for-better-code-readability/">conditional modifier</a> (advanced).</p>
+
+<p>When do you use <code class="highlighter-rouge">ViewModifier</code> and when do you use <code class="highlighter-rouge">View</code> extension? <code class="highlighter-rouge">ViewModifier</code> is more powerful because it can have instance variables and <code class="highlighter-rouge">@State</code>, so use it if that’s needed.</p>
 
 <h2 id="applying-modifiers-to-a-group-of-views">Applying modifiers to a group of views</h2>
 
