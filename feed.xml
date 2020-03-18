@@ -6,9 +6,39 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 17 Mar 2020 13:03:59 +0800</pubDate>
-    <lastBuildDate>Tue, 17 Mar 2020 13:03:59 +0800</lastBuildDate>
+    <pubDate>Wed, 18 Mar 2020 14:17:43 +0800</pubDate>
+    <lastBuildDate>Wed, 18 Mar 2020 14:17:43 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>How to Add a Local Swift Package</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2019/410/&quot;&gt;WWDC 2019 Session 410&lt;/a&gt; covered how you can create your own library. In the video you’ll see how the package is a folder that can be dragged around, and that once it is in a git repo, you can add it to other projects.&lt;/p&gt;
+
+&lt;p&gt;But what if you want to link to a local library?&lt;/p&gt;
+
+&lt;p&gt;The steps are seemingly easy:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Drag the package &lt;strong&gt;folder&lt;/strong&gt; into your project&lt;/li&gt;
+  &lt;li&gt;In project target &amp;gt; add framework &amp;gt; select the local package&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;pitfall-you-can-only-open-1-project&quot;&gt;PITFALL: You can only open 1 project&lt;/h2&gt;
+
+&lt;p&gt;The pitfall is that you cannot have multiple projects (that include the same local package) opened at the same time.&lt;/p&gt;
+
+&lt;p&gt;If you open multiple projects, the local package will NOT be expandable in the project navigator, nor can it be added as a framework.&lt;/p&gt;
+
+&lt;p&gt;Hopefully Xcode can fix that.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 18 Mar 2020 10:48:11 +0800</pubDate>
+        <link>https://samwize.com/2020/03/18/how-to-add-a-local-swift-package/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/03/18/how-to-add-a-local-swift-package/</guid>
+        
+        
+        <category>Swift</category>
+        
+      </item>
     
       <item>
         <title>How to Use Preference</title>
@@ -768,105 +798,6 @@
         
         
         <category>Singapore</category>
-        
-      </item>
-    
-      <item>
-        <title>Guide to Property Wrapper</title>
-        <description>&lt;p&gt;With &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0258-property-wrappers.md&quot;&gt;SE-0258&lt;/a&gt;, Swift 5.1 adds a new &lt;a href=&quot;https://en.wikipedia.org/wiki/Syntactic_sugar&quot;&gt;syntactic sugar&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Properties can now add &lt;code class=&quot;highlighter-rouge&quot;&gt;@SomeAwesomeAttribute&lt;/code&gt;, which will wrap the property with &lt;em&gt;some more code&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;should-you-use-it&quot;&gt;Should you use it?&lt;/h2&gt;
-
-&lt;p&gt;Some developers swear never to use &lt;code class=&quot;highlighter-rouge&quot;&gt;didSet&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;willSet&lt;/code&gt; on properties, because that’s just adding another place where logics will happen. Another place to look for bug. Another place that can easily break tests..&lt;/p&gt;
-
-&lt;p&gt;Similarly, you can avoid using property wrapper. Or at least you can &lt;strong&gt;avoid creating your custom ones&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you use Combine or SwiftUI, then there is no escape from knowing them.&lt;/p&gt;
-
-&lt;p&gt;They have good reasons to use it. Some codes can be very repetitive; doing the same thing on a certain property. That’s where a wrapper will make the code much readable.&lt;/p&gt;
-
-&lt;h2 id=&quot;example-of-a-custom-property-wrapper&quot;&gt;Example of a custom property wrapper&lt;/h2&gt;
-
-&lt;p&gt;So if you’re certain a property wrapper will make your code better, here’s how to create one.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@propertyWrapper&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Loud&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;original&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 1. This is how the wrapper get &amp;amp; set the property&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;wrappedValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;original&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;uppercased&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;original&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newValue&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 2. An init&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;wrappedValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;original&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;wrappedValue&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// 3. Optional - provide another wrapper value of ANY TYPE, when access via the prefix `$`&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;projectedValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;original&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;original&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;newValue&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The code creates a &lt;code class=&quot;highlighter-rouge&quot;&gt;@Loud&lt;/code&gt; that can wrap &lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt; properties, making them always UPPERCASED. You can also wrap generics, which I will not go into.&lt;/p&gt;
-
-&lt;p&gt;The essence:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@propertyWrapper&lt;/code&gt; declaration&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;wrappedValue&lt;/code&gt; with the type it can wrap&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;init(wrappedValue:)&lt;/code&gt; with a custom initialization&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;projectedValue&lt;/code&gt; (optional) is another special wrapper&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;usage&quot;&gt;Usage&lt;/h2&gt;
-
-&lt;p&gt;Let’s wrap the &lt;code class=&quot;highlighter-rouge&quot;&gt;greetings&lt;/code&gt; property with our custom wrapper &lt;code class=&quot;highlighter-rouge&quot;&gt;@Loud&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;@Loud&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;greetings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;With that, using the property &lt;code class=&quot;highlighter-rouge&quot;&gt;greetings&lt;/code&gt; will provide the wrapped value.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;greetings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &quot;HELLO&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can also use the &lt;strong&gt;projected value&lt;/strong&gt; via &lt;code class=&quot;highlighter-rouge&quot;&gt;$greetings&lt;/code&gt; (prefix with a &lt;code class=&quot;highlighter-rouge&quot;&gt;$&lt;/code&gt;). In our custom property wrapper, it returns the string length, as an &lt;code class=&quot;highlighter-rouge&quot;&gt;Int&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;greetings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 5&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;A projected value is just &lt;em&gt;another convenient wrapper&lt;/em&gt;, for &lt;em&gt;any type&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;In Combine, &lt;code class=&quot;highlighter-rouge&quot;&gt;@Published&lt;/code&gt; uses the projected value to access the &lt;code class=&quot;highlighter-rouge&quot;&gt;Publisher&lt;/code&gt; for the property. &lt;em&gt;So $ gives Publisher.&lt;/em&gt; It is up to the custom property wrapper on &lt;em&gt;what $ gives&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Since the &lt;code class=&quot;highlighter-rouge&quot;&gt;$&lt;/code&gt; prefix don’t give any meaning on what it actually projects, you have to dig into the code, or &lt;em&gt;RTFD&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;So once again, use them sparingly.&lt;/p&gt;
-
-&lt;h2 id=&quot;bonus-dynamicmemberlookup&quot;&gt;BONUS: @dynamicMemberLookup&lt;/h2&gt;
-
-&lt;p&gt;In &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2019/415/&quot;&gt;WWDC 2019, session 415&lt;/a&gt;, along with property wrapper, they also talked about a &lt;strong&gt;convenient key path member lookup&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;It is nice to understand how the framework provided &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;@Binding&lt;/code&gt; works.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/property-wrapper-dynamic-lookup.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$slide.title&lt;/code&gt; is slick, because the compiler actually rewrites to &lt;code class=&quot;highlighter-rouge&quot;&gt;$slide[dynamicMember: \Slide.title]&lt;/code&gt;, which is then a &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt;!&lt;/p&gt;
-</description>
-        <pubDate>Wed, 04 Dec 2019 16:38:11 +0800</pubDate>
-        <link>https://samwize.com/2019/12/04/guide-to-property-wrapper/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/12/04/guide-to-property-wrapper/</guid>
-        
         
       </item>
     
