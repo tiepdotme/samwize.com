@@ -6,9 +6,148 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 18 Mar 2020 14:17:43 +0800</pubDate>
-    <lastBuildDate>Wed, 18 Mar 2020 14:17:43 +0800</lastBuildDate>
+    <pubDate>Fri, 27 Mar 2020 23:04:44 +0800</pubDate>
+    <lastBuildDate>Fri, 27 Mar 2020 23:04:44 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>How to use Binding in SwiftUI</title>
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;@ObservedObject&lt;/code&gt; are used to declare the source of truth.&lt;/p&gt;
+
+&lt;p&gt;On the other hand, &lt;code class=&quot;highlighter-rouge&quot;&gt;@Binding&lt;/code&gt; is &lt;strong&gt;NOT the truth&lt;/strong&gt;, but an intermediary, or kind of derived truth.&lt;/p&gt;
+
+&lt;h2 id=&quot;binding-to-a-state&quot;&gt;Binding to a state&lt;/h2&gt;
+
+&lt;p&gt;We can declare a state easily in a view, for a &lt;strong&gt;value type&lt;/strong&gt; (never a reference type).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We can use the &lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt; as per normal String, and access it’s binding via &lt;code class=&quot;highlighter-rouge&quot;&gt;$title&lt;/code&gt; ($ will use the projected value of &lt;a href=&quot;/2019/12/04/guide-to-property-wrapper/&quot;&gt;property wrapper&lt;/a&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Usage 1: Providing the value to a view&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// Usage 2: In a 2-way binding&lt;/span&gt;
+&lt;span class=&quot;kt&quot;&gt;TextField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Binding is like providing a &lt;strong&gt;reference type&lt;/strong&gt; to the actual value type. And it is 2-way, such that when the &lt;code class=&quot;highlighter-rouge&quot;&gt;TextField&lt;/code&gt; set the binded value, the actual value type will be updated. It is kind of &lt;em&gt;like passing a reference&lt;/em&gt; to the TextField.&lt;/p&gt;
+
+&lt;h2 id=&quot;declare-a-binding&quot;&gt;Declare a binding&lt;/h2&gt;
+
+&lt;p&gt;Let’s say now you have a view that does not have the source of truth, and so you gonna provide a binding. Declaring the binding type is easy.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@Binding&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The usage is exactly the same as using state.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$title&lt;/code&gt; is still the binding, of type &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;title&lt;/code&gt; is still a &lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt; type&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;providing-a-binding-init&quot;&gt;Providing a binding init&lt;/h2&gt;
+
+&lt;p&gt;You can provide a custom init and pass in &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Binding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Just 1 strange syntax.&lt;/p&gt;
+
+&lt;p&gt;To set the binding, you have to use &lt;code class=&quot;highlighter-rouge&quot;&gt;_title&lt;/code&gt; – yes, with an underscore! Why, you may wonder..&lt;/p&gt;
+
+&lt;h2 id=&quot;isnt--used-to-access-the-binding&quot;&gt;Isn’t &lt;code class=&quot;highlighter-rouge&quot;&gt;$&lt;/code&gt; used to access the binding?&lt;/h2&gt;
+
+&lt;p&gt;Yes, &lt;code class=&quot;highlighter-rouge&quot;&gt;$title&lt;/code&gt; will access the binding. But it is a &lt;strong&gt;get-only property&lt;/strong&gt;, as said in the doc.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;/// The binding value, as &quot;unwrapped&quot; by accessing `$foo` on a `@Binding` property.&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;projectedValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Binding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To &lt;strong&gt;set&lt;/strong&gt; the binding, you have to access the &lt;strong&gt;synthesized property&lt;/strong&gt; with a &lt;code class=&quot;highlighter-rouge&quot;&gt;_&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Nostalgic.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Reminds me of the magical Objective-C days..&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;creating-a-binding&quot;&gt;Creating a binding&lt;/h2&gt;
+
+&lt;p&gt;So far we use the property wrapper &lt;code class=&quot;highlighter-rouge&quot;&gt;@Binding&lt;/code&gt; to wrap a value type, thus providing a binding.&lt;/p&gt;
+
+&lt;p&gt;We can also create an instance of a binding directly, providing the getter &amp;amp; setter implementations.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Binding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Provide the getter&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello World&quot;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Provide the setter&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To get the String value of the binding, use &lt;code class=&quot;highlighter-rouge&quot;&gt;title.wrappedValue&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;constant-binding&quot;&gt;Constant Binding&lt;/h2&gt;
+
+&lt;p&gt;The above getter implementation in fact is so simple, that you can use a &lt;code class=&quot;highlighter-rouge&quot;&gt;constant&lt;/code&gt; “binding”.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;helloWorld&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Binding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;constant&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello World&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;transforming-a-binding&quot;&gt;Transforming a binding&lt;/h2&gt;
+
+&lt;p&gt;We have the title &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt;. How do we implement a isTitleTooLong &lt;code class=&quot;highlighter-rouge&quot;&gt;Bool&lt;/code&gt;? Answer: Computed property.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;isTitleTooLong&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is just a &lt;em&gt;computed property&lt;/em&gt;, but it works for SwiftUI because when a dependency is updated, the whole view is evaluated.&lt;/p&gt;
+
+&lt;p&gt;You can also wrap the computed property with a &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;Bool&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can even create a binding like this (in body, but &lt;a href=&quot;https://forums.swift.org/t/how-to-fix-error-escaping-closure-captures-mutating-self-parameter-in-init/29870/4&quot;&gt;not in init&lt;/a&gt;):&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;reversed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Binding&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reversed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reversed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;However, in all these cases, when the title &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt; is updated, it does not directly emit the event to the computed property nor the transforming binding. Which brings us to the next section.&lt;/p&gt;
+
+&lt;h2 id=&quot;observing-a-binding&quot;&gt;Observing a binding&lt;/h2&gt;
+
+&lt;p&gt;I don’t know how to do that.. Tell me if you know 😉&lt;/p&gt;
+
+&lt;p&gt;Here’s a thought, but it does not use Binding. Instead, use &lt;code class=&quot;highlighter-rouge&quot;&gt;ObservableObject&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;@Published&lt;/code&gt; property (property wrapper providing a publisher). The published property can easily be observed.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;observableObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;publishedValue&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Observe&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Fri, 27 Mar 2020 16:01:43 +0800</pubDate>
+        <link>https://samwize.com/2020/03/27/how-to-use-binding-in-swiftui/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/03/27/how-to-use-binding-in-swiftui/</guid>
+        
+        
+        <category>SwiftUI</category>
+        
+      </item>
     
       <item>
         <title>How to Add a Local Swift Package</title>
@@ -748,56 +887,6 @@
         <category>Singapore</category>
         
         <category>Life</category>
-        
-      </item>
-    
-      <item>
-        <title>Singapore Is Now Collecting GST From App Store</title>
-        <description>&lt;p&gt;As a Singapore developer, I recently receive an email from Apple on the new GST law on digital goods &amp;amp; services.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://just2me.com/img/apple-email-on-gst-change.jpg&quot; alt=&quot;&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;originally-posted-in-my-other-blog-here-is-an-excerpt&quot;&gt;Originally posted in &lt;a href=&quot;https://just2me.com/2019/12/11/how-gst-on-digital-goods-affect-a-self-employed-app-developer/&quot;&gt;my other blog&lt;/a&gt;, here is an excerpt&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Due to tax regulation changes that go into effect on January 1, 2020 in Singapore, developers based in Singapore must provide their Singapore Goods and Services Tax (GST) registration status in App Store Connect by January 13, 2020.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;If you provide your GST Registration Number, your proceeds will not be affected.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;If you do not, you will be considered taxable per Singapore GST laws and regulations, therefore you will be charged 7% GST on WORLDWIDE commissions payable to Apple.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Please note that Apple does not administer GST on sales to customers in Singapore for developers based in Singapore. You are responsible for determining if GST applies to your sales and for remitting GST to the Inland Revenue Authority of Singapore (IRAS).&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Apple gave Singapore developers 2 choices:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Don’t register for GST -&amp;gt; Apple charge 7% on WORLDWIDE commissions payable to Apple&lt;/li&gt;
-  &lt;li&gt;Register for GST -&amp;gt; Proceeds unchanged (but you have to file GST return)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://just2me.com/img/not-gst-registered.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://just2me.com/img/gst-registered.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;Read more &lt;a href=&quot;https://just2me.com/2019/12/11/how-gst-on-digital-goods-affect-a-self-employed-app-developer/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Overseas (non-Singapore) developers are also affected, though not strongly enforced, yet.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 12 Dec 2019 15:49:07 +0800</pubDate>
-        <link>https://samwize.com/2019/12/12/singapore-is-now-collecting-gst-from-app-store/</link>
-        <guid isPermaLink="true">https://samwize.com/2019/12/12/singapore-is-now-collecting-gst-from-app-store/</guid>
-        
-        
-        <category>Singapore</category>
         
       </item>
     
