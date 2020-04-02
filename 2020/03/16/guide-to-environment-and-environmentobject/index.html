@@ -105,6 +105,9 @@
 <span class="c1">/// 3. Pass to children using `environment`</span>
 <span class="kt">ParentView</span><span class="p">()</span>
   <span class="o">.</span><span class="nf">environment</span><span class="p">(\</span><span class="o">.</span><span class="n">foo</span><span class="p">,</span> <span class="mf">1.23</span><span class="p">)</span>
+
+<span class="c1">/// 4. Children declare and use</span>
+<span class="kd">@Environment</span><span class="p">(\</span><span class="o">.</span><span class="n">foo</span><span class="p">)</span> <span class="k">var</span> <span class="nv">foo</span>
 </code></pre></div></div>
 
 <h2 id="2-custom-environmentobject">2. Custom EnvironmentObject</h2>
@@ -146,6 +149,20 @@
 </code></pre></div></div>
 
 <p>NOTE: You must create your <code class="highlighter-rouge">EnvironmentObject</code> and set it from somewhere. If it is never set and the child view uses it, the app will crash.</p>
+
+<h2 id="pitfall-using-in-modal-sheet">PITFALL: Using in modal sheet</h2>
+
+<p>Environment is passed down from a parent to all it’s descendant.</p>
+
+<p>Typically you pass on the root view.</p>
+
+<p>However, if you use a sheet, it will be a <a href="https://github.com/peterfriese/Swift-EnvironmentObject-Demo">sibling to the root</a> (NOT a descendant). So you have to set the environment in the sheet.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">.</span><span class="nf">sheet</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentDetailsView</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">DetailsView</span><span class="p">()</span>
+        <span class="o">.</span><span class="nf">environmentObject</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
         </section>
         <footer class="post-footer">
