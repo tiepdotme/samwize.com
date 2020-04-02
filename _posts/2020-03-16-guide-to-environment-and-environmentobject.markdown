@@ -33,6 +33,9 @@ extension EnvironmentValues {
 /// 3. Pass to children using `environment`
 ParentView()
   .environment(\.foo, 1.23)
+
+/// 4. Children declare and use
+@Environment(\.foo) var foo
 ```
 
 ## 2. Custom EnvironmentObject
@@ -75,3 +78,18 @@ struct ParentView: View {
 ```
 
 NOTE: You must create your `EnvironmentObject` and set it from somewhere. If it is never set and the child view uses it, the app will crash.
+
+## PITFALL: Using in modal sheet
+
+Environment is passed down from a parent to all it's descendant.
+
+Typically you pass on the root view.
+
+However, if you use a sheet, it will be a [sibling to the root](https://github.com/peterfriese/Swift-EnvironmentObject-Demo) (NOT a descendant). So you have to set the environment in the sheet.
+
+```swift
+.sheet(isPresented: $presentDetailsView) {
+    DetailsView()
+        .environmentObject(self.state)
+}
+```
