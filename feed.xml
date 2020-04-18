@@ -6,9 +6,94 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 02 Apr 2020 23:18:39 +0800</pubDate>
-    <lastBuildDate>Thu, 02 Apr 2020 23:18:39 +0800</lastBuildDate>
+    <pubDate>Sat, 18 Apr 2020 20:32:29 +0800</pubDate>
+    <lastBuildDate>Sat, 18 Apr 2020 20:32:29 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>How to Use SwiftUI and Core Data</title>
+        <description>&lt;p&gt;Using SwiftUI’s List is a refreshing change as we no longer use &lt;code class=&quot;highlighter-rouge&quot;&gt;UITableView&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;NSFetchedResultsController&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The Core Data APIs are still the same (I covered the &lt;a href=&quot;/2018/09/01/modern-guide-to-core-data-2018/&quot;&gt;CRUD&lt;/a&gt; previously). The new additions are 2 helpers in the form of property wrapper.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-environment-managedobjectcontext&quot;&gt;1. Environment managedObjectContext&lt;/h2&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;managedObjectContext&lt;/code&gt; is passed via environment, and there is a provided system key. If you create a new project, the boilerplate will pass in in the SceneDelegate to the root view.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;ContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;managedObjectContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In child views, declare the environment to use.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@Environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;managedObjectContext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Just like that, every children has the context, unlike some view decided to use otherwise.&lt;/p&gt;
+
+&lt;h2 id=&quot;2-fetchrequest&quot;&gt;2. @FetchRequest&lt;/h2&gt;
+
+&lt;p&gt;This is a helper to create fetch requests in a view.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@FetchRequest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Language&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+              &lt;span class=&quot;nv&quot;&gt;sortDescriptors&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;NSSortDescriptor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)],&lt;/span&gt;
+              &lt;span class=&quot;nv&quot;&gt;predicate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;NSPredicate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+              &lt;span class=&quot;nv&quot;&gt;animation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;spring&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;languages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;FetchedResults&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Language&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Much of it is the same as a &lt;code class=&quot;highlighter-rouge&quot;&gt;NSFetchRequest&lt;/code&gt;, with an addition of &lt;code class=&quot;highlighter-rouge&quot;&gt;animation&lt;/code&gt;! Indeed it is for a view.&lt;/p&gt;
+
+&lt;p&gt;You could have manually used &lt;code class=&quot;highlighter-rouge&quot;&gt;NSFetchRequest&lt;/code&gt; and using the context to execute a fetch. But using &lt;code class=&quot;highlighter-rouge&quot;&gt;@FetchRequest&lt;/code&gt; does give the view a very orderly look – you know exactly where fetch requests are declared.&lt;/p&gt;
+
+&lt;h2 id=&quot;displaying-in-a-list&quot;&gt;Displaying in a list&lt;/h2&gt;
+
+&lt;p&gt;Init &lt;code class=&quot;highlighter-rouge&quot;&gt;ForEach&lt;/code&gt; with the variable wrapped by &lt;code class=&quot;highlighter-rouge&quot;&gt;@FetchRequest&lt;/code&gt;. As easy as that, the list will refresh when the models are updated.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;ForEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;languages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;language&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Oh, one thing about the Core Data model. In our example, the model &lt;code class=&quot;highlighter-rouge&quot;&gt;Language&lt;/code&gt; needs to implement &lt;code class=&quot;highlighter-rouge&quot;&gt;Identifiable&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Language&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Identifiable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;delete-and-move&quot;&gt;Delete and Move&lt;/h2&gt;
+
+&lt;p&gt;These are really powered by &lt;code class=&quot;highlighter-rouge&quot;&gt;List&lt;/code&gt;, which I covered &lt;a href=&quot;/2020/04/02/everything-about-list-in-swiftui/&quot;&gt;here&lt;/a&gt;. For example, delete:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;ForEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;languages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;language&lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onDelete&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;language&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;languages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indexSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;delete&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;try!&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Move will be similar using &lt;code class=&quot;highlighter-rouge&quot;&gt;.onMove&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;binding-optionals&quot;&gt;Binding optionals&lt;/h2&gt;
+
+&lt;p&gt;The issue is that Core Data models have optional properties, while SwiftUI control bindings (eg. TextField) require non-optional binding.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://alanquatermain.me/programming/swiftui/2019-11-15-CoreData-and-bindings/&quot;&gt;AQBlog&lt;/a&gt; provided nice extensions to binding with Core Data.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 Apr 2020 19:34:12 +0800</pubDate>
+        <link>https://samwize.com/2020/04/18/how-to-use-swiftui-and-core-data/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/04/18/how-to-use-swiftui-and-core-data/</guid>
+        
+        
+        <category>SwiftUI</category>
+        
+        <category>Core Data</category>
+        
+      </item>
     
       <item>
         <title>Everything About List in SwiftUI</title>
@@ -487,6 +572,14 @@
         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;environmentObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;pitfall-xcode-preview-crashed&quot;&gt;PITFALL: Xcode preview crashed&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Cannot preview in this file - YourApp.app may have crashed&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This is because you didn’t pass an environment for the preview. Simply pass it in your &lt;code class=&quot;highlighter-rouge&quot;&gt;PreviewProvider&lt;/code&gt;.&lt;/p&gt;
 </description>
         <pubDate>Mon, 16 Mar 2020 16:22:38 +0800</pubDate>
         <link>https://samwize.com/2020/03/16/guide-to-environment-and-environmentobject/</link>
@@ -937,48 +1030,6 @@
         <category>App Store</category>
         
         <category>Rejections</category>
-        
-      </item>
-    
-      <item>
-        <title>iOS Conf SG 2020 Videos</title>
-        <description>&lt;p&gt;Videos from &lt;a href=&quot;https://2020.iosconf.sg/&quot;&gt;iOS Conf SG 2020&lt;/a&gt; are now available on &lt;a href=&quot;https://www.youtube.com/channel/UCUwelGOCK00mp8j241tFbeg/videos&quot;&gt;YouTube&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Here are 3 that I enjoyed.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-global-variable-oriented-programming&quot;&gt;1. &lt;a href=&quot;https://www.youtube.com/watch?v=CyQ59ZfT5E0&quot;&gt;Global Variable Oriented Programming&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;Admit it. &lt;strong&gt;We all are using global variables&lt;/strong&gt;, in the form of singletons, and environment (a singleton wrapping multiple singletons)!&lt;/p&gt;
-
-&lt;p&gt;SwiftUI changes everything.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;View are now &lt;code class=&quot;highlighter-rouge&quot;&gt;Struct&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Data are now &lt;code class=&quot;highlighter-rouge&quot;&gt;Class&lt;/code&gt; 🤔&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;@twostraws showed how we can implement global data and still observe them in &lt;strong&gt;UIKit&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-building-secure-ios-apps&quot;&gt;2. &lt;a href=&quot;https://www.youtube.com/watch?v=b6LI6j_aJ9k&quot;&gt;Building Secure iOS Apps&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://owasp.org&quot;&gt;OWASP&lt;/a&gt; for mobile appsec. &lt;a href=&quot;https://github.com/OWASP/owasp-masvs&quot;&gt;MASVS&lt;/a&gt; is a standard for mobile apps. All developers should at least implement a basic level.&lt;/p&gt;
-
-&lt;p&gt;Did you know can use &lt;a href=&quot;https://github.com/OWASP/owasp-mstg/blob/master/Document/0x06d-Testing-Data-Storage.md&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LAContext&lt;/code&gt; with keychain&lt;/a&gt;?&lt;/p&gt;
-
-&lt;h2 id=&quot;3-full-stack-development-with-vapor&quot;&gt;3. &lt;a href=&quot;https://www.youtube.com/watch?v=fpWOD3JpSrI&quot;&gt;Full stack development with Vapor&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;I think 2020 is prime time to use Vapor for server side development.&lt;/p&gt;
-
-&lt;p&gt;It’s now &lt;a href=&quot;https://theswiftdev.com/2019/08/26/whats-new-in-vapor-4/&quot;&gt;Vapor 4&lt;/a&gt;, Swift 5.1, SwiftNIO 2. The ecosystem is more mature. And a &lt;a href=&quot;https://medium.com/better-programming/who-killed-kitura-e5aa1096a4c1&quot;&gt;competitor&lt;/a&gt; is killed.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 31 Jan 2020 14:08:42 +0800</pubDate>
-        <link>https://samwize.com/2020/01/31/ios-conf-sg-2020-videos/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/01/31/ios-conf-sg-2020-videos/</guid>
-        
-        
-        <category>iOS</category>
-        
-        <category>Conference</category>
         
       </item>
     
