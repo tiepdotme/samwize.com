@@ -93,3 +93,9 @@ However, if you use a sheet, it will be a [sibling to the root](https://github.c
         .environmentObject(self.state)
 }
 ```
+
+## PITFALL: Xcode preview crashed
+
+> Cannot preview in this file - YourApp.app may have crashed
+
+This is because you didn't pass an environment for the preview. Simply pass it in your `PreviewProvider`.
