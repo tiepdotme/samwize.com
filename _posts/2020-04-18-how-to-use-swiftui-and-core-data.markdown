@@ -79,6 +79,26 @@ Move will be similar using `.onMove`.
 
 ## Binding optionals
 
-The issue is that Core Data models have optional properties, while SwiftUI control bindings (eg. TextField) require non-optional binding.
+Core Data models have optional properties, while SwiftUI control bindings (eg. TextField) require non-optional binding.
 
 [AQBlog](https://alanquatermain.me/programming/swiftui/2019-11-15-CoreData-and-bindings/) provided nice extensions to binding with Core Data.
+
+NOTE: To emphasize, it is the model's **properties** here that are being bind, NOT the model itself. You can't bind the model (read next section).
+
+## Observing NSManagedObject
+
+`NSManagedObject` is a class type. Since binding only works for struct, you **cannot bind `NSManagedObject`**.
+
+But you can observe `NSManagedObject` with `@ObservedObject`, because the class is already conveniently conformed to `ObservableObject`.
+
+```swift
+// OK, and you can bind the property with eg. $model.name
+@ObservedObject var model: Language
+
+// NOT ok
+@Binding var model: Language
+```
+
+When you observe the model, SwiftUI will [update when the context is saved](https://forums.swift.org/t/future-of-coredata-swiftui-structs-identifiable/30072/7).
+
+Core Data is a framework that does not play too well with SwiftUI (yet). As [suggested](https://forums.swift.org/t/future-of-coredata-swiftui-structs-identifiable/30072/9), it would be wiser to separate the **persistent domain model** and the **view model**.
