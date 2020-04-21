@@ -6,8 +6,8 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 18 Apr 2020 20:32:29 +0800</pubDate>
-    <lastBuildDate>Sat, 18 Apr 2020 20:32:29 +0800</lastBuildDate>
+    <pubDate>Tue, 21 Apr 2020 13:39:48 +0800</pubDate>
+    <lastBuildDate>Tue, 21 Apr 2020 13:39:48 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -80,9 +80,28 @@
 
 &lt;h2 id=&quot;binding-optionals&quot;&gt;Binding optionals&lt;/h2&gt;
 
-&lt;p&gt;The issue is that Core Data models have optional properties, while SwiftUI control bindings (eg. TextField) require non-optional binding.&lt;/p&gt;
+&lt;p&gt;Core Data models have optional properties, while SwiftUI control bindings (eg. TextField) require non-optional binding.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://alanquatermain.me/programming/swiftui/2019-11-15-CoreData-and-bindings/&quot;&gt;AQBlog&lt;/a&gt; provided nice extensions to binding with Core Data.&lt;/p&gt;
+
+&lt;p&gt;NOTE: To emphasize, it is the model’s &lt;strong&gt;properties&lt;/strong&gt; here that are being bind, NOT the model itself. You can’t bind the model (read next section).&lt;/p&gt;
+
+&lt;h2 id=&quot;observing-nsmanagedobject&quot;&gt;Observing NSManagedObject&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObject&lt;/code&gt; is a class type. Since binding only works for struct, you &lt;strong&gt;cannot bind &lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObject&lt;/code&gt;&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;But you can observe &lt;code class=&quot;highlighter-rouge&quot;&gt;NSManagedObject&lt;/code&gt; with &lt;code class=&quot;highlighter-rouge&quot;&gt;@ObservedObject&lt;/code&gt;, because the class is already conveniently conformed to &lt;code class=&quot;highlighter-rouge&quot;&gt;ObservableObject&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// OK, and you can bind the property with eg. $model.name&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;@ObservedObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Language&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// NOT ok&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;@Binding&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Language&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When you observe the model, SwiftUI will &lt;a href=&quot;https://forums.swift.org/t/future-of-coredata-swiftui-structs-identifiable/30072/7&quot;&gt;update when the context is saved&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Core Data is a framework that does not play too well with SwiftUI (yet). As &lt;a href=&quot;https://forums.swift.org/t/future-of-coredata-swiftui-structs-identifiable/30072/9&quot;&gt;suggested&lt;/a&gt;, it would be wiser to separate the &lt;strong&gt;persistent domain model&lt;/strong&gt; and the &lt;strong&gt;view model&lt;/strong&gt;.&lt;/p&gt;
 </description>
         <pubDate>Sat, 18 Apr 2020 19:34:12 +0800</pubDate>
         <link>https://samwize.com/2020/04/18/how-to-use-swiftui-and-core-data/</link>

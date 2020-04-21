@@ -146,9 +146,28 @@
 
 <h2 id="binding-optionals">Binding optionals</h2>
 
-<p>The issue is that Core Data models have optional properties, while SwiftUI control bindings (eg. TextField) require non-optional binding.</p>
+<p>Core Data models have optional properties, while SwiftUI control bindings (eg. TextField) require non-optional binding.</p>
 
 <p><a href="https://alanquatermain.me/programming/swiftui/2019-11-15-CoreData-and-bindings/">AQBlog</a> provided nice extensions to binding with Core Data.</p>
+
+<p>NOTE: To emphasize, it is the model’s <strong>properties</strong> here that are being bind, NOT the model itself. You can’t bind the model (read next section).</p>
+
+<h2 id="observing-nsmanagedobject">Observing NSManagedObject</h2>
+
+<p><code class="highlighter-rouge">NSManagedObject</code> is a class type. Since binding only works for struct, you <strong>cannot bind <code class="highlighter-rouge">NSManagedObject</code></strong>.</p>
+
+<p>But you can observe <code class="highlighter-rouge">NSManagedObject</code> with <code class="highlighter-rouge">@ObservedObject</code>, because the class is already conveniently conformed to <code class="highlighter-rouge">ObservableObject</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// OK, and you can bind the property with eg. $model.name</span>
+<span class="kd">@ObservedObject</span> <span class="k">var</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">Language</span>
+
+<span class="c1">// NOT ok</span>
+<span class="kd">@Binding</span> <span class="k">var</span> <span class="nv">model</span><span class="p">:</span> <span class="kt">Language</span>
+</code></pre></div></div>
+
+<p>When you observe the model, SwiftUI will <a href="https://forums.swift.org/t/future-of-coredata-swiftui-structs-identifiable/30072/7">update when the context is saved</a>.</p>
+
+<p>Core Data is a framework that does not play too well with SwiftUI (yet). As <a href="https://forums.swift.org/t/future-of-coredata-swiftui-structs-identifiable/30072/9">suggested</a>, it would be wiser to separate the <strong>persistent domain model</strong> and the <strong>view model</strong>.</p>
 
         </section>
         <footer class="post-footer">
