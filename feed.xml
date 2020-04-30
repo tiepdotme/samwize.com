@@ -6,9 +6,77 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 21 Apr 2020 13:39:48 +0800</pubDate>
-    <lastBuildDate>Tue, 21 Apr 2020 13:39:48 +0800</lastBuildDate>
+    <pubDate>Thu, 30 Apr 2020 21:23:15 +0800</pubDate>
+    <lastBuildDate>Thu, 30 Apr 2020 21:23:15 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>A Few Things About @State</title>
+        <description>&lt;h2 id=&quot;state-is-mutable&quot;&gt;@State is mutable&lt;/h2&gt;
+
+&lt;p&gt;When you declare &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt;, we know it is a &lt;a href=&quot;/2019/12/04/guide-to-property-wrapper/&quot;&gt;property wrapper&lt;/a&gt; wrapping a certain value. For example:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It is managing an Int.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;And it may mutate the Int.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;On the other hand, if you declare without &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt;, &lt;strong&gt;you cannot mutate the View’s property&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+
+&lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Change foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Error: 'self' is immutable&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;how-to-init-state&quot;&gt;How to init @State&lt;/h2&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you provide your own View initialization, and you init like the above, you’ll be surprised. &lt;code class=&quot;highlighter-rouge&quot;&gt;MyView(foo: 2)&lt;/code&gt; will NOT set foo to 2. It will remain as 1.&lt;/p&gt;
+
+&lt;p&gt;The way to init an &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; is:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;State&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;initialValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Yup, you have to use an underscore &lt;code class=&quot;highlighter-rouge&quot;&gt;_foo&lt;/code&gt; to set the state manually.&lt;/p&gt;
+
+&lt;h2 id=&quot;view-will-refresh-on-state-change&quot;&gt;View will “refresh” on state change&lt;/h2&gt;
+
+&lt;p&gt;Yes, we know the &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt; will be called, kind of like refreshing the view, whenever the state changes.&lt;/p&gt;
+
+&lt;p&gt;If the state is not used within &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt;, SwiftUI will be intelligent enough, and will not call upon the &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-magic-between-init-and-body&quot;&gt;The magic between &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;We understand children views get &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt; repeatedly, whenever the state of a parent changes.&lt;/p&gt;
+
+&lt;p&gt;But when a child view is init, &lt;strong&gt;the state will remain – not reset to the default&lt;/strong&gt;. This might be obvious; because if it reset to default, it will look like a UI bug.&lt;/p&gt;
+
+&lt;p&gt;Yet if you think deep into what’s happening, you will find it &lt;em&gt;magical&lt;/em&gt; :)&lt;/p&gt;
+
+&lt;p&gt;Be careful what you &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt; in a view. It should be lightweight, and likely SwiftUI will frequently initialize the struct. Yet, the state, in the view struct, will be restored to what it was.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 30 Apr 2020 17:45:38 +0800</pubDate>
+        <link>https://samwize.com/2020/04/30/a-few-things-about-state/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/04/30/a-few-things-about-state/</guid>
+        
+        
+        <category>SwiftUI</category>
+        
+      </item>
     
       <item>
         <title>How to Use SwiftUI and Core Data</title>
@@ -973,82 +1041,6 @@
         
         
         <category>iOS</category>
-        
-      </item>
-    
-      <item>
-        <title>Bet You Didn't Know: You Don't Need 5.5 Inch Screenshots for App Store</title>
-        <description>&lt;p&gt;The &lt;a href=&quot;https://help.apple.com/app-store-connect/#/devd274dd925&quot;&gt;App Store screenshots specification&lt;/a&gt; (as of Feb 2020) states that you need &lt;strong&gt;at least these two sizes&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;6.5 inch (iPhone 11 etc)&lt;/li&gt;
-  &lt;li&gt;5.5 inch (iPhone 8 etc)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;After a series of app review rejections, I learnt that &lt;strong&gt;reviewers can approve your app without 5.5” screenshots&lt;/strong&gt;!&lt;/p&gt;
-
-&lt;p&gt;Take a look of my app in developer portal:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/dualgram-no-5-5.jpg&quot; alt=&quot;&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;does-it-mean-the-app-does-not-support-55&quot;&gt;Does it mean the app does not support 5.5”?&lt;/h2&gt;
-
-&lt;p&gt;Absolutely NOT.&lt;/p&gt;
-
-&lt;p&gt;If you check out my app on a 5.5” device, it will still show up, but the screenshots is using 6.5” ones..&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/dualgram-on-5_5-device.jpg&quot; alt=&quot;Without 5.5&amp;quot; vs With 5.5&amp;quot;, on iPhone 8&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;So, it seems App Store will &lt;strong&gt;make 5.5” screenshots optional&lt;/strong&gt; in the future. For now, app reviewers are given the power to approve without 5.5”.&lt;/p&gt;
-
-&lt;h2 id=&quot;why-my-app-can-do-without-55&quot;&gt;Why my app can do without 5.5”?&lt;/h2&gt;
-
-&lt;p&gt;Let me now tell the whole story, which doesn’t end well.&lt;/p&gt;
-
-&lt;p&gt;My app – &lt;a href=&quot;https://dualgram.com&quot;&gt;Dualgram&lt;/a&gt; – doesn’t support 5.5 inch devices (iPhone 8 and below). So the screenshot warns users NOT to download (above screenshot, on the right).&lt;/p&gt;
-
-&lt;p&gt;The reviewer rejects on the grounds of &lt;strong&gt;Accurate Metadata&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;We noticed that your screenshots do not sufficiently reflect your app in use.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;I appealed, but failed.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;(Strangely, 2 months ago, I appealed for the same issue, and succeeded.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Then this suggestion:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/dualgram-rejected-remove-5_5-2.jpg&quot; alt=&quot;&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I tried, but couldn’t submit, so I ask for help:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/dualgram-rejected-remove-5_5-3.jpg&quot; alt=&quot;&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Hail to their power, they override the error, and approved!&lt;/p&gt;
-
-&lt;h2 id=&quot;not-what-i-expected&quot;&gt;Not what I expected&lt;/h2&gt;
-
-&lt;p&gt;I thought that without 5.5” screenshot, the app will not support 5.5” devices.&lt;/p&gt;
-
-&lt;p&gt;But no, it simply uses the 6.5” screenshots..&lt;/p&gt;
-
-&lt;p&gt;No good at all, for Dualgram..&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Related:&lt;/em&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2019/09/20/i-am-no-longer-surprise-over-app-store-review-rejections/&quot;&gt;I’m Not Surprise With App Store Review Rejections Anymore&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Sat, 08 Feb 2020 11:48:21 +0800</pubDate>
-        <link>https://samwize.com/2020/02/08/bet-you-didnt-know-you-dont-need-5-5-screenshots-for-app-store/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/02/08/bet-you-didnt-know-you-dont-need-5-5-screenshots-for-app-store/</guid>
-        
-        
-        <category>App Store</category>
-        
-        <category>Rejections</category>
         
       </item>
     
