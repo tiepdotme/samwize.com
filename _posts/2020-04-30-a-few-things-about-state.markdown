@@ -50,6 +50,8 @@ init(foo: Int) {
 
 Yup, you have to use an underscore `_foo` to set the state manually.
 
+Similarly, you could need `ObservedObject(initialValue: ...)`.
+
 ## View will "refresh" on state change
 
 Yes, we know the `body` will be called, kind of like refreshing the view, whenever the state changes.
@@ -64,4 +66,31 @@ But when a child view is init, **the state will remain -- not reset to the defau
 
 Yet if you think deep into what's happening, you will find it _magical_ :)
 
-Be careful what you `init` in a view. It should be lightweight, and likely SwiftUI will frequently initialize the struct. Yet, the state, in the view struct, will be restored to what it was.
+Be careful what you `init` in a view. It should be lightweight, and likely SwiftUI will frequently initialize the struct. Yet, the state, in the view struct, **will be restored** to what it was.
+
+Or in the words of [The Stranger Thing in @State](https://nalexn.github.io/stranger-things-swiftui-state/):
+
+> The trick here is that the view is not always connected to that state store: SwiftUI does plug it in when the view needs a redraw or receives a SwiftUI-originated callback, but plugs it out afterward.
+
+So, it's best to think of the View and the store (`@State`, `@ObservedObject`) as disconnected pieces.
+
+## Extending `Equatable`
+
+You should expect SwiftUI to `init` your view _anytime_, and restore the state.
+
+How does SwiftUI restore the state?
+
+It will do it's [own diff-ing](https://twitter.com/jsh8080/status/1206617804113432576) to know if that's the same view.
+
+If SwiftUI seems to fail you, you might want to extend `Equatable` for your view.
+
+```swift
+extension MyView: Equatable {
+    static func == (lhs: MyView, rhs: MyView) -> Bool {
+        // Example: if view model id is the same, the view is equal
+        return lhs.vm.id == rhs.vm.id
+    }
+}
+```
+
+Read up on [`EquatableView`](https://swiftui-lab.com/equatableview/).
