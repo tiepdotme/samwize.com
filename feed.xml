@@ -6,8 +6,8 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 30 Apr 2020 21:23:15 +0800</pubDate>
-    <lastBuildDate>Thu, 30 Apr 2020 21:23:15 +0800</lastBuildDate>
+    <pubDate>Sun, 03 May 2020 10:09:36 +0800</pubDate>
+    <lastBuildDate>Sun, 03 May 2020 10:09:36 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -53,6 +53,8 @@
 
 &lt;p&gt;Yup, you have to use an underscore &lt;code class=&quot;highlighter-rouge&quot;&gt;_foo&lt;/code&gt; to set the state manually.&lt;/p&gt;
 
+&lt;p&gt;Similarly, you could need &lt;code class=&quot;highlighter-rouge&quot;&gt;ObservedObject(initialValue: ...)&lt;/code&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;view-will-refresh-on-state-change&quot;&gt;View will “refresh” on state change&lt;/h2&gt;
 
 &lt;p&gt;Yes, we know the &lt;code class=&quot;highlighter-rouge&quot;&gt;body&lt;/code&gt; will be called, kind of like refreshing the view, whenever the state changes.&lt;/p&gt;
@@ -67,7 +69,35 @@
 
 &lt;p&gt;Yet if you think deep into what’s happening, you will find it &lt;em&gt;magical&lt;/em&gt; :)&lt;/p&gt;
 
-&lt;p&gt;Be careful what you &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt; in a view. It should be lightweight, and likely SwiftUI will frequently initialize the struct. Yet, the state, in the view struct, will be restored to what it was.&lt;/p&gt;
+&lt;p&gt;Be careful what you &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt; in a view. It should be lightweight, and likely SwiftUI will frequently initialize the struct. Yet, the state, in the view struct, &lt;strong&gt;will be restored&lt;/strong&gt; to what it was.&lt;/p&gt;
+
+&lt;p&gt;Or in the words of &lt;a href=&quot;https://nalexn.github.io/stranger-things-swiftui-state/&quot;&gt;The Stranger Thing in @State&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The trick here is that the view is not always connected to that state store: SwiftUI does plug it in when the view needs a redraw or receives a SwiftUI-originated callback, but plugs it out afterward.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, it’s best to think of the View and the store (&lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;@ObservedObject&lt;/code&gt;) as disconnected pieces.&lt;/p&gt;
+
+&lt;h2 id=&quot;extending-equatable&quot;&gt;Extending &lt;code class=&quot;highlighter-rouge&quot;&gt;Equatable&lt;/code&gt;&lt;/h2&gt;
+
+&lt;p&gt;You should expect SwiftUI to &lt;code class=&quot;highlighter-rouge&quot;&gt;init&lt;/code&gt; your view &lt;em&gt;anytime&lt;/em&gt;, and restore the state.&lt;/p&gt;
+
+&lt;p&gt;How does SwiftUI restore the state?&lt;/p&gt;
+
+&lt;p&gt;It will do it’s &lt;a href=&quot;https://twitter.com/jsh8080/status/1206617804113432576&quot;&gt;own diff-ing&lt;/a&gt; to know if that’s the same view.&lt;/p&gt;
+
+&lt;p&gt;If SwiftUI seems to fail you, you might want to extend &lt;code class=&quot;highlighter-rouge&quot;&gt;Equatable&lt;/code&gt; for your view.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Equatable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;lhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rhs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;// Example: if view model id is the same, the view is equal&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lhs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rhs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Read up on &lt;a href=&quot;https://swiftui-lab.com/equatableview/&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;EquatableView&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Thu, 30 Apr 2020 17:45:38 +0800</pubDate>
         <link>https://samwize.com/2020/04/30/a-few-things-about-state/</link>

@@ -119,6 +119,8 @@
 
 <p>Yup, you have to use an underscore <code class="highlighter-rouge">_foo</code> to set the state manually.</p>
 
+<p>Similarly, you could need <code class="highlighter-rouge">ObservedObject(initialValue: ...)</code>.</p>
+
 <h2 id="view-will-refresh-on-state-change">View will “refresh” on state change</h2>
 
 <p>Yes, we know the <code class="highlighter-rouge">body</code> will be called, kind of like refreshing the view, whenever the state changes.</p>
@@ -133,7 +135,35 @@
 
 <p>Yet if you think deep into what’s happening, you will find it <em>magical</em> :)</p>
 
-<p>Be careful what you <code class="highlighter-rouge">init</code> in a view. It should be lightweight, and likely SwiftUI will frequently initialize the struct. Yet, the state, in the view struct, will be restored to what it was.</p>
+<p>Be careful what you <code class="highlighter-rouge">init</code> in a view. It should be lightweight, and likely SwiftUI will frequently initialize the struct. Yet, the state, in the view struct, <strong>will be restored</strong> to what it was.</p>
+
+<p>Or in the words of <a href="https://nalexn.github.io/stranger-things-swiftui-state/">The Stranger Thing in @State</a>:</p>
+
+<blockquote>
+  <p>The trick here is that the view is not always connected to that state store: SwiftUI does plug it in when the view needs a redraw or receives a SwiftUI-originated callback, but plugs it out afterward.</p>
+</blockquote>
+
+<p>So, it’s best to think of the View and the store (<code class="highlighter-rouge">@State</code>, <code class="highlighter-rouge">@ObservedObject</code>) as disconnected pieces.</p>
+
+<h2 id="extending-equatable">Extending <code class="highlighter-rouge">Equatable</code></h2>
+
+<p>You should expect SwiftUI to <code class="highlighter-rouge">init</code> your view <em>anytime</em>, and restore the state.</p>
+
+<p>How does SwiftUI restore the state?</p>
+
+<p>It will do it’s <a href="https://twitter.com/jsh8080/status/1206617804113432576">own diff-ing</a> to know if that’s the same view.</p>
+
+<p>If SwiftUI seems to fail you, you might want to extend <code class="highlighter-rouge">Equatable</code> for your view.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">extension</span> <span class="kt">MyView</span><span class="p">:</span> <span class="kt">Equatable</span> <span class="p">{</span>
+    <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">MyView</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">MyView</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+        <span class="c1">// Example: if view model id is the same, the view is equal</span>
+        <span class="k">return</span> <span class="n">lhs</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="n">rhs</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">id</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Read up on <a href="https://swiftui-lab.com/equatableview/"><code class="highlighter-rouge">EquatableView</code></a>.</p>
 
         </section>
         <footer class="post-footer">
