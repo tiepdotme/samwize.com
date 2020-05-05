@@ -6,9 +6,98 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 03 May 2020 16:53:44 +0800</pubDate>
-    <lastBuildDate>Sun, 03 May 2020 16:53:44 +0800</lastBuildDate>
+    <pubDate>Tue, 05 May 2020 23:37:38 +0800</pubDate>
+    <lastBuildDate>Tue, 05 May 2020 23:37:38 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Algorithm, and Moving Elements in an Array</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2018/223&quot;&gt;WWDC 2018 session 223&lt;/a&gt; is a very good session on writing good code.&lt;/p&gt;
+
+&lt;p&gt;It is a very casual session, with role playing. &lt;em&gt;Meet Crusty.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-session-sarcastically-said-of-our-role&quot;&gt;The session sarcastically said of our role..&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/app-developer-builds-ui.jpg&quot; alt=&quot;Role of an app developer&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I agree. A modern day app developer spend most of the time architecting the views and models, not in writing efficient algorithm.&lt;/p&gt;
+
+&lt;h2 id=&quot;yet-algorithm-matters&quot;&gt;Yet, algorithm matters&lt;/h2&gt;
+
+&lt;p&gt;When a piece of code needs to scale, the &lt;strong&gt;computation complexity matters&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;But there’s an even more important aspect with good algorithm, and that is &lt;strong&gt;clean code&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;A good algorithm is also one that reads beautifully, like a poem.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;If you want to improve the code quality in  your organization, replace all of your coding guidelines with one goal: &lt;strong&gt;No Raw Loops&lt;/strong&gt; – Sean Parent, C++ Seasoning&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;example-a-raw-loop&quot;&gt;Example: A raw loop&lt;/h2&gt;
+
+&lt;p&gt;Let’s start with a simple example where we want to remove multiple elements in an array. I have done the same before:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shapes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reversed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shapes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isSelected&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;shapes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The trick of using &lt;code class=&quot;highlighter-rouge&quot;&gt;reversed()&lt;/code&gt; is needed because &lt;code class=&quot;highlighter-rouge&quot;&gt;remove&lt;/code&gt; will mutate instantly, therefore changing the index.&lt;/p&gt;
+
+&lt;p&gt;The sinister thing is that &lt;code class=&quot;highlighter-rouge&quot;&gt;remove&lt;/code&gt; is O(n). And with the &lt;strong&gt;for-i raw loop&lt;/strong&gt;, the algorithm is O(n^2)!&lt;/p&gt;
+
+&lt;p&gt;A nicer and more efficient code is:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;shapes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;removeAll&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isSelected&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Short, sweet, and O(n)&lt;/p&gt;
+
+&lt;h2 id=&quot;example-moving-multiple-elements&quot;&gt;Example: Moving multiple elements&lt;/h2&gt;
+
+&lt;p&gt;The session went on mentioning a few other common algorithm to do with moving multiple elements in an array.&lt;/p&gt;
+
+&lt;p&gt;I remember writing a hideous code trying to &lt;a href=&quot;/2018/11/27/drag-and-drop-to-reorder-nstableview/&quot;&gt;re-order multiple rows of a &lt;code class=&quot;highlighter-rouge&quot;&gt;NSTableView&lt;/code&gt;, with drag and drop&lt;/a&gt;..&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In iOS 13&lt;/strong&gt;, you will be glad to know they have provided &lt;a href=&quot;https://developer.apple.com/documentation/swift/mutablecollection/3348325-move&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;move&lt;/code&gt;&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;mutating&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fromOffsets&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;IndexSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toOffset&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;destination&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It now becomes 1 line of code!&lt;/p&gt;
+
+&lt;p&gt;It is part of SwiftUI framework, complementary to &lt;a href=&quot;https://samwize.com/2020/04/02/everything-about-list-in-swiftui/&quot;&gt;List&lt;/a&gt;, so you can use easily:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;ForEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;item&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onDelete&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;atOffsets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onMove&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;fromOffsets&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;set&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;toOffset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You might want to understand more func provided by &lt;a href=&quot;https://developer.apple.com/documentation/swift/mutablecollection&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;MutableCollection&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://developer.apple.com/documentation/swift/rangereplaceablecollection&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;RangeReplaceableCollection&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;More built-in algorithms FTW 🤓&lt;/p&gt;
+</description>
+        <pubDate>Tue, 05 May 2020 22:55:49 +0800</pubDate>
+        <link>https://samwize.com/2020/05/05/algorithm-and-moving-elements-in-an-array/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/05/05/algorithm-and-moving-elements-in-an-array/</guid>
+        
+        
+        <category>Algorithm</category>
+        
+        <category>SwiftUI</category>
+        
+      </item>
     
       <item>
         <title>How to Bind an Array to Multiple TextFields?</title>
@@ -946,157 +1035,6 @@
         <pubDate>Tue, 10 Mar 2020 17:34:07 +0800</pubDate>
         <link>https://samwize.com/2020/03/10/how-to-layout-in-swiftui/</link>
         <guid isPermaLink="true">https://samwize.com/2020/03/10/how-to-layout-in-swiftui/</guid>
-        
-        
-        <category>SwiftUI</category>
-        
-      </item>
-    
-      <item>
-        <title>Getting Started With SwiftUI</title>
-        <description>&lt;p&gt;I am getting started with SwiftUI, and there’s so much to learn, all over again.&lt;/p&gt;
-
-&lt;p&gt;Luckily, there are plenty of articles and videos.&lt;/p&gt;
-
-&lt;p&gt;Here are some &lt;em&gt;random stuff&lt;/em&gt; that I learnt in the first few days as I try to build a new app. The last section will have more links to resources, and kind of cheat sheet.&lt;/p&gt;
-
-&lt;p&gt;I might just add more to this post as I learn, or might write new blog post specifically on some tricks even around the most common of things..&lt;/p&gt;
-
-&lt;h2 id=&quot;lets-watch-how-to-build-instagram-feed&quot;&gt;Let’s watch how to build Instagram feed&lt;/h2&gt;
-
-&lt;p&gt;Watch on YouTube &lt;a href=&quot;https://www.youtube.com/watch?v=APxrtnxRzwI&quot;&gt;part 1&lt;/a&gt; &amp;amp; &lt;a href=&quot;https://www.youtube.com/watch?v=BiNYCvL1m94&quot;&gt;part 2&lt;/a&gt; where DeLong interactively teach SwiftUI while he replicates Instagram UI.&lt;/p&gt;
-
-&lt;p&gt;There are some framework designs that sucks eg. he doesn’t like &lt;code class=&quot;highlighter-rouge&quot;&gt;NavigationView&lt;/code&gt; and how nav links work. A hideous design about nav link is that all the destination views will be initialized!&lt;/p&gt;
-
-&lt;h2 id=&quot;navigationlink-not-working&quot;&gt;NavigationLink not working?&lt;/h2&gt;
-
-&lt;p&gt;It is so common to not get nav link working. It seems like they are designed to be used only in &lt;code class=&quot;highlighter-rouge&quot;&gt;List&lt;/code&gt;, or nav bar. You might need to use the &lt;code class=&quot;highlighter-rouge&quot;&gt;isActive&lt;/code&gt; &lt;a href=&quot;https://stackoverflow.com/a/59933501/242682&quot;&gt;trick&lt;/a&gt; if the nav link is in a &lt;code class=&quot;highlighter-rouge&quot;&gt;VStack&lt;/code&gt; or etc.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-push-a-view-without-using-navigationlink&quot;&gt;How to push a view without using NavigationLink&lt;/h2&gt;
-
-&lt;p&gt;A workaround is to use a &lt;a href=&quot;https://stackoverflow.com/a/57321795/242682&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;hidden&lt;/code&gt; nav link&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;present-a-modal-sheet&quot;&gt;&lt;a href=&quot;https://www.hackingwithswift.com/quick-start/swiftui/how-to-present-a-new-view-using-sheets&quot;&gt;Present a modal sheet&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;You need to 1. declare &lt;code class=&quot;highlighter-rouge&quot;&gt;@State isPresented = false&lt;/code&gt;, 2. passing it to &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/view/3352791-sheet&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.sheet()&lt;/code&gt;&lt;/a&gt;, and 3. button action to set &lt;code class=&quot;highlighter-rouge&quot;&gt;isPresented = true&lt;/code&gt;. Sorry it is long and ugly.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-ways-to-dismiss-eg-sheet&quot;&gt;&lt;a href=&quot;https://www.hackingwithswift.com/quick-start/swiftui/how-to-make-a-view-dismiss-itself&quot;&gt;2 ways to dismiss (eg. sheet)&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;Use environment, or pass a binding to the sheet’s &lt;code class=&quot;highlighter-rouge&quot;&gt;isPresented&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;how-to-observe-an-state-or-a-control&quot;&gt;How to observe an &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; or a control?&lt;/h2&gt;
-
-&lt;p&gt;You will often have a &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt; and pass it to a control such as &lt;code class=&quot;highlighter-rouge&quot;&gt;Toggle&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;TextField&lt;/code&gt;. But you can’t just observe the state with &lt;code class=&quot;highlighter-rouge&quot;&gt;didSet&lt;/code&gt;. Instead, you need to create a binding like &lt;a href=&quot;https://stackoverflow.com/a/59040171/242682&quot;&gt;this&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;modifiers&quot;&gt;Modifiers&lt;/h2&gt;
-
-&lt;p&gt;The concept is used throughout, applying modifier after modifier repeatedly. It is using &lt;strong&gt;Builder design pattern&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;SomeView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;multilineTextAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Modifier 1&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;// Modifier 2&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;          &lt;span class=&quot;c1&quot;&gt;// Modifier 3&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It tends to get messy and with many lines. A trick here is to create customer modifiers.&lt;/p&gt;
-
-&lt;h2 id=&quot;custom-modifiers&quot;&gt;Custom Modifiers&lt;/h2&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CustomModifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ViewModifier&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt;
-          &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;multilineTextAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Modifier 1&lt;/span&gt;
-          &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;// Modifier 2&lt;/span&gt;
-          &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;          &lt;span class=&quot;c1&quot;&gt;// Modifier 3&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;With that, we can now use it on any View by applying 1 &lt;code class=&quot;highlighter-rouge&quot;&gt;modifier&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;SomeView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;modifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CustomModifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;view-extension&quot;&gt;View Extension&lt;/h2&gt;
-
-&lt;p&gt;Custom modifier is a good way to refactor your code. Another way is by extending &lt;code class=&quot;highlighter-rouge&quot;&gt;View&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;extension&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;customModifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;multilineTextAlignment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;  &lt;span class=&quot;c1&quot;&gt;// Modifier 1&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;                    &lt;span class=&quot;c1&quot;&gt;// Modifier 2&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;          &lt;span class=&quot;c1&quot;&gt;// Modifier 3, with `color` passed in&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can even do &lt;a href=&quot;https://swiftui-lab.com/view-extensions-for-better-code-readability/&quot;&gt;conditional modifier&lt;/a&gt; (advanced).&lt;/p&gt;
-
-&lt;p&gt;When do you use &lt;code class=&quot;highlighter-rouge&quot;&gt;ViewModifier&lt;/code&gt; and when do you use &lt;code class=&quot;highlighter-rouge&quot;&gt;View&lt;/code&gt; extension? &lt;code class=&quot;highlighter-rouge&quot;&gt;ViewModifier&lt;/code&gt; is more powerful because it can have instance variables and &lt;code class=&quot;highlighter-rouge&quot;&gt;@State&lt;/code&gt;, so use it if that’s needed.&lt;/p&gt;
-
-&lt;h2 id=&quot;applying-modifiers-to-a-group-of-views&quot;&gt;Applying modifiers to a group of views&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Group&lt;/code&gt; is a logical grouping, without any layout specific layout like &lt;code class=&quot;highlighter-rouge&quot;&gt;HStack&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;Form&lt;/code&gt;. When you apply a modifier to a group, it will apply to every view in the group.&lt;/p&gt;
-
-&lt;h2 id=&quot;view-erasure&quot;&gt;View Erasure&lt;/h2&gt;
-
-&lt;p&gt;Because SwiftUI need to know the view type during compile time, there will be times you need to erase the type eg. to make 2 views they same type. &lt;code class=&quot;highlighter-rouge&quot;&gt;AnyView&lt;/code&gt; will do that.&lt;/p&gt;
-
-&lt;h2 id=&quot;alert-with-multiple-custom-buttons&quot;&gt;Alert with multiple custom buttons&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Alert&lt;/code&gt; now supports only 2 buttons, and will possibly make it more flexible. Alternatively, &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/actionsheet&quot;&gt;ActionSheet&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;animation--transition&quot;&gt;Animation &amp;amp; Transition&lt;/h2&gt;
-
-&lt;p&gt;Add &lt;code class=&quot;highlighter-rouge&quot;&gt;animation()&lt;/code&gt; to a binding, or use &lt;code class=&quot;highlighter-rouge&quot;&gt;withAnimation()&lt;/code&gt; with state, to animate the view changes.&lt;/p&gt;
-
-&lt;p&gt;The default transition is fade. To change, use the &lt;code class=&quot;highlighter-rouge&quot;&gt;transition()&lt;/code&gt; modifier.&lt;/p&gt;
-
-&lt;h2 id=&quot;resume-the-live-preview&quot;&gt;Resume the live preview&lt;/h2&gt;
-
-&lt;p&gt;Because Xcode will pause the live preview when there is significant update, it is useful to know the shortcut to resume &lt;code class=&quot;highlighter-rouge&quot;&gt;Option+Cmd+P&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;sample-previewprovider&quot;&gt;Sample PreviewProvider&lt;/h2&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;Group&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;colorScheme&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sizeCategory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;extraExtraExtraLarge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;previewDevice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;iPhone 8&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Or .fixed&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Group&lt;/code&gt; displays 2 devices. You can have more, and configure as desired.&lt;/p&gt;
-
-&lt;h2 id=&quot;refactor-the-views&quot;&gt;Refactor the views&lt;/h2&gt;
-
-&lt;p&gt;Because of the way it is designed, a complex view would have deeply nested code, with lots of modifier. To refactor relentlessly, a shortcut is to &lt;code class=&quot;highlighter-rouge&quot;&gt;Cmd+Click&lt;/code&gt; on a view &amp;gt; &lt;strong&gt;Extract subview&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;semantic-colors&quot;&gt;Semantic Colors&lt;/h2&gt;
-
-&lt;p&gt;Some examples:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;accentColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pink&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Notice this uses an initializer&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foregroundColor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;secondaryLabel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;systemBackground&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;more-resources&quot;&gt;More Resources&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://fuckingswiftui.com/&quot;&gt;https://fuckingswiftui.com/&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/vlondon/awesome-swiftui&quot;&gt;https://github.com/vlondon/awesome-swiftui&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/ivanvorobei/awesome-ios-ui&quot;&gt;https://github.com/ivanvorobei/awesome-ios-ui&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.hackingwithswift.com/quick-start/swiftui/swiftui-tips-and-tricks&quot;&gt;https://www.hackingwithswift.com/quick-start/swiftui/swiftui-tips-and-tricks&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 14 Feb 2020 10:49:33 +0800</pubDate>
-        <link>https://samwize.com/2020/02/14/getting-started-with-swiftui/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/02/14/getting-started-with-swiftui/</guid>
         
         
         <category>SwiftUI</category>
