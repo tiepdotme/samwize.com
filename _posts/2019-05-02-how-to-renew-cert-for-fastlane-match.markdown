@@ -43,7 +43,8 @@ For example, I can renew my development certificate (keeping the distribution), 
 
 To do so, simply removing the files in the repository accordingly.
 
-- /certs/development/54V6LXXXXX.p12/cer
+- /certs/development/54V6LXXXXX.p12
+- /certs/development/54V6LXXXXX.cer
 - /profiles/development/whichever.mobileprovision
 
 Then do **git commit and push**.
