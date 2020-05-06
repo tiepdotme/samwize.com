@@ -101,10 +101,11 @@
 <p>A good algorithm is also one that reads beautifully, like a poem.</p>
 
 <blockquote>
-  <p>If you want to improve the code quality in  your organization, replace all of your coding guidelines with one goal: <strong>No Raw Loops</strong> – Sean Parent, C++ Seasoning</p>
+  <p>If you want to improve the code quality in your organization, replace all of your coding guidelines with one goal: <strong>No Raw Loops</strong><br />
+– Sean Parent, C++ Seasoning</p>
 </blockquote>
 
-<h2 id="example-a-raw-loop">Example: A raw loop</h2>
+<h2 id="example-of-a-raw-loop">Example of a raw loop</h2>
 
 <p>Let’s start with a simple example where we want to remove multiple elements in an array. I have done the same before:</p>
 
@@ -115,9 +116,9 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>The trick of using <code class="highlighter-rouge">reversed()</code> is needed because <code class="highlighter-rouge">remove</code> will mutate instantly, therefore changing the index.</p>
+<p>The trick of using <code class="highlighter-rouge">reversed()</code> is needed because <code class="highlighter-rouge">remove</code> will mutate instantly, therefore changing the indexes.</p>
 
-<p>The sinister thing is that <code class="highlighter-rouge">remove</code> is O(n). And with the <strong>for-i raw loop</strong>, the algorithm is O(n^2)!</p>
+<p>The sinister thing is that <code class="highlighter-rouge">remove</code> is O(n). And with the <strong>for-i raw loop</strong>, the algorithm becomes O(n^2)!</p>
 
 <p>A nicer and more efficient code is:</p>
 
@@ -126,13 +127,13 @@
 
 <p>Short, sweet, and O(n)</p>
 
-<h2 id="example-moving-multiple-elements">Example: Moving multiple elements</h2>
+<h2 id="moving-multiple-elements">Moving multiple elements</h2>
 
-<p>The session went on mentioning a few other common algorithm to do with moving multiple elements in an array.</p>
+<p>The session went on mentioning a few other common algorithms. A complex operation is moving multiple elements in an array.</p>
 
 <p>I remember writing a hideous code trying to <a href="/2018/11/27/drag-and-drop-to-reorder-nstableview/">re-order multiple rows of a <code class="highlighter-rouge">NSTableView</code>, with drag and drop</a>..</p>
 
-<p><strong>In iOS 13</strong>, you will be glad to know they have provided <a href="https://developer.apple.com/documentation/swift/mutablecollection/3348325-move"><code class="highlighter-rouge">move</code></a>:</p>
+<p><strong>In iOS 13</strong>, you will be glad to know they have now provided <a href="https://developer.apple.com/documentation/swift/mutablecollection/3348325-move"><code class="highlighter-rouge">move</code></a>:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mutating</span> <span class="kd">func</span> <span class="nf">move</span><span class="p">(</span><span class="n">fromOffsets</span> <span class="nv">source</span><span class="p">:</span> <span class="kt">IndexSet</span><span class="p">,</span> <span class="n">toOffset</span> <span class="nv">destination</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span>
 </code></pre></div></div>
@@ -154,7 +155,13 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>You might want to understand more func provided by <a href="https://developer.apple.com/documentation/swift/mutablecollection"><code class="highlighter-rouge">MutableCollection</code></a> and <a href="https://developer.apple.com/documentation/swift/rangereplaceablecollection"><code class="highlighter-rouge">RangeReplaceableCollection</code></a></p>
+<h2 id="so-know-your-libraries">So, know your libraries</h2>
+
+<p>If you can write good algorithms from scratch, that’s good.</p>
+
+<p>But if you can’t (I can’t!), then <strong>you need to know what the libraries have already provided</strong>. Use them wisely, and avoid raw loops.</p>
+
+<p>Swift has provided more func for manipulating array, in the form provided by the protocols <a href="https://developer.apple.com/documentation/swift/mutablecollection"><code class="highlighter-rouge">MutableCollection</code></a> and <a href="https://developer.apple.com/documentation/swift/rangereplaceablecollection"><code class="highlighter-rouge">RangeReplaceableCollection</code></a></p>
 
 <p>More built-in algorithms FTW 🤓</p>
 
