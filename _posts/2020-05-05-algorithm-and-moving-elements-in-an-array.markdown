@@ -24,9 +24,10 @@ But there's an even more important aspect with good algorithm, and that is **cle
 
 A good algorithm is also one that reads beautifully, like a poem.
 
-> If you want to improve the code quality in  your organization, replace all of your coding guidelines with one goal: **No Raw Loops** -- Sean Parent, C++ Seasoning
+> If you want to improve the code quality in your organization, replace all of your coding guidelines with one goal: **No Raw Loops**
+> -- Sean Parent, C++ Seasoning
 
-## Example: A raw loop
+## Example of a raw loop
 
 Let's start with a simple example where we want to remove multiple elements in an array. I have done the same before:
 
@@ -38,9 +39,9 @@ for i in (0..<shapes.count).reversed() {
 }
 ```
 
-The trick of using `reversed()` is needed because `remove` will mutate instantly, therefore changing the index.
+The trick of using `reversed()` is needed because `remove` will mutate instantly, therefore changing the indexes.
 
-The sinister thing is that `remove` is O(n). And with the **for-i raw loop**, the algorithm is O(n^2)!
+The sinister thing is that `remove` is O(n). And with the **for-i raw loop**, the algorithm becomes O(n^2)!
 
 A nicer and more efficient code is:
 
@@ -50,13 +51,13 @@ shapes.removeAll { $0.isSelected }
 
 Short, sweet, and O(n)
 
-## Example: Moving multiple elements
+## Moving multiple elements
 
-The session went on mentioning a few other common algorithm to do with moving multiple elements in an array.
+The session went on mentioning a few other common algorithms. A complex operation is moving multiple elements in an array.
 
 I remember writing a hideous code trying to [re-order multiple rows of a `NSTableView`, with drag and drop](/2018/11/27/drag-and-drop-to-reorder-nstableview/)..
 
-**In iOS 13**, you will be glad to know they have provided [`move`](https://developer.apple.com/documentation/swift/mutablecollection/3348325-move):
+**In iOS 13**, you will be glad to know they have now provided [`move`](https://developer.apple.com/documentation/swift/mutablecollection/3348325-move):
 
 ```swift
 mutating func move(fromOffsets source: IndexSet, toOffset destination: Int)
@@ -80,6 +81,12 @@ List {
 }
 ```
 
-You might want to understand more func provided by [`MutableCollection`](https://developer.apple.com/documentation/swift/mutablecollection) and [`RangeReplaceableCollection`](https://developer.apple.com/documentation/swift/rangereplaceablecollection)
+## So, know your libraries
+
+If you can write good algorithms from scratch, that's good.
+
+But if you can't (I can't!), then **you need to know what the libraries have already provided**. Use them wisely, and avoid raw loops.
+
+Swift has provided more func for manipulating array, in the form provided by the protocols [`MutableCollection`](https://developer.apple.com/documentation/swift/mutablecollection) and [`RangeReplaceableCollection`](https://developer.apple.com/documentation/swift/rangereplaceablecollection)
 
 More built-in algorithms FTW 🤓

@@ -3,7 +3,6 @@ layout: post
 title: "Transferring Domains From Namecheap to Google Domains"
 date: 2020-04-12T10:54:16+08:00
 categories: [Blogging]
-published: false
 ---
 
 I bought samwize.com in [2012](/2012/09/21/i-bought-samwize-dot-com-for-99-cents/), and was using Namecheap.
@@ -27,7 +26,7 @@ I dread transferring domain names, because that means migrating the DNS settings
 2. Google Domains > Transfer > Enter domain and auth code
 3. Import existing DNS settings
 
-Google has made it so simple by looking up your current DNS settings and copying them over.
+Google has made it so simple by looking up your current DNS settings and copying them over!
 
 ![](/images/google-domains-dns.jpg)
 
@@ -41,7 +40,7 @@ _(You do have to pay for 1 year upon confirmation, which extend validity by 1 ye
 
 ## To be fair, Namecheap isn't bad
 
-Prior to 2012, I was using **GoDaddy**, and I would say stay away from GoDaddy. Messy interface. They made it difficult to transfer out. And that showgirl in the homepage.. for what..
+Prior to 2012, I was using **GoDaddy**, and I would say for sure: **stay away from GoDaddy**. Messy interface. They made it difficult to transfer out. And that showgirl in the homepage.. for what..
 
 Compared to others, Namecheap isn't that bad.
 
