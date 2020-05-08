@@ -13,9 +13,9 @@
   <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
 
   <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>iTunes File Sharing - Expose /Documents | @samwize</title>
+<title>iTunes File Sharing - Expose Documents Directory | @samwize</title>
 <meta name="generator" content="Jekyll v3.8.5" />
-<meta property="og:title" content="iTunes File Sharing - Expose /Documents" />
+<meta property="og:title" content="iTunes File Sharing - Expose Documents Directory" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="iOS introduced a way for users to transfer files from an app to a computer via iTunes." />
 <meta property="og:description" content="iOS introduced a way for users to transfer files from an app to a computer via iTunes." />
@@ -29,7 +29,7 @@
 <meta name="twitter:creator" content="@samwize" />
 <meta property="fb:admins" content="704185456" />
 <script type="application/ld+json">
-{"description":"iOS introduced a way for users to transfer files from an app to a computer via iTunes.","headline":"iTunes File Sharing - Expose /Documents","dateModified":"2013-07-10T00:32:00+08:00","datePublished":"2013-07-10T00:32:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/07/10/itunes-file-sharing-expose-slash-documents/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2013/07/10/itunes-file-sharing-expose-slash-documents/","@context":"http://schema.org"}</script>
+{"description":"iOS introduced a way for users to transfer files from an app to a computer via iTunes.","headline":"iTunes File Sharing - Expose Documents Directory","dateModified":"2013-07-10T00:32:00+08:00","datePublished":"2013-07-10T00:32:00+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2013/07/10/itunes-file-sharing-expose-slash-documents/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2013/07/10/itunes-file-sharing-expose-slash-documents/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -62,7 +62,7 @@
         
         <div class="noarticleimage">
           <div class="post-meta">
-            <h1 class="post-title">iTunes File Sharing - Expose /Documents</h1>
+            <h1 class="post-title">iTunes File Sharing - Expose Documents Directory</h1>
             <div class="cf post-meta-text">
               <time datetime="2013-07-10T00:32:00+08:00">10 July 2013</time>
             </div>
@@ -80,7 +80,7 @@
           
           <p>iOS introduced a way for users to transfer files from an app to a computer via iTunes.</p>
 
-<p>It is simply adding a <code class="highlighter-rouge">UIFileSharingEnabled</code> to info.plist. There is a very small introduction <a href="http://developer.apple.com/library/ios/#technotes/tn2152/_index.html">here</a>.</p>
+<p>It is simply adding <code class="highlighter-rouge">UIFileSharingEnabled</code> to info.plist. There is a very small introduction <a href="http://developer.apple.com/library/ios/#technotes/tn2152/_index.html">here</a>.</p>
 
 <!-- more -->
 
@@ -91,6 +91,21 @@
 <p>So be cautious of that.</p>
 
 <p>You might also want to monitor the directory. There is <a href="http://www.mlsite.net/blog/?p=2312">a way</a> to do that using <code class="highlighter-rouge">kqueue()</code>.</p>
+
+<h2 id="write-to-directory-in-swift">Write to directory (in Swift)</h2>
+
+<p>The API is via <code class="highlighter-rouge">FileManager</code>.</p>
+
+<pre><code class="language-swift`">// The Documents for every app
+let documentDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+
+// Make sure you create any inner directories
+let imageDirectory = documentDirectory.appendingPathComponent("/export/images/")
+try! FileManager.default.createDirectory(at: imageDirectory, withIntermediateDirectories: true, attributes: nil)
+
+// Write some data
+try! data.write(to: imageDirectory.appendingPathComponent("lion.jpg"))
+</code></pre>
 
         </section>
         <footer class="post-footer">
