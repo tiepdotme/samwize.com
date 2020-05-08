@@ -35,7 +35,7 @@ class ExportManager: NSObject {
   var webView: WKWebView? = nil
   var completion: ExportManagerCompletion!
 
-  func exportPDF(html: String, completion: @escaping ExportCompletion) throws {
+  func exportPDF(html: String, completion: @escaping ExportManagerCompletion) throws {
       self.completion = completion
 
       let webView = WKWebView()
