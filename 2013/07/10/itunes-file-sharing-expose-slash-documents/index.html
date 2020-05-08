@@ -96,16 +96,26 @@
 
 <p>The API is via <code class="highlighter-rouge">FileManager</code>.</p>
 
-<pre><code class="language-swift`">// The Documents for every app
-let documentDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// The Documents for every app</span>
+<span class="k">let</span> <span class="nv">documentDirectory</span> <span class="o">=</span> <span class="k">try!</span> <span class="kt">FileManager</span><span class="o">.</span><span class="k">default</span><span class="o">.</span><span class="nf">url</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">documentDirectory</span><span class="p">,</span> <span class="nv">in</span><span class="p">:</span> <span class="o">.</span><span class="n">userDomainMask</span><span class="p">,</span> <span class="nv">appropriateFor</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">create</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span>
 
-// Make sure you create any inner directories
-let imageDirectory = documentDirectory.appendingPathComponent("/export/images/")
-try! FileManager.default.createDirectory(at: imageDirectory, withIntermediateDirectories: true, attributes: nil)
+<span class="c1">// Make sure you create any inner directories</span>
+<span class="k">let</span> <span class="nv">imageDirectory</span> <span class="o">=</span> <span class="n">documentDirectory</span><span class="o">.</span><span class="nf">appendingPathComponent</span><span class="p">(</span><span class="s">"/export/images/"</span><span class="p">)</span>
+<span class="k">try!</span> <span class="kt">FileManager</span><span class="o">.</span><span class="k">default</span><span class="o">.</span><span class="nf">createDirectory</span><span class="p">(</span><span class="nv">at</span><span class="p">:</span> <span class="n">imageDirectory</span><span class="p">,</span> <span class="nv">withIntermediateDirectories</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">attributes</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 
-// Write some data
-try! data.write(to: imageDirectory.appendingPathComponent("lion.jpg"))
-</code></pre>
+<span class="c1">// Write some data</span>
+<span class="k">try!</span> <span class="n">data</span><span class="o">.</span><span class="nf">write</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="n">imageDirectory</span><span class="o">.</span><span class="nf">appendingPathComponent</span><span class="p">(</span><span class="s">"lion.jpg"</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h3 id="simulator-how">Simulator how?</h3>
+
+<p>If you want to access the app container on the simulator, you need to:</p>
+
+<ol>
+  <li>Run on simulator</li>
+  <li>Pause, and <code class="highlighter-rouge">po NSHomeDirectory()</code></li>
+  <li>Open the directory in Finder and do whatever you want :)</li>
+</ol>
 
         </section>
         <footer class="post-footer">
