@@ -24,7 +24,7 @@ You might also want to monitor the directory. There is [a way](http://www.mlsite
 
 The API is via `FileManager`.
 
-```swift`
+```swift
 // The Documents for every app
 let documentDirectory = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
 
@@ -35,3 +35,11 @@ try! FileManager.default.createDirectory(at: imageDirectory, withIntermediateDir
 // Write some data
 try! data.write(to: imageDirectory.appendingPathComponent("lion.jpg"))
 ```
+
+### Simulator how?
+
+If you want to access the app container on the simulator, you need to:
+
+1. Run on simulator
+2. Pause, and `po NSHomeDirectory()`
+3. Open the directory in Finder and do whatever you want :)
