@@ -45,11 +45,11 @@ struct WrappedTextField: UIViewRepresentable {
 The code is made up of:
 
 1. 3 methods to implement SwiftUI `UIViewRepresentable` protocol
-2. A nested `Coordinator` for the often delegate pattern, which can be omitted if there's no delegate
+2. A nested `Coordinator` for hooking up the delegate (optional)
 
-That **bare minimum code** will solve the Chinese input bug, since it is the old and reliable `UITextField`. To make it useful, the wrapper needs to add a `Binding<String>` for the SwiftUI world.
+That **bare minimum code** will solve the Chinese input bug, since it is the old and reliable `UITextField`.
 
-The complete code to have a usable textfield is such:
+To make it useful, the wrapper needs to add a `Binding<String>` for the SwiftUI world. The complete code to have a usable textfield is such:
 
 ```swift
 struct WrappedTextField: UIViewRepresentable {
@@ -91,6 +91,8 @@ The 2-way binding is provided by
 2. In Coordinator, the delegate method `textFieldDidChangeSelection` will write to the binded text. Note that it is wrapped with a main queue dispatch because if not, there will be a warning:
 
     > Modifying state during view update, this will cause undefined behavior
+
+_UPDATE: The text field is still cranky in when typing certain foreign languages. Another workaround is to use `textFieldDidEndEditing`, `textFieldShouldClear` and `textFieldShouldReturn` to update the binded text, with the tradeoff that it is not updated instantly. 🧙_
 
 ## An Xcode Template
 
@@ -134,4 +136,4 @@ The code still has to be edited for the specific `UIView` purpose eg. instead of
 
 ## Wrapping UIViewController
 
-It is very similar for wrapping a `UIViewController`. In all the code that has a "-UIView", replace it with "-UIViewController" 🤓
+It is very similar for wrapping a `UIViewController`. In all the code that has a "-UIView", replace it with "-UIViewController". 🤓
