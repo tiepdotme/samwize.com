@@ -6,9 +6,95 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 22 May 2020 17:17:37 +0800</pubDate>
-    <lastBuildDate>Fri, 22 May 2020 17:17:37 +0800</lastBuildDate>
+    <pubDate>Tue, 02 Jun 2020 15:05:59 +0800</pubDate>
+    <lastBuildDate>Tue, 02 Jun 2020 15:05:59 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Issues with macOS Catalyst</title>
+        <description>&lt;p&gt;While working on an iOS app with SwiftUI, I thought I should trying converting it to a Catalyst app.&lt;/p&gt;
+
+&lt;h2 id=&quot;just-1-checkbox-to-enable&quot;&gt;Just 1 checkbox to enable&lt;/h2&gt;
+
+&lt;p&gt;It’s easy. In &lt;strong&gt;Deployment Info&lt;/strong&gt;, enable Mac.&lt;/p&gt;
+
+&lt;p&gt;It’s &lt;em&gt;easy&lt;/em&gt;, but there’re couple of issues I faced.&lt;/p&gt;
+
+&lt;h2 id=&quot;provisioning-profiles&quot;&gt;Provisioning Profiles&lt;/h2&gt;
+
+&lt;p&gt;I use fastlane match, and it ran into an issue. My app uses App Group, and the profiles would never include the capability. Apple developer portal does not have the option to add the capability for macOS Catalyst, somehow.&lt;/p&gt;
+
+&lt;p&gt;The solution: Let Xcode manage, and it will be fine 🤷🏻‍♂️&lt;/p&gt;
+
+&lt;h2 id=&quot;same-app-id-as-ios&quot;&gt;Same App ID as iOS?&lt;/h2&gt;
+
+&lt;p&gt;The option &lt;strong&gt;Use iOS Bundle Identifier&lt;/strong&gt; has implications.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Enabled: &lt;a href=&quot;https://developer.apple.com/support/universal-purchase/&quot;&gt;Universal Purchase&lt;/a&gt;, 1 app, multiple platforms&lt;/li&gt;
+  &lt;li&gt;Disabled: Use different ID, different apps on App Store Connect&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Most likely you want it enabled so that it is 1 app family. Pay once, use anywhere.&lt;/p&gt;
+
+&lt;h2 id=&quot;cocoapods&quot;&gt;Cocoapods&lt;/h2&gt;
+
+&lt;p&gt;I use Cocoapods, and also SPM.&lt;/p&gt;
+
+&lt;p&gt;For Cocoapods, if any of the frameworks is unsupported (eg. Fabric), they have to be excluded for macOS Catalyst.&lt;/p&gt;
+
+&lt;p&gt;There is good solution &lt;a href=&quot;https://medium.com/better-programming/macos-catalyst-debugging-problems-using-catalyst-and-cocoapods-579679150fa9&quot;&gt;by fermoya&lt;/a&gt; to not compile those pods. The ruby script he provided is &lt;a href=&quot;https://gist.github.com/fermoya/f9be855ad040d5545ae3cb254ed201e4#file-remove_unsupported_libraries-rb&quot;&gt;here&lt;/a&gt;, and it works like this in Podfile:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;load&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'remove_unsupported_libraries.rb'&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;unsupported_pods&lt;/span&gt;
+   &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Fabric'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Crashlytics'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Firebase'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;supported_pods&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'IQKeyboardManagerSwift'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;post_install&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;installer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;installer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;configure_support_catalyst&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;supported_pods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unsupported_pods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;preprocessor-code&quot;&gt;Preprocessor Code&lt;/h2&gt;
+
+&lt;p&gt;Even after you exclude unsupported frameworks, you will still need to write some preprocessor codes like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#if !targetEnvironment(macCatalyst)&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Firebase&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Crashlytics&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#endif&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Or you might be using &lt;code class=&quot;highlighter-rouge&quot;&gt;#available&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(macCatalyst 13.4, *)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;NOTE: &lt;code class=&quot;highlighter-rouge&quot;&gt;#available&lt;/code&gt; is not a preprocessor code. If you try to use it in a &lt;code class=&quot;highlighter-rouge&quot;&gt;ViewBuilder&lt;/code&gt; (eg Group, VStack), it will have error that &lt;em&gt;the closure can’t be used in a ViewBuilder&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;final-thoughts&quot;&gt;Final thoughts&lt;/h2&gt;
+
+&lt;p&gt;Catalyst is very new technology. There’s still lots to improve on. SwiftUI has so much limitations and bugs!&lt;/p&gt;
+
+&lt;p&gt;But it’s a great feeling when you can write once and it runs on iPhone, iPad, and macOS.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/mac-catalyst-the-king.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 01 Jun 2020 17:11:09 +0800</pubDate>
+        <link>https://samwize.com/2020/06/01/issues-with-macos-catalyst/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/06/01/issues-with-macos-catalyst/</guid>
+        
+        
+        <category>macOS</category>
+        
+      </item>
     
       <item>
         <title>Wrapping UIView in SwiftUI</title>
@@ -54,12 +140,12 @@
 
 &lt;ol&gt;
   &lt;li&gt;3 methods to implement SwiftUI &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewRepresentable&lt;/code&gt; protocol&lt;/li&gt;
-  &lt;li&gt;A nested &lt;code class=&quot;highlighter-rouge&quot;&gt;Coordinator&lt;/code&gt; for the often delegate pattern, which can be omitted if there’s no delegate&lt;/li&gt;
+  &lt;li&gt;A nested &lt;code class=&quot;highlighter-rouge&quot;&gt;Coordinator&lt;/code&gt; for hooking up the delegate (optional)&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;That &lt;strong&gt;bare minimum code&lt;/strong&gt; will solve the Chinese input bug, since it is the old and reliable &lt;code class=&quot;highlighter-rouge&quot;&gt;UITextField&lt;/code&gt;. To make it useful, the wrapper needs to add a &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt; for the SwiftUI world.&lt;/p&gt;
+&lt;p&gt;That &lt;strong&gt;bare minimum code&lt;/strong&gt; will solve the Chinese input bug, since it is the old and reliable &lt;code class=&quot;highlighter-rouge&quot;&gt;UITextField&lt;/code&gt;.&lt;/p&gt;
 
-&lt;p&gt;The complete code to have a usable textfield is such:&lt;/p&gt;
+&lt;p&gt;To make it useful, the wrapper needs to add a &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt; for the SwiftUI world. The complete code to have a usable textfield is such:&lt;/p&gt;
 
 &lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;WrappedTextField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewRepresentable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;@Binding&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Declare a binding value&lt;/span&gt;
@@ -107,6 +193,8 @@
   &lt;/li&gt;
 &lt;/ol&gt;
 
+&lt;p&gt;&lt;em&gt;UPDATE: The text field is still cranky in when typing certain foreign languages. Another workaround is to use &lt;code class=&quot;highlighter-rouge&quot;&gt;textFieldDidEndEditing&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;textFieldShouldClear&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;textFieldShouldReturn&lt;/code&gt; to update the binded text, with the tradeoff that it is not updated instantly. 🧙&lt;/em&gt;&lt;/p&gt;
+
 &lt;h2 id=&quot;an-xcode-template&quot;&gt;An Xcode Template&lt;/h2&gt;
 
 &lt;p&gt;Because much of the boilerplate code follows a strict pattern, I create a &lt;a href=&quot;/2014/03/26/tip-use-xcode-snippets/&quot;&gt;code snippet&lt;/a&gt; so that I can wrap &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt; easily, and then focus my time on configuring the actual view.&lt;/p&gt;
@@ -148,7 +236,7 @@
 
 &lt;h2 id=&quot;wrapping-uiviewcontroller&quot;&gt;Wrapping UIViewController&lt;/h2&gt;
 
-&lt;p&gt;It is very similar for wrapping a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;. In all the code that has a “-UIView”, replace it with “-UIViewController” 🤓&lt;/p&gt;
+&lt;p&gt;It is very similar for wrapping a &lt;code class=&quot;highlighter-rouge&quot;&gt;UIViewController&lt;/code&gt;. In all the code that has a “-UIView”, replace it with “-UIViewController”. 🤓&lt;/p&gt;
 </description>
         <pubDate>Fri, 22 May 2020 15:53:04 +0800</pubDate>
         <link>https://samwize.com/2020/05/22/wrapping-uiview-and-uiviewcontroller-in-swiftui/</link>
@@ -911,77 +999,6 @@
         
         
         <category>Swift</category>
-        
-      </item>
-    
-      <item>
-        <title>How to Use Preference</title>
-        <description>&lt;p&gt;Preference is the way to pass data &lt;strong&gt;from children to parent&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;On the other hand, &lt;a href=&quot;/2020/03/16/guide-to-environment-and-environmentobject/&quot;&gt;environment&lt;/a&gt; passes data &lt;strong&gt;from parent to children&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;custom-preference&quot;&gt;Custom Preference&lt;/h2&gt;
-
-&lt;p&gt;The steps to creating a preference include creating a preference key (with type and default), then the children set value with the key.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;/// 1. Declare a preference key&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomePreference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PreferenceKey&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;/// The type is CGSize here. It can be any type you want.&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;defaultValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zero&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;/// Because multiple children can use the same key, a reduce function will pass it up to parent.&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;/// This implementation will reduce to return the min size.&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inout&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nextValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nextValue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;nextValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;minWidth&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nextValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;minHeight&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nextValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;minWidth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;minHeight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomeView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;VStack&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;/// 2. Children will set it&lt;/span&gt;
-            &lt;span class=&quot;kt&quot;&gt;GeometryReader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-                &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;I gonna pass my size to my parent&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;preference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomePreference&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;kt&quot;&gt;GeometryReader&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-                &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Me too!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;preference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SomePreference&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;onPreferenceChange&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;SomePreference&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;width&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-            &lt;span class=&quot;c1&quot;&gt;// 3. Parent receives it&lt;/span&gt;
-            &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Preference changed: &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;NOTE: The &lt;code class=&quot;highlighter-rouge&quot;&gt;reduce&lt;/code&gt; function is required because &lt;strong&gt;multiple children gonna pass it to a parent&lt;/strong&gt;. The function is to reduce to a single value.&lt;/p&gt;
-
-&lt;p&gt;But if you don’t want to reduce, you could read the next section.&lt;/p&gt;
-
-&lt;h2 id=&quot;collection-preference&quot;&gt;Collection Preference&lt;/h2&gt;
-
-&lt;p&gt;If you don’t want to reduce, then a way to pass every children data is to make the type an array, then simply append values to it.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CollectionPreference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PreferenceKey&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;defaultValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;inout&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;nextValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;CGSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;contentsOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;nextValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Tue, 17 Mar 2020 12:12:00 +0800</pubDate>
-        <link>https://samwize.com/2020/03/17/how-to-use-preference/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/03/17/how-to-use-preference/</guid>
-        
-        
-        <category>SwiftUI</category>
         
       </item>
     

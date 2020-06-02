@@ -120,12 +120,12 @@
 
 <ol>
   <li>3 methods to implement SwiftUI <code class="highlighter-rouge">UIViewRepresentable</code> protocol</li>
-  <li>A nested <code class="highlighter-rouge">Coordinator</code> for the often delegate pattern, which can be omitted if there’s no delegate</li>
+  <li>A nested <code class="highlighter-rouge">Coordinator</code> for hooking up the delegate (optional)</li>
 </ol>
 
-<p>That <strong>bare minimum code</strong> will solve the Chinese input bug, since it is the old and reliable <code class="highlighter-rouge">UITextField</code>. To make it useful, the wrapper needs to add a <code class="highlighter-rouge">Binding&lt;String&gt;</code> for the SwiftUI world.</p>
+<p>That <strong>bare minimum code</strong> will solve the Chinese input bug, since it is the old and reliable <code class="highlighter-rouge">UITextField</code>.</p>
 
-<p>The complete code to have a usable textfield is such:</p>
+<p>To make it useful, the wrapper needs to add a <code class="highlighter-rouge">Binding&lt;String&gt;</code> for the SwiftUI world. The complete code to have a usable textfield is such:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">WrappedTextField</span><span class="p">:</span> <span class="kt">UIViewRepresentable</span> <span class="p">{</span>
     <span class="kd">@Binding</span> <span class="k">var</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span> <span class="c1">// Declare a binding value</span>
@@ -173,6 +173,8 @@
   </li>
 </ol>
 
+<p><em>UPDATE: The text field is still cranky in when typing certain foreign languages. Another workaround is to use <code class="highlighter-rouge">textFieldDidEndEditing</code>, <code class="highlighter-rouge">textFieldShouldClear</code> and <code class="highlighter-rouge">textFieldShouldReturn</code> to update the binded text, with the tradeoff that it is not updated instantly. 🧙</em></p>
+
 <h2 id="an-xcode-template">An Xcode Template</h2>
 
 <p>Because much of the boilerplate code follows a strict pattern, I create a <a href="/2014/03/26/tip-use-xcode-snippets/">code snippet</a> so that I can wrap <code class="highlighter-rouge">UIView</code> easily, and then focus my time on configuring the actual view.</p>
@@ -214,7 +216,7 @@
 
 <h2 id="wrapping-uiviewcontroller">Wrapping UIViewController</h2>
 
-<p>It is very similar for wrapping a <code class="highlighter-rouge">UIViewController</code>. In all the code that has a “-UIView”, replace it with “-UIViewController” 🤓</p>
+<p>It is very similar for wrapping a <code class="highlighter-rouge">UIViewController</code>. In all the code that has a “-UIView”, replace it with “-UIViewController”. 🤓</p>
 
         </section>
         <footer class="post-footer">
