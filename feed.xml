@@ -6,9 +6,89 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 02 Jun 2020 15:05:59 +0800</pubDate>
-    <lastBuildDate>Tue, 02 Jun 2020 15:05:59 +0800</lastBuildDate>
+    <pubDate>Wed, 03 Jun 2020 12:59:39 +0800</pubDate>
+    <lastBuildDate>Wed, 03 Jun 2020 12:59:39 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Subscribing to @Published</title>
+        <description>&lt;p&gt;I wrote on &lt;a href=&quot;https://stackoverflow.com/q/56735382/242682&quot;&gt;StackOverflow&lt;/a&gt; with a piece of code on how to observe an &lt;code class=&quot;highlighter-rouge&quot;&gt;@Published&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ObservableObject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;@Published&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The code works, but might not be as intended.&lt;/p&gt;
+
+&lt;p&gt;In the sink, if you print out &lt;code class=&quot;highlighter-rouge&quot;&gt;value&lt;/code&gt;, it will NOT be the new value. It will be the old value, before the change.&lt;/p&gt;
+
+&lt;p&gt;The subscriber is getting the sink when the value &lt;code class=&quot;highlighter-rouge&quot;&gt;willChange&lt;/code&gt;, NOT &lt;code class=&quot;highlighter-rouge&quot;&gt;didChange&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;That’s how &lt;code class=&quot;highlighter-rouge&quot;&gt;ObservableObject&lt;/code&gt; &lt;a href=&quot;https://developer.apple.com/documentation/combine/observableobject/3362556-objectwillchange&quot;&gt;works&lt;/a&gt;. But in SwiftUI early beta, it was once designed to emit after the change, with &lt;code class=&quot;highlighter-rouge&quot;&gt;objectDidChange&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-swfitui-emit-before-the-change&quot;&gt;Why SwfitUI emit BEFORE the change?&lt;/h2&gt;
+
+&lt;p&gt;Why did the design changed?&lt;/p&gt;
+
+&lt;p&gt;It was discussed &lt;a href=&quot;https://forums.swift.org/t/combine-observableobject-in-uikit/28433/2&quot;&gt;here&lt;/a&gt;. In this &lt;a href=&quot;https://twitter.com/luka_bernardi/status/1151633281982406656&quot;&gt;tweet&lt;/a&gt; they mention the reason:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;We made the change because it allows us to do a better job in coalescing updates; especially in the presence of animations.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For the sake of them doing a &lt;em&gt;better job&lt;/em&gt;, optimizing for animations, they made the change.&lt;/p&gt;
+
+&lt;p&gt;It is a pitfall, so we need workarounds.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution-1&quot;&gt;Solution 1&lt;/h2&gt;
+
+&lt;p&gt;The easiest way is to use a dispatch call.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;DispatchQueue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That &lt;em&gt;usually works&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution-2&quot;&gt;Solution 2&lt;/h2&gt;
+
+&lt;p&gt;The more full proof way is to have a separate event being emitted when the &lt;code class=&quot;highlighter-rouge&quot;&gt;@Published&lt;/code&gt; is &lt;code class=&quot;highlighter-rouge&quot;&gt;didSet&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ObservableObject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;valueDidChange&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PassthroughSubject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Never&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;@Published&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;didSet&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;valueDidChange&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then subscribe to &lt;code class=&quot;highlighter-rouge&quot;&gt;valueDidChange&lt;/code&gt; instead.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;valueDidChange&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sink&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;weak&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Wed, 03 Jun 2020 12:29:31 +0800</pubDate>
+        <link>https://samwize.com/2020/06/03/subscribing-to-published/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/06/03/subscribing-to-published/</guid>
+        
+        
+        <category>SwiftUI</category>
+        
+        <category>Combine</category>
+        
+      </item>
     
       <item>
         <title>Issues with macOS Catalyst</title>
@@ -969,36 +1049,6 @@
         
         
         <category>SwiftUI</category>
-        
-      </item>
-    
-      <item>
-        <title>How to Add a Local Swift Package</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2019/410/&quot;&gt;WWDC 2019 Session 410&lt;/a&gt; covered how you can create your own library. In the video you’ll see how the package is a folder that can be dragged around, and that once it is in a git repo, you can add it to other projects.&lt;/p&gt;
-
-&lt;p&gt;But what if you want to link to a local library?&lt;/p&gt;
-
-&lt;p&gt;The steps are seemingly easy:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Drag the package &lt;strong&gt;folder&lt;/strong&gt; into your project&lt;/li&gt;
-  &lt;li&gt;In project target &amp;gt; add framework &amp;gt; select the local package&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;pitfall-you-can-only-open-1-project&quot;&gt;PITFALL: You can only open 1 project&lt;/h2&gt;
-
-&lt;p&gt;The pitfall is that you cannot have multiple projects (that include the same local package) opened at the same time.&lt;/p&gt;
-
-&lt;p&gt;If you open multiple projects, the local package will NOT be expandable in the project navigator, nor can it be added as a framework.&lt;/p&gt;
-
-&lt;p&gt;Hopefully Xcode can fix that.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 18 Mar 2020 10:48:11 +0800</pubDate>
-        <link>https://samwize.com/2020/03/18/how-to-add-a-local-swift-package/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/03/18/how-to-add-a-local-swift-package/</guid>
-        
-        
-        <category>Swift</category>
         
       </item>
     
