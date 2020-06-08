@@ -30,5 +30,11 @@ To confirm the version in use:
 
 ## Other commands
 
+    # List my rubies
     rvm list
+
+    # List all the known rubies
     rvm list known
+
+    # Update rvm and known rubies
+    rvm get stable
