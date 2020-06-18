@@ -137,3 +137,17 @@ The code still has to be edited for the specific `UIView` purpose eg. instead of
 ## Wrapping UIViewController
 
 It is very similar for wrapping a `UIViewController`. In all the code that has a "-UIView", replace it with "-UIViewController". 🤓
+
+## Using Introspect
+
+There is a very useful library that helps to access the underlying UIKit's component. [Introspect](https://github.com/siteline/SwiftUI-Introspect) usage:
+
+```swift
+List {
+    Text("We all know List is implemented using UITableView..")
+}
+.introspectTableView { tableView in
+    // Do whatever you want with UITableView!
+    tableView.separatorStyle = .none
+}
+```

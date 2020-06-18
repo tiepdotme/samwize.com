@@ -148,3 +148,19 @@ import MobileCoreServices
 The above handles 1 type -- a text. It can be multiple types.
 
 The `NSItemProvider`s will be able to resolve the type, and you insert into your items.
+
+## Selection
+
+To select multiple rows, provide the Binding to List.
+
+```swift
+@State var items = ["black", "lives", "matter"]
+@State var selection = Set<String>()
+
+List(items, id: \.self, selection: $selection) {
+    Text($0)
+}
+.navigationBarItems(trailing: EditButton())
+```
+
+NOTE: There's a bug where selection will not work if the list is in a Form.
