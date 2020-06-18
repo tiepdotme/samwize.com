@@ -217,6 +217,21 @@
 
 <p>The <code class="highlighter-rouge">NSItemProvider</code>s will be able to resolve the type, and you insert into your items.</p>
 
+<h2 id="selection">Selection</h2>
+
+<p>To select multiple rows, provide the Binding to List.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@State</span> <span class="k">var</span> <span class="nv">items</span> <span class="o">=</span> <span class="p">[</span><span class="s">"black"</span><span class="p">,</span> <span class="s">"lives"</span><span class="p">,</span> <span class="s">"matter"</span><span class="p">]</span>
+<span class="kd">@State</span> <span class="k">var</span> <span class="nv">selection</span> <span class="o">=</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">()</span>
+
+<span class="kt">List</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="nv">id</span><span class="p">:</span> <span class="p">\</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">selection</span><span class="p">:</span> <span class="err">$</span><span class="n">selection</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">Text</span><span class="p">(</span><span class="nv">$0</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="nf">navigationBarItems</span><span class="p">(</span><span class="nv">trailing</span><span class="p">:</span> <span class="kt">EditButton</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>NOTE: There’s a bug where selection will not work if the list is in a Form.</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">

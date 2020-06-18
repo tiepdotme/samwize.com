@@ -218,6 +218,19 @@
 
 <p>It is very similar for wrapping a <code class="highlighter-rouge">UIViewController</code>. In all the code that has a “-UIView”, replace it with “-UIViewController”. 🤓</p>
 
+<h2 id="using-introspect">Using Introspect</h2>
+
+<p>There is a very useful library that helps to access the underlying UIKit’s component. <a href="https://github.com/siteline/SwiftUI-Introspect">Introspect</a> usage:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">List</span> <span class="p">{</span>
+    <span class="kt">Text</span><span class="p">(</span><span class="s">"We all know List is implemented using UITableView.."</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="n">introspectTableView</span> <span class="p">{</span> <span class="n">tableView</span> <span class="k">in</span>
+    <span class="c1">// Do whatever you want with UITableView!</span>
+    <span class="n">tableView</span><span class="o">.</span><span class="n">separatorStyle</span> <span class="o">=</span> <span class="o">.</span><span class="k">none</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
         </section>
         <footer class="post-footer">
           <section class="share">
