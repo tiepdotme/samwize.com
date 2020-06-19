@@ -30,7 +30,6 @@ I no longer have expectations, and so I don't have anxiety like many years ago -
 
 In fact I submitted a new app last night, yet I go to sleep soundly, without bothering to read why it is being rejected.
 
-![](/images/reject-papa.jpg){:.caption}
-Anyway, a record time from submission to rejection
+![Anyway, a record time from submission to rejection](/images/reject-papa.jpg)
 
 However, we need to speak up.
