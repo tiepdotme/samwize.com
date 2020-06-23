@@ -6,9 +6,83 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 19 Jun 2020 11:01:12 +0800</pubDate>
-    <lastBuildDate>Fri, 19 Jun 2020 11:01:12 +0800</lastBuildDate>
+    <pubDate>Tue, 23 Jun 2020 13:10:37 +0800</pubDate>
+    <lastBuildDate>Tue, 23 Jun 2020 13:10:37 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Embedding YouTube on Website and Loading Lazily</title>
+        <description>&lt;p&gt;If you have ever embed YouTube using their iframe code, this post would optimize your webpage loading speed tremendously.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;Embedding multiple YouTube videos will slow down a webpage loading speed.&lt;/p&gt;
+
+&lt;p&gt;I tested &lt;a href=&quot;https://dualgram.com&quot;&gt;my website&lt;/a&gt; which contains just 4 YouTube videos, and it gave a very bad score on PageSpeed.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/pagespeed-dualgram-web-old.jpg&quot; alt=&quot;A desktop score of 44/100&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;the-solution&quot;&gt;The Solution&lt;/h2&gt;
+
+&lt;p&gt;It turns out loading iframe will use a lot of resources, and multiple times for every video! A big waste on the time spent to download unnecessary scripts and stuff.&lt;/p&gt;
+
+&lt;p&gt;There are a few lazy loading solutions, involving JS.&lt;/p&gt;
+
+&lt;p&gt;The latest I found is a &lt;a href=&quot;https://css-tricks.com/lazy-load-embedded-youtube-videos/&quot;&gt;genius way&lt;/a&gt; using &lt;code class=&quot;highlighter-rouge&quot;&gt;srcdoc&lt;/code&gt;, which would fall back to &lt;code class=&quot;highlighter-rouge&quot;&gt;src&lt;/code&gt; in case unsupported.&lt;/p&gt;
+
+&lt;p&gt;The iframe will look like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;iframe&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;800&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;450&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://www.youtube.com/embed/zuY4KtE9w-E?start=0&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;srcdoc=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;style&amp;gt;*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}.title{font:24px/1.5 sans-serif;color:white;position:relative;left:20px;top:10px;}&amp;lt;/style&amp;gt;&amp;lt;a href=https://www.youtube.com/embed/zuY4KtE9w-E?autoplay=1&amp;amp;amp;start=0&amp;gt;&amp;lt;img src=https://img.youtube.com/vi/zuY4KtE9w-E/hqdefault.jpg alt='Review by Phones and stuff'&amp;gt;&amp;lt;span&amp;gt;▶&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;span class='title'&amp;gt;Review by Phones and stuff&amp;lt;/span&amp;gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;frameborder=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;allow=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;allowfullscreen=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/iframe&amp;gt;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you can read, the addition is the &lt;code class=&quot;highlighter-rouge&quot;&gt;srcdoc&lt;/code&gt;, which is a long line of CSS and HTML. I also modified the original css to include a title at the top.&lt;/p&gt;
+
+&lt;p&gt;When the iframe is embedded it looks like this:&lt;/p&gt;
+
+&lt;iframe width=&quot;800&quot; height=&quot;450&quot; src=&quot;https://www.youtube.com/embed/zuY4KtE9w-E?start=0&quot; srcdoc=&quot;&amp;lt;style&amp;gt;*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}.title{font:24px/1.5 sans-serif;color:white;position:relative;left:20px;top:10px;}&amp;lt;/style&amp;gt;&amp;lt;a href=https://www.youtube.com/embed/zuY4KtE9w-E?autoplay=1&amp;amp;start=0&amp;gt;&amp;lt;img src=https://img.youtube.com/vi/zuY4KtE9w-E/hqdefault.jpg alt='Review by Phones and stuff'&amp;gt;&amp;lt;span&amp;gt;▶&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;span class='title'&amp;gt;Review by Phones and stuff&amp;lt;/span&amp;gt;&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;The above is different from &lt;em&gt;the real thing&lt;/em&gt; from YouTube, but it loads much much faster.&lt;/p&gt;
+
+&lt;p&gt;With lazy loading, my PageSpeed increased to nearly 100 😁 IMO it’s worth the tradeoff.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/pagespeed-dualgram-web-lazy-loaded.jpg&quot; alt=&quot;A desktop score of 98/100&quot; class=&quot;border&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;my-jekyll-solution&quot;&gt;My Jekyll Solution&lt;/h2&gt;
+
+&lt;p&gt;This website is powered by Jekyll, so I will use some Liquid Template to embed easily.&lt;/p&gt;
+
+&lt;p&gt;The usage will look like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+{% include youtube.html width=&quot;800&quot; height=&quot;450&quot; id=&quot;f1aBlyYax6o&quot; start=&quot;12&quot; title=&quot;Top 10 iOS Apps of October 2019&quot; %}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The usage is much simpler, because the included &lt;strong&gt;youtube.html&lt;/strong&gt; does the hard work:&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;iframe&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{{ include.width }}&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;{{ include.height }}&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://www.youtube.com/embed/{{ include.id }}?start={{ include.start | default: 0 }}&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;srcdoc=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;style&amp;gt;*{padding:0;margin:0;overflow:hidden}html,body{height:100%}img,span{position:absolute;width:100%;top:0;bottom:0;margin:auto}span{height:1.5em;text-align:center;font:48px/1.5 sans-serif;color:white;text-shadow:0 0 0.5em black}.title{font:24px/1.5 sans-serif;color:white;position:relative;left:20px;top:10px;}&amp;lt;/style&amp;gt;&amp;lt;a href=https://www.youtube.com/embed/{{ include.id }}?autoplay=1&amp;amp;start={{ include.start | default: 0 }}&amp;gt;&amp;lt;img src=https://img.youtube.com/vi/{{ include.id }}/hqdefault.jpg alt='{{ include.title | default: 'video' }}'&amp;gt;&amp;lt;span&amp;gt;▶&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;{% if include.title %}&amp;lt;span class='title'&amp;gt;{{ include.title }}&amp;lt;/span&amp;gt;{% endif %}&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;frameborder=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;allow=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;allowfullscreen&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/iframe&amp;gt;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Tue, 23 Jun 2020 12:17:18 +0800</pubDate>
+        <link>https://samwize.com/2020/06/23/embedding-youtube-on-website-lazily/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/06/23/embedding-youtube-on-website-lazily/</guid>
+        
+        
+        <category>Website</category>
+        
+      </item>
     
       <item>
         <title>App Store Expects Developers to bring in Revenue 🤣</title>
@@ -858,64 +932,6 @@
         <category>SwiftUI</category>
         
         <category>Core Data</category>
-        
-      </item>
-    
-      <item>
-        <title>Transferring Domains From Namecheap to Google Domains</title>
-        <description>&lt;p&gt;I bought samwize.com in &lt;a href=&quot;/2012/09/21/i-bought-samwize-dot-com-for-99-cents/&quot;&gt;2012&lt;/a&gt;, and was using Namecheap.&lt;/p&gt;
-
-&lt;p&gt;As usual, I scrimp and move to cheaper, and better, alternative.&lt;/p&gt;
-
-&lt;h2 id=&quot;google-domains&quot;&gt;Google Domains&lt;/h2&gt;
-
-&lt;p&gt;I have tried Google Domains for the past 2 years, and I love their speedy interface. Searching for new domains is a breeze.&lt;/p&gt;
-
-&lt;p&gt;And their price is cheapest. For &lt;strong&gt;.com&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Namecheap $13.16/year&lt;/li&gt;
-  &lt;li&gt;Google $12/year (10% cheaper)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;steps-to-transfer&quot;&gt;Steps to transfer&lt;/h2&gt;
-
-&lt;p&gt;I dread transferring domain names, because that means migrating the DNS settings you have set up from one to another. But Google has made it super easy.&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Namecheap &amp;gt; Manage &amp;gt; Unlock domain &amp;gt; Request Auth code&lt;/li&gt;
-  &lt;li&gt;Google Domains &amp;gt; Transfer &amp;gt; Enter domain and auth code&lt;/li&gt;
-  &lt;li&gt;Import existing DNS settings&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Google has made it so simple by looking up your current DNS settings and copying them over!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/google-domains-dns.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Or if you’re using other nameservers eg. Cloudflare, they can copy them over too.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/google-domains-cloudflare.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;A breeze in migration 😎&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;(You do have to pay for 1 year upon confirmation, which extend validity by 1 year.)&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;to-be-fair-namecheap-isnt-bad&quot;&gt;To be fair, Namecheap isn’t bad&lt;/h2&gt;
-
-&lt;p&gt;Prior to 2012, I was using &lt;strong&gt;GoDaddy&lt;/strong&gt;, and I would say for sure: &lt;strong&gt;stay away from GoDaddy&lt;/strong&gt;. Messy interface. They made it difficult to transfer out. And that showgirl in the homepage.. for what..&lt;/p&gt;
-
-&lt;p&gt;Compared to others, Namecheap isn’t that bad.&lt;/p&gt;
-
-&lt;p&gt;But they have &lt;a href=&quot;https://www.reddit.com/r/web_design/comments/8l1ycp/namecheap_quietly_raises_com_renewal_prices_to/&quot;&gt;secretly increased renewal price in 2019&lt;/a&gt;, from $11.16 to $13.16 (18% increase). And that’s while &lt;a href=&quot;https://www.namecheap.com/blog/icann-allows-com-price-increases-gets-more-money/?aff=68466&quot;&gt;they cried for ICANN increase of 7%&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I would still use Namecheap for first year registration, which they usually have &lt;a href=&quot;https://www.namecheap.com/promos/coupons/?aff=68466&quot;&gt;promo codes&lt;/a&gt; for the first year.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 12 Apr 2020 10:54:16 +0800</pubDate>
-        <link>https://samwize.com/2020/04/12/transferring-domains-from-namecheap-to-google-domains/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/04/12/transferring-domains-from-namecheap-to-google-domains/</guid>
-        
-        
-        <category>Blogging</category>
         
       </item>
     
