@@ -6,7 +6,7 @@ comments: true
 categories: [WWDC]
 ---
 
-Last year, I provided the script to [download all PDFs for WWDC 2014](http://samwize.com/2014/06/06/download-all-wwdc-2014-pdf-slides-only/).
+Last year, I provided the script to [download all PDFs for WWDC 2014](/2014/06/06/download-all-wwdc-2014-pdf-slides-only/).
 
 This year, for WWDC 2015, I have [forked ohoachuck's wwdc-downloader](https://github.com/samwize/wwdc-downloader) to provide an option to download only the PDFs and sample codes.
 
