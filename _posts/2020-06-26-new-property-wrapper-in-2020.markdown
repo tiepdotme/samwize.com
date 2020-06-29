@@ -2,7 +2,7 @@
 layout: post
 title: "New Property Wrapper in 2020"
 date: 2020-06-26T17:34:58+08:00
-categories: []
+categories: [Swift, SwiftUI]
 ---
 
 WWDC 2020 introduced a few more property wrappers. [I don't take system wrappers lightly](/2019/12/04/guide-to-property-wrapper/), as they must be introduced for very good reason. So better know them well.
