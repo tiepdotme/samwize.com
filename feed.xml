@@ -6,9 +6,71 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 28 Jun 2020 23:16:35 +0800</pubDate>
-    <lastBuildDate>Sun, 28 Jun 2020 23:16:35 +0800</lastBuildDate>
+    <pubDate>Mon, 29 Jun 2020 15:36:24 +0800</pubDate>
+    <lastBuildDate>Mon, 29 Jun 2020 15:36:24 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>SwiftUI and Data Flow</title>
+        <description>&lt;p&gt;WWDC 2020 has clarify much on how we should manage data flow when using SwiftUI.&lt;/p&gt;
+
+&lt;p&gt;I had a hard time understanding the role of &lt;code class=&quot;highlighter-rouge&quot;&gt;StateObject&lt;/code&gt;, until I watched &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2020/10040&quot;&gt;Session 10040: Data Essentials in SwiftUI&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2020/10040&quot;&gt;&lt;img src=&quot;/images/source-of-truth-timeline.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/managing-model-data-in-your-app&quot;&gt;Apple documentation&lt;/a&gt; was also helped.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-right-way-to-use&quot;&gt;The right way to use&lt;/h2&gt;
+
+&lt;p&gt;It is very important to know how to use the various components correctly.&lt;/p&gt;
+
+&lt;p&gt;I have been writing in SwfitUI 1.0, and now I know I have bugs. I have misused &lt;code class=&quot;highlighter-rouge&quot;&gt;@ObservedObject&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Here are a few things to remind myself.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;SwiftUI might create or recreate a view at any time,&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;View&lt;/code&gt; is a descriptor of the view, not like typical &lt;code class=&quot;highlighter-rouge&quot;&gt;UIView&lt;/code&gt;. They are lightweight. It is unwise to override &lt;code class=&quot;highlighter-rouge&quot;&gt;View.init&lt;/code&gt;. If you have &lt;em&gt;anything&lt;/em&gt; to do with states and data objects, you do it using one of the state components provided.&lt;/p&gt;
+
+&lt;p&gt;The state is &lt;strong&gt;attached&lt;/strong&gt; to the view by SwiftUI.&lt;/p&gt;
+
+&lt;p&gt;App Hierarchy: &lt;code class=&quot;highlighter-rouge&quot;&gt;App&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;Scene&lt;/code&gt; -&amp;gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;View&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The most important decision is to decide &lt;strong&gt;where to store the truth&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Is it a global truth for the app, or across scenes, or is it for an individual view?&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;stateobject-vs-observedobject&quot;&gt;StateObject vs ObservedObject&lt;/h2&gt;
+
+&lt;p&gt;One of the most common &lt;a href=&quot;https://stackoverflow.com/q/62544115/242682&quot;&gt;question&lt;/a&gt; is how to use these 2 correctly.&lt;/p&gt;
+
+&lt;p&gt;We initialise with &lt;code class=&quot;highlighter-rouge&quot;&gt;@StateObject&lt;/code&gt; when we want the view/scene/app to hold on to the truth.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;LibraryView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;@StateObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;book&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Hold on to the 1 truth&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;BookView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Pass it to another view&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We declare &lt;code class=&quot;highlighter-rouge&quot;&gt;@ObservedObject&lt;/code&gt;, but never initialize it. When declared in a view, it becomes the view’s dependency. Some view higher up will have to pass to it. In this case, &lt;code class=&quot;highlighter-rouge&quot;&gt;LibraryView&lt;/code&gt; pass the source of truth to &lt;code class=&quot;highlighter-rouge&quot;&gt;BookView&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;BookView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;@ObservedObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Book&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// From external source&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Mon, 29 Jun 2020 15:01:38 +0800</pubDate>
+        <link>https://samwize.com/2020/06/29/swiftui-and-data-flow/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/06/29/swiftui-and-data-flow/</guid>
+        
+        
+        <category>SwiftUI</category>
+        
+      </item>
     
       <item>
         <title>New Property Wrapper in 2020</title>
@@ -110,6 +172,10 @@
         <link>https://samwize.com/2020/06/26/new-property-wrapper-in-2020/</link>
         <guid isPermaLink="true">https://samwize.com/2020/06/26/new-property-wrapper-in-2020/</guid>
         
+        
+        <category>Swift</category>
+        
+        <category>SwiftUI</category>
         
       </item>
     
@@ -789,86 +855,6 @@
         
         
         <category>Algorithm</category>
-        
-        <category>SwiftUI</category>
-        
-      </item>
-    
-      <item>
-        <title>How to Bind an Array to Multiple TextFields?</title>
-        <description>&lt;h2 id=&quot;the-problem&quot;&gt;The Problem&lt;/h2&gt;
-
-&lt;p&gt;We have a &lt;code class=&quot;highlighter-rouge&quot;&gt;words&lt;/code&gt; state, an array of String, and we want to bind to multiple &lt;code class=&quot;highlighter-rouge&quot;&gt;TextField&lt;/code&gt;s. To make the problem more interesting, we trigger a mutation of state only when tapping a button.&lt;/p&gt;
-
-&lt;p&gt;This is a naive attempt:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;words&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]()&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;VStack&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Mutate words state&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;words&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Circuit&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Breaker&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;kt&quot;&gt;List&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                &lt;span class=&quot;kt&quot;&gt;ForEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;indices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-                    &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-                &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;PlaygroundPage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;liveView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIHostingController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;rootView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;There are 2 difficulties in achieving a complete solution:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;The way to loop with &lt;code class=&quot;highlighter-rouge&quot;&gt;ForEach&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Get the &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt; for the text field&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;error-foreach-only-for-constant-data&quot;&gt;Error: &lt;code class=&quot;highlighter-rouge&quot;&gt;ForEach&lt;/code&gt; only for constant data&lt;/h2&gt;
-
-&lt;p&gt;The runtime error with the code above, when the button is tapped, is:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;ForEach&amp;lt;Range&lt;Int&gt;, Int, Text&amp;gt; count (2) != its initial count (0). `ForEach(_:content:)` should only be used for *constant* data. Instead conform data to `Identifiable` or use `ForEach(_:id:content:)` and provide an explicit `id`!&lt;/Int&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;This is because there is a runtime check on the count, to ensure constant data.&lt;/p&gt;
-
-&lt;p&gt;The suggested solution is to have the data conform to &lt;code class=&quot;highlighter-rouge&quot;&gt;Identifiable&lt;/code&gt;. You might try:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;ForEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;word&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// word is String (cannot get the binding!)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;But the issue with the above is that you cannot get the binding to the words.&lt;/p&gt;
-
-&lt;h2 id=&quot;solution-use-rangeint&quot;&gt;Solution: Use &lt;code class=&quot;highlighter-rouge&quot;&gt;Range&amp;lt;Int&amp;gt;&lt;/code&gt;&lt;/h2&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;ForEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;TextField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// &amp;lt;-- and the binding&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Yup, we iterate the indexes, and so we can access &lt;code class=&quot;highlighter-rouge&quot;&gt;$words[i]&lt;/code&gt;, which is the &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt; as needed by TextField.&lt;/p&gt;
-
-&lt;h2 id=&quot;a-thing-about-binding&quot;&gt;A thing about binding&lt;/h2&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$words[i]&lt;/code&gt; is a binding to the array item – a &lt;code class=&quot;highlighter-rouge&quot;&gt;Binding&amp;lt;String&amp;gt;&lt;/code&gt; – powered by the &lt;a href=&quot;/2019/12/04/guide-to-property-wrapper/&quot;&gt;binding @dynamicMemberLookup&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;We have so far used a simple example. But if the model is deep, eg &lt;code class=&quot;highlighter-rouge&quot;&gt;self.$viewModel.sentence.words[i]&lt;/code&gt; – the &lt;code class=&quot;highlighter-rouge&quot;&gt;$&lt;/code&gt; (projected value) will still magically provide the binding to the property!&lt;/p&gt;
-
-&lt;p&gt;You can think of the &lt;code class=&quot;highlighter-rouge&quot;&gt;$&lt;/code&gt; as being &lt;em&gt;applied&lt;/em&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;viewModel.sentence.words[i]&lt;/code&gt;. Or &lt;em&gt;applied&lt;/em&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;viewModel.whatever.is.here&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;It will also works if the model is &lt;code class=&quot;highlighter-rouge&quot;&gt;@ObservedObject&lt;/code&gt;, with &lt;code class=&quot;highlighter-rouge&quot;&gt;@Published&lt;/code&gt; array of other struct items!&lt;/p&gt;
-</description>
-        <pubDate>Sun, 03 May 2020 15:40:33 +0800</pubDate>
-        <link>https://samwize.com/2020/05/03/how-to-bind-an-array-to-multiple-textfield/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/05/03/how-to-bind-an-array-to-multiple-textfield/</guid>
-        
         
         <category>SwiftUI</category>
         
