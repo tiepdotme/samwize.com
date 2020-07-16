@@ -11,6 +11,8 @@ The [Fruta sample code](https://developer.apple.com/documentation/swiftui/fruta_
 
 Every group in Xcode is an actual folder.
 
+_Stop using logical groups without folder._
+
 ## The Main Groups
 
 - Shared

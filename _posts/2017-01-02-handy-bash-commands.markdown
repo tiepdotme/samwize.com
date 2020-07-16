@@ -91,3 +91,11 @@ The above will sync from everything from "primary" folder to "backup" folder.
 I shoot too much video with my GoPro, yet I want to keep all of them without spending $ buying hard drives. To compromise, I downsize some of the raw footage. Install ffmpeg with `brew install ffmpeg` first.
 
     ffmpeg -i GH031931.MP4 -s 960x540 -preset slow -crf 28 -c:a copy GH031931-reduced.MP4
+
+## Inject 360 meta into photo/video
+
+     exiftool -ProjectionType="equirectangular" my-360-photo.jpeg
+
+For video, there is [spatial-media](https://github.com/google/spatial-media), a python tool by Google.
+
+     python spatialmedia -i input.mov output.mov
