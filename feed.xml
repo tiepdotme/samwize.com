@@ -6,9 +6,53 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 16 Jul 2020 16:30:45 +0800</pubDate>
-    <lastBuildDate>Thu, 16 Jul 2020 16:30:45 +0800</lastBuildDate>
+    <pubDate>Tue, 21 Jul 2020 12:19:20 +0800</pubDate>
+    <lastBuildDate>Tue, 21 Jul 2020 12:19:20 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>How to Present Full Screen Modal in SwiftUI</title>
+        <description>&lt;p&gt;There is a new modifier in SwiftUI 2.0, announced in WWDC 2020, for iOS 14 (beta). &lt;em&gt;But the &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/view/fullscreencover(ispresented:ondismiss:content:)&quot;&gt;API&lt;/a&gt; is actually back dated to iOS 13.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;fullscreencover&quot;&gt;fullScreenCover&lt;/h2&gt;
+
+&lt;p&gt;It works similarly to &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/view/sheet(ispresented:ondismiss:content:)&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sheet&lt;/code&gt;&lt;/a&gt;, but full screen.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;PresentFullScreen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;@State&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;isPresentedFullScreen&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Present Full Screen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;isPresentedFullScreen&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;toggle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fullScreenCover&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;isPresented&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isPresentedFullScreen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;New Screen Presented&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Dismiss&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;isPresentedFullScreen&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;toggle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;passing-an-item&quot;&gt;Passing an Item&lt;/h2&gt;
+
+&lt;p&gt;You could also pass an optional Item binding. Then when it is non-nil, the view will be displayed.&lt;/p&gt;
+
+&lt;p&gt;So if you have an item such as &lt;code class=&quot;highlighter-rouge&quot;&gt;@State var book = Book()&lt;/code&gt;, you can pass that into &lt;code class=&quot;highlighter-rouge&quot;&gt;fullScreenCover(item:)&lt;/code&gt;, then you can use it in the presented view.&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fullScreenCover&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;item&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;BookView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Tue, 21 Jul 2020 11:50:27 +0800</pubDate>
+        <link>https://samwize.com/2020/07/21/how-to-present-full-screen-modal-in-swiftui/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/07/21/how-to-present-full-screen-modal-in-swiftui/</guid>
+        
+        
+        <category>SwiftUI</category>
+        
+      </item>
     
       <item>
         <title>How to Localize Resources in Swift Packages</title>
@@ -672,92 +716,6 @@
         <category>SwiftUI</category>
         
         <category>Combine</category>
-        
-      </item>
-    
-      <item>
-        <title>Issues with macOS Catalyst</title>
-        <description>&lt;p&gt;While working on an iOS app with SwiftUI, I thought I should trying converting it to a Catalyst app.&lt;/p&gt;
-
-&lt;h2 id=&quot;just-1-checkbox-to-enable&quot;&gt;Just 1 checkbox to enable&lt;/h2&gt;
-
-&lt;p&gt;It’s easy. In &lt;strong&gt;Deployment Info&lt;/strong&gt;, enable Mac.&lt;/p&gt;
-
-&lt;p&gt;It’s &lt;em&gt;easy&lt;/em&gt;, but there’re couple of issues I faced.&lt;/p&gt;
-
-&lt;h2 id=&quot;provisioning-profiles&quot;&gt;Provisioning Profiles&lt;/h2&gt;
-
-&lt;p&gt;I use fastlane match, and it ran into an issue. My app uses App Group, and the profiles would never include the capability. Apple developer portal does not have the option to add the capability for macOS Catalyst, somehow.&lt;/p&gt;
-
-&lt;p&gt;The solution: Let Xcode manage, and it will be fine 🤷🏻‍♂️&lt;/p&gt;
-
-&lt;h2 id=&quot;same-app-id-as-ios&quot;&gt;Same App ID as iOS?&lt;/h2&gt;
-
-&lt;p&gt;The option &lt;strong&gt;Use iOS Bundle Identifier&lt;/strong&gt; has implications.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Enabled: &lt;a href=&quot;https://developer.apple.com/support/universal-purchase/&quot;&gt;Universal Purchase&lt;/a&gt;, 1 app, multiple platforms&lt;/li&gt;
-  &lt;li&gt;Disabled: Use different ID, different apps on App Store Connect&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Most likely you want it enabled so that it is 1 app family. Pay once, use anywhere.&lt;/p&gt;
-
-&lt;h2 id=&quot;cocoapods&quot;&gt;Cocoapods&lt;/h2&gt;
-
-&lt;p&gt;I use Cocoapods, and also SPM.&lt;/p&gt;
-
-&lt;p&gt;For Cocoapods, if any of the frameworks is unsupported (eg. Fabric), they have to be excluded for macOS Catalyst.&lt;/p&gt;
-
-&lt;p&gt;There is good solution &lt;a href=&quot;https://medium.com/better-programming/macos-catalyst-debugging-problems-using-catalyst-and-cocoapods-579679150fa9&quot;&gt;by fermoya&lt;/a&gt; to not compile those pods. The ruby script he provided is &lt;a href=&quot;https://gist.github.com/fermoya/f9be855ad040d5545ae3cb254ed201e4#file-remove_unsupported_libraries-rb&quot;&gt;here&lt;/a&gt;, and it works like this in Podfile:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;load&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'remove_unsupported_libraries.rb'&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;unsupported_pods&lt;/span&gt;
-   &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Fabric'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Crashlytics'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Firebase'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;supported_pods&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'IQKeyboardManagerSwift'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;post_install&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;installer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-   &lt;span class=&quot;n&quot;&gt;installer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;configure_support_catalyst&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;supported_pods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;unsupported_pods&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;preprocessor-code&quot;&gt;Preprocessor Code&lt;/h2&gt;
-
-&lt;p&gt;Even after you exclude unsupported frameworks, you will still need to write some preprocessor codes like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#if !targetEnvironment(macCatalyst)&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Firebase&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Crashlytics&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#endif&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Or you might be using &lt;code class=&quot;highlighter-rouge&quot;&gt;#available&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(macCatalyst 13.4, *)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;NOTE: &lt;code class=&quot;highlighter-rouge&quot;&gt;#available&lt;/code&gt; is not a preprocessor code. If you try to use it in a &lt;code class=&quot;highlighter-rouge&quot;&gt;ViewBuilder&lt;/code&gt; (eg Group, VStack), it will have error that &lt;em&gt;the closure can’t be used in a ViewBuilder&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;final-thoughts&quot;&gt;Final thoughts&lt;/h2&gt;
-
-&lt;p&gt;Catalyst is very new technology. There’s still lots to improve on. SwiftUI has so much limitations and bugs!&lt;/p&gt;
-
-&lt;p&gt;But it’s a great feeling when you can write once and it runs on iPhone, iPad, and macOS.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/mac-catalyst-the-king.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-</description>
-        <pubDate>Mon, 01 Jun 2020 17:11:09 +0800</pubDate>
-        <link>https://samwize.com/2020/06/01/issues-with-macos-catalyst/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/06/01/issues-with-macos-catalyst/</guid>
-        
-        
-        <category>macOS</category>
         
       </item>
     
