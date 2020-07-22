@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link type="application/atom+xml" rel="alternate" href="https://samwize.com/feed.xml" title="@samwize" />
+
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Platform Conditional Codes | @samwize</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Platform Conditional Codes" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Swift has provided us quite a few ways to write codes that work for specific platform, version, and language. Examples:" />
+<meta property="og:description" content="Swift has provided us quite a few ways to write codes that work for specific platform, version, and language. Examples:" />
+<link rel="canonical" href="https://samwize.com/2020/07/22/platform-conditional-codes/" />
+<meta property="og:url" content="https://samwize.com/2020/07/22/platform-conditional-codes/" />
+<meta property="og:site_name" content="@samwize" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-22T21:45:49+08:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@samwize" />
+<meta name="twitter:creator" content="@samwize" />
+<meta property="fb:admins" content="704185456" />
+<script type="application/ld+json">
+{"description":"Swift has provided us quite a few ways to write codes that work for specific platform, version, and language. Examples:","headline":"Platform Conditional Codes","dateModified":"2020-07-22T21:45:49+08:00","datePublished":"2020-07-22T21:45:49+08:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://samwize.com/2020/07/22/platform-conditional-codes/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://samwize.com/"}},"url":"https://samwize.com/2020/07/22/platform-conditional-codes/","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <link rel="icon" type="image/png" href="/images/favicon-180.png" />
+  <link rel="apple-touch-icon" href="/images/favicon-192.png"/>
+
+  <link rel="stylesheet" href="https://brick.a.ssl.fastly.net/Linux+Libertine:400,400i,700,700i/Open+Sans:400,400i,700,700i">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css" />
+
+</head>
+  <link href='/stylesheets/all-5a7a81bc37ee3944f1d90d03edea2c57.css' media='all' rel='stylesheet' type='text/css'>
+  <body itemscope itemtype="http://schema.org/Article">
+    <a href="https://samwize.com" class="logo-readium"><span class="logo" style="background-image: url(/assets/icons/home.png)"></span></a>
+    <main class="content" role="main">
+      <article class="post">
+        
+        <div class="noarticleimage">
+          <div class="post-meta">
+            <h1 class="post-title">Platform Conditional Codes</h1>
+            <div class="cf post-meta-text">
+              <time datetime="2020-07-22T21:45:49+08:00">22 July 2020</time>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <section class="post-content">
+          <div class="post-reading">
+            <span class="post-reading-time"></span> read
+          </div>
+          <a name="topofpage"></a>
+          
+          <p>Swift has provided us quite a few ways to write codes that work for specific platform, version, and language. Examples:</p>
+
+<ul>
+  <li><em>Run code only for only iOS 13</em></li>
+  <li><em>Run code only for Swift 5</em></li>
+  <li><em>Run code only if can import SwiftUI</em></li>
+</ul>
+
+<h2 id="available">#available</h2>
+
+<p>This is a <strong>runtime check</strong>, so you can use in regular conditional statements.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="kd">#available(iOS 13.6, macOSApplicationExtension 10.15, *)</span> <span class="o">&amp;&amp;</span> <span class="n">someOtherBoolean</span> <span class="p">{</span>
+    <span class="o">...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// Fallback code</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Check out the <a href="https://docs.swift.org/swift-book/ReferenceManual/Statements.html#grammar_availability-condition">grammar</a> for details.</p>
+
+<p>The trailing <code class="highlighter-rouge">*</code> denotes that it is available for all other platforms, so that future ones such as <code class="highlighter-rouge">glassOS</code> will be supported, when release.</p>
+
+<h2 id="available-1">@available</h2>
+
+<p>This is an <a href="https://docs.swift.org/swift-book/ReferenceManual/Attributes.html">attribute</a> that applies to types and properties. The grammar is same as <code class="highlighter-rouge">#available</code>.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mi">12</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">struct</span> <span class="kt">My12Monkeys</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>You can also specify for language version:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@available</span><span class="p">(</span><span class="n">swift</span> <span class="mi">5</span><span class="p">)</span> <span class="c1">// NOTE: Must be a lower case 's'</span>
+<span class="kd">func</span> <span class="nf">swift5Only</span><span class="p">()</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>You can also annotate more info like this:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span><span class="p">,</span> <span class="nv">deprecated</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="nv">message</span><span class="p">:</span><span class="s">"No reason"</span><span class="p">,</span> <span class="nv">renamed</span><span class="p">:</span> <span class="s">"Singapore"</span><span class="p">)</span>
+<span class="kd">struct</span> <span class="kt">Singapura</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+</code></pre></div></div>
+
+<p>You can also stack multiple attributes.</p>
+
+<h2 id="canimport">canImport()</h2>
+
+<p>This <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0075-import-test.md">tests for modules</a> availability.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#if canImport(SwiftUI)</span>
+    <span class="c1">// SwiftUI code</span>
+<span class="cp">#else</span>
+    <span class="c1">// Fallback to UIKit</span>
+<span class="cp">#endif</span>
+</code></pre></div></div>
+
+<h3 id="related">Related</h3>
+
+<ul>
+  <li><a href="/2019/02/26/preprocessor-codes-for-swift/">Preprocessor Codes for Swift</a></li>
+</ul>
+
+        </section>
+        <footer class="post-footer">
+          <section class="share">
+            
+              
+            
+              
+            
+          </section>
+        </footer>
+        <div class="bottom-teaser cf">
+          <hr>
+          <!-- Adsense-->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8504591086876220"
+             data-ad-slot="5237367904"
+             data-ad-format="auto"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'just2us'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        
+      </article>
+    </main>
+    <div class="bottom-closer">
+      <div class="background-closer-image"  style="background-image: url(/assets/profile/big-sur.jpg)">
+        Image
+      </div>
+      <div class="inner">
+        <h1 class="blog-title">@samwize</h1>
+        <h2 class="blog-description">¯\_(ツ)_/¯
+</h2>
+        <a href="/" class="btn">Back to Home</a>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/assets/js/index.js"></script>
+<script type="text/javascript" src="/assets/js/readingTime.min.js"></script>
+<script>
+(function ($) {
+  "use strict";
+  $(document).ready(function(){
+
+    var $window = $(window),
+    $image = $('.post-image-image, .teaserimage-image');
+
+      $window.on('scroll', function() {
+        var top = $window.scrollTop();
+
+        if (top < 0 || top > 1500) { return; }
+        $image
+          .css('transform', 'translate3d(0px, '+top/3+'px, 0px)')
+          .css('opacity', 1-Math.max(top/700, 0));
+      });
+      $window.trigger('scroll');
+
+      var height = $('.article-image').height();
+      $('.post-content').css('padding-top', height + 'px');
+
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'')
+         && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({ scrollTop: target.offset().top }, 500);
+            return false;
+          }
+        }
+      });
+
+  });
+}(jQuery));
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-8780506-5']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-8504591086876220",
+          enable_page_level_ads: true
+     });
+</script>
+  </body>
+</html>
