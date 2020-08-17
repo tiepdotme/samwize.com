@@ -87,7 +87,7 @@ Text("Why the hell is this text truncated without reason?")
 
 ## Select an item using Picker in a Form
 
-Picker can show the currently selected item, but somehow only works of the selection is Int/String.
+Picker can show the currently selected item, but somehow only works if the selection is Int/String.
 
 ```swift
 // Assuming we have an enum to represent the list of items
