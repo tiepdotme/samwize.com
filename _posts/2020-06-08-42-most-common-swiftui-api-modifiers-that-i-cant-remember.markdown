@@ -103,3 +103,43 @@ Picker("Whose side you taking?", selection: $sideIndex) {
     }
 }
 ```
+
+## Environment (key & value)
+
+```swift
+struct MyEnvironmentKey: EnvironmentKey {
+    static var defaultValue: CGFloat { 0 }
+}
+extension EnvironmentValues {
+    var foo: CGFloat {
+        get { self[MyEnvironmentKey.self] }
+        set { self[MyEnvironmentKey.self] = newValue }
+    }
+}
+
+ParentView().environment(\.foo, 1.23) // Parent set the env
+
+@Environment(\.foo) var foo // Children declare and use
+```
+
+## EnvironmentObject
+
+```swift
+class MyModel: ObservableObject {
+    @Published var foo: String = "a"
+}
+
+struct ParentView: View {
+    @ObservedObject var model = MyModel()
+    var body: some View {
+        VStack {
+            ChildView()
+            ChildView()
+        }.environmentObject(model)
+    }
+}
+
+struct ChildView: View {
+    @EnvironmentObject var model: MyModel
+}
+```

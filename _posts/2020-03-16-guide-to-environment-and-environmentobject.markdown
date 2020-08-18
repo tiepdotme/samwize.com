@@ -16,7 +16,6 @@ Don't cringe, because that's the direction SwiftUI is taking. So embrace it.
 The steps involve creating a key, injecting into `EnvironmentValues`, and then passing it (from parent to children).
 
 ```swift
-
 /// 1. Declare a key with the type, and a default
 struct MyEnvironmentKey: EnvironmentKey {
     static var defaultValue: CGFloat { 0 }
@@ -37,6 +36,8 @@ ParentView()
 /// 4. Children declare and use
 @Environment(\.foo) var foo
 ```
+
+NOTE: If no one sets the environment, the `defaultValue` will be used. Therefore, _some value_ will always be present. This is different from `EnvironmentObject`.
 
 ## 2. Custom EnvironmentObject
 
