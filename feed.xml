@@ -6,9 +6,71 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 14 Aug 2020 10:59:59 +0800</pubDate>
-    <lastBuildDate>Fri, 14 Aug 2020 10:59:59 +0800</lastBuildDate>
+    <pubDate>Tue, 18 Aug 2020 16:49:01 +0800</pubDate>
+    <lastBuildDate>Tue, 18 Aug 2020 16:49:01 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Regex Replace Using Atom</title>
+        <description>&lt;p&gt;Xcode renaming is good, but in some cases it can’t help.&lt;/p&gt;
+
+&lt;p&gt;Often, I go back to using &lt;a href=&quot;https://flight-manual.atom.io/using-atom/sections/find-and-replace/&quot;&gt;Atom&lt;/a&gt; to find and replace, using regex.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-find&quot;&gt;1. Find&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Open a file (or a directory if multiple files) in Atom&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CMD+C&lt;/code&gt; to copy the string to find&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;CMD+SHIFT+F&lt;/code&gt; to bring up Find panel&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;When you bring up Atom’s Find panel, the copied string will be automatically populated in the find field, and best of all – &lt;strong&gt;automatically escape regex characters&lt;/strong&gt;!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/atom-find-replace.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;See the &lt;code class=&quot;highlighter-rouge&quot;&gt;\&lt;/code&gt; added in the Find textfield:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;disease\.cure\(with: &quot;vaccine&quot;\)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;NOTE: Make sure the regex mode (the &lt;code class=&quot;highlighter-rouge&quot;&gt;.*&lt;/code&gt; option) is enabled.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;2-captured-group&quot;&gt;2. Captured Group&lt;/h2&gt;
+
+&lt;p&gt;Using the following example, we want to find &lt;em&gt;some functions with string&lt;/em&gt;, and refactor them to a simple form:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Original&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;disease&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;cure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;vaccine&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;disease&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;cure&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;mask&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// To replace and become&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;vaccine&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asCure&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;mask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;asCure&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To do that, we need to add captured group for any strings (vaccine, mask, etc). We do that with &lt;code class=&quot;highlighter-rouge&quot;&gt;(.*?)&lt;/code&gt;, capturing the shortest possible string.&lt;/p&gt;
+
+&lt;p&gt;We edit Find to:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;disease\.cure\(with: &quot;(.*?)&quot;\)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;3-replace&quot;&gt;3. Replace&lt;/h2&gt;
+
+&lt;p&gt;Finally, we replace with:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$1.asCure&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The first captured group is &lt;code class=&quot;highlighter-rouge&quot;&gt;$1&lt;/code&gt;. If you have more captured groups, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;$2&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;$3&lt;/code&gt; etc.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/atom-find-replace-final.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Mon, 17 Aug 2020 10:39:34 +0800</pubDate>
+        <link>https://samwize.com/2020/08/17/regex-replace-using-atom/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/08/17/regex-replace-using-atom/</guid>
+        
+        
+        <category>Xcode</category>
+        
+      </item>
     
       <item>
         <title>Apple Is Killing Radio Apps</title>
@@ -581,113 +643,6 @@
         <link>https://samwize.com/2020/06/29/swiftui-and-data-flow/</link>
         <guid isPermaLink="true">https://samwize.com/2020/06/29/swiftui-and-data-flow/</guid>
         
-        
-        <category>SwiftUI</category>
-        
-      </item>
-    
-      <item>
-        <title>New Property Wrapper in 2020</title>
-        <description>&lt;p&gt;WWDC 2020 introduced a few more property wrappers. &lt;a href=&quot;/2019/12/04/guide-to-property-wrapper/&quot;&gt;I don’t take system wrappers lightly&lt;/a&gt;, as they must be introduced for very good reason. So better know them well.&lt;/p&gt;
-
-&lt;p&gt;They are available in iOS 14, macOS 11 (aka 10.16), tvOS 14, and watchOS 7. &lt;em&gt;Let’s stick with just the year.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Some of the new 2020 APIs: &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/appstorage&quot;&gt;AppStorage&lt;/a&gt;, &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/scenestorage&quot;&gt;SceneStorage&lt;/a&gt;, &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/scaledmetric&quot;&gt;ScaledMetric&lt;/a&gt;, &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/stateobject&quot;&gt;StateObject&lt;/a&gt;, &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/uiapplicationdelegateadaptor&quot;&gt;UIApplicationDelegateAdaptor&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;appstorage-for-userdefaults&quot;&gt;@AppStorage for UserDefaults&lt;/h2&gt;
-
-&lt;p&gt;AppStorage is the &lt;strong&gt;persistent storage&lt;/strong&gt; provided by SwiftUI, with &lt;code class=&quot;highlighter-rouge&quot;&gt;UserDefaults&lt;/code&gt; as the underlying backing data. The following code will persist the email across launched.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AppStorageView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;@AppStorage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;email&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;initial@hey.com&quot;&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;TextField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Email Address&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Any change to the underlying &lt;code class=&quot;highlighter-rouge&quot;&gt;UserDefaults&lt;/code&gt; will &lt;em&gt;publish&lt;/em&gt; the changes, therefore updating the SwiftUI view.&lt;/p&gt;
-
-&lt;h2 id=&quot;scenestorage-for-scenes&quot;&gt;@SceneStorage for scenes&lt;/h2&gt;
-
-&lt;p&gt;It is another persistent storage for SwiftUI, but for &lt;strong&gt;each scene state restoration&lt;/strong&gt;. You’re not familiar with scene lifecycle, it is introduced in &lt;a href=&quot;https://developer.apple.com/videos/play/wwdc2019/212/&quot;&gt;2019&lt;/a&gt; for multi-windows.&lt;/p&gt;
-
-&lt;p&gt;Unlike AppStorage,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The underlying data that backs SceneStorage is not available to you&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;NOTE: This can only be used with &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/app-structure-and-behavior&quot;&gt;SwiftUI App + Scene structure&lt;/a&gt;. If you’re using the &lt;em&gt;old&lt;/em&gt; AppDelegate way, there will be fatal error “@SceneStorage is only for use with SwiftUI App Lifecycle”.&lt;/p&gt;
-
-&lt;h2 id=&quot;stateobject&quot;&gt;@StateObject&lt;/h2&gt;
-
-&lt;p&gt;Initiating with &lt;code class=&quot;highlighter-rouge&quot;&gt;@ObservedObject&lt;/code&gt; in a view is &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/managing-model-data-in-your-app&quot;&gt;&lt;strong&gt;unsafe&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;@ObservedObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;myModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// UNSAFE&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;SwiftUI might create or recreate a view at any time, so it’s important that initializing a view with a given set of inputs always results in the same view. As a result, it’s unsafe to create an observed object inside a view.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Instead, use &lt;code class=&quot;highlighter-rouge&quot;&gt;@StateObject&lt;/code&gt; for a view (or structure), &lt;strong&gt;when it can be the owner&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;For external dependencies, stick to &lt;code class=&quot;highlighter-rouge&quot;&gt;@ObservedObject&lt;/code&gt; and also &lt;code class=&quot;highlighter-rouge&quot;&gt;@EnvironmentObject&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;@StateObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;myModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;@ObservedObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;externalModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;ExternalModel&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;@EnvironmentObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;globalModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;GlobalModel&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can also create &lt;code class=&quot;highlighter-rouge&quot;&gt;StateObject&lt;/code&gt; in &lt;code class=&quot;highlighter-rouge&quot;&gt;App&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;Scene&lt;/code&gt; – if they can be the owner and should hold on to the truth.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyApp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;App&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Or for Scene&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;@StateObject&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;store&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Store&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;scaledmetric&quot;&gt;@ScaledMetric&lt;/h2&gt;
-
-&lt;p&gt;This scales a float according to the user’s Dynamic Type settings. All along, only fonts are scaled automatically. Now we can scale an image like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@ScaledMetric&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;CGFloat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;systemName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;bolt.fill&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;resizable&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;uiapplicationdelegateadaptor&quot;&gt;@UIApplicationDelegateAdaptor&lt;/h2&gt;
-
-&lt;p&gt;If you are mixing UIKit’s AppDelegate and SwiftUI, then this is a way to access the app delegate. I don’t see any reason why this is even needed, but here’s the gist:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@UIApplicationMain&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AppDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIResponder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplicationDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kd&quot;&gt;@UIApplicationDelegateAdaptor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;AppDelegate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;appDelegate&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;Button&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Foo&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;appDelegate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-        <pubDate>Fri, 26 Jun 2020 17:34:58 +0800</pubDate>
-        <link>https://samwize.com/2020/06/26/new-property-wrapper-in-2020/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/06/26/new-property-wrapper-in-2020/</guid>
-        
-        
-        <category>Swift</category>
         
         <category>SwiftUI</category>
         
