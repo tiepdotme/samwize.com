@@ -99,3 +99,9 @@ I shoot too much video with my GoPro, yet I want to keep all of them without spe
 For video, there is [spatial-media](https://github.com/google/spatial-media), a python tool by Google.
 
      python spatialmedia -i input.mov output.mov
+
+## Make sure image no alpha channel
+
+    mogrify -alpha off */*.png
+
+Especially useful for app store screenshot uploading, which cannot accept alpha/transparency. You can also test if an image has alpha with `sips -g all *.png`.
