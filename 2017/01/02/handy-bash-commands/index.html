@@ -178,6 +178,13 @@ gtimeout 60 streamlink ...
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> python spatialmedia -i input.mov output.mov
 </code></pre></div></div>
 
+<h2 id="make-sure-image-no-alpha-channel">Make sure image no alpha channel</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mogrify -alpha off */*.png
+</code></pre></div></div>
+
+<p>Especially useful for app store screenshot uploading, which cannot accept alpha/transparency. You can also test if an image has alpha with <code class="highlighter-rouge">sips -g all *.png</code>.</p>
+
         </section>
         <footer class="post-footer">
           <section class="share">

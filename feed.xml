@@ -6,9 +6,61 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 22 Aug 2020 15:12:32 +0800</pubDate>
-    <lastBuildDate>Sat, 22 Aug 2020 15:12:32 +0800</lastBuildDate>
+    <pubDate>Mon, 24 Aug 2020 20:43:14 +0800</pubDate>
+    <lastBuildDate>Mon, 24 Aug 2020 20:43:14 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>iOS 14 Photo Access for Add Only</title>
+        <description>&lt;p&gt;iOS 14 changed the permission levels when you access photo library, and many apps will now prompt users to either:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Select photos&lt;/li&gt;
+  &lt;li&gt;Allow all&lt;/li&gt;
+  &lt;li&gt;Deny access&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This happens if you use &lt;code class=&quot;highlighter-rouge&quot;&gt;PHPhotoLibrary.requestAuthorization(...)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;but-what-if-write-only&quot;&gt;But what if write only?&lt;/h2&gt;
+
+&lt;p&gt;If you are writing to photo library, without the need to read, the same prompt will be used.&lt;/p&gt;
+
+&lt;p&gt;That is no good.&lt;/p&gt;
+
+&lt;p&gt;There is a better way for write-only apps, but you have to update your code.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-use-addonly&quot;&gt;1. Use addOnly&lt;/h2&gt;
+
+&lt;p&gt;There is a &lt;a href=&quot;https://developer.apple.com/documentation/photokit/phphotolibrary/3616053-requestauthorization&quot;&gt;NEW iOS 14 method&lt;/a&gt; in PHPhotoLibrary framework  with a &lt;code class=&quot;highlighter-rouge&quot;&gt;addOnly&lt;/code&gt; option.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;PHPhotoLibrary.requestAuthorization(for: .addOnly, handler: handler)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you want to support pre iOS 14, then you will want to use &lt;a href=&quot;/2020/07/22/platform-conditional-codes/&quot;&gt;platform conditional codes&lt;/a&gt; like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;PHAuthorizationStatus&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(iOS 14, *)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;PHPhotoLibrary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;requestAuthorization&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addOnly&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kt&quot;&gt;PHPhotoLibrary&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;requestAuthorization&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;handler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;2-add-nsphotolibraryaddusagedescription&quot;&gt;2. Add NSPhotoLibraryAddUsageDescription&lt;/h2&gt;
+
+&lt;p&gt;In Info.plist, add the key &lt;code class=&quot;highlighter-rouge&quot;&gt;NSPhotoLibraryAddUsageDescription&lt;/code&gt; and a string to describe why you need the access.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 24 Aug 2020 20:31:07 +0800</pubDate>
+        <link>https://samwize.com/2020/08/24/ios-14-photo-access-add-only/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/08/24/ios-14-photo-access-add-only/</guid>
+        
+        
+        <category>Photo</category>
+        
+      </item>
     
       <item>
         <title>Navigating Xcode 12 and Tabs</title>
@@ -584,79 +636,6 @@
         
         
         <category>SPM</category>
-        
-      </item>
-    
-      <item>
-        <title>Ideal Xcode Project Structure</title>
-        <description>&lt;p&gt;The &lt;a href=&quot;https://developer.apple.com/documentation/swiftui/fruta_building_a_feature-rich_app_with_swiftui&quot;&gt;Fruta sample code&lt;/a&gt; provides a good example of a project structure that supports multi-platforms.&lt;/p&gt;
-
-&lt;h2 id=&quot;use-group-as-folder&quot;&gt;Use Group as Folder&lt;/h2&gt;
-
-&lt;p&gt;Every group in Xcode is an actual folder.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Stop using logical groups without folder.&lt;/em&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;the-main-groups&quot;&gt;The Main Groups&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Shared&lt;/li&gt;
-  &lt;li&gt;iOS&lt;/li&gt;
-  &lt;li&gt;iOS Clip&lt;/li&gt;
-  &lt;li&gt;iOS Widgets&lt;/li&gt;
-  &lt;li&gt;macOS&lt;/li&gt;
-  &lt;li&gt;macOS Widgets&lt;/li&gt;
-  &lt;li&gt;Packages&lt;/li&gt;
-  &lt;li&gt;Playgrounds&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Platforms &amp;amp; extensions have their own group. Within them, structure as per your selected architecture eg. MVVM, VIPER. Or any logical grouping that makes the most sense.&lt;/p&gt;
-
-&lt;h2 id=&quot;shared-code&quot;&gt;Shared Code&lt;/h2&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;Shared&lt;/code&gt; group is for code used in &lt;strong&gt;all&lt;/strong&gt; platforms. In Fruta, almost all the code is under &lt;code class=&quot;highlighter-rouge&quot;&gt;Shared&lt;/code&gt;. Only few Swift files are in the platform specific group.&lt;/p&gt;
-
-&lt;p&gt;Even the &lt;code class=&quot;highlighter-rouge&quot;&gt;@main App&lt;/code&gt; is in Shared, and it runs for all: iOS, macOS, widgets, clips. It works because it uses preprocessor code. Alternatively, we could create specific Swift file for each platform.&lt;/p&gt;
-
-&lt;p&gt;You can even breakdown further eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;Shared-iOS&lt;/code&gt;. It is up to you as needed.&lt;/p&gt;
-
-&lt;h2 id=&quot;packages&quot;&gt;Packages&lt;/h2&gt;
-
-&lt;p&gt;Local packages within the projects. Eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;Fruta-Networking&lt;/code&gt;. This is also shared code, but in a formal self contained package. Later on, they can also be moved out of the project to become an external dependency.&lt;/p&gt;
-
-&lt;p&gt;These packages are selectively added to the targets; they can be excluded in a certain target.&lt;/p&gt;
-
-&lt;h2 id=&quot;use-of-preprocessor-code&quot;&gt;Use of Preprocessor Code&lt;/h2&gt;
-
-&lt;p&gt;Aka &lt;em&gt;Active Compilation Conditions&lt;/em&gt; (NEW!) under build settings. Yet not exactly new, since before this, we already have been adding to &lt;a href=&quot;/2019/02/26/preprocessor-codes-for-swift/&quot;&gt;Other Swift Flags&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;With that, we can write preprocessors such as &lt;code class=&quot;highlighter-rouge&quot;&gt;#if APPCLIP&lt;/code&gt;, or &lt;code class=&quot;highlighter-rouge&quot;&gt;#if ENABLE_DANCE_MONKEY_FEATURE&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;We can also use &lt;code class=&quot;highlighter-rouge&quot;&gt;#if os(iOS)&lt;/code&gt; etc.&lt;/p&gt;
-
-&lt;h2 id=&quot;playgrounds&quot;&gt;Playgrounds&lt;/h2&gt;
-
-&lt;p&gt;Playground is a scratchpad. Nice to try out some codes, or even to explain certain concepts.&lt;/p&gt;
-
-&lt;h2 id=&quot;tests&quot;&gt;Tests&lt;/h2&gt;
-
-&lt;p&gt;The Fruta project did not tests. Generally, you have 2 types of tests:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Unit Testing&lt;/li&gt;
-  &lt;li&gt;UI Testing&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Therefore each platform will have to create 2 test targets eg. &lt;code class=&quot;highlighter-rouge&quot;&gt;FrutaiOSUnitTests&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;FrutaiOSUITests&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;That’s a lot of tests, if you’re testing 😄&lt;/p&gt;
-</description>
-        <pubDate>Tue, 30 Jun 2020 15:22:35 +0800</pubDate>
-        <link>https://samwize.com/2020/06/30/ideal-xcode-project-structure/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/06/30/ideal-xcode-project-structure/</guid>
-        
-        
-        <category>Xcode</category>
         
       </item>
     
