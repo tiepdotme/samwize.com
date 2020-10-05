@@ -12,6 +12,8 @@ Location, or any metadata, can be saved in 2 places:
 
 You WILL have to do both for an iOS app, because if you don't, then you will lose the information along the way eg importing.
 
+_TIP: Use `exiftool -a -u -g1 filename.jpg` to examine the info._
+
 ## 1. Photos app's database
 
 Let's start with the easy one.
