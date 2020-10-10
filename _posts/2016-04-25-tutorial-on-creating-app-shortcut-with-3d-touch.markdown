@@ -5,7 +5,7 @@ date: 2016-04-25T17:02:59+08:00
 categories: [iOS]
 ---
 
-_UPDATED for Swift 4.2_
+_UPDATED for Swift 4.2. And for `UIScene`, refer to [this](/2020/10/10/how-to-handle-3d-touch-shortcut-for-uiscene/)._
 
 With 3D Touch (or Force Touch), Apple adds a [new way of interacting](https://developer.apple.com/library/ios/documentation/UserExperience/Conceptual/Adopting3DTouchOniPhone/) with your app.
 

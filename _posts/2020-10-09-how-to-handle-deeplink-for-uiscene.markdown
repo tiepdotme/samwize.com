@@ -2,7 +2,7 @@
 layout: post
 title: "How to Handle Deeplink for UIScene"
 date: 2020-10-09T16:35:31+08:00
-categories: [Scene, deeplink]
+categories: [UIScene, deeplink]
 ---
 
 `UIScene` was introduced in iOS 13, and it replaced many functionalities of `AppDelegate`.
