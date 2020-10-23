@@ -132,6 +132,12 @@ func application(_ app: UIApplication, open url: URL, options: [UIApplication.Op
 }
 ```
 
+## Small size does NOT support Link
+
+For the small squarish widget, you cannot have multiple links in it. In fact you cannot even have 1 link. Instead, you have to use `widgetURL`.
+
+This seems to be a design enforcement.
+
 ## UI Guide & radius
 
 The [Human Interface Guideline](https://developer.apple.com/design/human-interface-guidelines/ios/system-capabilities/widgets) details how we should design good glanceable widgets.
