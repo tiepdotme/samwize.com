@@ -6,9 +6,58 @@
 </description>
     <link>https://samwize.com/</link>
     <atom:link href="https://samwize.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 12 Oct 2020 21:35:47 +0800</pubDate>
-    <lastBuildDate>Mon, 12 Oct 2020 21:35:47 +0800</lastBuildDate>
+    <pubDate>Mon, 26 Oct 2020 18:25:40 +0800</pubDate>
+    <lastBuildDate>Mon, 26 Oct 2020 18:25:40 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Bump Version Numbers</title>
+        <description>&lt;p&gt;This is a tip originally from &lt;a href=&quot;https://benscheirman.com/2020/10/managing-version-numbers-with-fastlane/&quot;&gt;Ben Scheirman&lt;/a&gt; on using Fastlane to bump the &lt;em&gt;major.minor.patch&lt;/em&gt; numbering.&lt;/p&gt;
+
+&lt;p&gt;It comes in handy, especially now that we have so many extensions, such as the new &lt;a href=&quot;/2020/10/12/guide-to-widgetkit/&quot;&gt;WidgetKit&lt;/a&gt; extension.&lt;/p&gt;
+
+&lt;p&gt;App Store requires the SAME version numbers for ALL of your targets. If you have been setting them manually, make use of Fastlane.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-set-marketing-version&quot;&gt;1. Set Marketing Version&lt;/h2&gt;
+
+&lt;p&gt;Firstly, use &lt;code class=&quot;highlighter-rouge&quot;&gt;agvtool&lt;/code&gt; to set the marketing version (&lt;code class=&quot;highlighter-rouge&quot;&gt;CFBundleShortVersionString&lt;/code&gt;). This is required if you have never set it before.&lt;/p&gt;
+
+&lt;p&gt;For example, I set to “1.23” (using only major and minor).&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;agvtool new-marketing-version 1.23
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;2-add-to-fastlane&quot;&gt;2. Add to Fastlane&lt;/h2&gt;
+
+&lt;p&gt;Add the following to your Fastlane. This is a shortcut to generate 3 lanes.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Lanes: bump_major, bump_minor, bump_patch&lt;/span&gt;
+&lt;span class=&quot;sx&quot;&gt;%w{major minor patch}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;part&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;lane&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bump_&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;part&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_sym&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;increment_version_number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;bump_type: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;part&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, to bump the minor, run &lt;code class=&quot;highlighter-rouge&quot;&gt;fastlane bump_minor&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;3-also-bump-build&quot;&gt;3. Also, bump build&lt;/h2&gt;
+
+&lt;p&gt;For consistently, I also have a &lt;code class=&quot;highlighter-rouge&quot;&gt;fastlane bump&lt;/code&gt; to bump the &lt;strong&gt;build number&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;lane&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:bump&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;increment_build_number&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Mon, 26 Oct 2020 17:29:27 +0800</pubDate>
+        <link>https://samwize.com/2020/10/26/bump-version-numbers/</link>
+        <guid isPermaLink="true">https://samwize.com/2020/10/26/bump-version-numbers/</guid>
+        
+        
+        <category>fastlane</category>
+        
+      </item>
     
       <item>
         <title>Guide to WidgetKit</title>
@@ -138,6 +187,12 @@
     &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;small-size-does-not-support-link&quot;&gt;Small size does NOT support Link&lt;/h2&gt;
+
+&lt;p&gt;For the small squarish widget, you cannot have multiple links in it. In fact you cannot even have 1 link. Instead, you have to use &lt;code class=&quot;highlighter-rouge&quot;&gt;widgetURL&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;This seems to be a design enforcement.&lt;/p&gt;
 
 &lt;h2 id=&quot;ui-guide--radius&quot;&gt;UI Guide &amp;amp; radius&lt;/h2&gt;
 
@@ -637,77 +692,6 @@
         
         
         <category>Xcode</category>
-        
-      </item>
-    
-      <item>
-        <title>Platform Conditional Codes</title>
-        <description>&lt;p&gt;Swift has provided us quite a few ways to write codes that work for specific platform, version, and language. Examples:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;em&gt;Run code only for only iOS 13&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;Run code only for Swift 5&lt;/em&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;em&gt;Run code only if can import SwiftUI&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;available&quot;&gt;#available&lt;/h2&gt;
-
-&lt;p&gt;This is a &lt;strong&gt;runtime check&lt;/strong&gt;, so you can use in regular conditional statements.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;#available(iOS 13.6, macOSApplicationExtension 10.15, *)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;someOtherBoolean&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Fallback code&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Check out the &lt;a href=&quot;https://docs.swift.org/swift-book/ReferenceManual/Statements.html#grammar_availability-condition&quot;&gt;grammar&lt;/a&gt; for details.&lt;/p&gt;
-
-&lt;p&gt;The trailing &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; denotes that it is available for all other platforms, so that future ones such as &lt;code class=&quot;highlighter-rouge&quot;&gt;glassOS&lt;/code&gt; will be supported, when release.&lt;/p&gt;
-
-&lt;h2 id=&quot;available-1&quot;&gt;@available&lt;/h2&gt;
-
-&lt;p&gt;This is an &lt;a href=&quot;https://docs.swift.org/swift-book/ReferenceManual/Attributes.html&quot;&gt;attribute&lt;/a&gt; that applies to types and properties. The grammar is same as &lt;code class=&quot;highlighter-rouge&quot;&gt;#available&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@available&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iOS&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;My12Monkeys&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can also specify for language version:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@available&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;swift&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// NOTE: Must be a lower case 's'&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;swift5Only&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can also annotate more info like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;@available&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iOS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;deprecated&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;No reason&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;renamed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Singapore&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Singapura&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can also stack multiple attributes.&lt;/p&gt;
-
-&lt;h2 id=&quot;canimport&quot;&gt;canImport()&lt;/h2&gt;
-
-&lt;p&gt;This &lt;a href=&quot;https://github.com/apple/swift-evolution/blob/master/proposals/0075-import-test.md&quot;&gt;tests for modules&lt;/a&gt; availability.&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#if canImport(SwiftUI)&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// SwiftUI code&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#else&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Fallback to UIKit&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#endif&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;related&quot;&gt;Related&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;/2019/02/26/preprocessor-codes-for-swift/&quot;&gt;Preprocessor Codes for Swift&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Wed, 22 Jul 2020 21:45:49 +0800</pubDate>
-        <link>https://samwize.com/2020/07/22/platform-conditional-codes/</link>
-        <guid isPermaLink="true">https://samwize.com/2020/07/22/platform-conditional-codes/</guid>
-        
         
       </item>
     
