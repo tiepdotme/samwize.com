@@ -121,6 +121,15 @@ youtube-dl -f mp4 https://www.youtube.com/watch?v=eu-5mvCNKbQ
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>streamlink --hls-live-restart -o Live.ts https://www.youtube.com/watch?v=zkrq7Kpd1so best
 </code></pre></div></div>
 
+<h2 id="rip-dvd">Rip DVD</h2>
+
+<p>Uses <a href="https://handbrake.fr/docs/en/latest/cli/cli-options.html">HandBrake-CLI</a>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./HandBrakeCLI -i /Volumes/THE_DVD/VIDEO_TS/VIDEO_TS.VOB -o ~/Movies/rip.mp4 –preset="Normal" -c 1-3
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">c</code> option is for specific chapter. Omit for all.</p>
+
 <h2 id="download-a-file-with-curl">Download a file with curl</h2>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -o myfile.mp3 https://the.domain.com/file
