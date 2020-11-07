@@ -172,3 +172,15 @@ Another possible error.
 > Embedded binary is not signed with the same certificate as the parent app. Verify the embedded binary target's code sign settings match the parent app's.
 
 For that, make sure the app and extension use the same signing cert. If using fastlane match, read the section above to set up signing.
+
+## PITFALL: App review rejection
+
+A rejection story. When I release a widget for [Torchlight app](https://torchlight.app), it was rejected.
+
+![](/images/apple-app-review-call_ticket_and_my_reply.jpg){:.border}
+
+> Specifically, your app’s widget only provides users shortcut to your app’s features, which is not appropriate.
+
+I had a call with an Apple app reviewer, and was told that if I appeal, it will "100% be rejected". I continue to appeal, quoting other apps that were shortcuts too, and that my torchlight widget is similar to iOS torch shortcut (which is in lockscreen)!
+
+A week later, it was approved! So looks like nothing is 100% when it comes to app review.

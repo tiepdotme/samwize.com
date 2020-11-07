@@ -51,6 +51,14 @@ For live streams, `youtube-dl` does not work well. We need another tool to the r
 
     streamlink --hls-live-restart -o Live.ts https://www.youtube.com/watch?v=zkrq7Kpd1so best
 
+## Rip DVD
+
+Uses [HandBrake-CLI](https://handbrake.fr/docs/en/latest/cli/cli-options.html):
+
+    ./HandBrakeCLI -i /Volumes/THE_DVD/VIDEO_TS/VIDEO_TS.VOB -o ~/Movies/rip.mp4 –preset="Normal" -c 1-3
+
+The `c` option is for specific chapter. Omit for all.
+
 ## Download a file with curl
 
     curl -o myfile.mp3 https://the.domain.com/file
