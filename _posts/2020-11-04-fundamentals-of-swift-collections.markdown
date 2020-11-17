@@ -6,6 +6,8 @@ categories: [Foundation]
 published: false
 ---
 
+While preparing for a technical coding interview, and practising LeetCode questions, I created this _cheatsheet_.
+
 ## Loop array
 
 ```swift
@@ -37,7 +39,10 @@ for (key, value) in dictionary
 dictionary.keys.contains("k")
 ```
 
-It is common to check with `dictionary["k"] == nil` (or use `if let`). That only works if the value type is never Optional.
+```swift
+// Alternative, if the value type is _never_ `Optional`
+if dictionary["k"] == nil // "k" is not in keys
+```
 
 ## Special sequences
 
@@ -56,7 +61,7 @@ firstIndex(of: x) // O(n)
 ```swift
 // Insert
 append(x) // O(1)
-append(contentsOf: [..])
+append(contentsOf: anArray)
 insert(x, at: i) // O(n)
 ```
 
@@ -84,7 +89,7 @@ shuffled()
 swapAt()
 ```
 
-There are more using your own predicate: `max(by:)`, `sorted(by:)`, `filter()`, `map()`
+There are more ops using your own predicate: `max(by:)`, `sorted(by:)`, `filter()`, `map()`
 
 ## Partition
 
@@ -94,14 +99,45 @@ It returns the index of the first index in the right half.
 
 ```swift
 let p = array.partition { .. }
-let h1 = list[..<p]` // Left half
-let h2 = list[p...]` // Right half
+let h1 = list[..<p] // Left half
+let h2 = list[p...] // Right half
 ```
 
-Note that it is an unstable partition, which means the order in both half are not preserved. There is an [internal](https://github.com/apple/swift/blob/main/test/Prototypes/Algorithms.swift) `halfStablePartition` which will have the 1st half retain the original order, and also a `stablePartition` which will have both half retain the original order.
+Note that it is an **unstable partition**, which means the order in both half are not preserved. There is an [internal](https://github.com/apple/swift/blob/main/test/Prototypes/Algorithms.swift) `halfStablePartition` which will have the 1st half retain the original order, and also a `stablePartition` which will have both half retain the original order.
+
+## Equatable
+
+To compare and sort, the type should implement `Equatable` protocol.
+
+```swift
+extension MyClass: Equatable {
+    public static func == (lhs: MyClass, rhs: MyClass) -> Bool {
+        return lhs.foo == rhs.foo
+    }
+}
+```
+
+## Identity Comparison ===
+
+There is an op `===` for [identity comparison](https://developer.apple.com/documentation/swift/1538988) eg. _are they the same instances?_
+
+```swift
+// For example, in the above Equatable implementation, we could also compare their identities
+return lhs === rhs
+```
 
 ## Dictionary O(1) access
 
-An optimizing trick is to make use of the quick O(1) for accessing a dictionary, since they are hashed.
+An optimizing trick is to make use of the quick O(1) operation when accessing a dictionary, since they are hashed.
 
-The trade off is that the setup takes O(n), and a space of O(n).
+The trade off is that the setup takes O(n), and a space of O(n). And you need the type to be hashable.
+
+## Hashable
+
+```swift
+extension MyClass: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self).hashValue)
+    }
+}
+```
